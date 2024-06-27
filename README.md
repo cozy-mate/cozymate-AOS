@@ -1,1 +1,1 @@
-# cozy-mate-AOS
+# cozymate-AOS
