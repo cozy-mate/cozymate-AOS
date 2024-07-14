@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Coztmate"
 include(":app")
- 
+include(":app")
