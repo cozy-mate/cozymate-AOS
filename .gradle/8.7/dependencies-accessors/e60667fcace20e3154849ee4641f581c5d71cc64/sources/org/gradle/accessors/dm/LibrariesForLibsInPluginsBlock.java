@@ -249,7 +249,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getActivity() { return getVersion("activity"); }
 
         /**
-         * Version alias <b>agp</b> with value <b>8.5.1</b>
+         * Version alias <b>agp</b> with value <b>8.3.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.

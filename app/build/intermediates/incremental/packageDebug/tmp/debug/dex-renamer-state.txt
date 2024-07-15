@@ -1,11 +1,11 @@
-#Mon Jul 15 17:38:00 KST 2024
-base.0=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.2=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.3=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\15\\classes.dex
-base.4=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.5=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
-base.6=E\:\\Github\\cozymate-AOS\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Mon Jul 15 17:42:25 KST 2024
+base.0=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.2=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeProjectDexDebug/11/classes.dex
+base.3=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeProjectDexDebug/15/classes.dex
+base.4=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeProjectDexDebug/6/classes.dex
+base.5=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeProjectDexDebug/9/classes.dex
+base.6=/Users/doyoung/GitHub/cozymate-AOS/app/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=11/classes.dex
