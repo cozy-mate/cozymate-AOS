@@ -15,18 +15,19 @@
     <color name="red">#FF391E</color>
     <!--    경고 색-->
 
-    <color name="gray_highlight">#FFFFFFFF</color>
+    <color name="highlight_font">#FFFFFFFF</color>
     <!--    강조폰트-->
-    <color name="gray">#6C6C77</color>
+    <color name="basic_font">#6C6C77</color>
     <!--    기본폰트-->
-    <color name="gray_color_font">#808997</color>
+    <color name="color_font">#808997</color>
     <!--    색 폰트-->
-    <color name="gray_unuse_font">#ACADB4</color>
+    <color name="unuse_font">#ACADB4</color>
     <!--    비활성화 폰트-->
-    <color name="gray_unuse">#E6E6E6</color>
+    <color name="unuse">#E6E6E6</color>
     <!--    비활성화-->
-    <color name="gray_box">#F1F1F1</color>
+    <color name="box">#F1F1F1</color>
     <!--    박스-->
-    <color name="gray_color_box">#F3F6FA</color>
+    <color name="color_box">#F3F6FA</color>
+    <!--    색박스-->
 
 </resources>
