@@ -1,16 +1,21 @@
-plugins {
+import java.io.FileInputStream
+import java.util.*
 
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.dagger.hilt.android")
-    id("androidx.navigation.safeargs.kotlin")
 
     // Firebase추가를 위함
 //    id("com.google.gms.google-services")
 
     id ("kotlin-parcelize")
+}
+
+val properties = Properties().apply{
+    load(FileInputStream(rootProject.file("local.properties")))
 }
 
 android {
@@ -19,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "umc.cozymate"
-        minSdk = 28
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,18 +48,24 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //gson
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
@@ -108,7 +119,7 @@ dependencies {
 
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.2.1")
-    
+
 }
 kapt {
     correctErrorTypes = true
