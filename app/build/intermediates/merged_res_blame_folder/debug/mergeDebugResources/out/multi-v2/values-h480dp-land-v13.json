@@ -4,7 +4,7 @@
             "outputFile": "umc.cozymate.app-mergeDebugResources-29:/values-h480dp-land-v13/values-h480dp-land-v13.xml",
             "map": [
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/f6aa38984546fdc63676f57b39d29de8/transformed/material-1.12.0/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\dedadc78f1eace950d72828f345f2883\\transformed\\material-1.12.0\\res\\values-h480dp-land-v13\\values-h480dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

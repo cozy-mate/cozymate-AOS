@@ -4,7 +4,7 @@
             "outputFile": "umc.cozymate.app-mergeDebugResources-29:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/f1ab1ceb2442503d15e2a792566d8eaa/transformed/core-1.13.1/res/values-en-rXC/values-en-rXC.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\be72ac5040b062d70af16cc00d7a7487\\transformed\\core-1.13.1\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/7ec41be89f0f157c7ce13be18a73320c/transformed/appcompat-1.7.0/res/values-en-rXC/values-en-rXC.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\61abd62ade74ea94f5027eb7846874ee\\transformed\\appcompat-1.7.0\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

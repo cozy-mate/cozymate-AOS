@@ -239,7 +239,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public VersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
 
         /**
-         * Version alias <b>activity</b> with value <b>1.8.0</b>
+         * Version alias <b>activity</b> with value <b>1.9.0</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -249,7 +249,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getActivity() { return getVersion("activity"); }
 
         /**
-         * Version alias <b>agp</b> with value <b>8.5.0</b>
+         * Version alias <b>agp</b> with value <b>8.5.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -259,7 +259,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getAgp() { return getVersion("agp"); }
 
         /**
-         * Version alias <b>appcompat</b> with value <b>1.6.1</b>
+         * Version alias <b>appcompat</b> with value <b>1.7.0</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -279,7 +279,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getConstraintlayout() { return getVersion("constraintlayout"); }
 
         /**
-         * Version alias <b>coreKtx</b> with value <b>1.10.1</b>
+         * Version alias <b>coreKtx</b> with value <b>1.13.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -289,7 +289,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getCoreKtx() { return getVersion("coreKtx"); }
 
         /**
-         * Version alias <b>espressoCore</b> with value <b>3.5.1</b>
+         * Version alias <b>espressoCore</b> with value <b>3.6.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -309,7 +309,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getJunit() { return getVersion("junit"); }
 
         /**
-         * Version alias <b>junitVersion</b> with value <b>1.1.5</b>
+         * Version alias <b>junitVersion</b> with value <b>1.2.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -329,7 +329,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getKotlin() { return getVersion("kotlin"); }
 
         /**
-         * Version alias <b>material</b> with value <b>1.10.0</b>
+         * Version alias <b>material</b> with value <b>1.12.0</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
