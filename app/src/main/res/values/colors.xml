@@ -2,4 +2,32 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!--    기본색-->
+
+    <color name="main_blue">#68A4FF</color>
+    <!--    메인 색상: 파란색-->
+    <color name="sub_blue">#B5D3FF</color>
+    <!--    보조색1 (조금 더 진한거)-->
+    <color name="sub_skyblue">#CADFFF</color>
+    <!--    보조색2 (더 옅은거)-->
+    <color name="yellow">#FFCE3D</color>
+    <!--    메인 색상: 노란색-->
+    <color name="red">#FF391E</color>
+    <!--    경고 색-->
+
+    <color name="highlight_font">#FFFFFFFF</color>
+    <!--    강조폰트-->
+    <color name="basic_font">#6C6C77</color>
+    <!--    기본폰트-->
+    <color name="color_font">#808997</color>
+    <!--    색 폰트-->
+    <color name="unuse_font">#ACADB4</color>
+    <!--    비활성화 폰트-->
+    <color name="unuse">#E6E6E6</color>
+    <!--    비활성화-->
+    <color name="box">#F1F1F1</color>
+    <!--    박스-->
+    <color name="color_box">#F3F6FA</color>
+    <!--    색박스-->
+
 </resources>

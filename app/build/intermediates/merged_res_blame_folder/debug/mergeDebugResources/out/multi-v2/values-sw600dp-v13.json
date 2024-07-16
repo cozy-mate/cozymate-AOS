@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "umc.cozymate.app-mergeDebugResources-29:/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/7ec41be89f0f157c7ce13be18a73320c/transformed/appcompat-1.7.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/f6aa38984546fdc63676f57b39d29de8/transformed/material-1.12.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "umc.cozymate.app-mergeDebugResources-29:/values-small-v4/values-small-v4.xml",
+            "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/f6aa38984546fdc63676f57b39d29de8/transformed/material-1.12.0/res/values-small-v4/values-small-v4.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-small-v4\\values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
