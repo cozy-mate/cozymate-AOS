@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "272397563105",
+    "project_id": "cozymate-103cf",
+    "storage_bucket": "cozymate-103cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272397563105:android:5f4bd31f95e6c9eb8ff3a0",
+        "android_client_info": {
+          "package_name": "umc.cozymate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
