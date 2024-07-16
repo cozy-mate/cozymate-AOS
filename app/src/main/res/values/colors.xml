@@ -15,7 +15,7 @@
     <color name="red">#FF391E</color>
     <!--    경고 색-->
 
-    <color name="highlight_font">#FFFFFFFF</color>
+    <color name="highlight_font">#51555C</color>
     <!--    강조폰트-->
     <color name="basic_font">#6C6C77</color>
     <!--    기본폰트-->
