@@ -4,17 +4,7 @@
             "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/aece923e2da2afc021829a223b651fa2/transformed/appcompat-1.6.1/res/values-v24/values-v24.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,212",
-                        "endColumns": "156,134",
-                        "endOffsets": "207,342"
-                    }
-                },
-                {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/7f435a83b00ede6e41e0e8ea6e519f46/transformed/media-1.0.0/res/values-v24/values-v24.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\7f435a83b00ede6e41e0e8ea6e519f46\\transformed\\media-1.0.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -31,7 +21,17 @@
                     }
                 },
                 {
-                    "source": "/Users/doyoung/.gradle/caches/transforms-4/1d54d4f9c04b8046d7fe84c2e80cc758/transformed/material-1.7.0/res/values-v24/values-v24.xml",
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",
