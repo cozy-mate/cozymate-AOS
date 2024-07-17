@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
 
         // 화면 영역 확장
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
+        }*/
 
         // 앱 초기 실행 시 홈화면으로 설정
         if (savedInstanceState == null) {
