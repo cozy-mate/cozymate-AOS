@@ -5,7 +5,7 @@
     <color name="box">#F1F1F1</color>
     <color name="color_box">#F3F6FA</color>
     <color name="color_font">#808997</color>
-    <color name="highlight_font">#FFFFFFFF</color>
+    <color name="highlight_font">#51555C</color>
     <color name="main_blue">#68A4FF</color>
     <color name="red">#FF391E</color>
     <color name="sub_blue">#B5D3FF</color>
@@ -15,6 +15,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFCE3D</color>
     <string name="app_name">cozymate</string>
+    <string name="base_url">https://</string>
+    <string name="gcm_defaultSenderId" translatable="false">272397563105</string>
+    <string name="google_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_app_id" translatable="false">1:272397563105:android:5f4bd31f95e6c9eb8ff3a0</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_storage_bucket" translatable="false">cozymate-103cf.appspot.com</string>
+    <string name="project_id" translatable="false">cozymate-103cf</string>
     <style name="Base.Theme.Cozymate" parent="Theme.Material3.DayNight.NoActionBar">
         
         

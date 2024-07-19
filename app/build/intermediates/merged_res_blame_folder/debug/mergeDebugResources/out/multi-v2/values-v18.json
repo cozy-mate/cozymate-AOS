@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-v18/values-v18.xml",
+            "outputFile": "umc.cozymate.app-mergeDebugResources-65:/values-v18/values-v18.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-v18\\values-v18.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-v18\\values-v18.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

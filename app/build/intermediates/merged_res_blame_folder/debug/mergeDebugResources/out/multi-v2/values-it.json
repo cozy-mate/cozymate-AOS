@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-it/values-it.xml",
+            "outputFile": "umc.cozymate.app-mergeDebugResources-65:/values-it/values-it.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-it\\values-it.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-it\\values-it.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\a4b77f8b35fcb4dfaed5cf4ca446e505\\transformed\\jetified-play-services-base-18.0.1\\res\\values-it\\values.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\a4b77f8b35fcb4dfaed5cf4ca446e505\\transformed\\jetified-play-services-base-18.0.1\\res\\values-it\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\47d30898116b4c5e89b70750667d8b9a\\transformed\\navigation-ui-2.7.7\\res\\values-it\\values-it.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\60645396fbd0acf424a526148f539dfa\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-it\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "131",
+                        "endOffsets": "326"
+                    },
+                    "to": {
+                        "startLines": "52",
+                        "startColumns": "4",
+                        "startOffsets": "5157",
+                        "endColumns": "135",
+                        "endOffsets": "5288"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\47d30898116b4c5e89b70750667d8b9a\\transformed\\navigation-ui-2.7.7\\res\\values-it\\values-it.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -55,7 +72,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-it\\values-it.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-it\\values-it.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,7 +91,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\f2a883627d18cc59bca1acf31eb4682f\\transformed\\core-1.13.0\\res\\values-it\\values-it.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\f2a883627d18cc59bca1acf31eb4682f\\transformed\\core-1.13.0\\res\\values-it\\values-it.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -88,23 +105,6 @@
                         "startOffsets": "3089,3187,3289,3388,3490,3599,3706,10912",
                         "endColumns": "97,101,98,101,108,106,129,100",
                         "endOffsets": "3182,3284,3383,3485,3594,3701,3831,11008"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\60645396fbd0acf424a526148f539dfa\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-it\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "131",
-                        "endOffsets": "326"
-                    },
-                    "to": {
-                        "startLines": "52",
-                        "startColumns": "4",
-                        "startOffsets": "5157",
-                        "endColumns": "135",
-                        "endOffsets": "5288"
                     }
                 }
             ]

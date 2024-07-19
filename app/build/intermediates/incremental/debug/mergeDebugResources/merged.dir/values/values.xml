@@ -691,7 +691,7 @@
     <color name="error_color_material_light">#ff5722</color>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
-    <color name="highlight_font">#FFFFFFFF</color>
+    <color name="highlight_font">#51555C</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="m3_ref_palette_black">#ff000000</color>
@@ -1741,6 +1741,7 @@
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">cozymate</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="base_url">https://</string>
     <string name="bottom_sheet_behavior" translatable="false">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string description="A description of an accessibility action to collapse the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_collapse">Collapse the bottom sheet</string>
     <string description="A description of an accessibility action to expand the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_expand">Expand the bottom sheet</string>
@@ -1786,6 +1787,11 @@
     <string name="fab_transformation_scrim_behavior" translatable="false">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior" translatable="false">com.google.android.material.transformation.FabTransformationSheetBehavior</string>
     <string name="fcm_fallback_notification_channel_label">Miscellaneous</string>
+    <string name="gcm_defaultSenderId" translatable="false">272397563105</string>
+    <string name="google_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_app_id" translatable="false">1:272397563105:android:5f4bd31f95e6c9eb8ff3a0</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_storage_bucket" translatable="false">cozymate-103cf.appspot.com</string>
     <string name="hide_bottom_view_on_scroll_behavior" translatable="false">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</string>
     <string description="Content description for an icon that appears in the title area of a dialog" name="icon_content_description">Dialog Icon</string>
     <string name="item_view_role_description">Tab</string>
@@ -1891,6 +1897,7 @@
     <string name="path_password_eye_mask_visible" translatable="false">M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_strike_through" translatable="false">M3.27,4.27 L19.74,20.74</string>
     <string name="previous">Go to previous</string>
+    <string name="project_id" translatable="false">cozymate-103cf</string>
     <string name="search_menu_title">Search</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

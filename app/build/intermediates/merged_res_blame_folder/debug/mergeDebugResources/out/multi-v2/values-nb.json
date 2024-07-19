@@ -1,27 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "umc.cozymate.app-mergeDebugResources-64:/values-nb/values-nb.xml",
+            "outputFile": "umc.cozymate.app-mergeDebugResources-65:/values-nb/values-nb.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\47d30898116b4c5e89b70750667d8b9a\\transformed\\navigation-ui-2.7.7\\res\\values-nb\\values-nb.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\60645396fbd0acf424a526148f539dfa\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-nb\\values.xml",
                     "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,161",
-                        "endColumns": "105,113",
-                        "endOffsets": "156,270"
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "125",
+                        "endOffsets": "320"
                     },
                     "to": {
-                        "startLines": "114,115",
-                        "startColumns": "4,4",
-                        "startOffsets": "10211,10317",
-                        "endColumns": "105,113",
-                        "endOffsets": "10312,10426"
+                        "startLines": "52",
+                        "startColumns": "4",
+                        "startOffsets": "5065",
+                        "endColumns": "129",
+                        "endOffsets": "5190"
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-nb\\values-nb.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-nb\\values-nb.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,7 +38,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-nb\\values-nb.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\a4b77f8b35fcb4dfaed5cf4ca446e505\\transformed\\jetified-play-services-base-18.0.1\\res\\values-nb\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "193,295,450,572,677,829,955,1071,1170,1320,1423,1580,1704,1842,2014,2077,2135",
+                        "endColumns": "101,154,121,104,151,125,115,98,149,102,156,123,137,171,62,57,73",
+                        "endOffsets": "294,449,571,676,828,954,1070,1169,1319,1422,1579,1703,1841,2013,2076,2134,2208"
+                    },
+                    "to": {
+                        "startLines": "44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,60,61",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4056,4162,4321,4447,4556,4712,4842,4962,5195,5349,5456,5617,5745,5887,6063,6130,6192",
+                        "endColumns": "105,158,125,108,155,129,119,102,153,106,160,127,141,175,66,61,77",
+                        "endOffsets": "4157,4316,4442,4551,4707,4837,4957,5060,5344,5451,5612,5740,5882,6058,6125,6187,6265"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\f2a883627d18cc59bca1acf31eb4682f\\transformed\\core-1.13.0\\res\\values-nb\\values-nb.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,149,251,348,447,555,661,781",
+                        "endColumns": "93,101,96,98,107,105,119,100",
+                        "endOffsets": "144,246,343,442,550,656,776,877"
+                    },
+                    "to": {
+                        "startLines": "34,35,36,37,38,39,40,118",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3030,3124,3226,3323,3422,3530,3636,10589",
+                        "endColumns": "93,101,96,98,107,105,119,100",
+                        "endOffsets": "3119,3221,3318,3417,3525,3631,3751,10685"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-nb\\values-nb.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -57,54 +91,20 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\60645396fbd0acf424a526148f539dfa\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-nb\\values.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\47d30898116b4c5e89b70750667d8b9a\\transformed\\navigation-ui-2.7.7\\res\\values-nb\\values-nb.xml",
                     "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "125",
-                        "endOffsets": "320"
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,161",
+                        "endColumns": "105,113",
+                        "endOffsets": "156,270"
                     },
                     "to": {
-                        "startLines": "52",
-                        "startColumns": "4",
-                        "startOffsets": "5065",
-                        "endColumns": "129",
-                        "endOffsets": "5190"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\f2a883627d18cc59bca1acf31eb4682f\\transformed\\core-1.13.0\\res\\values-nb\\values-nb.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,149,251,348,447,555,661,781",
-                        "endColumns": "93,101,96,98,107,105,119,100",
-                        "endOffsets": "144,246,343,442,550,656,776,877"
-                    },
-                    "to": {
-                        "startLines": "34,35,36,37,38,39,40,118",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3030,3124,3226,3323,3422,3530,3636,10589",
-                        "endColumns": "93,101,96,98,107,105,119,100",
-                        "endOffsets": "3119,3221,3318,3417,3525,3631,3751,10685"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\도영\\.gradle\\caches\\transforms-4\\a4b77f8b35fcb4dfaed5cf4ca446e505\\transformed\\jetified-play-services-base-18.0.1\\res\\values-nb\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "193,295,450,572,677,829,955,1071,1170,1320,1423,1580,1704,1842,2014,2077,2135",
-                        "endColumns": "101,154,121,104,151,125,115,98,149,102,156,123,137,171,62,57,73",
-                        "endOffsets": "294,449,571,676,828,954,1070,1169,1319,1422,1579,1703,1841,2013,2076,2134,2208"
-                    },
-                    "to": {
-                        "startLines": "44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,60,61",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4056,4162,4321,4447,4556,4712,4842,4962,5195,5349,5456,5617,5745,5887,6063,6130,6192",
-                        "endColumns": "105,158,125,108,155,129,119,102,153,106,160,127,141,175,66,61,77",
-                        "endOffsets": "4157,4316,4442,4551,4707,4837,4957,5060,5344,5451,5612,5740,5882,6058,6125,6187,6265"
+                        "startLines": "114,115",
+                        "startColumns": "4,4",
+                        "startOffsets": "10211,10317",
+                        "endColumns": "105,113",
+                        "endOffsets": "10312,10426"
                     }
                 }
             ]
