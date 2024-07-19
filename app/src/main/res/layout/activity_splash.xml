@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.splash.SplashActivity">
+
+    <ImageView
+        android:id="@+id/iv_cozy_title"
+        android:layout_width="220dp"
+        android:layout_height="68dp"
+        android:src="@drawable/ic_cozymate"
+        android:layout_marginTop="236dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cozy_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&quot;룸메이트와 함께 만드는 우리의 편안한 공간 &quot;"
+        android:textColor="@color/basic_font"
+        android:fontFamily="@font/pretendard_medium"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_cozy_title" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_kakao_login"
+        android:layout_width="300dp"
+        android:layout_height="56dp"
+        android:background="@drawable/ic_login_kakao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="550dp"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_apple_login"
+        android:layout_width="300dp"
+        android:layout_height="56dp"
+        android:background="@drawable/ic_login_apple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_kakao_login"
+        android:layout_marginTop="12dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

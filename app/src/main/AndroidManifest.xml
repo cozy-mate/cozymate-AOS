@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
         <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
