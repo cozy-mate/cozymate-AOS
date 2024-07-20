@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">cozymate</string>
-
-    <string name="kakao_app_key">a51292da8bc69b2160b0bb97ec00b2ad</string>
-    <string name="kakao_scheme">kakaoa51292da8bc69b2160b0bb97ec00b2ad</string>
 </resources>
