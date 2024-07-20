@@ -2,13 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tb_RoleAndRule"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="롤앤룰"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_RoleAndRule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tb_RoleAndRule"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
