@@ -2,6 +2,7 @@ package umc.cozymate
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
@@ -9,6 +10,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.HiltAndroidApp
+import umc.cozymate.util.NetworkConnectionChecker
+
 
 @HiltAndroidApp
 class CozyMateApplication: Application(), DefaultLifecycleObserver {
@@ -17,17 +20,18 @@ class CozyMateApplication: Application(), DefaultLifecycleObserver {
         context = applicationContext
         networkConnectionChecker = NetworkConnectionChecker(context)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.0){
-            "cozymate",
-            "Cozymate",
-            NotificationManager.IMPORTANCE_LOW
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channel = NotificationChannel(
+                "cozymate",
+                "Cozymate",
+                NotificationManager.IMPORTANCE_LOW
             )
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    override fun onStop(owner: LifecyclerOwner){
+    override fun onStop(owner: LifecycleOwner){
         networkConnectionChecker.unregister()
         super.onStop(owner)
     }

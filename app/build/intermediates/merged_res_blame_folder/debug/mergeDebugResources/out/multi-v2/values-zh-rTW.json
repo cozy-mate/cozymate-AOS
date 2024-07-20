@@ -4,7 +4,41 @@
             "outputFile": "umc.cozymate.app-mergeDebugResources-65:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\1d54d4f9c04b8046d7fe84c2e80cc758\\transformed\\material-1.7.0\\res\\values-zh-rTW\\values-zh-rTW.xml",
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/60645396fbd0acf424a526148f539dfa/transformed/jetified-play-services-basement-18.3.0/res/values-zh-rTW/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "199",
+                        "endColumns": "98",
+                        "endOffsets": "297"
+                    },
+                    "to": {
+                        "startLines": "52",
+                        "startColumns": "4",
+                        "startOffsets": "4729",
+                        "endColumns": "102",
+                        "endOffsets": "4827"
+                    }
+                },
+                {
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/f2a883627d18cc59bca1acf31eb4682f/transformed/core-1.13.0/res/values-zh-rTW/values-zh-rTW.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,147,246,340,434,527,620,716",
+                        "endColumns": "91,98,93,93,92,92,95,100",
+                        "endOffsets": "142,241,335,429,522,615,711,812"
+                    },
+                    "to": {
+                        "startLines": "34,35,36,37,38,39,40,118",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "2930,3022,3121,3215,3309,3402,3495,9576",
+                        "endColumns": "91,98,93,93,92,92,95,100",
+                        "endOffsets": "3017,3116,3210,3304,3397,3490,3586,9672"
+                    }
+                },
+                {
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/1d54d4f9c04b8046d7fe84c2e80cc758/transformed/material-1.7.0/res/values-zh-rTW/values-zh-rTW.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,41 +57,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\a4b77f8b35fcb4dfaed5cf4ca446e505\\transformed\\jetified-play-services-base-18.0.1\\res\\values-zh-rTW\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "197,294,418,529,627,730,842,938,1029,1135,1232,1357,1468,1566,1670,1722,1775",
-                        "endColumns": "96,123,110,97,102,111,95,90,105,96,124,110,97,103,51,52,69",
-                        "endOffsets": "293,417,528,626,729,841,937,1028,1134,1231,1356,1467,1565,1669,1721,1774,1844"
-                    },
-                    "to": {
-                        "startLines": "44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,60,61",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3865,3966,4094,4209,4311,4418,4534,4634,4832,4942,5043,5172,5287,5389,5497,5553,5610",
-                        "endColumns": "100,127,114,101,106,115,99,94,109,100,128,114,101,107,55,56,73",
-                        "endOffsets": "3961,4089,4204,4306,4413,4529,4629,4724,4937,5038,5167,5282,5384,5492,5548,5605,5679"
-                    }
-                },
-                {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\f2a883627d18cc59bca1acf31eb4682f\\transformed\\core-1.13.0\\res\\values-zh-rTW\\values-zh-rTW.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,147,246,340,434,527,620,716",
-                        "endColumns": "91,98,93,93,92,92,95,100",
-                        "endOffsets": "142,241,335,429,522,615,711,812"
-                    },
-                    "to": {
-                        "startLines": "34,35,36,37,38,39,40,118",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "2930,3022,3121,3215,3309,3402,3495,9576",
-                        "endColumns": "91,98,93,93,92,92,95,100",
-                        "endOffsets": "3017,3116,3210,3304,3397,3490,3586,9672"
-                    }
-                },
-                {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-zh-rTW\\values-zh-rTW.xml",
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/aece923e2da2afc021829a223b651fa2/transformed/appcompat-1.6.1/res/values-zh-rTW/values-zh-rTW.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,24 +74,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\60645396fbd0acf424a526148f539dfa\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-zh-rTW\\values.xml",
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/a4b77f8b35fcb4dfaed5cf4ca446e505/transformed/jetified-play-services-base-18.0.1/res/values-zh-rTW/values.xml",
                     "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "199",
-                        "endColumns": "98",
-                        "endOffsets": "297"
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "197,294,418,529,627,730,842,938,1029,1135,1232,1357,1468,1566,1670,1722,1775",
+                        "endColumns": "96,123,110,97,102,111,95,90,105,96,124,110,97,103,51,52,69",
+                        "endOffsets": "293,417,528,626,729,841,937,1028,1134,1231,1356,1467,1565,1669,1721,1774,1844"
                     },
                     "to": {
-                        "startLines": "52",
-                        "startColumns": "4",
-                        "startOffsets": "4729",
-                        "endColumns": "102",
-                        "endOffsets": "4827"
+                        "startLines": "44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,60,61",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3865,3966,4094,4209,4311,4418,4534,4634,4832,4942,5043,5172,5287,5389,5497,5553,5610",
+                        "endColumns": "100,127,114,101,106,115,99,94,109,100,128,114,101,107,55,56,73",
+                        "endOffsets": "3961,4089,4204,4306,4413,4529,4629,4724,4937,5038,5167,5282,5384,5492,5548,5605,5679"
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\47d30898116b4c5e89b70750667d8b9a\\transformed\\navigation-ui-2.7.7\\res\\values-zh-rTW\\values-zh-rTW.xml",
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/47d30898116b4c5e89b70750667d8b9a/transformed/navigation-ui-2.7.7/res/values-zh-rTW/values-zh-rTW.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

@@ -4,7 +4,7 @@
             "outputFile": "umc.cozymate.app-mergeDebugResources-65:/values-v26/values-v26.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\caches\\transforms-4\\aece923e2da2afc021829a223b651fa2\\transformed\\appcompat-1.6.1\\res\\values-v26\\values-v26.xml",
+                    "source": "/Users/doyoung/.gradle/caches/transforms-4/aece923e2da2afc021829a223b651fa2/transformed/appcompat-1.6.1/res/values-v26/values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",

@@ -20,6 +20,10 @@
         "source": "umc.cozymate.app-main-69:/drawable/ic_send.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-67:/layout_fragment_roommate.xml.flat",
+        "source": "umc.cozymate.app-main-69:/layout/fragment_roommate.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-67:/drawable_ic_seemore.xml.flat",
         "source": "umc.cozymate.app-main-69:/drawable/ic_seemore.xml"
     },
@@ -34,6 +38,10 @@
     {
         "merged": "umc.cozymate.app-debug-67:/xml_backup_rules.xml.flat",
         "source": "umc.cozymate.app-main-69:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-67:/layout_fragment_feed.xml.flat",
+        "source": "umc.cozymate.app-main-69:/layout/fragment_feed.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-67:/drawable_background_todo.xml.flat",
@@ -88,6 +96,10 @@
         "source": "umc.cozymate.app-main-69:/drawable/ic_close.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-67:/drawable_background_bottom_nav.xml.flat",
+        "source": "umc.cozymate.app-main-69:/drawable/background_bottom_nav.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-67:/drawable_ic_add.xml.flat",
         "source": "umc.cozymate.app-main-69:/drawable/ic_add.xml"
     },
@@ -102,6 +114,10 @@
     {
         "merged": "umc.cozymate.app-debug-67:/drawable_ic_basic_character1.xml.flat",
         "source": "umc.cozymate.app-main-69:/drawable/ic_basic_character1.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-67:/layout_fragment_mypage.xml.flat",
+        "source": "umc.cozymate.app-main-69:/layout/fragment_mypage.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-67:/font_pretendard_regular.ttf.flat",
@@ -248,11 +264,23 @@
         "source": "umc.cozymate.app-main-69:/drawable/ic_cozymate.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-67:/layout_fragment_role_and_rule.xml.flat",
+        "source": "umc.cozymate.app-main-69:/layout/fragment_role_and_rule.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-67:/menu_bottom_nav.xml.flat",
+        "source": "umc.cozymate.app-main-69:/menu/bottom_nav.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-67:/drawable_ic_pencil.xml.flat",
         "source": "umc.cozymate.app-main-69:/drawable/ic_pencil.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-67:/font_pretendard_medium.ttf.flat",
         "source": "umc.cozymate.app-main-69:/font/pretendard_medium.ttf"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-67:/layout_fragment_cozyhome.xml.flat",
+        "source": "umc.cozymate.app-main-69:/layout/fragment_cozyhome.xml"
     }
 ]

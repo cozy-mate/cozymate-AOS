@@ -14,9 +14,9 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val properties = Properties().apply {
-    load(FileInputStream(rootProject.file("local.properties")))
-}
+//val properties = Properties().apply{
+//    load(FileInputStream(rootProject.file("local.properties")))
+//}
 
 android {
     namespace = "umc.cozymate"
@@ -33,9 +33,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField("String", "KAKAO_APP_KEY", properties.getProperty("KAKAO_APP_KEY"))
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(

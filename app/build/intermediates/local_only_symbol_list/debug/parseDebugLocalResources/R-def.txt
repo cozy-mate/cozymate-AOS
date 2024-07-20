@@ -15,6 +15,7 @@ color unuse_font
 color white
 color yellow
 drawable background
+drawable background_bottom_nav
 drawable background_finding_roommate
 drawable background_mypage
 drawable background_todo
@@ -63,8 +64,21 @@ font pretendard_light
 font pretendard_medium
 font pretendard_regular
 font pretendard_semi_bold
+id bottom_navigation_view
+id fragment_feed
+id fragment_home
+id fragment_mypage
+id fragment_role_and_rule
+id fragment_rommate
 id main
+id main_container
 layout activity_main
+layout fragment_cozyhome
+layout fragment_feed
+layout fragment_mypage
+layout fragment_role_and_rule
+layout fragment_roommate
+menu bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
@@ -74,6 +88,7 @@ string google_api_key
 string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
+string kakao_app_key
 string project_id
 style Base.Theme.Cozymate
 style TextAppearance.App.10sp.Medium
