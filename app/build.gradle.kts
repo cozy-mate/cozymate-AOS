@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.util.*
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,9 +11,9 @@ plugins {
     id ("kotlin-parcelize")
 }
 
-val properties = Properties().apply{
-    load(FileInputStream(rootProject.file("local.properties")))
-}
+//val properties = Properties().apply{
+//    load(FileInputStream(rootProject.file("local.properties")))
+//}
 
 android {
     namespace = "umc.cozymate"
