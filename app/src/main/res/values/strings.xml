@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">cozymate</string>
+
+    <string name="app_key_kakao">a51292da8bc69b2160b0bb97ec00b2ad</string>
 </resources>
