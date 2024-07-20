@@ -1,0 +1,70 @@
+umc.cozymate.app-jetified-emoji2-1.2.0-0 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\07bc029244617913d703b0bcec92e2bb\transformed\jetified-emoji2-1.2.0\res
+umc.cozymate.app-databinding-runtime-8.3.2-1 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\129793ab4463fb859ead5cdd53fa0d4b\transformed\databinding-runtime-8.3.2\res
+umc.cozymate.app-jetified-ads-adservices-1.0.0-beta05-2 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\181b121042246b2c485066090b280a40\transformed\jetified-ads-adservices-1.0.0-beta05\res
+umc.cozymate.app-navigation-ui-ktx-2.7.7-3 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\18c1229a4de6b7fa5731021a5c4f28f7\transformed\navigation-ui-ktx-2.7.7\res
+umc.cozymate.app-jetified-core-ktx-1.13.0-4 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\1bf91a216e44d3250476964187624213\transformed\jetified-core-ktx-1.13.0\res
+umc.cozymate.app-material-1.7.0-5 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\1d54d4f9c04b8046d7fe84c2e80cc758\transformed\material-1.7.0\res
+umc.cozymate.app-room-runtime-2.5.0-6 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\2171b536397720248ad14bc6e97de765\transformed\room-runtime-2.5.0\res
+umc.cozymate.app-jetified-emoji2-views-helper-1.2.0-7 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\217b1fce029af2ecb12a4830444dd02f\transformed\jetified-emoji2-views-helper-1.2.0\res
+umc.cozymate.app-jetified-activity-1.9.0-8 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\362b85918d71433c2f9f2592a3111dd6\transformed\jetified-activity-1.9.0\res
+umc.cozymate.app-navigation-common-ktx-2.7.7-9 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\3690ee5f7e9ce597af024441cf028ca7\transformed\navigation-common-ktx-2.7.7\res
+umc.cozymate.app-navigation-runtime-2.7.7-10 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\3a33507741b6aba87bdd3be91b0ac5e7\transformed\navigation-runtime-2.7.7\res
+umc.cozymate.app-drawerlayout-1.1.1-11 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\3b4c5599fb8e42092703b2c0b9acda6b\transformed\drawerlayout-1.1.1\res
+umc.cozymate.app-navigation-ui-2.7.7-12 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\47d30898116b4c5e89b70750667d8b9a\transformed\navigation-ui-2.7.7\res
+umc.cozymate.app-databinding-adapters-8.3.2-13 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\484083f60ff7fb36f15ecf1182ec818a\transformed\databinding-adapters-8.3.2\res
+umc.cozymate.app-lifecycle-livedata-core-2.6.2-14 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\4f4c8133f73fa642cf405e6a7e21bc84\transformed\lifecycle-livedata-core-2.6.2\res
+umc.cozymate.app-core-runtime-2.2.0-15 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\522802794d9c39702056f93db9eb0f0b\transformed\core-runtime-2.2.0\res
+umc.cozymate.app-jetified-ads-adservices-java-1.0.0-beta05-16 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\5c667a5c19568e774a40fc58cdf33888\transformed\jetified-ads-adservices-java-1.0.0-beta05\res
+umc.cozymate.app-jetified-play-services-basement-18.3.0-17 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\60645396fbd0acf424a526148f539dfa\transformed\jetified-play-services-basement-18.3.0\res
+umc.cozymate.app-navigation-runtime-ktx-2.7.7-18 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\675566bc5e50d9a01bb1c11227f125cd\transformed\navigation-runtime-ktx-2.7.7\res
+umc.cozymate.app-jetified-savedstate-1.2.1-19 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\6bfa36152676feecf9981a13a54d3e60\transformed\jetified-savedstate-1.2.1\res
+umc.cozymate.app-jetified-lifecycle-viewmodel-ktx-2.6.2-20 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\6c66daec3b53cee36f51af9c31b03a83\transformed\jetified-lifecycle-viewmodel-ktx-2.6.2\res
+umc.cozymate.app-lifecycle-viewmodel-2.6.2-21 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\6d087e4d0381a1a6ec4212686dc52ae2\transformed\lifecycle-viewmodel-2.6.2\res
+umc.cozymate.app-transition-1.4.1-22 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\6d22095a623f14416f71b3f25469b3a8\transformed\transition-1.4.1\res
+umc.cozymate.app-cardview-1.0.0-23 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\70d6841009c4871abd8fe547045e8649\transformed\cardview-1.0.0\res
+umc.cozymate.app-slidingpanelayout-1.2.0-24 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\71059a40433e6b5fe3e3086a683f3feb\transformed\slidingpanelayout-1.2.0\res
+umc.cozymate.app-navigation-fragment-2.7.7-25 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\715009c3d0c94882ea3583bf77145ccd\transformed\navigation-fragment-2.7.7\res
+umc.cozymate.app-jetified-appcompat-resources-1.6.1-26 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\7516f2526c0d568213b3e0dba783a6fc\transformed\jetified-appcompat-resources-1.6.1\res
+umc.cozymate.app-jetified-annotation-experimental-1.4.0-27 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\75b5b283d7a8efbbd20a14a5af9b2c45\transformed\jetified-annotation-experimental-1.4.0\res
+umc.cozymate.app-jetified-lifecycle-livedata-core-ktx-2.6.2-28 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\78fac092ec1f53732cd6073eef5f72cf\transformed\jetified-lifecycle-livedata-core-ktx-2.6.2\res
+umc.cozymate.app-navigation-common-2.7.7-29 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\7b6b173c5479cf8377a605e307bcc486\transformed\navigation-common-2.7.7\res
+umc.cozymate.app-media-1.0.0-30 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\7f435a83b00ede6e41e0e8ea6e519f46\transformed\media-1.0.0\res
+umc.cozymate.app-jetified-viewpager2-1.0.0-31 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\80a99cbcb9913c7b6de69de88b30f32e\transformed\jetified-viewpager2-1.0.0\res
+umc.cozymate.app-constraintlayout-2.1.4-32 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\85d6a6547096b41c99dc9b669dc95e2d\transformed\constraintlayout-2.1.4\res
+umc.cozymate.app-jetified-firebase-messaging-24.0.0-33 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\86f1c5867170d95779b83648c2e33080\transformed\jetified-firebase-messaging-24.0.0\res
+umc.cozymate.app-sqlite-2.3.0-34 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\88178ec4876fac83fb8e0ece990a5216\transformed\sqlite-2.3.0\res
+umc.cozymate.app-jetified-lifecycle-runtime-ktx-2.6.2-35 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\8b1d8240e0b728ac322d572a96ac19a8\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
+umc.cozymate.app-recyclerview-1.1.0-36 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\8bf6774405ba1241bd14c72de9e8cc95\transformed\recyclerview-1.1.0\res
+umc.cozymate.app-fragment-1.6.2-37 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\8c8a10fa46d96a2a8bc497ca4f0eb4b9\transformed\fragment-1.6.2\res
+umc.cozymate.app-jetified-activity-ktx-1.9.0-38 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\8e06ccc1c257af6cb81e872d24d1c3d2\transformed\jetified-activity-ktx-1.9.0\res
+umc.cozymate.app-lifecycle-livedata-2.6.2-39 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\8ed13235913c7d137732d32b6db4bf0b\transformed\lifecycle-livedata-2.6.2\res
+umc.cozymate.app-coordinatorlayout-1.1.0-40 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\94427010a6bf1dfccb29673d709ba93b\transformed\coordinatorlayout-1.1.0\res
+umc.cozymate.app-jetified-room-ktx-2.5.0-41 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\94fdda93c5cba5a8fb36661788677c5a\transformed\jetified-room-ktx-2.5.0\res
+umc.cozymate.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-42 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\965ae877080ece642bb2d6efd0302b78\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.2\res
+umc.cozymate.app-jetified-lifecycle-process-2.6.2-43 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\9666be54f3db9bc7a559e9b01a583dad\transformed\jetified-lifecycle-process-2.6.2\res
+umc.cozymate.app-jetified-firebase-common-21.0.0-44 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\9a061bedb3bc8014bb45645e1edbe906\transformed\jetified-firebase-common-21.0.0\res
+umc.cozymate.app-jetified-play-services-base-18.0.1-45 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\a4b77f8b35fcb4dfaed5cf4ca446e505\transformed\jetified-play-services-base-18.0.1\res
+umc.cozymate.app-appcompat-1.6.1-46 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\aece923e2da2afc021829a223b651fa2\transformed\appcompat-1.6.1\res
+umc.cozymate.app-sqlite-framework-2.3.0-47 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\bc97494050a0753913601b9d2118e555\transformed\sqlite-framework-2.3.0\res
+umc.cozymate.app-jetified-window-1.0.0-48 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\c34fa29c6b6cd1b7a01b11486e2163bc\transformed\jetified-window-1.0.0\res
+umc.cozymate.app-work-runtime-2.9.0-49 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\cd47330762ac823de78d17255d304e13\transformed\work-runtime-2.9.0\res
+umc.cozymate.app-jetified-glide-4.14.2-50 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\e29937b1f7c9e77cb416ba2b146aa3a2\transformed\jetified-glide-4.14.2\res
+umc.cozymate.app-lifecycle-runtime-2.6.2-51 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\e330f87bc7717f65822a63418782e9a2\transformed\lifecycle-runtime-2.6.2\res
+umc.cozymate.app-jetified-profileinstaller-1.3.1-52 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\e4765ef5fcbb6bb9a15b873556447864\transformed\jetified-profileinstaller-1.3.1\res
+umc.cozymate.app-navigation-fragment-ktx-2.7.7-53 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\e759be4dd2ba2c019297b6f8aca5cc5f\transformed\navigation-fragment-ktx-2.7.7\res
+umc.cozymate.app-jetified-material-calendarview-2.0.1-54 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\eb02ac3fbedfbae5f49e78308d94e094\transformed\jetified-material-calendarview-2.0.1\res
+umc.cozymate.app-jetified-startup-runtime-1.1.1-55 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\eccb40ead88f1810dc08cc467f90970c\transformed\jetified-startup-runtime-1.1.1\res
+umc.cozymate.app-jetified-savedstate-ktx-1.2.1-56 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\ee1beccea5ba605a05d09ff1bce9f901\transformed\jetified-savedstate-ktx-1.2.1\res
+umc.cozymate.app-jetified-fragment-ktx-1.6.2-57 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\f15c5166188886bbe89256dc528f4aca\transformed\jetified-fragment-ktx-1.6.2\res
+umc.cozymate.app-core-1.13.0-58 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\f2a883627d18cc59bca1acf31eb4682f\transformed\core-1.13.0\res
+umc.cozymate.app-work-runtime-ktx-2.9.0-59 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\f5ec6c2b0bcdd5539c8b276d5c7c2e4b\transformed\work-runtime-ktx-2.9.0\res
+umc.cozymate.app-jetified-play-services-measurement-api-22.0.0-60 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\f74beebde29dc5b87fd9b577d3e1294b\transformed\jetified-play-services-measurement-api-22.0.0\res
+umc.cozymate.app-jetified-lifecycle-service-2.6.2-61 C:\Program Files\Android\Android Studio\jbr\caches\transforms-4\f940d9c53fa28be0f0504c44a44e7224\transformed\jetified-lifecycle-service-2.6.2\res
+umc.cozymate.app-pngs-62 E:\Github\cozymate-AOS\app\build\generated\res\pngs\debug
+umc.cozymate.app-res-63 E:\Github\cozymate-AOS\app\build\generated\res\processDebugGoogleServices
+umc.cozymate.app-resValues-64 E:\Github\cozymate-AOS\app\build\generated\res\resValues\debug
+umc.cozymate.app-packageDebugResources-65 E:\Github\cozymate-AOS\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+umc.cozymate.app-packageDebugResources-66 E:\Github\cozymate-AOS\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+umc.cozymate.app-debug-67 E:\Github\cozymate-AOS\app\build\intermediates\merged_res\debug\mergeDebugResources
+umc.cozymate.app-debug-68 E:\Github\cozymate-AOS\app\src\debug\res
+umc.cozymate.app-main-69 E:\Github\cozymate-AOS\app\src\main\res

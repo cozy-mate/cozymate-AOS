@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="basic_font">#6C6C77</color>
+    <color name="black">#FF000000</color>
+    <color name="box">#F1F1F1</color>
+    <color name="color_box">#F3F6FA</color>
+    <color name="color_font">#808997</color>
+    <color name="highlight_font">#51555C</color>
+    <color name="main_blue">#68A4FF</color>
+    <color name="red">#FF391E</color>
+    <color name="sub_blue">#B5D3FF</color>
+    <color name="sub_skyblue">#CADFFF</color>
+    <color name="unuse">#E6E6E6</color>
+    <color name="unuse_font">#ACADB4</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FFCE3D</color>
+    <string name="app_name">cozymate</string>
+    <string name="base_url">https://</string>
+    <string name="gcm_defaultSenderId" translatable="false">272397563105</string>
+    <string name="google_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_app_id" translatable="false">1:272397563105:android:5f4bd31f95e6c9eb8ff3a0</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBTbsyxHzNI7i9OmvHLdslxHSUywlhQ9Po</string>
+    <string name="google_storage_bucket" translatable="false">cozymate-103cf.appspot.com</string>
+    <string name="project_id" translatable="false">cozymate-103cf</string>
+    <style name="Base.Theme.Cozymate" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="TextAppearance.App.10sp.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.10sp.Regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.10sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.12sp.Light" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.12sp.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.12sp.Regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.12sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.14sp.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.14sp.Regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.14sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.16sp.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.16sp.Regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.16sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.18sp.Bold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.18sp.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.18sp.Regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.18sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.20sp.SemiBold" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Theme.Cozymate" parent="Base.Theme.Cozymate"/>
+</resources>

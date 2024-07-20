@@ -5,7 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     tools:context=".ui.MainActivity">
+=======
+    tools:context=".presentation.MainActivity">
+>>>>>>> 6-네트워크-모듈-추가
 
     <FrameLayout
         android:id="@+id/main_container"
