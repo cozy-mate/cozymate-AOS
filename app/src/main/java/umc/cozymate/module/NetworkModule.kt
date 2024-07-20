@@ -1,22 +1,26 @@
 package umc.cozymate.module
 
-import androidx.core.location.LocationRequestCompat.Quality
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import umc.cozymate.CozyMateApplication
+import umc.cozymate.R
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    @Quality
+    @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class BaseRetrofit
 
@@ -54,8 +58,13 @@ object NetworkModule {
         @BaseRetrofit okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(base_url)
-
+            .baseUrl(CozyMateApplication.getString(R.string.base_url))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    private inline fun <reified T> Retrofit.buildService(): T{
+        return this.create(T::class.java)
     }
 }
