@@ -33,6 +33,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "KAKAO_APP_KEY", properties.getProperty("KAKAO_APP_KEY"))
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -121,7 +124,7 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
     // 카카오 로그인
-    implementation("com.kakao.sdk:v2-user:2.12.1")
+    implementation("com.kakao.sdk:v2-user:2.20.3")
 }
 kapt {
     correctErrorTypes = true
