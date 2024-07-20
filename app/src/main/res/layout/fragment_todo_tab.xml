@@ -6,9 +6,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="todo"
-        android:background="#ffffff"
+        android:text="todo" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#123456"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
