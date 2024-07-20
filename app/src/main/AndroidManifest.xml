@@ -21,9 +21,22 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/app_key_kakao" />
 
+        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:host="oauth"
+                android:scheme="@string/app_key_kakao" />
+        </intent-filter>
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -33,6 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
