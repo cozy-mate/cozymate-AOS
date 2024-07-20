@@ -20,6 +20,10 @@ drawable background_finding_roommate
 drawable background_mypage
 drawable background_todo
 drawable ic_add
+drawable ic_alarm
+drawable ic_alarm_jpg
+drawable ic_alarm_png
+drawable ic_alarm_star
 drawable ic_back
 drawable ic_basic_character
 drawable ic_basic_character1

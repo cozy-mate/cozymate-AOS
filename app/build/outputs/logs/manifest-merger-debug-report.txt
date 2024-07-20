@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-35:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-35:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-35:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-35:12
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-48:12
 MERGED from [androidx.databinding:databinding-adapters:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/484083f60ff7fb36f15ecf1182ec818a/transformed/databinding-adapters-8.3.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-ktx:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/e8f725eda528a89133db60a9d390b33d/transformed/jetified-databinding-ktx-8.3.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-runtime:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/129793ab4463fb859ead5cdd53fa0d4b/transformed/databinding-runtime-8.3.2/AndroidManifest.xml:2:1-7:12
@@ -196,8 +196,8 @@ MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users
 	android:name
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:10:22-65
 application
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-33:19
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-33:19
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-46:19
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-46:19
 MERGED from [com.google.android.material:material:1.7.0] /Users/doyoung/.gradle/caches/transforms-4/1d54d4f9c04b8046d7fe84c2e80cc758/transformed/material-1.7.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.7.0] /Users/doyoung/.gradle/caches/transforms-4/1d54d4f9c04b8046d7fe84c2e80cc758/transformed/material-1.7.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/doyoung/.gradle/caches/transforms-4/85d6a6547096b41c99dc9b669dc95e2d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -314,6 +314,32 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:17-77
 	android:name
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:27-74
+service#umc.cozymate.firebase.FCMService
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:9-39:19
+	android:enabled
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:13-35
+	android:exported
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:13-48
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:13-38:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:17-78
+	android:name
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:25-75
+meta-data#com.google.firebase.messaging.default_notification_icon
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:40:9-42:58
+	android:resource
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:42:13-55
+	android:name
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:41:13-83
+meta-data#com.google.firebase.messaging.default_notification_color
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:43:9-45:50
+	android:resource
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:45:13-48
+	android:name
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:44:13-84
 uses-sdk
 INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml
@@ -930,14 +956,6 @@ ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradl
 		ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:48:13-43
 	android:name
 		ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:47:13-82
-intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:50:13-52:29
-	android:priority
-		ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:50:28-51
-action#com.google.firebase.MESSAGING_EVENT
-ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:51:17-78
-	android:name
-		ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:51:25-75
 meta-data#com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar
 ADDED from [com.google.firebase:firebase-messaging:24.0.0] /Users/doyoung/.gradle/caches/transforms-4/86f1c5867170d95779b83648c2e33080/transformed/jetified-firebase-messaging-24.0.0/AndroidManifest.xml:57:13-59:85
 	android:value
