@@ -32,7 +32,7 @@ class CozyMateApplication: Application(), DefaultLifecycleObserver {
         }
 
         // kakao SDK 초기화
-        KakaoSdk.init(this, R.string.kakao_app_key.toString())
+        KakaoSdk.init(this, "a51292da8bc69b2160b0bb97ec00b2ad")
     }
 
     override fun onStop(owner: LifecycleOwner){
