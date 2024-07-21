@@ -35,5 +35,6 @@
         android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
         android:textColor="@color/highlight_font"
         />
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>
