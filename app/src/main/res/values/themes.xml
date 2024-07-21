@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.Cozymate" parent="Base.Theme.Cozymate" />
+
+    <!-- 온보딩 입력창 -->
+    <!-- container 테두리 색상을 지정하는 스타일 -->
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/unuse</item>
+        <item name="colorControlActivated">@color/main_blue</item> <!-- 선택된 상태의 색상 -->
+    </style>
+
 </resources>
