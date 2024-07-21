@@ -30,4 +30,6 @@
     <color name="color_box">#F3F6FA</color>
     <!--    색박스-->
 
+    <color name="btn_default">#C4C4C4</color>
+
 </resources>
