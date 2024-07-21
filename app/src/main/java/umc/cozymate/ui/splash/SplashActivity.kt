@@ -1,6 +1,7 @@
 package umc.cozymate.ui.splash
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +15,7 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
+import umc.cozymate.ui.onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -25,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
             Log.e(TAG, "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 accessToken: ${token.accessToken}")
-            // GoOnboarding()
+            GoOnboarding()
         }
     }
 
@@ -47,32 +49,41 @@ class SplashActivity : AppCompatActivity() {
 
     fun initView() {
         val context: Context = this
-        with(binding) {
-            btnKakaoLogin.setOnClickListener {
-                // 카카오톡 설치여부 확인 -> 카카오톡 또는 카카오 계정으로 로그인
-                if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                    UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                        if (error != null) {
-                            Log.e(TAG, "카카오톡으로 로그인 실패", error)
+        try {
+            with(binding) {
+                btnKakaoLogin.setOnClickListener {
+                    // 카카오톡 설치여부 확인 -> 카카오톡 또는 카카오 계정으로 로그인
+                    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                        UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                            if (error != null) {
+                                Log.e(TAG, "카카오톡으로 로그인 실패", error)
 
-                            // 사용자가 의도적으로 로그인을 취소한 경우(ex. 뒤로가기) 리턴
-                            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                                return@loginWithKakaoTalk
+                                // 사용자가 의도적으로 로그인을 취소한 경우(ex. 뒤로가기) 리턴
+                                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                                    return@loginWithKakaoTalk
+                                }
+                                UserApiClient.instance.loginWithKakaoAccount(
+                                    context,
+                                    callback = callback
+                                )
+                            } else if (token != null) {
+                                Log.i(TAG, "카카오톡으로 로그인 성공 accessToken: ${token.accessToken}")
+                                GoOnboarding()
                             }
-                            UserApiClient.instance.loginWithKakaoAccount(
-                                context,
-                                callback = callback
-                            )
-                        } else if (token != null) {
-                            Log.i(TAG, "카카오톡으로 로그인 성공 accessToken: ${token.accessToken}")
-                            // GoOnboarding()
                         }
+                    } else {
+                        // 카카오 계정으로 로그인
+                        UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                     }
-                } else {
-                    // 카카오 계정으로 로그인
-                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                 }
             }
+        }catch (e: Exception){
+            Log.e(TAG, "${e.message}")
         }
+    }
+
+    fun GoOnboarding() {
+        val intent = Intent(this, OnboardingActivity::class.java)
+        startActivity(intent)
     }
 }
