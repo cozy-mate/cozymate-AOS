@@ -63,6 +63,7 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation(libs.firebase.database)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -110,6 +111,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
+
     // 클라우드 메시징을 위해 추가
     implementation("com.google.firebase:firebase-analytics")
 
@@ -120,6 +122,7 @@ dependencies {
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
+//    implementation(libs.androidx.room.common)
 }
 kapt {
     correctErrorTypes = true

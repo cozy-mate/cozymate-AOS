@@ -2,18 +2,61 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="todo" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="34dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:background="@drawable/background_todo_tab">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#123456"
+
+    <TextView
+        android:id="@+id/tv_TodoDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7/2(화), "
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_TodoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="델로"
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:textColor="@color/main_blue"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_TodoDate"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="님이"
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_TodoName"/>
+    <TextView
+        android:id="@+id/tv_Text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="해야할 일들을 알려드릴게요!"
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_TodoDate"
         app:layout_constraintStart_toStartOf="parent"/>
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_checklist"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Text2"
+        tools:listitem="@layout/item_todo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

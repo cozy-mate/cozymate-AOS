@@ -1,6 +1,8 @@
 package umc.cozymate.ui
 
+import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +15,7 @@ import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.roommate.RoommateFragment
 
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigationView()
+
 
         // 화면 영역 확장
         //enableEdgeToEdge()
