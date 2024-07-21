@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="umc.cozymate">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 인터넷 사용권한 설정 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- FCM을 위한 권한 설정 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".CozyMateApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,25 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
-        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="@string/kakao_scheme" />
-            </intent-filter>
-        </activity>
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -51,14 +29,20 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.onboarding.OnboardingActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:exported="true">
-        </activity>
+        <service
+            android:name=".firebase.FCMService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_alarm_star" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/main_blue"/>
     </application>
 
 </manifest>
