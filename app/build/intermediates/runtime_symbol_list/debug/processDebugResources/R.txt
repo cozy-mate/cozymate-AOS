@@ -2686,6 +2686,10 @@ int drawable design_snackbar_background 0x7f07009a
 int drawable googleg_disabled_color_18 0x7f07009b
 int drawable googleg_standard_color_18 0x7f07009c
 int drawable ic_add 0x7f07009d
+int drawable ic_alarm 0x7f07011f
+int drawable ic_alarm_jpg 0x7f070120
+int drawable ic_alarm_png 0x7f070121
+int drawable ic_alarm_star 0x7f070122
 int drawable ic_back 0x7f07009e
 int drawable ic_basic_character 0x7f07009f
 int drawable ic_basic_character1 0x7f0700a0

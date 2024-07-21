@@ -2687,6 +2687,10 @@ drawable design_snackbar_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_add
+drawable ic_alarm
+drawable ic_alarm_jpg
+drawable ic_alarm_png
+drawable ic_alarm_star
 drawable ic_back
 drawable ic_basic_character
 drawable ic_basic_character1
