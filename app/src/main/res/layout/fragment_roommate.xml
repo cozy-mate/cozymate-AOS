@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_roommate2"
+        android:id="@+id/tv_roommate1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="룸메이트를 구하려면,"
@@ -15,5 +15,25 @@
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_roommate2"
+        app:layout_constraintStart_toStartOf="@+id/tv_roommate1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_roommate1"
+        android:text="학교 인증"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/main_blue"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_roommate3"
+        app:layout_constraintStart_toEndOf="@+id/tv_roommate2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_roommate2"
+        android:text="이 필요해요!"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
