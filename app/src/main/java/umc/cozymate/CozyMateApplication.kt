@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.annotation.StringRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import umc.cozymate.util.NetworkConnectionChecker
 
@@ -29,6 +30,9 @@ class CozyMateApplication: Application(), DefaultLifecycleObserver {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
+        // kakao SDK 초기화
+        KakaoSdk.init(this, "a51292da8bc69b2160b0bb97ec00b2ad")
     }
 
     override fun onStop(owner: LifecycleOwner){

@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
     <!--    기본색-->
 
     <color name="main_blue">#68A4FF</color>
@@ -29,5 +30,7 @@
     <!--    박스-->
     <color name="color_box">#F3F6FA</color>
     <!--    색박스-->
+    <color name="unuse_btn">#C4C4C4</color>
+    <!--    비활성화 버튼-->
 
 </resources>
