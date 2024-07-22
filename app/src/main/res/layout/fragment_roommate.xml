@@ -102,6 +102,7 @@
             android:text="인증번호 전송"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/main_blue"
+            android:visibility="invisible"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     
