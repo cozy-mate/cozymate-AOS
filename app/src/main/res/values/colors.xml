@@ -11,6 +11,11 @@
     <!--    보조색1 (조금 더 진한거)-->
     <color name="sub_skyblue">#CADFFF</color>
     <!--    보조색2 (더 옅은거)-->
+
+    <color name="sub_color1">#CADFFF</color>
+    <color name="sub_color2">#ESF0FF</color>
+    <color name="sub_color3">#B5D3FF</color>
+
     <color name="yellow">#FFCE3D</color>
     <!--    메인 색상: 노란색-->
     <color name="red">#FF391E</color>
