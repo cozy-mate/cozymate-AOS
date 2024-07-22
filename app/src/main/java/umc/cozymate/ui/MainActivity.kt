@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
+import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_home.CozyHomeFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             binding.bottomNavigationView.selectedItemId = R.id.fragment_home
         }
+
+        FCMService().getFirebaseToken()
+        // 알림 확인을 위해 작성, 추후 삭제 요망
     }
 
 
