@@ -1,13 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="코지홈"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <!--상단 섹션-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cozyhome_top"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:background="@drawable/background_cozyhome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_cozy_title"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_cozymate"
+            app:layout_constraintBottom_toBottomOf="@id/btn_bell"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_bell" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_bell"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/ic_bell"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_message"
+            app:layout_constraintEnd_toStartOf="@id/btn_bell"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_cozyhome_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:text="룸메이트와 함께 방을 만들어야\n룰앤룰, 피드를 이용할 수 있어요!"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_cozy_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="145dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_cozyhome_notice" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_roommate_invite"
+        android:layout_width="0dp"
+        android:layout_height="284dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="start"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:text="룸메이트\n초대하기\n\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintEnd_toStartOf="@id/btn_invite_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozyhome_top" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_invite_code"
+        android:layout_width="0dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="start"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:text="초대코드로\n방 만들기"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_roommate_invite"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozyhome_top" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_enter_room"
+        android:layout_width="0dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:text="초대코드로 \n방 참여하기"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="@id/btn_invite_code"
+        app:layout_constraintStart_toStartOf="@id/btn_invite_code"
+        app:layout_constraintTop_toBottomOf="@id/btn_invite_code" />
 </androidx.constraintlayout.widget.ConstraintLayout>
