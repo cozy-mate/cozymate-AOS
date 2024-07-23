@@ -7,4 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.roommate.RoommateEssentialInfoActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:id="@+id/iv_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_back"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="기본정보"
+        android:textColor="@color/basic_font"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        />
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:id="@+id/pb_basic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_back"
+        android:layout_marginTop="5dp"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
