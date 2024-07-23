@@ -7,21 +7,41 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tb_RoleAndRule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#00ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginStart="20dp"
+        android:background="@android:color/transparent"
+        app:tabMinWidth="88dp"
+        app:tabGravity="start"
+        app:tabPaddingBottom="16dp"
+        app:tabTextAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        app:tabTextColor="@color/unuse_font"
+        app:tabSelectedTextColor="@color/main_blue"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicator="@drawable/ic_tab_indicator"
+        app:tabIndicatorColor="@color/main_blue"
+        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorFullWidth="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_RoleAndRule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/tb_RoleAndRule"
         app:layout_constraintStart_toStartOf="parent"/>
-
+    <ImageView
+        android:id="@+id/iv_add_todo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_todo_plus"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
