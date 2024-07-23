@@ -1,5 +1,6 @@
 package umc.cozymate.ui.onboarding
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,13 @@ class OnboardingSummaryFragment : Fragment() {
     ): View {
         _binding = FragmentOnboardingSummaryBinding.inflate(inflater, container, false)
 
+        val nickname = getPreference()
+        binding.titleOnboarding3.text = "${nickname}님, \ncozymate에 오신걸 환영해요!"
         return binding.root
+    }
+
+    private fun getPreference(): String?{
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        return sharedPref.getString("nickname", "No user found")
     }
 }

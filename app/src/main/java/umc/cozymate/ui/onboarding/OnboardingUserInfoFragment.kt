@@ -1,5 +1,6 @@
 package umc.cozymate.ui.onboarding
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
@@ -80,9 +81,17 @@ class OnboardingUserInfoFragment : Fragment() {
                 .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
                 .commit()
 
+            saveUserPreference(binding.etOnboardingNickname.text.toString())
         }
     }
 
+    fun saveUserPreference(nickname: String){
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("nickname", nickname)
+            apply()
+        }
+    }
     fun setFocusColor(til: TextInputLayout, et: EditText, tv: TextView) {
         val states = arrayOf(
             intArrayOf(android.R.attr.state_focused), // 포커스된 상태
