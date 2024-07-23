@@ -16,6 +16,6 @@ class CharacterViewHolder(itemBinding: ItemCharacterBinding) :
 
     fun onBind(data: CharacterItem, itemClickListener: CharacterItemClickListener) {
         iv_item.setImageResource(data.img)
-        iv_item.setOnClickListener{ }
+        iv_item.setOnClickListener{ itemClickListener.onItemClick(data)}
     }
 }
