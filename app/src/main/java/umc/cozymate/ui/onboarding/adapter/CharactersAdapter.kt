@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.ItemCharacterBinding
-import umc.cozymate.ui.onboarding.CharacterItem
 
 class CharactersAdapter(
     private var characters: List<CharacterItem>,

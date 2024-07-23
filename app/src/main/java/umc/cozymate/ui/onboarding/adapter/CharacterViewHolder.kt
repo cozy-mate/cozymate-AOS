@@ -3,7 +3,6 @@ package umc.cozymate.ui.onboarding.adapter
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.ItemCharacterBinding
-import umc.cozymate.ui.onboarding.CharacterItem
 
 class CharacterViewHolder(itemBinding: ItemCharacterBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {

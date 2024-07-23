@@ -1,4 +1,4 @@
-package umc.cozymate.ui.onboarding
+package umc.cozymate.ui.onboarding.adapter
 
 data class CharacterItem (
     var img: Int
