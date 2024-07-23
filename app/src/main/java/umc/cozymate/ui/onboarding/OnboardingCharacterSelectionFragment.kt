@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingCharacterSelectionBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
+import umc.cozymate.util.fromDpToPx
 
 class OnboardingCharacterSelectionFragment : Fragment() {
 
@@ -40,25 +41,30 @@ class OnboardingCharacterSelectionFragment : Fragment() {
         }
 
         val characters = listOf(
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
-            CharacterItem(R.drawable.ic_launcher_background),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.background_circle),
         )
         val adapter = CharactersAdapter(characters, onItemClickListener)
         binding.rvList.adapter = adapter
-        binding.rvList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvList.run {
+            layoutManager = GridLayoutManager(requireContext(), 4)
+            addItemDecoration(
+                GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
+            )
+        }
     }
 }
