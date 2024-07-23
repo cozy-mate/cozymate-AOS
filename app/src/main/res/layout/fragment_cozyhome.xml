@@ -54,19 +54,24 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_cozy_title" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/background_goto_rommate_btn"
             android:layout_width="145dp"
             android:layout_height="41dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
+            android:text="룸메이트 구하러 가기"
+            android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+            android:textColor="@color/main_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_cozyhome_notice" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_roommate_invite"
+        android:background="@drawable/ripple_enabled"
+        android:backgroundTint="@color/color_box"
         android:layout_width="0dp"
         android:layout_height="284dp"
         android:layout_marginStart="20dp"
@@ -75,7 +80,7 @@
         android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
-        android:text="룸메이트\n초대하기\n\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
+        android:text="룸메이트\n초대하기\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/main_blue"
         app:layout_constraintEnd_toStartOf="@id/btn_invite_code"
@@ -85,6 +90,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_invite_code"
+        android:background="@drawable/ripple_enabled"
+        android:backgroundTint="@color/color_box"
         android:layout_width="0dp"
         android:layout_height="138dp"
         android:layout_marginTop="26dp"
@@ -101,6 +108,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter_room"
+        android:background="@drawable/ripple_enabled"
+        android:backgroundTint="@color/color_box"
         android:layout_width="0dp"
         android:layout_height="138dp"
         android:layout_marginTop="8dp"
