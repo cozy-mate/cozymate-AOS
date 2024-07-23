@@ -16,11 +16,21 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tb_AddTodo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginStart="20dp"
-        android:background="#00ffffff"
+        android:background="@android:color/transparent"
+        app:tabGravity="start"
+        app:tabTextAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        app:tabTextColor="@color/unuse_font"
+        app:tabSelectedTextColor="@color/main_blue"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicator="@drawable/ic_tab_indicator"
+        app:tabIndicatorColor="@color/main_blue"
+        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorFullWidth="true"
         app:layout_constraintTop_toBottomOf="@id/iv_back"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -28,8 +38,7 @@
         android:id="@+id/vp_AddTodo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="20dp"
+        android:padding="24dp"
         app:layout_constraintTop_toBottomOf="@id/tb_AddTodo"
         app:layout_constraintStart_toStartOf="parent"/>
 

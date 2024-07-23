@@ -9,7 +9,7 @@ class AddTodoVPAdaper(fragmentManager: FragmentManager, lifecycle: androidx.life
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> TodoTabFragment()
+            0 -> AddTodoTabFragment()
             else -> RoleAndRuleTabFragment()
         }
     }
