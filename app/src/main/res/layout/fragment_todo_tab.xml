@@ -67,7 +67,7 @@
         android:paddingEnd="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_Text1"
-        tools:listitem="@layout/item_todo"/>
+        tools:listitem="@layout/rv_item_todo"/>
 
     <TextView
         android:id="@+id/tv_text2"

@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.databinding.ItemTodoBinding
-import umc.cozymate.databinding.ItemTodoListBinding
+import umc.cozymate.databinding.RvItemTodoListBinding
 import java.util.*
 
 
 class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: ItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
             binding.tvTodoMemberName.text = member.keys.elementAt(pos)
             binding.rvTodoList.apply {
@@ -23,7 +22,7 @@ class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) 
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemTodoListBinding = ItemTodoListBinding.inflate(LayoutInflater.from(viewGroup.context),viewGroup,false)
+        val binding: RvItemTodoListBinding = RvItemTodoListBinding.inflate(LayoutInflater.from(viewGroup.context),viewGroup,false)
         return ViewHolder(binding)
     }
 
@@ -31,14 +30,6 @@ class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) 
         holder.bind(position)
     }
 
-
-
     override fun getItemCount(): Int  = member.size
 
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.bind(todoList[position])
-//        holder.itemView.setOnClickListener{
-//
-//        }
-//    }
 }
