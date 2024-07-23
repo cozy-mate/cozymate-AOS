@@ -50,6 +50,23 @@
             </intent-filter>
         </activity>
 
+
+        <service
+            android:name="umc.cozymate.firebase.FCMService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_alarm_star" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/main_blue" />
+
         <provider
             android:name="com.prolificinteractive.materialcalendarview.MaterialCalendarViewInitProvider"
             android:authorities="umc.cozymate.materialcalendarviewinitprovider"
