@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,10 @@ class TodoTabFragment: Fragment() {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         initListData()
         initRecyclerview()
+
+        binding.ivAddTodo.setOnClickListener {
+            startActivity(Intent(activity,AddTodoActivity::class.java))
+        }
         return binding.root
     }
 
