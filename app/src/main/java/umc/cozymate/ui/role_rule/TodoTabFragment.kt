@@ -24,15 +24,14 @@ class TodoTabFragment: Fragment() {
         initListData()
         initRecyclerview()
 
-        binding.ivAddTodo.setOnClickListener {
-            startActivity(Intent(activity,AddTodoActivity::class.java))
-        }
+
         return binding.root
     }
 
     private fun initListData() {
         member.put("name1", arrayListOf(TodoList(0,"test5",false),TodoList(6,"test6",false)))
         member.put("name2", arrayListOf(TodoList(0,"test1",false),TodoList(6,"test2",false),TodoList(6,"test3",false)))
+        member.put("name3", arrayListOf())
         todoList.apply{
             add(TodoList(1,"test1",false))
             add(TodoList(2,"test2",false))
@@ -45,10 +44,17 @@ class TodoTabFragment: Fragment() {
 
     private fun initRecyclerview(){
         // 내 할일
-        val myTodoRVAdapter = TodoRVAdapter(todoList)
-        binding.rvMyTodoList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.rvMyTodoList.adapter = myTodoRVAdapter
-
+        if(todoList.size == 0){
+            binding.tvEmpty.visibility = View.VISIBLE
+            binding.rvMyTodoList.visibility = View.GONE
+        }
+        else{
+            binding.rvMyTodoList.visibility = View.VISIBLE
+            binding.tvEmpty.visibility = View.GONE
+            val myTodoRVAdapter = TodoRVAdapter(todoList)
+            binding.rvMyTodoList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.rvMyTodoList.adapter = myTodoRVAdapter
+        }
         // 룸메 할일(중첩 리사이클러뷰)
         val memberTodoListRVAdapter = TodoListRVAdapter(member)
         binding.recycler01.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)

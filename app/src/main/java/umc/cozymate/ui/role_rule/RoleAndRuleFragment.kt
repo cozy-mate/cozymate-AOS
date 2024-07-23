@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,9 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
 
-
+        binding.ivAddTodo.setOnClickListener {
+            startActivity(Intent(activity,AddTodoActivity::class.java))
+        }
 
 
         return binding.root
