@@ -13,10 +13,12 @@ import java.util.*
 class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
+            binding.tvTodoMemberName.text = member.keys.elementAt(pos)
             binding.rvTodoList.apply {
-                adapter = TodoRVAdapter( member.values.elementAt(pos))
+                adapter = TodoRVAdapter(member.values.elementAt(pos))
                 layoutManager =  LinearLayoutManager(context)
             }
+
         }
     }
 

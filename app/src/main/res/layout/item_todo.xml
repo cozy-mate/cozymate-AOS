@@ -6,20 +6,20 @@
     android:maxHeight="40dp"
     >
     <TextView
-        android:id="@+id/tvTodoItem"
+        android:id="@+id/tv_TodoItem"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:text="todo"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-        android:textColor="@color/color_font"
+        android:textColor="@color/basic_font"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cbCheck"
+        app:layout_constraintEnd_toStartOf="@+id/cb_Check"
         />
 
     <CheckBox
-        android:id="@+id/cbCheck"
+        android:id="@+id/cb_Check"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         app:layout_constraintTop_toTopOf="parent"
