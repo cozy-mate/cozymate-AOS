@@ -8,116 +8,233 @@
     tools:context=".ui.roommate.RoommateBasicInfoActivity">
 
     <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_back"
-        android:id="@+id/iv_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        />
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_back"
+        android:text="기본정보"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
         app:layout_constraintBottom_toBottomOf="@+id/iv_back"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="기본정보"
-        android:textColor="@color/basic_font"
-        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_back" />
+
     <ProgressBar
+        android:id="@+id/pb_basic"
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:id="@+id/pb_basic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_back"
         android:layout_marginTop="5dp"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/pb_basic"
         android:layout_marginTop="40dp"
-        >
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/pb_basic"
+        android:layout_marginBottom="40dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            >
+            android:layout_marginEnd="20dp">
+
             <TextView
+                android:id="@+id/tv_dormitory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_dormitory"
                 android:text="기숙사 합격 여부를 선택해주세요"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_dormitory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_dormitory"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp"
-                android:id="@+id/rv_dormitory"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_dormitory" />
+
             <TextView
+                android:id="@+id/tv_people_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_people_number"
+                android:layout_marginTop="55dp"
                 android:text="신청실의 인원을 선택해주세요"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
-                app:layout_constraintTop_toBottomOf="@id/rv_dormitory"
-                android:layout_marginTop="55dp"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@id/rv_dormitory" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_people_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_people_number"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp"
-                android:id="@+id/rv_people_number"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_people_number" />
 
             <TextView
+                android:id="@+id/tv_major"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_people_number"
                 android:text="학과를 입력헤주세요"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
-                android:id="@+id/tv_major"
-                />
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_people_number" />
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvil_major"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_major"
-                android:id="@+id/tvil_major"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
                 app:boxBackgroundMode="outline"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/tv_major">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_major"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext"
                     android:hint="ex. 경영학과"
                     android:inputType="text"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/basic_font"
-                    android:background="@drawable/custom_edittext"
-                    />
+                    android:textColor="@color/basic_font" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:text="학번을 입력해주세요"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvil_major" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvil_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintTop_toBottomOf="@id/tv_number">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext"
+                    android:hint="ex. 23학번"
+                    android:inputType="text"
+                    android:maxLength="4"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font" />
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:text="출생년도를 입력해주세요"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvil_number" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvil_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintTop_toBottomOf="@+id/tv_birth">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext"
+                    android:hint="ex. 2002"
+                    android:inputType="text"
+                    android:maxLength="4"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:text="이름을 입력해주세요"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvil_birth" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvil_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintTop_toBottomOf="@id/tv_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext"
+                    android:hint="ex. 오정현"
+                    android:inputType="text"
+                    android:maxLength="5"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    android:visibility="visible" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_rectangle_12"
+                android:text="확인"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

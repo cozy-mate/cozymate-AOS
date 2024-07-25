@@ -91,6 +91,10 @@ id btn_school
 id btn_test
 id cl_onboarding_name
 id cl_onboarding_nickname
+id et_birth
+id et_major
+id et_name
+id et_number
 id et_onboarding_name
 id et_onboarding_nickname
 id fragment_feed
@@ -115,6 +119,7 @@ id rv_dormitory
 id rv_people_number
 id til_onboarding_name
 id til_onboarding_nickname
+id tv_birth
 id tv_box
 id tv_cozy_description
 id tv_dormitory
@@ -124,8 +129,10 @@ id tv_label_gender
 id tv_label_name
 id tv_label_nickname
 id tv_major
+id tv_name
 id tv_name1
 id tv_name2
+id tv_number
 id tv_onboarding_title1
 id tv_onboarding_title2
 id tv_people_number
@@ -137,7 +144,10 @@ id tv_school_name
 id tv_title
 id tv_title1
 id tv_title2
+id tvil_birth
 id tvil_major
+id tvil_name
+id tvil_number
 layout activity_main
 layout activity_onboarding
 layout activity_roommate_basic_info
