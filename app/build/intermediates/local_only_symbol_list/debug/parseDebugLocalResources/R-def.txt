@@ -29,7 +29,8 @@ drawable btn_rectangle_26
 drawable btn_rectangle_80svg
 drawable custom_edittext
 drawable custom_rectangle_12
-drawable custom_retamgle_6
+drawable custom_rectangle_6
+drawable custom_rectangle_6_sub_blue
 drawable ic_add
 drawable ic_alarm
 drawable ic_alarm_jpg
