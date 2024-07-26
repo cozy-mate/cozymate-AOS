@@ -76,6 +76,7 @@ drawable ic_send
 drawable ic_todo_plus
 drawable ic_xmark
 drawable ly_white_12
+drawable option_box_background
 drawable ripple_disabled
 drawable ripple_enabled
 font pretendard_bold
@@ -107,16 +108,19 @@ id fragment_rommate
 id iv_back
 id iv_char
 id iv_cozy_title
+id ly_dormitory
 id ly_guide
 id main
 id main_container
 id mcv_birth
 id mcv_gender
+id option2
+id option3
+id option4
 id pb_basic
 id radioButtonFemale
 id radioButtonMale
 id radioGroupGender
-id rv_dormitory
 id rv_people_number
 id til_onboarding_name
 id til_onboarding_nickname
@@ -178,6 +182,7 @@ string kakao_app_key
 string project_id
 style Base.Theme.Cozymate
 style CustomTextInputLayout
+style OptionBox
 style TextAppearance.App.10sp.Medium
 style TextAppearance.App.10sp.Regular
 style TextAppearance.App.10sp.SemiBold

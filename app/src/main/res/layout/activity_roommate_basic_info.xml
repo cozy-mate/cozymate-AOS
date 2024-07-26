@@ -53,10 +53,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
         android:layout_marginTop="55dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pb_basic">
+        app:layout_constraintTop_toBottomOf="@id/pb_basic"
+        tools:layout_editor_absoluteX="0dp">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -83,13 +84,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_dormitory"
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/rv_dormitory"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory" />-->
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:id="@+id/ly_dormitory"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/option2"
+                        style="@style/OptionBox"
+                        android:text="2명"
+                        />
+                    <TextView
+                        android:id="@+id/option3"
+                        style="@style/OptionBox"
+                        android:text="3명"
+                        />
+                    <TextView
+                        android:id="@+id/option4"
+                        style="@style/OptionBox"
+                        android:text="4명"
+                        />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_people_number"
@@ -100,7 +126,7 @@
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_dormitory" />
+                    app:layout_constraintTop_toBottomOf="@id/ly_dormitory" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_people_number"

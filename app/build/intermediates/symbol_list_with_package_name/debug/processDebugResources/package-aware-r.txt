@@ -2835,6 +2835,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable option_box_background
 drawable ripple_disabled
 drawable ripple_enabled
 drawable test_level_drawable
@@ -3132,6 +3133,7 @@ id listMode
 id list_item
 id locale
 id ltr
+id ly_dormitory
 id ly_guide
 id main
 id main_container
@@ -3226,6 +3228,9 @@ id on
 id onAttachStateChangeListener
 id onDateChanged
 id onInterceptTouchReturnSwipe
+id option2
+id option3
+id option4
 id other_months
 id out_of_range
 id outline
@@ -3266,7 +3271,6 @@ id right_side
 id rounded
 id row_index_key
 id rtl
-id rv_dormitory
 id rv_people_number
 id saturday
 id save_non_transition_alpha
@@ -4156,6 +4160,7 @@ style MaterialAlertDialog_MaterialComponents_Title_Panel
 style MaterialAlertDialog_MaterialComponents_Title_Panel_CenterStacked
 style MaterialAlertDialog_MaterialComponents_Title_Text
 style MaterialAlertDialog_MaterialComponents_Title_Text_CenterStacked
+style OptionBox
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents
