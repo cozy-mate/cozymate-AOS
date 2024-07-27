@@ -1,6 +1,5 @@
 package umc.cozymate.ui.role_rule
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,8 +56,8 @@ class TodoTabFragment: Fragment() {
         }
         // 룸메 할일(중첩 리사이클러뷰)
         val memberTodoListRVAdapter = TodoListRVAdapter(member)
-        binding.recycler01.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        binding.recycler01.adapter = memberTodoListRVAdapter
+        binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        binding.rvMemberTodo.adapter = memberTodoListRVAdapter
     }
 }
 

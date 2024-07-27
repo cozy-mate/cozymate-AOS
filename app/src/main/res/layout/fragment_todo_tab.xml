@@ -21,7 +21,6 @@
         android:paddingEnd="20dp"
         android:background="@drawable/background_todo_tab">
 
-
         <TextView
             android:id="@+id/tv_TodoDate"
             android:layout_width="wrap_content"
@@ -64,7 +63,7 @@
 
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="40dp"
+                              android:layout_height="40dp"
             android:src="@drawable/ic_option"
             android:paddingHorizontal="11dp"
             android:paddingVertical="18dp"
@@ -113,7 +112,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler01"
+            android:id="@+id/rv_MemberTodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="98dp"
