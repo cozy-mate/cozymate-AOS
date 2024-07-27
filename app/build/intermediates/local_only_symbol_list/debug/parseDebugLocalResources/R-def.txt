@@ -5,6 +5,7 @@ color black
 color box
 color color_box
 color color_font
+color custom_option_text_color
 color highlight_font
 color main_blue
 color red
@@ -28,6 +29,12 @@ drawable background_todo
 drawable btn_rectangle_26
 drawable btn_rectangle_80svg
 drawable custom_edittext
+drawable custom_option_box_background
+drawable custom_option_box_background_default
+drawable custom_option_box_background_selected_6dp
+drawable custom_progress_bar_background
+drawable custom_progress_bar_progress
+drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
@@ -76,7 +83,6 @@ drawable ic_send
 drawable ic_todo_plus
 drawable ic_xmark
 drawable ly_white_12
-drawable option_box_background
 drawable ripple_disabled
 drawable ripple_enabled
 font pretendard_bold
@@ -93,6 +99,9 @@ id btn_school
 id btn_test
 id cl_onboarding_name
 id cl_onboarding_nickname
+id dormitory_number
+id dormitory_pass
+id dormitory_waiting
 id et_birth
 id et_major
 id et_name
@@ -110,6 +119,7 @@ id iv_char
 id iv_cozy_title
 id ly_dormitory
 id ly_guide
+id ly_people_number
 id main
 id main_container
 id mcv_birth
@@ -117,11 +127,12 @@ id mcv_gender
 id option2
 id option3
 id option4
+id option5
+id option6
 id pb_basic
 id radioButtonFemale
 id radioButtonMale
 id radioGroupGender
-id rv_people_number
 id til_onboarding_name
 id til_onboarding_nickname
 id tv_birth

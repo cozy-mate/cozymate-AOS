@@ -1374,6 +1374,7 @@ color common_google_signin_btn_text_light_disabled
 color common_google_signin_btn_text_light_focused
 color common_google_signin_btn_text_light_pressed
 color common_google_signin_btn_tint
+color custom_option_text_color
 color design_bottom_navigation_shadow_color
 color design_box_stroke_color
 color design_dark_default_color_background
@@ -2694,6 +2695,12 @@ drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable custom_edittext
+drawable custom_option_box_background
+drawable custom_option_box_background_default
+drawable custom_option_box_background_selected_6dp
+drawable custom_progress_bar_background
+drawable custom_progress_bar_progress
+drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
@@ -2835,7 +2842,6 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
-drawable option_box_background
 drawable ripple_disabled
 drawable ripple_enabled
 drawable test_level_drawable
@@ -3026,6 +3032,9 @@ id disableIntraAutoTransition
 id disablePostScroll
 id disableScroll
 id disjoint
+id dormitory_number
+id dormitory_pass
+id dormitory_waiting
 id dragAnticlockwise
 id dragClockwise
 id dragDown
@@ -3135,6 +3144,7 @@ id locale
 id ltr
 id ly_dormitory
 id ly_guide
+id ly_people_number
 id main
 id main_container
 id marquee
@@ -3231,6 +3241,8 @@ id onInterceptTouchReturnSwipe
 id option2
 id option3
 id option4
+id option5
+id option6
 id other_months
 id out_of_range
 id outline
@@ -3271,7 +3283,6 @@ id right_side
 id rounded
 id row_index_key
 id rtl
-id rv_people_number
 id saturday
 id save_non_transition_alpha
 id save_overlay_view

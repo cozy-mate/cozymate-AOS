@@ -1373,6 +1373,7 @@ int color common_google_signin_btn_text_light_disabled 0x7f05003f
 int color common_google_signin_btn_text_light_focused 0x7f050040
 int color common_google_signin_btn_text_light_pressed 0x7f050041
 int color common_google_signin_btn_tint 0x7f050042
+int color custom_option_text_color 0x7f050282
 int color design_bottom_navigation_shadow_color 0x7f050043
 int color design_box_stroke_color 0x7f050044
 int color design_dark_default_color_background 0x7f050045
@@ -2693,6 +2694,12 @@ int drawable common_google_signin_btn_text_light_focused 0x7f070097
 int drawable common_google_signin_btn_text_light_normal 0x7f070098
 int drawable common_google_signin_btn_text_light_normal_background 0x7f070099
 int drawable custom_edittext 0x7f07009a
+int drawable custom_option_box_background 0x7f07012e
+int drawable custom_option_box_background_default 0x7f07012f
+int drawable custom_option_box_background_selected_6dp 0x7f070130
+int drawable custom_progress_bar_background 0x7f070131
+int drawable custom_progress_bar_progress 0x7f070132
+int drawable custom_progress_bar_state_blue 0x7f070133
 int drawable custom_rectangle_12 0x7f07009b
 int drawable custom_rectangle_6 0x7f07009c
 int drawable custom_rectangle_6_sub_blue 0x7f07009d
@@ -2834,7 +2841,6 @@ int drawable notification_template_icon_bg 0x7f070124
 int drawable notification_template_icon_low_bg 0x7f070125
 int drawable notification_tile_bg 0x7f070126
 int drawable notify_panel_notification_icon_bg 0x7f070127
-int drawable option_box_background 0x7f070128
 int drawable ripple_disabled 0x7f070129
 int drawable ripple_enabled 0x7f07012a
 int drawable test_level_drawable 0x7f07012b
@@ -3025,6 +3031,9 @@ int id disableIntraAutoTransition 0x7f0900b0
 int id disablePostScroll 0x7f0900b1
 int id disableScroll 0x7f0900b2
 int id disjoint 0x7f0900b3
+int id dormitory_number 0x7f090258
+int id dormitory_pass 0x7f090259
+int id dormitory_waiting 0x7f09025a
 int id dragAnticlockwise 0x7f0900b4
 int id dragClockwise 0x7f0900b5
 int id dragDown 0x7f0900b6
@@ -3134,6 +3143,7 @@ int id locale 0x7f09011d
 int id ltr 0x7f09011e
 int id ly_dormitory 0x7f09011f
 int id ly_guide 0x7f090120
+int id ly_people_number 0x7f09025b
 int id main 0x7f090121
 int id main_container 0x7f090122
 int id marquee 0x7f090123
@@ -3230,6 +3240,8 @@ int id onInterceptTouchReturnSwipe 0x7f09017d
 int id option2 0x7f09017e
 int id option3 0x7f09017f
 int id option4 0x7f090180
+int id option5 0x7f09025c
+int id option6 0x7f09025d
 int id other_months 0x7f090181
 int id out_of_range 0x7f090182
 int id outline 0x7f090183
@@ -3270,7 +3282,6 @@ int id right_side 0x7f0901a5
 int id rounded 0x7f0901a6
 int id row_index_key 0x7f0901a7
 int id rtl 0x7f0901a8
-int id rv_people_number 0x7f0901a9
 int id saturday 0x7f0901aa
 int id save_non_transition_alpha 0x7f0901ab
 int id save_overlay_view 0x7f0901ac
