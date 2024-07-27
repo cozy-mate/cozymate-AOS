@@ -2704,6 +2704,9 @@ drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
+drawable custom_tv_background
+drawable custom_tv_default_background
+drawable custom_tv_selected_background
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
@@ -3099,6 +3102,7 @@ id graph_wrap
 id group_divider
 id grouping
 id groups
+id guide_line
 id guideline
 id header
 id header_title
@@ -3258,6 +3262,7 @@ id password_toggle
 id path
 id pathRelative
 id pb_basic
+id pb_essential
 id peekHeight
 id percent
 id pin
@@ -3401,6 +3406,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tuesday
+id tv_am
 id tv_birth
 id tv_box
 id tv_cozy_description
@@ -3418,6 +3424,7 @@ id tv_number
 id tv_onboarding_title1
 id tv_onboarding_title2
 id tv_people_number
+id tv_pm
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3
@@ -3426,6 +3433,7 @@ id tv_school_name
 id tv_title
 id tv_title1
 id tv_title2
+id tv_wakeup_time
 id tvil_birth
 id tvil_major
 id tvil_name

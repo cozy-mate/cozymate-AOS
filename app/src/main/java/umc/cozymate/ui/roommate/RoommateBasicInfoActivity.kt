@@ -1,5 +1,6 @@
 package umc.cozymate.ui.roommate
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +51,10 @@ class RoommateBasicInfoActivity : AppCompatActivity() {
                 Log.d("Basic Info", "Living Option Clicked: ${option.text}")
                 onLivingOptionSelected(it)
             }
+        }
+
+        binding.btnNext.setOnClickListener {
+            startActivity(Intent(this, RoommateEssentialInfoActivity::class.java))
         }
     }
 

@@ -32,10 +32,6 @@
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\ic_photoedit.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-70:/layout_activity_roommate_basic_info.xml.flat",
-        "source": "umc.cozymate.app-main-72:/layout/activity_roommate_basic_info.xml"
-    },
-    {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_ic_add.xml.flat",
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\ic_add.xml"
     },
@@ -108,6 +104,10 @@
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\btn_rectangle_80svg.xml"
     },
     {
+        "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_custom_tv_selected_background.xml.flat",
+        "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\custom_tv_selected_background.xml"
+    },
+    {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\layout_fragment_mypage.xml.flat",
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\layout\\fragment_mypage.xml"
     },
@@ -118,6 +118,10 @@
     {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\menu_bottom_nav.xml.flat",
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\menu\\bottom_nav.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-70:/layout_activity_roommatre_essential_info.xml.flat",
+        "source": "umc.cozymate.app-main-72:/layout/activity_roommatre_essential_info.xml"
     },
     {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_ripple_disabled.xml.flat",
@@ -276,6 +280,10 @@
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\layout\\activity_onboarding.xml"
     },
     {
+        "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_custom_tv_background.xml.flat",
+        "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\custom_tv_background.xml"
+    },
+    {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_custom_progress_bar_progress.xml.flat",
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\custom_progress_bar_progress.xml"
     },
@@ -298,6 +306,10 @@
     {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_custom_tv_default_background.xml.flat",
+        "source": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-main-72:\\drawable\\custom_tv_default_background.xml"
     },
     {
         "merged": "C:\\Program Files\\Android\\Android Studio\\jbr\\daemon\\8.7\\umc.cozymate.app-debug-70:\\drawable_background_next_btn.xml.flat",
