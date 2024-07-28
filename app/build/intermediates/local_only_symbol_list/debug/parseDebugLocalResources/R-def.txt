@@ -133,11 +133,11 @@ id main
 id main_container
 id mcv_birth
 id mcv_gender
-id option2
-id option3
-id option4
-id option5
-id option6
+id num2
+id num3
+id num4
+id num5
+id num6
 id pb_basic
 id pb_essential
 id radioButtonFemale

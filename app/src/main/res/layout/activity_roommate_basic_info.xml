@@ -145,7 +145,7 @@
                         android:layout_width="60dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:id="@+id/option2"
+                        android:id="@+id/num2"
                         style="@style/OptionBox"
                         android:text="2명"
                         />
@@ -153,28 +153,28 @@
                         android:layout_width="60dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:id="@+id/option3"
+                        android:id="@+id/num3"
                         style="@style/OptionBox"
                         android:text="3명"
                         />
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="40dp"
-                        android:id="@+id/option4"
+                        android:id="@+id/num4"
                         style="@style/OptionBox"
                         android:text="4명"
                         />
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="40dp"
-                        android:id="@+id/option5"
+                        android:id="@+id/num5"
                         style="@style/OptionBox"
                         android:text="5명"
                         />
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="40dp"
-                        android:id="@+id/option6"
+                        android:id="@+id/num6"
                         style="@style/OptionBox"
                         android:text="6명"
                         />

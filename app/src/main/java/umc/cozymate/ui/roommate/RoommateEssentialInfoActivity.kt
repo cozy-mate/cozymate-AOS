@@ -13,7 +13,7 @@ import umc.cozymate.databinding.ActivityRoommateEssentialInfoBinding
 class RoommateEssentialInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRoommateEssentialInfoBinding
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var spf: SharedPreferences
 
     private var selectedWakeTimeOption: TextView? = null
     private var selectedWakeTime: String? = null
@@ -27,7 +27,7 @@ class RoommateEssentialInfoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("essential_info_prefs", Context.MODE_PRIVATE)
+        spf = getSharedPreferences("essential_info", Context.MODE_PRIVATE)
 
         // AM/PM 선택 처리
         binding.tvWakeAm.setOnClickListener { onWakeAmpmOptionSelected(it, "오전") }
@@ -82,16 +82,16 @@ class RoommateEssentialInfoActivity : AppCompatActivity() {
     }
 
     private fun saveSelectedAmpm(value: String) {
-        with(sharedPreferences.edit()) {
-            putString("selected_ampm", value)
+        with(spf.edit()) {
+            putString("wake_ampm", value)
             apply()
         }
         Log.d("Essential Info", "Selected AM/PM: $value")
     }
 
     private fun saveSelectedWakeTime(value: String) {
-        with(sharedPreferences.edit()) {
-            putString("selected_wake_time", value)
+        with(spf.edit()) {
+            putString("wake_time", value)
             apply()
         }
         Log.d("Essential Info", "Selected Wake Time: $value")
