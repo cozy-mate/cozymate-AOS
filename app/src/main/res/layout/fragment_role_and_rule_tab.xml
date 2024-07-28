@@ -67,11 +67,7 @@
                 android:id="@+id/rv_Rules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingEnd="8dp"
-                tools:listitem="@layout/rv_item_todo"/>
+                tools:listitem="@layout/rv_item_rule"/>
 
             <TextView
                 android:id="@+id/tv_Empty"
