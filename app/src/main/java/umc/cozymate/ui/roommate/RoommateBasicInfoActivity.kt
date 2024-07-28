@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.databinding.ActivityRoommateBasicInfoBinding
+import umc.cozymate.databinding.ActivityRoommateEssentialInfoBinding
 import umc.cozymate.databinding.FragmentRoommateBinding
 
 class RoommateBasicInfoActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class RoommateBasicInfoActivity : AppCompatActivity() {
         for (i in 0 until dormitoryLayout.childCount) {
             val option = dormitoryLayout.getChildAt(i) as TextView
             option.setOnClickListener {
-                Log.d("Basic Info", "Num People Option Clicked: ${option.text}")
+                Log.d("Basic Info", "Living Option Clicked: ${option.text}")
                 onNumPeopleOptionSelected(it)
             }
         }
@@ -48,14 +49,29 @@ class RoommateBasicInfoActivity : AppCompatActivity() {
         for (i in 0 until peopleNumLayout.childCount) {
             val option = peopleNumLayout.getChildAt(i) as TextView
             option.setOnClickListener {
-                Log.d("Basic Info", "Living Option Clicked: ${option.text}")
+                Log.d("Basic Info", "Num People Option Clicked: ${option.text}")
                 onLivingOptionSelected(it)
             }
         }
 
         binding.btnNext.setOnClickListener {
-            startActivity(Intent(this, RoommateEssentialInfoActivity::class.java))
+            val intent = Intent(this, RoommateEssentialInfoActivity::class.java)
+            startActivity(intent)
         }
+    }
+
+    private fun onLivingOptionSelected(view: View) {
+        selectedLivingOption?.isSelected = false
+        selectedLivingOption = view as TextView
+        selectedLivingOption?.isSelected = true
+
+        selectedLiving = when (selectedLivingOption?.text.toString()) {
+            "합격" -> "PASS"
+            "대기중" -> "Waiting"
+            "예비번호를 받았어요!" -> "Waiting_Num"
+            else -> null
+        }
+        Log.d("Basic Info", "Selected Living: $selectedLiving")
     }
 
     private fun onNumPeopleOptionSelected(view: View) {
@@ -72,19 +88,5 @@ class RoommateBasicInfoActivity : AppCompatActivity() {
             else -> null
         }
         Log.d("Basic Info", "Selected Num People: $selectedNumPeople")
-    }
-
-    private fun onLivingOptionSelected(view: View) {
-        selectedLivingOption?.isSelected = false
-        selectedLivingOption = view as TextView
-        selectedLivingOption?.isSelected = true
-
-        selectedLiving = when (selectedLivingOption?.text.toString()) {
-            "합격" -> "COMMUTE"
-            "대기중" -> "LIVING_ALONE"
-            "예비번호를 받았어요!" -> "DORMITORY"
-            else -> null
-        }
-        Log.d("Basic Info", "Selected Living: $selectedLiving")
     }
 }
