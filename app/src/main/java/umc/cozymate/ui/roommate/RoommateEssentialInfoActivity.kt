@@ -2,6 +2,7 @@ package umc.cozymate.ui.roommate
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,10 +16,20 @@ class RoommateEssentialInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoommateEssentialInfoBinding
     private lateinit var spf: SharedPreferences
 
-    private var selectedWakeTimeOption: TextView? = null
-    private var selectedWakeTime: String? = null
-    private var selectedAmpmOption: TextView? = null
-    private var selectedAmpm: String? = null
+    private var WakeAmpmOption: TextView? = null
+    private var WakeAmpm: String? = null
+    private var WakeTimeOption: TextView? = null
+    private var WakeTime: String? = null
+
+    private var SleepAmpmOption: TextView? = null
+    private var SleepAmpm: String? = null
+    private var SleepTimeOption: TextView? = null
+    private var SleepTime: String? = null
+
+    private var LightOffAmpmOption: TextView? = null
+    private var LightOffAmpm: String? = null
+    private var LightOffTimeOption: TextView? = null
+    private var LightOffTime: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,41 +58,43 @@ class RoommateEssentialInfoActivity : AppCompatActivity() {
 
     private fun onWakeAmpmOptionSelected(view: View, value: String) {
         // Deselect previous option
-        selectedAmpmOption?.apply {
+        WakeAmpmOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null)) // 기본 색상으로 되돌리기
         }
-
         // Select new option
-        selectedAmpmOption = view as TextView
-        selectedAmpmOption?.apply {
+        WakeAmpmOption = view as TextView
+        WakeAmpmOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null)) // 선택된 색상으로 변경
         }
-
         // Save the selected AM/PM value to SharedPreferences
-        selectedAmpm = value
-        saveSelectedAmpm(value)
+        WakeAmpm = value
+        saveWakeAmpm(value)
+    }
+
+    private fun onSleepAmpmOptionSelected(view: View, value: String) {
+        S
     }
 
     private fun onWakeTimeOptionSelected(view: View, value: String) {
         // Deselect previous option
-        selectedWakeTimeOption?.apply {
+        WakeTimeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null)) // 기본 색상으로 되돌리기
             background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
 
         // Select new option
-        selectedWakeTimeOption = view as TextView
-        selectedWakeTimeOption?.apply {
+        WakeTimeOption = view as TextView
+        WakeTimeOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null)) // 선택된 색상으로 변경
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
 
         // Save the selected wake time value to SharedPreferences
-        selectedWakeTime = value
-        saveSelectedWakeTime(value)
+        WakeTime = value
+        saveWakeTime(value)
     }
 
-    private fun saveSelectedAmpm(value: String) {
+    private fun saveWakeAmpm(value: String) {
         with(spf.edit()) {
             putString("wake_ampm", value)
             apply()
@@ -89,7 +102,7 @@ class RoommateEssentialInfoActivity : AppCompatActivity() {
         Log.d("Essential Info", "Selected AM/PM: $value")
     }
 
-    private fun saveSelectedWakeTime(value: String) {
+    private fun saveWakeTime(value: String) {
         with(spf.edit()) {
             putString("wake_time", value)
             apply()

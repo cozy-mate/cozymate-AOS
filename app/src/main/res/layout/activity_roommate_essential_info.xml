@@ -140,7 +140,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cy_wake_time_1"
+                    android:id="@+id/ly_wake_time_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cy_wake_ampm"
                     android:orientation="horizontal"
@@ -191,9 +191,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cy_wake_time_7"
+                    android:id="@+id/ly_wake_time_7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cy_wake_time_1"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_wake_time_1"
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp">
                     <TextView
@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_sleep_time"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cy_wake_time_7"
+                app:layout_constraintTop_toBottomOf="@+id/ly_wake_time_7"
                 android:text="취침시간을 선택해주세요"
                 android:layout_marginTop="55dp"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
@@ -302,7 +302,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cy_sleep_time_1"
+                    android:id="@+id/ly_sleep_time_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cy_sleep_ampm"
                     android:orientation="horizontal"
@@ -353,9 +353,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cy_sleep_time_7"
+                    android:id="@+id/ly_sleep_time_7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cy_sleep_time_1"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_1"
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp">
                     <TextView
@@ -401,6 +401,434 @@
                         style="@style/OptionBox"
                         android:text="12"/>
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_light_off_time"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_7"
+                    android:text="소등시간을 선택해주세요"
+                    android:layout_marginTop="55dp"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cy_light_off_ampm"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_light_off_time"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AM"
+                        android:id="@+id/tv_light_off_am"
+                        android:textColor="@color/unuse_font"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="14dp"
+                        />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        app:layout_constraintStart_toEndOf="@id/tv_light_off_am"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/light_off_guide_line"
+                        android:layout_marginStart="20dp"
+                        android:background="@color/unuse_font"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PM"
+                        android:id="@+id/tv_light_off_pm"
+                        android:textColor="@color/unuse_font"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="20dp"
+                        app:layout_constraintStart_toEndOf="@+id/light_off_guide_line"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_light_off_time_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cy_light_off_ampm"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:id="@+id/tv_light_off_1"
+                        style="@style/OptionBox"
+                        android:text="1"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_2"
+                        style="@style/OptionBox"
+                        android:text="2"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_3"
+                        style="@style/OptionBox"
+                        android:text="3"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_4"
+                        style="@style/OptionBox"
+                        android:text="4"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_5"
+                        style="@style/OptionBox"
+                        android:text="5"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_6"
+                        style="@style/OptionBox"
+                        android:text="6"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_light_off_time_7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_1"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:id="@+id/tv_light_off_7"
+                        style="@style/OptionBox"
+                        android:text="7"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_8"
+                        style="@style/OptionBox"
+                        android:text="8"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_9"
+                        style="@style/OptionBox"
+                        android:text="9"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_10"
+                        style="@style/OptionBox"
+                        android:text="10"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_11"
+                        style="@style/OptionBox"
+                        android:text="11"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/tv_light_off_12"
+                        style="@style/OptionBox"
+                        android:text="12"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_smoke_check"
+                    android:layout_marginTop="55dp"
+                    android:text="흡연여부를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_7"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_smoke_check"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_smoke_check"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/smoke_no"
+                        style="@style/OptionBox"
+                        android:text="X"/>
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/smoke_paper"
+                        style="@style/OptionBox"
+                        android:text="연초"/>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/smoke_eletronic"
+                        style="@style/OptionBox"
+                        android:text="전자담배"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/smoke_stopping"
+                        style="@style/OptionBox"
+                        android:text="끊는 중이에요"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_sleep_habbit_check"
+                    android:layout_marginTop="55dp"
+                    android:text="잠버릇을 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check"
+                    />
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_sleep_habbit_check"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sleep_habbit_check"
+                    android:orientation="horizontal">
+                    
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/sleep_habit_no"
+                        style="@style/OptionBox"
+                        android:text="X"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/sleep_habit_move"
+                        style="@style/OptionBox"
+                        android:text="잠꼬대"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/sleep_habit_noise"
+                        style="@style/OptionBox"
+                        android:text="코골이"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/sleep_habit_teeth"
+                        style="@style/OptionBox"
+                        android:text="이갈이"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/sleep_habit_move_sick"
+                        style="@style/OptionBox"
+                        android:text="몽유병"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_ac_check"
+                    android:layout_marginTop="55dp"
+                    android:text="에어컨 강도를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_sleep_habbit_check"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_ac_check"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_ac_check"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="95dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/ac_strong"
+                        style="@style/OptionBox"
+                        android:text="세게 틀어요"/>
+                    <TextView
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/ac_enough"
+                        style="@style/OptionBox"
+                        android:text="적당하게 틀어요"/>
+                    <TextView
+                        android:layout_width="105dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/ac_weak"
+                        style="@style/OptionBox"
+                        android:text="약하게 틀어요"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_heater_check"
+                    android:layout_marginTop="55dp"
+                    android:text="히터 강도를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_heater_check"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_heater_check"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="95dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/heater_strong"
+                        style="@style/OptionBox"
+                        android:text="세게 틀어요"/>
+                    <TextView
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/heater_enough"
+                        style="@style/OptionBox"
+                        android:text="적당하게 틀어요"/>
+                    <TextView
+                        android:layout_width="105dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/heater_weak"
+                        style="@style/OptionBox"
+                        android:text="약하게 틀어요"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_living_pattern"
+                    android:layout_marginTop="55dp"
+                    android:text="생활 패턴을 입력해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_living_pattern"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_living_pattern"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="95dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/living_morning"
+                        style="@style/OptionBox"
+                        android:text="아침형 인간"/>
+                    <TextView
+                        android:layout_width="95dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:id="@+id/living_dawn"
+                        style="@style/OptionBox"
+                        android:text="새벽형 인간"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_friendly"
+                    android:layout_marginTop="55dp"
+                    android:text="친밀도를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_living_pattern"/>
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_friendly"
+                    android:id="@+id/friendly_no"
+                    style="@style/OptionBox"
+                    android:text="필요한 말만 했으면 좋겠어요"/>
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toTopOf="@+id/friendly_no"
+                    app:layout_constraintStart_toEndOf="@id/tv_friendly"
+                    android:id="@+id/friendly_enough"
+                    style="@style/OptionBox"
+                    android:text="어느정도 친하게 지내요"/>
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/friendly_no"
+                    android:layout_marginTop="8dp"
+                    style="@style/OptionBox"
+                    android:text="완전 친하게 지내요"/>
+                
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
