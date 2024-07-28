@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_InputRule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_AddRuleText2"
         app:layout_constraintStart_toEndOf="@id/tv_AddRuleText2"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_InputMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
