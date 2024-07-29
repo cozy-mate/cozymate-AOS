@@ -28,6 +28,7 @@ drawable background_next_btn
 drawable background_todo
 drawable btn_rectangle_26
 drawable btn_rectangle_80svg
+drawable btn_roommate_selection_info_plus
 drawable custom_edittext
 drawable custom_option_box_background
 drawable custom_option_box_background_default
@@ -99,9 +100,12 @@ id ac_weak
 id bottom
 id bottom_navigation_view
 id btn_apple_login
+id btn_can_do
 id btn_go_lifestyle
 id btn_kakao_login
+id btn_never
 id btn_next
+id btn_rule
 id btn_school
 id btn_test
 id call_no
@@ -215,6 +219,7 @@ id num5
 id num6
 id pb_basic
 id pb_essential
+id pb_selection
 id personality_activity
 id personality_clean
 id personality_go_out
@@ -225,6 +230,9 @@ id personality_tmt
 id radioButtonFemale
 id radioButtonMale
 id radioGroupGender
+id rv_can_do
+id rv_never
+id rv_rule
 id share_no
 id share_yes
 id sleep_guide_line
@@ -246,6 +254,7 @@ id tv_ac_check
 id tv_birth
 id tv_box
 id tv_call_check
+id tv_can_do
 id tv_clean_check
 id tv_clean_frequency
 id tv_cozy_description
@@ -279,6 +288,7 @@ id tv_mbti
 id tv_name
 id tv_name1
 id tv_name2
+id tv_never
 id tv_noise_check
 id tv_number
 id tv_onboarding_title1
@@ -288,6 +298,7 @@ id tv_personality
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3
+id tv_rule
 id tv_school_guide
 id tv_school_name
 id tv_share_check
