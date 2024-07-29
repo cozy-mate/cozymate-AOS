@@ -97,4 +97,14 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="OptionBox">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/custom_option_text_color</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/custom_option_box_background</item>
+    </style>
+
 </resources>
