@@ -82,9 +82,9 @@
                     android:id="@+id/tv_wakeup_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="기상기산을 선택해주세요"
+                    android:text="기상시간을 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -256,7 +256,7 @@
                     android:layout_marginTop="55dp"
                     android:text="취침시간을 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_wake_time_7" />
 
@@ -428,7 +428,7 @@
                     android:layout_marginTop="55dp"
                     android:text="소등시간을 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_7" />
 
@@ -600,7 +600,7 @@
                     android:layout_marginTop="55dp"
                     android:text="흡연여부를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_7" />
 
@@ -654,7 +654,7 @@
                     android:layout_marginTop="55dp"
                     android:text="잠버릇을 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check" />
 
@@ -714,7 +714,7 @@
                     android:layout_marginTop="55dp"
                     android:text="에어컨 강도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ly_sleep_habbit_check" />
 
@@ -759,7 +759,7 @@
                     android:layout_marginTop="55dp"
                     android:text="히터 강도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_ac_check" />
 
@@ -805,7 +805,7 @@
                     android:layout_marginTop="55dp"
                     android:text="생활 패턴을 입력해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_heater_check" />
 
@@ -842,7 +842,7 @@
                     android:layout_marginTop="55dp"
                     android:text="친밀도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ly_living_pattern" />
 
@@ -889,7 +889,7 @@
                     android:layout_marginBottom="100dp"
                     android:text="룸메이트끼리의 물건 공유 여부를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/friendly_yes" />
 
@@ -926,7 +926,7 @@
                     android:layout_marginTop="55dp"
                     android:text="방 안에서 게임 여부를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_share_check" />
 
@@ -963,7 +963,7 @@
                     android:layout_marginTop="55dp"
                     android:text="방 안에서 전화 여부를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_game_check" />
 
@@ -1000,7 +1000,7 @@
                     android:layout_marginTop="55dp"
                     android:text="방 안에서 공부 여부를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_call_check" />
 
@@ -1045,7 +1045,7 @@
                     android:layout_marginTop="55dp"
                     android:text="청결 예민도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_study_check" />
 
@@ -1116,7 +1116,7 @@
                     android:layout_marginTop="55dp"
                     android:text="소음 예민도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_check2" />
 
@@ -1187,7 +1187,7 @@
                     android:layout_marginTop="55dp"
                     android:text="평소에 청소를 얼만큼 하시나요?"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_noise_check2" />
 
@@ -1274,7 +1274,7 @@
                     android:layout_marginTop="55dp"
                     android:text="당신의 성격을 알려주세요!"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_frequency3" />
 
@@ -1362,7 +1362,7 @@
                     android:layout_marginTop="55dp"
                     android:text="MBIT를 알려주세요!"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/basic_font"
+                    android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/personality_go_out" />
 
