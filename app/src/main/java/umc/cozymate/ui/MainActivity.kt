@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
-import umc.cozymate.ui.cozy_home.CozyHomeFragment
+import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.fragment_home -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyHomeFragment()).commit()
+                        .replace(R.id.main_container, CozyHomeDefaultFragment()).commit()
                     true
                 }
 

@@ -11,10 +11,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentCozyhomeBinding
+import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
 
-class CozyHomeFragment : Fragment() {
-    private var _binding: FragmentCozyhomeBinding? = null
+class CozyHomeDefaultFragment : Fragment() {
+    private var _binding: FragmentCozyhomeDefaultBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,7 +22,7 @@ class CozyHomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCozyhomeBinding.inflate(inflater, container, false)
+        _binding = FragmentCozyhomeDefaultBinding.inflate(inflater, container, false)
 
         initView()
         return binding.root
