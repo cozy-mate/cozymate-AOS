@@ -11,7 +11,7 @@ class CharactersAdapter(
 ) :
     RecyclerView.Adapter<CharacterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        var itemBinding: ItemCharacterBinding =
+        val itemBinding: ItemCharacterBinding =
             ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CharacterViewHolder(itemBinding)
     }
