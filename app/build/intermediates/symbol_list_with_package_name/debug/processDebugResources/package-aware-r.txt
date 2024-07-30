@@ -1413,6 +1413,7 @@ color design_fab_stroke_top_inner_color
 color design_fab_stroke_top_outer_color
 color design_icon_tint
 color design_snackbar_background_color
+color detail_gray
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
@@ -2669,6 +2670,10 @@ drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
 drawable btn_checkbox_unchecked_to_checked_mtrl_animation
+drawable btn_cozymate_black_cancel
+drawable btn_cozymate_cancel
+drawable btn_cozymate_request
+drawable btn_cozymate_requesting
 drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
@@ -2695,6 +2700,8 @@ drawable common_google_signin_btn_text_light
 drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
+drawable custom_background_roommate_detail_12
+drawable custom_circular_background
 drawable custom_edittext
 drawable custom_option_box_background
 drawable custom_option_box_background_default
@@ -2767,6 +2774,7 @@ drawable ic_option
 drawable ic_pencil
 drawable ic_photoedit
 drawable ic_picture
+drawable ic_rectangle_12
 drawable ic_reload
 drawable ic_school
 drawable ic_search
@@ -2968,9 +2976,13 @@ id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
 id btn_apple_login
+id btn_back
 id btn_can_do
+id btn_chat
+id btn_cozymate_btn
 id btn_go_lifestyle
 id btn_kakao_login
+id btn_like
 id btn_never
 id btn_next
 id btn_rule
@@ -2996,6 +3008,7 @@ id checkbox
 id checked
 id chronometer
 id circle_center
+id cl_list_basic_info
 id cl_onboarding_name
 id cl_onboarding_nickname
 id clean1
@@ -3158,9 +3171,12 @@ id invisible
 id inward
 id italic
 id item_touch_helper_previous_elevation
+id ivListViewIcon
+id ivTableViewIcon
 id iv_back
 id iv_char
 id iv_cozy_title
+id iv_other_user_profile
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3177,6 +3193,8 @@ id listMode
 id list_item
 id living_dawn
 id living_morning
+id llListView
+id llTableView
 id locale
 id ltr
 id ly_ac_check
@@ -3209,6 +3227,7 @@ id ly_sleep_time_1
 id ly_sleep_time_7
 id ly_smoke_check
 id ly_study_check
+id ly_user_match
 id ly_wake_time_1
 id ly_wake_time_7
 id main
@@ -3515,6 +3534,8 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tuesday
+id tvListView
+id tvTableView
 id tv_ac_check
 id tv_birth
 id tv_box
@@ -3553,11 +3574,13 @@ id tv_mbti
 id tv_name
 id tv_name1
 id tv_name2
+id tv_name_title
 id tv_never
 id tv_noise_check
 id tv_number
 id tv_onboarding_title1
 id tv_onboarding_title2
+id tv_other_user_name
 id tv_people_number
 id tv_personality
 id tv_roommate1
@@ -3588,6 +3611,8 @@ id tv_study_check
 id tv_title
 id tv_title1
 id tv_title2
+id tv_title_basic_info
+id tv_user_match_percent
 id tv_wake_am
 id tv_wake_pm
 id tv_wakeup_1
@@ -3762,6 +3787,7 @@ layout abc_tooltip
 layout activity_main
 layout activity_onboarding
 layout activity_roommate_basic_info
+layout activity_roommate_detail
 layout activity_roommate_essential_info
 layout activity_roommate_selection_info
 layout activity_splash
@@ -3794,6 +3820,8 @@ layout fragment_roommate
 layout fragment_roommate_onboarding
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout item_roommate_detail_list
+layout item_roommate_detail_table
 layout item_roommate_select_box
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
@@ -3858,6 +3886,7 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout roommate_detail_bottom_sheet
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material

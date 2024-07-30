@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <!-- 버튼을 포함한 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llListView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/ivListViewIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_detail_list"
+                android:contentDescription="리스트로 보기" />
+
+            <TextView
+                android:id="@+id/tvListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="리스트로 보기"
+                android:textColor="@color/main_blue"
+                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTableView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/ivTableViewIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_detail_table"
+                android:contentDescription="표로 보기" />
+
+            <TextView
+                android:id="@+id/tvTableView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="표로 보기"
+                android:textColor="@color/unuse_font"
+                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 각 버튼에 맞는 레이아웃을 위한 FrameLayout -->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
