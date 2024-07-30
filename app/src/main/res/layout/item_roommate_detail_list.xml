@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,21 +19,23 @@
             android:text="기본정보"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="#444955"
-            android:id="@+id/tv_title_basic_info"/>
+            android:id="@+id/tv_list_basic_info_title"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_basic_info"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/cl_list_basic_info"
-            android:background="@drawable/custom_tv_default_background"
+            android:background="@drawable/custom_background_roommate_detail_12"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:padding="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_name_title"
+                android:id="@+id/tv_list_name_title"
                 android:text="이름"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/color_font"
@@ -40,9 +43,181 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="10dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_list_name_title"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_name_title"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="#505059"
+                tools:text="빵파소"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_name_title"
+                android:background="@color/detail_gray"
+                android:layout_marginTop="15dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_list_birth_title"
+                android:text="출생년도"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_name_title"
+                android:layout_marginTop="30dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_birth"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_list_birth_title"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                tools:text="2002"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/tv_birth"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
+                android:text="년"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
+                android:background="@color/detail_gray"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_list_school_title"
+                android:text="학교"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_school"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_list_school_title"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_title"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                tools:text="인하대학교"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/tv_school"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_school"
+                android:text=" (인증완료)"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
+                android:background="@color/detail_gray"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_list_school_number_title"
+                android:text="학번"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_school_title"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_school_number"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_list_school_number_title"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                tools:text="21"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/tv_school_number"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
+                android:text="학번"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
+                android:background="@color/detail_gray"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_list_major_title"
+                android:text="출생년도"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_list_school_number_title"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_major"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_list_major_title"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_major_title"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                tools:text="문화콘텐츠문화경영학과" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="기숙사 정보"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="#444955"
+            app:layout_constraintTop_toBottomOf="@id/cl_list_basic_info"
+            android:layout_marginTop="60dp"
+            android:id="@+id/tv_list_dormitory_info_title"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

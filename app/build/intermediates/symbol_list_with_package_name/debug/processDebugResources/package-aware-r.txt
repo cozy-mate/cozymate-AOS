@@ -3063,6 +3063,8 @@ id design_menu_item_action_area
 id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
+id detail_bottom_sheet
+id detail_buttons
 id dialog_button
 id dimensions
 id direct
@@ -3538,6 +3540,7 @@ id tvListView
 id tvTableView
 id tv_ac_check
 id tv_birth
+id tv_birth_title
 id tv_box
 id tv_call_check
 id tv_can_do

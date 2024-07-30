@@ -28,12 +28,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/fragment_onboarding_user_info_layout.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_roommate_detail_bottom_sheet.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/roommate_detail_bottom_sheet.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_finding_roommate.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/background_finding_roommate.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_roommate_detail_bottom_sheet.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/roommate_detail_bottom_sheet.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_next_btn.xml.flat",
@@ -132,10 +132,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_background_roommate_detail_12.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-70:/layout_activity_roommate_selection_info.xml.flat",
-        "source": "umc.cozymate.app-main-72:/layout/activity_roommate_selection_info.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_lamp.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_lamp.xml"
     },
@@ -154,6 +150,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_pencil.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_pencil.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-70:/layout_item_roommate_detail_list.xml.flat",
+        "source": "umc.cozymate.app-main-72:/layout/item_roommate_detail_list.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/font_pretendard_light.ttf.flat",

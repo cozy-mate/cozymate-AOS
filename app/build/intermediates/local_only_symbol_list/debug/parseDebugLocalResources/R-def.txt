@@ -140,6 +140,8 @@ id container
 id cy_light_off_ampm
 id cy_sleep_ampm
 id cy_wake_ampm
+id detail_bottom_sheet
+id detail_buttons
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
@@ -274,6 +276,7 @@ id tvListView
 id tvTableView
 id tv_ac_check
 id tv_birth
+id tv_birth_title
 id tv_box
 id tv_call_check
 id tv_can_do
