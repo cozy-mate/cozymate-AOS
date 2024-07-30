@@ -46,8 +46,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_onboarding_name"
-            style="@style/CustomTextInputLayout"
+            android:id="@+id/til_room_name"
+            style="@style/CustomTextInputLayoutGray"
             android:layout_width="match_parent"
             android:layout_height="49dp"
             android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_label_room_name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_onboarding_name"
+                android:id="@+id/et_room_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="방이름을 입력해주세요"

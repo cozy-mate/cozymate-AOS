@@ -32,7 +32,7 @@
         android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="20dp"
-        style="@style/CustomTextInputLayout"
+        style="@style/CustomTextInputLayoutGray"
 
         app:boxStrokeErrorColor="@color/red"
         app:boxStrokeWidthFocused="1dp"

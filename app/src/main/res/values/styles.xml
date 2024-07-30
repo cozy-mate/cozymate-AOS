@@ -109,7 +109,7 @@
     </style>
 
     <!-- TextInputLayout 스타일 / 회색버젼 -->
-    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="CustomTextInputLayoutGray" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundMode">outline</item>
 
         <item name="boxStrokeWidth">0dp</item>

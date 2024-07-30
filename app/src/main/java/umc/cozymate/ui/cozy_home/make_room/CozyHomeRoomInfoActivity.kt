@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.databinding.ActivityCozyHomeRoomInfoBinding
+import umc.cozymate.util.setupTextInputWithMaxLength
 
 class CozyHomeRoomInfoActivity : AppCompatActivity() {
 
@@ -21,6 +22,18 @@ class CozyHomeRoomInfoActivity : AppCompatActivity() {
             }
         }
 
+        checkValidInfo()
+    }
+
+    fun checkValidInfo() {
+        with(binding) {
+            setupTextInputWithMaxLength(
+                textInputLayout = tilRoomName,
+                textInputEditText = etRoomName,
+                maxLength = 12,
+                errorMessage = "방이름은 최대 12글자만 가능해요!"
+            )
+        }
     }
 
 }
