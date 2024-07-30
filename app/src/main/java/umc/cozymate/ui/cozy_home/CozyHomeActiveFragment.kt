@@ -40,6 +40,11 @@ class CozyHomeActiveFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val data = arguments?.getString(ARG_DATA)
+    }
+
     private fun initScreen() {
         //this.setStatusBarTransparent()
         //binding.clNoticeList.setPadding(0, 0, 0, this.navigationHeight())
@@ -76,5 +81,17 @@ class CozyHomeActiveFragment : Fragment() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         tvWhoseRoom.text = spannableString
+    }
+
+    companion object {
+        private const val ARG_DATA = "data"
+
+        fun newInstance(data: String): CozyHomeActiveFragment {
+            val fragment = CozyHomeActiveFragment()
+            val args = Bundle()
+            args.putString(ARG_DATA, data)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

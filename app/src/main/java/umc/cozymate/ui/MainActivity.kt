@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
+import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
@@ -22,17 +23,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setBottomNavigationView()
 
-        // 화면 영역 확장
-        //enableEdgeToEdge()
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }*/
-
         // 앱 초기 실행 시 홈화면으로 설정
         if (savedInstanceState == null) {
             binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+
+
         }
 
         FCMService().getFirebaseToken()
@@ -40,12 +35,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyHomeDefaultFragment()).commit()
+
+
+                    // 방생성한 적이 없으면 -> default home
+                    // 방생성했으면 -> active home
+                    val isActiveHome = intent.getStringExtra("isActive")
+                    if (isActiveHome != null){
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, CozyHomeActiveFragment.newInstance(isActiveHome)).commit()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, CozyHomeDefaultFragment()).commit()
+                    }
+
                     true
                 }
 
