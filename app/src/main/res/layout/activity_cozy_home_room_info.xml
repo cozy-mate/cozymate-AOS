@@ -8,7 +8,7 @@
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,46 +25,51 @@
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <!--방이름-->
+    <TextView
+        android:id="@+id/tv_label_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="42dp"
+        android:text="방이름을 입력해주세요"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_character" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_cozy_room_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_rectangle_12"
+        android:backgroundTint="@color/color_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_character">
-
-        <TextView
-            android:id="@+id/tv_label_room_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="방이름을 입력해주세요"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="@color/basic_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_room_name">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_room_name"
-            style="@style/CustomTextInputLayoutGray"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeWidth="0dp"
+            app:hintEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:layout_marginTop="8dp"
             app:boxStrokeErrorColor="@color/red"
             app:boxStrokeWidthFocused="1dp"
             app:errorTextColor="@color/red"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_label_room_name">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_room_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="방이름을 입력해주세요"
+                android:textCursorDrawable="@color/main_blue"
                 android:inputType="text"
                 android:paddingStart="20dp"
-                android:paddingTop="43dp"
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/color_font"
@@ -157,7 +162,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
