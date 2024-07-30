@@ -116,16 +116,18 @@
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
         android:layout_marginTop="76dp"
         app:layoutManager="GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_room_info"
         app:spanCount="2"
-        tools:listitem="@layout/item_character">
+        tools:listitem="@layout/item_waiting_roommate">
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <!-- 버튼 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
         android:layout_width="0dp"
