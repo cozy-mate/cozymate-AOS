@@ -7,217 +7,907 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="기본정보"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="#444955"
-            android:id="@+id/tv_list_basic_info_title"/>
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:layout_marginBottom="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_basic_info"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/cl_list_basic_info"
-            android:background="@drawable/custom_background_roommate_detail_12"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="15dp">
+            android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_list_basic_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_list_name_title"
-                android:text="이름"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="기본정보"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="#444955"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="10dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_name"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_list_name_title"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_name_title"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="#505059"
-                tools:text="빵파소"/>
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_list_basic_info"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_name_title"
-                android:background="@color/detail_gray"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_list_birth_title"
-                android:text="출생년도"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_name_title"
-                android:layout_marginTop="30dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_list_basic_info_title">
+
+                <TextView
+                    android:id="@+id/tv_list_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="이름"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_list_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="#505059"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_name_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_name_title"
+                    tools:text="빵파소" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_name_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_birth_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="출생년도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_name_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_birth_title"
+                    tools:text="2002" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="년"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_birth" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_school_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="학교"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_school_title"
+                    tools:text="인하대학교" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" (인증완료)"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_school" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_school_number_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="학번"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_school_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_school_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_school_number_title"
+                    tools:text="21" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="학번"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_school_number" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_school_number_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_major_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="출생년도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_school_number_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_major_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_major_title"
+                    tools:text="문화콘텐츠문화경영학과" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_list_dormitory_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_birth"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_list_birth_title"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                tools:text="2002"/>
+                android:layout_marginTop="60dp"
+                android:text="기숙사 정보"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="#444955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_list_basic_info" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/tv_birth"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_birth_title"
-                android:text="년"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"/>
-
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_list_dormitory_info"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
-                android:background="@color/detail_gray"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_list_school_title"
-                android:text="학교"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
-                android:layout_marginTop="30dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_list_dormitory_info_title">
+
+                <TextView
+                    android:id="@+id/tv_list_dormitory_num_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="인실"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_list_dormitory_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_dormitory_num_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_dormitory_num_title"
+                    tools:text="3인 1실" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_dormitory_num_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_acceptance_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="합격여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_dormitory_num_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_acceptance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_acceptance_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_acceptance_title"
+                    tools:text="대기중" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_list_essential_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_school"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_list_school_title"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_title"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                tools:text="인하대학교"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/tv_school"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_school"
-                android:text=" (인증완료)"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"/>
+                android:layout_marginTop="60dp"
+                android:text="필수정보"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="#444955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_list_dormitory_info" />
 
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
-                android:background="@color/detail_gray"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_list_school_number_title"
-                android:text="학번"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_school_title"
-                android:layout_marginTop="30dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_list_essential_info_title">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_school_number"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_list_school_number_title"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                tools:text="21"/>
+                <TextView
+                    android:id="@+id/tv_list_wake_up_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="기상시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/tv_school_number"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school_number_title"
-                android:text="학번"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"/>
+                <TextView
+                    android:id="@+id/tv_list_wake_up_ampm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_wake_up_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_wake_up_title"
+                    tools:text="오전" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title"
-                android:background="@color/detail_gray"
-                android:layout_marginTop="15dp"/>
+                <TextView
+                    android:id="@+id/tv_list_wake_up_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_wake_up_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_wake_up_ampm"
+                    tools:text="8" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_list_major_title"
-                android:text="출생년도"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_list_school_number_title"
-                android:layout_marginTop="30dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_wake_up_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_wake_up_time" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_major"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_list_major_title"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_major_title"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                tools:text="문화콘텐츠문화경영학과" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_wake_up_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_sleep_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="취침시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_wake_up_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_sleep_ampm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_sleep_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_sleep_title"
+                    tools:text="오전" />
+
+                <TextView
+                    android:id="@+id/tv_list_sleep_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_sleep_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_sleep_ampm"
+                    tools:text="8" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_sleep_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_sleep_time" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_light_off_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="소등시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_light_off_ampm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_light_off_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_light_off_title"
+                    tools:text="오전" />
+
+                <TextView
+                    android:id="@+id/tv_list_light_off_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_light_off_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_light_off_ampm"
+                    tools:text="8" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_light_off_title"
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_light_off_time" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_sleep_habbit_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="잠버릇"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_sleep_habbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_sleep_habbit_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_sleep_habbit_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_habbit_title" />
+                <TextView
+                    android:id="@+id/tv_list_ac_heater_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="더위, 추위"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_habbit_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_ac_heater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_ac_heater_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_ac_heater_title"
+                    tools:text="추위를 많이 타요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_heater_title" />
+                <TextView
+                    android:id="@+id/tv_list_living_pattern_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="생활 패턴"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_heater_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_living_pattern"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_living_pattern_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_living_pattern_title"
+                    tools:text="새벽형 인간" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_living_pattern_title" />
+                <TextView
+                    android:id="@+id/tv_list_friendly_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="친밀도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_living_pattern_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_friendly_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_friendly_title"
+                    tools:text="필요한 말만 했으면 좋겠어요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_friendly_title" />
+                <TextView
+                    android:id="@+id/tv_list_share_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="물건공유"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_friendly_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_share_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_share_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_share_title" />
+                <TextView
+                    android:id="@+id/tv_list_study_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="공부여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_share_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_study_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_study_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                <TextView
+                    android:id="@+id/tv_list_smoke_check_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_smoke_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="기숙사 정보"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="#444955"
-            app:layout_constraintTop_toBottomOf="@id/cl_list_basic_info"
-            android:layout_marginTop="60dp"
-            android:id="@+id/tv_list_dormitory_info_title"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
