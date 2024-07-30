@@ -13,22 +13,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <queries>
-        <package android:name="com.kakao.talk" />
-        <package android:name="com.kakao.talk.alpha" />
-        <package android:name="com.kakao.talk.sandbox" />
-        <package android:name="com.kakao.onetalk" />
-
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-
-            <category android:name="android.intent.category.BROWSABLE" />
-
-            <data android:scheme="https" />
-        </intent>
-    </queries>
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
@@ -66,6 +50,7 @@
             </intent-filter>
         </activity>
 
+
         <service
             android:name="umc.cozymate.firebase.FCMService"
             android:enabled="true"
@@ -81,25 +66,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/main_blue" />
-
-        <activity
-            android:name="com.kakao.sdk.user.ShippingAddressesHandlerActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/TransparentCompat" />
-        <activity
-            android:name="com.kakao.sdk.auth.TalkAuthCodeActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:theme="@style/TransparentCompat" />
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/TransparentCompat" />
-        <activity
-            android:name="com.kakao.sdk.auth.AppsHandlerActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/TransparentCompat" />
 
         <provider
             android:name="com.prolificinteractive.materialcalendarview.MaterialCalendarViewInitProvider"
