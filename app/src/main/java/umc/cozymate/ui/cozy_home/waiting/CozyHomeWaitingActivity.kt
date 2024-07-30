@@ -2,7 +2,7 @@ package umc.cozymate.ui.cozy_home.waiting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.databinding.ActivityCozyHomeWaitingBinding
 import umc.cozymate.ui.cozy_home.adapter.RoommateType
 import umc.cozymate.ui.cozy_home.adapter.WaitingRoommateItem
@@ -18,15 +18,23 @@ class CozyHomeWaitingActivity : AppCompatActivity() {
         binding = ActivityCozyHomeWaitingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initDummy()
+    }
+
+    private fun initDummy() {
+
         val dummyData = listOf(
             WaitingRoommateItem("델로", RoommateType.LEADER),
             WaitingRoommateItem("더기", RoommateType.ARRIVED),
+            WaitingRoommateItem("???", RoommateType.WAITING),
             WaitingRoommateItem("???", RoommateType.WAITING),
             // Add more items as needed
         )
 
         adapter = WaitingRoommatesAdapter(dummyData)
-        binding.rvList.layoutManager = LinearLayoutManager(this)
         binding.rvList.adapter = adapter
+        binding.rvList.run {
+            layoutManager = GridLayoutManager(context, 2)
+        }
     }
 }

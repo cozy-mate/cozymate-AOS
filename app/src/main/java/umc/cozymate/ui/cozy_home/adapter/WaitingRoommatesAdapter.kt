@@ -1,7 +1,9 @@
 package umc.cozymate.ui.cozy_home.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.databinding.ItemWaitingRoommateBinding
@@ -44,19 +46,22 @@ class WaitingRoommatesAdapter(
 
             when(item.type) {
                 RoommateType.LEADER -> {
-                    rectangle.setBackgroundResource(R.color.sub_skyblue)
+                    rectangle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                        binding.root.context, R.color.sub_skyblue))
                     nickname.text = leaderText
                     state.text = arrivedText
                 }
 
                 RoommateType.ARRIVED -> {
-                    rectangle.setBackgroundResource(R.color.sub_skyblue)
+                    rectangle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                        binding.root.context, R.color.sub_skyblue))
                     nickname.text = item.nickname
                     state.text = arrivedText
                 }
 
                 RoommateType.WAITING -> {
-                    rectangle.setBackgroundResource(R.color.color_box)
+                    rectangle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                        binding.root.context, R.color.color_box))
                     nickname.text = unknownText
                     state.text = waitingText
                 }
