@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
+import umc.cozymate.ui.cozy_home.make_room.CozyHomeRoomInfoActivity
 
 class CozyHomeDefaultFragment : Fragment() {
     private var _binding: FragmentCozyhomeDefaultBinding? = null
@@ -32,6 +34,15 @@ class CozyHomeDefaultFragment : Fragment() {
 
     private fun initListener() {
         with(binding){
+
+            btnInviteCode.setOnClickListener {
+                startActivity(Intent(activity, CozyHomeRoomInfoActivity::class.java))
+            }
+
+            btnRoommateInvite.setOnClickListener {
+                startActivity(Intent(activity, CozyHomeRoomInfoActivity::class.java))
+            }
+
             btnEnterRoom.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_container, CozyHomeActiveFragment())
