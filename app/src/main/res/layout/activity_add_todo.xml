@@ -43,18 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/tb_AddTodo"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_InputButton"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="@drawable/ic_button"
-        android:text="확인"
-        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        android:textColor="#ffffff"
-        android:enabled="false"
-        android:layout_margin="22dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
