@@ -2,6 +2,9 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +30,8 @@ class AddRoleTabFragment: Fragment() {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         initMember()
         initWeekdays()
+        setInputLimit()
+        checkInput()
         binding.cbEveryday.setOnCheckedChangeListener { _, isChecked ->
             weekDays.forEach {  checkBox ->
                 checkBox.isChecked = isChecked // 모든 체크박스 체크 상태 변경
@@ -59,7 +64,26 @@ class AddRoleTabFragment: Fragment() {
     }
 
 
+    private fun checkInput() {
+        binding.etInputRole.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 변경 전 텍스트에 대한 처리
+            }
 
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 텍스트가 변경될 때 호출
+                binding.btnInputButton.isEnabled = !s.isNullOrEmpty() // 입력 내용이 없으면 비활성화
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 변경 후 텍스트에 대한 처리
+            }
+        })
+    }
+    private fun setInputLimit() {
+        val maxLength = 20 // 최대 글자수 설정
+        binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
+    }
 
     private fun initMember(){
         val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),61),ConvertDPtoPX(requireContext(),37))
