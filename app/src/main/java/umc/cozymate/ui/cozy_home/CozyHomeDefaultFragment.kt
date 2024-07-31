@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
 import umc.cozymate.ui.cozy_home.enter_room.CozyHomeEnterInviteCodeActivity
-import umc.cozymate.ui.cozy_home.make_room.CozyHomeRoomInfoActivity
+import umc.cozymate.ui.cozy_home.make_room.CozyHomeGiveInviteCodeActivity
+import umc.cozymate.ui.cozy_home.make_room.CozyHomeInviteRoommateActivity
 
 class CozyHomeDefaultFragment : Fragment() {
     private var _binding: FragmentCozyhomeDefaultBinding? = null
@@ -42,11 +43,11 @@ class CozyHomeDefaultFragment : Fragment() {
         with(binding){
 
             btnInviteCode.setOnClickListener {
-                startActivity(Intent(activity, CozyHomeRoomInfoActivity::class.java))
+                startActivity(Intent(activity, CozyHomeGiveInviteCodeActivity::class.java))
             }
 
             btnRoommateInvite.setOnClickListener {
-                startActivity(Intent(activity, CozyHomeRoomInfoActivity::class.java))
+                startActivity(Intent(activity, CozyHomeInviteRoommateActivity::class.java))
             }
 
             btnEnterRoom.setOnClickListener {

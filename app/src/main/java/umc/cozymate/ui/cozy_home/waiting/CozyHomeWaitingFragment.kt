@@ -48,7 +48,7 @@ class CozyHomeWaitingFragment : Fragment() {
         // 10초 후에 CozyHomeEnteringFragment(4)로 이동
         Handler(Looper.getMainLooper()).postDelayed({
             (activity as? CozyHomeInviteRoommateActivity)?.loadFragment4()
-        }, 10000)
+        }, 5000)
     }
 
     private fun initDummy() {

@@ -1,18 +1,17 @@
 package umc.cozymate.ui.cozy_home.common
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyhomeCharacterSelectionBinding
-import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingActivity
 import umc.cozymate.ui.onboarding.GridSpacingItemDecoration
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.fromDpToPx
 
+// 플로우1 : 방정보 입력창 캐릭터 수정 버튼 클릭
 class CozyHomeCharacterSelectionActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCozyhomeCharacterSelectionBinding
@@ -23,9 +22,10 @@ class CozyHomeCharacterSelectionActivity : AppCompatActivity() {
         binding = ActivityCozyhomeCharacterSelectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         with(binding) {
             btnNext.setOnClickListener {
-                startActivity(Intent(baseContext, CozyHomeWaitingActivity::class.java))
+                onBackPressedDispatcher.onBackPressed()
             }
         }
 

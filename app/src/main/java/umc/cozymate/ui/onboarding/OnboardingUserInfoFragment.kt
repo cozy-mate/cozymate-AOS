@@ -15,14 +15,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentOnboardingUserInfoLayoutBinding
+import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
 
 
 class OnboardingUserInfoFragment : Fragment() {
 
     private val TAG = this.javaClass.simpleName
 
-    private var _binding: FragmentOnboardingUserInfoLayoutBinding? = null
+    private var _binding: FragmentOnboardingUserInfoBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class OnboardingUserInfoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnboardingUserInfoLayoutBinding.inflate(inflater, container, false)
+        _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
 
         with(binding) {
             // 포커싱 색상 변경

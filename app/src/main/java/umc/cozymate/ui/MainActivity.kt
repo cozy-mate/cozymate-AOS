@@ -11,6 +11,8 @@ import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.roommate.RoommateFragment
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setBottomNavigationView()
 
+        initScreen()
+
         // 앱 초기 실행 시 홈화면으로 설정
         if (savedInstanceState == null) {
             binding.bottomNavigationView.selectedItemId = R.id.fragment_home
@@ -34,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         // 알림 확인을 위해 작성, 추후 삭제 요망
     }
 
+    private fun initScreen() {
+        this.setStatusBarTransparent()
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
+    }
 
 
     fun setBottomNavigationView() {

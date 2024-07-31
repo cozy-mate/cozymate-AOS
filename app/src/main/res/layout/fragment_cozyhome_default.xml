@@ -28,7 +28,7 @@
             android:id="@+id/btn_bell"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="63dp"
             android:layout_marginEnd="19dp"
             android:background="@drawable/ic_bell"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="63dp"
             android:background="@drawable/ic_message"
             app:layout_constraintEnd_toStartOf="@id/btn_bell"
             app:layout_constraintTop_toTopOf="parent" />

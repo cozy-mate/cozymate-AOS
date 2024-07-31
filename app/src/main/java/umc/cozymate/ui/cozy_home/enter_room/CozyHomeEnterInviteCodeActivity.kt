@@ -1,10 +1,8 @@
 package umc.cozymate.ui.cozy_home.enter_room
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.databinding.ActivityCozyHomeEnterInviteCodeBinding
-import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingActivity
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -22,7 +20,7 @@ class CozyHomeEnterInviteCodeActivity : AppCompatActivity() {
 
         with(binding){
             btnNext.setOnClickListener {
-                startActivity(Intent(baseContext, CozyHomeWaitingActivity::class.java))
+                // startActivity(Intent(baseContext, CozyHomeWaitingActivity::class.java))
             }
         }
     }
