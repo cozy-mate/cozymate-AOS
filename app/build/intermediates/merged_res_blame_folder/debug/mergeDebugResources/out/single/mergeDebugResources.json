@@ -20,6 +20,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_photoedit.xml"
     },
     {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_circule_basic_font.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_circule_basic_font.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/xml_backup_rules.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/xml/backup_rules.xml"
     },
@@ -28,12 +32,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/fragment_onboarding_user_info_layout.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_finding_roommate.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/background_finding_roommate.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_roommate_detail_bottom_sheet.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/roommate_detail_bottom_sheet.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_finding_roommate.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/background_finding_roommate.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_next_btn.xml.flat",
@@ -150,10 +154,6 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_pencil.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_pencil.xml"
-    },
-    {
-        "merged": "umc.cozymate.app-debug-70:/layout_item_roommate_detail_list.xml.flat",
-        "source": "umc.cozymate.app-main-72:/layout/item_roommate_detail_list.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/font_pretendard_light.ttf.flat",
@@ -300,6 +300,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_rectangle_6_sub_blue.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-70:/layout_fragment_roommate.xml.flat",
+        "source": "umc.cozymate.app-main-72:/layout/fragment_roommate.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_alarm_png.png.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_alarm_png.png"
     },
@@ -380,6 +384,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_cozyhome_feed_robot.xml"
     },
     {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_background_roommate_detail_bottomsheet.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_background_roommate_detail_bottomsheet.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_detail_list.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_detail_list.xml"
     },
@@ -394,6 +402,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/xml_data_extraction_rules.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_item_roommate_detail_list_rule.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/item_roommate_detail_list_rule.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/font_pretendard_regular.ttf.flat",

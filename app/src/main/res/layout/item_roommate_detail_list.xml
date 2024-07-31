@@ -16,7 +16,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tv_list_basic_info_title"
@@ -311,6 +312,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:id="@+id/cl_list_essential_info"
                 android:background="@drawable/custom_background_roommate_detail_12"
                 android:padding="15dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -529,15 +531,45 @@
                     android:background="@color/detail_gray"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_habbit_title" />
                 <TextView
-                    android:id="@+id/tv_list_ac_heater_title"
+                    android:id="@+id/tv_list_ac_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="더위, 추위"
+                    android:text="에어컨 강도"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_sleep_habbit_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_ac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_ac_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_ac_title"
+                    tools:text="적당하게 틀어요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_heater_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="히터 강도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_title" />
 
                 <TextView
                     android:id="@+id/tv_list_ac_heater"
@@ -547,16 +579,16 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_ac_heater_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_ac_heater_title"
-                    tools:text="추위를 많이 타요" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_heater_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_heater_title"
+                    tools:text="약하게 틀어요" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_heater_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_heater_title" />
                 <TextView
                     android:id="@+id/tv_list_living_pattern_title"
                     android:layout_width="wrap_content"
@@ -566,7 +598,7 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_ac_heater_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_heater_title" />
 
                 <TextView
                     android:id="@+id/tv_list_living_pattern"
@@ -674,239 +706,305 @@
                     android:background="@color/detail_gray"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_game_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="게임여부"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_game_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_game_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_game_check_title"
+                    tools:text="O" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_game_check_title" />
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_call_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="전화여부"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_game_check_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_call_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_call_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_call_check_title"
+                    tools:text="O" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_call_check_title" />
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_clean_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="청결 예민도"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_call_check_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_clean_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_clean_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_clean_check_title"
+                    tools:text="보통이에요" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_check_title" />
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_noise_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="소음 예민도"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_check_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_noise_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
-
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_noise_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_noise_check_title"
+                    tools:text="매우 예민해요" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_noise_check_title" />
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_clean_frequency_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="청소빈도"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_noise_check_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_clean_frequency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_clean_frequency_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_clean_frequency_title"
+                    tools:text="일주일에 3~4번은 하는 거 같아요!" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_frequency_title" />
+
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_personality_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="성격"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_frequency_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_personality_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_personality_check_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_personality_check_title"
+                    tools:text="조용한걸 좋아해요!" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_personality_check_title" />
+
                 <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
+                    android:id="@+id/tv_list_mbti_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="흡연여부"
+                    android:text="MBTI"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_personality_check_title" />
 
                 <TextView
-                    android:id="@+id/tv_list_smoke_check"
+                    android:id="@+id/tv_list_mbti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
-                <TextView
-                    android:id="@+id/tv_list_smoke_check_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="흡연여부"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/color_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_light_off_title" />
-
-                <TextView
-                    android:id="@+id/tv_list_smoke_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text=""
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_smoke_check_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_list_smoke_check_title"
-                    tools:text="X" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_smoke_check_title" />
-
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_mbti_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_mbti_title"
+                    tools:text="INFP" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="선택정보"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="#444955"
+                app:layout_constraintTop_toBottomOf="@+id/cl_list_essential_info"
+                android:layout_marginTop="60dp"
+                android:id="@+id/tv_list_selection_info_title"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_list_selection_info_title"
+                android:id="@+id/cl_list_rule_info"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_list_rule"
+                    android:text="무조건 지켜줘야해요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_list_rule"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_rule"
+                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_list_rule_info"
+                android:id="@+id/cl_list_can_do_info"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_list_can_do"
+                    android:text="이건 절대 절대 안돼요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_list_can_do"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_can_do"
+                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_list_can_do_info"
+                android:id="@+id/cl_list_never_info"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_list_never"
+                    android:text="무조건 지켜줘야해요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_list_never"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_never"
+                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

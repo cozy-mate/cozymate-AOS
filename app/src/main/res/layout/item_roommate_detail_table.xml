@@ -15,6 +15,22 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp">
 
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="70dp"
+            android:id="@+id/guide_user"/>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@+id/guide_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/guide_other"
+            android:layout_marginStart="30dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,9 +41,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"/>
-
-
-
+        <TextView
+            android:layout_width=""
+            android:layout_height=""
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
