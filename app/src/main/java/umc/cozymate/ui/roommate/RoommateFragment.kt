@@ -1,5 +1,6 @@
 package umc.cozymate.ui.roommate
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,10 @@ class RoommateFragment : Fragment() {
 
         binding.btnTest.setOnClickListener {
             (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
+        }
+        binding.btnDetail.setOnClickListener {
+            val intent = Intent(activity, RoommateDetailActivity::class.java)
+            startActivity(intent)
         }
 
 
