@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyhomeCharacterSelectionBinding
-import umc.cozymate.ui.onboarding.GridSpacingItemDecoration
+import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter

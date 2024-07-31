@@ -1,4 +1,4 @@
-package umc.cozymate.ui.onboarding
+package umc.cozymate.util
 
 import android.graphics.Rect
 import android.view.View

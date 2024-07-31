@@ -77,7 +77,8 @@
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font" />
+                android:textColorHint="@color/unuse_font"
+                android:textCursorDrawable="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -132,7 +133,8 @@
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font" />
+                android:textColorHint="@color/unuse_font"
+                android:textCursorDrawable="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -166,35 +168,67 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/radioGroupGender"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/radio_male"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <RadioButton
-                    android:id="@+id/radioButtonMale"
+                <ImageView
+                    android:id="@+id/iv_male"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/iv_radio_selected"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_male"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp"
                     android:text="남자"
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                    android:textColor="@color/unuse_font" />
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_male"
+                    app:layout_constraintStart_toEndOf="@id/iv_male"
+                    app:layout_constraintTop_toTopOf="@id/iv_male" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonFemale"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/radio_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/radio_male">
+
+                <ImageView
+                    android:id="@+id/iv_female"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/iv_radio_unselected"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_female"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp"
                     android:text="여자"
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                    android:textColor="@color/unuse_font" />
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_female"
+                    app:layout_constraintStart_toEndOf="@id/iv_female"
+                    app:layout_constraintTop_toTopOf="@id/iv_female" />
 
-            </RadioGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

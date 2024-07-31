@@ -11,6 +11,7 @@ import umc.cozymate.databinding.FragmentOnboardingCharacterSelectionBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
+import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
 class OnboardingCharacterSelectionFragment : Fragment() {

@@ -108,5 +108,9 @@
         <item name="android:gravity">center</item>
     </style>
 
-
+    <!-- 데이트피커 스타일 -->
+    <style name="AppTheme.NumberPicker" parent="">
+        <item name="colorControlNormal">#0E0E12</item>
+        <item name="android:textColorPrimary">#0E0E12</item>
+    </style>
 </resources>
