@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.make_room
+package umc.cozymate.ui.cozy_home.common
 
 import android.content.Intent
 import android.os.Bundle

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
+import umc.cozymate.ui.cozy_home.enter_room.CozyHomeEnterInviteCodeActivity
 import umc.cozymate.ui.cozy_home.make_room.CozyHomeRoomInfoActivity
 
 class CozyHomeDefaultFragment : Fragment() {
@@ -49,10 +50,7 @@ class CozyHomeDefaultFragment : Fragment() {
             }
 
             btnEnterRoom.setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, CozyHomeActiveFragment())
-                    .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
-                    .commit()
+                startActivity(Intent(activity, CozyHomeEnterInviteCodeActivity::class.java))
             }
         }
     }
