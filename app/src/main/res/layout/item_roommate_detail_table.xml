@@ -1,57 +1,1187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cl_table_basic_info"
-        android:background="@drawable/custom_background_roommate_detail_12"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="70dp"
-            android:id="@+id/guide_user"/>
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@+id/guide_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/guide_other"
-            android:layout_marginStart="30dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_table_name_title"
-            android:text="이름"
-            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/color_font"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"/>
-        <TextView
-            android:layout_width=""
-            android:layout_height=""
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_table_name_title"
-            android:background="@color/detail_gray"
-            android:layout_marginTop="15dp"/>
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_table_basic_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_background_roommate_detail_12">
+
+                <View
+                    android:id="@+id/guide_user"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="70dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/guide_other"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guide_user"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_table_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="이름"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_name"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="빵파소" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_name"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="오정현" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_name" />
+
+                <TextView
+                    android:id="@+id/tv_table_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="출생년도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_name" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_birth"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="2002" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_birth"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="2002" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_birth" />
+
+                <TextView
+                    android:id="@+id/tv_table_school_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="학번"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_birth" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_school_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_school_num"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="21학번" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_school_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_school_num"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="22학번" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_school_num" />
 
 
+                <TextView
+                    android:id="@+id/tv_table_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="학교"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_school_num" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_table_user_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_school"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="인하대학교" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_school_num"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="인하대학교" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_school" />
+
+                <TextView
+                    android:id="@+id/tv_table_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="학과"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_school" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_major"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="문화컨텐츠경영학과" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_major"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="정보통신공학과" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_major" />
+
+                <TextView
+                    android:id="@+id/tv_table_dormitory_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="인실"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_major" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_dormitory_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_dormitory_num"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="3인1실" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_dormitory_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_dormitory_num"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="3인1실" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_dormitory_num" />
+
+                <TextView
+                    android:id="@+id/tv_table_acceptance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="합격여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_dormitory_num" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_acceptance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_acceptance"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="대기중" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_acceptance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_acceptance"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="대기중" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_acceptance" />
+
+                <TextView
+                    android:id="@+id/tv_table_wake_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="기상시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_acceptance" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_wake_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_wake_up"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="오전2시" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_wake_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_wake_up"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="오후7시" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_wake_up" />
+
+                <TextView
+                    android:id="@+id/tv_table_sleep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="취침시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_wake_up" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_sleep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_sleep"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="오전2시" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_sleep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_sleep"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="오후7시" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_sleep" />
+
+                <TextView
+                    android:id="@+id/tv_table_light_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="소등시간"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_sleep" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_light_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_light_off"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="오전2시" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_light_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_light_off"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="오후4시" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_light_off" />
+
+                <TextView
+                    android:id="@+id/tv_table_smoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="흡연여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_light_off" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_smoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_smoke"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_smoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_smoke"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_smoke" />
+
+                <TextView
+                    android:id="@+id/tv_table_sleep_habbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="잠버릇"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_smoke" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_sleep_habbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_sleep_habbit"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="X" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_sleep_habbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_sleep_habbit"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_sleep_habbit" />
+
+                <TextView
+                    android:id="@+id/tv_table_ac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="에어컨 강도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_sleep_habbit" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_ac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_ac"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="약하게 틀어요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_ac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_ac"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="강하게 틀어요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_ac" />
+
+                <TextView
+                    android:id="@+id/tv_table_heater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="히터 강도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_ac" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_heater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_heater"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="약하게 틀어요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_heater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_heater"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="약하게 틀어요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_heater" />
+
+                <TextView
+                    android:id="@+id/tv_table_living_pattern"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="생활패턴"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_heater" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_living_pattern"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_living_pattern"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="새벽형" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_living_pattern"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_living_pattern"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="새벽형" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_living_pattern" />
+
+                <TextView
+                    android:id="@+id/tv_table_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="친밀도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_living_pattern" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_friendly"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="필요한 말만 해요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_friendly"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="어느정도 친하게 지내요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_friendly" />
+
+                <TextView
+                    android:id="@+id/tv_table_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="물건공유"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_friendly" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_share"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="X" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_share"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_share" />
+
+                <TextView
+                    android:id="@+id/tv_table_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="공부여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_share" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_study"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_study"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_study" />
+
+                <TextView
+                    android:id="@+id/tv_table_game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="게임여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_study" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_game"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_game"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_game" />
+
+                <TextView
+                    android:id="@+id/tv_table_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="전화여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_game" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_call"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_call"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_call" />
+
+                <TextView
+                    android:id="@+id/tv_table_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="청결 예민도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_call" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_clean"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="보통이에요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_clean"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="예민해요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean" />
+
+                <TextView
+                    android:id="@+id/tv_table_noise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="소음 예민도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_noise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_noise"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="매우 예민해요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_noise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_noise"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="예민해요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_noise" />
+
+                <TextView
+                    android:id="@+id/tv_table_clean_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="청소빈도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_noise" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_clean_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_clean_frequency"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="일주일에 3~4번은 하는거 같아요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_clean_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_clean_frequency"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="매일매일 해요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean_frequency" />
+
+                <TextView
+                    android:id="@+id/tv_table_personality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="성격"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean_frequency" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_personality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_personality"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="조용한걸 좋아해요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_personality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_personality"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="조용한걸 좋아해요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_personality" />
+
+                <TextView
+                    android:id="@+id/tv_table_mbti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="MBTI"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_personality" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_mbti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_mbti"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="INFP" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_mbti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_mbti"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="INTJ" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_mbti" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cl_table_basic_info"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:id="@+id/cl_table_rule_info"
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/tv_table_rule"
+                    android:text="무조건 지켜줘야 해요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_table_rule"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_table_rule"
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_table_rule_info"
+                android:id="@+id/cl_table_can_do_info"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_table_can_do"
+                    android:text="이정도는 맞춰줄 수 있어요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_table_can_do"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_can_do"
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_table_can_do_info"
+                android:id="@+id/cl_table_never_info"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_background_roommate_detail_12"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_table_never"
+                    android:text="이건 절대 절대 안 돼요!"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_detail_table_never"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_never"
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

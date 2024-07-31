@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
-                    android:text="출생년도"
+                    android:text="학과"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -922,7 +922,7 @@
                 android:id="@+id/cl_list_rule_info"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_background_roommate_detail_12"
-                android:padding="15dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -941,7 +941,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_list_rule"
-                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -952,7 +952,7 @@
                 android:id="@+id/cl_list_can_do_info"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_background_roommate_detail_12"
-                android:padding="15dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -960,7 +960,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/tv_list_can_do"
-                    android:text="이건 절대 절대 안돼요!"
+                    android:text="이정도는 맞춰줄 수 있어요!"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"/>
 
@@ -971,7 +971,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_list_can_do"
-                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -982,7 +982,7 @@
                 android:id="@+id/cl_list_never_info"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_background_roommate_detail_12"
-                android:padding="15dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -990,7 +990,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/tv_list_never"
-                    android:text="무조건 지켜줘야해요!"
+                    android:text="이건 절대 절대 안 돼요!"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"/>
 
@@ -1001,7 +1001,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_list_never"
-                    tools:listitem="@layout/item_roommate_detail_list_rule"/>
+                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
