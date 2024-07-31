@@ -201,7 +201,7 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_school_num"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_school"
                     app:layout_constraintEnd_toEndOf="@+id/guide_other"
                     app:layout_constraintStart_toStartOf="@+id/guide_other"
                     tools:text="인하대학교" />
