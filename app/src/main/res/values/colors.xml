@@ -14,6 +14,11 @@
     <!--    보조색1 (조금 더 진한거)-->
     <color name="sub_skyblue">#CADFFF</color>
     <!--    보조색2 (더 옅은거)-->
+
+    <color name="sub_color1">#CADFFF</color>
+    <color name="sub_color2">#E5F0FF</color>
+    <color name="sub_color3">#B5D3FF</color>
+
     <color name="yellow">#FFCE3D</color>
     <!--    메인 색상: 노란색-->
     <color name="red">#FF391E</color>
@@ -35,5 +40,8 @@
     <!--    색박스-->
     <color name="unuse_btn">#C4C4C4</color>
     <!--    비활성화 버튼-->
+
+    <color name="detail_gray">#F1F2F4</color>
+    <!-- 타인 상세정보 리스트 중 구분선 -->
 
 </resources>

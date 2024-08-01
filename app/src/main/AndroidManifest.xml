@@ -52,6 +52,18 @@
             android:name=".ui.cozy_home.make_room.CozyHomeInviteRoommateActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.roommate.RoommateDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.roommate.RoommateSelectionInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.roommate.RoommateEssentialInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.roommate.RoommateBasicInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
 
