@@ -107,4 +107,24 @@
         <item name="android:background">@drawable/custom_option_box_background</item>
     </style>
 
+    <style name="custom_dialog_cancel_btn">
+        <item name="android:width">105dp</item>
+        <item name="android:height">45dp</item>
+        <item name="android:background">@drawable/custom_dialog_btn_background_8</item>
+        <item name="android:textColor">@color/unuse_font</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.14sp.SemiBold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:backgroundTint">@color/unuse</item>
+    </style>
+
+    <style name="custom_dialog_ok_btn">
+        <item name="android:width">105dp</item>
+        <item name="android:height">45dp</item>
+        <item name="android:background">@drawable/custom_dialog_btn_background_8</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.14sp.SemiBold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:backgroundTint">@color/main_blue</item>
+    </style>
+
 </resources>
