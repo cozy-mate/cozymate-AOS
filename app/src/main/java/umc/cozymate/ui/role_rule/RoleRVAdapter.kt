@@ -1,6 +1,7 @@
 package umc.cozymate.ui.role_rule
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.RvItemRoleBinding

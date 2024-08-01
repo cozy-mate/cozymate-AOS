@@ -23,7 +23,7 @@ import umc.cozymate.ui.MainActivity
 
 class AddRoleTabFragment: Fragment() {
     lateinit var binding: FragmentAddRoleTabBinding
-    private val members = arrayListOf( "너진","제이","더기","델로")
+    private val members = arrayListOf( "증식시켜봅시다","제이","더기","델로")
     private val week = arrayListOf("월","화","수","목","금","토","일")
     private val weekDays = mutableListOf<CheckBox>()
     override fun onCreateView(
@@ -102,12 +102,13 @@ class AddRoleTabFragment: Fragment() {
 
     //담당자 선택
     private fun initMember(){
-        val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),61),ConvertDPtoPX(requireContext(),37))
+        val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
         layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
         layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
         for (name in members) {
             val checkBox = CheckBox(context).apply {
                 text = name
+                setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
                 setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
                 setBackgroundResource(R.drawable.ic_input_role_member)
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
