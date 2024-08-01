@@ -78,6 +78,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.role_rule.AddTodoActivity"/>
+
         <service
             android:name=".firebase.FCMService"
             android:enabled="true"

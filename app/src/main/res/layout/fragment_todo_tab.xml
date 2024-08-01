@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@drawable/background_todo_tab">-->
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="34dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/background_todo_tab">
+
+        <TextView
+            android:id="@+id/tv_TodoDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7/2(화), "
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/basic_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_TodoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="델로"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/main_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_TodoDate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="님이"
+            android:textColor="@color/basic_font"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_TodoName"/>
+
+        <TextView
+            android:id="@+id/tv_Text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="해야할 일들을 알려드릴게요!"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/basic_font"
+            app:layout_constraintTop_toBottomOf="@id/tv_TodoDate"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <ImageView
+            android:layout_width="40dp"
+                              android:layout_height="40dp"
+            android:src="@drawable/ic_option"
+            android:paddingHorizontal="11dp"
+            android:paddingVertical="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <FrameLayout
+            android:id="@+id/layout_MyTodo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_Text1"
+            android:background="@drawable/background_checklist"
+            android:layout_marginTop="16dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_MyTodoList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingEnd="8dp"
+                tools:listitem="@layout/rv_item_todo"/>
+
+            <TextView
+                android:id="@+id/tv_Empty"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:text="오늘 등록된 할 일이 없어요"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font"
+                android:gravity="center"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/tv_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다른 메이트들은\n오늘 어떤 일들을 할까요?"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/basic_font"
+            android:layout_marginTop="56dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_MyTodo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_MemberTodo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="98dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_text2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tv_AddRoleText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="담당자를 선택해주세요"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/layout_Member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_AddRoleText1"
+        app:layout_constraintStart_toStartOf="parent"/>
+<!--        <CheckBox-->
+<!--            android:layout_width="61dp"-->
+<!--            android:layout_height="37dp"-->
+<!--            android:text="너진"-->
+<!--            android:textAppearance="@style/TextAppearance.App.12sp.Medium"-->
+<!--            android:textColor="@color/unuse_font"-->
+<!--            android:gravity="center"-->
+<!--            android:button="@null"-->
+<!--            android:layout_marginHorizontal="8dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/ic_input_role_member"/>-->
+
+
+    <TextView
+        android:id="@+id/tv_AddRoleText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="역할을 입력해주세요"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_Member"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_InputRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_inputbox"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/basic_font"
+        android:textColorHint="@color/unuse_font"
+        android:hint="역할을 입력해주세요"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_AddRoleText2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_AddRoleText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="정해진 요일이 있다면 선택해주세요"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@id/et_InputRole"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/layout_Weekdays"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_AddRoleText3"
+        app:layout_constraintStart_toStartOf="parent">
+<!--        <TextView-->
+<!--            android:layout_width="32dp"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:text="월"-->
+<!--            android:textAppearance="@style/TextAppearance.App.12sp.Medium"-->
+<!--            android:textColor="@color/unuse_font"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginHorizontal="8dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/ic_circle"/>-->
+
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_Everyday"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="매일"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/unuse_font"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_Weekdays"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_InputButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/ic_button"
+        android:text="확인"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="#ffffff"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

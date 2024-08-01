@@ -60,7 +60,10 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -108,6 +111,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
+
     // 클라우드 메시징을 위해 추가
     implementation("com.google.firebase:firebase-analytics")
 
@@ -121,7 +125,8 @@ dependencies {
     // 카카오 로그인
     implementation("com.kakao.sdk:v2-user:2.20.3")
 
-    // 셀렉트 칩 사용
+//    implementation(libs.androidx.room.common)
+
     implementation("com.google.android.material:material:1.0.0-beta01")
 }
 kapt {

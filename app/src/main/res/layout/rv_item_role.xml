@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:maxHeight="40dp"
+    android:layout_margin="4dp"
+    >
+    <TextView
+        android:id="@+id/tv_Weekday"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:background="@color/color_box"
+        android:text="매일"
+        android:gravity="center"
+
+        android:paddingHorizontal="8dp"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/basic_font"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_Item"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="환한 미소로 룸메들 반겨주기"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/basic_font"
+        android:gravity="center_vertical"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_Weekday"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
