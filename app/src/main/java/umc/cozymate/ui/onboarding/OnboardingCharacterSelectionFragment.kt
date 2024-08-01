@@ -1,6 +1,7 @@
 package umc.cozymate.ui.onboarding
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
-class OnboardingCharacterSelectionFragment : Fragment() {
+class OnboardingCharacterSelectionFragment : Fragment(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
 
@@ -42,12 +43,6 @@ class OnboardingCharacterSelectionFragment : Fragment() {
     }
 
     private fun initCharacterList() {
-        val onItemClickListener: CharacterItemClickListener = object :
-            CharacterItemClickListener {
-            override fun onItemClick(character: CharacterItem) {
-                // 선택 이미지
-            }
-        }
 
         val characters = listOf(
             CharacterItem(R.drawable.background_circle),
@@ -67,7 +62,7 @@ class OnboardingCharacterSelectionFragment : Fragment() {
             CharacterItem(R.drawable.background_circle),
             CharacterItem(R.drawable.background_circle),
         )
-        val adapter = CharactersAdapter(characters, onItemClickListener)
+        val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter
         binding.rvList.run {
             layoutManager = GridLayoutManager(requireContext(), 4)
@@ -75,5 +70,10 @@ class OnboardingCharacterSelectionFragment : Fragment() {
                 GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
             )
         }
+    }
+
+    override fun onItemClick(character: CharacterItem, position: Int) {
+        // Handle the item click
+        Log.d(TAG, "Selected item position: $position")
     }
 }

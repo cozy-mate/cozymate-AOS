@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.common
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,8 @@ class CozyHomeRoomInfoFragment : Fragment() {
             }
 
             ivCharacter.setOnClickListener {
-                // startActivity(Intent)
+                val intent = Intent(context, CozyHomeCharacterSelectionActivity::class.java)
+                startActivity(intent)
             }
         }
 

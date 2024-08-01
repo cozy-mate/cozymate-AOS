@@ -24,6 +24,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
+    <ImageView
+        android:id="@+id/iv_edit_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/background_circle"
+        app:layout_constraintBottom_toBottomOf="@id/iv_character"
+        app:layout_constraintEnd_toEndOf="@id/iv_character" />
+
+    <ImageView
+        android:id="@+id/iv_character_edit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="@id/iv_edit_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_edit_back"
+        app:layout_constraintStart_toStartOf="@id/iv_edit_back"
+        app:layout_constraintTop_toTopOf="@id/iv_edit_back" />
+
     <!--방이름-->
     <TextView
         android:id="@+id/tv_label_room_name"
@@ -51,14 +73,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_room_name"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeWidth="0dp"
-            app:hintEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="49dp"
+            app:boxBackgroundMode="outline"
             app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="1dp"
             app:errorTextColor="@color/red"
+            app:hintEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -67,13 +89,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="방이름을 입력해주세요"
-                android:textCursorDrawable="@color/main_blue"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font" />
+                android:textColorHint="@color/unuse_font"
+                android:textCursorDrawable="@color/main_blue" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,6 +10,9 @@ class CharactersAdapter(
     private var onItemClickListener: CharacterItemClickListener
 ) :
     RecyclerView.Adapter<CharacterViewHolder>() {
+
+    private var selectedPosition: Int = -1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val itemBinding: ItemCharacterBinding =
             ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,7 +24,15 @@ class CharactersAdapter(
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.onBind(characters[position], onItemClickListener)
+        holder.onBind(characters[position], position == selectedPosition) { selectedPosition ->
+            if (this.selectedPosition != selectedPosition) {
+                // Update selected position
+                notifyItemChanged(this.selectedPosition) // Notify previous selected item to refresh
+                this.selectedPosition = selectedPosition
+                notifyItemChanged(this.selectedPosition) // Notify new selected item to refresh
+            }
+            onItemClickListener.onItemClick(characters[position], selectedPosition)
+        }
     }
 
     fun setData(data: List<CharacterItem>) {
