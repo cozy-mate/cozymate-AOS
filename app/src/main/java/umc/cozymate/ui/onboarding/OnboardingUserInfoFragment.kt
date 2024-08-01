@@ -1,34 +1,42 @@
 package umc.cozymate.ui.onboarding
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentOnboardingUserInfoLayoutBinding
+import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
+import java.time.LocalDate
+
 
 class OnboardingUserInfoFragment : Fragment() {
 
     private val TAG = this.javaClass.simpleName
 
-    private var _binding: FragmentOnboardingUserInfoLayoutBinding? = null
+    private var _binding: FragmentOnboardingUserInfoBinding? = null
     private val binding get() = _binding!!
+
+    private var isSelectedMale = true
+    private var isSelectedFemale = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnboardingUserInfoLayoutBinding.inflate(inflater, container, false)
+        _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
 
         with(binding) {
             // 포커싱 색상 변경
@@ -52,6 +60,27 @@ class OnboardingUserInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        parentFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
+            val month = bundle.getInt("month")
+            val year = bundle.getInt("year")
+            val day = bundle.getInt("day")
+
+            // 받은 데이터로 원하는 작업 수행
+            binding.tvLabelBirth.text = "${month}"
+        }
+    }
+
+    private fun toggleImage(isSelected: Boolean, iv: ImageView) {
+        if (isSelected) {
+            iv.setImageResource(R.drawable.iv_radio_unselected)
+        } else {
+            iv.setImageResource(R.drawable.iv_radio_selected)
+        }
+    }
+
     fun setupTextWatchers() {
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -70,11 +99,25 @@ class OnboardingUserInfoFragment : Fragment() {
     fun updateNextBtnState() {
         val isNameEntered = binding.etOnboardingName.text?.isNotEmpty() == true
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
-        val isEnabled = isNameEntered && isNicknameEntered
+        val isGenderChecked = isSelectedMale || isSelectedFemale
+        val isEnabled = isNameEntered && isNicknameEntered && isGenderChecked
 
         binding.btnNext.isEnabled = isEnabled
         binding.btnNext.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_onboarding, OnboardingCharacterSelectionFragment())
+                .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
+                .commit()
 
+            saveUserPreference(binding.etOnboardingNickname.text.toString())
+        }
+    }
+
+    fun saveUserPreference(nickname: String) {
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("nickname", nickname)
+            apply()
         }
     }
 
@@ -109,7 +152,6 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingName.clearFocus()
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
-                it.isSelected = !it.isSelected
                 updateColors()
             }
 
@@ -117,8 +159,61 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingName.clearFocus()
                 etOnboardingNickname.clearFocus()
                 mcvGender.isSelected = false
-                it.isSelected = !it.isSelected
                 updateColors()
+
+                // 바텀시트 띄우기
+                val pickerDialogInterface = object : AlertPickerDialogInterface {
+                    override fun onClickDoneButton(id: Int, year: Int, month: Int, day: Int) {
+                        // Handle the selected values here
+                        Log.d("AlertPickerDialog", "Selected Date: $year-$month-$day")
+                        // You can update the UI or perform other actions based on the selected date
+                    }
+                }
+                // Get current date to initialize the dialog
+                val currentDate = LocalDate.now()
+                val id = 1 // or any other id you want to pass
+
+                // Create and show the AlertPickerDialog
+                val alertPickerDialog = DatePickerBottomSheetFragment(
+                    pickerDialogInterface = pickerDialogInterface,
+                    id = id,
+                    year = currentDate.year,
+                    month = currentDate.monthValue,
+                    day = currentDate.dayOfMonth
+                )
+                alertPickerDialog.show(childFragmentManager, "alertPickerDialog")
+
+                /*val bottomSheetDialog =
+                    BottomSheetDialog(requireContext(), R.drawable.background_round_corner_20)
+                val view = layoutInflater.inflate(R.layout.custom_datepicker, null)
+                bottomSheetDialog.setContentView(view)
+                bottomSheetDialog.show()*/
+            }
+
+            radioMale.setOnClickListener {
+                etOnboardingName.clearFocus()
+                etOnboardingNickname.clearFocus()
+                mcvBirth.isSelected = false
+                mcvGender.isSelected = true
+                updateColors()
+
+                isSelectedMale = !isSelectedMale
+                toggleImage(isSelectedMale, ivMale)
+                isSelectedFemale = !isSelectedMale
+                toggleImage(isSelectedFemale, ivFemale)
+            }
+
+            radioFemale.setOnClickListener {
+                etOnboardingName.clearFocus()
+                etOnboardingNickname.clearFocus()
+                mcvBirth.isSelected = false
+                mcvGender.isSelected = true
+                updateColors()
+
+                isSelectedFemale = !isSelectedFemale
+                toggleImage(isSelectedFemale, ivFemale)
+                isSelectedMale = !isSelectedFemale
+                toggleImage(isSelectedMale, ivMale)
             }
         }
     }
