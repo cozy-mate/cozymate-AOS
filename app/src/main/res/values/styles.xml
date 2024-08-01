@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- font 스타일 -->
     <style name="TextAppearance.App.20sp.SemiBold" parent="TextAppearance.AppCompat">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
@@ -95,6 +96,32 @@
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Chip 스타일 -->
+    <style name="CustomChip_12">
+        <item name="android:background">@drawable/btn_rectangle_12</item>
+        <item name="android:backgroundTint">@color/color_box</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textColor">@color/unuse_font</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- 데이트피커 스타일 -->
+    <style name="AppTheme.NumberPicker" parent="">
+        <item name="colorControlNormal">#0E0E12</item>
+        <item name="android:textColorPrimary">#0E0E12</item>
+    </style>
+
+    <style name="OptionBox">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/custom_option_text_color</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/custom_option_box_background</item>
     </style>
 
 </resources>

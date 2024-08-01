@@ -9,3 +9,5 @@
 .cxx
 local.properties
 google-services.json
+constant.xml
+.idea/workspace.xml
