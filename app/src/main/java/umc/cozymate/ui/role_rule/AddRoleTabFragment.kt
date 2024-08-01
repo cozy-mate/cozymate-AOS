@@ -1,6 +1,7 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -12,9 +13,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
+import umc.cozymate.ui.MainActivity
 
 
 class AddRoleTabFragment: Fragment() {
@@ -38,6 +42,14 @@ class AddRoleTabFragment: Fragment() {
                 updateCheckBoxColor(checkBox, isChecked)
             }
         }
+
+//        binding.btnInputButton.setOnClickListener {
+//           setFragmentResult("newRole", bundleOf())
+//            pare
+//
+//        }
+
+
         return binding.root
     }
 
@@ -80,11 +92,15 @@ class AddRoleTabFragment: Fragment() {
             }
         })
     }
+
+
+    // 최대 글자수 제한
     private fun setInputLimit() {
         val maxLength = 20 // 최대 글자수 설정
         binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
     }
 
+    //담당자 선택
     private fun initMember(){
         val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),61),ConvertDPtoPX(requireContext(),37))
         layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
@@ -119,6 +135,7 @@ class AddRoleTabFragment: Fragment() {
         }
     }
 
+    // 매일 체크
     private fun checkAllCheckboxes() {
         val allChecked = weekDays.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
         binding.cbEveryday.isChecked = allChecked // cbEveryday 체크 상태 업데이트
