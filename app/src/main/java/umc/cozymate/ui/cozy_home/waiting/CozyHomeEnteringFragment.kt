@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeEnteringBinding
-import umc.cozymate.ui.cozy_home.make_room.CozyHomeInviteRoommateActivity
+import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
 
 // 플로우1 : 방정보 입력창(1) > 룸메이트 선택창(2) > 룸메이트 대기창(3) > "코지홈 입장창(4)" > 코지홈 활성화창
 class CozyHomeEnteringFragment : Fragment() {
@@ -26,7 +26,7 @@ class CozyHomeEnteringFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            (activity as? CozyHomeInviteRoommateActivity)?.loadFragment5()
+            (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment5()
         }
     }
 

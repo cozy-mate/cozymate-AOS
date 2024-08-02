@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentOnboardingCharacterSelectionBinding
+import umc.cozymate.databinding.FragmentOnboardingSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
-class OnboardingCharacterSelectionFragment : Fragment(), CharacterItemClickListener {
+class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
 
-    private var _binding: FragmentOnboardingCharacterSelectionBinding? = null
+    private var _binding: FragmentOnboardingSelectingCharacterBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,7 +27,7 @@ class OnboardingCharacterSelectionFragment : Fragment(), CharacterItemClickListe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnboardingCharacterSelectionBinding.inflate(inflater, container, false)
+        _binding = FragmentOnboardingSelectingCharacterBinding.inflate(inflater, container, false)
 
         initCharacterList()
 

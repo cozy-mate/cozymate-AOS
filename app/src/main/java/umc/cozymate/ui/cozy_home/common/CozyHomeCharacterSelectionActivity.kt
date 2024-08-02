@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyhomeCharacterSelectionBinding
+import umc.cozymate.databinding.ActivityCozyHomeSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
@@ -17,12 +17,12 @@ class CozyHomeCharacterSelectionActivity : AppCompatActivity(), CharacterItemCli
 
     private val TAG = this.javaClass.simpleName
 
-    lateinit var binding: ActivityCozyhomeCharacterSelectionBinding
+    lateinit var binding: ActivityCozyHomeSelectingCharacterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyhomeCharacterSelectionBinding.inflate(layoutInflater)
+        binding = ActivityCozyHomeSelectingCharacterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 

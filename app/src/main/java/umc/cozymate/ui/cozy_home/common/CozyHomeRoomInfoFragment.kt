@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeRoomInfoBinding
-import umc.cozymate.ui.cozy_home.make_room.CozyHomeInviteRoommateActivity
+import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
 import umc.cozymate.util.setupTextInputWithMaxLength
 
 // 플로우1 : "방정보 입력창(1)" > 룸메이트 선택창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
@@ -29,8 +29,8 @@ class CozyHomeRoomInfoFragment : Fragment() {
 
         with(binding) {
             btnNext.setOnClickListener {
-                (activity as? CozyHomeInviteRoommateActivity)?.loadFragment2()
-                // (activity as? CozyHomeGiveInviteCodeActivity)?.loadFragment2()
+                (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment2()
+                // (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
             }
 
             ivCharacter.setOnClickListener {

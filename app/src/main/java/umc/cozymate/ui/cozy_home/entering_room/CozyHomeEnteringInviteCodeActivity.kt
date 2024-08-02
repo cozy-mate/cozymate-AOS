@@ -1,19 +1,19 @@
-package umc.cozymate.ui.cozy_home.enter_room
+package umc.cozymate.ui.cozy_home.entering_room
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import umc.cozymate.databinding.ActivityCozyHomeEnterInviteCodeBinding
+import umc.cozymate.databinding.ActivityCozyHomeEnteringInviteCodeBinding
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
-class CozyHomeEnterInviteCodeActivity : AppCompatActivity() {
+class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityCozyHomeEnterInviteCodeBinding
+    lateinit var binding: ActivityCozyHomeEnteringInviteCodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyHomeEnterInviteCodeBinding.inflate(layoutInflater)
+        binding = ActivityCozyHomeEnteringInviteCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initScreen()

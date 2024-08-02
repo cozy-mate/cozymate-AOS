@@ -14,7 +14,7 @@ import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.adapter.RoommateType
 import umc.cozymate.ui.cozy_home.adapter.WaitingRoommateItem
 import umc.cozymate.ui.cozy_home.adapter.WaitingRoommatesAdapter
-import umc.cozymate.ui.cozy_home.make_room.CozyHomeInviteRoommateActivity
+import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
 
 // 플로우1 : 방정보 입력창(1) > 룸메이트 선택창(2) > "룸메이트 대기창(3)" > 코지홈 입장창(4) > 코지홈 활성화창
 class CozyHomeWaitingFragment : Fragment() {
@@ -47,7 +47,7 @@ class CozyHomeWaitingFragment : Fragment() {
 
         // 10초 후에 CozyHomeEnteringFragment(4)로 이동
         Handler(Looper.getMainLooper()).postDelayed({
-            (activity as? CozyHomeInviteRoommateActivity)?.loadFragment4()
+            (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment4()
         }, 5000)
     }
 
