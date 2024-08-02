@@ -22,13 +22,13 @@
             android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateSelectionInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateSelectionInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateEssentialInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateEssentialInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateBasicInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateBasicInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

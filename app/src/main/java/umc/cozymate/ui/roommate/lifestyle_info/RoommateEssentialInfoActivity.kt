@@ -1,9 +1,8 @@
-package umc.cozymate.ui.roommate
+package umc.cozymate.ui.roommate.lifestyle_info
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.util.Log
 import android.view.View

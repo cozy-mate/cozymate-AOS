@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentRoommateOnboardingBinding
+import umc.cozymate.ui.roommate.lifestyle_info.RoommateBasicInfoActivity
 
 class RoommateOnboardingFragment : Fragment() {
     private var _binding: FragmentRoommateOnboardingBinding? = null
