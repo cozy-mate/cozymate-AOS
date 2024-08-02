@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -19,7 +16,7 @@
             android:id="@+id/title_cozy_entering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cozymate가 모두 모였어요!"
+            android:text="방 생성을 완료했어요!"
             android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/highlight_font"
             app:layout_constraintEnd_toEndOf="parent"
