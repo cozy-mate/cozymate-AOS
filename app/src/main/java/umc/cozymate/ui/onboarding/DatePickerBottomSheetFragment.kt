@@ -12,19 +12,24 @@ import umc.cozymate.databinding.CustomDatepickerBinding
 import java.time.LocalDate
 import java.util.Calendar
 
-interface AlertPickerDialogInterface {
-    fun onClickDoneButton(id: Int, year: Int, month: Int, day: Int)
-}
+// 프래그먼트에 생년월일 값 전달하기 위한 인터페이스
+/*interface AlertPickerDialogInterface {
+    fun onClickDoneButton(date:String, )
+}*/
 
 @RequiresApi(Build.VERSION_CODES.O)
 class DatePickerBottomSheetFragment(
-    pickerDialogInterface: AlertPickerDialogInterface,
-    id: Int,
-    year: Int = LocalDate.now().year,
-    month: Int = LocalDate.now().monthValue,
-    day: Int = LocalDate.now().dayOfMonth
+    //pickerDialogInterface: AlertPickerDialogInterface,
+    //id: Int,
+    //year: Int = LocalDate.now().year,
+    //month: Int = LocalDate.now().monthValue,
+    //day: Int = LocalDate.now().dayOfMonth
 )
     : BottomSheetDialogFragment() {
+
+    interface AlertPickerDialogInterface {
+        fun onClickDoneButton(date:String, )
+    }
 
     private var _binding: CustomDatepickerBinding? = null
     private val binding get() = _binding!!
@@ -37,17 +42,19 @@ class DatePickerBottomSheetFragment(
     private var pickerDialogInterface: AlertPickerDialogInterface? = null
     private var id: Int? = null
 
+    private var listener: AlertPickerDialogInterface? = null
+
     // 선택된 값
     private var year: Int = 0
     private var month: Int = 0
     private var day: Int = 0
 
     init {
-        this.year = year
-        this.month = month
-        this.day = day
-        this.id = id
-        this.pickerDialogInterface = pickerDialogInterface
+        this.year = LocalDate.now().year
+        this.month = LocalDate.now().month.value
+        this.day = LocalDate.now().dayOfMonth
+        // this.id = id
+        //this.pickerDialogInterface = pickerDialogInterface
     }
 
     override fun onCreateView(
@@ -63,18 +70,29 @@ class DatePickerBottomSheetFragment(
 
         binding.btnSave.setOnClickListener {
             // 값 가져오기
-            year = binding.npYear.value
-            month = binding.npMonth.value
-            day = binding.npDay.value
+            var year = binding.npYear.value.toString()
+            if (binding.npYear.value.toString().length == 3) year = ((binding.npYear.value-100).toString())
+
+            var month = (binding.npMonth.value + 1).toString()
+            if (month.length == 1) month = "0" + month
+
+            var day = (binding.npDay.value + 1).toString()
+            if (day.length == 1) day = "0" + day
 
             // 데이터 저장
             val bundle = Bundle().apply {
-                putInt("month", month!!)
-                putInt("year", year!!)
-                putInt("day", day!!)
+             //   putInt("month", month!!)
+               // putInt("year", year!!)
+                //putInt("day", day!!)
             }
 
-            this.pickerDialogInterface?.onClickDoneButton(id!!, year!!, month!!, day!!)
+            var selectedDate = "2024-08-04" // Replace this with actual date selection logic
+            selectedDate = year + "-" + month + "-" + day
+
+            listener?.onClickDoneButton(selectedDate)
+            dismiss()
+
+            //this.pickerDialogInterface?.onClickDoneButton(id!!, year!!, month!!, day!!)
 
             // 프래그먼트 매니저를 사용하여 뒤로가기 처리 및 데이터 전달
             parentFragmentManager.setFragmentResult("requestKey", bundle)
@@ -170,4 +188,9 @@ class DatePickerBottomSheetFragment(
         }
         return displayValues.toTypedArray()
     }
+
+    fun setOnDateSelectedListener(listener: AlertPickerDialogInterface ) {
+        this.listener = listener
+    }
+
 }
