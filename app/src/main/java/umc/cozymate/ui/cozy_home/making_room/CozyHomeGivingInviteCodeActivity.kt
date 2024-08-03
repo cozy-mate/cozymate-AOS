@@ -11,8 +11,6 @@ import umc.cozymate.databinding.ActivityCozyHomeGivingInviteCodeBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
-import umc.cozymate.util.navigationHeight
-import umc.cozymate.util.setStatusBarTransparent
 
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
@@ -31,8 +29,6 @@ class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
             insets
         }
 
-        //initScreen()
-
         // 첫번째로 [방정보 입력창]을 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -40,11 +36,6 @@ class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
                 .commit()
         }
 
-    }
-
-    private fun initScreen() {
-        this.setStatusBarTransparent()
-        binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
     // 두번째 [초대코드 발급창] 로드

@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.entering_room
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +8,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeEnteringInviteCodeBinding
-import umc.cozymate.util.navigationHeight
-import umc.cozymate.util.setStatusBarTransparent
+import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
+import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
 
+// 플로우3 : 초대코드 입력창(1) > 룸메이트 대기창(2) > 코지홈 입장창(3) > 코지홈 활성화창
 class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCozyHomeEnteringInviteCodeBinding
@@ -26,18 +29,35 @@ class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
             insets
         }
 
-        //initScreen()
-
-        with(binding){
-            btnNext.setOnClickListener {
-                // startActivity(Intent(baseContext, CozyHomeWaitingActivity::class.java))
-            }
+        // 첫번째로 [초대코드 입력창]을 로드
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main, CozyHomeEnteringInviteCodeFragment())
+                .commit()
         }
     }
 
-    private fun initScreen() {
-        this.setStatusBarTransparent()
-        binding.mainCl.setPadding(0, 0, 0, this.navigationHeight())
+    // 두번째 [룸메이트 대기창] 로드
+    fun loadFragment2() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main, CozyHomeWaitingFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
+    // 세번째 [코지홈 입장창] 로드
+    fun loadFragment3() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main, CozyHomeEnteringFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // 네번째 [코지홈_코지홈 활성화]로 화면 전환
+    fun loadFragment4() {
+        val intent = Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("isActive", "true")
+        startActivity(intent)
+        this.finish()
+    }
 }

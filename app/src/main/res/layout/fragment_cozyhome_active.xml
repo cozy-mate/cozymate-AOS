@@ -18,7 +18,7 @@
             android:id="@+id/cl_cozyhome_top"
             android:layout_width="match_parent"
             android:layout_height="812dp"
-            android:background="@drawable/background_cozyhome_active"
+            android:background="@drawable/background_cozyhome_active_png"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,6 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_message"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="63dp"
@@ -63,13 +64,14 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_light" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_copy_invite_code"
                 android:layout_width="86dp"
                 android:layout_height="33dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_rectangle_12"
                 android:drawableEnd="@drawable/ic_copy"
-                android:drawablePadding="0dp"
+                android:drawablePadding="-20dp"
                 android:drawableTint="@color/color_font"
                 android:gravity="center"
                 android:text="QUIIRK"
@@ -78,16 +80,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_whose_room" />
 
+            <ImageView
+                android:id="@+id/iv_char_back"
+                android:layout_width="176dp"
+                android:layout_height="190dp"
+                android:layout_marginTop="75dp"
+                android:background="@drawable/background_cozyhome_character_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_message" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="-3dp"
+                android:background="@drawable/background_cozyhome_character"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_char_back" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- 캐릭터 -->
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="195dp"
-            android:layout_marginEnd="13dp"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="208dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/background_circle"
-            android:elevation="1dp"
+            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
