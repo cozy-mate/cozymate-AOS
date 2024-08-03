@@ -2,7 +2,10 @@ package umc.cozymate.ui.cozy_home.making_room
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeSelectingCharacterBinding
@@ -24,7 +27,12 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
 
         binding = ActivityCozyHomeSelectingCharacterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         with(binding) {
             btnNext.setOnClickListener {

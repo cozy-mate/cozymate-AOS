@@ -124,7 +124,7 @@
 
         <TextView
             android:id="@+id/chip1"
-            style="@style/CustomChip_12"
+            style="@style/OptionBox"
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_marginTop="8dp"
@@ -139,7 +139,7 @@
 
         <TextView
             android:id="@+id/chip2"
-            style="@style/CustomChip_12"
+            style="@style/OptionBox"
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_marginHorizontal="4dp"
@@ -152,7 +152,7 @@
 
         <TextView
             android:id="@+id/chip3"
-            style="@style/CustomChip_12"
+            style="@style/OptionBox"
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_marginHorizontal="4dp"
@@ -165,7 +165,7 @@
 
         <TextView
             android:id="@+id/chip4"
-            style="@style/CustomChip_12"
+            style="@style/OptionBox"
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_marginHorizontal="4dp"
@@ -178,7 +178,7 @@
 
         <TextView
             android:id="@+id/chip5"
-            style="@style/CustomChip_12"
+            style="@style/OptionBox"
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_marginStart="4dp"
