@@ -78,7 +78,7 @@
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/color_font"
                 android:textColorHint="@color/unuse_font"
-                android:textCursorDrawable="@color/black" />
+                android:textCursorDrawable="@color/main_blue" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -262,6 +262,26 @@
                 android:textColor="@color/color_font"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="16.5dp"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="16.5dp"
+                android:src="@drawable/ic_dropdown"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

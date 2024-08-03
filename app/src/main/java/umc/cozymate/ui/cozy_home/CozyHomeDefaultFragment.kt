@@ -66,14 +66,14 @@ class CozyHomeDefaultFragment : Fragment() {
         // 버튼 내 텍스트 스타일 변경
         spannableString.setSpan(
             TextAppearanceSpan(requireContext(), R.style.TextAppearance_App_12sp_Medium),
-            10,
+            11,
             btnText.text.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
         spannableString.setSpan(
             ForegroundColorSpan(color),
-            10,
+            11,
             btnText.text.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )

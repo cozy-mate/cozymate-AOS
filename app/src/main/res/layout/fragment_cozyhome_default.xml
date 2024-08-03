@@ -89,7 +89,7 @@
         android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
-        android:text="룸메이트\n초대하기\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
+        android:text="코지메이트\n초대하기\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/main_blue"
         app:layout_constraintBottom_toBottomOf="parent"
