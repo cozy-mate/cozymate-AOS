@@ -99,7 +99,6 @@ class AddRoleTabFragment: Fragment() {
         val weekdayFlag = weekdayBox.any{it.isChecked}
         val titleFlag = !binding.etInputRole.text.isNullOrEmpty()
         binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag)
-
     }
     private fun initClickListener(){
         // 입력버튼
@@ -110,8 +109,8 @@ class AddRoleTabFragment: Fragment() {
             }
             val ruleAndRole = RoleAndRuleTabFragment()
             ruleAndRole.arguments = bundle
-
-            (context as AddTodoActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, RoleAndRuleTabFragment()).addToBackStack(null).commit()
+            (context as AddTodoActivity).finish()
+            //(context as AddTodoActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, RoleAndRuleTabFragment()).addToBackStack(null).commit()
         }
 
         // 메일 체크박스 체크 여부 확인
