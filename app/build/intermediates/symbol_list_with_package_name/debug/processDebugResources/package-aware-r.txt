@@ -1946,7 +1946,10 @@ color switch_thumb_normal_material_light
 color tooltip_background_dark
 color tooltip_background_light
 color transparent
+<<<<<<< HEAD
 color transparent60
+=======
+>>>>>>> origin/COZY-96-쪽지
 color unuse
 color unuse_btn
 color unuse_font
@@ -2673,7 +2676,11 @@ drawable background_cozyhome_active
 drawable background_crewable_scroll
 drawable background_finding_roommate
 drawable background_mypage
+<<<<<<< HEAD
 drawable background_round_corner_20
+=======
+drawable background_next_btn
+>>>>>>> origin/COZY-96-쪽지
 drawable background_todo
 drawable background_todo_tab
 drawable btn_checkbox_checked_mtrl
@@ -2688,6 +2695,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+<<<<<<< HEAD
 drawable btn_rectangle_12
 drawable btn_rectangle_26
 drawable btn_rectangle_39
@@ -2695,6 +2703,9 @@ drawable btn_rectangle_80svg
 drawable btn_rectangle_81
 drawable btn_rectangle_next_state
 drawable btn_roommate_selection_info_plus
+=======
+drawable btn_rectangle_26
+>>>>>>> origin/COZY-96-쪽지
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -2811,8 +2822,11 @@ drawable ic_send
 drawable ic_tab_indicator
 drawable ic_todo_plus
 drawable ic_xmark
+<<<<<<< HEAD
 drawable iv_radio_selected
 drawable iv_radio_unselected
+=======
+>>>>>>> origin/COZY-96-쪽지
 drawable ly_white_12
 drawable m3_appbar_background
 drawable m3_popupmenu_background_overlay
@@ -3006,6 +3020,7 @@ id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
+<<<<<<< HEAD
 id btn_InputButton
 id btn_apple_login
 id btn_back
@@ -3030,6 +3045,12 @@ id btn_next
 id btn_roommate_invite
 id btn_rule
 id btn_save
+=======
+id btn_WriteMessage
+id btn_apple_login
+id btn_kakao_login
+id btn_next
+>>>>>>> origin/COZY-96-쪽지
 id btn_school
 id btn_test
 id buttonPanel
@@ -3059,6 +3080,7 @@ id chip4
 id chip5
 id chronometer
 id circle_center
+<<<<<<< HEAD
 id cl_cozy_room_name
 id cl_cozy_room_people_number
 id cl_cozyhome_top
@@ -3090,6 +3112,10 @@ id clean_frequency_every_34days
 id clean_frequency_every_day
 id clean_frequency_every_month
 id clean_frequency_no
+=======
+id cl_onboarding_name
+id cl_onboarding_nickname
+>>>>>>> origin/COZY-96-쪽지
 id clear_text
 id clip_horizontal
 id clip_vertical
@@ -3167,6 +3193,7 @@ id endToStart
 id end_padder
 id enterAlways
 id enterAlwaysCollapsed
+<<<<<<< HEAD
 id et_InputMemo
 id et_InputRole
 id et_InputRule
@@ -3178,6 +3205,10 @@ id et_number
 id et_onboarding_name
 id et_onboarding_nickname
 id et_room_name
+=======
+id et_onboarding_name
+id et_onboarding_nickname
+>>>>>>> origin/COZY-96-쪽지
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3200,7 +3231,11 @@ id fragment_container_view_tag
 id fragment_feed
 id fragment_home
 id fragment_mypage
+<<<<<<< HEAD
 id fragment_onboarding
+=======
+id fragment_possible
+>>>>>>> origin/COZY-96-쪽지
 id fragment_role_and_rule
 id fragment_rommate
 id friday
@@ -3254,6 +3289,7 @@ id invisible
 id inward
 id italic
 id item_touch_helper_previous_elevation
+<<<<<<< HEAD
 id iv
 id ivListViewIcon
 id ivTableViewIcon
@@ -3278,15 +3314,26 @@ id iv_robot
 id iv_table_user_profile
 id iv_tem
 id iv_x
+=======
+id iv_Back
+id iv_Close
+id iv_More
+id iv_cozy_title
+id iv_message_member_character
+>>>>>>> origin/COZY-96-쪽지
 id jumpToEnd
 id jumpToStart
 id labeled
 id layout
+<<<<<<< HEAD
 id layout_Member
 id layout_MyTodo
 id layout_Rule
 id layout_TodoMember
 id layout_Weekdays
+=======
+id layout_TopButtons
+>>>>>>> origin/COZY-96-쪽지
 id left
 id leftToRight
 id legacy
@@ -3364,6 +3411,7 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id matrix
+<<<<<<< HEAD
 id mbti_INTP
 id mbti_ISFP
 id mbti_enfj
@@ -3380,6 +3428,8 @@ id mbti_intj
 id mbti_isfj
 id mbti_istj
 id mbti_istp
+=======
+>>>>>>> origin/COZY-96-쪽지
 id mcv_birth
 id mcv_gender
 id mcv_pager
@@ -3496,8 +3546,14 @@ id previous
 id progress_circular
 id progress_horizontal
 id radio
+<<<<<<< HEAD
 id radio_female
 id radio_male
+=======
+id radioButtonFemale
+id radioButtonMale
+id radioGroupGender
+>>>>>>> origin/COZY-96-쪽지
 id range
 id ratio
 id rectangles
@@ -3648,10 +3704,15 @@ id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
 id thursday
+<<<<<<< HEAD
 id til_invite_code
 id til_onboarding_name
 id til_onboarding_nickname
 id til_room_name
+=======
+id til_onboarding_name
+id til_onboarding_nickname
+>>>>>>> origin/COZY-96-쪽지
 id time
 id title
 id titleDividerNoCustom
@@ -3671,6 +3732,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tuesday
+<<<<<<< HEAD
 id tvListView
 id tvTableView
 id tv_AddRoleText1
@@ -3718,10 +3780,14 @@ id tv_guide1
 id tv_heater_check
 id tv_home_name
 id tv_home_people_num
+=======
+id tv_cozy_description
+>>>>>>> origin/COZY-96-쪽지
 id tv_label_birth
 id tv_label_gender
 id tv_label_name
 id tv_label_nickname
+<<<<<<< HEAD
 id tv_label_room_name
 id tv_label_room_people_number
 id tv_light_off_1
@@ -4032,6 +4098,20 @@ id tvil_birth
 id tvil_major
 id tvil_name
 id tvil_number
+=======
+id tv_message_member_name
+id tv_message_member_text
+id tv_message_name
+id tv_message_text
+id tv_message_time
+id tv_onboarding_title1
+id tv_onboarding_title2
+id tv_roommate1
+id tv_roommate2
+id tv_roommate3
+id tv_school_guide
+id tv_school_name
+>>>>>>> origin/COZY-96-쪽지
 id unchecked
 id uniform
 id unlabeled
@@ -4192,11 +4272,16 @@ layout activity_cozy_home_enter_invite_code
 layout activity_cozy_home_invite_roommate
 layout activity_cozyhome_character_selection
 layout activity_main
+<<<<<<< HEAD
 layout activity_onboarding
 layout activity_roommate_basic_info
 layout activity_roommate_detail
 layout activity_roommate_essential_info
 layout activity_roommate_selection_info
+=======
+layout activity_message
+layout activity_onboarding
+>>>>>>> origin/COZY-96-쪽지
 layout activity_splash
 layout activity_talk_auth_code
 layout browser_actions_context_menu_page
@@ -4231,10 +4316,15 @@ layout fragment_cozyhome_default
 layout dialog_roommate_detail_cozymate_request
 layout fragment_cozyhome
 layout fragment_feed
+layout fragment_message_detail
 layout fragment_mypage
+<<<<<<< HEAD
 layout fragment_onboarding_character_selection
 layout fragment_onboarding_summary
 layout fragment_onboarding_user_info
+=======
+layout fragment_onboarding_user_info_layout
+>>>>>>> origin/COZY-96-쪽지
 layout fragment_role_and_rule
 layout fragment_role_and_rule_tab
 layout fragment_roommate
@@ -4315,6 +4405,7 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
+<<<<<<< HEAD
 layout roommate_detail_bottom_sheet
 layout rv_item_role
 layout rv_item_rule
@@ -4323,6 +4414,10 @@ layout rv_item_todo_list
 layout rv_item_roommate_crewable_list_result
 layout rv_item_roommate_crewable_table_result
 layout rv_item_roommate_detail_rule_cando_never
+=======
+layout rv_item_message
+layout rv_item_message_member
+>>>>>>> origin/COZY-96-쪽지
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -4796,7 +4891,10 @@ style Base_Widget_MaterialComponents_TextView
 style CardView
 style CardView_Dark
 style CardView_Light
+<<<<<<< HEAD
 style CustomChip_12
+=======
+>>>>>>> origin/COZY-96-쪽지
 style CustomTextInputLayout
 style MaterialAlertDialog_Material3
 style MaterialAlertDialog_Material3_Body_Text
