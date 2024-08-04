@@ -79,7 +79,7 @@
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
         </activity>
-
+        <activity android:name=".ui.roommate.MessageActivity"/>
         <activity android:name=".ui.role_rule.AddTodoActivity"/>
 
         <service
