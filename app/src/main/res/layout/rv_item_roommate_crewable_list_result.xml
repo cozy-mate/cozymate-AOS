@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/custom_background_roommate_detail_12">
+
+    <ImageView
+        android:id="@+id/iv_other_user_profile"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:src="@drawable/ic_basic_character2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/guide_rv_crewable_list"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_other_user_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_other_user_profile" />
+
+    <TextView
+        android:id="@+id/tv_other_user_age"
+        style="@style/RvOtherUserInfoBox"
+        android:layout_width="36dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="3dp"
+        android:text="21살"
+        app:layout_constraintBottom_toBottomOf="@id/guide_rv_crewable_list"
+        app:layout_constraintStart_toEndOf="@+id/iv_other_user_profile" />
+
+    <TextView
+        android:id="@+id/tv_other_user_dormitory_num"
+        style="@style/RvOtherUserInfoBox"
+        android:layout_width="46dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="3dp"
+        android:text="2인 1실"
+        app:layout_constraintBottom_toBottomOf="@id/guide_rv_crewable_list"
+        app:layout_constraintStart_toEndOf="@+id/tv_other_user_age"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_other_user_name"
+        app:layout_constraintStart_toEndOf="@id/iv_other_user_profile"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="배이"
+        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+        android:textColor="#61666D"
+        app:layout_constraintTop_toTopOf="@id/guide_rv_crewable_list"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

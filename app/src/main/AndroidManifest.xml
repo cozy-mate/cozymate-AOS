@@ -58,27 +58,26 @@
             android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateSelectionInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateSelectionInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateEssentialInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateEssentialInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.roommate.RoommateBasicInfoActivity"
+            android:name=".ui.roommate.lifestyle_info.RoommateBasicInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
-            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true">
         </activity>
 
         <activity android:name=".ui.role_rule.AddTodoActivity"/>
@@ -94,7 +93,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_alarm_star" />
+            android:resource="@drawable/app_icon_png" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/main_blue" />

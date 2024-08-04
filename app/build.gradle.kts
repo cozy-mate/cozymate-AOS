@@ -125,6 +125,8 @@ dependencies {
     // 카카오 로그인
     implementation("com.kakao.sdk:v2-user:2.20.3")
 
+    // 셀렉트 칩 사용
+    implementation("com.google.android.material:material:1.4.0")
 //    implementation(libs.androidx.room.common)
 
     implementation("com.google.android.material:material:1.0.0-beta01")
