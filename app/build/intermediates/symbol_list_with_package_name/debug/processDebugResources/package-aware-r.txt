@@ -2677,6 +2677,11 @@ drawable background_crewable_scroll
 drawable background_finding_roommate
 drawable background_mypage
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+drawable background_mypage1
+drawable background_mypage2
+>>>>>>> COZY-150-마이페이지기본뷰
 drawable background_round_corner_20
 =======
 drawable background_next_btn
@@ -3295,6 +3300,10 @@ id item_touch_helper_previous_elevation
 id iv
 id ivListViewIcon
 id ivTableViewIcon
+id iv_MypageCharacter
+id iv_MypageData1
+id iv_MypageData2
+id iv_MypageUserName
 id iv_TodoMemberIcon
 id iv_add_todo
 id iv_back
