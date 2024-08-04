@@ -107,6 +107,17 @@
         <item name="android:background">@drawable/custom_option_box_background</item>
     </style>
 
+    <style name="RvOtherUserInfoBox">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="paddingStart">5dp</item>
+        <item name="paddingEnd">5dp</item>
+        <item name="android:textColor">@color/color_font</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:background">@drawable/custom_option_box_background_default</item>
+    </style>
+
     <style name="custom_dialog_cancel_btn">
         <item name="android:width">105dp</item>
         <item name="android:height">45dp</item>
