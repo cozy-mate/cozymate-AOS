@@ -1,11 +1,16 @@
 [
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_btn_rectangle_26.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/btn_rectangle_26.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-70:/mipmap-hdpi_ic_launcher.webp.flat",
         "source": "umc.cozymate.app-main-72:/mipmap-hdpi/ic_launcher.webp"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_cozymate.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_cozymate.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/layout_activity_onboarding.xml.flat",
@@ -24,8 +29,17 @@
         "source": "umc.cozymate.app-main-72:/drawable/custom_edittext.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_custom_circular_background.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/custom_circular_background.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_rv_item_roommate_crewable_table_result.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/rv_item_roommate_crewable_table_result.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/xml_backup_rules.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/xml/backup_rules.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/mipmap-xhdpi_ic_launcher.webp.flat",
@@ -44,8 +58,17 @@
         "source": "umc.cozymate.app-main-72:/layout/activity_cozy_home_invite_roommate.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_background_checklist.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/background_checklist.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_dialog_roommate_detail_cozymate_request.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/dialog_roommate_detail_cozymate_request.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_check.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_check.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_graph.xml.flat",
@@ -112,8 +135,21 @@
         "source": "umc.cozymate.app-main-72:/drawable/ic_copy.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_add.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_add.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_rv_item_roommate_detail_rule_cando_never.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/rv_item_roommate_detail_rule_cando_never.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_item_crew_chip.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/item_crew_chip.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_option_box_background.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_option_box_background.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/layout_roommate_detail_bottom_sheet.xml.flat",
@@ -244,12 +280,17 @@
         "source": "umc.cozymate.app-main-72:/drawable/btn_roommate_selection_info_plus.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/layout_rv_item_todo_list.xml.flat",
         "source": "umc.cozymate.app-main-72:/layout/rv_item_todo_list.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-70:/layout_rv_item_role.xml.flat",
         "source": "umc.cozymate.app-main-72:/layout/rv_item_role.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_message.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_message.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/font_pretendard_regular.ttf.flat",
@@ -264,16 +305,38 @@
         "source": "umc.cozymate.app-main-72:/layout/item_roommate_detail_list.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/layout_activity_roommate_detail.xml.flat",
         "source": "umc.cozymate.app-main-72:/layout/activity_roommate_detail.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_school_color.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_school_color.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/font_pretendard_semi_bold.ttf.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/font/pretendard_semi_bold.ttf"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/layout_fragment_role_and_rule.xml.flat",
         "source": "umc.cozymate.app-main-72:/layout/fragment_role_and_rule.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_custom_background_roommate_detail_12.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/custom_background_roommate_detail_12.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_app_icon_svg.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/app_icon_svg.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_app_icon_png.png.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/app_icon_png.png"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_btn_cozymate_cancel.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/btn_cozymate_cancel.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_custom_background_roommate_detail_bottomsheet.xml.flat",
@@ -460,12 +523,17 @@
         "source": "umc.cozymate.app-main-72:/layout/fragment_roommate.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_heartfull.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_heartfull.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-70:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
         "source": "umc.cozymate.app-main-72:/mipmap-xxxhdpi/ic_launcher_round.webp"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_launcher_foreground.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_btn_cozymate_cancel.xml.flat",
@@ -484,8 +552,17 @@
         "source": "umc.cozymate.app-main-72:/layout/item_roommate_select_box.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_background_todo_tab.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/background_todo_tab.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_rv_item_roommate_crewable_list_result.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/rv_item_roommate_crewable_list_result.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_basic_character3.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_basic_character3.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_check_unuse.xml.flat",
@@ -508,8 +585,17 @@
         "source": "umc.cozymate.app-main-72:/xml/backup_rules.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/font_pretendard_light.ttf.flat",
         "source": "umc.cozymate.app-main-72:/font/pretendard_light.ttf"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_down_2.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_down_2.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_option.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_option.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_close.xml.flat",
@@ -536,36 +622,68 @@
         "source": "umc.cozymate.app-main-72:/drawable/ic_alarm_star.png"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_iv_radio_selected.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/iv_radio_selected.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_fragment_roommate_make_crewable.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/fragment_roommate_make_crewable.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_cozyhome_feed_robot.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_cozyhome_feed_robot.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_delete.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_delete.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_search.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_search.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_dialog_btn_background_8.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_dialog_btn_background_8.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_detail_list.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_detail_list.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_launcher_foreground.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_launcher_foreground.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_btn_cozymate_black_cancel.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/btn_cozymate_black_cancel.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_down.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_down.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/mipmap-anydpi/ic_launcher_round.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_background_bottom_nav.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/background_bottom_nav.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_back.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_back.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_message.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_message.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/font_pretendard_regular.ttf.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/font/pretendard_regular.ttf"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/font_pretendard_semi_bold.ttf.flat",
@@ -580,8 +698,17 @@
         "source": "umc.cozymate.app-main-72:/drawable/ic_home.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_basic_character2.xml.flat",
         "source": "umc.cozymate.app-main-72:/drawable/ic_basic_character2.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_background_crewable_scroll.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/background_crewable_scroll.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_option_box_background_selected_6dp.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/custom_option_box_background_selected_6dp.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_ic_pencil.xml.flat",
@@ -608,8 +735,17 @@
         "source": "umc.cozymate.app-main-72:/drawable/ic_rectangle_12.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "umc.cozymate.app-debug-70:/color_custom_option_text_color.xml.flat",
         "source": "umc.cozymate.app-main-72:/color/custom_option_text_color.xml"
+=======
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_app_icon_jpg.jpg.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/app_icon_jpg.jpg"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_activity_splash.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/activity_splash.xml"
+>>>>>>> COZY-141룸메-활성-비활성
     },
     {
         "merged": "umc.cozymate.app-debug-70:/drawable_btn_cozymate_request.xml.flat",

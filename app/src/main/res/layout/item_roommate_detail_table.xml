@@ -1121,7 +1121,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_table_rule"
-                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1149,7 +1149,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_table_can_do"
-                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1177,7 +1177,7 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_table_never"
-                    tools:listitem="@layout/item_roommate_detail_rule_cando_never"/>
+                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

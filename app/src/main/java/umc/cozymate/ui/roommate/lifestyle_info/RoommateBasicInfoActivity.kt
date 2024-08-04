@@ -1,4 +1,4 @@
-package umc.cozymate.ui.roommate
+package umc.cozymate.ui.roommate.lifestyle_info
 
 import android.content.Context
 import android.content.Intent
@@ -7,18 +7,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.databinding.ActivityRoommateBasicInfoBinding
-import umc.cozymate.databinding.ActivityRoommateEssentialInfoBinding
-import umc.cozymate.databinding.FragmentRoommateBinding
 
 class RoommateBasicInfoActivity : AppCompatActivity() {
 

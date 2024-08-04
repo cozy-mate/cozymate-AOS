@@ -380,22 +380,32 @@ ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManif
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:55:13-63
 activity#umc.cozymate.ui.roommate.RoommateSelectionInfoActivity
 ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:57:9-59:40
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:22:13-63
+activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateSelectionInfoActivity
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:24:9-26:40
 	android:exported
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:59:13-37
 	android:name
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:58:13-70
 activity#umc.cozymate.ui.roommate.RoommateEssentialInfoActivity
 ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:60:9-62:40
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:25:13-85
+activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateEssentialInfoActivity
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:27:9-29:40
 	android:exported
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:62:13-37
 	android:name
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:61:13-70
 activity#umc.cozymate.ui.roommate.RoommateBasicInfoActivity
 ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:63:9-65:40
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:13-85
+activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateBasicInfoActivity
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:30:9-32:40
 	android:exported
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:65:13-37
 	android:name
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:64:13-66
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:13-81
 activity#umc.cozymate.ui.MainActivity
 ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:66:9-74:20
 	android:exported
@@ -438,8 +448,10 @@ ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManif
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:87:25-75
 meta-data#com.google.firebase.messaging.default_notification_icon
 ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:91:9-93:58
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:52:9-54:57
 	android:resource
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:93:13-55
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:54:13-54
 	android:name
 		ADDED from C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:92:13-83
 meta-data#com.google.firebase.messaging.default_notification_color
