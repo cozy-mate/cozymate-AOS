@@ -142,11 +142,14 @@ menu bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
+string base_url
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
+string kakao_app_key
+string kakao_scheme
 string project_id
 style Base.Theme.Cozymate
 style CustomTextInputLayout

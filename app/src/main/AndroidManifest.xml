@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.roommate.MessageActivity"/>
         <service
             android:name=".firebase.FCMService"
             android:enabled="true"
