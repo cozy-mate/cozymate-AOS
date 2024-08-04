@@ -1,45 +1,47 @@
-package umc.cozymate.ui.onboarding
+package umc.cozymate.ui.cozy_home.making_room
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentOnboardingCharacterSelectionBinding
+import umc.cozymate.databinding.ActivityCozyHomeSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
-class OnboardingCharacterSelectionFragment : Fragment(), CharacterItemClickListener {
+// 플로우1 : 방정보 입력창 캐릭터 수정 버튼 클릭
+class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
 
-    private var _binding: FragmentOnboardingCharacterSelectionBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding: ActivityCozyHomeSelectingCharacterBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentOnboardingCharacterSelectionBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityCozyHomeSelectingCharacterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        with(binding) {
+            btnNext.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
 
         initCharacterList()
 
-        binding.btnNext.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingSummaryFragment())
-                .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
-                .commit()
-
-        }
-
-        return binding.root
     }
 
     private fun initCharacterList() {
@@ -65,7 +67,7 @@ class OnboardingCharacterSelectionFragment : Fragment(), CharacterItemClickListe
         val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter
         binding.rvList.run {
-            layoutManager = GridLayoutManager(requireContext(), 4)
+            layoutManager = GridLayoutManager(context, 4)
             addItemDecoration(
                 GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
             )

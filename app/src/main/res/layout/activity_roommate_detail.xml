@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        tools:context=".ui.roommate.RoommateDetailActivity">
+        tools:context=".ui.selectingRoommateItem.RoommateDetailActivity">
 
         <!-- 상단의 UI 요소들 -->
         <androidx.appcompat.widget.AppCompatButton

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
-import java.time.LocalDate
 
 
 class OnboardingUserInfoFragment : Fragment() {
@@ -105,7 +103,7 @@ class OnboardingUserInfoFragment : Fragment() {
         binding.btnNext.isEnabled = isEnabled
         binding.btnNext.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingCharacterSelectionFragment())
+                .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())
                 .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
                 .commit()
 
@@ -162,26 +160,35 @@ class OnboardingUserInfoFragment : Fragment() {
                 updateColors()
 
                 // 바텀시트 띄우기
-                val pickerDialogInterface = object : AlertPickerDialogInterface {
+                val fragment1 = DatePickerBottomSheetFragment()
+                fragment1.setOnDateSelectedListener(object : DatePickerBottomSheetFragment.AlertPickerDialogInterface {
+
+                    override fun onClickDoneButton(date: String) {
+                        binding.tvBirth.text = date
+                    }
+                })
+                fragment1.show(childFragmentManager, "Fragment1Tag")
+
+                /*val pickerDialogInterface = object : AlertPickerDialogInterface {
                     override fun onClickDoneButton(id: Int, year: Int, month: Int, day: Int) {
                         // Handle the selected values here
                         Log.d("AlertPickerDialog", "Selected Date: $year-$month-$day")
                         // You can update the UI or perform other actions based on the selected date
                     }
-                }
-                // Get current date to initialize the dialog
-                val currentDate = LocalDate.now()
-                val id = 1 // or any other id you want to pass
-
-                // Create and show the AlertPickerDialog
-                val alertPickerDialog = DatePickerBottomSheetFragment(
-                    pickerDialogInterface = pickerDialogInterface,
-                    id = id,
-                    year = currentDate.year,
-                    month = currentDate.monthValue,
-                    day = currentDate.dayOfMonth
-                )
-                alertPickerDialog.show(childFragmentManager, "alertPickerDialog")
+                }*/
+//                // Get current date to initialize the dialog
+//                val currentDate = LocalDate.now()
+//                val id = 1 // or any other id you want to pass
+//
+//                // Create and show the AlertPickerDialog
+//                val alertPickerDialog = DatePickerBottomSheetFragment(
+//                    pickerDialogInterface = pickerDialogInterface,
+//                    id = id,
+//                    year = currentDate.year,
+//                    month = currentDate.monthValue,
+//                    day = currentDate.dayOfMonth
+//                )
+//                alertPickerDialog.show(childFragmentManager, "alertPickerDialog")
 
                 /*val bottomSheetDialog =
                     BottomSheetDialog(requireContext(), R.drawable.background_round_corner_20)
