@@ -29,6 +29,14 @@ class RoleAndRuleTabFragment: Fragment() {
             initRecyclerview()
         }
 
+//        val  newRole = arguments?.getSerializable("RoleData")as? Role
+//        newRole?.let{
+//            val title = it.title
+//            val weekday = it.weekday
+//        }
+//        if (newRole != null) {
+//            members[3].role.add(newRole)
+//        }
         return binding.root
     }
     private fun initListData() {
@@ -42,7 +50,7 @@ class RoleAndRuleTabFragment: Fragment() {
             add(Member(id = 1, name = "test1", todo = arrayListOf(TodoList(1,"할 일 1", false)), role = arrayListOf(Role("설거지 하기",arrayOf(true, false, true, false, true, false, true)))))
             add(Member(id = 2, name = "test2", todo = arrayListOf(), role = arrayListOf(Role("바닥 쓸기",arrayOf(true, true, true, true, true, true, true)),Role("빨래개기",arrayOf(false, true, false, false, true, false, false)))))
             add(Member(id = 3, name = "이름", todo = arrayListOf(), role = arrayListOf(Role("쓰레기 버리기",arrayOf(true, false, false, false, false, false, false)))))
-            add(Member(id = 3, name = "잉여", todo = arrayListOf(), role = arrayListOf()))
+            add(Member(id = 4, name = "잉여", todo = arrayListOf(), role = arrayListOf()))
         }
     }
 
