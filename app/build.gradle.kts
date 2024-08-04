@@ -130,6 +130,9 @@ dependencies {
 //    implementation(libs.androidx.room.common)
 
     implementation("com.google.android.material:material:1.0.0-beta01")
+
+    //달력
+    implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
 }
 kapt {
     correctErrorTypes = true

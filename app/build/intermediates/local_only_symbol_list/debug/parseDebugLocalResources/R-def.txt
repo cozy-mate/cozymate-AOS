@@ -87,6 +87,7 @@ drawable ic_basic_character2
 drawable ic_basic_character3
 drawable ic_bell
 drawable ic_button
+drawable ic_calender_date
 drawable ic_check
 drawable ic_check_full
 drawable ic_check_unuse
@@ -183,6 +184,7 @@ id btn_rule
 id btn_save
 id btn_school
 id btn_test
+id calendar_view
 id call_no
 id call_yes
 <<<<<<< HEAD

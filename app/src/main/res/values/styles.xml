@@ -124,6 +124,7 @@
         <item name="android:background">@drawable/custom_option_box_background</item>
     </style>
 
+<<<<<<< HEAD
     <style name="RvOtherUserInfoBox">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
@@ -154,5 +155,8 @@
         <item name="android:textAlignment">center</item>
         <item name="android:backgroundTint">@color/main_blue</item>
     </style>
+=======
+
+>>>>>>> COZY-74-todo달력
 
 </resources>

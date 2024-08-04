@@ -90,7 +90,10 @@
 45
 46    <application
 <<<<<<< HEAD
+<<<<<<< HEAD
 46-->C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\AndroidManifest.xml:12:5-97:19
+=======
+>>>>>>> COZY-74-todo달력
 46-->C:\Users\ju080\Documents\cozymate-AOS\app\src\main\AndroidManifest.xml:12:5-97:19
 47        android:name="umc.cozymate.GlobalApplication"
 47-->C:\Users\ju080\Documents\cozymate-AOS\app\src\main\AndroidManifest.xml:13:9-42
