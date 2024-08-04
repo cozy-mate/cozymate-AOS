@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <ImageView
         android:id="@+id/iv_MypageCharacter"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/ic_basic_character"
+        android:layout_marginTop="52dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -24,42 +25,36 @@
         app:layout_constraintTop_toBottomOf="@id/iv_MypageCharacter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/iv_MypageData1"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:gravity="center_vertical"
-        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-        android:layout_marginHorizontal="22dp"
-        android:layout_marginTop="53dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background_mypage1"
+        android:layout_marginTop="45dp"
         app:layout_constraintTop_toBottomOf="@id/iv_MypageUserName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="나의 코지룸"
-            android:gravity="center_vertical"
-            android:textColor="@color/highlight_font"/>
-        <View
-            android:layout_width="match_parentdp"
-            android:layout_height="0dp"/>
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_home"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="피그말리온"
-            android:gravity="center_vertical"
-            android:textColor="@color/main_blue"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_back"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_MypageData2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background_mypage2"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_MypageData1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:text="로그아웃  |   회윈탈퇴"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/unuse_font"
+        android:gravity="center_vertical"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_MypageData2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
