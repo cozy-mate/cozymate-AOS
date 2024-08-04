@@ -44,9 +44,10 @@ class AchievementsAdapter(
 
             // Update tv_content based on achievement type
             binding.tvAchievementContent.text = when (achievement.type) {
-                AchievementItemType.PRAISE -> "칭찬해주세요!"
-                AchievementItemType.COMPLETE -> "완료했어요!"
-                AchievementItemType.FORGOT -> "까먹은것같아요"
+                AchievementItemType.PRAISE -> "name님이 todo를 완료했어요! 얼른 칭찬해주세요!"
+                AchievementItemType.COMPLETE -> "month 최고의 코지메이트 신청이 완료되었어요! \nBest cozymate : name Worst cozymate : name"
+                AchievementItemType.FORGOT -> "name님이 todo을/를 까먹은 거 같아요 ㅠㅠ"
+                AchievementItemType.FIRST -> "피그말리온 의 역사적인 하루가 시작됐어요!"
             }
         }
     }

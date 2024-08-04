@@ -1,10 +1,6 @@
 package umc.cozymate.ui
 
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
-
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
@@ -57,6 +53,22 @@ class MainActivity : AppCompatActivity() {
     private fun initScreen() {
         this.setStatusBarTransparent()
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
+    }
+
+    // [코지홈 비활성화] 로드
+    fun loadDefaultFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, CozyHomeDefaultFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // [코지홈 활성화] 로드
+    fun loadActiveFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, CozyHomeActiveFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
 

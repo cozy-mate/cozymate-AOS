@@ -9,5 +9,6 @@ data class AchievementItem(
 enum class AchievementItemType {
     PRAISE,
     COMPLETE,
-    FORGOT
+    FORGOT,
+    FIRST
 }

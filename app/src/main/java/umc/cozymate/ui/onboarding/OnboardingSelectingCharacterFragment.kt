@@ -1,39 +1,45 @@
-package umc.cozymate.ui.cozy_home.common
+package umc.cozymate.ui.onboarding
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyhomeCharacterSelectionBinding
+import umc.cozymate.databinding.FragmentOnboardingSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
-// 플로우1 : 방정보 입력창 캐릭터 수정 버튼 클릭
-class CozyHomeCharacterSelectionActivity : AppCompatActivity(), CharacterItemClickListener {
+class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
 
-    lateinit var binding: ActivityCozyhomeCharacterSelectionBinding
+    private var _binding: FragmentOnboardingSelectingCharacterBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityCozyhomeCharacterSelectionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-
-        with(binding) {
-            btnNext.setOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardingSelectingCharacterBinding.inflate(inflater, container, false)
 
         initCharacterList()
 
+        binding.btnNext.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_onboarding, OnboardingSummaryFragment())
+                .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 프래그먼트로 돌아갈 수 있게 함
+                .commit()
+
+        }
+
+        return binding.root
     }
 
     private fun initCharacterList() {
@@ -59,7 +65,7 @@ class CozyHomeCharacterSelectionActivity : AppCompatActivity(), CharacterItemCli
         val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter
         binding.rvList.run {
-            layoutManager = GridLayoutManager(context, 4)
+            layoutManager = GridLayoutManager(requireContext(), 4)
             addItemDecoration(
                 GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
             )

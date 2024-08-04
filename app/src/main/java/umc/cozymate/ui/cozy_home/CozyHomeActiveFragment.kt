@@ -34,7 +34,6 @@ class CozyHomeActiveFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        initScreen()
         initAchievmentList()
         initView()
         return binding.root
@@ -45,10 +44,6 @@ class CozyHomeActiveFragment : Fragment() {
         val data = arguments?.getString(ARG_DATA)
     }
 
-    private fun initScreen() {
-        //this.setStatusBarTransparent()
-        //binding.clNoticeList.setPadding(0, 0, 0, this.navigationHeight())
-    }
 
     private fun initAchievmentList() {
         val adapter = AchievementsAdapter(viewModel.achievements.value!!)

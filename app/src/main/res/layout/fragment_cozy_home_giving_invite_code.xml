@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -19,12 +16,43 @@
             android:id="@+id/title_cozy_entering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cozymate가 모두 모였어요!"
+            android:text="방 생성을 완료했어요!"
             android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/highlight_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title_cozy_entering2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초대코드를 공유해 룸메이트를 모아보세요.."
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/basic_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_cozy_entering"
+            android:layout_marginTop="4dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_copy_invite_code"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="60dp"
+            android:background="@drawable/btn_rectangle_12"
+            android:backgroundTint="@color/color_box"
+            android:drawableEnd="@drawable/ic_copy"
+            android:drawablePadding="-20dp"
+            android:drawableTint="@color/main_blue"
+            android:gravity="center"
+            android:text="QUIIRK"
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/main_blue"
+            app:layout_constraintStart_toStartOf="@id/title_cozy_entering2"
+            app:layout_constraintEnd_toEndOf="@id/title_cozy_entering2"
+            app:layout_constraintTop_toBottomOf="@id/title_cozy_entering2" />
 
         <ImageView
             android:layout_width="300dp"
@@ -35,7 +63,7 @@
             android:src="@drawable/background_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_cozy_entering" />
+            app:layout_constraintTop_toBottomOf="@id/btn_copy_invite_code" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
