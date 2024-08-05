@@ -2,6 +2,7 @@ package umc.cozymate.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
@@ -14,7 +15,7 @@ import umc.cozymate.ui.roommate.RoommateFragment
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
