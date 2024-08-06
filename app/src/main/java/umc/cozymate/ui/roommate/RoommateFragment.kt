@@ -31,6 +31,10 @@ class RoommateFragment : Fragment() {
         binding.btnCrew.setOnClickListener {
             (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateMakeCrewableFragment()).commitAllowingStateLoss()
         }
+        binding.btnInfo.setOnClickListener {
+            val intent = Intent(activity, RoommateInputInfoActivity::class.java)
+            startActivity(intent)
+        }
 
 
         return binding.root

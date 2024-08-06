@@ -166,6 +166,7 @@ id btn_dialog_detail_no
 id btn_dialog_detail_yes
 id btn_enter_room
 id btn_go_lifestyle
+id btn_info
 id btn_invite_code
 id btn_kakao_login
 id btn_like
@@ -193,14 +194,17 @@ id cl_cozyhome_top
 id cl_crewable_background
 id cl_crewable_chip_result
 id cl_crewable_title
+id cl_dormitory
 id cl_list_basic_info
 id cl_list_can_do_info
 id cl_list_dormitory_info
 id cl_list_essential_info
 id cl_list_never_info
 id cl_list_rule_info
+id cl_major
 id cl_onboarding_name
 id cl_onboarding_nickname
+id cl_people_number
 id cl_rectangle
 id cl_room_info
 id cl_table_basic_info
@@ -253,6 +257,7 @@ id friendly_yes
 id game_no
 id game_yes
 id gl
+id guide_bottom
 id guide_other
 id guide_rv_crewable_list
 id guide_user
@@ -359,6 +364,7 @@ id mbti_istj
 id mbti_istp
 id mcv_birth
 id mcv_gender
+id nested_scroll_view
 id noise1
 id noise2
 id noise3
@@ -719,6 +725,7 @@ id tvil_number
 id v_divider
 id vp_AddTodo
 id vp_RoleAndRule
+id vp_input_info
 id wake_guide_line
 layout activity_add_todo
 layout activity_cozy_home_entering_invite_code
@@ -731,6 +738,7 @@ layout activity_onboarding
 layout activity_roommate_basic_info
 layout activity_roommate_detail
 layout activity_roommate_essential_info
+layout activity_roommate_input_info
 layout activity_roommate_selection_info
 layout activity_splash
 layout custom_datepicker
@@ -738,6 +746,7 @@ layout dialog_roommate_detail_cozymate_request
 layout fragment_add_role_tab
 layout fragment_add_rule_tab
 layout fragment_add_todo_tab
+layout fragment_basic_info
 layout fragment_cozy_home_entering
 layout fragment_cozy_home_entering_invite_code
 layout fragment_cozy_home_giving_invite_code
@@ -746,6 +755,7 @@ layout fragment_cozy_home_selecting_roommate
 layout fragment_cozy_home_waiting
 layout fragment_cozyhome_active
 layout fragment_cozyhome_default
+layout fragment_essential_info
 layout fragment_feed
 layout fragment_finding_roommate
 layout fragment_message_detail
@@ -758,6 +768,7 @@ layout fragment_role_and_rule_tab
 layout fragment_roommate
 layout fragment_roommate_make_crewable
 layout fragment_roommate_onboarding
+layout fragment_selection_info
 layout fragment_todo_tab
 layout item_character
 layout item_cozyhome_achievement

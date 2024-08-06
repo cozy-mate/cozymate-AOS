@@ -20,11 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.roommate.RoommateInputInfoActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="a51292da8bc69b2160b0bb97ec00b2ad" />
-        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+            android:value="a51292da8bc69b2160b0bb97ec00b2ad" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -77,10 +79,9 @@
         </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".ui.roommate.MessageActivity"/>
-        <activity android:name=".ui.role_rule.AddTodoActivity"/>
+            android:exported="true"></activity>
+        <activity android:name=".ui.roommate.MessageActivity" />
+        <activity android:name=".ui.role_rule.AddTodoActivity" />
 
         <service
             android:name=".firebase.FCMService"
