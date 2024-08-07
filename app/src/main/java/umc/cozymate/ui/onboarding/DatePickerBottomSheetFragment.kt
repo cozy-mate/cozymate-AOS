@@ -71,7 +71,7 @@ class DatePickerBottomSheetFragment(
         binding.btnSave.setOnClickListener {
             // 값 가져오기
             var year = binding.npYear.value.toString()
-            if (binding.npYear.value.toString().length == 3) year = ((binding.npYear.value-100).toString())
+            if (binding.npYear.value.toString().length == 3) year = year[1].toString()+ year[2].toString()
 
             var month = (binding.npMonth.value + 1).toString()
             if (month.length == 1) month = "0" + month
@@ -135,41 +135,6 @@ class DatePickerBottomSheetFragment(
             npYear.value = year - 1900 //currentDate.year
             npMonth.value = month-1//currentDate.monthValue
             npDay.value = day-1//currentDate.dayOfMonth
-        }
-    }
-
-    private fun initDatePicker() {
-        val currentDate = Calendar.getInstance()
-        val currentYear = currentDate.get(Calendar.YEAR)
-        val currentMonth = currentDate.get(Calendar.MONTH) + 1
-
-        binding.run {
-            npYear.minValue = currentYear - 100
-            npYear.maxValue = currentYear + 100
-
-            npMonth.minValue = 1
-            npMonth.maxValue = 12
-
-            npDay.minValue = 1
-            npDay.maxValue = getDaysInMonth(currentYear, currentMonth)
-
-            npYear.setOnValueChangedListener { _, _, p2 ->
-                val maxDayValue = getDaysInMonth(p2, npMonth.value)
-                npDay.maxValue = maxDayValue
-            }
-
-            npMonth.setOnValueChangedListener { _, _, p2 ->
-                val maxDayValue = getDaysInMonth(npYear.value, p2)
-                npDay.maxValue = maxDayValue
-            }
-
-            npYear.displayedValues = getDisplayValues(currentYear - 100, currentYear + 100, "20")
-            npMonth.displayedValues = getDisplayValues(1, 12, "")
-            npDay.displayedValues = getDisplayValues(1, 31, "")
-
-            npYear.value = currentYear
-            npMonth.value = currentMonth
-            npDay.value = currentDate.get(Calendar.DAY_OF_MONTH)
         }
     }
 
