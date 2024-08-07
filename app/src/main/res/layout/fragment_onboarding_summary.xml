@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/iv_char"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginHorizontal="37dp"

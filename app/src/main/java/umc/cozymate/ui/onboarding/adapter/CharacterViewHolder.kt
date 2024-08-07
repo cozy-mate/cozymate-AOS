@@ -23,7 +23,7 @@ class CharacterViewHolder(itemBinding: ItemCharacterBinding) :
         isSelected: Boolean,
         itemClickListener: (Int) -> Unit
     ) {
-        iv_item.setImageResource(data.img)
+        iv_item.setImageResource(data.img!!)
 
         iv_chk.visibility = if (isSelected) View.VISIBLE else View.GONE
 
