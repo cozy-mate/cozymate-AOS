@@ -44,22 +44,22 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
     private fun initCharacterList() {
 
         val characters = listOf(
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
-            CharacterItem(R.drawable.background_circle),
+            CharacterItem(R.drawable.character_0),
+            CharacterItem(R.drawable.character_1),
+            CharacterItem(R.drawable.character_2),
+            CharacterItem(R.drawable.character_3),
+            CharacterItem(R.drawable.character_4),
+            CharacterItem(R.drawable.character_5),
+            CharacterItem(R.drawable.character_6),
+            CharacterItem(R.drawable.character_7),
+            CharacterItem(R.drawable.character_8),
+            CharacterItem(R.drawable.character_9),
+            CharacterItem(R.drawable.character_10),
+            CharacterItem(R.drawable.character_11),
+            CharacterItem(R.drawable.character_12),
+            CharacterItem(R.drawable.character_13),
+            CharacterItem(R.drawable.character_14),
+            CharacterItem(R.drawable.character_15),
         )
         val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter

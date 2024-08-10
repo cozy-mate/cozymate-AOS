@@ -1,5 +1,6 @@
 package umc.cozymate.ui.splash
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
+import umc.cozymate.ui.onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -32,8 +34,16 @@ class SplashActivity : AppCompatActivity() {
 
         // 로그인 버튼 클릭 시 크롬 카카오 로그인 페이지 열기
         binding.btnKakaoLogin.setOnClickListener {
-            openKakaoLoginPage()
+            //openKakaoLoginPage()
+            goOnboarding()
         }
+
+
+    }
+
+    private fun goOnboarding() {
+        val intent = Intent(this, OnboardingActivity::class.java)
+        startActivity(intent)
     }
 
     private fun openKakaoLoginPage() {

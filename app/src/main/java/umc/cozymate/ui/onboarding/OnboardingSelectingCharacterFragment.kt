@@ -65,7 +65,7 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             }
 
             if (response is NetworkResult.Fail) {
-                Toast.makeText(requireContext(), "Registration failed: ${response?.message}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Registration failed: ${response?.message}", Toast.LENGTH_SHORT).show()
             }
             else if (response is NetworkResult.Error) {
                 // 에러가 발생한 경우 처리
