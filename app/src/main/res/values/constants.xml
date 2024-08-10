@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="base_url">https://cozymate.store</string>
-    <string name="kakao_app_key">a51292da8bc69b2160b0bb97ec00b2ad</string>
-    <string name="kakao_scheme">kakaoa51292da8bc69b2160b0bb97ec00b2ad</string>
+    <!--string name="kakao_app_key">a51292da8bc69b2160b0bb97ec00b2ad</string-->
+    <string name="kakao_app_key">7feaa7120f9192caa40266c210bae2b9</string>
+    <string name="kakao_scheme">kakao7feaa7120f9192caa40266c210bae2b9</string>
 </resources>

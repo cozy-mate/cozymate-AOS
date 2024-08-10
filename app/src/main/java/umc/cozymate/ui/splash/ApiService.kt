@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface ApiService {
     //@GET("/api/auth/kakao/login")
-    @GET("/oauth2/kakao/url")
-    suspend fun getKakaoRedirectUrl(): Response<KakaoRedirectResponse>
+    @GET("/oauth2/kakao/sign-in")
+    suspend fun getKakaoRedirectUrl(): Response<KakaoResponse>
 
     @GET("/oauth2/kakao/code")
     suspend fun getKakaoAccessToken(@Query("code") code: String): Response<KakaoAccessTokenResponse>

@@ -9,6 +9,9 @@ plugins {
     id("com.google.gms.google-services")
 
     id("kotlin-parcelize")
+
+    //kotlin("jvm") version "2.0.10"
+    kotlin("plugin.serialization") version "2.0.10"
 }
 
 //val properties = Properties().apply{
@@ -133,6 +136,15 @@ dependencies {
 
     //달력
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
+
+    //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
+    //
+    // Ktor HTTP client
+    implementation("io.ktor:ktor-client-core:2.2.4")
+    implementation("io.ktor:ktor-client-android:2.2.4")
+    implementation("io.ktor:ktor-client-json:2.2.4")
+    implementation("io.ktor:ktor-client-serialization:2.2.4")
 }
 kapt {
     correctErrorTypes = true
