@@ -33,16 +33,18 @@ class MessageActivity : AppCompatActivity() {
         binding.rvMessage.apply {
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(this@MessageActivity)
-            setOnClickListener {
-                val fragment = MessageDetailFragment()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, fragment) // fragment_container는 MessageActivity 레이아웃의 FragmentContainerView ID
-                    .addToBackStack(null)
-                    .commit()
 
-                binding.ll2.visibility = View.GONE
-                binding.layoutTopButtons.visibility = View.GONE
-            }
+        }
+
+        binding.root.setOnClickListener {
+            val fragment = MessageDetailFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, fragment) // fragment_container는 MessageActivity 레이아웃의 FragmentContainerView ID
+                .addToBackStack(null)
+                .commit()
+
+            binding.ll2.visibility = View.GONE
+            binding.layoutTopButtons.visibility = View.GONE
         }
 
     }

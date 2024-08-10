@@ -34,7 +34,6 @@ class CozyHomeActiveFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        binding.tvWhoseRoom.text = "피그말리온"
         binding.ivChar.setImageResource(R.drawable.character_0)
 
 
