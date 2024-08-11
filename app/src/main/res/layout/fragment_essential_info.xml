@@ -8,10 +8,10 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="none">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_smoke" />
+                app:layout_constraintTop_toBottomOf="@id/cl_sleep_time" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cy_wake_ampm"
@@ -88,6 +88,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="4dp"
+                    android:clickable="true"
                     android:text="1" />
 
                 <TextView
@@ -96,6 +97,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="2" />
 
                 <TextView
@@ -104,6 +106,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="3" />
 
                 <TextView
@@ -112,6 +115,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="4" />
 
                 <TextView
@@ -120,6 +124,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="5" />
 
                 <TextView
@@ -128,6 +133,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="6" />
             </LinearLayout>
 
@@ -146,6 +152,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="4dp"
+                    android:clickable="true"
                     android:text="7" />
 
                 <TextView
@@ -154,6 +161,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="8" />
 
                 <TextView
@@ -162,6 +170,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="9" />
 
                 <TextView
@@ -170,6 +179,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="10" />
 
                 <TextView
@@ -178,6 +188,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="11" />
 
                 <TextView
@@ -186,365 +197,389 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
                     android:text="12" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_sleep_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="취침시간을 선택해주세요"
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                android:textColor="@color/highlight_font"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_wake_time_7" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cy_sleep_ampm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_sleep_time">
-
-                <TextView
-                    android:id="@+id/tv_sleep_am"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="AM"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/unuse_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/sleep_guide_line"
-                    android:layout_width="1dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="20dp"
-                    android:background="@color/unuse_font"
-                    app:layout_constraintStart_toEndOf="@id/tv_sleep_am"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_pm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="PM"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/unuse_font"
-                    app:layout_constraintStart_toEndOf="@+id/sleep_guide_line"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_sleep_time_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cy_sleep_ampm">
-
-                <TextView
-                    android:id="@+id/tv_sleep_1"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:text="1" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_2"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="2" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_3"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="3" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_4"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="4" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_5"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="5" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_6"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="6" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_sleep_time_7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_1">
-
-                <TextView
-                    android:id="@+id/tv_sleep_7"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:text="7" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_8"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="8" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_9"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="9" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_10"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="10" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_11"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="11" />
-
-                <TextView
-                    android:id="@+id/tv_sleep_12"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="12" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_light_off_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="소등시간을 선택해주세요"
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                android:textColor="@color/highlight_font"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_7" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cy_light_off_ampm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_light_off_time">
-
-                <TextView
-                    android:id="@+id/tv_light_off_am"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="AM"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/unuse_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/light_off_guide_line"
-                    android:layout_width="1dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="20dp"
-                    android:background="@color/unuse_font"
-                    app:layout_constraintStart_toEndOf="@id/tv_light_off_am"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_pm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="PM"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/unuse_font"
-                    app:layout_constraintStart_toEndOf="@+id/light_off_guide_line"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_light_off_time_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cy_light_off_ampm">
-
-                <TextView
-                    android:id="@+id/tv_light_off_1"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:text="1" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_2"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="2" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_3"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="3" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_4"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="4" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_5"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="5" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_6"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="6" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_light_off_time_7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_1">
-
-                <TextView
-                    android:id="@+id/tv_light_off_7"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:text="7" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_8"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="8" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_9"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="9" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_10"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="10" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_11"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="11" />
-
-                <TextView
-                    android:id="@+id/tv_light_off_12"
-                    style="@style/OptionBox"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:text="12" />
-            </LinearLayout>
-
-            <View
+                android:id="@+id/cl_sleep_time"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_7" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/tv_wakeup_time"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_sleep_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취침시간을 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cy_sleep_ampm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sleep_time">
+
+                    <TextView
+                        android:id="@+id/tv_sleep_am"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="AM"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/sleep_guide_line"
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@color/unuse_font"
+                        app:layout_constraintStart_toEndOf="@id/tv_sleep_am"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_pm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="PM"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toEndOf="@+id/sleep_guide_line"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_sleep_time_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cy_sleep_ampm">
+
+                    <TextView
+                        android:id="@+id/tv_sleep_1"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:text="1" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_2"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="2" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_3"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="3" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_4"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="4" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_5"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="5" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_6"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_sleep_time_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_1">
+
+                    <TextView
+                        android:id="@+id/tv_sleep_7"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:text="7" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_8"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="8" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_9"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="9" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_10"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="10" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_11"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="11" />
+
+                    <TextView
+                        android:id="@+id/tv_sleep_12"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="12" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_time_7" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_light_off"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/cl_sleep_time"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_light_off_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="소등시간을 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cy_light_off_ampm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_light_off_time">
+
+                    <TextView
+                        android:id="@+id/tv_light_off_am"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="AM"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/light_off_guide_line"
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@color/unuse_font"
+                        app:layout_constraintStart_toEndOf="@id/tv_light_off_am"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_pm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="PM"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toEndOf="@+id/light_off_guide_line"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_light_off_time_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cy_light_off_ampm">
+
+                    <TextView
+                        android:id="@+id/tv_light_off_1"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:text="1" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_2"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="2" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_3"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="3" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_4"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="4" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_5"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="5" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_6"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_light_off_time_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_1">
+
+                    <TextView
+                        android:id="@+id/tv_light_off_7"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:text="7" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_8"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="8" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_9"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="9" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_10"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="10" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_11"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="11" />
+
+                    <TextView
+                        android:id="@+id/tv_light_off_12"
+                        style="@style/OptionBox"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:text="12" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_7" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_smoke"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/tv_wakeup_time"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/cl_light_off"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -608,15 +643,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_sleep_habbit"
+                android:id="@+id/cl_sleep_habit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_smoke"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_smoke"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_sleep_habbit_check"
+                    android:id="@+id/tv_sleep_habit_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="잠버릇을 선택해주세요"
@@ -626,13 +661,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ly_sleep_habbit_check"
+                    android:id="@+id/ly_sleep_habit_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sleep_habbit_check">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sleep_habit_check">
 
                     <TextView
                         android:id="@+id/sleep_habit_no"
@@ -678,15 +713,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habbit_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_ac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_sleep_habbit"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_sleep_habit"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -744,8 +779,8 @@
                 android:id="@+id/cl_heater"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_ac"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_ac"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -804,8 +839,8 @@
                 android:id="@+id/cl_living"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_heater"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_heater"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -854,8 +889,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_friendly"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_living"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -915,8 +950,8 @@
                 android:id="@+id/cl_share"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_friendly"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_friendly"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -967,8 +1002,8 @@
                 android:id="@+id/cl_game"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_share"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_share"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -1068,8 +1103,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_study"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_call"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -1125,18 +1160,92 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_eating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_study"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_eating_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="섭취여부를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ly_eating_check1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_eating_check">
+
+                    <TextView
+                        android:id="@+id/eating_no"
+                        style="@style/OptionBox"
+                        android:layout_width="160dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="아예 안 먹었으면 좋겠어요" />
+
+                    <TextView
+                        android:id="@+id/eating_drink"
+                        style="@style/OptionBox"
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:text="음료만 가능해요" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_eating_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_eating_check1">
+
+                    <TextView
+                        android:id="@+id/eating_snack"
+                        style="@style/OptionBox"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="간단한 간식은 괜찮아요" />
+
+                    <TextView
+                        android:id="@+id/eating_free"
+                        style="@style/OptionBox"
+                        android:layout_width="160dp"
+                        android:layout_height="40dp"
+                        android:text="방에서 마음껏 먹어도 돼요" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_eating_check2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_clean_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/cl_study"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/cl_eating"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tv_clean_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
                     android:text="청결 예민도를 선택해주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
@@ -1202,14 +1311,20 @@
                         android:layout_marginEnd="8dp"
                         android:text="매우 예민하지않아요" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_clean_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_noise"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_clean_check"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_clean_check"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -1293,8 +1408,8 @@
                 android:id="@+id/cl_clean_frequency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_noise"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_noise"
                 app:layout_constraintStart_toStartOf="parent">
 
 
@@ -1395,8 +1510,8 @@
                 android:id="@+id/cl_personality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_clean_frequency"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_clean_frequency"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -1497,8 +1612,8 @@
                 android:id="@+id/cl_mbti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cl_personality"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_personality"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView

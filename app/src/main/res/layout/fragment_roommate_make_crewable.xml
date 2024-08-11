@@ -62,28 +62,256 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--            <ImageView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="132dp"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                android:background="@drawable/background_finding_roommate"-->
-<!--                android:id="@+id/iv_crewable_background"/>-->
-
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rv_crewable_select_chip_list"
-                android:padding="16dp"
+                android:id="@+id/cl_chips"
+                app:layout_constraintTop_toBottomOf="@id/cl_crewable_background"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_crewable_background"
-                android:layout_marginTop="20dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_crewable_select_chip_list"/>
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chips1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_birth"
+                        style="@style/SelectChip"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="출생년도"/>
+                    
+                    <TextView
+                        android:layout_width="49dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_number"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="학번"/>
+
+                    <TextView
+                        android:layout_width="49dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_major"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="학과"/>
+
+                    <TextView
+                        android:layout_width="59dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_room_num"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="신청실"/>
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_acceptance"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="합격여부"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chips2"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/chips1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_wake"
+                        style="@style/SelectChip"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="기상시간"/>
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_sleep"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="취침시간"/>
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_ligt_off"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="소등시간"/>
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_smoke"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="흡연여부"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chips3"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/chips2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="59dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_sleep_habit"
+                        style="@style/SelectChip"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="잠버릇"/>
+
+                    <TextView
+                        android:layout_width="49dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/selet_ac"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="추위"/>
+                    <TextView
+                        android:layout_width="49dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/selet_heater"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="더위"/>
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_living_pattern"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="생활패턴"/>
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_share"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="물건공유"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chips4"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/chips3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_study"
+                        style="@style/SelectChip"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="공부여부"/>
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_game"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="게임여부"/>
+                    <TextView
+                        android:layout_width="59dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_call"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="전화여부"/>
+                    <TextView
+                        android:layout_width="79dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_clean"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="청결예민도"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chips5"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/chips4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="79dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_noise"
+                        style="@style/SelectChip"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="소음예민도"/>
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_clean_frequency"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="청소빈도"/>
+                    <TextView
+                        android:layout_width="49dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_personality"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="성격"/>
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/select_mbti"
+                        style="@style/SelectChip"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="MBTI"/>
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -99,7 +327,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cl_crewable_chip_result"
                 android:background="@drawable/background_crewable_scroll"
-                android:layout_marginTop="20dp"
                 android:padding="16dp">
 
                 <TextView
