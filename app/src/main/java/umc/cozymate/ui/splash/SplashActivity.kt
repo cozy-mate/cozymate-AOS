@@ -53,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
         // 로그인 버튼 클릭 시 크롬 카카오 로그인 페이지 열기
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
-            getuserid()
+            getUserId()
         }
     }
 
@@ -103,7 +103,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun getuserid(){
+    private fun getUserId(){
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
