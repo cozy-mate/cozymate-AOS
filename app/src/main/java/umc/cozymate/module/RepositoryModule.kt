@@ -7,10 +7,13 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.cozymate.data.api.ChatService
 import umc.cozymate.data.api.MemberService
+import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.repository.repository.ChatRepository
-import umc.cozymate.data.repository.repository.OnboardingRepository
+import umc.cozymate.data.repository.repository.MemberRepository
+import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.data.repository.repositoryImpl.ChatRepositoryImpl
-import umc.cozymate.data.repository.repositoryImpl.OnboardingRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.MemberRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.RoomRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -24,8 +27,14 @@ object RepositoryModule {
 
     @ViewModelScoped
     @Provides
-    fun providesOnboardingRepository(
+    fun providesRoomRepository(
+        service: RoomService
+    ): RoomRepository = RoomRepositoryImpl(service)
+
+    @ViewModelScoped
+    @Provides
+    fun providesMemberRepository(
         service: MemberService
-    ): OnboardingRepository = OnboardingRepositoryImpl(service)
+    ): MemberRepository = MemberRepositoryImpl(service)
 
 }

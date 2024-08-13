@@ -102,7 +102,7 @@ class OnboardingUserInfoFragment : Fragment() {
             val name = binding.etOnboardingName.text.toString()
             val nickname = binding.etOnboardingNickname.text.toString()
             val birth = binding.tvBirth.text.toString()
-            val gender = if (isSelectedFemale) "Female" else "Male"
+            val gender = if (isSelectedFemale) "FEMALE" else "MALE"
 
             viewModel.setName(name)
             viewModel.setNickname(nickname)

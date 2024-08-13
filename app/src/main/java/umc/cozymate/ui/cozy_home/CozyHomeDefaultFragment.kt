@@ -68,7 +68,7 @@ class CozyHomeDefaultFragment : Fragment() {
     private fun initView() {
         val btnText = binding.btnRoommateInvite
         val spannableString = SpannableString(btnText.text)
-        btnText.isEnabled = false
+        btnText.isEnabled = true
 
         // 버튼 내 텍스트 스타일 변경
         if (btnText.isEnabled) {

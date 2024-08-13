@@ -71,7 +71,7 @@ class DatePickerBottomSheetFragment(
         binding.btnSave.setOnClickListener {
             // 값 가져오기
             var year = binding.npYear.value.toString()
-            if (binding.npYear.value.toString().length == 3) year = year[1].toString()+ year[2].toString()
+            if (binding.npYear.value.toString().length == 3) year = "20" + year[1].toString()+ year[2].toString()
 
             var month = (binding.npMonth.value + 1).toString()
             if (month.length == 1) month = "0" + month

@@ -17,9 +17,7 @@ import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
-import umc.cozymate.util.NetworkResult
 import umc.cozymate.util.fromDpToPx
-import umc.cozymate.util.onSuccess
 
 class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListener {
 
@@ -58,18 +56,24 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
 
     private fun observeViewModel() {
         viewModel.joinResponse.observe(viewLifecycleOwner, Observer { response ->
-            response.onSuccess { response ->
-                // 성공한 경우 처리
-                Toast.makeText(requireContext(), "Registration successful!", Toast.LENGTH_SHORT).show()
-
+//            response.onSuccess { response ->
+//                // 성공한 경우 처리
+//                Toast.makeText(requireContext(), "Registration successful! response: ${response.result}", Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//            if (response is NetworkResult.Fail) {
+//                //Toast.makeText(requireContext(), "Registration failed: ${response?.message}", Toast.LENGTH_SHORT).show()
+//            }
+//            else if (response is NetworkResult.Error) {
+//                // 에러가 발생한 경우 처리
+//                Toast.makeText(context, "Exception: ${response.exception.message}", Toast.LENGTH_SHORT).show()
+//            }
+            if(response.isSuccessful) {
+               Toast.makeText(requireContext(), "Registration successful! response: ${response.body()}", Toast.LENGTH_SHORT).show()
             }
-
-            if (response is NetworkResult.Fail) {
-                //Toast.makeText(requireContext(), "Registration failed: ${response?.message}", Toast.LENGTH_SHORT).show()
-            }
-            else if (response is NetworkResult.Error) {
-                // 에러가 발생한 경우 처리
-                Toast.makeText(context, "Exception: ${response.exception.message}", Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(requireContext(), "Registration failed: ${response.errorBody().toString()}", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -114,6 +118,7 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
     override fun onItemClick(character: CharacterItem, position: Int) {
         // Handle the item click
         val selectedCharacter = position // Assuming character selection logic here
+
         viewModel.setPersona(selectedCharacter)
         saveUserPreference(position)
         Log.d(TAG, "Selected item position: $position")
