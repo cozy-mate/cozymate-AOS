@@ -68,14 +68,10 @@ class OnboardingViewModel @Inject constructor(private val repository: MemberRepo
 
         viewModelScope.launch {
             try {
-                Log.d("Onboarding", "요청: ${memberInfo.toString()}")
+                Log.d("Onboarding", "요청: ${memberInfo}")
 
                 val token = "Bearer " +
                         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NTEyNDczOktBS0FPIiwidG9rZW5UeXBlIjoiVEVNUE9SQVJZIiwiaWF0IjoxNzIzNDc5ODE4LCJleHAiOjE3MjM0ODAxNzh9.IgWGlTP8hwyuW7UPfpv0BJ0jDWW_aik5AH3qTjLpzyo"
-                val response: Response<SignUpResponse> = repository.signUp(token, memberInfo)
-                _joinResponse.value = response
-                if (response.isSuccessful) Log.d("Onboarding", "응답 성공: ${response.toString()}")
-                else Log.d("Onboarding", "응답 실패: ${response.toString()}")
             } catch (e: Exception) {
                 _errorMessage.value = "An error occurred: ${e.message}"
                 Log.d("Onboarding", "error: ${e.message.toString()}")
