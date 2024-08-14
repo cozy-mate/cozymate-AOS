@@ -1,4 +1,4 @@
-package umc.cozymate.data.model.response
+package umc.cozymate.data.model.response.room
 
 
 import com.google.gson.annotations.SerializedName
