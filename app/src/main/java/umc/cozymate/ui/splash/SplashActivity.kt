@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
@@ -25,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     lateinit var binding: ActivitySplashBinding
-    private val splashViewModel: SignInViewModel by viewModels()
+    private val splashViewModel: SplashViewModel by viewModels()
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -66,21 +65,24 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeViewModel(){
         // signInResponse 관찰하여 처리
-        splashViewModel.signInResponse.observe(this, Observer { result ->
-            if (result.isSuccessful){
-                if (result.body()!!.isSuccess){
+        splashViewModel.signInResponse.observe(this) { result ->
+            if (result.isSuccessful) {
+                if (result.body()!!.isSuccess) {
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "로그인 성공: ${result.body()!!.result}")
+
+                    splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
+                    splashViewModel.saveToken()
+
                     goOnboarding()
-                }
-                else {
+                } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
                     goLoginFail()
                 }
             } else {
                 goLoginFail()
             }
-        })
+        }
     }
 
     private fun goOnboarding() {
@@ -90,7 +92,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goLoginFail() {
-
+        val intent = Intent(this, LoginFailActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun openKakaoLoginPage() {
