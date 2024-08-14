@@ -14,5 +14,5 @@ data class MemberInfo(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("persona")
-    val persona: Int = 0
+    val persona: Int = 1
 )

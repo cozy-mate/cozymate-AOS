@@ -1,4 +1,4 @@
-package umc.cozymate.data.model.response
+package umc.cozymate.data.model.response.member
 
 
 import kotlinx.serialization.SerialName

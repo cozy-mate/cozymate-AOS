@@ -1,6 +1,5 @@
 package umc.cozymate.data.model.request
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,3 +10,4 @@ data class SignInRequest(
     @SerialName("socialType")
     val socialType: String
 )
+

@@ -10,5 +10,5 @@ data class TokenInfo(
     @SerialName("message")
     val message: String,
     @SerialName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String?
 )
