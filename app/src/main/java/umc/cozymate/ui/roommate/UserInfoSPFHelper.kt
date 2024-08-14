@@ -137,7 +137,7 @@ class UserInfoSPFHelper(context: Context) {
     fun saveUserInfo(info: UserInfo) {
         with(spf.edit()) {
             putBoolean("login", info.login)
-            putString("school", info.school)
+            putInt("school", info.school)
 
             putString("name", info.name)
             putString("birth", info.birth)
@@ -177,7 +177,7 @@ class UserInfoSPFHelper(context: Context) {
 
     fun loadUserInfo(): UserInfo {
         val login = spf.getBoolean("login", false) ?: false
-        val school = spf.getString("school", "") ?: ""
+        val school = spf.getInt("school", 1) ?: 0
         val name = spf.getString("name", "") ?: ""
         val birth = spf.getString("birth", "") ?: ""
         val admissionYear = spf.getString("admissionYear", "") ?: ""

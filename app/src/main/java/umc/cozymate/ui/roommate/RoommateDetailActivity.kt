@@ -2,13 +2,11 @@ package umc.cozymate.ui.roommate
 
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import umc.cozymate.R
@@ -117,7 +115,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         // BottomSheet 기본 상태 설정
-        behavior = BottomSheetBehavior.from(binding.detailBottomSheet)
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         behavior.isFitToContents = false
         behavior.halfExpandedRatio = 0.3f

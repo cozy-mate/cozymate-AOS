@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-103:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-103:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-103:12
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-103:12
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-104:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-104:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-104:12
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:2:1-104:12
 MERGED from [androidx.databinding:databinding-adapters:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/b5d75bf975e0c1fc73f00bcfb36eb4b2/transformed/databinding-adapters-8.3.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-ktx:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/8f34fc9cb22f0a61b1f55102cc4994ef/transformed/jetified-databinding-ktx-8.3.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-runtime:8.3.2] /Users/doyoung/.gradle/caches/transforms-4/d42b20afae2f4491b2175b2c21dc6a09/transformed/databinding-runtime-8.3.2/AndroidManifest.xml:2:1-7:12
@@ -202,8 +202,8 @@ MERGED from [androidx.work:work-runtime:2.9.0] /Users/doyoung/.gradle/caches/tra
 	android:name
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:10:22-65
 application
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-101:19
-INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:12:5-101:19
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:13:5-102:19
+INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:13:5-102:19
 MERGED from [com.kakao.sdk:v2-user:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/84a60b7c23fcf8b8a0d3cde28a31b421/transformed/jetified-v2-user-2.20.3/AndroidManifest.xml:9:5-14:19
 MERGED from [com.kakao.sdk:v2-user:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/84a60b7c23fcf8b8a0d3cde28a31b421/transformed/jetified-v2-user-2.20.3/AndroidManifest.xml:9:5-14:19
 MERGED from [com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/32b6a4c50d227e15f9de53b139b5f67d/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:9:5-24:19
@@ -291,179 +291,179 @@ MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.1] /Users/doyoung/.grad
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /Users/doyoung/.gradle/caches/transforms-4/d6fc7998c0d7f17a2129bace873afa35/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:20:9-35
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:21:9-35
 	android:label
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:18:9-41
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:19:9-41
 	android:fullBackupContent
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:16:9-54
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:17:9-54
 	android:roundIcon
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:19:9-54
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:20:9-54
 	tools:targetApi
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:22:9-29
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:23:9-29
 	android:icon
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:17:9-42
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:18:9-42
 	android:allowBackup
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:21:9-46
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:22:9-46
 	android:dataExtractionRules
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:15:9-65
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:16:9-65
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:13:9-44
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:14:9-44
 activity#umc.cozymate.ui.roommate.RoommateInputInfoActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:23:9-25:40
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:24:9-26:40
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:25:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:26:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:24:13-66
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:25:13-66
 meta-data#com.kakao.sdk.AppKey
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:27:9-29:64
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:9-30:64
 	android:value
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:29:13-61
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:30:13-61
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:13-48
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:29:13-48
 activity#com.kakao.sdk.auth.AuthCodeHandlerActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:30:9-43:20
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:9-44:20
 MERGED from [com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/32b6a4c50d227e15f9de53b139b5f67d/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:16:9-19:56
 MERGED from [com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/32b6a4c50d227e15f9de53b139b5f67d/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:16:9-19:56
 	android:launchMode
 		ADDED from [com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/32b6a4c50d227e15f9de53b139b5f67d/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:18:13-44
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:13-36
 	android:theme
 		ADDED from [com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/32b6a4c50d227e15f9de53b139b5f67d/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:19:13-53
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:13-70
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:13-70
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:oauth+data:scheme:kakaoa51292da8bc69b2160b0bb97ec00b2ad
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:13-42:29
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:13-43:29
 action#android.intent.action.VIEW
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:17-69
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:17-69
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:25-66
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:25-66
 category#android.intent.category.DEFAULT
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:17-76
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:17-76
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:27-73
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:27-73
 category#android.intent.category.BROWSABLE
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:17-78
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:17-78
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:27-75
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:27-75
 data
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:39:17-41:78
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:40:17-42:78
 	android:host
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:40:21-41
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:41:21-41
 	android:scheme
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:41:21-75
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:42:21-75
 activity#umc.cozymate.ui.onboarding.OnboardingActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:44:9-46:39
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:45:9-47:39
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:46:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:45:13-61
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:46:13-61
 activity#umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:9-49:39
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:9-50:39
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:50:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:13-90
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-90
 activity#umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:50:9-52:39
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:51:9-53:39
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:52:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:53:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:51:13-86
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:52:13-86
 activity#umc.cozymate.ui.cozy_home.making_room.CozyHomeSelectingCharacterActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:53:9-55:39
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:54:9-56:39
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:55:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:56:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:54:13-88
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:55:13-88
 activity#umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:56:9-58:39
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:57:9-59:39
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:58:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:59:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:57:13-86
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:58:13-86
 activity#umc.cozymate.ui.roommate.RoommateDetailActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:59:9-61:40
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:60:9-62:40
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:61:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:62:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:60:13-63
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:61:13-63
 activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateSelectionInfoActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:62:9-64:40
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:63:9-65:40
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:64:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:65:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:63:13-85
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:64:13-85
 activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateEssentialInfoActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:65:9-67:40
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:66:9-68:40
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:67:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:68:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:66:13-85
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:67:13-85
 activity#umc.cozymate.ui.roommate.lifestyle_info.RoommateBasicInfoActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:68:9-70:40
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:69:9-71:40
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:70:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:71:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:69:13-81
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:70:13-81
 activity#umc.cozymate.ui.MainActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:71:9-79:20
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:72:9-80:20
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:73:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:74:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:72:13-44
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:73:13-44
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:74:13-78:29
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:75:13-79:29
 action#android.intent.action.MAIN
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:75:17-69
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:76:17-69
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:75:25-66
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:76:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:77:17-77
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:78:17-77
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:77:27-74
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:78:27-74
 activity#umc.cozymate.ui.splash.SplashActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:80:9-82:48
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:81:9-83:48
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:82:13-36
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:83:13-36
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:81:13-53
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:82:13-53
 activity#umc.cozymate.ui.roommate.MessageActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:83:9-65
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:84:9-65
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:83:19-62
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:84:19-62
 activity#umc.cozymate.ui.role_rule.AddTodoActivity
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:84:9-66
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:85:9-66
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:84:19-63
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:85:19-63
 service#umc.cozymate.firebase.FCMService
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:86:9-93:19
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:87:9-94:19
 	android:enabled
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:88:13-35
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:89:13-35
 	android:exported
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:89:13-37
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:90:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:87:13-48
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:88:13-48
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:90:13-92:29
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:91:13-93:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:91:17-78
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:92:17-78
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:91:25-75
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:92:25-75
 meta-data#com.google.firebase.messaging.default_notification_icon
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:95:9-97:57
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:96:9-98:57
 	android:resource
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:97:13-54
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:98:13-54
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:96:13-83
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:97:13-83
 meta-data#com.google.firebase.messaging.default_notification_color
-ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:98:9-100:51
+ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:99:9-101:51
 	android:resource
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:100:13-48
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:101:13-48
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:99:13-84
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:100:13-84
 uses-sdk
 INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml

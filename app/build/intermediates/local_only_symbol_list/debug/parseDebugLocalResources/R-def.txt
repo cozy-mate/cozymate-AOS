@@ -45,10 +45,6 @@ drawable background_round_corner_20
 drawable background_stroke_12
 drawable background_todo
 drawable background_todo_tab
-drawable btn_cozymate_black_cancel
-drawable btn_cozymate_cancel
-drawable btn_cozymate_request
-drawable btn_cozymate_requesting
 drawable btn_rectangle_12
 drawable btn_rectangle_26
 drawable btn_rectangle_39
@@ -159,7 +155,6 @@ id btn_bell
 id btn_can_do
 id btn_chat
 id btn_copy_invite_code
-id btn_cozymate_btn
 id btn_crew
 id btn_crewable_chip_list_more
 id btn_crewable_chip_table_more
@@ -250,12 +245,9 @@ id clean_frequency_every_day
 id clean_frequency_every_month
 id clean_frequency_no
 id container
-id crew_chip
 id cy_light_off_ampm
 id cy_sleep_ampm
 id cy_wake_ampm
-id detail_bottom_sheet
-id detail_buttons
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
@@ -368,7 +360,6 @@ id ly_people_number
 id ly_personality1
 id ly_personality2
 id ly_share_check
-id ly_sleep_habbit_check
 id ly_sleep_habit_check
 id ly_sleep_time_1
 id ly_sleep_time_7
@@ -413,8 +404,6 @@ id num4
 id num5
 id num6
 id pb_basic
-id pb_essential
-id pb_selection
 id personality_activity
 id personality_clean
 id personality_go_out
@@ -665,7 +654,6 @@ id tv_sleep_7
 id tv_sleep_8
 id tv_sleep_9
 id tv_sleep_am
-id tv_sleep_habbit_check
 id tv_sleep_habit_check
 id tv_sleep_pm
 id tv_sleep_time
@@ -792,11 +780,8 @@ layout activity_cozy_home_selecting_character
 layout activity_main
 layout activity_message
 layout activity_onboarding
-layout activity_roommate_basic_info
 layout activity_roommate_detail
-layout activity_roommate_essential_info
 layout activity_roommate_input_info
-layout activity_roommate_selection_info
 layout activity_splash
 layout custom_datepicker
 layout dialog_roommate_detail_cozymate_request
@@ -814,7 +799,6 @@ layout fragment_cozyhome_active
 layout fragment_cozyhome_default
 layout fragment_essential_info
 layout fragment_feed
-layout fragment_finding_roommate
 layout fragment_message_detail
 layout fragment_mypage
 layout fragment_onboarding_selecting_character
@@ -829,7 +813,6 @@ layout fragment_selection_info
 layout fragment_todo_tab
 layout item_character
 layout item_cozyhome_achievement
-layout item_crew_chip
 layout item_roommate_detail_list
 layout item_roommate_detail_table
 layout item_roommate_select_box
@@ -848,6 +831,8 @@ layout rv_item_todo_list
 menu bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
+string access_token_1
+string access_token_2
 string app_name
 string base_url
 string gcm_defaultSenderId

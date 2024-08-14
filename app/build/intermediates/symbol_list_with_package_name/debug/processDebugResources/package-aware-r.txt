@@ -2688,10 +2688,6 @@ drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
 drawable btn_checkbox_unchecked_to_checked_mtrl_animation
-drawable btn_cozymate_black_cancel
-drawable btn_cozymate_cancel
-drawable btn_cozymate_request
-drawable btn_cozymate_requesting
 drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
@@ -3027,7 +3023,6 @@ id btn_bell
 id btn_can_do
 id btn_chat
 id btn_copy_invite_code
-id btn_cozymate_btn
 id btn_crew
 id btn_crewable_chip_list_more
 id btn_crewable_chip_table_more
@@ -3153,7 +3148,6 @@ id coordinator
 id cos
 id counterclockwise
 id cradle
-id crew_chip
 id currentState
 id custom
 id customPanel
@@ -3177,8 +3171,6 @@ id design_menu_item_action_area
 id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
-id detail_bottom_sheet
-id detail_buttons
 id dialog_button
 id dimensions
 id direct
@@ -3391,7 +3383,6 @@ id ly_people_number
 id ly_personality1
 id ly_personality2
 id ly_share_check
-id ly_sleep_habbit_check
 id ly_sleep_habit_check
 id ly_sleep_time_1
 id ly_sleep_time_7
@@ -3539,8 +3530,6 @@ id password_toggle
 id path
 id pathRelative
 id pb_basic
-id pb_essential
-id pb_selection
 id peekHeight
 id percent
 id personality_activity
@@ -3929,7 +3918,6 @@ id tv_sleep_7
 id tv_sleep_8
 id tv_sleep_9
 id tv_sleep_am
-id tv_sleep_habbit_check
 id tv_sleep_habit_check
 id tv_sleep_pm
 id tv_sleep_time
@@ -4207,11 +4195,8 @@ layout activity_cozy_home_selecting_character
 layout activity_main
 layout activity_message
 layout activity_onboarding
-layout activity_roommate_basic_info
 layout activity_roommate_detail
-layout activity_roommate_essential_info
 layout activity_roommate_input_info
-layout activity_roommate_selection_info
 layout activity_splash
 layout activity_talk_auth_code
 layout browser_actions_context_menu_page
@@ -4249,7 +4234,6 @@ layout fragment_cozyhome_active
 layout fragment_cozyhome_default
 layout fragment_essential_info
 layout fragment_feed
-layout fragment_finding_roommate
 layout fragment_message_detail
 layout fragment_mypage
 layout fragment_onboarding_selecting_character
@@ -4266,7 +4250,6 @@ layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_character
 layout item_cozyhome_achievement
-layout item_crew_chip
 layout item_roommate_detail_list
 layout item_roommate_detail_table
 layout item_roommate_select_box
@@ -4381,6 +4364,8 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string access_token_1
+string access_token_2
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior

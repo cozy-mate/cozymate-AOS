@@ -6,8 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.cozymate.data.api.ChatService
+import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.repository.repository.ChatRepository
+import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.data.repository.repositoryImpl.ChatRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.RoommateRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -19,4 +22,9 @@ object RepositoryModule {
         chatService: ChatService
     ): ChatRepository = ChatRepositoryImpl(chatService)
 
+    @ViewModelScoped
+    @Provides
+    fun provideRoommateRepository(
+        roommateService: RoommateService
+    ): RoommateRepository = RoommateRepositoryImpl(roommateService)
 }

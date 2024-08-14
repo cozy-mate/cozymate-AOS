@@ -91,6 +91,10 @@ class EssentialInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEssentialInfoBinding.inflate(layoutInflater, container, false)
+        
+        spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
+        
+        userInfo = spfHelper.loadUserInfo()
 
         savedInstanceState?.let {
             wakeAmpm = it.getString("wakeAmpm")
@@ -116,6 +120,29 @@ class EssentialInfoFragment : Fragment() {
             cleanFrequencyCheck = it.getString("cleanFrequencyCheck")
             personalityCheck = it.getString("personalityCheck")
             mbtiCheck = it.getString("mbtiCheck")
+        } ?: run {
+            wakeAmpm = userInfo.wakeAmPm
+            wakeTime = userInfo.wakeUpTime
+            sleepAmpm = userInfo.sleepAmPm
+            sleepTime= userInfo.sleepTime
+            lightOffAmpm = userInfo.lightOffAmPm
+            lightOffTime = userInfo.lightOffTime
+            smokeCheck = userInfo.smokingState
+            sleepHabitCheck = userInfo.sleepingHabit
+            acCheck = userInfo.airConditioningIntensity
+            heaterCheck = userInfo.heatingIntensity
+            livingPatternCheck = userInfo.lifePattern
+            friendlyCheck = userInfo.intimacy
+            shareCheck = userInfo.canShare
+            gameCheck = userInfo.isPlayGame
+            callCheck = userInfo.isPhoneCall
+            studyCheck = userInfo.studying
+            eatingCheck = userInfo.intake
+            cleanCheck = userInfo.cleanSensitivity
+            noiseCheck = userInfo.noiseSensitivity
+            cleanFrequencyCheck = userInfo.cleaningFrequency
+            personalityCheck = userInfo.personality
+            mbtiCheck = userInfo.mbti
         }
 
         spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
@@ -184,6 +211,7 @@ class EssentialInfoFragment : Fragment() {
         }
         wakeAmpm = value
         userInfo = userInfo.copy(wakeAmPm = value)
+        spfHelper.saveUserInfo(userInfo)
         showSleepLayout()
         updateNextButtonState()
     }
@@ -200,14 +228,14 @@ class EssentialInfoFragment : Fragment() {
         }
         wakeTime = value
         userInfo = userInfo.copy(wakeUpTime = value)
+        spfHelper.saveUserInfo(userInfo)
         showSleepLayout()
         updateNextButtonState()
     }
 
     private fun showSleepLayout() {
-        if (wakeAmpm != null && wakeTime != null ) {
+        if (wakeAmpm != null && wakeTime != 0 ) {
             binding.clSleepTime.showWithSlideDownAnimation()
-            scrollToTop()
         }
     }
 
@@ -244,6 +272,7 @@ class EssentialInfoFragment : Fragment() {
         }
         sleepAmpm = value
         userInfo = userInfo.copy(sleepAmPm = value)
+        spfHelper.saveUserInfo(userInfo)
         showLightOffLayout()
         updateNextButtonState()
     }
@@ -260,14 +289,14 @@ class EssentialInfoFragment : Fragment() {
         }
         sleepTime = value
         userInfo = userInfo.copy(sleepTime = value)
+        spfHelper.saveUserInfo(userInfo)
         showLightOffLayout()
         updateNextButtonState()
     }
 
     private fun showLightOffLayout() {
-        if(sleepAmpm != null && sleepTime != null) {
+        if(sleepAmpm != null && sleepTime != 0) {
             binding.clLightOff.showWithSlideDownAnimation()
-            scrollToTop()
         }
     }
 
@@ -304,6 +333,7 @@ class EssentialInfoFragment : Fragment() {
         }
         lightOffAmpm = value
         userInfo = userInfo.copy(lightOffAmPm = value)
+        spfHelper.saveUserInfo(userInfo)
         showSmokeLayout()
         updateNextButtonState()
     }
@@ -320,14 +350,14 @@ class EssentialInfoFragment : Fragment() {
         }
         lightOffTime = value
         userInfo = userInfo.copy(lightOffTime = value)
+        spfHelper.saveUserInfo(userInfo)
         showSmokeLayout()
         updateNextButtonState()
     }
 
     private fun showSmokeLayout() {
-        if (lightOffAmpm != null && lightOffTime != null) {
+        if (lightOffAmpm != null && lightOffTime != 0) {
             binding.clSmoke.showWithSlideDownAnimation()
-            scrollToTop()
         }
     }
 
@@ -355,13 +385,13 @@ class EssentialInfoFragment : Fragment() {
         }
         smokeCheck = value
         userInfo = userInfo.copy(smokingState = value)
+        spfHelper.saveUserInfo(userInfo)
         showSleepHabitLayout()
         updateNextButtonState()
     }
 
     private fun showSleepHabitLayout() {
         binding.clSleepHabit.showWithSlideDownAnimation()
-        scrollToTop()
     }
 
     private fun initSleepHabit() {
@@ -389,13 +419,13 @@ class EssentialInfoFragment : Fragment() {
         }
         sleepHabitCheck = value
         userInfo = userInfo.copy(sleepingHabit = value)
+        spfHelper.saveUserInfo(userInfo)
         showAcLayout()
         updateNextButtonState()
     }
 
     private fun showAcLayout() {
         binding.clAc.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initAc() {
         val acTexts = listOf(
@@ -420,13 +450,13 @@ class EssentialInfoFragment : Fragment() {
         }
         acCheck = value
         userInfo = userInfo.copy(airConditioningIntensity = value)
+        spfHelper.saveUserInfo(userInfo)
         showHeaterLayout()
         updateNextButtonState()
     }
 
     private fun showHeaterLayout() {
         binding.clHeater.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initHeater() {
         val heaterTexts = listOf(
@@ -451,13 +481,13 @@ class EssentialInfoFragment : Fragment() {
         }
         heaterCheck = value
         userInfo = userInfo.copy(heatingIntensity = value)
+        spfHelper.saveUserInfo(userInfo)
         showLivingPatternLayout()
         updateNextButtonState()
     }
 
     private fun showLivingPatternLayout() {
         binding.clLiving.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initLiving() {
         val livingTexts = listOf(
@@ -481,13 +511,13 @@ class EssentialInfoFragment : Fragment() {
         }
         livingPatternCheck = value
         userInfo = userInfo.copy(lifePattern = value)
+        spfHelper.saveUserInfo(userInfo)
         showFriendlyLayout()
         updateNextButtonState()
     }
 
     private fun showFriendlyLayout() {
         binding.clFriendly.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initFriendly() {
         val friendlyTexts = listOf(
@@ -512,13 +542,13 @@ class EssentialInfoFragment : Fragment() {
         }
         friendlyCheck = value
         userInfo = userInfo.copy(intimacy = value)
+        spfHelper.saveUserInfo(userInfo)
         showShareLayout()
         updateNextButtonState()
     }
 
     private fun showShareLayout() {
         binding.clShare.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initShare() {
         val shareTexts = listOf(
@@ -542,13 +572,13 @@ class EssentialInfoFragment : Fragment() {
         }
         shareCheck = value
         userInfo = userInfo.copy(canShare = value)
+        spfHelper.saveUserInfo(userInfo)
         showGameLayout()
         updateNextButtonState()
     }
 
     private fun showGameLayout() {
         binding.clGame.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initGame() {
         val gameTexts = listOf(
@@ -572,13 +602,13 @@ class EssentialInfoFragment : Fragment() {
         }
         gameCheck = value
         userInfo = userInfo.copy(isPlayGame = value)
+        spfHelper.saveUserInfo(userInfo)
         showCallLayout()
         updateNextButtonState()
     }
 
     private fun showCallLayout() {
         binding.clCall.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initCall() {
         val callTexts = listOf(
@@ -602,13 +632,13 @@ class EssentialInfoFragment : Fragment() {
         }
         callCheck = value
         userInfo = userInfo.copy(isPhoneCall = value)
+        spfHelper.saveUserInfo(userInfo)
         showStudyLayout()
         updateNextButtonState()
     }
 
     private fun showStudyLayout() {
         binding.clStudy.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initStudy() {
         val studyTexts = listOf(
@@ -633,13 +663,13 @@ class EssentialInfoFragment : Fragment() {
         }
         studyCheck = value
         userInfo = userInfo.copy(studying = value)
+        spfHelper.saveUserInfo(userInfo)
         showEatingLayout()
         updateNextButtonState()
     }
 
     private fun showEatingLayout() {
         binding.clEating.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initEating() {
         val eatingTexts = listOf(
@@ -665,13 +695,13 @@ class EssentialInfoFragment : Fragment() {
         }
         eatingCheck = value
         userInfo = userInfo.copy(intake = value)
+        spfHelper.saveUserInfo(userInfo)
         showCleanLayout()
         updateNextButtonState()
     }
 
     private fun showCleanLayout() {
         binding.clCleanCheck.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initClean() {
         val cleanTexts = listOf(
@@ -698,13 +728,13 @@ class EssentialInfoFragment : Fragment() {
         }
         cleanCheck = value
         userInfo = userInfo.copy(cleanSensitivity = value)
+        spfHelper.saveUserInfo(userInfo)
         showNoiseLayout()
         updateNextButtonState()
     }
 
     private fun showNoiseLayout() {
         binding.clNoise.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initNoise() {
         val noiseTexts = listOf(
@@ -731,13 +761,13 @@ class EssentialInfoFragment : Fragment() {
         }
         noiseCheck = value
         userInfo = userInfo.copy(noiseSensitivity = value)
+        spfHelper.saveUserInfo(userInfo)
         showCleanFrequencyLayout()
         updateNextButtonState()
     }
 
     private fun showCleanFrequencyLayout() {
         binding.clCleanFrequency.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initCleanFrequency() {
         val cleanFrequencyTexts = listOf(
@@ -765,13 +795,13 @@ class EssentialInfoFragment : Fragment() {
         }
         cleanFrequencyCheck = value
         userInfo = userInfo.copy(cleaningFrequency = value)
+        spfHelper.saveUserInfo(userInfo)
         showPersonalityLayout()
         updateNextButtonState()
     }
 
     private fun showPersonalityLayout() {
         binding.clPersonality.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initPersonality() {
         val personalityTexts = listOf(
@@ -800,13 +830,13 @@ class EssentialInfoFragment : Fragment() {
         }
         personalityCheck = value
         userInfo = userInfo.copy(personality = value)
+        spfHelper.saveUserInfo(userInfo)
         showMbtiLayout()
         updateNextButtonState()
     }
 
     private fun showMbtiLayout() {
         binding.clMbti.showWithSlideDownAnimation()
-        scrollToTop()
     }
     private fun initMbti() {
         val mbtiTexts = listOf(
@@ -847,11 +877,8 @@ class EssentialInfoFragment : Fragment() {
         }
         mbtiCheck = value
         userInfo = userInfo.copy(mbti = value)
+        spfHelper.saveUserInfo(userInfo)
         updateNextButtonState()
-    }
-
-    private fun scrollToTop() {
-        binding.nestedScrollView.scrollTo(0, 0)
     }
 
     fun View.showWithSlideDownAnimation(duration: Long = 1300) {
