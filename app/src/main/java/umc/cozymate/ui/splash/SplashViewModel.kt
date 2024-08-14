@@ -21,7 +21,9 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val repository: MemberRepository,
     @ApplicationContext private val context: Context
-): ViewModel() {
+) : ViewModel() {
+
+    private val TAG = this.javaClass.simpleName
 
     private val _clientId = MutableLiveData<String>()
     val clientId: LiveData<String> get() = _clientId
@@ -64,14 +66,18 @@ class SplashViewModel @Inject constructor(
         if (clientIdValue != null && socialTypeValue != null) {
             viewModelScope.launch {
                 try {
-                    val response = repository.signIn(SignInRequest(clientIdValue, socialTypeValue))
+                    val response = repository.signIn(
+                        SignInRequest(
+                            clientIdValue,
+                            socialTypeValue
+                        )
+                    )
                     if (response.isSuccessful) {
                         Log.d("SignInViewModel", "응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
                             Log.d("SignInViewModel", "로그인 성공")
                         }
-                    }
-                    else {
+                    } else {
                         Log.d("SignInViewModel", "응답 실패: ${response}")
                     }
                     _signInResponse.value = response

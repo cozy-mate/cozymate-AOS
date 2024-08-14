@@ -122,7 +122,6 @@ class OnboardingUserInfoFragment : Fragment() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putString("nickname", nickname)
-
             apply()
         }
     }

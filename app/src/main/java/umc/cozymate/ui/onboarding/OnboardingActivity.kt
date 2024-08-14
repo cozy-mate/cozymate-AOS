@@ -12,6 +12,7 @@ import umc.cozymate.R
 @AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity() {
 
+    private val TAG = this.javaClass.simpleName
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

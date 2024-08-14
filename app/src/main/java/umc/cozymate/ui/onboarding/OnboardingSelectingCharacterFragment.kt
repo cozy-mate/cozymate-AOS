@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
@@ -19,6 +20,7 @@ import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
+@AndroidEntryPoint
 class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
@@ -55,32 +57,17 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
     }
 
     private fun observeViewModel() {
-        viewModel.joinResponse.observe(viewLifecycleOwner, Observer { response ->
-//            response.onSuccess { response ->
-//                // 성공한 경우 처리
-//                Toast.makeText(requireContext(), "Registration successful! response: ${response.result}", Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            if (response is NetworkResult.Fail) {
-//                //Toast.makeText(requireContext(), "Registration failed: ${response?.message}", Toast.LENGTH_SHORT).show()
-//            }
-//            else if (response is NetworkResult.Error) {
-//                // 에러가 발생한 경우 처리
-//                Toast.makeText(context, "Exception: ${response.exception.message}", Toast.LENGTH_SHORT).show()
-//            }
-            if(response.isSuccessful) {
-               Toast.makeText(requireContext(), "Registration successful! response: ${response.body()}", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(requireContext(), "Registration failed: ${response.errorBody().toString()}", Toast.LENGTH_SHORT).show()
-            }
-        })
+        // signUpResponse 관찰하여 처리
+        viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.isSuccess) {
+                    Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "회원가입 성공: ${response.body()}")
+                }
+            } else {
+                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "회원가입 실패: ${response.errorBody().toString()}")
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { message ->
-            if (message != null) {
-                // Handle error
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -103,14 +90,14 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             CharacterItem(R.drawable.character_13),
             CharacterItem(R.drawable.character_14),
             CharacterItem(R.drawable.character_15),
-            )
+        )
 
         val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter
         binding.rvList.run {
             layoutManager = GridLayoutManager(requireContext(), 4)
             addItemDecoration(
-                GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
+                GridSpacingItemDecoration(spanCount = 4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
             )
         }
     }
