@@ -11,8 +11,8 @@ data class MemberInfo(
     val gender: String,
     @SerialName("name")
     val name: String,
-    @SerialName("nickName")
-    val nickName: String,
+    @SerialName("nickname")
+    val nickname: String,
     @SerialName("persona")
     val persona: Int = 0
 )
