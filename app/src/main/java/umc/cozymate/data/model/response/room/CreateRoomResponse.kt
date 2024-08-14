@@ -1,4 +1,4 @@
-package umc.cozymate.data.model.response
+package umc.cozymate.data.model.response.room
 
 data class CreateRoomResponse<T>(
     val code: String,
