@@ -10,8 +10,10 @@ import javax.inject.Inject
 class RoomRepositoryImpl @Inject constructor(
     private val api: RoomService
 ) : RoomRepository {
-    override suspend fun createRoom(roomInfo: CreateRoomRequest): Response<CreateRoomResponse<CreateRoomResponse.SuccessResult>> {
-        return api.createRoom(roomInfo)
+
+
+    override suspend fun createRoom(accessToken: String, roomInfo: CreateRoomRequest): Response<CreateRoomResponse<CreateRoomResponse.SuccessResult>> {
+        return api.createRoom(accessToken, roomInfo)
     }
 
 }

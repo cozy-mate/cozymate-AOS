@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberInfo
-import umc.cozymate.data.model.response.SignUpResponse
+import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -81,9 +81,9 @@ class OnboardingViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response = repository.signUp(token, memberInfo)
+                val response = repository.signUp(token=token, memberInfo=memberInfo)
                 if (response.isSuccessful) {
-                    Log.d(TAG, "응답 성공: ${response}")
+                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공")
                     }

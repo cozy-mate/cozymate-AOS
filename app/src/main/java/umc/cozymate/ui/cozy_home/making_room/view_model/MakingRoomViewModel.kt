@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.request.CreateRoomRequest
-import umc.cozymate.data.model.response.CreateRoomResponse
+import umc.cozymate.data.model.response.room.CreateRoomResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
 
@@ -26,11 +26,12 @@ class MakingRoomViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val roomRequest = CreateRoomRequest(name=nickname, profileImage = img, maxMateNum = maxNum, creatorId=creatorId)
-                val response = roomRepository.createRoom(roomRequest)
-                _roomCreationResult.value = response?.body()
+                ///val response = roomRepository.createRoom(roomRequest)
+                //_roomCreationResult.value = response?.body()
             } catch (e: Exception) {
                 _error.value = e.message
             }
         }
     }
+
 }
