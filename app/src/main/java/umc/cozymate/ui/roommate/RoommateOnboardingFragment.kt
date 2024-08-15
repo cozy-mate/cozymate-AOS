@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentRoommateOnboardingBinding
-import umc.cozymate.ui.roommate.lifestyle_info.RoommateBasicInfoActivity
 
 class RoommateOnboardingFragment : Fragment() {
-    private var _binding: FragmentRoommateOnboardingBinding? = null
+    private var _binding: umc.cozymate.databinding.FragmentRoommateOnboardingBinding? = null
     private val binding get() = _binding!!
 
     private var nickname = ""
@@ -28,7 +27,7 @@ class RoommateOnboardingFragment : Fragment() {
 
         binding.btnGoLifestyle.setOnClickListener {
             Log.d("RoommateOnboardingFragment", "btnGoLifestyle Clicked")
-            val intent = Intent(activity, RoommateBasicInfoActivity::class.java)
+            val intent = Intent(activity, RoommateInputInfoActivity::class.java)
             startActivity(intent)
         }
 
