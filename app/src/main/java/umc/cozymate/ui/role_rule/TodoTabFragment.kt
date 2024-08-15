@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ class TodoTabFragment: Fragment() {
     lateinit var binding: FragmentTodoTabBinding
     private var todoList= ArrayList<TodoList>()
     private var member = mutableMapOf<String,ArrayList<TodoList>>()
+
+    private var nickname = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,8 +26,17 @@ class TodoTabFragment: Fragment() {
         initListData()
         initRecyclerview()
 
+        getPreference()
+        binding.tvTodoDate.text = "8/10(토)"
+        binding.tvTodoName.text = " 홍길동"
+
 
         return binding.root
+    }
+
+    private fun getPreference() {
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        nickname = sharedPref.getString("nickname", "No user found").toString()
     }
 
     private fun initListData() {

@@ -9,17 +9,17 @@
         android:id="@+id/cl_cozyhome_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_cozyhome"
+        android:background="@drawable/background_cozyhome_v2"
         app:layout_constraintBottom_toTopOf="@id/gl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_cozy_title"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="31dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_cozymate"
+            android:src="@drawable/ic_cozymate_highlight"
             app:layout_constraintBottom_toBottomOf="@id/btn_bell"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_bell" />
@@ -35,6 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_message"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="63dp"
@@ -60,6 +61,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_rectangle_81"
+            android:backgroundTint="@color/white"
             android:text="룸메이트 구하러 가기"
             android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
             android:textColor="@color/main_blue"

@@ -34,6 +34,9 @@ class CozyHomeActiveFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
+        binding.ivChar.setImageResource(R.drawable.character_0)
+
+
         initAchievmentList()
         initView()
         return binding.root

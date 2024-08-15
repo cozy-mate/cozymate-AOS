@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text="여기는\n피그말리온바보멍청이이이의 방이에요!"
+                android:text="여기는\n피그말리온의 방이에요!"
                 android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,6 +102,7 @@
 
         <!-- 캐릭터 -->
         <ImageView
+            android:id="@+id/iv_char"
             android:layout_width="135dp"
             android:layout_height="135dp"
             android:layout_marginTop="208dp"

@@ -38,10 +38,13 @@ class CozyHomeRoomInfoFragment : Fragment() {
                 (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
             }
 
+            var isSelected = false
             ivCharacter.setOnClickListener {
                 val intent = Intent(context, CozyHomeSelectingCharacterActivity::class.java)
                 startActivity(intent)
+                isSelected = true
             }
+            if (isSelected) ivCharacter.setImageResource(R.drawable.character_0)
 
             val numPeopleTexts = listOf(
                 binding.chip1 to "2명",

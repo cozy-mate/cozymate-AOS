@@ -10,11 +10,13 @@ class CharacterViewHolder(itemBinding: ItemCharacterBinding) :
 
     var iv_item: ImageView
     var iv_chk: ImageView
+    var iv_bg: ImageView
     var root: View
 
     init {
         iv_item = itemBinding.iv
         iv_chk = itemBinding.ivChk
+        iv_bg = itemBinding.ivBg
         root = itemBinding.root
     }
 
@@ -23,9 +25,10 @@ class CharacterViewHolder(itemBinding: ItemCharacterBinding) :
         isSelected: Boolean,
         itemClickListener: (Int) -> Unit
     ) {
-        iv_item.setImageResource(data.img)
+        iv_item.setImageResource(data.img!!)
 
         iv_chk.visibility = if (isSelected) View.VISIBLE else View.GONE
+        iv_bg.visibility = if (isSelected) View.VISIBLE else View.GONE
 
         // Handle item click
         root.setOnClickListener {
