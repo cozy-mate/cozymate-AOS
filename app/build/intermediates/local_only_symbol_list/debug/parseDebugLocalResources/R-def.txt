@@ -28,6 +28,7 @@ drawable app_icon_png
 drawable app_icon_svg
 drawable background
 drawable background_bottom_nav
+drawable background_check
 drawable background_checklist
 drawable background_circle
 drawable background_cozyhome
@@ -35,6 +36,7 @@ drawable background_cozyhome_active
 drawable background_cozyhome_active_png
 drawable background_cozyhome_character
 drawable background_cozyhome_character_2
+drawable background_cozyhome_v2
 drawable background_crewable_scroll
 drawable background_finding_roommate
 drawable background_finding_roommate_png
@@ -42,6 +44,7 @@ drawable background_mypage
 drawable background_mypage1
 drawable background_mypage2
 drawable background_round_corner_20
+drawable background_splash
 drawable background_stroke_12
 drawable background_todo
 drawable background_todo_tab
@@ -52,6 +55,22 @@ drawable btn_rectangle_80svg
 drawable btn_rectangle_81
 drawable btn_rectangle_next_state
 drawable btn_roommate_selection_info_plus
+drawable character_0
+drawable character_1
+drawable character_10
+drawable character_11
+drawable character_12
+drawable character_13
+drawable character_14
+drawable character_15
+drawable character_2
+drawable character_3
+drawable character_4
+drawable character_5
+drawable character_6
+drawable character_7
+drawable character_8
+drawable character_9
 drawable custom_background_roommate_detail_12
 drawable custom_background_roommate_detail_bottomsheet
 drawable custom_circular_background
@@ -91,9 +110,11 @@ drawable ic_checkbox_checked
 drawable ic_circle
 drawable ic_close
 drawable ic_copy
+drawable ic_cozy_login_fail
 drawable ic_cozyhome_feed_robot
 drawable ic_cozyhome_light
 drawable ic_cozymate
+drawable ic_cozymate_highlight
 drawable ic_delete
 drawable ic_detail_list
 drawable ic_detail_table
@@ -300,6 +321,7 @@ id iv_MypageUserName
 id iv_TodoMemberIcon
 id iv_add_todo
 id iv_back
+id iv_bg
 id iv_char
 id iv_char_back
 id iv_character
@@ -331,6 +353,7 @@ id living_dawn
 id living_morning
 id llListView
 id llTableView
+id ll_2
 id ll_detail_dialog_btn
 id ll_name
 id ly_ac_check
@@ -430,6 +453,8 @@ id rv_detail_table_can_do
 id rv_detail_table_never
 id rv_detail_table_rule
 id rv_list
+id rv_message
+id rv_message_detail
 id rv_never
 id rv_roommate
 id rv_rule
@@ -609,6 +634,7 @@ id tv_list_wake_up_ampm
 id tv_list_wake_up_time
 id tv_list_wake_up_title
 id tv_living_pattern
+id tv_login_fail
 id tv_major
 id tv_male
 id tv_mbti
@@ -779,6 +805,7 @@ layout activity_cozy_home_entering_invite_code
 layout activity_cozy_home_giving_invite_code
 layout activity_cozy_home_inviting_roommate
 layout activity_cozy_home_selecting_character
+layout activity_login_fail
 layout activity_main
 layout activity_message
 layout activity_onboarding
@@ -853,6 +880,7 @@ style CustomTextInputLayout
 style OptionBox
 style RvOtherUserInfoBox
 style SelectChip
+style SplashTheme
 style TextAppearance.App.10sp.Medium
 style TextAppearance.App.10sp.Regular
 style TextAppearance.App.10sp.SemiBold
