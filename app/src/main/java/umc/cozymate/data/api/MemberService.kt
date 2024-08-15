@@ -45,9 +45,9 @@ interface MemberService {
     // 닉네임 유효성 검증
     @GET("/members/check-nickname")
     suspend fun checkNickname(
-        @Query("nickname") nickname: String,
         @Header("Authorization") accessToken: String,
-    ) : Response<CheckNicknameResponse>
+        @Query("nickname") nickname: String,
+        ) : Response<CheckNicknameResponse>
 
     // 회원가입
     @POST("/members/sign-up")

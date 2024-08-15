@@ -56,6 +56,15 @@ class SplashActivity : AppCompatActivity() {
 
         // 로그인 버튼 클릭 시 크롬 카카오 로그인 페이지 열기
         binding.btnKakaoLogin.setOnClickListener {
+
+//            UserApiClient.instance.logout { error ->
+//                if (error != null) {
+//                    Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
+//                }else {
+//                    Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+
             openKakaoLoginPage()
             getUserId()
         }
@@ -71,8 +80,12 @@ class SplashActivity : AppCompatActivity() {
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "로그인 성공: ${result.body()!!.result}")
 
-                    splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
-                    splashViewModel.saveToken()
+                    try {
+                        splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
+                        splashViewModel.saveToken()
+                    } catch (e: Exception){
+                        Log.d(TAG, "토큰 저장 실패: $e")
+                    }
 
                     goOnboarding()
                 } else {
@@ -117,11 +130,11 @@ class SplashActivity : AppCompatActivity() {
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공")
                         Log.d(TAG, "accessToken: ${token.accessToken}")
+                        Log.d(TAG, "refreshToken: ${token.refreshToken}")
                         Log.d(TAG, "idToken: ${token.idToken}")
                         Toast.makeText(this@SplashActivity, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT)
                             .show()
                     }
-
 
                 }
             } else {
@@ -138,7 +151,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUserId(){
+    private fun getUserId() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
@@ -149,9 +162,25 @@ class SplashActivity : AppCompatActivity() {
 
                 if (userId != null) {
                     splashViewModel.setClientId(userId.toString())
+                    //splashViewModel.setClientId("1234567") // 안되면 더미로 넣기...
                     splashViewModel.setSocialType("KAKAO")
                     splashViewModel.signIn()
                 }
+            }
+        }
+
+
+        // 토큰 정보 보기
+        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+            if (error != null) {
+                Log.e(TAG, "토큰 정보 보기 실패", error)
+                // refreshToken()
+            } else if (tokenInfo != null) {
+                Log.i(
+                    TAG, "토큰 정보 보기 성공" +
+                            "\n회원번호: ${tokenInfo.id}" +
+                            "\n만료시간: ${tokenInfo.expiresIn} 초"
+                )
             }
         }
     }

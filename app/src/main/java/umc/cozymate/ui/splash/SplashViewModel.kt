@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SignInRequest
-import umc.cozymate.data.model.response.SignInResponse
+import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -56,6 +56,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun saveToken() {
+        Log.d(TAG, "토큰: ${_tokenInfo.value!!.accessToken}")
         sharedPreferences.edit().putString("access_token", _tokenInfo.value!!.accessToken).apply()
     }
 
@@ -73,16 +74,16 @@ class SplashViewModel @Inject constructor(
                         )
                     )
                     if (response.isSuccessful) {
-                        Log.d("SignInViewModel", "응답 성공: ${response}")
+                        Log.d(TAG, "응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
-                            Log.d("SignInViewModel", "로그인 성공")
+                            Log.d(TAG, "로그인 성공: ${response.body()!!.result}")
                         }
                     } else {
-                        Log.d("SignInViewModel", "응답 실패: ${response}")
+                        Log.d(TAG, "응답 실패: ${response}")
                     }
                     _signInResponse.value = response
                 } catch (e: Exception) {
-                    Log.d("SignInViewModel", "api 요청 실패: ${e}")
+                    Log.d(TAG, "api 요청 실패: ${e}")
                 }
             }
         }
