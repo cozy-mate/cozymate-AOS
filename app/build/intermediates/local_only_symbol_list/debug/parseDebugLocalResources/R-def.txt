@@ -349,6 +349,7 @@ id ly_guide
 id ly_heater_check
 id ly_light_off_time_1
 id ly_light_off_time_7
+id ly_list_table_select
 id ly_living_pattern
 id ly_mbti1
 id ly_mbti2
@@ -770,6 +771,7 @@ id tvil_number
 id v_divider
 id vp_AddTodo
 id vp_RoleAndRule
+id vp_detail
 id vp_input_info
 id wake_guide_line
 layout activity_add_todo
