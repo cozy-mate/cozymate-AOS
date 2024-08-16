@@ -32,6 +32,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private var isSelectedMale = true
     private var isSelectedFemale = false
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,7 +76,54 @@ class OnboardingUserInfoFragment : Fragment() {
     }
 
     private fun setupTextWatchers() {
-        val textWatcher = object : TextWatcher {
+        val namePattern = "^[ㄱ-ㅎㅏ-ㅣ가-힣]+$".toRegex() // 한글
+        val nicknamePattern = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,8}$".toRegex() // 2-8자의 한글,영어,숫자
+
+        binding.etOnboardingName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val input = s.toString()
+                if (!namePattern.matches(input)) {
+                    binding.tvLabelName.setTextColor(resources.getColor(R.color.red))
+                    binding.tvAlertName.visibility = View.VISIBLE
+                    binding.tilOnboardingName.isErrorEnabled = true
+                    binding.tilOnboardingName.boxStrokeColor = resources.getColor(R.color.red)
+                } else {
+                    binding.tvLabelName.setTextColor(resources.getColor(R.color.main_blue))
+                    binding.tvAlertName.visibility = View.GONE
+                    binding.tilOnboardingName.isErrorEnabled = false
+                    binding.tilOnboardingName.boxStrokeColor = resources.getColor(R.color.sub_skyblue)
+                }
+                updateNextBtnState()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.etOnboardingNickname.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val input = s.toString()
+                if (!nicknamePattern.matches(input)) {
+                    binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
+                    binding.tvAlertNickname.visibility = View.VISIBLE
+                    binding.tilOnboardingNickname.isErrorEnabled = true
+                    binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                } else {
+                    binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
+                    binding.tvAlertNickname.visibility = View.GONE
+                    binding.tilOnboardingNickname.isErrorEnabled = false
+                    binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.sub_color1)
+
+                    viewModel.nicknameCheck()
+                }
+                updateNextBtnState()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.tvBirth.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -83,10 +131,7 @@ class OnboardingUserInfoFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {}
-        }
-        binding.etOnboardingName.addTextChangedListener(textWatcher)
-        binding.etOnboardingNickname.addTextChangedListener(textWatcher)
-        binding.tvBirth.addTextChangedListener(textWatcher)
+        })
     }
 
     fun updateNextBtnState() {
@@ -107,7 +152,7 @@ class OnboardingUserInfoFragment : Fragment() {
             viewModel.setName(name)
             viewModel.setNickname(nickname)
             viewModel.setBirthday(birth)
-            viewModel.setGender(gender)
+            // viewModel.setGender(gender)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())
@@ -132,7 +177,7 @@ class OnboardingUserInfoFragment : Fragment() {
             intArrayOf() // 포커스되지 않은 상태
         )
         val colors = intArrayOf(
-            ContextCompat.getColor(requireContext(), R.color.main_blue), // 포커스된 상태의 색상
+            ContextCompat.getColor(requireContext(), R.color.sub_color1), // 포커스된 상태의 색상
             ContextCompat.getColor(requireContext(), R.color.unuse)
         )
         val colorStateList = ColorStateList(states, colors)
@@ -186,6 +231,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
                 updateColors()
+                viewModel.setGender("MALE")
 
                 isSelectedMale = !isSelectedMale
                 toggleImage(isSelectedMale, ivMale)
@@ -199,6 +245,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
                 updateColors()
+                viewModel.setGender("FEMALE")
 
                 isSelectedFemale = !isSelectedFemale
                 toggleImage(isSelectedFemale, ivFemale)
@@ -211,7 +258,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private fun updateColors() {
         with(binding) {
             if (mcvBirth.isSelected) {
-                setStrokeColor(mcvBirth, R.color.main_blue)
+                setStrokeColor(mcvBirth, R.color.sub_color1)
                 setTextColor(tvLabelBirth, R.color.main_blue)
             } else {
                 setStrokeColor(mcvBirth, R.color.unuse)
@@ -219,7 +266,7 @@ class OnboardingUserInfoFragment : Fragment() {
             }
 
             if (mcvGender.isSelected) {
-                setStrokeColor(mcvGender, R.color.main_blue)
+                setStrokeColor(mcvGender, R.color.sub_color1)
                 setTextColor(tvLabelGender, R.color.main_blue)
             } else {
                 setStrokeColor(mcvGender, R.color.unuse)

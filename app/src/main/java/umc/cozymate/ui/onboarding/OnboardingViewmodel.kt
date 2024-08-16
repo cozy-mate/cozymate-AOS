@@ -19,7 +19,7 @@ import javax.inject.Inject
 class OnboardingViewModel @Inject constructor(
     private val repository: MemberRepository,
     @ApplicationContext private val context: Context
-): ViewModel() {
+) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
 
@@ -72,7 +72,7 @@ class OnboardingViewModel @Inject constructor(
             name = _name.value ?: "unknown",
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
-            birthday =  _birthday.value ?: "2001-01-01",
+            birthday = _birthday.value ?: "2001-01-01",
             persona = _persona.value ?: 0
         )
         val token = "Bearer " + getToken()
@@ -81,19 +81,41 @@ class OnboardingViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response = repository.signUp(token=token, memberInfo=memberInfo)
+                val response = repository.signUp(token = token, memberInfo = memberInfo)
                 if (response.isSuccessful) {
-                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
+                    Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
-                        Log.d(TAG, "회원가입 성공")
+                        Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
                     }
-                }
-                else {
-                    Log.d(TAG, "응답 실패: ${response}")
+                } else {
+                    Log.d(TAG, "회원가입 api 응답 실패: ${response}")
                 }
                 _signUpResponse.value = response
             } catch (e: Exception) {
                 Log.d(TAG, "api 요청 실패: ${e}")
+            }
+        }
+    }
+
+    fun nicknameCheck() {
+        val accessToken = getToken()
+
+        if (accessToken != null) {
+            viewModelScope.launch {
+                try {
+                    val response = repository.checkNickname(accessToken, nickname.value ?: "unknown")
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "닉네임 유효성 체크 api 응답 성공: ${response}")
+                        if (response.body()!!.isSuccess) {
+                            Log.d(TAG, "닉네임 유효성 체크 성공: ${response.body()!!.result}")
+
+                        }
+                    } else {
+                        Log.d(TAG, "닉네임 유효성 체크 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "닉네임 유효성 체크 api 요청 실패: ${e}")
+                }
             }
         }
     }
