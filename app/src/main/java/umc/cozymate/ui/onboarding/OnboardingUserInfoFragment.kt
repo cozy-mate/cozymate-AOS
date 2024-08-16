@@ -74,9 +74,9 @@ class OnboardingUserInfoFragment : Fragment() {
     // 성별 선택 시 이미지 변경
     private fun toggleImage(isSelected: Boolean, iv: ImageView) {
         if (isSelected) {
-            iv.setImageResource(R.drawable.iv_radio_unselected)
-        } else {
             iv.setImageResource(R.drawable.iv_radio_selected)
+        } else {
+            iv.setImageResource(R.drawable.iv_radio_unselected)
         }
     }
 
@@ -238,6 +238,11 @@ class OnboardingUserInfoFragment : Fragment() {
             }
 
             radioMale.setOnClickListener {
+                // 성별 선택 상태를 초기화
+                isSelectedMale = true
+                isSelectedFemale = false
+
+                // ui 업데이트
                 etOnboardingName.clearFocus()
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
@@ -245,13 +250,17 @@ class OnboardingUserInfoFragment : Fragment() {
                 updateColors()
                 viewModel.setGender("MALE")
 
-                isSelectedMale = !isSelectedMale
+                // 이미지 업데이트
                 toggleImage(isSelectedMale, ivMale)
-                isSelectedFemale = !isSelectedMale
                 toggleImage(isSelectedFemale, ivFemale)
             }
 
             radioFemale.setOnClickListener {
+                // 성별 선택 상태를 초기화
+                isSelectedMale = false
+                isSelectedFemale = true
+
+                // ui 업데이트
                 etOnboardingName.clearFocus()
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
@@ -259,9 +268,8 @@ class OnboardingUserInfoFragment : Fragment() {
                 updateColors()
                 viewModel.setGender("FEMALE")
 
-                isSelectedFemale = !isSelectedFemale
+                // 이미지 업데이트
                 toggleImage(isSelectedFemale, ivFemale)
-                isSelectedMale = !isSelectedFemale
                 toggleImage(isSelectedMale, ivMale)
             }
         }
