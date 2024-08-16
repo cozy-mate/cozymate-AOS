@@ -75,13 +75,13 @@ class OnboardingViewModel @Inject constructor(
             birthday = _birthday.value ?: "2001-01-01",
             persona = _persona.value ?: 0
         )
-        val token = "Bearer " + getToken()
+        val token = getToken()
         Log.d(TAG, "유저 정보: $memberInfo")
         Log.d(TAG, "토큰: $token")
 
         viewModelScope.launch {
             try {
-                val response = repository.signUp(token = token, memberInfo = memberInfo)
+                val response = repository.signUp(token = token!!, memberInfo = memberInfo)
                 if (response.isSuccessful) {
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
