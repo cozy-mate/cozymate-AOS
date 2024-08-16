@@ -14,9 +14,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
 
@@ -32,6 +36,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private var isSelectedMale = true
     private var isSelectedFemale = false
 
+    private var debounceJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -116,7 +121,13 @@ class OnboardingUserInfoFragment : Fragment() {
                     binding.tilOnboardingNickname.isErrorEnabled = false
                     binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.sub_color1)
 
-                    viewModel.nicknameCheck()
+                    // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                    debounceJob?.cancel()
+                    debounceJob = viewModel.viewModelScope.launch {
+                        delay(500L) // 500ms 대기
+                        viewModel.setNickname(input)
+                        viewModel.nicknameCheck() // API 호출
+                    }
                 }
                 updateNextBtnState()
             }
@@ -147,12 +158,13 @@ class OnboardingUserInfoFragment : Fragment() {
             val name = binding.etOnboardingName.text.toString()
             val nickname = binding.etOnboardingNickname.text.toString()
             val birth = binding.tvBirth.text.toString()
-            val gender = if (isSelectedFemale) "FEMALE" else "MALE"
+            val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
+            else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
 
             viewModel.setName(name)
             viewModel.setNickname(nickname)
             viewModel.setBirthday(birth)
-            // viewModel.setGender(gender)
+            viewModel.setGender(gender)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())

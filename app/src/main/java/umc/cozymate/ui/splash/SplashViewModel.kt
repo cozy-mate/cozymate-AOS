@@ -59,8 +59,9 @@ class SplashViewModel @Inject constructor(
     }
 
     fun saveToken() {
-        Log.d(TAG, "토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit().putString("access_token", _tokenInfo.value!!.accessToken).apply()
+        Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
+        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
+        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
     }
 
     fun signIn() {
@@ -94,7 +95,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun reissue() {
-        val refreshToken = _tokenInfo.value!!.refreshToken
+        val refreshToken = "Bearer " + _tokenInfo.value!!.refreshToken
 
         if (refreshToken != null) {
             viewModelScope.launch {
@@ -119,7 +120,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun memberCheck() {
-        val accessToken = _tokenInfo.value!!.accessToken
+        val accessToken = "Bearer " + _tokenInfo.value!!.accessToken
 
         if (accessToken != null) {
             viewModelScope.launch {

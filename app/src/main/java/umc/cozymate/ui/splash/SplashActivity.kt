@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
@@ -80,11 +79,15 @@ class SplashActivity : AppCompatActivity() {
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
+
+                        splashViewModel.memberCheck()
+                        splashViewModel.isMember.observe(this) { isMember ->
+                            if (isMember) goCozyHome()
+                            else goOnboarding()
+                        }
                     } catch (e: Exception) {
                         Log.d(TAG, "토큰 저장 실패: $e")
                     }
-
-                    isMember()
                 } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
 
@@ -94,15 +97,6 @@ class SplashActivity : AppCompatActivity() {
                 goLoginFail()
             }
         }
-    }
-
-    private fun isMember() {
-        splashViewModel.memberCheck()
-
-        splashViewModel.isMember.observe(this, Observer { isMember ->
-            if (isMember) goCozyHome()
-            else goOnboarding()
-        })
     }
 
     private fun goCozyHome() {
