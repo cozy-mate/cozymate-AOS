@@ -118,7 +118,7 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    fun memberCheck(){
+    fun memberCheck() {
         val accessToken = _tokenInfo.value!!.accessToken
 
         if (accessToken != null) {

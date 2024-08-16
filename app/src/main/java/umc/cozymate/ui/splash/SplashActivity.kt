@@ -23,7 +23,7 @@ import umc.cozymate.ui.onboarding.OnboardingActivity
 
 // 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
 // 로그인 >> 멤버 확인 N >> 온보딩(OnboadrdingActivity)으로 이동
-// 로그인 N >> 로그인 실패(LoginFailActivity)로 이동
+// 로그인 N >> 로그인 실패(LoginFailActivity)로 이동 (<< 현재개발 시점에는 코지홈으로 이동하게 설정함)
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -107,6 +107,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goCozyHome() {
         val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun goOnboarding() {
@@ -116,7 +118,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goLoginFail() {
-        val intent = Intent(this, LoginFailActivity::class.java)
+        // val intent = Intent(this, LoginFailActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
