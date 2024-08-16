@@ -1,29 +1,15 @@
 package umc.cozymate.ui.onboarding
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
-import androidx.annotation.RequiresApi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import umc.cozymate.databinding.CustomDatepickerBinding
 import java.time.LocalDate
 
-// 프래그먼트에 생년월일 값 전달하기 위한 인터페이스
-/*interface AlertPickerDialogInterface {
-    fun onClickDoneButton(date:String, )
-}*/
-
-@RequiresApi(Build.VERSION_CODES.O)
-class DatePickerBottomSheetFragment(
-    //pickerDialogInterface: AlertPickerDialogInterface,
-    //id: Int,
-    //year: Int = LocalDate.now().year,
-    //month: Int = LocalDate.now().monthValue,
-    //day: Int = LocalDate.now().dayOfMonth
-)
+class DatePickerBottomSheetFragment
     : BottomSheetDialogFragment() {
 
     interface AlertPickerDialogInterface {
@@ -38,9 +24,6 @@ class DatePickerBottomSheetFragment(
     private val monthsArr = (1..12).toList().map { it.toString() }.toTypedArray()
     private val daysArr = (1..31).toList().map { it.toString() }.toTypedArray()
 
-    private var pickerDialogInterface: AlertPickerDialogInterface? = null
-    private var id: Int? = null
-
     private var listener: AlertPickerDialogInterface? = null
 
     // 선택된 값
@@ -52,8 +35,6 @@ class DatePickerBottomSheetFragment(
         this.year = LocalDate.now().year
         this.month = LocalDate.now().month.value
         this.day = LocalDate.now().dayOfMonth
-        // this.id = id
-        //this.pickerDialogInterface = pickerDialogInterface
     }
 
     override fun onCreateView(
@@ -71,9 +52,9 @@ class DatePickerBottomSheetFragment(
             // 값 가져오기
             var year = binding.npYear.value.toString()
             year = when {
-                year.startsWith("1") -> "19" + year[1].toString()+ year[2].toString()
-                year.startsWith("2") -> "20" + year[1].toString()+ year[2].toString()
-                else -> "19" + year[1].toString()+ year[2].toString()
+                year.length == 2 -> "19" + year[0].toString()+ year[1].toString()
+                year.length == 3 -> "20" + year[1].toString()+ year[2].toString()
+                else -> "19" + year[0].toString()+ year[1].toString()
             }
 
             var month = (binding.npMonth.value + 1).toString()
@@ -90,7 +71,7 @@ class DatePickerBottomSheetFragment(
             }
 
             var selectedDate = "2024-08-04" // Replace this with actual date selection logic
-            selectedDate = year + "년 " + month + "월 " + day + "일"
+            selectedDate = year + "-" + month + "-" + day
 
             listener?.onClickDoneButton(selectedDate)
             dismiss()
