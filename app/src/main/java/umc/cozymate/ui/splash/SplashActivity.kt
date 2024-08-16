@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
@@ -17,7 +18,12 @@ import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
+
+// 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
+// 로그인 >> 멤버 확인 N >> 온보딩(OnboadrdingActivity)으로 이동
+// 로그인 N >> 로그인 실패(LoginFailActivity)로 이동
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -54,17 +60,8 @@ class SplashActivity : AppCompatActivity() {
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
 
-        // 로그인 버튼 클릭 시 크롬 카카오 로그인 페이지 열기
+        // 로그인 버튼 클릭 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
-
-//            UserApiClient.instance.logout { error ->
-//                if (error != null) {
-//                    Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
-//                }else {
-//                    Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
             openKakaoLoginPage()
             getUserId()
         }
@@ -72,8 +69,8 @@ class SplashActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun observeViewModel(){
-        // signInResponse 관찰하여 처리
+    private fun observeViewModel() {
+        // signInResponse 관찰 >> cozymate 로그인 api 성공 >> cozymate 멤버인지 체크
         splashViewModel.signInResponse.observe(this) { result ->
             if (result.isSuccessful) {
                 if (result.body()!!.isSuccess) {
@@ -83,19 +80,33 @@ class SplashActivity : AppCompatActivity() {
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
-                    } catch (e: Exception){
+                    } catch (e: Exception) {
                         Log.d(TAG, "토큰 저장 실패: $e")
                     }
 
-                    goOnboarding()
+                    isMember()
                 } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+
                     goLoginFail()
                 }
             } else {
                 goLoginFail()
             }
         }
+    }
+
+    private fun isMember() {
+        splashViewModel.memberCheck()
+
+        splashViewModel.isMember.observe(this, Observer { isMember ->
+            if (isMember) goCozyHome()
+            else goOnboarding()
+        })
+    }
+
+    private fun goCozyHome() {
+        val intent = Intent(this, MainActivity::class.java)
     }
 
     private fun goOnboarding() {
@@ -111,6 +122,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun openKakaoLoginPage() {
+        // 카카오톡 또는 카카오 계정으로 로그인 시도
         try {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SplashActivity)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -129,9 +141,8 @@ class SplashActivity : AppCompatActivity() {
                         )
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공")
-                        Log.d(TAG, "accessToken: ${token.accessToken}")
-                        Log.d(TAG, "refreshToken: ${token.refreshToken}")
-                        Log.d(TAG, "idToken: ${token.idToken}")
+                        Log.d(TAG, "kakao accessToken: ${token.accessToken}")
+                        Log.d(TAG, "kakao refreshToken: ${token.refreshToken}")
                         Toast.makeText(this@SplashActivity, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -157,7 +168,7 @@ class SplashActivity : AppCompatActivity() {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
             } else if (user != null) {
                 Log.i(TAG, "사용자 정보 요청 성공")
-                val userId = user.id // 사용자 ID
+                val userId = user.id
                 Log.d(TAG, "사용자 ID: $userId")
 
                 if (userId != null) {
@@ -168,7 +179,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         }
-
 
         // 토큰 정보 보기
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->

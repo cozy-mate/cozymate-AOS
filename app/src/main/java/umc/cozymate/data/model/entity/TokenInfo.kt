@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TokenInfo(
     @SerialName("accessToken")
-    val accessToken: String,
+    var accessToken: String,
     @SerialName("message")
-    val message: String,
+    var message: String,
     @SerialName("refreshToken")
-    val refreshToken: String?
+    var refreshToken: String?
 )
