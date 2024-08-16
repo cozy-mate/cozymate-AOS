@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import umc.cozymate.databinding.CustomDatepickerBinding
 import java.time.LocalDate
-import java.util.Calendar
 
 // 프래그먼트에 생년월일 값 전달하기 위한 인터페이스
 /*interface AlertPickerDialogInterface {
@@ -71,7 +70,11 @@ class DatePickerBottomSheetFragment(
         binding.btnSave.setOnClickListener {
             // 값 가져오기
             var year = binding.npYear.value.toString()
-            if (binding.npYear.value.toString().length == 3) year = "20" + year[1].toString()+ year[2].toString()
+            year = when {
+                year.startsWith("1") -> "19" + year[1].toString()+ year[2].toString()
+                year.startsWith("2") -> "20" + year[1].toString()+ year[2].toString()
+                else -> "19" + year[1].toString()+ year[2].toString()
+            }
 
             var month = (binding.npMonth.value + 1).toString()
             if (month.length == 1) month = "0" + month
@@ -87,19 +90,17 @@ class DatePickerBottomSheetFragment(
             }
 
             var selectedDate = "2024-08-04" // Replace this with actual date selection logic
-            selectedDate = year + "-" + month + "-" + day
+            selectedDate = year + "년 " + month + "월 " + day + "일"
 
             listener?.onClickDoneButton(selectedDate)
             dismiss()
 
-            //this.pickerDialogInterface?.onClickDoneButton(id!!, year!!, month!!, day!!)
 
             // 프래그먼트 매니저를 사용하여 뒤로가기 처리 및 데이터 전달
             parentFragmentManager.setFragmentResult("requestKey", bundle)
             parentFragmentManager.popBackStack()
         }
 
-        //initDatePicker()
         initDatepicker()
     }
 
@@ -136,22 +137,6 @@ class DatePickerBottomSheetFragment(
             npMonth.value = month-1//currentDate.monthValue
             npDay.value = day-1//currentDate.dayOfMonth
         }
-    }
-
-    private fun getDaysInMonth(year: Int, month: Int): Int {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month - 1)
-        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-    }
-
-    private fun getDisplayValues(start: Int, end: Int, suffix: String): Array<String> {
-        val displayValues = mutableListOf<String>()
-
-        for (value in start..end) {
-            displayValues.add("${value}${suffix}")
-        }
-        return displayValues.toTypedArray()
     }
 
     fun setOnDateSelectedListener(listener: AlertPickerDialogInterface ) {
