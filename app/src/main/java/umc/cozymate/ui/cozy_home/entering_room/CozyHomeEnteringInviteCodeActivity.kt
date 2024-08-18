@@ -3,17 +3,24 @@ package umc.cozymate.ui.cozy_home.entering_room
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeEnteringInviteCodeBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
+import umc.cozymate.ui.onboarding.OnboardingViewModel
 
 // 플로우3 : 초대코드 입력창(1) > 룸메이트 대기창(2) > 코지홈 입장창(3) > 코지홈 활성화창
+@AndroidEntryPoint
 class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
+
+    private val TAG = this.javaClass.simpleName
+    private val viewModel: OnboardingViewModel by viewModels()
 
     lateinit var binding: ActivityCozyHomeEnteringInviteCodeBinding
 

@@ -3,18 +3,27 @@ package umc.cozymate.ui.cozy_home.entering_room
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
-import umc.cozymate.ui.cozy_home.pop_up.InviteCodeFailPopUp
 
 // 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
+@AndroidEntryPoint
 class CozyHomeEnteringInviteCodeFragment : Fragment() {
+
+    private val TAG = this.javaClass.simpleName
 
     private var _binding: FragmentCozyHomeEnteringInviteCodeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: CozyHomeEnteringViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +31,9 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCozyHomeEnteringInviteCodeBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(requireActivity())[CozyHomeEnteringViewModel::class.java]
+
         return binding.root
     }
 
@@ -45,6 +57,7 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
+                    viewModel.setInviteCode(s.toString())
                     btnNext.isEnabled = !s.isNullOrEmpty()
                 }
 
@@ -55,13 +68,50 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
                 etRoomName.clearFocus()
             }
 
-            // 확인 버튼
+            // 확인 버튼 > 방 정보 조회 > 팝업
             btnNext.setOnClickListener {
-                // (activity as? CozyHomeEnteringInviteCodeActivity)?.loadFragment2()
-                val popup = InviteCodeFailPopUp()
-                popup.show(parentFragmentManager, "팝업")
+                viewModel.joinRoom()
             }
 
+            observeViewModel()
         }
+    }
+
+    private fun observeViewModel() {
+        viewModel.response.observe(viewLifecycleOwner, Observer { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.isSuccess) {
+                    Log.d(TAG, "방조회 성공: ${response.body()}")
+                }
+            } else {
+                Log.d(TAG, "방조회 실패: ${response.errorBody().toString()}")
+            }
+        })
+
+        var popup: DialogFragment
+        /*viewModel.roomState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is RoomState.Success -> {
+                    popup = InviteCodeSuccessPopUp()
+                    popup.show(parentFragmentManager, "팝업")
+                }
+
+                is RoomState.Failure -> {
+                    popup = InviteCodeFailPopUp()
+                    popup.show(parentFragmentManager, "팝업")
+                }
+
+                is RoomState.ServerError -> {
+                    popup = ServerErrorPopUp()
+                    popup.show(parentFragmentManager, "팝업")
+                }
+
+                null -> {
+                    //
+                }
+            }*/
+
+            //viewModel.resetRoomState()
+        //})
     }
 }
