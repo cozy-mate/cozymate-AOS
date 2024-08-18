@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".CozyMateApplication"
@@ -25,9 +24,7 @@
             android:name=".ui.roommate.RoommateInputInfoActivity"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="a51292da8bc69b2160b0bb97ec00b2ad" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -70,15 +67,7 @@
         <activity
             android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="true" />
-        <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateSelectionInfoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateEssentialInfoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateBasicInfoActivity"
-            android:exported="true" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
