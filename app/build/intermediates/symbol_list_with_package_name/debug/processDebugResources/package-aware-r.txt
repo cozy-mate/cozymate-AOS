@@ -3060,6 +3060,7 @@ id btn_like
 id btn_message
 id btn_never
 id btn_next
+id btn_request_roommate
 id btn_roommate_invite
 id btn_rule
 id btn_save
@@ -3601,6 +3602,7 @@ id rv_detail_table_can_do
 id rv_detail_table_never
 id rv_detail_table_rule
 id rv_list
+id rv_list_table_layout
 id rv_message
 id rv_message_detail
 id rv_never
@@ -3627,13 +3629,17 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id select_ac
 id select_acceptance
 id select_birth
 id select_call
 id select_clean
 id select_clean_frequency
 id select_dialog_listview
+id select_friendly
 id select_game
+id select_heater
+id select_intake
 id select_ligt_off
 id select_living_pattern
 id select_major
@@ -3650,8 +3656,6 @@ id select_study
 id select_wake
 id selected
 id selection_type
-id selet_ac
-id selet_heater
 id share_no
 id share_yes
 id sharedValueSet
@@ -3920,6 +3924,7 @@ id tv_onboarding_title1
 id tv_onboarding_title2
 id tv_other_user_age
 id tv_other_user_dormitory_num
+id tv_other_user_equality
 id tv_other_user_name
 id tv_people_number
 id tv_personality
@@ -4076,7 +4081,6 @@ id visible
 id visible_removing_fragment_view_tag
 id vp_AddTodo
 id vp_RoleAndRule
-id vp_detail
 id vp_input_info
 id wake_guide_line
 id wednesday

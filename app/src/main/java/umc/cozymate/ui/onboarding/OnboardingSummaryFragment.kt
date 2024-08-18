@@ -45,7 +45,6 @@ class OnboardingSummaryFragment : Fragment() {
             commit()
         }
 
-
         return binding.root
     }
 

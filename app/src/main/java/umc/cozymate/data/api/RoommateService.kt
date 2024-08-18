@@ -9,7 +9,7 @@ import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.UserInfoRequest
-import umc.cozymate.data.model.response.OtherUserInfoResponse
+import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 
 interface RoommateService {
     @POST("/members/stat/")
@@ -18,9 +18,16 @@ interface RoommateService {
         @Body request: UserInfoRequest
     ): Response<ResponseBody<DefaultResponse>>
 
-    @GET("members/stat/search")
-    suspend fun getOtherUserInfo(
-        @Query("page") page: Int,
-        @Query("filterList") filterList: String
-    ): Response<ResponseBody<List<OtherUserInfoResponse>>>
+//    @GET("/members/stat/search/details")
+//    suspend fun getOtherUserInfo(
+//        @Header("Authorization") accessToken: String,
+//        @Query("page") page: Int,
+//        @Query("filterList") filterList: String
+//    ): Response<OtherUserResponseBody<List<OtherUserInfoResponse>>>
+@GET("/members/stat/search/details")
+suspend fun getOtherUserInfo(
+    @Header("Authorization") accessToken: String,
+    @Query("page") page: Int,
+    @Query("filterList") filterList: String
+): Response<ResponseBody<OtherUserInfoResponse>>
 }

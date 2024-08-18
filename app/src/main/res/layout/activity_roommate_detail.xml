@@ -53,8 +53,8 @@
                 android:id="@+id/iv_other_user_profile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/custom_circular_background"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_basic_character2"
@@ -65,8 +65,8 @@
                 android:id="@+id/tv_other_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="더기"
                 android:layout_marginStart="8dp"
+                android:text="더기"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toEndOf="@+id/iv_other_user_profile"
@@ -102,49 +102,49 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font" />
             </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/ly_user_match"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/background_round_corner_20"
                 app:layout_constraintBottom_toTopOf="@+id/guide_bottom"
-                >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ly_user_match">
 
                 <LinearLayout
+                    android:id="@+id/ly_list_table_select"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/ly_list_table_select"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="20dp">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:id="@+id/llListView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:clickable="true"
                         android:gravity="center"
-                        android:clickable="true">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/ivListViewIcon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_detail_list"
-                            android:contentDescription="리스트로 보기" />
+                            android:contentDescription="리스트로 보기"
+                            android:src="@drawable/ic_detail_list" />
 
                         <TextView
                             android:id="@+id/tvListView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="리스트로 보기"
-                            android:textColor="@color/main_blue"
-                            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold" />
+                            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                            android:textColor="@color/main_blue" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,44 +152,57 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:clickable="true"
                         android:gravity="center"
-                        android:clickable="true">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/ivTableViewIcon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_detail_table"
-                            android:contentDescription="표로 보기" />
+                            android:contentDescription="표로 보기"
+                            android:src="@drawable/ic_detail_table" />
 
                         <TextView
                             android:id="@+id/tvTableView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="표로 보기"
-                            android:textColor="@color/unuse_font"
-                            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold" />
+                            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                            android:textColor="@color/unuse_font" />
                     </LinearLayout>
                 </LinearLayout>
-                <androidx.viewpager2.widget.ViewPager2
+
+                <FrameLayout
+                    android:id="@+id/list_table_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="10dp"
-                    android:id="@+id/vp_detail"
-                    app:layout_constraintTop_toBottomOf="@id/ly_list_table_select"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_request_roommate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_weight="1"/>
+                    app:layout_constraintTop_toBottomOf="@id/ly_list_table_select" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_request_roommate"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/custom_tv_selected_background"
+                    android:text="코지메이트 요청"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
+                android:id="@+id/guide_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:id="@+id/guide_bottom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
