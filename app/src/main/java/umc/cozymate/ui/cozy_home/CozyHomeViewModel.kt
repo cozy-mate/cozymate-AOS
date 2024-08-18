@@ -40,7 +40,13 @@ class CozyHomeViewModel  @Inject constructor(
     }
 
     fun saveRoomId() {
-        sharedPreferences.edit().putInt("room_id", _roomId.value!!).apply()
+        sharedPreferences.edit().putInt("room_id", _roomId.value ?: 0).apply()
+    }
+
+    fun fetchRoomIdIfNeeded() {
+        if (_roomId.value == null) {
+            getRoomId()
+        }
     }
 
     init {
@@ -59,7 +65,7 @@ class CozyHomeViewModel  @Inject constructor(
                         _roomId.value = response.body()!!.result?.roomId
                         saveRoomId()
                     } else {
-                        Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response}")
+                        Log.d(TAG, "방존재여부 조회 에러 메시지: ${response}")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -68,10 +74,10 @@ class CozyHomeViewModel  @Inject constructor(
                     } else {
                         _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
                     }
-                    Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
+                    Log.d(TAG, "방존재여부 api 응답 실패: ${errorBody}")
                 }
             } catch (e: Exception) {
-                Log.d(TAG, "초대코드로 방 정보 조회 api 요청 실패: ${e}")
+                Log.d(TAG, "방존재여부 조회 api 요청 실패: ${e}")
             }
         }
     }

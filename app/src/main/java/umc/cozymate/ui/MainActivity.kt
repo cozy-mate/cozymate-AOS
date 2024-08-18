@@ -1,6 +1,5 @@
 package umc.cozymate.ui
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -36,17 +35,17 @@ class MainActivity : AppCompatActivity() {
 
         initScreen()
 
-        homeViewModel.getRoomId()
-
         // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId != 0) {
                 loadActiveFragment()
+            } else {
+                loadDefaultFragment()
             }
         }
 
-        // isRoomExist()
-
+        // Check and fetch RoomId if needed
+        homeViewModel.fetchRoomIdIfNeeded()
 
         // 앱 초기 실행 시 홈화면으로 설정
 //        if (savedInstanceState == null) {
@@ -73,20 +72,6 @@ class MainActivity : AppCompatActivity() {
         // 알림 확인을 위해 작성, 추후 삭제 요망
     }
 
-    private fun isRoomExist() {
-        // Check if roomId is already stored
-        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val storedRoomId = sharedPreferences.getInt("room_id", 0)
-
-        if (storedRoomId == 0) {
-            // RoomId is not stored, so call getRoomId()
-            homeViewModel.getRoomId()
-        } else {
-            // RoomId is already stored, no need to fetch again
-            loadActiveFragment()
-        }
-    }
-
     private fun initScreen() {
         this.setStatusBarTransparent()
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
@@ -94,6 +79,8 @@ class MainActivity : AppCompatActivity() {
 
     // [코지홈 비활성화] 로드
     fun loadDefaultFragment() {
+        homeViewModel.getRoomId()
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeDefaultFragment())
             .addToBackStack(null)
@@ -102,6 +89,8 @@ class MainActivity : AppCompatActivity() {
 
     // [코지홈 활성화] 로드
     fun loadActiveFragment() {
+        homeViewModel.getRoomId()
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeActiveFragment())
             .addToBackStack(null)
@@ -126,16 +115,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
-
-                    // 방생성한 적이 없으면 -> default home
-                    // 방생성했으면 -> active home
-                    val isActiveHome = intent.getStringExtra("isActive")
-                    if (isActiveHome != null){
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_container, CozyHomeActiveFragment.newInstance(isActiveHome)).commit()
+                    if (homeViewModel.roomId.value != 0) {
+                        loadActiveFragment()
                     } else {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_container, CozyHomeDefaultFragment()).commit()
+                        loadDefaultFragment()
                     }
 
                     true
