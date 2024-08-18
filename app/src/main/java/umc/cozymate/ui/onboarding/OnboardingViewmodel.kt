@@ -104,7 +104,8 @@ class OnboardingViewModel @Inject constructor(
         if (accessToken != null) {
             viewModelScope.launch {
                 try {
-                    val response = repository.checkNickname(accessToken, nickname.value ?: "unknown")
+                    val response =
+                        repository.checkNickname(accessToken, nickname.value ?: "unknown")
                     if (response.isSuccessful) {
                         Log.d(TAG, "닉네임 유효성 체크 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
