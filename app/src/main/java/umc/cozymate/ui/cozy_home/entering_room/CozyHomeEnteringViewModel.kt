@@ -36,9 +36,6 @@ class CozyHomeEnteringViewModel @Inject constructor(
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
-    private val _roomState = MutableLiveData<RoomState?>()
-    val roomState: LiveData<RoomState?> = _roomState
-
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun getToken(): String? {
@@ -72,14 +69,14 @@ class CozyHomeEnteringViewModel @Inject constructor(
                     Log.d(TAG, "초대코드로 방 정보 조회 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "초대코드로 방 정보 조회 성공: ${response.body()!!.result}")
+                        _roomInfo.value = response.body()!!.result
+                        saveRoomInfo()
                     } else {
-                        //_roomState.value = RoomState.Failure
                         Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response}")
                     }
                     _response.value = response
 
                 } else {
-                    //_roomState.value = RoomState.ServerError
                     Log.d(TAG, "초대코드로 방 정보 조회 api 응답 실패: ${response.errorBody()?.string()}")
                     val errorBody = response.errorBody()?.string()
                     _errorResponse.value = parseErrorResponse(errorBody)
@@ -100,16 +97,4 @@ class CozyHomeEnteringViewModel @Inject constructor(
             null
         }
     }
-
-
-    // 상태 초기화 (다이얼로그가 표시된 후)
-    fun resetRoomState() {
-        _roomState.value = null
-    }
-}
-
-sealed class RoomState {
-    object Success : RoomState()
-    object Failure : RoomState()
-    object ServerError : RoomState()
 }

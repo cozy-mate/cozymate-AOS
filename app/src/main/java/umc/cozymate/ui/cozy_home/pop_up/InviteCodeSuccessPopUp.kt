@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,11 +18,16 @@ class InviteCodeSuccessPopUp : DialogFragment() {
     private var _binding: PopupInviteCodeSuccessBinding? = null
     private val binding get() = _binding!!
 
+    private var roomName: String = "[피그말리온]"
+    private var roomDetail: String = ""
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = PopupInviteCodeSuccessBinding.inflate(layoutInflater)
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
+
+        initRoomInfo()
 
         // 확인 버튼 > 방 조회 > 코지홈
         binding.btnOk.setOnClickListener {
@@ -48,6 +54,20 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         }
 
         return dialog
+    }
+
+    private fun initRoomInfo() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+        val roomId = spf.getInt("room_id", 0)
+        val roomManagerName = spf.getString("room_manager_name", "default_manager")
+        val roomMaxMateNum = spf.getInt("room_max_mate_num", 0)
+
+        roomName = "[" + spf.getString("room_name", "default_name") + "]"
+        roomDetail = "방장 : [" + roomManagerName + " | " + roomMaxMateNum + "인실"
+
+        binding.tvRoomname.text = roomName
+        binding.tvRoomInfo.text = roomDetail
     }
 
     private fun navigateToCozyHomeActiveFragment() {
