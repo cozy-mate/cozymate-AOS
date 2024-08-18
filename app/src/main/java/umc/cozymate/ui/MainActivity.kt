@@ -1,6 +1,8 @@
 package umc.cozymate.ui
 
+import android.content.Context
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -8,6 +10,7 @@ import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
+import umc.cozymate.ui.cozy_home.CozyHomeViewModel
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -22,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
+    private val homeViewModel: CozyHomeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,17 +34,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setBottomNavigationView()
 
-
-
-        // 화면 영역 확장
-        //enableEdgeToEdge()
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }*/
-
         initScreen()
+
+        homeViewModel.getRoomId()
+
+        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
+        homeViewModel.roomId.observe(this) { roomId ->
+            if (roomId != 0) {
+                loadActiveFragment()
+            }
+        }
+
+        // isRoomExist()
 
 
         // 앱 초기 실행 시 홈화면으로 설정
@@ -65,6 +71,20 @@ class MainActivity : AppCompatActivity() {
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
+    }
+
+    private fun isRoomExist() {
+        // Check if roomId is already stored
+        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val storedRoomId = sharedPreferences.getInt("room_id", 0)
+
+        if (storedRoomId == 0) {
+            // RoomId is not stored, so call getRoomId()
+            homeViewModel.getRoomId()
+        } else {
+            // RoomId is already stored, no need to fetch again
+            loadActiveFragment()
+        }
     }
 
     private fun initScreen() {
