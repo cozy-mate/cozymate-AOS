@@ -11,7 +11,7 @@ data class GetRoomInfoByInviteCodeResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("result")
-    val result: Result
+    val result: Result?
 ) {
     data class Result(
         @SerializedName("managerName")
