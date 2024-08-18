@@ -5,6 +5,8 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
 
@@ -34,10 +36,12 @@ class InviteCodeSuccessPopUp : DialogFragment() {
 
         // 배경 투명 + 밝기 조절 (0.7)
         dialog.window?.let { window ->
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val layoutParams = window.attributes
-            layoutParams.alpha = 0.7f // 밝기를 설정 (0.0f ~ 1.0f)
+            layoutParams.dimAmount = 0.7f
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.attributes = layoutParams
         }
 
