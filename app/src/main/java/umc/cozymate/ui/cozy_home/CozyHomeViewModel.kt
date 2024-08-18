@@ -1,20 +1,35 @@
 package umc.cozymate.ui.cozy_home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_home.adapter.AchievementItem
 import umc.cozymate.ui.cozy_home.adapter.AchievementItemType
+import javax.inject.Inject
 
-class CozyHomeViewModel : ViewModel() {
+@HiltViewModel
+class CozyHomeViewModel  @Inject constructor(
+    private val repository: RoomRepository,
+    @ApplicationContext private val context: Context
+) : ViewModel() {
 
     private val _achievements = MutableLiveData<List<AchievementItem>>()
     val achievements: LiveData<List<AchievementItem>> get() = _achievements
 
     private val _roomId = MutableLiveData<Int>()
     val roomId: LiveData<Int> get() = _roomId
+
+    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
 
     init {
         loadAchievements()

@@ -13,6 +13,7 @@ import umc.cozymate.data.model.response.room.CreateRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByOwnerResponse
+import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 
 interface RoomService {
@@ -39,6 +40,12 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Query("inviteCode") inviteCode: String
     ) : Response<GetRoomInfoByInviteCodeResponse>
+
+    // 방 존재 여부 조회
+    @GET("/rooms/exist")
+    suspend fun isRoomExist(
+        @Header("Authorization") accessToken: String
+    ) : Response<IsRoomExistResponse>
 
     // 방 참여
     @POST("/rooms/{roomId}/join")
