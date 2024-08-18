@@ -6,11 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.RoomInfo
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
@@ -30,6 +32,9 @@ class CozyHomeEnteringViewModel @Inject constructor(
 
     private val _response = MutableLiveData<Response<GetRoomInfoByInviteCodeResponse>>()
     val response: LiveData<Response<GetRoomInfoByInviteCodeResponse>> get() = _response
+
+    private val _errorResponse = MutableLiveData<ErrorResponse>()
+    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
     private val _roomState = MutableLiveData<RoomState?>()
     val roomState: LiveData<RoomState?> = _roomState
@@ -59,17 +64,16 @@ class CozyHomeEnteringViewModel @Inject constructor(
                     Log.d(TAG, "초대코드로 방 정보 조회 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "초대코드로 방 정보 조회 성공: ${response.body()!!.result}")
-                        _response.value = response
-                        _roomInfo.value = response.body()!!.result
-                        //_roomState.value = RoomState.Success
                     } else {
                         //_roomState.value = RoomState.Failure
-                        Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response.body()!!.message}")
+                        Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response}")
                     }
                     _response.value = response
                 } else {
                     //_roomState.value = RoomState.ServerError
-                    Log.d(TAG, "초대코드로 방 정보 조회 api 응답 실패: ${response.body()!!.message}")
+                    Log.d(TAG, "초대코드로 방 정보 조회 api 응답 실패: ${response.errorBody()?.string()}")
+                    val errorBody = response.errorBody()?.string()
+                    _errorResponse.value = parseErrorResponse(errorBody)
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "초대코드로 방 정보 조회 api 요청 실패: ${e}")
@@ -77,6 +81,17 @@ class CozyHomeEnteringViewModel @Inject constructor(
         }
 
     }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
+        }
+    }
+
 
     // 상태 초기화 (다이얼로그가 표시된 후)
     fun resetRoomState() {

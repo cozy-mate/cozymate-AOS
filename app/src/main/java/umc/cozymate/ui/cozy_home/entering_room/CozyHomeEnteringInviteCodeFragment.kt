@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
+import umc.cozymate.ui.cozy_home.pop_up.InviteCodeFailPopUp
+import umc.cozymate.ui.cozy_home.pop_up.InviteCodeSuccessPopUp
+import umc.cozymate.ui.cozy_home.pop_up.ServerErrorPopUp
 
 // 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
 @AndroidEntryPoint
@@ -24,6 +27,8 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: CozyHomeEnteringViewModel
+
+    private lateinit var popup: DialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,45 +78,45 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
                 viewModel.joinRoom()
             }
 
-            observeViewModel()
+            observeResponse()
+            observeError()
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeResponse() {
         viewModel.response.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {
-                if (response.body()!!.isSuccess) {
+                if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "방조회 성공: ${response.body()}")
+                    if (isAdded && isVisible) {
+                        popup = InviteCodeSuccessPopUp()
+                        popup.show(childFragmentManager, "팝업")
+                    } else {
+                        Log.d(TAG, "Fragment is not added or not visible")
+                    }
                 }
             } else {
-                Log.d(TAG, "방조회 실패: ${response.errorBody().toString()}")
+                Log.d(TAG, "Response is not successful: ${response.code()}")
             }
         })
+    }
 
-        var popup: DialogFragment
-        /*viewModel.roomState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is RoomState.Success -> {
-                    popup = InviteCodeSuccessPopUp()
-                    popup.show(parentFragmentManager, "팝업")
+    private fun observeError() {
+        viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
+            Log.d(TAG, "방조회 실패: ${response?.message}")
+            if (isAdded && isVisible) {
+                when (response?.message) {
+                    "존재하지 않는 방입니다." -> {
+                        popup = InviteCodeFailPopUp()
+                    }
+                    else -> {
+                        popup = ServerErrorPopUp()
+                    }
                 }
-
-                is RoomState.Failure -> {
-                    popup = InviteCodeFailPopUp()
-                    popup.show(parentFragmentManager, "팝업")
-                }
-
-                is RoomState.ServerError -> {
-                    popup = ServerErrorPopUp()
-                    popup.show(parentFragmentManager, "팝업")
-                }
-
-                null -> {
-                    //
-                }
-            }*/
-
-            //viewModel.resetRoomState()
-        //})
+                popup.show(childFragmentManager, "팝업")
+            } else {
+                Log.d(TAG, "Fragment is not added or not visible")
+            }
+        })
     }
 }
