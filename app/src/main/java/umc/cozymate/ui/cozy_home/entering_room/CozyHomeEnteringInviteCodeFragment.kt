@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
+import umc.cozymate.ui.cozy_home.pop_up.InviteCodeFailPopUp
 
 // 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
 class CozyHomeEnteringInviteCodeFragment : Fragment() {
@@ -56,7 +57,9 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
 
             // 확인 버튼
             btnNext.setOnClickListener {
-                (activity as? CozyHomeEnteringInviteCodeActivity)?.loadFragment2()
+                // (activity as? CozyHomeEnteringInviteCodeActivity)?.loadFragment2()
+                val popup = InviteCodeFailPopUp()
+                popup.show(parentFragmentManager, "팝업")
             }
 
         }
