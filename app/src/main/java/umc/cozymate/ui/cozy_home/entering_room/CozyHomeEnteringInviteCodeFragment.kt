@@ -75,7 +75,7 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
 
             // 확인 버튼 > 방 정보 조회 > 팝업
             btnNext.setOnClickListener {
-                viewModel.joinRoom()
+                viewModel.getRoom()
             }
 
             observeResponse()

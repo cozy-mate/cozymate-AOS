@@ -45,11 +45,19 @@ class CozyHomeEnteringViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
+    fun saveRoomInfo() {
+        Log.d(TAG, "방 정보: ${_roomInfo.value.toString()}")
+        sharedPreferences.edit().putString("room_name", _roomInfo.value!!.name).apply()
+        sharedPreferences.edit().putInt("room_id", _roomInfo.value!!.roomId).apply()
+        sharedPreferences.edit().putString("room_manager_name", _roomInfo.value!!.managerName).apply()
+        sharedPreferences.edit().putInt("room_max_mate_num", _roomInfo.value!!.maxMateNum).apply()
+    }
+
     fun setInviteCode(code: String) {
         _inviteCode.value = code
     }
 
-    fun joinRoom() {
+    fun getRoom() {
         val token = getToken()
         Log.d(TAG, "초대 코드: ${_inviteCode.value}")
         Log.d(TAG, "토큰: $token")
@@ -69,6 +77,7 @@ class CozyHomeEnteringViewModel @Inject constructor(
                         Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response}")
                     }
                     _response.value = response
+
                 } else {
                     //_roomState.value = RoomState.ServerError
                     Log.d(TAG, "초대코드로 방 정보 조회 api 응답 실패: ${response.errorBody()?.string()}")
