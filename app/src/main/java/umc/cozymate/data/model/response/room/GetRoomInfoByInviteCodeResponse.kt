@@ -2,6 +2,7 @@ package umc.cozymate.data.model.response.room
 
 
 import com.google.gson.annotations.SerializedName
+import umc.cozymate.data.model.entity.RoomInfo
 
 data class GetRoomInfoByInviteCodeResponse(
     @SerializedName("code")
@@ -11,16 +12,5 @@ data class GetRoomInfoByInviteCodeResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("result")
-    val result: Result?
-) {
-    data class Result(
-        @SerializedName("managerName")
-        val managerName: String,
-        @SerializedName("maxMateNum")
-        val maxMateNum: Int,
-        @SerializedName("name")
-        val name: String,
-        @SerializedName("roomId")
-        val roomId: Int
-    )
-}
+    val result: RoomInfo?
+)
