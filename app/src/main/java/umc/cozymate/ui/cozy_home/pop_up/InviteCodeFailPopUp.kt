@@ -28,16 +28,16 @@ class InviteCodeFailPopUp : DialogFragment() {
 
         val dialog = builder.create()
 
-        // 배경 투명 + 밝기 조절 (0.7)
-        dialog.window?.let { window ->
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            // 배경 투명 + 밝기 조절 (0.7)
+            dialog.window?.let { window ->
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val layoutParams = window.attributes
-            layoutParams.dimAmount = 0.7f
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            window.attributes = layoutParams
-        }
+                val layoutParams = window.attributes
+                layoutParams.dimAmount = 0.7f
+                window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window.attributes = layoutParams
+            }
 
         return dialog
     }

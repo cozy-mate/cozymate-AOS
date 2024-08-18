@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
+import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 
 class InviteCodeSuccessPopUp : DialogFragment() {
 
@@ -23,7 +25,7 @@ class InviteCodeSuccessPopUp : DialogFragment() {
 
         // 확인 버튼 > 방 조회 > 코지홈
         binding.btnOk.setOnClickListener {
-            // OK 버튼 클릭 시 수행할 작업
+            navigateToCozyHomeActiveFragment()
             dismiss() // 다이얼로그 닫기
         }
 
@@ -46,6 +48,16 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         }
 
         return dialog
+    }
+
+    private fun navigateToCozyHomeActiveFragment() {
+        // 방 참여 api 요청
+
+        // 이동
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_container, CozyHomeActiveFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
