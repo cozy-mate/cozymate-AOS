@@ -47,16 +47,16 @@ class BasicInfoFragment : Fragment() {
             onLiving = it.getString("onLiving")
             numPeople = it.getInt("numPeople")
             binding.etNumber.setText(it.getString("number"))
-            binding.etBirth.setText(it.getString("birth"))
-            binding.etName.setText(it.getString("name"))
+//            binding.etBirth.setText(it.getString("birth"))
+//            binding.etName.setText(it.getString("name"))
             binding.etMajor.setText(it.getString("major"))
         } ?: run {
             // If no savedInstanceState, load from SharedPreferences
             onLiving = userInfo.acceptance
             numPeople = userInfo.numOfRoommate
             binding.etNumber.setText(userInfo.admissionYear)
-            binding.etBirth.setText(userInfo.birth)
-            binding.etName.setText(userInfo.name)
+//            binding.etBirth.setText(userInfo.birth)
+//            binding.etName.setText(userInfo.name)
             binding.etMajor.setText(userInfo.major)
         }
 
@@ -77,8 +77,8 @@ class BasicInfoFragment : Fragment() {
     private fun initTextChangeListener() {
         // Initialize EditText fields with TextWatchers
         binding.etNumber.addTextChangedListener(createTextWatcher())
-        binding.etBirth.addTextChangedListener(createTextWatcher())
-        binding.etName.addTextChangedListener(createTextWatcher())
+//        binding.etBirth.addTextChangedListener(createTextWatcher())
+//        binding.etName.addTextChangedListener(createTextWatcher())
         binding.etMajor.addTextChangedListener(createMajorTextWatcher())
     }
 
@@ -114,8 +114,8 @@ class BasicInfoFragment : Fragment() {
         outState.putString("onLiving", onLiving)
         outState.putInt("numPeople", numPeople!!)
         outState.putString("number", binding.etNumber.text.toString())
-        outState.putString("birth", binding.etBirth.text.toString())
-        outState.putString("name", binding.etName.text.toString())
+//        outState.putString("birth", binding.etBirth.text.toString())
+//        outState.putString("name", binding.etName.text.toString())
         outState.putString("major", binding.etMajor.text.toString())
     }
 
@@ -159,9 +159,10 @@ class BasicInfoFragment : Fragment() {
         val isNextButtonEnabled = onLiving != null &&
                 numPeople != null &&
                 binding.etMajor.text?.toString()?.isNotEmpty() == true &&
-                binding.etNumber.text?.toString()?.isNotEmpty() == true &&
-                binding.etBirth.text?.toString()?.isNotEmpty() == true &&
-                binding.etName.text?.toString()?.isNotEmpty() == true
+                binding.etNumber.text?.toString()?.isNotEmpty() == true
+//                binding.etNumber.text?.toString()?.isNotEmpty() == true &&
+//                binding.etBirth.text?.toString()?.isNotEmpty() == true &&
+//                binding.etName.text?.toString()?.isNotEmpty() == true
 
         if (isNextButtonEnabled) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()
@@ -172,8 +173,8 @@ class BasicInfoFragment : Fragment() {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 userInfo = userInfo.copy(
-                    birth = binding.etBirth.text.toString(),
-                    name = binding.etName.text.toString(),
+//                    birth = binding.etBirth.text.toString(),
+//                    name = binding.etName.text.toString(),
                     admissionYear = binding.etNumber.text.toString()
                 )
                 spfHelper.saveUserInfo(userInfo)  // Save updated value
@@ -202,9 +203,10 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun showMajorLayout() {
-        if (binding.etNumber.text?.isNotEmpty() == true &&
-            binding.etBirth.text?.isNotEmpty() == true &&
-            binding.etName.text?.isNotEmpty() == true
+        if (binding.etNumber.text?.isNotEmpty() == true
+//            binding.etNumber.text?.isNotEmpty() == true &&
+//            binding.etBirth.text?.isNotEmpty() == true &&
+//            binding.etName.text?.isNotEmpty() == true
         ) {
             binding.clMajor.showWithSlideDownAnimation()
             scrollToTop()
@@ -235,8 +237,8 @@ class BasicInfoFragment : Fragment() {
 
     private fun removeEditTextFocus() {
         binding.etNumber.clearFocus()
-        binding.etBirth.clearFocus()
-        binding.etName.clearFocus()
+//        binding.etBirth.clearFocus()
+//        binding.etName.clearFocus()
         binding.etMajor.clearFocus()
         hideKeyboard()
     }

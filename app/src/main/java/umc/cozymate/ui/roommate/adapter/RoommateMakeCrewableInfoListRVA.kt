@@ -34,7 +34,7 @@ class RoommateMakeCrewableInfoListRVA(
         holder.binding.tvOtherUserDormitoryNum.text = "${userInfo.info.numOfRoommate}인실"
         holder.binding.tvOtherUserEquality.text = "${userInfo.info.equality}%"
 
-        val profileImageResId = when (userInfo.info.memberId) {
+        val profileImageResId = when (userInfo.info.memberPersona) {
             1 -> R.drawable.character_0
             2 -> R.drawable.character_1
             3 -> R.drawable.character_2

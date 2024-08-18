@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="닉네임"
+                    android:text="이름"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
@@ -706,6 +706,35 @@
                     android:background="@color/detail_gray"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
                 <TextView
+                    android:id="@+id/tv_list_intake_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="섭취여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_intake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_intake_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_study_title"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_intake_title" />
+                <TextView
                     android:id="@+id/tv_list_game_check_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -714,7 +743,7 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_study_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_intake_title" />
 
                 <TextView
                     android:id="@+id/tv_list_game_check"

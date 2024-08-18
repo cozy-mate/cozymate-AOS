@@ -3047,12 +3047,10 @@ int id btn_crew 0x7f090077
 int id btn_crewable_chip_list_more 0x7f090078
 int id btn_crewable_chip_table_more 0x7f090079
 int id btn_crewable_search 0x7f09007a
-int id btn_detail 0x7f09007b
 int id btn_dialog_detail_no 0x7f09007c
 int id btn_dialog_detail_yes 0x7f09007d
 int id btn_enter_room 0x7f09007e
 int id btn_go_lifestyle 0x7f09007f
-int id btn_info 0x7f090080
 int id btn_invite_code 0x7f090081
 int id btn_kakao_login 0x7f090082
 int id btn_like 0x7f090083
@@ -3233,9 +3231,7 @@ int id et_InputMemo 0x7f090131
 int id et_InputRole 0x7f090132
 int id et_InputRule 0x7f090133
 int id et_InputTodo 0x7f090134
-int id et_birth 0x7f090135
 int id et_major 0x7f090136
-int id et_name 0x7f090137
 int id et_number 0x7f090138
 int id et_onboarding_name 0x7f090139
 int id et_onboarding_nickname 0x7f09013a
@@ -3370,6 +3366,7 @@ int id line3 0x7f0901ba
 int id linear 0x7f0901bb
 int id listMode 0x7f0901bc
 int id list_item 0x7f0901bd
+int id list_table_layout 0x7f090492
 int id living_dawn 0x7f0901be
 int id living_morning 0x7f0901bf
 int id llListView 0x7f0901c0
@@ -3601,7 +3598,6 @@ int id rv_detail_table_can_do 0x7f0902a1
 int id rv_detail_table_never 0x7f0902a2
 int id rv_detail_table_rule 0x7f0902a3
 int id rv_list 0x7f0902a4
-int id rv_list_table_layout 0x7f0902a5
 int id rv_message 0x7f0902a6
 int id rv_message_detail 0x7f0902a7
 int id rv_never 0x7f0902a8
@@ -3864,6 +3860,8 @@ int id tv_list_friendly_title 0x7f0903a8
 int id tv_list_game_check 0x7f0903a9
 int id tv_list_game_check_title 0x7f0903aa
 int id tv_list_heater_title 0x7f0903ab
+int id tv_list_intake 0x7f090493
+int id tv_list_intake_title 0x7f090494
 int id tv_list_light_off_ampm 0x7f0903ac
 int id tv_list_light_off_time 0x7f0903ad
 int id tv_list_light_off_title 0x7f0903ae
@@ -3910,7 +3908,6 @@ int id tv_message_member_text 0x7f0903d6
 int id tv_message_name 0x7f0903d7
 int id tv_message_text 0x7f0903d8
 int id tv_message_time 0x7f0903d9
-int id tv_name 0x7f0903da
 int id tv_name1 0x7f0903db
 int id tv_name2 0x7f0903dc
 int id tv_never 0x7f0903dd
@@ -3966,6 +3963,7 @@ int id tv_table_dormitory_num 0x7f09040e
 int id tv_table_friendly 0x7f09040f
 int id tv_table_game 0x7f090410
 int id tv_table_heater 0x7f090411
+int id tv_table_intake 0x7f090495
 int id tv_table_light_off 0x7f090412
 int id tv_table_living_pattern 0x7f090413
 int id tv_table_major 0x7f090414
@@ -3983,7 +3981,9 @@ int id tv_table_other_dormitory_num 0x7f09041f
 int id tv_table_other_friendly 0x7f090420
 int id tv_table_other_game 0x7f090421
 int id tv_table_other_heater 0x7f090422
-int id tv_table_other_light_off 0x7f090423
+int id tv_table_other_intake 0x7f090496
+int id tv_table_other_light_off_ampm 0x7f090497
+int id tv_table_other_light_off_time 0x7f090498
 int id tv_table_other_living_pattern 0x7f090424
 int id tv_table_other_major 0x7f090425
 int id tv_table_other_mbti 0x7f090426
@@ -3993,11 +3993,13 @@ int id tv_table_other_personality 0x7f090429
 int id tv_table_other_school 0x7f09042a
 int id tv_table_other_school_num 0x7f09042b
 int id tv_table_other_share 0x7f09042c
-int id tv_table_other_sleep 0x7f09042d
+int id tv_table_other_sleep_ampm 0x7f090499
 int id tv_table_other_sleep_habbit 0x7f09042e
+int id tv_table_other_sleep_time 0x7f09049a
 int id tv_table_other_smoke 0x7f09042f
 int id tv_table_other_study 0x7f090430
-int id tv_table_other_wake_up 0x7f090431
+int id tv_table_other_wake_up_ampm 0x7f09049b
+int id tv_table_other_wake_up_time 0x7f09049c
 int id tv_table_personality 0x7f090432
 int id tv_table_rule 0x7f090433
 int id tv_table_school 0x7f090434
@@ -4017,7 +4019,9 @@ int id tv_table_user_dormitory_num 0x7f090441
 int id tv_table_user_friendly 0x7f090442
 int id tv_table_user_game 0x7f090443
 int id tv_table_user_heater 0x7f090444
-int id tv_table_user_light_off 0x7f090445
+int id tv_table_user_intake 0x7f09049d
+int id tv_table_user_light_off_ampm 0x7f09049e
+int id tv_table_user_light_off_time 0x7f09049f
 int id tv_table_user_living_pattern 0x7f090446
 int id tv_table_user_major 0x7f090447
 int id tv_table_user_match_percent 0x7f090448
@@ -4028,11 +4032,13 @@ int id tv_table_user_personality 0x7f09044c
 int id tv_table_user_school 0x7f09044d
 int id tv_table_user_school_num 0x7f09044e
 int id tv_table_user_share 0x7f09044f
-int id tv_table_user_sleep 0x7f090450
+int id tv_table_user_sleep_ampm 0x7f0904a0
 int id tv_table_user_sleep_habbit 0x7f090451
+int id tv_table_user_sleep_time 0x7f0904a1
 int id tv_table_user_smoke 0x7f090452
 int id tv_table_user_study 0x7f090453
-int id tv_table_user_wake_up 0x7f090454
+int id tv_table_user_wake_up_ampm 0x7f0904a2
+int id tv_table_user_wake_up_time 0x7f0904a3
 int id tv_table_wake_up 0x7f090455
 int id tv_text2 0x7f090456
 int id tv_title 0x7f090457
@@ -4058,9 +4064,7 @@ int id tv_wakeup_8 0x7f09046a
 int id tv_wakeup_9 0x7f09046b
 int id tv_wakeup_time 0x7f09046c
 int id tv_whose_room 0x7f09046d
-int id tvil_birth 0x7f09046e
 int id tvil_major 0x7f09046f
-int id tvil_name 0x7f090470
 int id tvil_number 0x7f090471
 int id unchecked 0x7f090472
 int id uniform 0x7f090473

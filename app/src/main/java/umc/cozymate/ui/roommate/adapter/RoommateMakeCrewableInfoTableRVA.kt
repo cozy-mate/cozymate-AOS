@@ -40,7 +40,7 @@ class RoommateMakeCrewableInfoTableRVA(
         holder.binding.tvTableAgeRoom.text = "${userInfo.info.memberAge}살 | ${userInfo.info.numOfRoommate}인실"
         holder.binding.tvTableUserMatchPercent.text = "${userInfo.info.equality}%"
 
-        val profileImageResId = when (userInfo.info.memberId) {
+        val profileImageResId = when (userInfo.info.memberPersona) {
             1 -> R.drawable.character_0
             2 -> R.drawable.character_1
             3 -> R.drawable.character_2

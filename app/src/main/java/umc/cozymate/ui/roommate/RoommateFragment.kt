@@ -1,6 +1,5 @@
 package umc.cozymate.ui.roommate
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,33 +30,9 @@ class RoommateFragment : Fragment() {
         binding.btnTest.setOnClickListener {
             (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
         }
-        binding.btnDetail.setOnClickListener {
-            val intent = Intent(activity, RoommateDetailActivity::class.java)
-            startActivity(intent)
-        }
         binding.btnCrew.setOnClickListener {
             (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateMakeCrewableFragment()).commitAllowingStateLoss()
         }
-        binding.btnInfo.setOnClickListener {
-            val intent = Intent(activity, RoommateInputInfoActivity::class.java)
-            startActivity(intent)
-        }
-
-//        val _accessToken = getString(R.string.access_token_1)
-//        val accessToken = "Bearer $_accessToken"
-//        viewModel.getOtherUserInfo(accessToken, 0, listOf())
-
-//        Log.d("RoommateFragment", "${viewModel.otherUserInfo}")
-//        lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.otherUserInfo.collectLatest { userInfoList ->
-//                    // 여기서 userInfoList는 List<OtherUserInfo>임.
-//                    Log.d("RoommateFragment", "Received User Info: $userInfoList")
-//
-//                    // 여기서 UI 업데이트 가능
-//                }
-//            }
-//        }
         return binding.root
     }
     private fun updateUI(userInfoList: List<OtherUserInfoResponse>){

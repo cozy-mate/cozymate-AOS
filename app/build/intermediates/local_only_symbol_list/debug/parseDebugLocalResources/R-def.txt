@@ -180,12 +180,10 @@ id btn_crew
 id btn_crewable_chip_list_more
 id btn_crewable_chip_table_more
 id btn_crewable_search
-id btn_detail
 id btn_dialog_detail_no
 id btn_dialog_detail_yes
 id btn_enter_room
 id btn_go_lifestyle
-id btn_info
 id btn_invite_code
 id btn_kakao_login
 id btn_like
@@ -281,9 +279,7 @@ id et_InputMemo
 id et_InputRole
 id et_InputRule
 id et_InputTodo
-id et_birth
 id et_major
-id et_name
 id et_number
 id et_onboarding_name
 id et_onboarding_nickname
@@ -350,6 +346,7 @@ id layout_TodoMember
 id layout_TopButtons
 id layout_Weekdays
 id light_off_guide_line
+id list_table_layout
 id living_dawn
 id living_morning
 id llListView
@@ -454,7 +451,6 @@ id rv_detail_table_can_do
 id rv_detail_table_never
 id rv_detail_table_rule
 id rv_list
-id rv_list_table_layout
 id rv_message
 id rv_message_detail
 id rv_never
@@ -601,6 +597,8 @@ id tv_list_friendly_title
 id tv_list_game_check
 id tv_list_game_check_title
 id tv_list_heater_title
+id tv_list_intake
+id tv_list_intake_title
 id tv_list_light_off_ampm
 id tv_list_light_off_time
 id tv_list_light_off_title
@@ -647,7 +645,6 @@ id tv_message_member_text
 id tv_message_name
 id tv_message_text
 id tv_message_time
-id tv_name
 id tv_name1
 id tv_name2
 id tv_never
@@ -703,6 +700,7 @@ id tv_table_dormitory_num
 id tv_table_friendly
 id tv_table_game
 id tv_table_heater
+id tv_table_intake
 id tv_table_light_off
 id tv_table_living_pattern
 id tv_table_major
@@ -720,7 +718,9 @@ id tv_table_other_dormitory_num
 id tv_table_other_friendly
 id tv_table_other_game
 id tv_table_other_heater
-id tv_table_other_light_off
+id tv_table_other_intake
+id tv_table_other_light_off_ampm
+id tv_table_other_light_off_time
 id tv_table_other_living_pattern
 id tv_table_other_major
 id tv_table_other_mbti
@@ -730,11 +730,13 @@ id tv_table_other_personality
 id tv_table_other_school
 id tv_table_other_school_num
 id tv_table_other_share
-id tv_table_other_sleep
+id tv_table_other_sleep_ampm
 id tv_table_other_sleep_habbit
+id tv_table_other_sleep_time
 id tv_table_other_smoke
 id tv_table_other_study
-id tv_table_other_wake_up
+id tv_table_other_wake_up_ampm
+id tv_table_other_wake_up_time
 id tv_table_personality
 id tv_table_rule
 id tv_table_school
@@ -754,7 +756,9 @@ id tv_table_user_dormitory_num
 id tv_table_user_friendly
 id tv_table_user_game
 id tv_table_user_heater
-id tv_table_user_light_off
+id tv_table_user_intake
+id tv_table_user_light_off_ampm
+id tv_table_user_light_off_time
 id tv_table_user_living_pattern
 id tv_table_user_major
 id tv_table_user_match_percent
@@ -765,11 +769,13 @@ id tv_table_user_personality
 id tv_table_user_school
 id tv_table_user_school_num
 id tv_table_user_share
-id tv_table_user_sleep
+id tv_table_user_sleep_ampm
 id tv_table_user_sleep_habbit
+id tv_table_user_sleep_time
 id tv_table_user_smoke
 id tv_table_user_study
-id tv_table_user_wake_up
+id tv_table_user_wake_up_ampm
+id tv_table_user_wake_up_time
 id tv_table_wake_up
 id tv_text2
 id tv_title
@@ -795,9 +801,7 @@ id tv_wakeup_8
 id tv_wakeup_9
 id tv_wakeup_time
 id tv_whose_room
-id tvil_birth
 id tvil_major
-id tvil_name
 id tvil_number
 id v_divider
 id vp_AddTodo

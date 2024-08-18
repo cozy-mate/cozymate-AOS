@@ -351,8 +351,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_table_acceptance" />
 
+
                 <TextView
-                    android:id="@+id/tv_table_user_wake_up"
+                    android:id="@+id/tv_table_user_wake_up_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -360,20 +361,39 @@
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_wake_up"
                     app:layout_constraintEnd_toEndOf="@id/guide_user"
-                    app:layout_constraintStart_toStartOf="@id/guide_user"
-                    tools:text="오전2시" />
+                    app:layout_constraintEnd_toStartOf="@id/guide_user"
+                    tools:text="오전" />
+                <TextView
+                    android:id="@+id/tv_table_user_wake_up_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_wake_up"
+                    app:layout_constraintStart_toEndOf="@id/guide_user"
+                    tools:text=" 2시" />
 
                 <TextView
-                    android:id="@+id/tv_table_other_wake_up"
+                    android:id="@+id/tv_table_other_wake_up_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_table_wake_up"
-                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
-                    app:layout_constraintStart_toStartOf="@+id/guide_other"
-                    tools:text="오후7시" />
+                    app:layout_constraintEnd_toStartOf="@+id/guide_other"
+                    tools:text="오후" />
+                <TextView
+                    android:id="@+id/tv_table_other_wake_up_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_wake_up"
+                    app:layout_constraintStart_toEndOf="@+id/guide_other"
+                    tools:text=" 7시" />
 
                 <View
                     android:layout_width="match_parent"
@@ -394,28 +414,46 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_table_wake_up" />
 
                 <TextView
-                    android:id="@+id/tv_table_user_sleep"
+                    android:id="@+id/tv_table_user_sleep_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_sleep"
-                    app:layout_constraintEnd_toEndOf="@id/guide_user"
-                    app:layout_constraintStart_toStartOf="@id/guide_user"
-                    tools:text="오전2시" />
+                    app:layout_constraintEnd_toStartOf="@id/guide_user"
+                    tools:text="오전" />
+                <TextView
+                    android:id="@+id/tv_table_user_sleep_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_sleep"
+                    app:layout_constraintStart_toEndOf="@id/guide_user"
+                    tools:text=" 2시" />
 
                 <TextView
-                    android:id="@+id/tv_table_other_sleep"
+                    android:id="@+id/tv_table_other_sleep_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_table_sleep"
-                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
-                    app:layout_constraintStart_toStartOf="@+id/guide_other"
-                    tools:text="오후7시" />
+                    app:layout_constraintEnd_toStartOf="@+id/guide_other"
+                    tools:text="오후" />
+                <TextView
+                    android:id="@+id/tv_table_other_sleep_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_sleep"
+                    app:layout_constraintStart_toEndOf="@+id/guide_other"
+                    tools:text=" 7시" />
 
                 <View
                     android:layout_width="match_parent"
@@ -436,28 +474,47 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_table_sleep" />
 
                 <TextView
-                    android:id="@+id/tv_table_user_light_off"
+                    android:id="@+id/tv_table_user_light_off_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_light_off"
-                    app:layout_constraintEnd_toEndOf="@id/guide_user"
-                    app:layout_constraintStart_toStartOf="@id/guide_user"
-                    tools:text="오전2시" />
+                    app:layout_constraintEnd_toStartOf="@id/guide_user"
+                    tools:text="오전" />
+                <TextView
+                    android:id="@+id/tv_table_user_light_off_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_light_off"
+                    app:layout_constraintStart_toEndOf="@id/guide_user"
+                    tools:text=" 2시" />
 
                 <TextView
-                    android:id="@+id/tv_table_other_light_off"
+                    android:id="@+id/tv_table_other_light_off_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_table_light_off"
-                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
-                    app:layout_constraintStart_toStartOf="@+id/guide_other"
-                    tools:text="오후4시" />
+                    app:layout_constraintEnd_toStartOf="@+id/guide_other"
+                    tools:text="오후" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_light_off_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_light_off"
+                    app:layout_constraintStart_toEndOf="@+id/guide_other"
+                    tools:text=" 4시" />
 
                 <View
                     android:layout_width="match_parent"
@@ -803,6 +860,48 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_table_study" />
 
                 <TextView
+                    android:id="@+id/tv_table_intake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="섭취여부"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_study" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_intake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_intake"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_intake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_intake"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="X" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_intake" />
+
+                <TextView
                     android:id="@+id/tv_table_game"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -811,7 +910,7 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_table_study" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_intake" />
 
                 <TextView
                     android:id="@+id/tv_table_user_game"
