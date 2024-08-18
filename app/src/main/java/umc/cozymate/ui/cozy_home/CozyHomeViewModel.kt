@@ -11,12 +11,15 @@ import umc.cozymate.ui.cozy_home.adapter.AchievementItemType
 class CozyHomeViewModel : ViewModel() {
 
     private val _achievements = MutableLiveData<List<AchievementItem>>()
-    val achievements: LiveData<List<AchievementItem>>
-        get() = _achievements
+    val achievements: LiveData<List<AchievementItem>> get() = _achievements
+
+    private val _roomId = MutableLiveData<Int>()
+    val roomId: LiveData<Int> get() = _roomId
 
     init {
         loadAchievements()
     }
+
 
     fun loadAchievements() {
         // Add dummy data

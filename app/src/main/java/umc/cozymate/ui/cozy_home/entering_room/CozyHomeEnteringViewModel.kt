@@ -81,9 +81,13 @@ class CozyHomeEnteringViewModel @Inject constructor(
                     _response.value = response
 
                 } else {
-                    Log.d(TAG, "초대코드로 방 정보 조회 api 응답 실패: ${response.errorBody()?.string()}")
                     val errorBody = response.errorBody()?.string()
-                    _errorResponse.value = parseErrorResponse(errorBody)
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "초대코드로 방 정보 조회 api 요청 실패: ${e}")

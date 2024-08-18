@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home.pop_up
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -114,17 +115,19 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
             Log.d(TAG, "방참여 실패: ${response?.message}")
             if (isAdded && isVisible) {
-                when (response?.message) {
+                when (response?.message.toString()) {
                     "존재하지 않는 방입니다." -> {
                         //popup = InviteCodeFailPopUp()
                     }
 
                     "이미 참가한 방입니다." -> {
-                        (activity as MainActivity).loadActiveFragment()
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
                     }
 
                     else -> {
-                        (activity as MainActivity).loadActiveFragment()
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
                     }
                 }
             } else {

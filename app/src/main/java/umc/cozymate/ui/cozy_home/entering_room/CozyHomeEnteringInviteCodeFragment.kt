@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.entering_room
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -106,12 +107,13 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
         viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
             Log.d(TAG, "방조회 실패: ${response}")
             if (isAdded && isVisible) {
-                when (response?.message) {
+                when (response?.message.toString()) {
                     "존재하지 않는 방입니다." -> {
                         popup = InviteCodeFailPopUp()
                     }
                     "이미 참가한 방입니다." -> {
-                        (activity as MainActivity).loadActiveFragment()
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
                     }
                     else -> {
                         popup = ServerErrorPopUp()
