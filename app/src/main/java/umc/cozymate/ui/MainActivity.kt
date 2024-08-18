@@ -12,6 +12,8 @@ import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.roommate.RoommateFragment
+import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
+import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -41,10 +43,24 @@ class MainActivity : AppCompatActivity() {
 
 
         // 앱 초기 실행 시 홈화면으로 설정
+//        if (savedInstanceState == null) {
+//            binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+//
+//
+//        }
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_home
-
-
+            val navigateTo = intent.getStringExtra("navigate_to")
+            if (navigateTo == "RoommateOnboarding") {
+                // RoommateOnboardingFragment로 이동
+                switchToRoommateOnboardingFragment()
+            }
+            else if (navigateTo == "RoommateMakeCrewable") {
+                switchToRoommateMakeCrewableFragment()
+            }
+            else {
+                // 기본 홈 화면 설정
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+            }
         }
 
         FCMService().getFirebaseToken()
@@ -69,6 +85,19 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeActiveFragment())
             .addToBackStack(null)
+            .commit()
+    }
+
+    private fun switchToRoommateOnboardingFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, RoommateOnboardingFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun switchToRoommateMakeCrewableFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, RoommateMakeCrewableFragment())
             .commit()
     }
 
