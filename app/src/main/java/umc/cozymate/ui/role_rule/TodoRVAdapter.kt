@@ -5,18 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.entity.TodoItem
+import umc.cozymate.data.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter( private val todoList: List<TodoItem>,
-                     private val isEditable: Boolean,
-                     private val updateTodo: (TodoItem) -> Unit )
+class TodoRVAdapter(private val todoList: List<TodoMateData.TodoItem>,
+                    private val isEditable: Boolean,
+                    private val updateTodo: (TodoMateData) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
 
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(todo: TodoItem){
+        fun bind(todo: TodoMateData.TodoItem){
             binding.tvTodoItem.text = todo.content
             binding.cbCheck.isChecked = todo.completed
 

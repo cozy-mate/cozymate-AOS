@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.data.entity.TodoItem
+import umc.cozymate.data.entity.TodoMateData
 import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
@@ -24,8 +24,8 @@ class TodoTabFragment: Fragment() {
     lateinit var binding: FragmentTodoTabBinding
     private val currentDate = LocalDate.now()
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodoList : List<TodoItem> = emptyList()
-    private var memberList : Map<String,List<TodoItem>> =  emptyMap()
+    private var mytodoList : List<TodoMateData> = emptyList()
+    private var memberList : Map<String,List<TodoMateData>> =  emptyMap()
 
     private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
 
@@ -69,22 +69,22 @@ class TodoTabFragment: Fragment() {
     //테스트용 더미데이터
     private fun test() {
         val dummy = listOf(
-            TodoItem(0,"test1",false),
-            TodoItem(1,"test2",false),
-            TodoItem(0,"test3",true)
+            TodoMateData(0,"test1",false),
+            TodoMateData(1,"test2",false),
+            TodoMateData(0,"test3",true)
         )
         val dummyMember = mapOf(
             "member1" to listOf(
-                TodoItem(id = 1, content = "Review documents", false),
-                TodoItem(id = 2, content = "Prepare presentation", true)
+                TodoMateData(id = 1, content = "Review documents", false),
+                TodoMateData(id = 2, content = "Prepare presentation", true)
             ),
             "member2" to listOf(
-                TodoItem(id = 3, content = "Organize files",  false),
-                TodoItem(id = 4, content = "Schedule meeting", true)
+                TodoMateData(id = 3, content = "Organize files",  false),
+                TodoMateData(id = 4, content = "Schedule meeting", true)
             ),
             "member3" to listOf(
-                TodoItem(id = 5, content = "Respond to emails", true),
-                TodoItem(id = 6, content = "Update project plan",  false)
+                TodoMateData(id = 5, content = "Respond to emails", true),
+                TodoMateData(id = 6, content = "Update project plan",  false)
             )
         )
         Log.d(TAG, "todolist ${dummy}")
@@ -95,7 +95,7 @@ class TodoTabFragment: Fragment() {
         val formatter = DateTimeFormatter.ofPattern("M/dd(EEE), ", Locale.KOREA)
         binding.tvTodoDate.text = currentDate.format(formatter)
     }
-    private fun updateRecyclerView(mytodoList: List<TodoItem>, memberList: Map<String, List<TodoItem>>){
+    private fun updateRecyclerView(mytodoList: List<TodoMateData>, memberList: Map<String, List<TodoMateData>>){
         // 내 할일
         if(mytodoList.isEmpty()){
             binding.tvEmpty.visibility = View.VISIBLE

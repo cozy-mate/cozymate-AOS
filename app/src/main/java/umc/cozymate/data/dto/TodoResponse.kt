@@ -1,7 +1,7 @@
 package umc.cozymate.data.dto
 
 import com.google.gson.annotations.SerializedName
-import umc.cozymate.data.entity.TodoItem
+import umc.cozymate.data.entity.TodoMateData
 
 
 data class TodoResponse(
@@ -22,9 +22,9 @@ data class TodoResponse(
         val timePoint: String,
 
         @SerializedName("myTodoList")
-        val myTodoList: List<TodoItem>,
+        val myTodoList: TodoMateData,
 
         @SerializedName("mateTodoList")
-        val mateTodoList: Map<String, List<TodoItem>>
+        val mateTodoList: Map<String, List<TodoMateData>>
     )
 }

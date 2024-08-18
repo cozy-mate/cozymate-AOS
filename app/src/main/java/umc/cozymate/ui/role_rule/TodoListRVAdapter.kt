@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.data.entity.TodoItem
+import umc.cozymate.data.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoListBinding
 
 
 class TodoListRVAdapter(
-    private val member:  Map<String, List<TodoItem>>,
-    private val updateTodo: (TodoItem) -> Unit
+    private val member:  Map<String, List<TodoMateData>>,
+    private val updateTodo: (TodoMateData) -> Unit
 ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
