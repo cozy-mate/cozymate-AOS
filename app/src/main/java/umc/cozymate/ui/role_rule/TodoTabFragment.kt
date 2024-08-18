@@ -26,6 +26,9 @@ class TodoTabFragment: Fragment() {
     private val viewModel: TodoViewModel by viewModels()
     private var mytodoList : List<TodoItem> = emptyList()
     private var memberList : Map<String,List<TodoItem>> =  emptyMap()
+
+    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +60,7 @@ class TodoTabFragment: Fragment() {
                 //showError("Error: ${response.code()} ${response.message()}")
             }
         })
-        viewModel.fetchTodo(roomId = 1, currentDate.toString())
+        viewModel.fetchTodo(token, 1, currentDate.toString())
 
 
         return binding.root
@@ -104,7 +107,7 @@ class TodoTabFragment: Fragment() {
 
             val myTodoRVAdapter = TodoRVAdapter(mytodoList , true) { todoItem ->
                 val request = UpdateTodoRequest(todoItem.id, todoItem.completed)
-                viewModel.updateTodo( request )
+                viewModel.updateTodo( token, request )
             }
             binding.rvMyTodoList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodoList.adapter = myTodoRVAdapter
@@ -112,7 +115,7 @@ class TodoTabFragment: Fragment() {
         // 룸메 할일(중첩 리사이클러뷰)
         val memberTodoListRVAdapter =  TodoListRVAdapter(memberList) { todoItem ->
             // 서버로 TodoItem 상태 업데이트 요청
-            viewModel.updateTodo(UpdateTodoRequest(todoItem.id, todoItem.completed))
+            viewModel.updateTodo(token, UpdateTodoRequest(todoItem.id, todoItem.completed))
 
         }
         binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)

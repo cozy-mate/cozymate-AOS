@@ -39,11 +39,11 @@ class TodoViewModel @Inject constructor(
     val createResponse: LiveData<Response<DefaultResponse>> get() = _createResponse
 
 
-    fun fetchTodo(roomId: Int,timePoint: String?) {
+    fun fetchTodo(accessToken: String, roomId: Int,timePoint: String?) {
         viewModelScope.launch {
             //_todoResponse.postValue(null) // Indicate loading state
             try {
-                val response = repository.getTodo(roomId, timePoint)
+                val response = repository.getTodo(accessToken, roomId, timePoint)
                 if(response.isSuccessful){
                     Log.d(TAG,"응답 성공: ${response.body()!!.result}")
                     _todoResponse.postValue(response)
@@ -56,10 +56,10 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(request: UpdateTodoRequest) {
+    fun updateTodo(accessToken: String, request: UpdateTodoRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.updateTodo( request)
+                val response = repository.updateTodo(accessToken, request)
                 _updateResponse.postValue(response)
             } catch (e: Exception) {
                 Log.d(TAG,"api 요청 실패:  ${e}")
@@ -67,11 +67,11 @@ class TodoViewModel @Inject constructor(
             }
         }
     }
-    fun createTodo(roomId: Int, request: TodoInfoRequest) {
+    fun createTodo(accessToken: String, roomId: Int, request: TodoInfoRequest) {
         viewModelScope.launch {
            // _createResponse.postValue(null) // Indicate loading state
             try {
-                val response = repository.createTodo(roomId, request)
+                val response = repository.createTodo(accessToken,roomId, request)
                 _createResponse.postValue(response)
             } catch (e: Exception) {
                 Log.d(TAG,"api 요청 실패:  ${e}")

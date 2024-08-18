@@ -21,6 +21,7 @@ class AddTodoTabFragment: Fragment(){
     private val viewModel: TodoViewModel by viewModels()
     lateinit var binding: FragmentAddTodoTabBinding
     private var selectedDate: String? = null
+    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +41,7 @@ class AddTodoTabFragment: Fragment(){
                 viewModel.createResponse.observe(viewLifecycleOwner) { response ->
                     if (response.isSuccessful) {
                         Log.d(TAG,"연결 성공 ${todoRequest}")
-                        viewModel.createTodo(roomId, todoRequest)
+                        viewModel.createTodo(token, roomId, todoRequest)
                         (context as AddTodoActivity).finish()
                     } else {
                         Log.d(TAG,"연결 실패")

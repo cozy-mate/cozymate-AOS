@@ -8,8 +8,8 @@ import umc.cozymate.data.model.request.UpdateTodoRequest
 
 
 interface TodoRepository {
-    suspend fun getTodo(roomId : Int, timePoint: String?) : Response<TodoResponse>
-    suspend fun updateTodo(request: UpdateTodoRequest) : Response<DefaultResponse>
-    suspend fun createTodo(roomId: Int, request: TodoInfoRequest) : Response<DefaultResponse>
+    suspend fun getTodo(accessToken: String, roomId : Int, timePoint: String?) : Response<TodoResponse>
+    suspend fun updateTodo(accessToken: String, request: UpdateTodoRequest) : Response<DefaultResponse>
+    suspend fun createTodo(accessToken: String, roomId: Int, request: TodoInfoRequest) : Response<DefaultResponse>
 
 }
