@@ -36,6 +36,9 @@ class CozyHomeEnteringViewModel @Inject constructor(
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
+    private val _roomJoinSuccess = MutableLiveData<Boolean>()
+    val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun getToken(): String? {
@@ -46,7 +49,8 @@ class CozyHomeEnteringViewModel @Inject constructor(
         Log.d(TAG, "방 정보: ${_roomInfo.value.toString()}")
         sharedPreferences.edit().putString("room_name", _roomInfo.value!!.name).apply()
         sharedPreferences.edit().putInt("room_id", _roomInfo.value!!.roomId).apply()
-        sharedPreferences.edit().putString("room_manager_name", _roomInfo.value!!.managerName).apply()
+        sharedPreferences.edit().putString("room_manager_name", _roomInfo.value!!.managerName)
+            .apply()
         sharedPreferences.edit().putInt("room_max_mate_num", _roomInfo.value!!.maxMateNum).apply()
     }
 
@@ -86,6 +90,35 @@ class CozyHomeEnteringViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun joinRoom(id: Int) {
+        val token = getToken()
+        Log.d(TAG, "방 아이디: $id")
+        Log.d(TAG, "토큰: $token")
+
+        viewModelScope.launch {
+            try {
+                val response = repository.joinRoom(token!!, id)
+                if (response.isSuccessful) {
+                    Log.d(TAG, "방 참여 api 응답 성공: ${response}")
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 참여 성공: ${response.body()!!.result}")
+                        _roomJoinSuccess.value = true
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "방 참여 api 요청 실패: ${e}")
+            }
+        }
     }
 
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {

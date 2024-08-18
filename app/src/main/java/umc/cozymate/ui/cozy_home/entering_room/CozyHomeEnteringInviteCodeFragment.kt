@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.pop_up.InviteCodeFailPopUp
 import umc.cozymate.ui.cozy_home.pop_up.InviteCodeSuccessPopUp
 import umc.cozymate.ui.cozy_home.pop_up.ServerErrorPopUp
@@ -103,11 +104,14 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
 
     private fun observeError() {
         viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
-            Log.d(TAG, "방조회 실패: ${response?.message}")
+            Log.d(TAG, "방조회 실패: ${response}")
             if (isAdded && isVisible) {
                 when (response?.message) {
                     "존재하지 않는 방입니다." -> {
                         popup = InviteCodeFailPopUp()
+                    }
+                    "이미 참가한 방입니다." -> {
+                        (activity as MainActivity).loadActiveFragment()
                     }
                     else -> {
                         popup = ServerErrorPopUp()
