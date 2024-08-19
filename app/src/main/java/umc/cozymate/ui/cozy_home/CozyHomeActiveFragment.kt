@@ -13,10 +13,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
 import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
 
+@AndroidEntryPoint
 class CozyHomeActiveFragment : Fragment() {
 
     private lateinit var binding: FragmentCozyhomeActiveBinding
@@ -44,7 +46,6 @@ class CozyHomeActiveFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data = arguments?.getString(ARG_DATA)
     }
 
 
@@ -79,17 +80,5 @@ class CozyHomeActiveFragment : Fragment() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         tvWhoseRoom.text = spannableString
-    }
-
-    companion object {
-        private const val ARG_DATA = "data"
-
-        fun newInstance(data: String): CozyHomeActiveFragment {
-            val fragment = CozyHomeActiveFragment()
-            val args = Bundle()
-            args.putString(ARG_DATA, data)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

@@ -17,6 +17,7 @@ import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivit
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
 import umc.cozymate.ui.message.MessageActivity
+import umc.cozymate.ui.roommate.RoommateFragment
 
 class CozyHomeDefaultFragment : Fragment() {
     private var _binding: FragmentCozyhomeDefaultBinding? = null
@@ -43,6 +44,14 @@ class CozyHomeDefaultFragment : Fragment() {
     private fun initListener() {
         with(binding){
 
+            // 룸메이트 구하러 가기
+            btnRoommateInvite.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, RoommateFragment())
+                    .addToBackStack(null)  // 뒤로 가기 버튼을 누르면 cozyhome으로 돌아가도록 설정
+                    .commit()
+            }
+
             // 초대코드로 방 만들기
             btnInviteCode.setOnClickListener {
                 startActivity(Intent(activity, CozyHomeGivingInviteCodeActivity::class.java))
@@ -66,44 +75,44 @@ class CozyHomeDefaultFragment : Fragment() {
     }
 
     private fun initView() {
-        val btnText = binding.btnRoommateInvite
-        val spannableString = SpannableString(btnText.text)
-        btnText.isEnabled = true
+        val btn = binding.btnRoommateInvite
+        val spannableString = SpannableString(btn.text)
+        btn.isEnabled = false
 
         // 버튼 내 텍스트 스타일 변경
-        if (btnText.isEnabled) {
+        if (btn.isEnabled) {
             spannableString.setSpan(
                 TextAppearanceSpan(requireContext(), R.style.TextAppearance_App_12sp_Medium),
                 11,
-                btnText.text.length,
+                btn.text.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
             spannableString.setSpan(
                 ForegroundColorSpan(color),
                 11,
-                btnText.text.length,
+                btn.text.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            btnText.setBackgroundColor(resources.getColor(R.color.color_box))
+            //btn.setBackgroundColor(resources.getColor(R.color.color_box))
         }
-        else if (!btnText.isEnabled){
+        else if (!btn.isEnabled){
             spannableString.setSpan(
                 TextAppearanceSpan(requireContext(), R.style.TextAppearance_App_12sp_Medium),
                 11,
-                btnText.text.length,
+                btn.text.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             val color = ContextCompat.getColor(requireContext(), R.color.unuse_font)
             spannableString.setSpan(
                 ForegroundColorSpan(color),
                 0,
-                btnText.text.length,
+                btn.text.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             //btnText.background
             //btnText.setBackgroundColor(resources.getColor(R.color.box))
         }
-        btnText.text = spannableString
+        btn.text = spannableString
     }
 }

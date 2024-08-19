@@ -80,7 +80,22 @@
                 android:textColorHint="@color/unuse_font"
                 android:textCursorDrawable="@color/main_blue" />
         </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_alert_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="이름은 한글로만 입력가능해요!"
+        android:textAppearance="@style/TextAppearance.App.10sp.Medium"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toStartOf="@id/cl_onboarding_name"
+        app:layout_constraintTop_toBottomOf="@id/cl_onboarding_name"
+        android:visibility="gone"
+        />
 
     <!--닉네임-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +131,7 @@
             app:boxStrokeErrorColor="@color/red"
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="1dp"
-            app:counterMaxLength="8"
+            app:counterMaxLength="9"
             app:errorTextColor="@color/red"
             app:hintEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +152,20 @@
                 android:textCursorDrawable="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_alert_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="닉네임은 2~8자인 한글, 영어, 숫자만 가능해요!"
+        android:textAppearance="@style/TextAppearance.App.10sp.Medium"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toStartOf="@id/cl_onboarding_nickname"
+        app:layout_constraintTop_toBottomOf="@id/cl_onboarding_nickname"
+        android:visibility="gone"
+        />
 
     <!--성별-->
     <com.google.android.material.card.MaterialCardView
@@ -175,8 +204,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="6dp"
                 android:paddingBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_gender"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_gender">
 
                 <ImageView
                     android:id="@+id/iv_male"
@@ -205,10 +234,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:paddingBottom="16dp"
                 android:paddingEnd="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_gender"
-                app:layout_constraintStart_toEndOf="@id/radio_male">
+                android:paddingBottom="16dp"
+                app:layout_constraintStart_toEndOf="@id/radio_male"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_gender">
 
                 <ImageView
                     android:id="@+id/iv_female"
@@ -284,9 +313,9 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="11.5dp"
                 android:src="@drawable/ic_dropdown"
-                app:layout_constraintTop_toTopOf="@id/tv_birth"
                 app:layout_constraintBottom_toBottomOf="@id/tv_birth"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_birth" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
