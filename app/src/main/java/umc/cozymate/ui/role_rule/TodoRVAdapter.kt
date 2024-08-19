@@ -8,26 +8,25 @@ import umc.cozymate.R
 import umc.cozymate.data.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter(private val todoList: List<TodoMateData.TodoItem>,
+class TodoRVAdapter(  private val todoItems: List<TodoMateData.TodoItem>,
                     private val isEditable: Boolean,
-                    private val updateTodo: (TodoMateData) -> Unit )
+                    private val updateTodo: (TodoMateData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
 
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(todo: TodoMateData.TodoItem){
-            binding.tvTodoItem.text = todo.content
-            binding.cbCheck.isChecked = todo.completed
-
+        fun bind(todoItem: TodoMateData.TodoItem) {
+            binding.tvTodoItem.text = todoItem.content
+            binding.cbCheck.isChecked = todoItem.completed
 
             binding.cbCheck.isEnabled = isEditable
             binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
-                    todo.completed = isChecked
-                    updateTodo(todo) // 서버로 상태 업데이트 요청
-                    updateTextStyle(isChecked)
+                todoItem.completed = isChecked
+                updateTodo(todoItem) // 서버로 상태 업데이트 요청
+                updateTextStyle(isChecked)
             }
-            updateTextStyle(todo.completed)
+            updateTextStyle(todoItem.completed)
         }
         // 완료 상태에 따라 텍스트 스타일을 업데이트하는 함수
         private fun updateTextStyle(isCompleted: Boolean) {
@@ -54,9 +53,9 @@ class TodoRVAdapter(private val todoList: List<TodoMateData.TodoItem>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(todoList[position])
+        holder.bind(todoItems[position])
     }
 
-    override fun getItemCount(): Int  = todoList.size
+    override fun getItemCount(): Int  =  todoItems.size
 
 }

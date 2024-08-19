@@ -11,27 +11,32 @@ import umc.cozymate.databinding.RvItemTodoListBinding
 
 
 class TodoListRVAdapter(
-    private val member:  Map<String, List<TodoMateData>>,
+    private val  member:  Map<String, TodoMateData>,
     private val updateTodo: (TodoMateData) -> Unit
 ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(pos: Int){
+        fun bind(pos: Int) {
             binding.tvTodoMemberName.text = member.keys.elementAt(pos)
-            if(member.values.elementAt(pos).isEmpty()){
-                Log.d("MemberTodo","empty")
+
+            val todoMateData = member.values.elementAt(pos)
+            if (todoMateData.mateTodoList.isEmpty()) {
+                Log.d("MemberTodo", "empty")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
-            }
-            else{
+            } else {
                 binding.rvList.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 binding.rvList.apply {
-                    adapter = TodoRVAdapter(member.values.elementAt(pos),false, updateTodo)
-                    layoutManager =  LinearLayoutManager(context)
+                    adapter = TodoRVAdapter(todoMateData.mateTodoList, false) { todoItem ->
+                        // 이 콜백에서 변경된 todoItem을 TodoMateData 전체로 반영하여 updateTodo를 호출합니다.
+                        val updatedTodoList = todoMateData.mateTodoList.map {
+                            if (it.id == todoItem.id) todoItem else it
+                        }
+                        updateTodo(todoMateData.copy(mateTodoList = updatedTodoList))
+                    }
+                    layoutManager = LinearLayoutManager(context)
                 }
             }
-
-
         }
     }
 
@@ -44,6 +49,6 @@ class TodoListRVAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int  = member.size
+    override fun getItemCount(): Int  =member.size
 
 }

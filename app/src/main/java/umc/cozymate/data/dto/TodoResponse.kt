@@ -25,6 +25,6 @@ data class TodoResponse(
         val myTodoList: TodoMateData,
 
         @SerializedName("mateTodoList")
-        val mateTodoList: Map<String, List<TodoMateData>>
+        val mateTodoList: Map<String, TodoMateData>
     )
 }
