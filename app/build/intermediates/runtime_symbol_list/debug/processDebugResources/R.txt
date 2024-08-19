@@ -2759,6 +2759,7 @@ int drawable custom_select_chip_selected 0x7f0700e1
 int drawable custom_tv_background 0x7f0700e2
 int drawable custom_tv_default_background 0x7f0700e3
 int drawable custom_tv_selected_background 0x7f0700e4
+int drawable custom_weekday_background 0x7f07018a
 int drawable design_fab_background 0x7f0700e5
 int drawable design_ic_visibility 0x7f0700e6
 int drawable design_ic_visibility_off 0x7f0700e7
