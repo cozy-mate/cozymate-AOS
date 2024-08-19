@@ -88,7 +88,6 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/btn_rectangle_cozyhome_state"
-        android:backgroundTint="@color/color_box"
         android:elevation="0dp"
         android:gravity="start"
         android:paddingLeft="16dp"
