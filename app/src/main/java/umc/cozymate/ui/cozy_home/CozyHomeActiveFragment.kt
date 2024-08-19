@@ -1,5 +1,8 @@
 package umc.cozymate.ui.cozy_home
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -8,6 +11,7 @@ import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -74,7 +78,23 @@ class CozyHomeActiveFragment : Fragment() {
     private fun observeName() {
         viewModel.roomName.observe(viewLifecycleOwner, Observer { name ->
             if (name != null) {
-                binding.tvWhoseRoom.text = name
+                val tvWhoseRoom = binding.tvWhoseRoom2
+                val roomText = "${name}의 방이에요!"
+                tvWhoseRoom.text = roomText
+                val spannableString = SpannableString(tvWhoseRoom.text)
+
+                // 색깔 및 폰트 설정
+                val colorSpanBlue = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_blue))
+                val colorSpanBasic = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.basic_font))
+                val styleSpan = TextAppearanceSpan(requireContext(), R.style.TextAppearance_App_18sp_SemiBold)
+
+                spannableString.setSpan(styleSpan, 0, roomText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                spannableString.setSpan(colorSpanBlue, 0, name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                spannableString.setSpan(colorSpanBasic, name.length, roomText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+
+                // 텍스트에 적용된 스타일을 설정
+                tvWhoseRoom.text = spannableString
             }
         })
 
@@ -115,7 +135,6 @@ class CozyHomeActiveFragment : Fragment() {
         })
     }
 
-
     private fun initAchievmentList() {
         val adapter = AchievementsAdapter(viewModel.achievements.value!!)
         viewModel.loadAchievements()
@@ -129,23 +148,14 @@ class CozyHomeActiveFragment : Fragment() {
 
     private fun initView() {
 
-        val tvWhoseRoom = binding.tvWhoseRoom
-        val spannableString = SpannableString(tvWhoseRoom.text)
+        binding.btnCopyInviteCode.setOnClickListener {
+            // 클립보드 서비스
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Copied Text", binding.btnCopyInviteCode.text)
 
-        // 버튼 내 텍스트 스타일 변경
-        spannableString.setSpan(
-            TextAppearanceSpan(requireContext(), R.style.TextAppearance_App_18sp_SemiBold),
-            4,
-            tvWhoseRoom.text.length-7,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            4,
-            tvWhoseRoom.text.length-7,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        tvWhoseRoom.text = spannableString
+            // 클립보드에 데이터 설정
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), "텍스트가 클립보드에 복사되었습니다!", Toast.LENGTH_SHORT).show()
+        }
     }
 }
