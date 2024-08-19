@@ -224,7 +224,7 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         fun trimText(text: String?): String {
             return if (text != null && text.length > 6) {
-                text.substring(0, 6) + ".."
+                text.substring(0, 7) + ".."
             } else {
                 text ?: ""
             }

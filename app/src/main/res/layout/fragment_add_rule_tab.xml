@@ -31,7 +31,7 @@
         android:id="@+id/tv_AddRuleText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="메모를 추가해주세요!"
+        android:text="메모를 추가해주세요"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/basic_font"
         android:layout_marginTop="48dp"

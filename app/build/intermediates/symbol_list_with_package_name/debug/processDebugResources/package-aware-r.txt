@@ -2845,6 +2845,7 @@ drawable ic_todo_plus
 drawable ic_xmark
 drawable iv_radio_selected
 drawable iv_radio_unselected
+drawable iv_search_cozy
 drawable ly_white_12
 drawable m3_appbar_background
 drawable m3_popupmenu_background_overlay

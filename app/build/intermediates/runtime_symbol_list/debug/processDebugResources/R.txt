@@ -2844,6 +2844,7 @@ int drawable ic_todo_plus 0x7f070133
 int drawable ic_xmark 0x7f070134
 int drawable iv_radio_selected 0x7f070135
 int drawable iv_radio_unselected 0x7f070136
+int drawable iv_search_cozy 0x7f07018b
 int drawable ly_white_12 0x7f070137
 int drawable m3_appbar_background 0x7f070138
 int drawable m3_popupmenu_background_overlay 0x7f070139

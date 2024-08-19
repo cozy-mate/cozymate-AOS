@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toTopOf="@id/ly_guide"
         android:layout_marginTop="210dp"
         android:layout_marginBottom="50dp"
-        android:src="@color/basic_font"
+        android:src="@drawable/iv_search_cozy"
         android:id="@+id/iv_char"
         />
 
@@ -113,7 +113,7 @@
 
 <androidx.appcompat.widget.AppCompatButton
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="@+id/ly_guide"
     android:layout_marginTop="25dp"

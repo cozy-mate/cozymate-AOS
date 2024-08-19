@@ -157,6 +157,7 @@ drawable ic_todo_plus
 drawable ic_xmark
 drawable iv_radio_selected
 drawable iv_radio_unselected
+drawable iv_search_cozy
 drawable ly_white_12
 drawable ripple_box_12dp
 drawable ripple_color_box_12dp
