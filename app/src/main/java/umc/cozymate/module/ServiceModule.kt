@@ -10,6 +10,7 @@ import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.api.RuleService
+import umc.cozymate.data.api.TodoService
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +48,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideRuleApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): RuleService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTodoApi(@NetworkModule.BaseRetrofit retrofit: Retrofit) : TodoService{
         return retrofit.buildService()
     }
 }

@@ -94,6 +94,7 @@ drawable custom_select_chip_selected
 drawable custom_tv_background
 drawable custom_tv_default_background
 drawable custom_tv_selected_background
+drawable custom_weekday_background
 drawable ic_add
 drawable ic_alarm
 drawable ic_back
