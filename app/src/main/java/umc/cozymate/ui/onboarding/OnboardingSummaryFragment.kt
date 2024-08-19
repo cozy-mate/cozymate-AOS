@@ -1,11 +1,13 @@
 package umc.cozymate.ui.onboarding
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSummaryBinding
@@ -36,6 +38,13 @@ class OnboardingSummaryFragment : Fragment() {
 
         binding.titleOnboarding3.text = "${nickname}님, \ncozymate에 오신걸 환영해요!"
         setCharacterImage(persona)
+
+        val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
+        spf.edit {
+            putInt("profile", persona)
+            commit()
+        }
+
         return binding.root
     }
 

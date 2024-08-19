@@ -234,7 +234,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showSleepLayout() {
-        if (wakeAmpm != null && wakeTime != 0 ) {
+        if (wakeAmpm != null && wakeTime != null) {
             binding.clSleepTime.showWithSlideDownAnimation()
         }
     }
@@ -295,7 +295,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showLightOffLayout() {
-        if(sleepAmpm != null && sleepTime != 0) {
+        if(sleepAmpm != null && sleepTime != null) {
             binding.clLightOff.showWithSlideDownAnimation()
         }
     }
@@ -356,7 +356,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showSmokeLayout() {
-        if (lightOffAmpm != null && lightOffTime != 0) {
+        if (lightOffAmpm != null && lightOffTime != null) {
             binding.clSmoke.showWithSlideDownAnimation()
         }
     }

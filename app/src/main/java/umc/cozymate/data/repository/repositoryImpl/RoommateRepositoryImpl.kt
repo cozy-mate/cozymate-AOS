@@ -4,7 +4,7 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.model.request.UserInfoRequest
-import umc.cozymate.data.model.response.OtherUserInfoResponse
+import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.util.NetworkResult
 import umc.cozymate.util.handleApi
@@ -17,8 +17,8 @@ class RoommateRepositoryImpl @Inject constructor(
         return handleApi({ api.sendUserInfo(accessToken, request) }) { response: ResponseBody<DefaultResponse> -> response.result }
     }
 
-    override suspend fun getOtherUserInfo(page: Int, filterList: List<String>): NetworkResult<List<OtherUserInfoResponse>> {
+    override suspend fun getOtherUserInfo(accessToken: String, page: Int, filterList: List<String>): NetworkResult<OtherUserInfoResponse> {
         val filterQuery = filterList.joinToString(",")
-        return handleApi({ api.getOtherUserInfo(page, filterQuery) }) { response: ResponseBody<List<OtherUserInfoResponse>> -> response.result}
+        return handleApi({ api.getOtherUserInfo(accessToken, page, filterQuery) }) { response: ResponseBody<OtherUserInfoResponse> -> response.result}
     }
 }

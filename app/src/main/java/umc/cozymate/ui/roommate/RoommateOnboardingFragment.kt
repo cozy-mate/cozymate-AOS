@@ -40,7 +40,7 @@ class RoommateOnboardingFragment : Fragment() {
 
     private fun getPreference() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        nickname = sharedPref.getString("nickname", " 홍길동").toString()
+        nickname = sharedPref.getString("nickname", "홍길동").toString()
         persona = sharedPref.getInt("persona", 0)
     }
 }

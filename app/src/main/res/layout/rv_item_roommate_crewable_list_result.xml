@@ -60,4 +60,17 @@
         android:textColor="#61666D"
         app:layout_constraintTop_toTopOf="@id/guide_rv_crewable_list"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_other_user_equality"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="#808997"
+        android:text=""
+        android:layout_marginEnd="14dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
