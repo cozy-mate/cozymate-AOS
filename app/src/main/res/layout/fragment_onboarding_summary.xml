@@ -5,16 +5,27 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title_onboarding3"
+        android:id="@+id/title1_onboarding3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="56dp"
-        android:text="델로님, \ncozymate에 오신걸 환영해요!"
+        android:text="델로님, "
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title2_onboarding3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:text="cozymate에 오신걸 환영해요!"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title1_onboarding3" />
 
     <ImageView
         android:id="@+id/iv_char"
@@ -26,7 +37,7 @@
         android:src="@drawable/background_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_onboarding3" />
+        app:layout_constraintTop_toBottomOf="@id/title2_onboarding3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
