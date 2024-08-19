@@ -29,12 +29,6 @@ class RoommateViewModel @Inject constructor(
 
     private val _tempOtherUserInfo = MutableStateFlow<List<OtherUserInfoResponse>>(emptyList())
 
-    //    private val _otherUserInfo = MutableSharedFlow<List<OtherUserInfo>>()
-//    val otherUserInfo = _otherUserInfo.asSharedFlow()
-//
-//    private val _selectedDetail = MutableLiveData<Detail>()
-//    val selected
-//    Detail: LiveData<Detail> get() = _selectedDetail
     private val _otherUserInfo = MutableSharedFlow<List<OtherUserInfo>>()
     val otherUserInfo = _otherUserInfo.asSharedFlow()
     private val _unfilteredUserInfo = MutableSharedFlow<List<OtherUserInfo>>() // 필터가 없는 상태의 데이터를 저장
@@ -61,32 +55,6 @@ class RoommateViewModel @Inject constructor(
         }
     }
 
-    //    fun getOtherUserInfo(accessToken: String, page: Int, filterList: List<String>) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.getOtherUserInfo(accessToken, page, filterList).onSuccess { response ->
-//                Log.d("RoommateViewModel", "getOtherUserInfo: ${response}")
-//                // 리스트 전체를 도메인 모델로 변환
-//                val otherUserInfoDomain = response.result.map { otherUserInfo ->
-//                    otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)  // 도메인 모델로 변환
-//                }
-//
-//                otherUserInfoDomain.forEachIndexed { index, userInfo ->
-//                    Log.d("RoommateViewModel", "User #$index: $userInfo")
-//                    Log.d("RoommateViewModel", "${userInfo.info}")
-//                }
-//                _otherUserInfo.emit(otherUserInfoDomain)
-//            }.onError {
-//                Log.d("GetOtherUserInfo", "error: $it")
-//            }.onException {
-//                Log.d("GetOtherUserInfo", "exception: $it")
-//            }.onFail {
-//                Log.d("GetOtherUserInfo", "fail: $it")
-//            }
-//        }
-//    }
-//    fun selectDetail(detail: Detail){
-//        _selectedDetail.value = detail
-//    }
     fun getOtherUserInfo(accessToken: String, page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             // 필터 리스트를 LiveData에서 가져와서 API 호출에 전달

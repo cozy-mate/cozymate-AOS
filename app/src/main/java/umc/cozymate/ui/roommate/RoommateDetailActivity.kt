@@ -48,7 +48,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         selectedInfo?.let { info ->
             setUserProfileImage(info.memberPersona)  // 프로필 이미지 설정
             binding.tvOtherUserName.text = info.memberName  // 사용자 이름 설정
-            binding.tvUserMatchPercent.text = "${info.equality}%"
+            binding.tvUserMatchPercent.text = "${info.equality}"
         }
 
         // 처음 실행 시 리스트 뷰를 기본 선택

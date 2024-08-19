@@ -25,67 +25,6 @@ class RoommateMakeCrewableFragment : Fragment() {
     private lateinit var roommateMakeCrewableInfoListRVA: RoommateMakeCrewableInfoListRVA
     private lateinit var roommateMakeCrewableInfoTableRVA: RoommateMakeCrewableInfoTableRVA
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        _binding = FragmentRoommateMakeCrewableBinding.inflate(inflater, container, false)
-//
-////        roommateMakeCrewableInfoListRVA = RoommateMakeCrewableInfoListRVA(listOf()) {detail ->
-////            viewModel.selectDetail(detail)
-////        }
-////        roommateMakeCrewableInfoTableRVA = RoommateMakeCrewableInfoTableRVA(listOf()) {detail ->
-////            viewModel.selectDetail(detail)
-////        }
-////        binding.rvCrewableResultList.adapter = roommateMakeCrewableInfoListRVA
-////        binding.rvCrewableResultTable.adapter = roommateMakeCrewableInfoTableRVA
-//        roommateMakeCrewableInfoListRVA = RoommateMakeCrewableInfoListRVA(listOf()) { selectDetail ->
-//            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-//            intent.putExtra("selectDetail", selectDetail)
-//            startActivity(intent)
-//        }
-////        binding.rvCrewableResultList.adapter = roommateMakeCrewableInfoListRVA
-//        binding.rvCrewableResultList.apply {
-//            layoutManager = LinearLayoutManager(requireContext())
-//            adapter = roommateMakeCrewableInfoListRVA
-//        }
-//        roommateMakeCrewableInfoTableRVA = RoommateMakeCrewableInfoTableRVA(listOf()) { selectDetail ->
-//            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-//            intent.putExtra("selectDetail", selectDetail)
-//            startActivity(intent)
-//        }
-////        binding.rvCrewableResultTable.adapter = roommateMakeCrewableInfoTableRVA
-//        roommateMakeCrewableInfoTableRVA = RoommateMakeCrewableInfoTableRVA(listOf()) { selectDetail ->
-//            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-//            intent.putExtra("selectDetail", selectDetail)
-//            startActivity(intent)
-//        }
-//        binding.rvCrewableResultTable.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//
-//        initTextView()
-//
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.otherUserInfo.collect{ userInfoList ->
-//                roommateMakeCrewableInfoListRVA.updateData(userInfoList)
-//            }
-//        }
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.unfilteredUserInfo.collect { userInfoList ->
-//                roommateMakeCrewableInfoTableRVA.updateData(userInfoList)
-//            }
-//        }
-//        val _accessToken = getString(R.string.access_token_1)
-//        val accessToken = "Bearer $_accessToken"
-////        viewModel.getOtherUserInfo(accessToken, 0, listOf())
-//        viewModel.filterList.observe(viewLifecycleOwner) {
-//            viewModel.getOtherUserInfo(accessToken, 0)
-//        }
-//
-//
-//        return binding.root
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
