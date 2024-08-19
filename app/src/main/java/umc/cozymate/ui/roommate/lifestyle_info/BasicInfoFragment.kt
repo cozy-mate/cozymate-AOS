@@ -156,10 +156,12 @@ class BasicInfoFragment : Fragment() {
 
     fun updateNextButtonState() {
         // Check if all fields are filled to enable next button
-        val isNextButtonEnabled = onLiving != null &&
-                numPeople != null &&
-                binding.etMajor.text?.toString()?.isNotEmpty() == true &&
-                binding.etNumber.text?.toString()?.isNotEmpty() == true
+        val isNextButtonEnabled = onLivingOption != null &&
+                numPeopleOption != null &&
+//                binding.etMajor.text?.toString()?.isNotEmpty() == true &&
+                binding.etMajor.text != null &&
+//                binding.etNumber.text?.toString()?.isNotEmpty() == true
+                binding.etNumber.text != null
 //                binding.etNumber.text?.toString()?.isNotEmpty() == true &&
 //                binding.etBirth.text?.toString()?.isNotEmpty() == true &&
 //                binding.etName.text?.toString()?.isNotEmpty() == true

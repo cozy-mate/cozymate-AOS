@@ -234,7 +234,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showSleepLayout() {
-        if (wakeAmpm != null && wakeTime != null) {
+        if (wakeAmpm != null && wakeTime != null && wakeAmpmOption != null && wakeTimeOption != null) {
             binding.clSleepTime.showWithSlideDownAnimation()
         }
     }
@@ -295,7 +295,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showLightOffLayout() {
-        if(sleepAmpm != null && sleepTime != null) {
+        if(sleepAmpmOption != null && sleepTimeOption != null) {
             binding.clLightOff.showWithSlideDownAnimation()
         }
     }
@@ -356,7 +356,7 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showSmokeLayout() {
-        if (lightOffAmpm != null && lightOffTime != null) {
+        if (lightOffAmpmOption != null && lightOffTimeOption != null) {
             binding.clSmoke.showWithSlideDownAnimation()
         }
     }
@@ -938,7 +938,8 @@ class EssentialInfoFragment : Fragment() {
 
     fun updateNextButtonState() {
         val isNextButtonEnabled = wakeAmpm != null &&
-                mbtiCheck != null
+                mbtiCheck != null &&
+                mbtiOption != null
 
         if (isNextButtonEnabled) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()

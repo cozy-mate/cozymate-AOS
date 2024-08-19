@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="16dp"
     android:background="@drawable/custom_background_roommate_detail_12">
 
     <ImageView
@@ -11,8 +11,8 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
         android:src="@drawable/ic_basic_character2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         style="@style/RvOtherUserInfoBox"
         android:layout_width="46dp"
         android:layout_height="18dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="3dp"
         android:text="2인 1실"
         app:layout_constraintBottom_toBottomOf="@id/guide_rv_crewable_list"
@@ -54,7 +54,6 @@
         android:id="@+id/tv_other_user_name"
         app:layout_constraintStart_toEndOf="@id/iv_other_user_profile"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
         android:text="배이"
         android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
         android:textColor="#61666D"

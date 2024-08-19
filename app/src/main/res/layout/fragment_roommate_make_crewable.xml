@@ -35,7 +35,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -248,7 +249,7 @@
                         android:clickable="true"
                         android:text="게임여부"/>
                     <TextView
-                        android:layout_width="59dp"
+                        android:layout_width="69dp"
                         android:layout_height="33dp"
                         android:id="@+id/select_call"
                         style="@style/SelectChip"
@@ -264,7 +265,7 @@
                         android:clickable="true"
                         android:text="청결예민도"/>
                     <TextView
-                        android:layout_width="59dp"
+                        android:layout_width="69dp"
                         android:layout_height="33dp"
                         android:id="@+id/select_intake"
                         style="@style/SelectChip"
@@ -353,6 +354,7 @@
                     android:id="@+id/tv_crewable_chip_list_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
                     android:text="원하는 칩을 선택하면\n나와 똑같은 답변을 한 사용자만 떠요!"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"/>
@@ -401,7 +403,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_goneMarginEnd="10dp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_crewable_chip_table_title"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/rv_item_roommate_crewable_table_result"
@@ -410,7 +412,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="350dp"
                     app:layout_constraintTop_toBottomOf="@+id/rv_crewable_result_table"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

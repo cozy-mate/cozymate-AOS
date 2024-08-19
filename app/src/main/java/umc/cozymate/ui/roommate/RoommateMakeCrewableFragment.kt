@@ -72,6 +72,7 @@ class RoommateMakeCrewableFragment : Fragment() {
         val _accessToken = getString(R.string.access_token_1)
         val accessToken = "Bearer $_accessToken"
         viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
+//        viewModel.getInitialUserInfo(accessToken, 1) // 필터가 없는 데이터 가져오기
 
         // 필터가 변경될 때마다 필터링된 데이터를 가져옴
         viewModel.filterList.observe(viewLifecycleOwner) {

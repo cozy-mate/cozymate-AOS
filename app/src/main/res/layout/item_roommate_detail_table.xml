@@ -1188,12 +1188,6 @@
                     app:layout_constraintStart_toStartOf="@+id/guide_other"
                     tools:text="INTJ" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_table_mbti" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

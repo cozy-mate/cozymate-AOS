@@ -51,8 +51,10 @@ drawable background_todo_tab
 drawable btn_rectangle_12
 drawable btn_rectangle_26
 drawable btn_rectangle_39
+drawable btn_rectangle_8
 drawable btn_rectangle_80svg
 drawable btn_rectangle_81
+drawable btn_rectangle_cozyhome_state
 drawable btn_rectangle_next_state
 drawable btn_roommate_selection_info_plus
 drawable character_0
@@ -155,9 +157,12 @@ drawable ic_todo_plus
 drawable ic_xmark
 drawable iv_radio_selected
 drawable iv_radio_unselected
+drawable iv_search_cozy
 drawable ly_white_12
-drawable ripple_disabled
-drawable ripple_enabled
+drawable ripple_box_12dp
+drawable ripple_color_box_12dp
+drawable ripple_main_blue_12dp
+drawable ripple_unuse_btn_12dp
 font pretendard_bold
 font pretendard_light
 font pretendard_medium
@@ -174,6 +179,7 @@ id btn_apple_login
 id btn_back
 id btn_bell
 id btn_can_do
+id btn_cancel
 id btn_chat
 id btn_copy_invite_code
 id btn_crew
@@ -190,6 +196,7 @@ id btn_like
 id btn_message
 id btn_never
 id btn_next
+id btn_ok
 id btn_request_roommate
 id btn_roommate_invite
 id btn_rule
@@ -212,6 +219,7 @@ id chips3
 id chips4
 id chips5
 id cl_ac
+id cl_alert
 id cl_call
 id cl_chips
 id cl_clean_check
@@ -529,6 +537,10 @@ id tv_Weekday
 id tv_ac_check
 id tv_achievement_content
 id tv_achievement_datetime
+id tv_alert
+id tv_alert_detail
+id tv_alert_name
+id tv_alert_nickname
 id tv_birth
 id tv_box
 id tv_call_check
@@ -552,6 +564,7 @@ id tv_guide1
 id tv_heater_check
 id tv_home_name
 id tv_home_people_num
+id tv_isitroom
 id tv_label_birth
 id tv_label_gender
 id tv_label_name
@@ -663,9 +676,11 @@ id tv_people_number
 id tv_personality
 id tv_please_invite_code
 id tv_please_select_roommate
+id tv_room_info
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3
+id tv_roomname
 id tv_rule
 id tv_school_guide
 id tv_school_name
@@ -855,6 +870,9 @@ layout item_roommate_detail_table
 layout item_roommate_select_box
 layout item_select_roommate
 layout item_waiting_roommate
+layout popup_invite_code_fail
+layout popup_invite_code_success
+layout popup_server_error
 layout roommate_detail_bottom_sheet
 layout rv_item_message
 layout rv_item_message_member
