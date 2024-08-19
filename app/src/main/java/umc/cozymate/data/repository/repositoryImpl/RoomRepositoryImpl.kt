@@ -5,6 +5,7 @@ import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.model.request.CreateRoomRequest
 import umc.cozymate.data.model.response.room.CreateRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -13,6 +14,13 @@ import javax.inject.Inject
 class RoomRepositoryImpl @Inject constructor(
     private val api: RoomService
 ) : RoomRepository {
+
+    override suspend fun getRoomInfo(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetRoomInfoResponse> {
+        return api.getRoomInfo(accessToken, roomId)
+    }
 
     override suspend fun getRoomInfoByInviteCode(
         accessToken: String,
@@ -33,7 +41,6 @@ class RoomRepositoryImpl @Inject constructor(
     ): Response<IsRoomExistResponse> {
         return api.isRoomExist(accessToken)
     }
-
 
     override suspend fun createRoom(
         accessToken: String,

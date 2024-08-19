@@ -97,7 +97,7 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         binding.rvList.run {
             layoutManager = GridLayoutManager(requireContext(), 4)
             addItemDecoration(
-                GridSpacingItemDecoration(spanCount = 4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
+                GridSpacingItemDecoration(spanCount = 4, 16f.fromDpToPx(), 40f.fromDpToPx(), true)
             )
         }
     }
