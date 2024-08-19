@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,17 +10,17 @@
         android:id="@+id/cl_cozyhome_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_cozyhome"
+        android:background="@drawable/background_cozyhome_v2"
         app:layout_constraintBottom_toTopOf="@id/gl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_cozy_title"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="31dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_cozymate"
+            android:src="@drawable/ic_cozymate_highlight"
             app:layout_constraintBottom_toBottomOf="@id/btn_bell"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_bell" />
@@ -35,6 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_message"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="63dp"
@@ -60,6 +62,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_rectangle_81"
+            android:backgroundTint="@color/white"
             android:text="룸메이트 구하러 가기"
             android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
             android:textColor="@color/main_blue"
@@ -84,8 +87,8 @@
         android:layout_marginTop="26dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/ripple_enabled"
-        android:backgroundTint="@color/color_box"
+        android:background="@drawable/btn_rectangle_cozyhome_state"
+        android:elevation="0dp"
         android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
@@ -95,7 +98,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_invite_code"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_cozyhome_top" />
+        app:layout_constraintTop_toBottomOf="@id/cl_cozyhome_top"
+        tool:enabled="false" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_invite_code"
@@ -103,8 +107,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/ripple_enabled"
+        android:background="@drawable/btn_rectangle_cozyhome_state"
         android:backgroundTint="@color/color_box"
+        android:elevation="0dp"
         android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
@@ -122,8 +127,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/ripple_enabled"
+        android:background="@drawable/btn_rectangle_cozyhome_state"
         android:backgroundTint="@color/color_box"
+        android:elevation="0dp"
         android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"

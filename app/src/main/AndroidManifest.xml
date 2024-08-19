@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="umc.cozymate">
-    <!-- 인터넷 사용권한 설정 -->
+    <!-- 인터넷 및 FCM 사용권한 설정 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- FCM을 위한 권한 설정 -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -14,21 +14,21 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/app_icon"
+        android:icon="@drawable/app_icon_v3"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.roommate.RoommateInputInfoActivity"
+            android:exported="false" />
 
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="a51292da8bc69b2160b0bb97ec00b2ad" />
         <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
-            <intent-filter>
+            <intent-filter android:label="kakao_login_handler">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -36,7 +36,16 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakaoa51292da8bc69b2160b0bb97ec00b2ad" />
+                    android:scheme="@string/kakao_scheme" />
+            </intent-filter>
+        </activity>
+        <!-- 시작 화면 -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -56,7 +65,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.roommate.RoommateDetailActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.roommate.lifestyle_info.RoommateSelectionInfoActivity"
             android:exported="false" />
@@ -68,19 +77,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".ui.roommate.MessageActivity"/>
-        <activity android:name=".ui.role_rule.AddTodoActivity"/>
+        <activity android:name=".ui.message.MessageActivity" />
+        <activity android:name=".ui.role_rule.AddTodoActivity" />
 
         <service
             android:name=".firebase.FCMService"

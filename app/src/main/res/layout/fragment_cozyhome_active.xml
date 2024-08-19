@@ -16,10 +16,13 @@
         <!--상단 섹션-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_cozyhome_top"
-            android:layout_width="match_parent"
-            android:layout_height="812dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="375:812"
             android:background="@drawable/background_cozyhome_active_png"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -52,33 +55,47 @@
                 android:background="@drawable/ic_cozyhome_light" />
 
             <TextView
-                android:id="@+id/tv_whose_room"
+                android:id="@+id/tv_whose_room1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text="여기는\n피그말리온바보멍청이이이의 방이에요!"
+                android:text="여기는"
                 android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_light" />
 
+            <TextView
+                android:id="@+id/tv_whose_room2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="2dp"
+                android:text="피그말리온의 방이에요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_whose_room1" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_copy_invite_code"
-                android:layout_width="86dp"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="4dp"
                 android:background="@drawable/btn_rectangle_12"
                 android:drawableEnd="@drawable/ic_copy"
-                android:drawablePadding="-20dp"
+                android:drawablePadding="-10dp"
                 android:drawableTint="@color/color_font"
                 android:gravity="center"
                 android:text="QUIIRK"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_whose_room" />
+                app:layout_constraintTop_toBottomOf="@id/tv_whose_room2" />
 
             <ImageView
                 android:id="@+id/iv_char_back"
@@ -102,6 +119,7 @@
 
         <!-- 캐릭터 -->
         <ImageView
+            android:id="@+id/iv_char"
             android:layout_width="135dp"
             android:layout_height="135dp"
             android:layout_marginTop="208dp"

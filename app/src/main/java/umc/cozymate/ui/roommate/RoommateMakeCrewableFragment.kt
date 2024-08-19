@@ -1,48 +1,29 @@
 package umc.cozymate.ui.roommate
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentRoleAndRuleBinding
 import umc.cozymate.databinding.FragmentRoommateMakeCrewableBinding
-import umc.cozymate.ui.roommate.adapter.CrewableChipAdapter
-import umc.cozymate.ui.roommate.data_class.SelectableChip
+import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoListRVA
+import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoTableRVA
+import umc.cozymate.ui.viewmodel.RoommateViewModel
 
+@AndroidEntryPoint
 class RoommateMakeCrewableFragment : Fragment() {
     private var _binding: FragmentRoommateMakeCrewableBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var chipAdapter: CrewableChipAdapter
-    private val chipList = mutableListOf(
-        SelectableChip("출생년도"),
-        SelectableChip("학번"),
-        SelectableChip("학과"),
-        SelectableChip("신청실"),
-        SelectableChip("합격여부"),
-        SelectableChip("기상시간"),
-        SelectableChip("취침시간"),
-        SelectableChip("소등시간"),
-        SelectableChip("흡연여부"),
-        SelectableChip("잠버릇"),
-        SelectableChip("에어컨강도"),
-        SelectableChip("히터강도"),
-        SelectableChip("생활패턴"),
-        SelectableChip("물건공유"),
-        SelectableChip("공부여부"),
-        SelectableChip("게임여부"),
-        SelectableChip("전화여부"),
-        SelectableChip("청결예민도"),
-        SelectableChip("소음예민도"),
-        SelectableChip("청소빈도"),
-        SelectableChip("성격"),
-        SelectableChip("MBTI")
-    )
+    private val viewModel: RoommateViewModel by viewModels()
+    private lateinit var roommateMakeCrewableInfoListRVA: RoommateMakeCrewableInfoListRVA
+    private lateinit var roommateMakeCrewableInfoTableRVA: RoommateMakeCrewableInfoTableRVA
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,39 +32,102 @@ class RoommateMakeCrewableFragment : Fragment() {
     ): View {
         _binding = FragmentRoommateMakeCrewableBinding.inflate(inflater, container, false)
 
-        // Initialize RecyclerView
-        recyclerView = binding.rvCrewableSelectChipList // Add this line to properly initialize the RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        // 필터가 적용된 리스트 (rvCrewableResultList)
+        roommateMakeCrewableInfoListRVA = RoommateMakeCrewableInfoListRVA(listOf()) { selectDetail ->
+            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+            intent.putExtra("selectDetail", selectDetail)
+            startActivity(intent)
+        }
+        binding.rvCrewableResultList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCrewableResultTable.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Initialize Adapter
-        chipAdapter = CrewableChipAdapter(chipList) { position ->
-            handleChipClick(position)
+
+        binding.rvCrewableResultList.adapter = roommateMakeCrewableInfoListRVA
+
+        // 필터가 없는 리스트 (rvCrewableResultTable)
+        roommateMakeCrewableInfoTableRVA = RoommateMakeCrewableInfoTableRVA(listOf()) { selectDetail ->
+            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+            intent.putExtra("selectDetail", selectDetail)
+            startActivity(intent)
+        }
+        binding.rvCrewableResultTable.adapter = roommateMakeCrewableInfoTableRVA
+
+        initTextView()
+
+        // 필터가 없는 상태의 데이터를 Table에 적용
+        lifecycleScope.launchWhenStarted {
+            viewModel.unfilteredUserInfo.collect { userInfoList ->
+                roommateMakeCrewableInfoTableRVA.updateData(userInfoList)
+            }
         }
 
-        // Set Adapter
-        recyclerView.adapter = chipAdapter
+        // 필터가 적용된 상태의 데이터를 List에 적용
+        lifecycleScope.launchWhenStarted {
+            viewModel.otherUserInfo.collect { userInfoList ->
+                roommateMakeCrewableInfoListRVA.updateData(userInfoList)
+            }
+        }
+
+        // 액세스 토큰을 가져와 API 호출 (필터 적용되지 않은 데이터 먼저 가져오기)
+        val _accessToken = getString(R.string.access_token_1)
+        val accessToken = "Bearer $_accessToken"
+        viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
+//        viewModel.getInitialUserInfo(accessToken, 1) // 필터가 없는 데이터 가져오기
+
+        // 필터가 변경될 때마다 필터링된 데이터를 가져옴
+        viewModel.filterList.observe(viewLifecycleOwner) {
+            viewModel.getOtherUserInfo(accessToken, 0) // 필터가 적용된 데이터를 가져옴
+        }
 
         return binding.root
     }
+    fun initTextView(){
+        setupTextSelection(binding.selectBirth, "birthYear")
+        setupTextSelection(binding.selectNumber, "admissionYear")
+        setupTextSelection(binding.selectMajor, "major")
+        setupTextSelection(binding.selectRoomNum, "numOfRoommate")
+        setupTextSelection(binding.selectAcceptance, "acceptance")
+        setupTextSelection(binding.selectWake, "wakeUpTime")
+        setupTextSelection(binding.selectSleep, "sleepingTime")
+        setupTextSelection(binding.selectLigtOff, "turnOffTime")
+        setupTextSelection(binding.selectSmoke, "smoking")
+        setupTextSelection(binding.selectSleepHabit, "sleepingHabit")
+        setupTextSelection(binding.selectAc, "airConditioningIntensity")
+        setupTextSelection(binding.selectHeater, "heatingIntensity")
+        setupTextSelection(binding.selectLivingPattern, "lifePattern")
+        setupTextSelection(binding.selectFriendly, "intimacy")
+        setupTextSelection(binding.selectShare, "canShare")
+        setupTextSelection(binding.selectStudy, "studying")
+        setupTextSelection(binding.selectIntake, "intake")
+        setupTextSelection(binding.selectGame, "isPlayGame")
+        setupTextSelection(binding.selectCall, "isPhoneCall")
+        setupTextSelection(binding.selectClean, "cleanSensitivity")
+        setupTextSelection(binding.selectNoise, "noiseSensitivity")
+        setupTextSelection(binding.selectCleanFrequency, "cleaningFrequency")
+        setupTextSelection(binding.selectPersonality, "personality")
+        setupTextSelection(binding.selectMbti, "mbti")
+    }
 
-    private fun handleChipClick(position: Int) {
-        val chip = chipList[position]
-
-        if (chip.isSelected) {
-            // 선택 해제
-            chip.isSelected = false
-            // 이미 위치를 유지하기 때문에 제거하고 다시 추가할 필요가 없음
-            // var로 변경 필요 없음, chipList 재할당 없음
-            chipList.removeAt(position)
-            chipList.add(position, chip) // add 하는게 의미가 없음, 원래 자리에 다시 추가 필요 없음
-        } else {
-            // 선택
-            chip.isSelected = true
-            // Chip을 리스트에서 제거 후 맨 앞으로 추가
-            chipList.removeAt(position)
-            chipList.add(0, chip)
+    private fun setupTextSelection(textView: TextView, filterText: String){
+        textView.setOnClickListener {
+            if(textView.isSelected) {
+                textView.isSelected = false
+                textView.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_select_chip_background)
+                }
+                viewModel.removeFilter(filterText)
+            } else {
+                textView.isSelected = true
+                textView.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                    background = resources.getDrawable(R.drawable.custom_select_chip_selected, null)
+                }
+                viewModel.addFilter(filterText)
+            }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

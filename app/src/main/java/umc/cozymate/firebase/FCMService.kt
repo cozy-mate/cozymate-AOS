@@ -117,8 +117,8 @@ class FCMService : FirebaseMessagingService() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val safeAreaName = data["safeAreaName"] ?: "알림1"
-        val time = data["time"] ?: "알림2"
+        val safeAreaName = data ?: "알림1"
+        val time = data ?: "알림2"
         val contentText = "알림1: $safeAreaName\n알림2: $time"
         // 알림 내용에 따라 수정 필요!!!!
 
@@ -172,8 +172,8 @@ class FCMService : FirebaseMessagingService() {
         }
         val pendingIntent = PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE)
 
-        val safeAreaName = remoteMessage.data["safeAreaName"] ?: "알림1"
-        val time = remoteMessage.data["time"] ?: "알림2"
+        val safeAreaName = remoteMessage.data ?: "알림1"
+        val time = remoteMessage.data ?: "알림2"
         val contentText = "알림1: $safeAreaName\n알림2: $time"
         // 알림 내용에 따라 수정 필요!!
 

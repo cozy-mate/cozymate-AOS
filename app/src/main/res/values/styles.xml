@@ -110,8 +110,8 @@
 
     <!-- 데이트피커 스타일 -->
     <style name="AppTheme.NumberPicker" parent="">
-        <item name="colorControlNormal">#0E0E12</item>
-        <item name="android:textColorPrimary">#0E0E12</item>
+        <item name="colorControlNormal">@color/main_blue</item>
+        <item name="android:textColorPrimary">@color/color_font</item>
     </style>
 
     <style name="OptionBox">
@@ -122,6 +122,16 @@
         <item name="fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textSize">12sp</item>
         <item name="android:background">@drawable/custom_option_box_background</item>
+    </style>
+
+    <style name="SelectChip">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/custom_option_text_color</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:background">@drawable/custom_select_chip_background</item>
     </style>
 
     <style name="RvOtherUserInfoBox">
@@ -153,6 +163,11 @@
         <item name="android:textAppearance">@style/TextAppearance.App.14sp.SemiBold</item>
         <item name="android:textAlignment">center</item>
         <item name="android:backgroundTint">@color/main_blue</item>
+    </style>
+
+    <!-- Splash screen theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
 </resources>
