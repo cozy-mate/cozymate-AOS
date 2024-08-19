@@ -53,7 +53,12 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     fun saveRoomId() {
+        Log.d(TAG, "spf 방 아이디 : ${_roomId.value}")
         sharedPreferences.edit().putInt("room_id", _roomId.value ?: 0).apply()
+    }
+
+    fun getSavedRoomId(): Int {
+        return sharedPreferences.getInt("room_id", 0) // 0은 기본값으로, 저장된 값이 없으면 0이 반환됨
     }
 
     fun fetchRoomIdIfNeeded() {
@@ -64,10 +69,21 @@ class CozyHomeViewModel @Inject constructor(
 
     init {
         loadAchievements()
+
+        // 방 ID를 SharedPreferences에서 가져와서 설정
+        val savedRoomId = getSavedRoomId()
+        if (savedRoomId != 0) {
+            _roomId.value = savedRoomId
+            getRoomInfo()
+        } else {
+            // 방 ID가 없으면 새로 가져오기
+            getRoomId()
+        }
     }
 
     fun getRoomId() {
         val token = getToken()
+        Log.d(TAG, "토큰: $token")
 
         viewModelScope.launch {
             try {
@@ -77,6 +93,11 @@ class CozyHomeViewModel @Inject constructor(
                         Log.d(TAG, "방존재여부 조회 성공: ${response.body()!!.result}")
                         _roomId.value = response.body()!!.result?.roomId
                         saveRoomId()
+
+                        // 방 ID를 가져온 후에 방 정보를 가져옴
+                        _roomId.value?.let {
+                            getRoomInfo()
+                        }
                     } else {
                         Log.d(TAG, "방존재여부 조회 에러 메시지: ${response}")
                     }
@@ -95,12 +116,25 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
+    fun setRoomId(roomId: Int) {
+        _roomId.value = roomId
+    }
+
     fun getRoomInfo() {
         val token = getToken()
+        val roomId = _roomId.value ?: getSavedRoomId()
+
+        if (roomId == null) {
+            Log.d(TAG, "방 ID가 null입니다. 방정보를 조회할 수 없습니다.")
+            _errorResponse.value = ErrorResponse("NULL_ROOM_ID", false, "Room ID is null")
+            return
+        }
+
+        Log.d(TAG, "방 아이디 : ${roomId}")
 
         viewModelScope.launch {
             try {
-                val response = repository.getRoomInfo(token!!, roomId.value!!)
+                val response = repository.getRoomInfo(token!!, roomId)
                 if (response.isSuccessful) {
                     if (response.body()!!.isSuccess) {
                         _roomName.value = response.body()!!.result.name
