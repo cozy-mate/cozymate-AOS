@@ -25,8 +25,8 @@ class TodoTabFragment: Fragment() {
     lateinit var binding: FragmentTodoTabBinding
     private val currentDate = LocalDate.now()
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodoList : List<TodoMateData> = emptyList()
-    private var memberList : Map<String,List<TodoMateData>> =  emptyMap()
+    private var mytodo : TodoMateData? = null
+    private var memberList : Map<String,TodoMateData> =  emptyMap()
 
     private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
 
@@ -48,10 +48,9 @@ class TodoTabFragment: Fragment() {
             if (response.isSuccessful) {
                 val todoResponse = response.body()
                 todoResponse?.let {
-                    mytodoList = it.result.myTodoList ?: emptyList()
-                    memberList = it.result.mateTodoList ?: emptyMap()
-                    Log.d(TAG, mytodoList.toString())
-                    updateRecyclerView(mytodoList, memberList)
+                    mytodo = it.result.myTodoList
+                    memberList = it.result.mateTodoList
+                    updateRecyclerView(mytodo!!, memberList)
                 }
             } else {
                 Log.d(TAG, "response 응답 실패")
@@ -69,36 +68,28 @@ class TodoTabFragment: Fragment() {
 
     //테스트용 더미데이터
     private fun test() {
-        val dummy = listOf(
-            TodoMateData(0,"test1",false),
-            TodoMateData(1,"test2",false),
-            TodoMateData(0,"test3",true)
-        )
+        val dummy = TodoMateData(1,listOf(
+            TodoMateData.TodoItem(0,"test1",false),
+            TodoMateData.TodoItem(1,"test2",false),
+            TodoMateData.TodoItem(0,"test3",true)
+        ))
         val dummyMember = mapOf(
-            "member1" to listOf(
-                TodoMateData(id = 1, content = "Review documents", false),
-                TodoMateData(id = 2, content = "Prepare presentation", true)
-            ),
-            "member2" to listOf(
-                TodoMateData(id = 3, content = "Organize files",  false),
-                TodoMateData(id = 4, content = "Schedule meeting", true)
-            ),
-            "member3" to listOf(
-                TodoMateData(id = 5, content = "Respond to emails", true),
-                TodoMateData(id = 6, content = "Update project plan",  false)
-            )
-        )
-        Log.d(TAG, "todolist ${dummy}")
-        updateRecyclerView(dummy, dummyMember)
+            "member1" to TodoMateData(1,listOf(
+                TodoMateData.TodoItem(0,"test1",false),
+                TodoMateData.TodoItem(1,"test2",false),
+                TodoMateData.TodoItem(0,"test3",true)
+            )))
+
+        //updateRecyclerView(dummy, dummyMember)
     }
 
     private fun updateDate(){
         val formatter = DateTimeFormatter.ofPattern("M/dd(EEE), ", Locale.KOREA)
         binding.tvTodoDate.text = currentDate.format(formatter)
     }
-    private fun updateRecyclerView(mytodoList: List<TodoMateData>, memberList: Map<String, List<TodoMateData>>){
+    private fun updateRecyclerView(mytodoList: TodoMateData, memberList: Map<String, TodoMateData>){
         // 내 할일
-        if(mytodoList.isEmpty()){
+        if(mytodoList.mateTodoList.isEmpty()){
             binding.tvEmpty.visibility = View.VISIBLE
             binding.rvMyTodoList.visibility = View.GONE
         }
@@ -106,7 +97,7 @@ class TodoTabFragment: Fragment() {
             binding.rvMyTodoList.visibility = View.VISIBLE
             binding.tvEmpty.visibility = View.GONE
 
-            val myTodoRVAdapter = TodoRVAdapter(mytodoList , true) { todoItem ->
+            val myTodoRVAdapter = TodoRVAdapter(mytodoList.mateTodoList, true) { todoItem ->
                 val request = UpdateTodoRequest(todoItem.id, todoItem.completed)
                 viewModel.updateTodo( token, request )
             }
@@ -116,7 +107,7 @@ class TodoTabFragment: Fragment() {
         // 룸메 할일(중첩 리사이클러뷰)
         val memberTodoListRVAdapter =  TodoListRVAdapter(memberList) { todoItem ->
             // 서버로 TodoItem 상태 업데이트 요청
-            viewModel.updateTodo(token, UpdateTodoRequest(todoItem.id, todoItem.completed))
+            //viewModel.updateTodo(token, UpdateTodoRequest(todoItem.id, todoItem.completed))
 
         }
         binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
