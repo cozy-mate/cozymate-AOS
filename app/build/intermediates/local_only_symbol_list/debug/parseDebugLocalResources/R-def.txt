@@ -97,6 +97,9 @@ drawable custom_tv_background
 drawable custom_tv_default_background
 drawable custom_tv_selected_background
 drawable custom_weekday_background
+drawable feed__temporarily2
+drawable feed__temporarily3
+drawable feed_temporarily1
 drawable ic_add
 drawable ic_alarm
 drawable ic_back
@@ -145,6 +148,7 @@ drawable ic_message
 drawable ic_my_circle
 drawable ic_option
 drawable ic_pencil
+drawable ic_pencil_color
 drawable ic_photoedit
 drawable ic_picture
 drawable ic_rectangle_12
@@ -192,6 +196,7 @@ id btn_crewable_search
 id btn_dialog_detail_no
 id btn_dialog_detail_yes
 id btn_enter_room
+id btn_feed_room_name_edit
 id btn_go_lifestyle
 id btn_invite_code
 id btn_kakao_login
@@ -338,6 +343,7 @@ id iv_check
 id iv_chk
 id iv_cozy_title
 id iv_edit_back
+id iv_feed_title
 id iv_female
 id iv_home_name
 id iv_home_people_num
@@ -349,6 +355,10 @@ id iv_other_user_profile
 id iv_robot
 id iv_table_user_profile
 id iv_tem
+id iv_temp1
+id iv_temp2
+id iv_temp22
+id iv_temp3
 id iv_x
 id layout_Member
 id layout_MyTodo
@@ -555,12 +565,16 @@ id tv_cozy_char_title
 id tv_cozy_description
 id tv_cozyhome_notice
 id tv_crewable_chip_list_title
+id tv_crewable_chip_list_title2
 id tv_crewable_chip_table_title
+id tv_crewable_chip_table_title2
 id tv_crewable_school
 id tv_detail_list_rule
 id tv_dialog_request_other_name
 id tv_dormitory
 id tv_eating_check
+id tv_feed_room_detail
+id tv_feed_room_name
 id tv_female
 id tv_friendly
 id tv_game_check
