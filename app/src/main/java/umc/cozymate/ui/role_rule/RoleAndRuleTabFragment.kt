@@ -32,7 +32,7 @@ class RoleAndRuleTabFragment: Fragment() {
     ): View? {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         initListData()
-        //updateRecyclerview()
+        updateRecyclerview()
 
         getPreference()
         viewModel.getRule(roomId)
@@ -43,7 +43,7 @@ class RoleAndRuleTabFragment: Fragment() {
             if(response.isSuccessful){
                 val ruleResponse = response.body()
                 ruleResponse?.let{
-                    rules = it.result.ruleList
+                    rules = it.result
                     Log.d(TAG, rules.toString())
                     updateRecyclerview()
                 }
@@ -84,6 +84,7 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
     private fun updateRecyclerview(){
+        Log.d(TAG,"리사이클러뷰 왜 안생기냐 ${rules}")
         if (rules.size == 0) {
             binding.tvEmpty.visibility = View.VISIBLE
             binding.rvRules.visibility = View.GONE

@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.data.model.response.RuleResponse
 import umc.cozymate.data.repository.repository.RuleRepository
@@ -32,8 +31,8 @@ class RuleViewModel @Inject constructor(
     private val _createResponse = MutableLiveData<Response<DefaultResponse>>()
     val  createResponse : LiveData<Response<DefaultResponse>> get() =  _createResponse
 
-    private val _getResponse = MutableLiveData<Response<ResponseBody<RuleResponse>> >()
-    val  getResponse : LiveData<Response<ResponseBody<RuleResponse>> > get() =  _getResponse
+    private val _getResponse = MutableLiveData<Response<RuleResponse>>()
+    val  getResponse : LiveData<Response<RuleResponse>> get() =  _getResponse
 
     private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
     val  deleteResponse : LiveData<Response<DefaultResponse>> get() =  _deleteResponse
@@ -69,7 +68,7 @@ class RuleViewModel @Inject constructor(
                 Log.d(TAG, "응답 확인: ${response.body()!!.result}")
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    //_getResponse.postValue(response)
+                    _getResponse.postValue(response)
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
