@@ -11,13 +11,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_home.adapter.AchievementItem
 import umc.cozymate.ui.cozy_home.adapter.AchievementItemType
 import javax.inject.Inject
 
 @HiltViewModel
-class CozyHomeViewModel  @Inject constructor(
+class CozyHomeViewModel @Inject constructor(
     private val repository: RoomRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
@@ -29,6 +30,18 @@ class CozyHomeViewModel  @Inject constructor(
 
     private val _roomId = MutableLiveData<Int>()
     val roomId: LiveData<Int> get() = _roomId
+
+    private val _roomName = MutableLiveData<String>()
+    val roomName: LiveData<String> get() = _roomName
+
+    private val _inviteCode = MutableLiveData<String>()
+    val inviteCode: LiveData<String> get() = _inviteCode
+
+    private val _profileImage = MutableLiveData<Int>()
+    val profileImage: LiveData<Int> get() = _profileImage
+
+    private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.Mate>> ()
+    val mateList: LiveData<List<GetRoomInfoResponse.Result.Mate>> get() = _mateList
 
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
@@ -78,6 +91,37 @@ class CozyHomeViewModel  @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "방존재여부 조회 api 요청 실패: ${e}")
+            }
+        }
+    }
+
+    fun getRoomInfo() {
+        val token = getToken()
+
+        viewModelScope.launch {
+            try {
+                val response = repository.getRoomInfo(token!!, roomId.value!!)
+                if (response.isSuccessful) {
+                    if (response.body()!!.isSuccess) {
+                        _roomName.value = response.body()!!.result.name
+                        _inviteCode.value = response.body()!!.result.inviteCode
+                        _profileImage.value = response.body()!!.result.profileImage
+                        _mateList.value = response.body()!!.result.mateList
+                        Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
+                    } else {
+                        Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
             }
         }
     }

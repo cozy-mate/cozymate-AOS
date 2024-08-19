@@ -36,9 +36,7 @@ class CozyHomeActiveFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        binding.ivChar.setImageResource(R.drawable.character_0)
-
-
+        initRoomInfo()
         initAchievmentList()
         initView()
         return binding.root
@@ -46,6 +44,16 @@ class CozyHomeActiveFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initRoomInfo() {
+
+
+
+
+
+        binding.ivChar.setImageResource(R.drawable.character_0)
+
     }
 
 

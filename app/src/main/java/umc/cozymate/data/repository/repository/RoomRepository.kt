@@ -4,10 +4,13 @@ import retrofit2.Response
 import umc.cozymate.data.model.request.CreateRoomRequest
 import umc.cozymate.data.model.response.room.CreateRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 
 interface RoomRepository {
+
+    suspend fun getRoomInfo(accessToken: String, roomId: Int): Response<GetRoomInfoResponse>
 
     suspend fun getRoomInfoByInviteCode(accessToken: String, inviteCode: String): Response<GetRoomInfoByInviteCodeResponse>
 
