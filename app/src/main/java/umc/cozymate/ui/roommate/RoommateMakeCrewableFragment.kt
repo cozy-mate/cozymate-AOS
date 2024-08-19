@@ -41,7 +41,6 @@ class RoommateMakeCrewableFragment : Fragment() {
         binding.rvCrewableResultList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCrewableResultTable.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-
         binding.rvCrewableResultList.adapter = roommateMakeCrewableInfoListRVA
 
         // 필터가 없는 리스트 (rvCrewableResultTable)
@@ -68,19 +67,29 @@ class RoommateMakeCrewableFragment : Fragment() {
             }
         }
 
-        // 액세스 토큰을 가져와 API 호출 (필터 적용되지 않은 데이터 먼저 가져오기)
-        val _accessToken = getString(R.string.access_token_1)
-        val accessToken = "Bearer $_accessToken"
-        viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
-//        viewModel.getInitialUserInfo(accessToken, 1) // 필터가 없는 데이터 가져오기
-
-        // 필터가 변경될 때마다 필터링된 데이터를 가져옴
-        viewModel.filterList.observe(viewLifecycleOwner) {
-            viewModel.getOtherUserInfo(accessToken, 0) // 필터가 적용된 데이터를 가져옴
+        // 필터 리스트를 관찰하여 UI 처리
+        viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
+            if (filterList.isNullOrEmpty()) {
+                // 필터가 없으면 안내 메시지 표시
+                showEmptyState()
+            } else {
+                // 필터가 있으면 RecyclerView를 표시
+                binding.rvCrewableResultList.visibility = View.VISIBLE
+                binding.tvNoSelection.visibility = View.GONE // 텍스트 숨김
+                viewModel.getOtherUserInfo(getAccessToken(), 0) // 필터가 적용된 데이터를 가져옴
+            }
         }
 
         return binding.root
     }
+
+    // 필터가 없을 때 보여줄 UI
+    private fun showEmptyState() {
+        binding.rvCrewableResultList.visibility = View.GONE
+        binding.tvNoSelection.visibility = View.VISIBLE
+        binding.tvNoSelection.text = "칩을 선택해보세요"
+    }
+
     fun initTextView(){
         setupTextSelection(binding.selectBirth, "birthYear")
         setupTextSelection(binding.selectNumber, "admissionYear")
@@ -108,9 +117,9 @@ class RoommateMakeCrewableFragment : Fragment() {
         setupTextSelection(binding.selectMbti, "mbti")
     }
 
-    private fun setupTextSelection(textView: TextView, filterText: String){
+    private fun setupTextSelection(textView: TextView, filterText: String) {
         textView.setOnClickListener {
-            if(textView.isSelected) {
+            if (textView.isSelected) {
                 textView.isSelected = false
                 textView.apply {
                     setTextColor(resources.getColor(R.color.unuse_font, null))
@@ -128,6 +137,10 @@ class RoommateMakeCrewableFragment : Fragment() {
         }
     }
 
+    private fun getAccessToken(): String {
+        val _accessToken = getString(R.string.access_token_1)
+        return "Bearer $_accessToken"
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

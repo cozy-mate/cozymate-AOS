@@ -378,6 +378,22 @@
                     tools:listitem="@layout/rv_item_roommate_crewable_list_result"/>
 
                 <TextView
+                    android:id="@+id/tv_no_selection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="칩을 선택해보세요"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    app:layout_constraintStart_toStartOf="@+id/rv_crewable_result_list"
+                    app:layout_constraintEnd_toEndOf="@+id/rv_crewable_result_list"
+                    app:layout_constraintTop_toTopOf="@+id/rv_crewable_result_list"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_crewable_result_list"
+                    />
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_crewable_chip_table_title"

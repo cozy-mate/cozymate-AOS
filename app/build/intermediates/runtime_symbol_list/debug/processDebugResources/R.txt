@@ -2662,6 +2662,8 @@ int drawable app_icon 0x7f070080
 int drawable app_icon_jpg 0x7f070081
 int drawable app_icon_png 0x7f070082
 int drawable app_icon_svg 0x7f070083
+int drawable app_icon_v2 0x7f07018c
+int drawable app_icon_v3 0x7f07018d
 int drawable avd_hide_password 0x7f070084
 int drawable avd_show_password 0x7f070085
 int drawable background 0x7f070086
@@ -3758,10 +3760,11 @@ int id til_onboarding_nickname 0x7f090338
 int id til_room_name 0x7f090339
 int id time 0x7f09033a
 int id title 0x7f09033b
+int id title1_onboarding3 0x7f0904a0
+int id title2_onboarding3 0x7f0904a1
 int id titleDividerNoCustom 0x7f09033c
 int id title_cozy_entering 0x7f09033d
 int id title_cozy_entering2 0x7f09033e
-int id title_onboarding3 0x7f09033f
 int id title_template 0x7f090340
 int id toggle 0x7f090341
 int id top 0x7f090342
@@ -3927,9 +3930,11 @@ int id tv_name2 0x7f0903e1
 int id tv_never 0x7f0903e2
 int id tv_nick 0x7f0903e3
 int id tv_nickname 0x7f0903e4
+int id tv_no_selection 0x7f0904a2
 int id tv_noise_check 0x7f0903e5
 int id tv_number 0x7f0903e6
-int id tv_onboarding2_title 0x7f0903e7
+int id tv_onboarding2_title1 0x7f0904a3
+int id tv_onboarding2_title2 0x7f0904a4
 int id tv_onboarding_title1 0x7f0903e8
 int id tv_onboarding_title2 0x7f0903e9
 int id tv_other_user_age 0x7f0903ea
@@ -4079,7 +4084,8 @@ int id tv_wakeup_7 0x7f090479
 int id tv_wakeup_8 0x7f09047a
 int id tv_wakeup_9 0x7f09047b
 int id tv_wakeup_time 0x7f09047c
-int id tv_whose_room 0x7f09047d
+int id tv_whose_room1 0x7f0904a5
+int id tv_whose_room2 0x7f0904a6
 int id tvil_major 0x7f09047e
 int id tvil_number 0x7f09047f
 int id unchecked 0x7f090480

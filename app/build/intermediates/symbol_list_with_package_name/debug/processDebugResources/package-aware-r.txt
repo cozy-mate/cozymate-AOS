@@ -2663,6 +2663,8 @@ drawable app_icon
 drawable app_icon_jpg
 drawable app_icon_png
 drawable app_icon_svg
+drawable app_icon_v2
+drawable app_icon_v3
 drawable avd_hide_password
 drawable avd_show_password
 drawable background
@@ -3759,10 +3761,11 @@ id til_onboarding_nickname
 id til_room_name
 id time
 id title
+id title1_onboarding3
+id title2_onboarding3
 id titleDividerNoCustom
 id title_cozy_entering
 id title_cozy_entering2
-id title_onboarding3
 id title_template
 id toggle
 id top
@@ -3928,9 +3931,11 @@ id tv_name2
 id tv_never
 id tv_nick
 id tv_nickname
+id tv_no_selection
 id tv_noise_check
 id tv_number
-id tv_onboarding2_title
+id tv_onboarding2_title1
+id tv_onboarding2_title2
 id tv_onboarding_title1
 id tv_onboarding_title2
 id tv_other_user_age
@@ -4080,7 +4085,8 @@ id tv_wakeup_7
 id tv_wakeup_8
 id tv_wakeup_9
 id tv_wakeup_time
-id tv_whose_room
+id tv_whose_room1
+id tv_whose_room2
 id tvil_major
 id tvil_number
 id unchecked
