@@ -17,7 +17,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/tv_list_basic_info_title"
@@ -44,7 +46,6 @@
                     android:id="@+id/tv_list_name_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="이름"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
@@ -59,7 +60,7 @@
                     android:layout_marginTop="15dp"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="#505059"
+                    android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_name_title"
                     app:layout_constraintStart_toEndOf="@+id/tv_list_name_title"
                     tools:text="빵파소" />
@@ -149,7 +150,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_birth_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_school_title" />
 
                 <TextView
                     android:id="@+id/tv_list_school_number_title"
@@ -202,7 +203,6 @@
                     android:text="학과"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_school_number_title" />
 
@@ -246,7 +246,6 @@
                     android:id="@+id/tv_list_dormitory_num_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="인실"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
@@ -322,7 +321,6 @@
                     android:id="@+id/tv_list_wake_up_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="기상시간"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
