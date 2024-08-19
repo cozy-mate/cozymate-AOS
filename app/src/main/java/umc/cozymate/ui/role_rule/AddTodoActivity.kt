@@ -1,13 +1,12 @@
 package umc.cozymate.ui.role_rule
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityAddTodoBinding
-import umc.cozymate.ui.MainActivity
 
+@AndroidEntryPoint
 class AddTodoActivity:AppCompatActivity() {
 
     lateinit var binding : ActivityAddTodoBinding

@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.model.entity.RuleInfo
 import umc.cozymate.databinding.RvItemRuleBinding
 
-class RuleRVAdapter(private var rule : ArrayList<Rule>) : RecyclerView.Adapter<RuleRVAdapter.ViewHolder>() {
+class RuleRVAdapter(private var rule : List<RuleInfo>) : RecyclerView.Adapter<RuleRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemRuleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
-            binding.tvRule.text = rule[pos].rule
-            binding.tvRuleNum.text = rule[pos].num.toString()
+            binding.tvRule.text = rule[pos].content
+            binding.tvRuleNum.text = rule[pos].id.toString()
             if(rule[pos].memo == ""){
                 binding.tvMemo.visibility = View.GONE
             }
