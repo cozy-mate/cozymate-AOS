@@ -68,9 +68,6 @@
             android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="true" />
 
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true" />
         <activity android:name=".ui.message.MessageActivity" />
         <activity android:name=".ui.role_rule.AddTodoActivity" />
 

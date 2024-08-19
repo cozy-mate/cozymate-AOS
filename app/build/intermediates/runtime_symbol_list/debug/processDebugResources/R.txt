@@ -2697,8 +2697,10 @@ int drawable btn_radio_on_to_off_mtrl_animation 0x7f0700a2
 int drawable btn_rectangle_12 0x7f0700a3
 int drawable btn_rectangle_26 0x7f0700a4
 int drawable btn_rectangle_39 0x7f0700a5
+int drawable btn_rectangle_8 0x7f070184
 int drawable btn_rectangle_80svg 0x7f0700a6
 int drawable btn_rectangle_81 0x7f0700a7
+int drawable btn_rectangle_cozyhome_state 0x7f070185
 int drawable btn_rectangle_next_state 0x7f0700a8
 int drawable btn_roommate_selection_info_plus 0x7f0700a9
 int drawable character_0 0x7f0700aa
@@ -2914,8 +2916,10 @@ int drawable notification_template_icon_bg 0x7f07017b
 int drawable notification_template_icon_low_bg 0x7f07017c
 int drawable notification_tile_bg 0x7f07017d
 int drawable notify_panel_notification_icon_bg 0x7f07017e
-int drawable ripple_disabled 0x7f07017f
-int drawable ripple_enabled 0x7f070180
+int drawable ripple_box_12dp 0x7f070186
+int drawable ripple_color_box_12dp 0x7f070187
+int drawable ripple_main_blue_12dp 0x7f070188
+int drawable ripple_unuse_btn_12dp 0x7f070189
 int drawable test_level_drawable 0x7f070181
 int drawable tooltip_frame_dark 0x7f070182
 int drawable tooltip_frame_light 0x7f070183
@@ -3041,6 +3045,7 @@ int id btn_apple_login 0x7f090071
 int id btn_back 0x7f090072
 int id btn_bell 0x7f090073
 int id btn_can_do 0x7f090074
+int id btn_cancel 0x7f0904a4
 int id btn_chat 0x7f090075
 int id btn_copy_invite_code 0x7f090076
 int id btn_crew 0x7f090077
@@ -3057,6 +3062,7 @@ int id btn_like 0x7f090083
 int id btn_message 0x7f090084
 int id btn_never 0x7f090085
 int id btn_next 0x7f090086
+int id btn_ok 0x7f0904a5
 int id btn_request_roommate 0x7f090087
 int id btn_roommate_invite 0x7f090088
 int id btn_rule 0x7f090089
@@ -3097,6 +3103,7 @@ int id chips5 0x7f0900ab
 int id chronometer 0x7f0900ac
 int id circle_center 0x7f0900ad
 int id cl_ac 0x7f0900ae
+int id cl_alert 0x7f0904a6
 int id cl_call 0x7f0900af
 int id cl_chips 0x7f0900b0
 int id cl_clean_check 0x7f0900b1
@@ -3792,6 +3799,10 @@ int id tv_Weekday 0x7f090364
 int id tv_ac_check 0x7f090365
 int id tv_achievement_content 0x7f090366
 int id tv_achievement_datetime 0x7f090367
+int id tv_alert 0x7f0904a7
+int id tv_alert_detail 0x7f0904a8
+int id tv_alert_name 0x7f0904a9
+int id tv_alert_nickname 0x7f0904aa
 int id tv_birth 0x7f090368
 int id tv_box 0x7f090369
 int id tv_call_check 0x7f09036a
@@ -3815,6 +3826,7 @@ int id tv_guide1 0x7f09037b
 int id tv_heater_check 0x7f09037c
 int id tv_home_name 0x7f09037d
 int id tv_home_people_num 0x7f09037e
+int id tv_isitroom 0x7f0904ab
 int id tv_label_birth 0x7f09037f
 int id tv_label_gender 0x7f090380
 int id tv_label_name 0x7f090381
@@ -3926,9 +3938,11 @@ int id tv_people_number 0x7f0903e9
 int id tv_personality 0x7f0903ea
 int id tv_please_invite_code 0x7f0903eb
 int id tv_please_select_roommate 0x7f0903ec
+int id tv_room_info 0x7f0904ac
 int id tv_roommate1 0x7f0903ed
 int id tv_roommate2 0x7f0903ee
 int id tv_roommate3 0x7f0903ef
+int id tv_roomname 0x7f0904ad
 int id tv_rule 0x7f0903f0
 int id tv_school_guide 0x7f0903f1
 int id tv_school_name 0x7f0903f2
@@ -4354,6 +4368,9 @@ int layout notification_template_media 0x7f0c009c
 int layout notification_template_media_custom 0x7f0c009d
 int layout notification_template_part_chronometer 0x7f0c009e
 int layout notification_template_part_time 0x7f0c009f
+int layout popup_invite_code_fail 0x7f0c00ae
+int layout popup_invite_code_success 0x7f0c00af
+int layout popup_server_error 0x7f0c00b0
 int layout roommate_detail_bottom_sheet 0x7f0c00a0
 int layout rv_item_message 0x7f0c00a1
 int layout rv_item_message_member 0x7f0c00a2
