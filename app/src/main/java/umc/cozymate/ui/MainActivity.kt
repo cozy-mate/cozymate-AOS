@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
     // [코지홈 비활성화] 로드
     fun loadDefaultFragment() {
-        homeViewModel.getRoomId()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeDefaultFragment())
@@ -89,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 
     // [코지홈 활성화] 로드
     fun loadActiveFragment() {
-        homeViewModel.getRoomId()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeActiveFragment())
