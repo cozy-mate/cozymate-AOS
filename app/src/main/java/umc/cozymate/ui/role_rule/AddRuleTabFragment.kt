@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import umc.cozymate.R
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.databinding.FragmentAddRuleTabBinding
+import umc.cozymate.ui.viewmodel.RuleViewModel
 
+@AndroidEntryPoint
 class AddRuleTabFragment: Fragment() {
+    private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRuleTabBinding
+    private val viewModel : RuleViewModel by viewModels()
+    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,14 +30,18 @@ class AddRuleTabFragment: Fragment() {
         setRuleinput()
         setMemo()
         binding.btnInputButton.setOnClickListener {
-            val rule = Rule(0,binding.etInputRule.text.toString(),binding.etInputMemo.text.toString())
-            val bundle = Bundle().apply {
-                putSerializable("RuleData", rule)
+            val ruleRequest = RuleRequest(binding.etInputRule.text.toString(),binding.etInputMemo.text.toString())
+            Log.d(TAG,"입력데이터 ${ruleRequest}")
+            viewModel.createResponse.observe(viewLifecycleOwner){response->
+                if(response.isSuccessful){
+                    Log.d(TAG, "연결 성공 ${ruleRequest}")
+                    viewModel.createRule(token, roomId = 1, ruleRequest)
+
+                }else{
+                    Log.d(TAG, "연결 실패")
+                }
             }
-            val ruleAndRole = RoleAndRuleTabFragment()
-            ruleAndRole.arguments = bundle
             (context as AddTodoActivity).finish()
-            //(context as AddTodoActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, RoleAndRuleTabFragment()).addToBackStack(null).commit()
         }
         return binding.root
     }
