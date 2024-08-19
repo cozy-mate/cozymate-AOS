@@ -9,14 +9,17 @@ import umc.cozymate.data.api.ChatService
 import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.api.RuleService
+import umc.cozymate.data.api.TodoService
 import umc.cozymate.data.repository.repository.ChatRepository
 import umc.cozymate.data.repository.repository.MemberRepository
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.data.repository.repository.RuleRepository
+import umc.cozymate.data.repository.repository.TodoRepository
 import umc.cozymate.data.repository.repositoryImpl.ChatRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.MemberRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.RoomRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.RuleRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.TodoRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -45,5 +48,11 @@ object RepositoryModule {
     fun providesRuleRepository(
         service: RuleService
     ): RuleRepository = RuleRepositoryImpl(service)
+
+    @ViewModelScoped
+    @Provides
+    fun providesTodoRepository(
+        todoService: TodoService
+    ): TodoRepository = TodoRepositoryImpl(todoService)
 
 }

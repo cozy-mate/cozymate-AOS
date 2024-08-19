@@ -36,7 +36,7 @@ class OnboardingSummaryFragment : Fragment() {
 
         getPreference()
 
-        binding.titleOnboarding3.text = "${nickname}님, \ncozymate에 오신걸 환영해요!"
+        binding.title1Onboarding3.text = "${nickname}님, "
         setCharacterImage(persona)
 
         val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)

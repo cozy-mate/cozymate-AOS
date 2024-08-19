@@ -169,8 +169,8 @@ class SplashActivity : AppCompatActivity() {
                 Log.d(TAG, "사용자 ID: $userId")
 
                 if (userId != null) {
-                    splashViewModel.setClientId(userId.toString())
-                    //splashViewModel.setClientId("1234567") // 안되면 더미로 넣기...
+                    // splashViewModel.setClientId(userId.toString())
+                    splashViewModel.setClientId("3333") // 안되면 더미로 넣기...
                     splashViewModel.setSocialType("KAKAO")
                     splashViewModel.signIn()
                 }

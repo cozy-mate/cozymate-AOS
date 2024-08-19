@@ -15,8 +15,7 @@ class AddTodoActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTodoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
+        binding.vpAddTodo.setUserInputEnabled(false);
         val VPAdapter =  AddTodoVPAdaper(supportFragmentManager, lifecycle)
         binding.vpAddTodo.adapter = VPAdapter
         TabLayoutMediator(binding.tbAddTodo, binding.vpAddTodo){

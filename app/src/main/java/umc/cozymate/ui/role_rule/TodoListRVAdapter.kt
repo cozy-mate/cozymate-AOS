@@ -1,20 +1,24 @@
 package umc.cozymate.ui.role_rule
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoListBinding
-import java.util.*
 
 
-class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
+class TodoListRVAdapter(
+    private val member:  Map<String, List<TodoMateData>>,
+    private val updateTodo: (TodoMateData) -> Unit
+) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
             binding.tvTodoMemberName.text = member.keys.elementAt(pos)
-            if(member.values.elementAt(pos).size == 0){
+            if(member.values.elementAt(pos).isEmpty()){
+                Log.d("MemberTodo","empty")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
             }
@@ -22,7 +26,7 @@ class TodoListRVAdapter(private val member: Map< String, ArrayList<TodoList>> ) 
                 binding.rvList.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 binding.rvList.apply {
-                    adapter = TodoRVAdapter(member.values.elementAt(pos))
+                    adapter = TodoRVAdapter(member.values.elementAt(pos),false, updateTodo)
                     layoutManager =  LinearLayoutManager(context)
                 }
             }
