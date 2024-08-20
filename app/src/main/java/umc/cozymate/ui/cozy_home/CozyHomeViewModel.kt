@@ -62,6 +62,8 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     fun fetchRoomIdIfNeeded() {
+        Log.d(TAG, "spf 방 아이디 : ${_roomId.value}")
+
         if (_roomId.value == null) {
             getRoomId()
         }
