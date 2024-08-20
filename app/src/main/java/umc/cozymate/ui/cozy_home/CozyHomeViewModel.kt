@@ -178,6 +178,15 @@ class CozyHomeViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body()!!.isSuccess) {
                         _roomLogResponse.value = response.body()!!
+
+                        // 데이터를 변환
+                        val achievementItems = response.body()!!.result.result.map { roomLog ->
+                            mapRoomLogResponseToItem(roomLog)
+                        }
+
+                        // UI 업데이트 (RecyclerView에 데이터 전달)
+                        _achievements.value = achievementItems
+
                         Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
                     } else {
                         Log.d(TAG, "룸로그 에러 메시지: ${response}")
@@ -197,7 +206,7 @@ class CozyHomeViewModel @Inject constructor(
         }
 
 
-        // Add dummy data
+        /*// Add dummy data
         val dummyAchievements = listOf(
             AchievementItem("Dummy 1", "07/30 10:00", AchievementItemType.PRAISE),
             AchievementItem("Dummy 2", "07/30 11:00", AchievementItemType.COMPLETE),
@@ -213,7 +222,7 @@ class CozyHomeViewModel @Inject constructor(
         )
         viewModelScope.launch {
             _achievements.value = dummyAchievements
-        }
+        }*/
     }
 
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
@@ -224,5 +233,13 @@ class CozyHomeViewModel @Inject constructor(
             Log.e(TAG, "Error parsing JSON: ${e.message}")
             null
         }
+    }
+
+    fun mapRoomLogResponseToItem(roomLog: RoomLogResponse.Result.Result): AchievementItem {
+        return AchievementItem(
+            content = roomLog.content,
+            datetime = roomLog.createdAt,
+            AchievementItemType.DEFAULT
+        )
     }
 }

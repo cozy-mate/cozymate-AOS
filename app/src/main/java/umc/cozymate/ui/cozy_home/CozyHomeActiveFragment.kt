@@ -136,14 +136,15 @@ class CozyHomeActiveFragment : Fragment() {
     }
 
     private fun initAchievmentList() {
-        val adapter = AchievementsAdapter(viewModel.achievements.value!!)
-        viewModel.loadAchievements()
-
+        val adapter = AchievementsAdapter(requireContext(), emptyList())
         binding.rvAcheivement.adapter = adapter
         binding.rvAcheivement.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.achievements.observe(viewLifecycleOwner) {
-            adapter.setItems(it)
+
+        viewModel.achievements.observe(viewLifecycleOwner) { items ->
+            adapter.setItems(items)
         }
+
+        viewModel.loadAchievements()
     }
 
     private fun initView() {
