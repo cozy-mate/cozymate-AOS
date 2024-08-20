@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +22,9 @@ class RoleAndRuleTabFragment: Fragment() {
     private var rules : List<RuleInfo> = emptyList()
     private var members = ArrayList<Member>()
     private val viewModel : RuleViewModel by viewModels()
-    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+    private var roomId : Int = 0
+    //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,6 +33,9 @@ class RoleAndRuleTabFragment: Fragment() {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         initListData()
         updateRecyclerview()
+
+        getPreference()
+        viewModel.getRule(roomId)
         viewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
             if (response == null){
                 return@Observer
@@ -37,7 +43,7 @@ class RoleAndRuleTabFragment: Fragment() {
             if(response.isSuccessful){
                 val ruleResponse = response.body()
                 ruleResponse?.let{
-                    rules = it.result.ruleList
+                    rules = it.result
                     Log.d(TAG, rules.toString())
                     updateRecyclerview()
                 }
@@ -48,11 +54,14 @@ class RoleAndRuleTabFragment: Fragment() {
                 binding.rvRules.visibility = View.GONE
             }
         })
-        viewModel.getRule(token,1)
+
 
         return binding.root
     }
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.getRule(roomId)
+    }
 
     private fun initListData() {
 //        rules.apply{
@@ -69,8 +78,13 @@ class RoleAndRuleTabFragment: Fragment() {
         }
     }
 
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+    }
 
     private fun updateRecyclerview(){
+        Log.d(TAG,"리사이클러뷰 왜 안생기냐 ${rules}")
         if (rules.size == 0) {
             binding.tvEmpty.visibility = View.VISIBLE
             binding.rvRules.visibility = View.GONE

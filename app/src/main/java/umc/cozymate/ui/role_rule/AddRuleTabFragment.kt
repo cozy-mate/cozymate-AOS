@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -20,7 +21,8 @@ class AddRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRuleTabBinding
     private val viewModel : RuleViewModel by viewModels()
-    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+    private var roomId : Int = 0
+    //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,18 +34,24 @@ class AddRuleTabFragment: Fragment() {
         binding.btnInputButton.setOnClickListener {
             val ruleRequest = RuleRequest(binding.etInputRule.text.toString(),binding.etInputMemo.text.toString())
             Log.d(TAG,"입력데이터 ${ruleRequest}")
+            getPreference()
+            viewModel.createRule(roomId, ruleRequest)
             viewModel.createResponse.observe(viewLifecycleOwner){response->
                 if(response.isSuccessful){
                     Log.d(TAG, "연결 성공 ${ruleRequest}")
-                    viewModel.createRule(token, roomId = 1, ruleRequest)
-
+                    //(requireActivity() as AddTodoActivity).refreshRoleAndRuleTabFragment()
                 }else{
                     Log.d(TAG, "연결 실패")
                 }
             }
-            (context as AddTodoActivity).finish()
+            (requireActivity() as AddTodoActivity).finish()
         }
         return binding.root
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
     }
 
     private fun setMemo() {
@@ -64,6 +72,7 @@ class AddRuleTabFragment: Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
     }
+
 
 }
 
