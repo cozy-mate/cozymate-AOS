@@ -12,6 +12,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
+import umc.cozymate.data.model.response.roomlog.RoomLogResponse
+import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_home.adapter.AchievementItem
 import umc.cozymate.ui.cozy_home.adapter.AchievementItemType
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CozyHomeViewModel @Inject constructor(
     private val repository: RoomRepository,
+    private val logRepository: RoomLogRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -42,6 +45,9 @@ class CozyHomeViewModel @Inject constructor(
 
     private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.Mate>> ()
     val mateList: LiveData<List<GetRoomInfoResponse.Result.Mate>> get() = _mateList
+
+    private val _roomLogResponse = MutableLiveData<RoomLogResponse>()
+    val roomLogResponse: LiveData<RoomLogResponse> get() = _roomLogResponse
 
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
@@ -163,6 +169,34 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     fun loadAchievements() {
+        val token = getToken()
+        val roomId = _roomId.value ?: getSavedRoomId()
+
+        viewModelScope.launch {
+            try {
+                val response = logRepository.getRoomLog(token!!, roomId!!, 0, 10)
+                if (response.isSuccessful) {
+                    if (response.body()!!.isSuccess) {
+                        _roomLogResponse.value = response.body()!!
+                        Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
+                    } else {
+                        Log.d(TAG, "룸로그 에러 메시지: ${response}")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
+            }
+        }
+
+
         // Add dummy data
         val dummyAchievements = listOf(
             AchievementItem("Dummy 1", "07/30 10:00", AchievementItemType.PRAISE),
