@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter(  private val todoItems: List<TodoMateData.TodoItem>,
+class TodoRVAdapter(private val todoItems: List<TodoMateData.TodoItem>,
                     private val isEditable: Boolean,
                     private val updateTodo: (TodoMateData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()

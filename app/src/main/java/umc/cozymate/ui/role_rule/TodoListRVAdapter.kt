@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.data.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoListBinding
 
 

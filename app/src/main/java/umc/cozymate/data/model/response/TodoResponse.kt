@@ -1,7 +1,7 @@
-package umc.cozymate.data.dto
+package umc.cozymate.data.model.response
 
 import com.google.gson.annotations.SerializedName
-import umc.cozymate.data.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoMateData
 
 
 data class TodoResponse(
