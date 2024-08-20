@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         homeViewModel.getRoomId()    //// 이 코드 추가 !!!!!
         // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
+        homeViewModel.getRoomId()
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 loadDefaultFragment()

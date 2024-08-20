@@ -1,4 +1,4 @@
-package umc.cozymate.data.entity
+package umc.cozymate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 

@@ -9,9 +9,9 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.dto.TodoResponse
 import umc.cozymate.data.model.request.TodoInfoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.TodoResponse
 
 interface TodoService {
     @GET("/todo/{roomId}")

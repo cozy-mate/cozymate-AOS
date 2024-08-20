@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.data.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
@@ -26,9 +26,9 @@ class TodoTabFragment: Fragment() {
     private val currentDate = LocalDate.now()
     private val viewModel: TodoViewModel by viewModels()
     private var mytodo : TodoMateData? = null
-    private var memberList : Map<String,TodoMateData> =  emptyMap()
-
-    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+    private var memberList : Map<String, TodoMateData> =  emptyMap()
+    private var roomId : Int = 0
+    private var nickname : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +36,9 @@ class TodoTabFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
-        updateDate()
-        //test()
-
+        updateInfo()
+        getPreference()
+        viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
                 binding.tvEmpty.visibility = View.VISIBLE
@@ -56,36 +56,30 @@ class TodoTabFragment: Fragment() {
                 Log.d(TAG, "response 응답 실패")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvMyTodoList.visibility = View.GONE
-                // Show error message
-                //showError("Error: ${response.code()} ${response.message()}")
             }
         })
-        viewModel.fetchTodo(token, 1, currentDate.toString())
-
 
         return binding.root
     }
-
-    //테스트용 더미데이터
-    private fun test() {
-        val dummy = TodoMateData(1,listOf(
-            TodoMateData.TodoItem(0,"test1",false),
-            TodoMateData.TodoItem(1,"test2",false),
-            TodoMateData.TodoItem(0,"test3",true)
-        ))
-        val dummyMember = mapOf(
-            "member1" to TodoMateData(1,listOf(
-                TodoMateData.TodoItem(0,"test1",false),
-                TodoMateData.TodoItem(1,"test2",false),
-                TodoMateData.TodoItem(0,"test3",true)
-            )))
-
-        //updateRecyclerView(dummy, dummyMember)
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTodo(roomId, currentDate.toString())
     }
 
-    private fun updateDate(){
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+        nickname =  spf.getString("user_nickname", "No user found").toString()
+        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+    }
+
+    private fun updateInfo(){
+        // 날짜
         val formatter = DateTimeFormatter.ofPattern("M/dd(EEE), ", Locale.KOREA)
         binding.tvTodoDate.text = currentDate.format(formatter)
+
+        // 이름
+        binding.tvTodoName.text = nickname
     }
     private fun updateRecyclerView(mytodoList: TodoMateData, memberList: Map<String, TodoMateData>){
         // 내 할일
@@ -99,7 +93,7 @@ class TodoTabFragment: Fragment() {
 
             val myTodoRVAdapter = TodoRVAdapter(mytodoList.mateTodoList, true) { todoItem ->
                 val request = UpdateTodoRequest(todoItem.id, todoItem.completed)
-                viewModel.updateTodo( token, request )
+                viewModel.updateTodo( request )
             }
             binding.rvMyTodoList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodoList.adapter = myTodoRVAdapter

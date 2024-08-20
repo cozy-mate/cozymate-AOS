@@ -3,9 +3,9 @@ package umc.cozymate.data.repository.repositoryImpl
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.TodoService
-import umc.cozymate.data.dto.TodoResponse
 import umc.cozymate.data.model.request.TodoInfoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
 import javax.inject.Inject
 

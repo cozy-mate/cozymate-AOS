@@ -65,7 +65,6 @@ class RuleViewModel @Inject constructor(
         viewModelScope.launch {
             try{
                 val response  = repository.getRule(token!!, roomId)
-                Log.d(TAG, "응답 확인: ${response.body()!!.result}")
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     _getResponse.postValue(response)
