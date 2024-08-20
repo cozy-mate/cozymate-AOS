@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         initScreen()
 
         // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
+        homeViewModel.getRoomId()
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId != 0) {
                 loadActiveFragment()
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Check and fetch RoomId if needed
-        homeViewModel.fetchRoomIdIfNeeded()
+        //homeViewModel.fetchRoomIdIfNeeded()
 
         // 앱 초기 실행 시 홈화면으로 설정
 //        if (savedInstanceState == null) {

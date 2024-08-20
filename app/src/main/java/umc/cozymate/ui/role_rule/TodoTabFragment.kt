@@ -37,7 +37,6 @@ class TodoTabFragment: Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         updateInfo()
-        //updateRecyclerView(mytodo!!, memberList)
         getPreference()
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->

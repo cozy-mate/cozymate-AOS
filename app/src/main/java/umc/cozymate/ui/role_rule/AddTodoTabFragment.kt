@@ -23,7 +23,7 @@ class AddTodoTabFragment: Fragment(){
     lateinit var binding: FragmentAddTodoTabBinding
     private var selectedDate: String? = null
     private var roomId : Int = 0
-    //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

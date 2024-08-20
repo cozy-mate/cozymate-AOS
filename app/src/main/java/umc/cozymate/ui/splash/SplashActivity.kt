@@ -169,7 +169,7 @@ class SplashActivity : AppCompatActivity() {
                 Log.d(TAG, "사용자 ID: $userId")
 
                 if (userId != null) {
-                    // splashViewModel.setClientId(userId.toString())
+                    splashViewModel.setClientId(userId.toString())
                     splashViewModel.setSocialType("KAKAO")
                     splashViewModel.signIn()
                 }
