@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
@@ -36,6 +37,9 @@ class SplashViewModel @Inject constructor(
 
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
+
+    private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
+    val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
 
     private val _isMember = MutableLiveData<Boolean>(false)
     val isMember: LiveData<Boolean> get() = _isMember
@@ -62,6 +66,15 @@ class SplashViewModel @Inject constructor(
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
         sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
         sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
+    }
+
+    fun saveUserInfo() {
+        Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
+        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
+        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).apply()
+        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).apply()
+        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).apply()
+        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).apply()
     }
 
     fun signIn() {
@@ -130,7 +143,9 @@ class SplashViewModel @Inject constructor(
                         Log.d(TAG, "사용자 정보 조회 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
                             Log.d(TAG, "사용자 정보 조회 성공: ${response.body()!!.result}")
+                            _memberInfo.value = response.body()!!.result
                             _isMember.value = true
+                            saveUserInfo()
                         }
                     } else {
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
