@@ -42,12 +42,11 @@ class AddTodoTabFragment: Fragment(){
                     if (response.isSuccessful) {
                         Log.d(TAG,"연결 성공 ${todoRequest}")
                         viewModel.createTodo(token, roomId, todoRequest)
-                        (context as AddTodoActivity).finish()
                     } else {
                         Log.d(TAG,"연결 실패")
                     }
                 }
-                (context as AddTodoActivity).finish()
+                (requireActivity() as AddTodoActivity).finish()
             }
             }
         return binding.root
