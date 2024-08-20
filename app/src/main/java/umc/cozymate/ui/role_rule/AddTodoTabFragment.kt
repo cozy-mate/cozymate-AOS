@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -21,7 +22,8 @@ class AddTodoTabFragment: Fragment(){
     private val viewModel: TodoViewModel by viewModels()
     lateinit var binding: FragmentAddTodoTabBinding
     private var selectedDate: String? = null
-    private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
+    private var roomId : Int = 0
+    //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +31,7 @@ class AddTodoTabFragment: Fragment(){
     ): View? {
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         setTodoinput()
+        getPreference()
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
             if (content.isNotEmpty() && selectedDate != null) {
@@ -37,21 +40,24 @@ class AddTodoTabFragment: Fragment(){
                     timePoint = selectedDate!!
                 )
                 Log.d(TAG,"입력 데이터 ${todoRequest}")
-                val roomId = 1 // 실제로는 해당 값을 적절히 설정해야 합니다.
+                viewModel.createTodo(roomId, todoRequest)
                 viewModel.createResponse.observe(viewLifecycleOwner) { response ->
                     if (response.isSuccessful) {
                         Log.d(TAG,"연결 성공 ${todoRequest}")
-                        viewModel.createTodo(token, roomId, todoRequest)
-                        (context as AddTodoActivity).finish()
                     } else {
                         Log.d(TAG,"연결 실패")
                     }
                 }
-                (context as AddTodoActivity).finish()
+                (requireActivity() as AddTodoActivity).finish()
             }
             }
         return binding.root
     }
+        private fun getPreference() {
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            roomId = spf.getInt("room_id", 0)
+        }
+
         private fun setTodoinput() {
             val maxLength = 20 // 최대 글자수 설정
             binding.etInputTodo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
