@@ -2,7 +2,6 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RuleService
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.data.model.response.RuleResponse
@@ -25,7 +24,7 @@ class RuleRepositoryImpl @Inject constructor(
     override suspend fun getRule(
         accessToken: String,
         roomId: Int
-    ): Response<ResponseBody<RuleResponse>> {
+    ): Response<RuleResponse> {
         return api.getRule(accessToken, roomId)
     }
 

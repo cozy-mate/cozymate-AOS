@@ -10,7 +10,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.data.model.response.RuleResponse
 
@@ -26,7 +25,7 @@ interface RuleService {
     suspend fun getRule(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): Response<ResponseBody<RuleResponse>>
+    ): Response<RuleResponse>
 
     @DELETE("/rule/{roomId}")
     suspend fun deleteRule(
