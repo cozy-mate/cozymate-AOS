@@ -29,7 +29,6 @@ class TodoTabFragment: Fragment() {
     private var memberList : Map<String, TodoMateData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
-    //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +37,7 @@ class TodoTabFragment: Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         updateInfo()
-        updateRecyclerView(mytodo!!, memberList)
-        //test()
+        //updateRecyclerView(mytodo!!, memberList)
         getPreference()
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
@@ -74,24 +72,6 @@ class TodoTabFragment: Fragment() {
         roomId = spf.getInt("room_id", 0)
         nickname =  spf.getString("user_nickname", "No user found").toString()
         Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
-    }
-
-    //테스트용 더미데이터
-    private fun test() {
-        val dummy = TodoMateData(1,listOf(
-            TodoMateData.TodoItem(0,"test1",false),
-            TodoMateData.TodoItem(1,"test2",false),
-            TodoMateData.TodoItem(0,"test3",true)
-        ))
-        val dummyMember = mapOf(
-            "member1" to TodoMateData(1,listOf(
-                TodoMateData.TodoItem(0,"test1",false),
-                TodoMateData.TodoItem(1,"test2",false),
-                TodoMateData.TodoItem(0,"test3",true)
-            ))
-        )
-
-        //updateRecyclerView(dummy, dummyMember)
     }
 
     private fun updateInfo(){
