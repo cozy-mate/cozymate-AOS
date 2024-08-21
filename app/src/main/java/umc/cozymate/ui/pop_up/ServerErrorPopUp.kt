@@ -15,6 +15,21 @@ class ServerErrorPopUp : DialogFragment() {
     private var _binding: PopupServerErrorBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        private const val ARG_ERROR_CODE = "error_code"
+        private const val ARG_ERROR_MESSAGE = "error_message"
+
+        fun newInstance(errorCode: String, errorMessage: String): ServerErrorPopUp {
+            val args = Bundle().apply {
+                putString(ARG_ERROR_CODE, errorCode)
+                putString(ARG_ERROR_MESSAGE, errorMessage)
+            }
+            return ServerErrorPopUp().apply {
+                arguments = args
+            }
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = PopupServerErrorBinding.inflate(layoutInflater)
 
@@ -38,6 +53,12 @@ class ServerErrorPopUp : DialogFragment() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.attributes = layoutParams
         }
+
+        // 에러 코드와 메시지 설정
+        val errorCode = arguments?.getString(ARG_ERROR_CODE)
+        val errorMessage = arguments?.getString(ARG_ERROR_MESSAGE)
+        binding.tvAlertCode.text = "[ $errorCode ]"
+        binding.tvAlertMessage.text = errorMessage
 
         return dialog
     }
