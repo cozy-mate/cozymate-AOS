@@ -35,33 +35,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_medium"
-        android:text="&quot;룸메이트와 함께 만드는 우리의 편안한 공간&quot;"
+        android:text="&quot;나와 꼭 맞는 룸메이트와 함께 만드는\n우리만의 편안한 공간&quot;"
         android:textColor="@color/basic_font"
+        android:gravity="center"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_cozy_title" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_kakao_login"
-        android:layout_width="300dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="550dp"
-        android:background="@drawable/ic_login_kakao"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="57dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_kakao_login"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:background="@drawable/ic_login_kakao"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_apple_login"
-        android:layout_width="300dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/ic_login_apple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_kakao_login" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_apple_login"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_login_apple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_kakao_login" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
