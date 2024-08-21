@@ -28,12 +28,33 @@
                 android:id="@+id/tv_alert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="서버 오류 : [errorcode]"
+                android:text="서버 오류 : "
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_alert_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[errorcode]"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_alert"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_alert_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오루메시지입니다"
+                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                android:textColor="@color/color_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_alert" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

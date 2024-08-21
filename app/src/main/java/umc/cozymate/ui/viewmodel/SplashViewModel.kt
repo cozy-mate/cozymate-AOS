@@ -26,6 +26,12 @@ class SplashViewModel @Inject constructor(
 
     private val TAG = this.javaClass.simpleName
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _requestFail = MutableLiveData<Boolean>()
+    val requestFail: LiveData<Boolean> get() = _requestFail
+
     private val _clientId = MutableLiveData<String>()
     val clientId: LiveData<String> get() = _clientId
 
@@ -81,6 +87,7 @@ class SplashViewModel @Inject constructor(
         val clientIdValue = _clientId.value
         val socialTypeValue = _socialType.value
 
+        _loading.value = true // 로딩 시작
         if (clientIdValue != null && socialTypeValue != null) {
             viewModelScope.launch {
                 try {
@@ -102,6 +109,8 @@ class SplashViewModel @Inject constructor(
                     _signInResponse.value = response
                 } catch (e: Exception) {
                     Log.d(TAG, "로그인 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
                 }
             }
         }
@@ -109,6 +118,9 @@ class SplashViewModel @Inject constructor(
 
     fun reissue() {
         val refreshToken = "Bearer " + _tokenInfo.value!!.refreshToken
+
+        _loading.value = true // 로딩 시작
+        _requestFail.value = false
 
         if (refreshToken != null) {
             viewModelScope.launch {
@@ -126,7 +138,10 @@ class SplashViewModel @Inject constructor(
                         Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
+                    _requestFail.value = true
                     Log.d(TAG, "토큰 재발행 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
                 }
             }
         }
@@ -135,6 +150,7 @@ class SplashViewModel @Inject constructor(
     fun memberCheck() {
         val accessToken = "Bearer " + _tokenInfo.value!!.accessToken
 
+        _loading.value = true // 로딩 시작
         if (accessToken != null) {
             viewModelScope.launch {
                 try {
@@ -152,6 +168,8 @@ class SplashViewModel @Inject constructor(
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "사용자 정보 조회 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
                 }
             }
         }

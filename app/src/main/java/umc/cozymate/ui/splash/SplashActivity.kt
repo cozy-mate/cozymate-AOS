@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.DialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
@@ -19,6 +20,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
+import umc.cozymate.ui.pop_up.LoadingPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
 // 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
@@ -31,6 +33,8 @@ class SplashActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: ActivitySplashBinding
     private val splashViewModel: SplashViewModel by viewModels()
+
+    private lateinit var popup: DialogFragment
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -57,6 +61,9 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
 
+        observeSignInResponse()
+        observeLoading()
+
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
 
@@ -65,11 +72,18 @@ class SplashActivity : AppCompatActivity() {
             openKakaoLoginPage()
             getUserId()
         }
-
-        observeViewModel()
     }
 
-    private fun observeViewModel() {
+    private fun observeLoading() {
+        splashViewModel.loading.observe(this) { isLoading ->
+            if (isLoading) {
+                popup = LoadingPopUp()
+                popup.show(supportFragmentManager, "팝업")
+            }
+        }
+    }
+
+    private fun observeSignInResponse() {
         // signInResponse 관찰 >> cozymate 로그인 api 성공 >> cozymate 멤버인지 체크
         splashViewModel.signInResponse.observe(this) { result ->
             if (result.isSuccessful) {
