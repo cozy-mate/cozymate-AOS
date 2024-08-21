@@ -39,8 +39,8 @@ class RoleAndRuleTabFragment: Fragment() {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
-        viewModel.getRule(roomId)
-        viewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
+        ruleViewModel.getRule(roomId)
+        ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
 
             if (response == null){
                 return@Observer

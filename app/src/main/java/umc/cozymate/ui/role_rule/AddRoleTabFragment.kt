@@ -66,9 +66,10 @@ class AddRoleTabFragment: Fragment() {
 
     private fun test() {
         mateList = listOf(
-            GetRoomInfoResponse.Result.Mate(memberId = 61, nickname = "용용1"),
-            GetRoomInfoResponse.Result.Mate(memberId = 62, nickname = "용용2"),
-            GetRoomInfoResponse.Result.Mate(memberId = 72, nickname = "신기해"))
+            GetRoomInfoResponse.Result.Mate(26,  "용용1", 61),
+            GetRoomInfoResponse.Result.Mate(27,  "용용2", 62),
+            GetRoomInfoResponse.Result.Mate(28,  "신기해", 72),
+            GetRoomInfoResponse.Result.Mate(35,  "두디", 75))
     }
 
     private fun initWeekdays() {
