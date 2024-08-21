@@ -11,8 +11,6 @@ import javax.inject.Inject
 class RuleRepositoryImpl @Inject constructor(
     private val api : RuleService
 ) : RuleRepository {
-
-
     override suspend fun createRule(
         accessToken: String,
         roomId: Int,

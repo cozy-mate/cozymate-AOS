@@ -1,7 +1,6 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -13,36 +12,64 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.request.RoleRequest
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
-import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.viewmodel.RoleViewModel
 
-
+@AndroidEntryPoint
 class AddRoleTabFragment: Fragment() {
     lateinit var binding: FragmentAddRoleTabBinding
-    private val members = arrayListOf( "증식시켜봅시다","제이","더기","델로")
+    private val TAG = this.javaClass.simpleName
+    private var mateList :  List<GetRoomInfoResponse.Result.Mate> = emptyList()
     private val week = arrayListOf("월","화","수","목","금","토","일")
-    private val weekday =Array(7) { false }
+    private val repeatDayList =mutableListOf<String>()
+    private val selectedMateIds = mutableListOf<Int>()
     private val memberBox = mutableListOf<CheckBox>()
     private val weekdayBox = mutableListOf<CheckBox>()
+    private var roomId : Int = 0
+    private val viewModel: RoleViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
+        getPreference()
+        test()
         initMember()
         initWeekdays()
         initClickListener()
         setTextinput()
         checkInput()
 
+        binding.btnInputButton.setOnClickListener {
+            val request = RoleRequest(selectedMateIds, binding.etInputRole.text.toString(),repeatDayList)
+            Log.d(TAG,"Role 입력 데이터 ${request}")
+            viewModel.createRole(roomId, request)
+            viewModel.createResponse.observe(viewLifecycleOwner){response->
+                if (response.isSuccessful) {
+                    Log.d(TAG,"연결 성공 ${request}")
+                } else {
+                    Log.d(TAG,"연결 실패")
+                }
+            }
+            (requireActivity() as AddTodoActivity).finish()
+        }
         return binding.root
+    }
+
+    private fun test() {
+        mateList = listOf(
+            GetRoomInfoResponse.Result.Mate(26,  "용용1", 61),
+            GetRoomInfoResponse.Result.Mate(27,  "용용2", 62),
+            GetRoomInfoResponse.Result.Mate(28,  "신기해", 72),
+            GetRoomInfoResponse.Result.Mate(35,  "두디", 75))
     }
 
     private fun initWeekdays() {
@@ -60,8 +87,11 @@ class AddRoleTabFragment: Fragment() {
                     updateCheckBoxColor(this, this.isChecked)
                     checkAllCheckboxes() // 모든 체크박스 체크 상태 확인
                     checkInput()
-                    if(this.isChecked) weekday[index] = false
-                    else weekday[index] = true
+                    if (this.isChecked) {
+                        repeatDayList.add(week[index]) // 체크되면 요일 문자열 추가
+                    } else {
+                        repeatDayList.remove(week[index]) // 체크 해제되면 요일 문자열 제거
+                    }
                 }
                 this.layoutParams = layoutParams
             }
@@ -73,9 +103,9 @@ class AddRoleTabFragment: Fragment() {
         val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
         layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
         layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
-        for (name in members) {
+        for (mate in mateList) {
             val checkBox = CheckBox(context).apply {
-                text = name
+                text = mate.nickname
                 setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
                 setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
                 setBackgroundResource(R.drawable.ic_input_role_member)
@@ -84,6 +114,11 @@ class AddRoleTabFragment: Fragment() {
                 buttonDrawable = null
                 setOnClickListener {
                     updateCheckBoxColor(this,this.isChecked)
+                    if (this.isChecked) {
+                        selectedMateIds.add(mate.memberId) // 체크되면 mateId를 추가
+                    } else {
+                        selectedMateIds.remove(mate.memberId) // 체크 해제되면 mateId를 제거
+                    }
                     checkInput()
                 }
                 this.layoutParams = layoutParams
@@ -100,28 +135,26 @@ class AddRoleTabFragment: Fragment() {
         val titleFlag = !binding.etInputRole.text.isNullOrEmpty()
         binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag)
     }
+
     private fun initClickListener(){
-        // 입력버튼
-        binding.btnInputButton.setOnClickListener {
-            val role = Role(binding.etInputRole.text.toString(),weekday)
-            val bundle = Bundle().apply {
-                putSerializable("RoleData", role)
-            }
-            val ruleAndRole = RoleAndRuleTabFragment()
-            ruleAndRole.arguments = bundle
-            (context as AddTodoActivity).finish()
-            //(context as AddTodoActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, RoleAndRuleTabFragment()).addToBackStack(null).commit()
-        }
 
         // 메일 체크박스 체크 여부 확인
-        binding.cbEveryday.setOnCheckedChangeListener { _, isChecked ->
+        binding.cbEveryday.setOnClickListener{
+            val isChecked =  binding.cbEveryday.isChecked
             weekdayBox.forEach {  checkBox ->
                 checkBox.isChecked = isChecked // 모든 체크박스 체크 상태 변경
                 updateCheckBoxColor(checkBox, isChecked)
             }
+            repeatDayList.clear()
+            if(isChecked) repeatDayList.addAll(week)
             checkInput()
-            weekday.all { true }
         }
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+
     }
 
     // 텍스트 입력 설정

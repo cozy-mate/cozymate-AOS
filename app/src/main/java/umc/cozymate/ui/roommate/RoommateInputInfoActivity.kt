@@ -13,7 +13,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.R
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
@@ -21,6 +20,7 @@ import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.ui.viewmodel.TodoViewModel
 
 @AndroidEntryPoint
 class RoommateInputInfoActivity : AppCompatActivity() {
@@ -36,6 +36,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
     //    private lateinit var viewModel: ViewModel
     private val viewModel: RoommateViewModel by viewModels()
+    private val todoViewModel: TodoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,8 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
         spfHelper = UserInfoSPFHelper(this)
 
-        val _accessToken = getString(R.string.access_token_1)
+//        val _accessToken = getString(R.string.access_token_1)
+        val _accessToken = todoViewModel.getToken()
         val accessToken = "Bearer $_accessToken"
 
         btnNext.setOnClickListener {

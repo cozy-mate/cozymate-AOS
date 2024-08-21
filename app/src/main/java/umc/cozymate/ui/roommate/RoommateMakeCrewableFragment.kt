@@ -16,6 +16,7 @@ import umc.cozymate.databinding.FragmentRoommateMakeCrewableBinding
 import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoListRVA
 import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoTableRVA
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.ui.viewmodel.TodoViewModel
 
 //@AndroidEntryPoint
 //class RoommateMakeCrewableFragment : Fragment() {
@@ -152,6 +153,7 @@ class RoommateMakeCrewableFragment : Fragment() {
     private var _binding: FragmentRoommateMakeCrewableBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoommateViewModel by viewModels()
+    private val todoViewModel: TodoViewModel by viewModels()
     private lateinit var roommateMakeCrewableInfoListRVA: RoommateMakeCrewableInfoListRVA
     private lateinit var roommateMakeCrewableInfoTableRVA: RoommateMakeCrewableInfoTableRVA
 
@@ -204,7 +206,8 @@ class RoommateMakeCrewableFragment : Fragment() {
         }
 
         // 액세스 토큰을 가져와 API 호출 (필터 적용되지 않은 데이터 먼저 가져오기)
-        val _accessToken = getString(R.string.access_token_1)
+//        val _accessToken = getString(R.string.access_token_1)
+        val _accessToken = todoViewModel.getToken()
         val accessToken = "Bearer $_accessToken"
         viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
 

@@ -50,6 +50,7 @@ drawable background_splash
 drawable background_stroke_12
 drawable background_todo
 drawable background_todo_tab
+drawable baseline_arrow_right
 drawable btn_rectangle_12
 drawable btn_rectangle_26
 drawable btn_rectangle_39
@@ -90,6 +91,7 @@ drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
+drawable custom_roommate_onboarding_background
 drawable custom_select_chip_background
 drawable custom_select_chip_default
 drawable custom_select_chip_selected
@@ -456,6 +458,7 @@ id personality_shame
 id personality_tmt
 id radio_female
 id radio_male
+id right_arrow
 id rv_List
 id rv_MemberRole
 id rv_MemberTodo

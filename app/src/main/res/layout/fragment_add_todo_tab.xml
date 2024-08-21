@@ -13,7 +13,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="60dp">
 
             <TextView
                 android:id="@+id/tv_AddTodoText1"
@@ -50,13 +51,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_InputTodo" />
 
-            <!--    <ImageView-->
-            <!--        android:layout_width="match_parent"-->
-            <!--        android:layout_height="400dp"-->
-            <!--        android:src="@drawable/ic_button"-->
-            <!--        app:layout_constraintStart_toStartOf="parent"-->
-            <!--        app:layout_constraintTop_toBottomOf="@id/tv_AddTodoText2"/>-->
-
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="match_parent"
@@ -70,19 +64,18 @@
                 app:mcv_showOtherDates="all"
                 app:mcv_weekDayTextAppearance="@style/TextAppearance.App.14sp.SemiBold" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_InputButton"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_button"
-                android:enabled="false"
-                android:text="확인"
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                android:textColor="#ffffff"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/calendar_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_InputButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_button"
+        android:enabled="false"
+        android:text="확인"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
