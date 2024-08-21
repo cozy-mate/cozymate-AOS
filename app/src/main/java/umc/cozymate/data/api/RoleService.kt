@@ -14,7 +14,7 @@ import umc.cozymate.data.model.response.RoleResponse
 
 interface RoleService {
     @POST("/role/{roomId}")
-    suspend fun createRule(
+    suspend fun createRole(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
         @Body request : RoleRequest

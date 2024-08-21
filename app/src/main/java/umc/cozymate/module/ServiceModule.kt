@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import umc.cozymate.data.api.ChatService
 import umc.cozymate.data.api.MemberService
+import umc.cozymate.data.api.RoleService
 import umc.cozymate.data.api.RoomLogService
 import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.api.RoommateService
@@ -55,6 +56,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideRuleApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): RuleService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoleApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): RoleService {
         return retrofit.buildService()
     }
 

@@ -11,14 +11,12 @@ import javax.inject.Inject
 class RoleRepositoryImpl @Inject constructor(
     private val api : RoleService
 ) : RoleRepository {
-
-
     override suspend fun createRole(
         accessToken: String,
         roomId: Int,
         request: RoleRequest
     ): Response<DefaultResponse> {
-        return api.createRule(accessToken, roomId, request)
+        return api.createRole(accessToken, roomId, request)
     }
 
     override suspend fun getRole(
