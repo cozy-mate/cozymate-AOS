@@ -1,28 +1,29 @@
 package umc.cozymate.ui.role_rule
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.model.entity.RoleData.RoleItem
 import umc.cozymate.databinding.RvItemRoleBinding
-import java.util.ArrayList
 
-class RoleRVAdapter( private val roles: ArrayList<Role>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
+class RoleRVAdapter( private val roles: List<RoleItem>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
     inner class ViewHolder(val binding: RvItemRoleBinding):  RecyclerView.ViewHolder(binding.root){
         fun bind(pos : Int){
-            binding.tvItem.text  = roles[pos].title
+            binding.tvItem.text  = roles[pos].content
             val string = StringBuilder()
             var days = 0
-            val week = arrayListOf("월","화","수","목","금","토","일")
-            for (index in roles[pos].weekday.indices) { // 인덱스를 사용하여 반복
-                if (roles[pos].weekday[index]) { // 현재 인덱스의 값이 true일 경우
+            //val week = arrayListOf("월","화","수","목","금","토","일")
+            if(roles[pos].allDays){
+                binding.tvWeekday.text  = "매일"
+            }
+            else{
+                for (day in roles[pos].repeatDayList){
                     if(days != 0) string.append(", ")
-                    string.append(week[index]) // 해당 인덱스의 요일을 추가
+                    string.append(day)
                     days ++
                 }
+                binding.tvWeekday.text = string.toString()
             }
-            if(days == 7) binding.tvWeekday.text  = "매일"
-            else binding.tvWeekday.text = string.toString()
         }
     }
 
