@@ -10,11 +10,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.DialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -34,8 +31,6 @@ class SplashActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashBinding
     private val splashViewModel: SplashViewModel by viewModels()
 
-    private lateinit var popup: DialogFragment
-
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e(TAG, "카카오계정으로 로그인 실패", error)
@@ -46,6 +41,8 @@ class SplashActivity : AppCompatActivity() {
             Log.d(TAG, "accessToken: ${token.accessToken}")
             Log.d(TAG, "idToken: ${token.idToken}")
             Toast.makeText(this@SplashActivity, "카카오계정으로 로그인 성공", Toast.LENGTH_SHORT).show()
+            // 로그인 후 사용자 정보를 가져옴
+            getUserId()
         }
     }
 
@@ -70,7 +67,6 @@ class SplashActivity : AppCompatActivity() {
         // 로그인 버튼 클릭 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
-            getUserId()
         }
     }
 
@@ -125,31 +121,29 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goCozyHome() {
-        binding.progressBar.visibility = View.GONE
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun goOnboarding() {
-        binding.progressBar.visibility = View.GONE
         val intent = Intent(this, OnboardingActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 온보딩 백스택에 추가 안함
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 온보딩 백스택에 추가 안함
         startActivity(intent)
         finish()
     }
 
     private fun goLoginFail() {
         val intent = Intent(this, LoginFailActivity::class.java)
-        //val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun openKakaoLoginPage() {
-        // 카카오톡 또는 카카오 계정으로 로그인 시도
+        // 카카오톡 또는 카카오 계정으로 로그인 시도 >>> 데모 시에는 카카오 계정으로 로그인
         try {
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SplashActivity)) {
+            /*if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SplashActivity)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     if (error != null) {
                         Log.e(TAG, "카카오톡으로 로그인 실패", error)
@@ -173,13 +167,14 @@ class SplashActivity : AppCompatActivity() {
                     }
 
                 }
-            } else {
-                // 카카오 계정으로 로그인
-                UserApiClient.instance.loginWithKakaoAccount(
-                    this@SplashActivity,
-                    callback = callback
-                )
-            }
+            } else*/
+
+            // 카카오 계정으로 로그인
+            UserApiClient.instance.loginWithKakaoAccount(
+                this@SplashActivity,
+                callback = callback
+            )
+
         } catch (e: Exception) {
             Log.e(TAG, "${e.message}")
             Toast.makeText(this@SplashActivity, "로그인 실패 ${e.message}", Toast.LENGTH_SHORT).show()
