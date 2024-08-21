@@ -162,12 +162,16 @@ class SplashViewModel @Inject constructor(
                             _memberInfo.value = response.body()!!.result
                             _isMember.value = true
                             saveUserInfo()
+                        } else {
+                            _isMember.value = false
                         }
                     } else {
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
+                        _isMember.value = false
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "사용자 정보 조회 api 요청 실패: ${e}")
+                    _isMember.value = false
                 } finally {
                     _loading.value = false
                 }

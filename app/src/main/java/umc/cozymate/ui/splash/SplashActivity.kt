@@ -3,6 +3,7 @@ package umc.cozymate.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -20,7 +21,6 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
-import umc.cozymate.ui.pop_up.LoadingPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
 // 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
@@ -77,8 +77,18 @@ class SplashActivity : AppCompatActivity() {
     private fun observeLoading() {
         splashViewModel.loading.observe(this) { isLoading ->
             if (isLoading) {
-                popup = LoadingPopUp()
-                popup.show(supportFragmentManager, "팝업")
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
+                splashViewModel.isMember.observe(this) { isMember ->
+                    if (isMember) {
+                        goCozyHome()
+                    } else {
+                        goOnboarding()
+                    }
+                    finish()
+                }
             }
         }
     }
@@ -90,17 +100,18 @@ class SplashActivity : AppCompatActivity() {
                 if (result.body()!!.isSuccess) {
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "로그인 성공: ${result.body()!!.result}")
-
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
 
                         splashViewModel.memberCheck()
-                        splashViewModel.isMember.observe(this) { isMember ->
+                        /*splashViewModel.isMember.observe(this) { isMember ->
                             if (isMember) goCozyHome()
                             else goOnboarding()
-                        }
+                            finish()
+                        }*/
                     } catch (e: Exception) {
+                        goLoginFail()
                         Log.d(TAG, "토큰 저장 실패: $e")
                     }
                 } else {
@@ -114,13 +125,16 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goCozyHome() {
+        binding.progressBar.visibility = View.GONE
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun goOnboarding() {
+        binding.progressBar.visibility = View.GONE
         val intent = Intent(this, OnboardingActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 온보딩 백스택에 추가 안함
         startActivity(intent)
         finish()
     }
