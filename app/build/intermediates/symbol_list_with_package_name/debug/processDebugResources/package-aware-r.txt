@@ -2689,6 +2689,7 @@ drawable background_splash
 drawable background_stroke_12
 drawable background_todo
 drawable background_todo_tab
+drawable baseline_arrow_right
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -2756,6 +2757,7 @@ drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
+drawable custom_roommate_onboarding_background
 drawable custom_select_chip_background
 drawable custom_select_chip_default
 drawable custom_select_chip_selected
@@ -3599,6 +3601,7 @@ id report_drawn
 id reverseSawtooth
 id right
 id rightToLeft
+id right_arrow
 id right_icon
 id right_side
 id rounded
