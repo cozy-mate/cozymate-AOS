@@ -36,8 +36,8 @@ class TodoTabFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
-        updateInfo()
         getPreference()
+        updateInfo()
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {

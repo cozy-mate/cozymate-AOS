@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="umc.cozymate.ui.cozy_home.CozyHomeViewModel" />
+            type="umc.cozymate.ui.viewmodel.CozyHomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

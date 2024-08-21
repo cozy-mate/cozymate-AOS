@@ -1,4 +1,4 @@
-package umc.cozymate.ui.splash
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log

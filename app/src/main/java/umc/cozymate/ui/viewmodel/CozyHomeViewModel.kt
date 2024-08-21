@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -204,25 +204,6 @@ class CozyHomeViewModel @Inject constructor(
                 Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
             }
         }
-
-
-        /*// Add dummy data
-        val dummyAchievements = listOf(
-            AchievementItem("Dummy 1", "07/30 10:00", AchievementItemType.PRAISE),
-            AchievementItem("Dummy 2", "07/30 11:00", AchievementItemType.COMPLETE),
-            AchievementItem("Dummy 3", "07/30 12:00", AchievementItemType.FORGOT),
-            AchievementItem("Dummy 4", "07/30 13:00", AchievementItemType.PRAISE),
-            AchievementItem("Dummy 5", "07/30 14:00", AchievementItemType.COMPLETE),
-            AchievementItem("Dummy 6", "07/30 15:00", AchievementItemType.FORGOT),
-            AchievementItem("Dummy 7", "07/30 16:00", AchievementItemType.PRAISE),
-            AchievementItem("Dummy 8", "07/30 17:00", AchievementItemType.COMPLETE),
-            AchievementItem("Dummy 9", "07/30 18:00", AchievementItemType.FORGOT),
-            AchievementItem("Dummy 10", "07/30 19:00", AchievementItemType.PRAISE),
-            AchievementItem("Dummy 10", "07/30 19:00", AchievementItemType.FIRST)
-        )
-        viewModelScope.launch {
-            _achievements.value = dummyAchievements
-        }*/
     }
 
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {

@@ -23,6 +23,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private var members = ArrayList<Member>()
     private val viewModel : RuleViewModel by viewModels()
     private var roomId : Int = 0
+    private var roomName : String = ""
     //private val token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjU2NDk0MDAwOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTIxNjg3LCJleHAiOjE3Mzg5MDAxNjN9.Azx6hCJ3U7Hb3J8E8HMtL3uTuYbpjlFJ8JPEyAXLJ_E"
 
     override fun onCreateView(
@@ -35,6 +36,7 @@ class RoleAndRuleTabFragment: Fragment() {
         updateRecyclerview()
 
         getPreference()
+        updateInfo()
         viewModel.getRule(roomId)
         viewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
             if (response == null){
@@ -81,6 +83,12 @@ class RoleAndRuleTabFragment: Fragment() {
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
+        roomName = spf.getString("room_name", "no_room_found").toString()
+    }
+
+    private fun updateInfo(){
+        binding.tvRule.text = roomName
+        binding.tvRole.text = roomName
     }
 
     private fun updateRecyclerview(){

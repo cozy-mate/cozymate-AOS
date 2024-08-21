@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
 import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class CozyHomeActiveFragment : Fragment() {
