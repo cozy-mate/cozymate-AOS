@@ -41,6 +41,7 @@ class RoleViewModel @Inject constructor(
     fun createRole( roomId : Int, request : RoleRequest){
         viewModelScope.launch {
             val token = getToken()
+            Log.d(TAG, "viewmodel test : ${request}")
             try{
                 val response  = repository.createRole(token!!, roomId, request)
                 if(response.isSuccessful){

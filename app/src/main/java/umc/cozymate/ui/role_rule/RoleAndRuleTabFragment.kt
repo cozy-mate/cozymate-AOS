@@ -37,6 +37,7 @@ class RoleAndRuleTabFragment: Fragment() {
     ): View? {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         getPreference()
+
         ruleViewModel.getRule(roomId)
         ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
             if (response == null){
@@ -46,8 +47,7 @@ class RoleAndRuleTabFragment: Fragment() {
                 val ruleResponse = response.body()
                 ruleResponse?.let{
                     rules = it.result
-                    Log.d(TAG, rules.toString())
-                    updateRecyclerview()
+                    updateRule()
                 }
             }
             else{
@@ -69,7 +69,7 @@ class RoleAndRuleTabFragment: Fragment() {
                 roleResponse?.let{
                     myRole = it.result.myRoleList
                     memberRole = it.result.otherRoleList
-                    updateRecyclerview()
+                    updateRole()
                 }
             }
             else{
@@ -81,9 +81,12 @@ class RoleAndRuleTabFragment: Fragment() {
 
         return binding.root
     }
+
+
     override fun onResume() {
         super.onResume()
         ruleViewModel.getRule(roomId)
+        roleViewModel.getRole(roomId)
     }
 
     private fun getPreference() {
@@ -91,7 +94,7 @@ class RoleAndRuleTabFragment: Fragment() {
         roomId = spf.getInt("room_id", 0)
     }
 
-    private fun updateRecyclerview(){
+    private fun updateRule(){
         // rule
         if (rules.size == 0) {
             binding.tvEmpty.visibility = View.VISIBLE
@@ -106,19 +109,28 @@ class RoleAndRuleTabFragment: Fragment() {
             binding.rvRules.adapter = ruleRVAdapter
         }
 
+    }
 
+    private fun updateRole() {
         // myrole
-        val myRoleRVAdapter = RoleRVAdapter(myRole!!.mateRoleList)
         binding.tvRoleMemberName.text =""
         binding.ivRoleIcon.setImageResource(initCharactor())
-        binding.rvMyRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.rvMyRoleList.adapter = myRoleRVAdapter
+        if(myRole!!.mateRoleList.isEmpty()){
+            binding.tvRoleEmpty.visibility = View.VISIBLE
+            binding.rvMyRoleList.visibility = View.GONE
+        }
+        else{
+            binding.tvRoleEmpty.visibility = View.GONE
+            binding.rvMyRoleList.visibility = View.VISIBLE
+            val myRoleRVAdapter = RoleRVAdapter(myRole!!.mateRoleList)
+            binding.rvMyRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.rvMyRoleList.adapter = myRoleRVAdapter
+        }
 
         // role
         val memberRoleListRVAdapter = RoleListRVAdapter(memberRole)
         binding.rvMemberRole.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         binding.rvMemberRole.adapter = memberRoleListRVAdapter
-
     }
 
     private fun initCharactor() : Int{

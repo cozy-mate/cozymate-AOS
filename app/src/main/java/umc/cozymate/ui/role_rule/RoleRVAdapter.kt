@@ -12,7 +12,6 @@ class RoleRVAdapter( private val roles: List<RoleItem>) : RecyclerView.Adapter<R
             binding.tvItem.text  = roles[pos].content
             val string = StringBuilder()
             var days = 0
-            //val week = arrayListOf("월","화","수","목","금","토","일")
             if(roles[pos].allDays){
                 binding.tvWeekday.text  = "매일"
             }

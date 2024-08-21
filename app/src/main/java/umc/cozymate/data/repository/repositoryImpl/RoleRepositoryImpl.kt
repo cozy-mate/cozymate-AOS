@@ -11,7 +11,6 @@ import javax.inject.Inject
 class RoleRepositoryImpl @Inject constructor(
     private val api : RoleService
 ) : RoleRepository {
-
     override suspend fun createRole(
         accessToken: String,
         roomId: Int,
