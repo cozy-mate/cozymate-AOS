@@ -18,6 +18,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
+import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
 // 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
@@ -60,6 +61,7 @@ class SplashActivity : AppCompatActivity() {
 
         observeSignInResponse()
         observeLoading()
+        observeError()
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
@@ -70,21 +72,35 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeError() {
+        splashViewModel.errorResponse.observe(this) { errorResponse ->
+            errorResponse?.let {
+                val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
+            }
+        }
+    }
+
     private fun observeLoading() {
         splashViewModel.loading.observe(this) { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-                // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
-                splashViewModel.isMember.observe(this) { isMember ->
-                    if (isMember) {
-                        goCozyHome()
-                    } else {
-                        goOnboarding()
+            try {
+                if (isLoading) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                    // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
+                    splashViewModel.isMember.observe(this) { isMember ->
+                        if (isMember) {
+                            goCozyHome()
+                        } else {
+                            goOnboarding()
+                        }
+                        finish()
                     }
-                    finish()
                 }
+            } catch (e: Exception) {
+                val errorDialog = ServerErrorPopUp.newInstance("", e.message ?: "")
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
             }
         }
     }

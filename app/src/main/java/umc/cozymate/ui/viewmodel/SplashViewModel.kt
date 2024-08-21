@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.repository.repository.MemberRepository
@@ -31,6 +33,9 @@ class SplashViewModel @Inject constructor(
 
     private val _requestFail = MutableLiveData<Boolean>()
     val requestFail: LiveData<Boolean> get() = _requestFail
+
+    private val _errorResponse = MutableLiveData<ErrorResponse>()
+    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
     private val _clientId = MutableLiveData<String>()
     val clientId: LiveData<String> get() = _clientId
@@ -103,8 +108,14 @@ class SplashViewModel @Inject constructor(
                             Log.d(TAG, "로그인 성공: ${response.body()!!.result}")
                         }
                     } else {
-                        Log.d(TAG, "로그인 응답 실패: ${response}")
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
                         reissue()
+                        Log.d(TAG, "로그인 api 응답 실패: ${errorBody}")
                     }
                     _signInResponse.value = response
                 } catch (e: Exception) {
@@ -135,6 +146,12 @@ class SplashViewModel @Inject constructor(
                             _tokenInfo.value!!.refreshToken = response.body()!!.result.message
                         }
                     } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
                         Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
@@ -166,6 +183,12 @@ class SplashViewModel @Inject constructor(
                             _isMember.value = false
                         }
                     } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
                         _isMember.value = false
                     }
@@ -176,6 +199,16 @@ class SplashViewModel @Inject constructor(
                     _loading.value = false
                 }
             }
+        }
+    }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
         }
     }
 }

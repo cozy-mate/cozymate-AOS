@@ -116,7 +116,7 @@ class CozyHomeEnteringInviteCodeFragment : Fragment() {
                         startActivity(intent)
                     }
                     else -> {
-                        popup = ServerErrorPopUp()
+                        popup = ServerErrorPopUp.newInstance(response.code, response.message)
                     }
                 }
                 popup.show(childFragmentManager, "팝업")

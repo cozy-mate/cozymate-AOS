@@ -11,6 +11,7 @@ import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
+import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.roommate.RoommateFragment
 import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 loadActiveFragment()
             }
         }
+
+        observeError()
 
         // Check and fetch RoomId if needed
         // homeViewModel.fetchRoomIdIfNeeded() ///// 이 코드 삭제!!!!!
@@ -145,6 +148,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> false
+            }
+        }
+    }
+
+    private fun observeError() {
+        homeViewModel.errorResponse.observe(this) { errorResponse ->
+            errorResponse?.let {
+                val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
             }
         }
     }
