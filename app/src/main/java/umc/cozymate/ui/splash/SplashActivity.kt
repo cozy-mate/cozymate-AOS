@@ -91,7 +91,6 @@ class SplashActivity : AppCompatActivity() {
                     }
                 } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
-
                     goLoginFail()
                 }
             } else {
@@ -113,8 +112,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goLoginFail() {
-        // val intent = Intent(this, LoginFailActivity::class.java)
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, LoginFailActivity::class.java)
+        //val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -155,30 +154,38 @@ class SplashActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "${e.message}")
-            Toast.makeText(this@SplashActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SplashActivity, "로그인 실패 ${e.message}", Toast.LENGTH_SHORT).show()
             goLoginFail()
         }
     }
 
     private fun getUserId() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
-            } else if (user != null) {
-                Log.i(TAG, "사용자 정보 요청 성공")
-                val userId = user.id
-                Log.d(TAG, "사용자 ID: $userId")
+        try {
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e(TAG, "사용자 정보 요청 실패", error)
+                } else if (user != null) {
+                    Log.i(TAG, "사용자 정보 요청 성공")
+                    val userId = user.id
+                    Log.d(TAG, "사용자 ID: $userId")
 
-                if (userId != null) {
-                    splashViewModel.setClientId(userId.toString())
-                    //splashViewModel.setClientId("4444")
-                    splashViewModel.setSocialType("KAKAO")
-                    splashViewModel.signIn()
+                    if (userId != null) {
+                        splashViewModel.setClientId(userId.toString())
+                        //splashViewModel.setClientId("4444")
+                        splashViewModel.setSocialType("KAKAO")
+                        splashViewModel.signIn()
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "${e.message}")
+            Toast.makeText(this@SplashActivity, "로그인 실패 ${e.message}", Toast.LENGTH_SHORT)
+                .show()
+            goLoginFail()
         }
 
-        // 토큰 정보 보기
+
+        /*// 토큰 정보 보기
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
                 Log.e(TAG, "토큰 정보 보기 실패", error)
@@ -190,7 +197,8 @@ class SplashActivity : AppCompatActivity() {
                             "\n만료시간: ${tokenInfo.expiresIn} 초"
                 )
             }
-        }
+        }*/
+
     }
 
 }

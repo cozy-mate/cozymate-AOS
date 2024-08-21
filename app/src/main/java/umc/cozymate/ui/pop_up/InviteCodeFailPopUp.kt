@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.pop_up
+package umc.cozymate.ui.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,15 +8,15 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import umc.cozymate.databinding.PopupServerErrorBinding
+import umc.cozymate.databinding.PopupInviteCodeFailBinding
 
-class ServerErrorPopUp : DialogFragment() {
+class InviteCodeFailPopUp : DialogFragment() {
 
-    private var _binding: PopupServerErrorBinding? = null
+    private var _binding: PopupInviteCodeFailBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = PopupServerErrorBinding.inflate(layoutInflater)
+        _binding = PopupInviteCodeFailBinding.inflate(layoutInflater)
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)

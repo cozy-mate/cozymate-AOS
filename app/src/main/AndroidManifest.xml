@@ -49,6 +49,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.splash.LoginFailActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true" />
         <activity
