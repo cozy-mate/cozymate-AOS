@@ -63,6 +63,14 @@ class CozyHomeViewModel @Inject constructor(
         sharedPreferences.edit().putInt("room_id", _roomId.value ?: 0).apply()
     }
 
+    fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.Mate>) {
+        val gson = Gson()
+        val json = gson.toJson(mateList)
+
+        sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
+        Log.d(TAG, "spf 룸메이트 정보 : ${json}")
+    }
+
     fun getSavedRoomId(): Int {
         return sharedPreferences.getInt("room_id", 0) // 0은 기본값으로, 저장된 값이 없으면 0이 반환됨
     }
@@ -149,6 +157,7 @@ class CozyHomeViewModel @Inject constructor(
                         _inviteCode.value = response.body()!!.result.inviteCode
                         _profileImage.value = response.body()!!.result.profileImage
                         _mateList.value = response.body()!!.result.mateList
+                        saveRoomInfo("mate_list", _mateList.value!!)
                         Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
                     } else {
                         Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
