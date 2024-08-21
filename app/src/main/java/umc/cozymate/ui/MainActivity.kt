@@ -9,13 +9,13 @@ import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
-import umc.cozymate.ui.cozy_home.CozyHomeViewModel
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.roommate.RoommateFragment
 import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -79,18 +79,14 @@ class MainActivity : AppCompatActivity() {
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
-    // [코지홈 비활성화] 로드
     fun loadDefaultFragment() {
-
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeDefaultFragment())
             .addToBackStack(null)
             .commit()
     }
 
-    // [코지홈 활성화] 로드
     fun loadActiveFragment() {
-
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, CozyHomeActiveFragment())
             .addToBackStack(null)

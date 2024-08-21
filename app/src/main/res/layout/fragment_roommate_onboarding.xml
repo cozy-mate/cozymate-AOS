@@ -60,67 +60,94 @@
         />
 
     <ImageView
+        android:id="@+id/iv_char"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="53dp"
-        android:layout_marginEnd="53dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title2"
-        app:layout_constraintBottom_toTopOf="@id/ly_guide"
         android:layout_marginTop="210dp"
+        android:layout_marginEnd="53dp"
         android:layout_marginBottom="50dp"
         android:src="@drawable/iv_search_cozy"
-        android:id="@+id/iv_char"
-        />
+        app:layout_constraintBottom_toTopOf="@id/ly_guide"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ly_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ly_guide"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
         android:layout_marginTop="55dp"
+        android:layout_marginBottom="100dp"
         android:orientation="horizontal"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <TextView
+            android:id="@+id/tv_guide1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="먼저, "
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/basic_font"
-            android:id="@+id/tv_guide1"
-            />
+            android:textColor="@color/basic_font" />
+
         <TextView
+            android:id="@+id/tv_name2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            tools:text="델로"
-            android:id="@+id/tv_name2"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/basic_font"
-            />
+            tools:text="델로" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="님의 라이프스타일을 알려주세요!"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/basic_font"
-            />
+            android:textColor="@color/basic_font" />
 
     </LinearLayout>
 
-<androidx.appcompat.widget.AppCompatButton
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/ly_guide"
-    android:layout_marginTop="25dp"
-    android:layout_marginStart="77dp"
-    android:layout_marginEnd="77dp"
-    android:background="@drawable/btn_rectangle_80svg"
-    android:id="@+id/btn_go_lifestyle"
-    />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:layout_constraintTop_toTopOf="@+id/btn_go_lifestyle"
+        app:layout_constraintBottom_toBottomOf="@id/btn_go_lifestyle"
+        app:layout_constraintStart_toStartOf="@id/btn_go_lifestyle"
+        app:layout_constraintEnd_toEndOf="@id/btn_go_lifestyle">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/right_arrow"
+            android:src="@drawable/baseline_arrow_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 라이프 스타일 입력하러 가기"
+            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+            android:textColor="@color/main_blue"
+            android:layout_marginStart="-4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/right_arrow"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_go_lifestyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_roommate_onboarding_background"
+        app:layout_constraintEnd_toEndOf="@+id/ly_guide"
+        app:layout_constraintStart_toStartOf="@+id/ly_guide"
+        app:layout_constraintTop_toBottomOf="@+id/ly_guide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

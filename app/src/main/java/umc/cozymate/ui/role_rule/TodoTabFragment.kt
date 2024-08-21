@@ -10,9 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
@@ -36,8 +39,8 @@ class TodoTabFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
-        updateInfo()
         getPreference()
+        updateInfo()
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
@@ -71,6 +74,27 @@ class TodoTabFragment: Fragment() {
         roomId = spf.getInt("room_id", 0)
         nickname =  spf.getString("user_nickname", "No user found").toString()
         Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+
+        // 메이트 spf 저장 잘되었는지 테스트
+        val mateListJson = spf.getString("mate_list", null)
+        if (mateListJson != null) {
+            val mates: List<GetRoomInfoResponse.Result.Mate>? = getListFromPrefs(mateListJson)
+            // 여기서 mates 리스트를 사용할 수 있습니다.
+            Log.d(TAG, "Mates list: $mates")
+        } else {
+            Log.d(TAG, "No mate list found")
+        }
+    }
+
+    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.Mate>? {
+        return try {
+            val gson = Gson()
+            val type = object : TypeToken<List<GetRoomInfoResponse.Result.Mate>>() {}.type
+            gson.fromJson(json, type)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse mates list JSON", e)
+            null
+        }
     }
 
     private fun updateInfo(){

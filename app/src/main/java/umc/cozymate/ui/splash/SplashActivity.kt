@@ -19,6 +19,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
+import umc.cozymate.ui.viewmodel.SplashViewModel
 
 // 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
 // 로그인 >> 멤버 확인 N >> 온보딩(OnboadrdingActivity)으로 이동

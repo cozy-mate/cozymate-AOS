@@ -33,7 +33,9 @@ data class GetRoomInfoResponse(
             @SerialName("memberId")
             val memberId: Int,
             @SerialName("nickname")
-            val nickname: String
+            val nickname: String,
+            @SerialName("mateId")
+            val mateId: Int
         )
     }
 }

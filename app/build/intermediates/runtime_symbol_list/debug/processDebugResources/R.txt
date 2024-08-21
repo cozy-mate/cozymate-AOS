@@ -2688,6 +2688,7 @@ int drawable background_splash 0x7f07009b
 int drawable background_stroke_12 0x7f07009c
 int drawable background_todo 0x7f07009d
 int drawable background_todo_tab 0x7f07009e
+int drawable baseline_arrow_right 0x7f070192
 int drawable btn_checkbox_checked_mtrl 0x7f07009f
 int drawable btn_checkbox_checked_to_unchecked_mtrl_animation 0x7f0700a0
 int drawable btn_checkbox_unchecked_mtrl 0x7f0700a1
@@ -2755,6 +2756,7 @@ int drawable custom_progress_bar_state_blue 0x7f0700de
 int drawable custom_rectangle_12 0x7f0700df
 int drawable custom_rectangle_6 0x7f0700e0
 int drawable custom_rectangle_6_sub_blue 0x7f0700e1
+int drawable custom_roommate_onboarding_background 0x7f070193
 int drawable custom_select_chip_background 0x7f0700e2
 int drawable custom_select_chip_default 0x7f0700e3
 int drawable custom_select_chip_selected 0x7f0700e4
@@ -3598,6 +3600,7 @@ int id report_drawn 0x7f090292
 int id reverseSawtooth 0x7f090293
 int id right 0x7f090294
 int id rightToLeft 0x7f090295
+int id right_arrow 0x7f0904ae
 int id right_icon 0x7f090296
 int id right_side 0x7f090297
 int id rounded 0x7f090298

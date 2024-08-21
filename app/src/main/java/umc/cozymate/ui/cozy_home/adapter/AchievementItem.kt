@@ -10,5 +10,6 @@ enum class AchievementItemType {
     PRAISE,
     COMPLETE,
     FORGOT,
-    FIRST
+    FIRST,
+    DEFAULT
 }

@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
 import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class CozyHomeActiveFragment : Fragment() {
@@ -136,14 +137,15 @@ class CozyHomeActiveFragment : Fragment() {
     }
 
     private fun initAchievmentList() {
-        val adapter = AchievementsAdapter(viewModel.achievements.value!!)
-        viewModel.loadAchievements()
-
+        val adapter = AchievementsAdapter(requireContext(), emptyList())
         binding.rvAcheivement.adapter = adapter
         binding.rvAcheivement.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.achievements.observe(viewLifecycleOwner) {
-            adapter.setItems(it)
+
+        viewModel.achievements.observe(viewLifecycleOwner) { items ->
+            adapter.setItems(items)
         }
+
+        viewModel.loadAchievements()
     }
 
     private fun initView() {

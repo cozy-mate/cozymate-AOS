@@ -76,10 +76,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/character_8.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-70:/layout_fragment_feed.xml.flat",
-        "source": "umc.cozymate.app-main-72:/layout/fragment_feed.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/layout_activity_cozy_home_selecting_character.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/layout/activity_cozy_home_selecting_character.xml"
     },
@@ -134,6 +130,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_iv_radio_unselected.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/iv_radio_unselected.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-70:/layout_fragment_roommate_onboarding.xml.flat",
+        "source": "umc.cozymate.app-main-72:/layout/fragment_roommate_onboarding.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_custom_tv_default_background.xml.flat",
@@ -274,6 +274,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ripple_box_12dp.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ripple_box_12dp.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-70:/drawable_baseline_arrow_right.xml.flat",
+        "source": "umc.cozymate.app-main-72:/drawable/baseline_arrow_right.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_character_4.xml.flat",
@@ -546,6 +550,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_my_circle.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-72:/drawable/ic_my_circle.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-70:/drawable_custom_roommate_onboarding_background.xml.flat",
+        "source": "umc.cozymate.app-main-72:/drawable/custom_roommate_onboarding_background.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-70:/drawable_ic_school.xml.flat",

@@ -29,6 +29,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private val roleViewModel : RoleViewModel by viewModels()
     private var roomId : Int = 0
 
+    private var roomName : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +38,10 @@ class RoleAndRuleTabFragment: Fragment() {
     ): View? {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         getPreference()
+        updateInfo()
+        viewModel.getRule(roomId)
+        viewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
 
-        ruleViewModel.getRule(roomId)
-        ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
             if (response == null){
                 return@Observer
             }
@@ -92,6 +94,12 @@ class RoleAndRuleTabFragment: Fragment() {
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
+        roomName = spf.getString("room_name", "no_room_found").toString()
+    }
+
+    private fun updateInfo(){
+        binding.tvRule.text = roomName
+        binding.tvRole.text = roomName
     }
 
     private fun updateRule(){
