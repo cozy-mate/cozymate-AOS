@@ -232,9 +232,9 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         tableBinding.tvTableUserName.text = trimText(userInfo.name)
         tableBinding.tvTableUserBirth.text = "${userInfo.birth}년"
-        tableBinding.tvTableUserSchoolNum.text = userInfo.admissionYear
+        tableBinding.tvTableUserSchoolNum.text = "${userInfo.admissionYear}학번"
         tableBinding.tvTableUserSchool.text = "인하대학교"
-        tableBinding.tvTableUserMajor.text = userInfo.major
+        tableBinding.tvTableUserMajor.text = trimText(userInfo.major)
         tableBinding.tvTableUserDormitoryNum.text = "${userInfo.numOfRoommate}인 1실"
         tableBinding.tvTableUserAcceptance.text = trimText(userInfo.acceptance)
         tableBinding.tvTableUserWakeUpAmpm.text = userInfo.wakeAmPm
@@ -249,15 +249,15 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableUserHeater.text = trimText(userInfo.heatingIntensity)
         tableBinding.tvTableUserLivingPattern.text = userInfo.lifePattern
         tableBinding.tvTableUserFriendly.text = trimText(userInfo.intimacy)
-        tableBinding.tvTableUserShare.text = userInfo.canShare
-        tableBinding.tvTableUserStudy.text = userInfo.studying
-        tableBinding.tvTableUserIntake.text = userInfo.intake
-        tableBinding.tvTableUserGame.text = userInfo.isPlayGame
-        tableBinding.tvTableUserCall.text = userInfo.isPhoneCall
+        tableBinding.tvTableUserShare.text = trimText(userInfo.canShare)
+        tableBinding.tvTableUserStudy.text = trimText(userInfo.studying)
+        tableBinding.tvTableUserIntake.text = trimText(userInfo.intake)
+        tableBinding.tvTableUserGame.text = trimText(userInfo.isPlayGame)
+        tableBinding.tvTableUserCall.text = trimText(userInfo.isPhoneCall)
         tableBinding.tvTableUserClean.text = trimText(userInfo.cleanSensitivity)
         tableBinding.tvTableUserNoise.text = trimText(userInfo.noiseSensitivity)
         tableBinding.tvTableUserCleanFrequency.text = trimText(userInfo.cleaningFrequency)
-        tableBinding.tvTableUserPersonality.text = userInfo.personality
+        tableBinding.tvTableUserPersonality.text = trimText(userInfo.personality)
         tableBinding.tvTableUserMbti.text = userInfo.mbti
 
 
@@ -267,9 +267,9 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherBirth.text = "${detail?.birthYear}년"
         tableBinding.tvTableOtherSchoolNum.text = "${detail?.admissionYear}학번"
         tableBinding.tvTableOtherSchool.text = "인하대학교"
-        tableBinding.tvTableOtherMajor.text = detail?.major
+        tableBinding.tvTableOtherMajor.text = trimText(detail?.major)
         tableBinding.tvTableOtherDormitoryNum.text = "${detail?.numOfRoommate}인 1실"
-        tableBinding.tvTableOtherAcceptance.text = detail?.acceptance
+        tableBinding.tvTableOtherAcceptance.text = trimText(detail?.acceptance)
         tableBinding.tvTableOtherWakeUpAmpm.text = detail?.wakeUpMeridian
         tableBinding.tvTableOtherWakeUpTime.text = " ${detail?.wakeUpTime}시"
         tableBinding.tvTableOtherSleepAmpm.text = detail?.sleepingMeridian
@@ -277,7 +277,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherLightOffAmpm.text = detail?.turnOffMeridian
         tableBinding.tvTableOtherLightOffTime.text = " ${detail?.turnOffTime}시"
         tableBinding.tvTableOtherSmoke.text = detail?.smokingState
-        tableBinding.tvTableOtherSleepHabbit.text = detail?.sleepingHabit
+        tableBinding.tvTableOtherSleepHabbit.text = trimText(detail?.sleepingHabit)
         tableBinding.tvTableOtherAc.text = when (detail?.airConditioningIntensity) {
             1 -> "약하게 틀어요"
             2 -> "적당하게 틀어요"
@@ -291,14 +291,14 @@ class RoommateDetailActivity : AppCompatActivity() {
             else -> "적당하게 틀어요"
         }
         tableBinding.tvTableOtherLivingPattern.text = detail?.lifePattern
-        tableBinding.tvTableOtherFriendly.text = detail?.intimacy
+        tableBinding.tvTableOtherFriendly.text = trimText(detail?.intimacy)
         tableBinding.tvTableOtherShare.text = if (detail?.canShare == true) {
             "O"
         } else {
             "X"
         }
-        tableBinding.tvTableOtherStudy.text = detail?.studying
-        tableBinding.tvTableOtherIntake.text = detail?.intake
+        tableBinding.tvTableOtherStudy.text = trimText(detail?.studying)
+        tableBinding.tvTableOtherIntake.text = trimText(detail?.intake)
         tableBinding.tvTableOtherGame.text = if (detail?.isPlayGame == true) {
             "O"
         } else {
@@ -310,23 +310,23 @@ class RoommateDetailActivity : AppCompatActivity() {
             "X"
         }
         tableBinding.tvTableOtherClean.text = when (detail?.cleanSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
+            1 -> "매우 예민하지.."
+            2 -> "예민하지 않아.."
             3 -> "보통이에요"
             4 -> "예민해요"
             5 -> "매우 예민해요"
             else -> "보통이에요"
         }
         tableBinding.tvTableOtherNoise.text = when (detail?.noiseSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
+            1 -> "매우 예민하지.."
+            2 -> "예민하지 않아.."
             3 -> "보통이에요"
             4 -> "예민해요"
             5 -> "매우 예민해요"
             else -> "보통이에요"
         }
         tableBinding.tvTableOtherCleanFrequency.text = trimText(detail?.cleaningFrequency)
-        tableBinding.tvTableOtherPersonality.text = detail?.personality
+        tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
         tableBinding.tvTableOtherMbti.text = detail?.mbti
 
 

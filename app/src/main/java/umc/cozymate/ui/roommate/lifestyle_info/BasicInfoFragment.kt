@@ -3,6 +3,8 @@ package umc.cozymate.ui.roommate.lifestyle_info
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +61,9 @@ class BasicInfoFragment : Fragment() {
 //            binding.etName.setText(userInfo.name)
             binding.etMajor.setText(userInfo.major)
         }
+
+        binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
+        binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
         initTextChangeListener()
         initLivingSelector()
@@ -264,5 +269,10 @@ class BasicInfoFragment : Fragment() {
 
     fun saveUserInfo() {
         spfHelper.saveUserInfo(userInfo)
+    }
+
+    private fun validName() = REGEX_ady.toRegex().matches(binding.etNumber.text!!)
+    companion object {
+        private const val REGEX_ady = "^[0-9]{2}"
     }
 }
