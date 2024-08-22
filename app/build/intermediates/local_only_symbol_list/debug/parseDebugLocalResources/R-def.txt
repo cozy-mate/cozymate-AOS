@@ -333,6 +333,8 @@ id iv_MypageCharacter
 id iv_MypageData1
 id iv_MypageData2
 id iv_MypageUserName
+id iv_RoleEdit
+id iv_RoleIcon
 id iv_TodoMemberIcon
 id iv_add_todo
 id iv_back
@@ -363,6 +365,8 @@ id iv_temp22
 id iv_temp3
 id iv_x
 id layout_Member
+id layout_MyInfo
+id layout_MyRole
 id layout_MyTodo
 id layout_Rule
 id layout_TodoMember
@@ -456,12 +460,14 @@ id personality_home
 id personality_quite
 id personality_shame
 id personality_tmt
+id progressBar
 id radio_female
 id radio_male
 id right_arrow
 id rv_List
 id rv_MemberRole
 id rv_MemberTodo
+id rv_MyRoleList
 id rv_MyTodoList
 id rv_Rules
 id rv_acheivement
@@ -542,6 +548,8 @@ id tv_Empty
 id tv_Item
 id tv_Memo
 id tv_Role
+id tv_RoleEmpty
+id tv_RoleMemberName
 id tv_Rule
 id tv_RuleNum
 id tv_Text1
@@ -555,7 +563,9 @@ id tv_ac_check
 id tv_achievement_content
 id tv_achievement_datetime
 id tv_alert
+id tv_alert_code
 id tv_alert_detail
+id tv_alert_message
 id tv_alert_name
 id tv_alert_nickname
 id tv_birth
@@ -896,6 +906,7 @@ layout item_select_roommate
 layout item_waiting_roommate
 layout popup_invite_code_fail
 layout popup_invite_code_success
+layout popup_loading
 layout popup_server_error
 layout roommate_detail_bottom_sheet
 layout rv_item_message
