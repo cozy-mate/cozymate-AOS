@@ -1,5 +1,6 @@
 package umc.cozymate.ui.roommate
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -207,9 +208,9 @@ class RoommateMakeCrewableFragment : Fragment() {
 
         // 액세스 토큰을 가져와 API 호출 (필터 적용되지 않은 데이터 먼저 가져오기)
 //        val _accessToken = getString(R.string.access_token_1)
-        val _accessToken = todoViewModel.getToken()
-        val accessToken = "$_accessToken"
-        viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
+        val spf = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val accessToken = spf.getString("access_token", "")
+        viewModel.getInitialUserInfo(accessToken!!, 0) // 필터가 없는 데이터 가져오기
 
         // 필터 리스트를 관찰하여 UI 처리
         viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
@@ -218,7 +219,7 @@ class RoommateMakeCrewableFragment : Fragment() {
             } else {
                 binding.rvCrewableResultList.visibility = View.VISIBLE
                 binding.tvNoSelection.visibility = View.GONE
-                viewModel.getOtherUserInfo(accessToken, 0) // 필터가 적용된 데이터를 가져옴
+                viewModel.getOtherUserInfo(accessToken!!, 0) // 필터가 적용된 데이터를 가져옴
             }
         }
 
@@ -290,4 +291,5 @@ class RoommateMakeCrewableFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

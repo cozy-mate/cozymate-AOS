@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.OtherUserInfo
+import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
@@ -89,6 +90,20 @@ class RoommateViewModel @Inject constructor(
                 Log.d("GetInitialUserInfo", "exception: ${it.message}")
             }.onFail {
                 Log.d("GetInitialUserInfo", "fail: $it")
+            }
+        }
+    }
+
+    fun sendFcmInfo(accessToken: String, request: FcmInfoRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.sendFcmInfo(accessToken, request).onSuccess {
+                Log.d("RoommateViewModel", "sendFCMInfo: ${it.result}")
+            }.onError {
+                Log.d("RoommateViewModel", "sendFCMInfo Error: ${it}")
+            }.onException {
+                Log.d("RoommateViewModel", "sendFCMInfo Exception: $it")
+            }.onFail {
+                Log.d("RoommateViewModel", "sendFCMInfo onFail $it")
             }
         }
     }
