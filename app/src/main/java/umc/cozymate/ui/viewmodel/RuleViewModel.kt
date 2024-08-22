@@ -60,8 +60,6 @@ class RuleViewModel @Inject constructor(
 
     fun getRule(roomId : Int ){
         val token = getToken()
-        Log.d(TAG,"roomId ${roomId}")
-        Log.d(TAG, "token ${token}")
         viewModelScope.launch {
             try{
                 val response  = repository.getRule(token!!, roomId)

@@ -62,6 +62,12 @@ class CozyHomeViewModel @Inject constructor(
         Log.d(TAG, "spf 방 아이디 : ${_roomId.value}")
         sharedPreferences.edit().putInt("room_id", _roomId.value ?: 0).apply()
     }
+    fun saveRoomName() {
+        Log.d(TAG, "spf 방 이름 : ${_roomName.value}")
+        sharedPreferences.edit().putString("room_name", _roomName.value).apply()
+    }
+
+
 
     fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.Mate>) {
         val gson = Gson()
@@ -158,6 +164,7 @@ class CozyHomeViewModel @Inject constructor(
                         _profileImage.value = response.body()!!.result.profileImage
                         _mateList.value = response.body()!!.result.mateList
                         saveRoomInfo("mate_list", _mateList.value!!)
+                        saveRoomName()
                         Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
                     } else {
                         Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
