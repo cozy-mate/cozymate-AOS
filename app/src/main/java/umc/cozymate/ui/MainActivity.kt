@@ -46,16 +46,6 @@ class MainActivity : AppCompatActivity() {
         initScreen()
 
         homeViewModel.getRoomId()    //// 이 코드 추가 !!!!!
-        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
-        homeViewModel.roomId.observe(this) { roomId ->
-            if (roomId == 0 || roomId == null) {
-                loadDefaultFragment()
-                isItemEnable = false
-            } else {
-                loadActiveFragment()
-                isItemEnable = true
-            }
-        }
 
         // Check and fetch RoomId if needed
         // homeViewModel.fetchRoomIdIfNeeded() ///// 이 코드 삭제!!!!!
@@ -114,6 +104,19 @@ class MainActivity : AppCompatActivity() {
         )
         roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
+    }
+
+    fun observeRoomID() {
+        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
+        homeViewModel.roomId.observe(this) { roomId ->
+            if (roomId == 0 || roomId == null) {
+                loadDefaultFragment()
+                isItemEnable = false
+            } else {
+                loadActiveFragment()
+                isItemEnable = true
+            }
+        }
     }
 
     private fun initScreen() {
@@ -198,6 +201,7 @@ fun setBottomNavigationView() {
         when (item.itemId) {
             R.id.fragment_home -> {
                 // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
+                observeRoomID()
                 if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
                     loadDefaultFragment()
                 } else {
