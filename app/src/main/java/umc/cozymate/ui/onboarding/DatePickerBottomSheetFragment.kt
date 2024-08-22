@@ -32,7 +32,7 @@ class DatePickerBottomSheetFragment
     private var day: Int = 0
 
     init {
-        this.year = LocalDate.now().year
+        this.year = 2000
         this.month = LocalDate.now().month.value
         this.day = LocalDate.now().dayOfMonth
     }

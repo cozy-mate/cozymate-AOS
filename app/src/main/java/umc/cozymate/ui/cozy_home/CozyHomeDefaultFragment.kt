@@ -16,7 +16,6 @@ import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
-import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.roommate.RoommateFragment
 
 class CozyHomeDefaultFragment : Fragment() {
@@ -45,7 +44,7 @@ class CozyHomeDefaultFragment : Fragment() {
         with(binding){
 
             // 룸메이트 구하러 가기
-            btnRoommateInvite.setOnClickListener {
+            btnGoRommate.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_container, RoommateFragment())
                     .addToBackStack(null)  // 뒤로 가기 버튼을 누르면 cozyhome으로 돌아가도록 설정
@@ -67,10 +66,11 @@ class CozyHomeDefaultFragment : Fragment() {
                 startActivity(Intent(activity, CozyHomeEnteringInviteCodeActivity::class.java))
             }
 
-            // 쪽지
+
+            /*// 쪽지
             btnMessage.setOnClickListener {
                 startActivity(Intent(activity, MessageActivity::class.java))
-            }
+            }*/
         }
     }
 
