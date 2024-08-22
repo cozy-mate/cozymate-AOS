@@ -12,7 +12,7 @@ import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 
 interface RoommateService {
-    @POST("/members/stat/")
+    @POST("/members/stat")
     suspend fun sendUserInfo(
         @Header("Authorization") accessToken: String,
         @Body request: UserInfoRequest
