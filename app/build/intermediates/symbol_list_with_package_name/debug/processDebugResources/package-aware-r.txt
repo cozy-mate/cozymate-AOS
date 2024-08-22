@@ -2681,8 +2681,6 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
-drawable app_icon
-drawable app_icon_jpg
 drawable app_icon_png
 drawable app_icon_svg
 drawable app_icon_v2

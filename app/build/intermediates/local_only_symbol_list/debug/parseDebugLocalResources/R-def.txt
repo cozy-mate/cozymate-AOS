@@ -22,8 +22,6 @@ color unuse_btn
 color unuse_font
 color white
 color yellow
-drawable app_icon
-drawable app_icon_jpg
 drawable app_icon_png
 drawable app_icon_svg
 drawable app_icon_v2
