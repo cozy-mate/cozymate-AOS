@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 loadDefaultFragment()
+                binding.bottomNavigationView.menu.findItem(R.id.fragment_role_and_rule).isEnabled = false
+                binding.bottomNavigationView.menu.findItem(R.id.fragment_feed).isEnabled = false
             } else {
                 //observeError()
                 loadActiveFragment()
