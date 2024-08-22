@@ -123,7 +123,7 @@ class FCMService : FirebaseMessagingService() {
         // 알림 내용에 따라 수정 필요!!!!
 
         val builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.app_icon_png)
+            .setSmallIcon(R.drawable.ic_fcm)
             .setContentTitle(notification.title ?: "Cozymate")
             .setContentText(contentText)
             .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
@@ -179,7 +179,7 @@ class FCMService : FirebaseMessagingService() {
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setSmallIcon(R.drawable.app_icon_png)
+            .setSmallIcon(R.drawable.ic_fcm)
             .setContentTitle(remoteMessage.data["title"] ?: "Cozymate")
             .setContentText(contentText)
             .setGroupSummary(true)
