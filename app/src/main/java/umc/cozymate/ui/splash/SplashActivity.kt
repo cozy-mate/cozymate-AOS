@@ -72,6 +72,12 @@ class SplashActivity : AppCompatActivity() {
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
         }
+
+        binding.btnAppleLogin.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun observeError() {
