@@ -3,6 +3,7 @@ package umc.cozymate.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel : RoommateViewModel by viewModels()
 
+    var isItemEnable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +50,10 @@ class MainActivity : AppCompatActivity() {
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 loadDefaultFragment()
-                binding.bottomNavigationView.menu.findItem(R.id.fragment_role_and_rule).isEnabled = false
-                binding.bottomNavigationView.menu.findItem(R.id.fragment_feed).isEnabled = false
+                isItemEnable = false
             } else {
-                //observeError()
                 loadActiveFragment()
+                isItemEnable = true
             }
         }
 
@@ -206,14 +207,24 @@ fun setBottomNavigationView() {
             }
 
             R.id.fragment_feed -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, FeedFragment()).commit()
+                if (!isItemEnable) {
+                    Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                    return@setOnItemSelectedListener false // 선택을 막음
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, FeedFragment()).commit()
+                }
                 true
             }
 
             R.id.fragment_role_and_rule -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                if (!isItemEnable) {
+                    Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                    return@setOnItemSelectedListener false // 선택을 막음
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                }
                 true
             }
 
