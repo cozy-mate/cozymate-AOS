@@ -2681,8 +2681,6 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
-drawable app_icon
-drawable app_icon_jpg
 drawable app_icon_png
 drawable app_icon_svg
 drawable app_icon_v2
@@ -2834,6 +2832,7 @@ drawable ic_down
 drawable ic_down_2
 drawable ic_dropdown
 drawable ic_edit
+drawable ic_fcm
 drawable ic_graph
 drawable ic_heart
 drawable ic_heartfull
@@ -3090,6 +3089,7 @@ id btn_dialog_detail_yes
 id btn_enter_room
 id btn_feed_room_name_edit
 id btn_go_lifestyle
+id btn_go_rommate
 id btn_invite_code
 id btn_kakao_login
 id btn_like

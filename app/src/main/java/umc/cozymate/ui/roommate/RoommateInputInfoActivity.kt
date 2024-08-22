@@ -58,9 +58,11 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         spfHelper = UserInfoSPFHelper(this)
 
 //        val _accessToken = getString(R.string.access_token_1)
-        val _accessToken = todoViewModel.getToken()
-        val accessToken = _accessToken
-        Log.d("RoommateInputInfoActivity", accessToken!!)
+
+
+//        val _accessToken = todoViewModel.getToken()
+//        val accessToken = _accessToken
+//        Log.d("RoommateInputInfoActivity", "token: ${accessToken!!}")
 
         btnNext.setOnClickListener {
             // 현재 페이지의 프래그먼트를 가져옵니다.
@@ -73,7 +75,8 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                 navigateToRoommateMakeCrewableFragment()
                 val userInfo = spfHelper.loadUserInfo()
                 viewModel.sendUserInfo(
-                    accessToken,
+//                    accessToken,
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjY0Njk3MTQzOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzI0MzI3Mjc1LCJleHAiOjE3NDAxMDU3NTF9.61wYDcStK0USz9zIcLIDUgc3C7-uBQaGCagl54dN3q0",
                     userInfo.toRequest()
                 )
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")

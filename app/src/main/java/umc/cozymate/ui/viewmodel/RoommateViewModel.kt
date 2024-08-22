@@ -46,11 +46,11 @@ class RoommateViewModel @Inject constructor(
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
             }.onError {
-                Log.d("RoommateViewModel", it.toString())
+                Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
             }.onException {
-                Log.d("RoommateViewModel", it.toString())
+                Log.d("RoommateViewModel", "sendUserInfo Exception: $it")
             }.onFail {
-                Log.d("RoommateViewModel", it.toString())
+                Log.d("RoommateViewModel", "sendUserInfo onFail $it")
             }
         }
     }
@@ -84,9 +84,9 @@ class RoommateViewModel @Inject constructor(
                 val otherUserInfoDomain = response.result.map { it.toModel(it.info, it.detail) }
                 _unfilteredUserInfo.emit(otherUserInfoDomain) // 필터가 없는 데이터를 유지
             }.onError {
-                Log.d("GetInitialUserInfo", "error: $it")
+                Log.d("GetInitialUserInfo", "error: ${it.message}")
             }.onException {
-                Log.d("GetInitialUserInfo", "exception: $it")
+                Log.d("GetInitialUserInfo", "exception: ${it.message}")
             }.onFail {
                 Log.d("GetInitialUserInfo", "fail: $it")
             }
