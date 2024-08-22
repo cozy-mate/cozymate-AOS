@@ -1,5 +1,6 @@
 package umc.cozymate.ui.roommate
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -230,8 +231,14 @@ class RoommateDetailActivity : AppCompatActivity() {
             }
         }
 
-        tableBinding.tvTableUserName.text = trimText(userInfo.name)
-        tableBinding.tvTableUserBirth.text = "${userInfo.birth}년"
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val name = spf.getString("user_name", "")
+        val _birth = spf.getString("user_birthday", "")
+        val birthYear = _birth?.substring(0, 4) ?: ""
+
+
+        tableBinding.tvTableUserName.text = name
+        tableBinding.tvTableUserBirth.text = "${birthYear}년"
         tableBinding.tvTableUserSchoolNum.text = "${userInfo.admissionYear}학번"
         tableBinding.tvTableUserSchool.text = "인하대학교"
         tableBinding.tvTableUserMajor.text = trimText(userInfo.major)
