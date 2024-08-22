@@ -234,7 +234,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/custom_edittext"
-                    android:hint="ex. 23학번"
+                    android:hint="ex. 23"
                     android:inputType="text"
                     android:maxLength="4"
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
