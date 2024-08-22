@@ -345,7 +345,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             tableBinding.tvTableOtherWakeUpTime.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
 
-        if (tableBinding.tvTableUserBirth.text != tableBinding.tvTableOtherBirth) {
+        if (tableBinding.tvTableUserBirth.text != tableBinding.tvTableOtherBirth.text) {
             tableBinding.tvTableUserBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
             tableBinding.tvTableOtherBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
