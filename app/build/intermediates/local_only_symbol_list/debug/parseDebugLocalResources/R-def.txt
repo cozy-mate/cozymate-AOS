@@ -43,6 +43,7 @@ drawable background_finding_roommate_png
 drawable background_mypage
 drawable background_mypage1
 drawable background_mypage2
+drawable background_mypage3
 drawable background_round_corner_20
 drawable background_splash
 drawable background_stroke_12
@@ -136,6 +137,7 @@ drawable ic_heart
 drawable ic_heartfull
 drawable ic_home
 drawable ic_home_circle
+drawable ic_home_color
 drawable ic_input_role_member
 drawable ic_inputbox
 drawable ic_lamp
@@ -333,7 +335,6 @@ id iv_More
 id iv_MypageCharacter
 id iv_MypageData1
 id iv_MypageData2
-id iv_MypageUserName
 id iv_RoleEdit
 id iv_RoleIcon
 id iv_TodoMemberIcon
@@ -549,6 +550,8 @@ id tv_AddTodoText2
 id tv_Empty
 id tv_Item
 id tv_Memo
+id tv_MypageRoomName
+id tv_MypageUserName
 id tv_Role
 id tv_RoleEmpty
 id tv_RoleMemberName

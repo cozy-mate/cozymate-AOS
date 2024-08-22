@@ -285,18 +285,18 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherLightOffTime.text = " ${detail?.turnOffTime}시"
         tableBinding.tvTableOtherSmoke.text = detail?.smokingState
         tableBinding.tvTableOtherSleepHabbit.text = trimText(detail?.sleepingHabit)
-        tableBinding.tvTableOtherAc.text = when (detail?.airConditioningIntensity) {
+        tableBinding.tvTableOtherAc.text = trimText(when (detail?.airConditioningIntensity) {
             1 -> "약하게 틀어요"
             2 -> "적당하게 틀어요"
             3 -> "세게 틀어요"
             else -> "적당하게 틀어요"
-        }
-        tableBinding.tvTableOtherHeater.text = when (detail?.heatingIntensity) {
+        })
+        tableBinding.tvTableOtherHeater.text = trimText(when (detail?.heatingIntensity) {
             1 -> "약하게 틀어요"
             2 -> "적당하게 틀어요"
             3 -> "세게 틀어요"
             else -> "적당하게 틀어요"
-        }
+        })
         tableBinding.tvTableOtherLivingPattern.text = detail?.lifePattern
         tableBinding.tvTableOtherFriendly.text = trimText(detail?.intimacy)
         tableBinding.tvTableOtherShare.text = if (detail?.canShare == true) {
@@ -316,22 +316,22 @@ class RoommateDetailActivity : AppCompatActivity() {
         } else {
             "X"
         }
-        tableBinding.tvTableOtherClean.text = when (detail?.cleanSensitivity) {
-            1 -> "매우 예민하지.."
-            2 -> "예민하지 않아.."
+        tableBinding.tvTableOtherClean.text = trimText(when (detail?.cleanSensitivity) {
+            1 -> "매우 예민하지 않아요"
+            2 -> "예민하지 않아요"
             3 -> "보통이에요"
             4 -> "예민해요"
             5 -> "매우 예민해요"
             else -> "보통이에요"
-        }
-        tableBinding.tvTableOtherNoise.text = when (detail?.noiseSensitivity) {
-            1 -> "매우 예민하지.."
-            2 -> "예민하지 않아.."
+        })
+        tableBinding.tvTableOtherNoise.text = trimText(when (detail?.noiseSensitivity) {
+            1 -> "매우 예민하지 않아요"
+            2 -> "예민하지 않아요"
             3 -> "보통이에요"
             4 -> "예민해요"
             5 -> "매우 예민해요"
             else -> "보통이에요"
-        }
+        })
         tableBinding.tvTableOtherCleanFrequency.text = trimText(detail?.cleaningFrequency)
         tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
         tableBinding.tvTableOtherMbti.text = detail?.mbti

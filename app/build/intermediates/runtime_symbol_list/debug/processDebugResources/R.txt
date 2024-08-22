@@ -2703,6 +2703,7 @@ int drawable background_finding_roommate_png 0x7f070094
 int drawable background_mypage 0x7f070095
 int drawable background_mypage1 0x7f070096
 int drawable background_mypage2 0x7f070097
+int drawable background_mypage3 0x7f070193
 int drawable background_round_corner_20 0x7f070098
 int drawable background_splash 0x7f070099
 int drawable background_stroke_12 0x7f07009a
@@ -2837,6 +2838,7 @@ int drawable ic_heart 0x7f07011a
 int drawable ic_heartfull 0x7f07011b
 int drawable ic_home 0x7f07011c
 int drawable ic_home_circle 0x7f07011d
+int drawable ic_home_color 0x7f070194
 int drawable ic_input_role_member 0x7f07011e
 int drawable ic_inputbox 0x7f07011f
 int drawable ic_keyboard_black_24dp 0x7f070120
@@ -3366,7 +3368,6 @@ int id iv_More 0x7f090192
 int id iv_MypageCharacter 0x7f090193
 int id iv_MypageData1 0x7f090194
 int id iv_MypageData2 0x7f090195
-int id iv_MypageUserName 0x7f090196
 int id iv_RoleEdit 0x7f090197
 int id iv_RoleIcon 0x7f090198
 int id iv_TodoMemberIcon 0x7f090199
@@ -3844,6 +3845,8 @@ int id tv_AddTodoText2 0x7f09036f
 int id tv_Empty 0x7f090370
 int id tv_Item 0x7f090371
 int id tv_Memo 0x7f090372
+int id tv_MypageRoomName 0x7f0904c7
+int id tv_MypageUserName 0x7f0904c8
 int id tv_Role 0x7f090373
 int id tv_RoleEmpty 0x7f090374
 int id tv_RoleMemberName 0x7f090375
