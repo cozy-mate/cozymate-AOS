@@ -47,5 +47,8 @@ class MessageActivity : AppCompatActivity() {
             binding.layoutTopButtons.visibility = View.GONE
         }
 
+        binding.ivClose.setOnClickListener {
+            finish()
+        }
     }
 }
