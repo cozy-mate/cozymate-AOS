@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/iv_MypageUserName"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="25dp"
         android:text="델로"
          android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"

@@ -68,7 +68,7 @@
         android:id="@+id/tv_AddRoleText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="정해진 요일이 있다면 선택해주세요"
+        android:text="정해진 요일을 선택해주세요"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/basic_font"
         android:layout_marginTop="48dp"

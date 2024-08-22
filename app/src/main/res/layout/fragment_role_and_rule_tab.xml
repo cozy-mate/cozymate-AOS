@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="600dp"
+        android:minHeight="700dp"
         android:paddingTop="34dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
