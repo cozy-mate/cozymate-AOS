@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
+import umc.cozymate.ui.viewmodel.OnboardingViewModel
 
 @AndroidEntryPoint
 class OnboardingUserInfoFragment : Fragment() {

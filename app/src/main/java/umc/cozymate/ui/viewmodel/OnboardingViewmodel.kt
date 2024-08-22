@@ -1,4 +1,4 @@
-package umc.cozymate.ui.onboarding
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -11,6 +11,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.TokenInfo
+import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
@@ -35,6 +37,12 @@ class OnboardingViewModel @Inject constructor(
     private val _gender = MutableLiveData<String>()
     val gender: LiveData<String> get() = _gender
 
+    private val _tokenInfo = MutableLiveData<TokenInfo>()
+    val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
+
+    private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
+    val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
+
     private val _persona = MutableLiveData<Int>()
     val persona: LiveData<Int> get() = _persona
 
@@ -42,6 +50,29 @@ class OnboardingViewModel @Inject constructor(
     val signUpResponse: LiveData<Response<SignUpResponse>> get() = _signUpResponse
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    fun setTokenInfo(tokenInfo: TokenInfo) {
+        _tokenInfo.value = TokenInfo(
+            accessToken = tokenInfo.accessToken,
+            message = tokenInfo.message,
+            refreshToken = tokenInfo.refreshToken
+        )
+    }
+
+    fun saveToken() {
+        Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
+        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
+        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
+    }
+
+    fun saveUserInfo() {
+        Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
+        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
+        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).apply()
+        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).apply()
+        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).apply()
+        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).apply()
+    }
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -86,6 +117,8 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
+                        saveToken()
+                        saveUserInfo()
                     }
                 } else {
                     Log.d(TAG, "회원가입 api 응답 실패: ${response}")

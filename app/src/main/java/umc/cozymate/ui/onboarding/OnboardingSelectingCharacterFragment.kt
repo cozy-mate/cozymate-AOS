@@ -17,6 +17,7 @@ import umc.cozymate.databinding.FragmentOnboardingSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
+import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 

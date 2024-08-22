@@ -1,6 +1,7 @@
 package umc.cozymate.ui.splash
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ class LoginFailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.navigationBarColor = Color.WHITE
 
         binding.btnNext.setOnClickListener {
             val intent = Intent(this, SplashActivity::class.java)

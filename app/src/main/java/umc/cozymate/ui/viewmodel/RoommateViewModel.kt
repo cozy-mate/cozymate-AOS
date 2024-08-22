@@ -62,6 +62,8 @@ class RoommateViewModel @Inject constructor(
                 val otherUserInfoDomain = response.result.map { otherUserInfo ->
                     otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
                 }
+                Log.d("RoommateViewModel", otherUserInfoDomain.toString())
+
                 _otherUserInfo.emit(otherUserInfoDomain)
             }.onError {
                 Log.d("GetOtherUserInfo", "error: $it")

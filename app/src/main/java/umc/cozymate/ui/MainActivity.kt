@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigationView()
+        window.navigationBarColor = getResources().getColor(R.color.white)
 
         initScreen()
 
@@ -43,11 +44,10 @@ class MainActivity : AppCompatActivity() {
             if (roomId == 0 || roomId == null) {
                 loadDefaultFragment()
             } else {
+                observeError()
                 loadActiveFragment()
             }
         }
-
-        observeError()
 
         // Check and fetch RoomId if needed
         // homeViewModel.fetchRoomIdIfNeeded() ///// 이 코드 삭제!!!!!
@@ -153,6 +153,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeError() {
+
         homeViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
                 val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)

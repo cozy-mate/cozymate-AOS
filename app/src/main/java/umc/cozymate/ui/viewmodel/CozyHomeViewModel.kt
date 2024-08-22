@@ -67,8 +67,6 @@ class CozyHomeViewModel @Inject constructor(
         sharedPreferences.edit().putString("room_name", _roomName.value).apply()
     }
 
-
-
     fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.Mate>) {
         val gson = Gson()
         val json = gson.toJson(mateList)

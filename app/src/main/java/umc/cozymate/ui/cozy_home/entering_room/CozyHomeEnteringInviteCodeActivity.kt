@@ -13,7 +13,7 @@ import umc.cozymate.databinding.ActivityCozyHomeEnteringInviteCodeBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
-import umc.cozymate.ui.onboarding.OnboardingViewModel
+import umc.cozymate.ui.viewmodel.OnboardingViewModel
 
 // 플로우3 : 초대코드 입력창(1) > 룸메이트 대기창(2) > 코지홈 입장창(3) > 코지홈 활성화창
 @AndroidEntryPoint

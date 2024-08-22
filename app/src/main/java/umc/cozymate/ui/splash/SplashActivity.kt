@@ -1,6 +1,7 @@
 package umc.cozymate.ui.splash
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -58,6 +59,7 @@ class SplashActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.navigationBarColor = Color.WHITE
 
         observeSignInResponse()
         observeLoading()
