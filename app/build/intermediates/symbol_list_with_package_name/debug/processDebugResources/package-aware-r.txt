@@ -3088,6 +3088,7 @@ id btn_dialog_detail_no
 id btn_dialog_detail_yes
 id btn_enter_room
 id btn_feed_room_name_edit
+id btn_go_crew
 id btn_go_lifestyle
 id btn_go_rommate
 id btn_invite_code
@@ -3634,6 +3635,7 @@ id reverseSawtooth
 id right
 id rightToLeft
 id right_arrow
+id right_arrow2
 id right_icon
 id right_side
 id rounded

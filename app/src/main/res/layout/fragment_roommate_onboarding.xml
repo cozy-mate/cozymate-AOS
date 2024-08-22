@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="150dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +140,37 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:layout_constraintTop_toTopOf="@+id/btn_go_crew"
+        app:layout_constraintBottom_toBottomOf="@id/btn_go_crew"
+        app:layout_constraintStart_toStartOf="@id/btn_go_crew"
+        app:layout_constraintEnd_toEndOf="@id/btn_go_crew">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/right_arrow2"
+            android:src="@drawable/baseline_arrow_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나와 비슷한 룸메이트 찾으러 가기"
+            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+            android:textColor="@color/main_blue"
+            android:layout_marginStart="-4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/right_arrow2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_go_lifestyle"
         android:layout_width="0dp"
@@ -149,5 +180,15 @@
         app:layout_constraintEnd_toEndOf="@+id/ly_guide"
         app:layout_constraintStart_toStartOf="@+id/ly_guide"
         app:layout_constraintTop_toBottomOf="@+id/ly_guide" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_go_crew"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_roommate_onboarding_background"
+        app:layout_constraintEnd_toEndOf="@+id/ly_guide"
+        app:layout_constraintStart_toStartOf="@+id/ly_guide"
+        app:layout_constraintTop_toBottomOf="@+id/btn_go_lifestyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
