@@ -14,6 +14,7 @@ class MyPageFragment : Fragment() {
     private val binding get() = _binding!!
     private var persona : Int = 0
     private var nickname : String = ""
+    private var roomname : String = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,9 +22,9 @@ class MyPageFragment : Fragment() {
     ): View {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         getPreference()
-        binding.ivMypageUserName.text =nickname
+        binding.tvMypageUserName.text =nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
-
+        binding.tvMypageRoomName.text = roomname
         return binding.root
     }
 
@@ -31,6 +32,7 @@ class MyPageFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         persona = spf.getInt("uesr_persona", 0)
         nickname =  spf.getString("user_nickname", "No user found").toString()
+        roomname =spf.getString("room_name", "No room found").toString()
     }
 
     private fun initCharactor() : Int{
