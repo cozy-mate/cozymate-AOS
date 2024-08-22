@@ -208,7 +208,7 @@ class RoommateMakeCrewableFragment : Fragment() {
         // 액세스 토큰을 가져와 API 호출 (필터 적용되지 않은 데이터 먼저 가져오기)
 //        val _accessToken = getString(R.string.access_token_1)
         val _accessToken = todoViewModel.getToken()
-        val accessToken = "Bearer $_accessToken"
+        val accessToken = "$_accessToken"
         viewModel.getInitialUserInfo(accessToken, 0) // 필터가 없는 데이터 가져오기
 
         // 필터 리스트를 관찰하여 UI 처리

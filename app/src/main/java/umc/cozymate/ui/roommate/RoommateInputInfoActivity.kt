@@ -74,9 +74,11 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             } else {
                 navigateToRoommateMakeCrewableFragment()
                 val userInfo = spfHelper.loadUserInfo()
+                val _accessToken = todoViewModel.getToken()
+                val accessToken = "$_accessToken"
                 viewModel.sendUserInfo(
-//                    accessToken,
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjY0Njk3MTQzOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzI0MzI3Mjc1LCJleHAiOjE3NDAxMDU3NTF9.61wYDcStK0USz9zIcLIDUgc3C7-uBQaGCagl54dN3q0",
+                    accessToken,
+                    //"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjY0Njk3MTQzOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzI0MzI3Mjc1LCJleHAiOjE3NDAxMDU3NTF9.61wYDcStK0USz9zIcLIDUgc3C7-uBQaGCagl54dN3q0",
                     userInfo.toRequest()
                 )
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
