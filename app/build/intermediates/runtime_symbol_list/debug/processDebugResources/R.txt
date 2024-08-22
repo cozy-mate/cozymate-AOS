@@ -3087,6 +3087,7 @@ int id btn_dialog_detail_no 0x7f09007c
 int id btn_dialog_detail_yes 0x7f09007d
 int id btn_enter_room 0x7f09007e
 int id btn_feed_room_name_edit 0x7f09007f
+int id btn_go_crew 0x7f0904c5
 int id btn_go_lifestyle 0x7f090080
 int id btn_go_rommate 0x7f090081
 int id btn_invite_code 0x7f090082
@@ -3633,6 +3634,7 @@ int id reverseSawtooth 0x7f09029e
 int id right 0x7f09029f
 int id rightToLeft 0x7f0902a0
 int id right_arrow 0x7f0902a1
+int id right_arrow2 0x7f0904c6
 int id right_icon 0x7f0902a2
 int id right_side 0x7f0902a3
 int id rounded 0x7f0902a4
