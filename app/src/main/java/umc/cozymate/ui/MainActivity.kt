@@ -1,10 +1,13 @@
 package umc.cozymate.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
@@ -17,6 +20,7 @@ import umc.cozymate.ui.roommate.RoommateFragment
 import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -26,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     private val homeViewModel: CozyHomeViewModel by viewModels()
+    private val roommateViewModel : RoommateViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +81,16 @@ class MainActivity : AppCompatActivity() {
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val accessToken = spf.getString("access_token", "")
+        val fcmSpf = getSharedPreferences("FCMtoken", Context.MODE_PRIVATE)
+        val fcmToken = fcmSpf.getString("FCMtoken", "")
+        val fcmInfoRequest = FcmInfoRequest(
+            deviceId = "1",
+            token = fcmToken ?: ""  // fcmToken이 null일 경우 빈 문자열로 처리
+        )
+        roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
+        Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
 
     private fun initScreen() {

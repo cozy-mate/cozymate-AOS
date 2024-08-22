@@ -3,6 +3,7 @@ package umc.cozymate.data.repository.repositoryImpl
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
+import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
@@ -20,5 +21,12 @@ class RoommateRepositoryImpl @Inject constructor(
     override suspend fun getOtherUserInfo(accessToken: String, page: Int, filterList: List<String>): NetworkResult<OtherUserInfoResponse> {
         val filterQuery = filterList.joinToString(",")
         return handleApi({ api.getOtherUserInfo(accessToken, page, filterQuery) }) { response: ResponseBody<OtherUserInfoResponse> -> response.result}
+    }
+
+    override suspend fun sendFcmInfo(
+        accessToken: String,
+        request: FcmInfoRequest
+    ): NetworkResult<DefaultResponse> {
+        return handleApi({ api.sendFcmInfo(accessToken, request) }) {response: ResponseBody<DefaultResponse> -> response.result}
     }
 }
