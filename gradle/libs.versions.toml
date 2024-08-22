@@ -13,6 +13,7 @@ roomCommon = "2.6.1"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 core = "1.13.1"
+flexbox = "3.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +27,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

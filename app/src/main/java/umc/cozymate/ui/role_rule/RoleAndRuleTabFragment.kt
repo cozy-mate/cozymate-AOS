@@ -28,8 +28,8 @@ class RoleAndRuleTabFragment: Fragment() {
     private val ruleViewModel : RuleViewModel by viewModels()
     private val roleViewModel : RoleViewModel by viewModels()
     private var roomId : Int = 0
-
     private var roomName : String = ""
+    private var myNickname : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,6 +95,7 @@ class RoleAndRuleTabFragment: Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         roomName = spf.getString("room_name", "no_room_found").toString()
+        myNickname =  spf.getString("user_nickname", "No user found").toString()
     }
 
     private fun updateInfo(){
@@ -121,7 +122,7 @@ class RoleAndRuleTabFragment: Fragment() {
 
     private fun updateRole() {
         // myrole
-        binding.tvRoleMemberName.text =""
+        binding.tvRoleMemberName.text =myNickname
         binding.ivRoleIcon.setImageResource(initCharactor())
         if(myRole!!.mateRoleList.isEmpty()){
             binding.tvRoleEmpty.visibility = View.VISIBLE
