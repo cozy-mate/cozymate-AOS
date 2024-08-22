@@ -250,6 +250,11 @@
           <theme>@style/Theme.Cozymate</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/menu/bottom_nav.xml">
+        <config>
+          <theme>@style/Theme.Cozymate</theme>
+        </config>
+      </layout>
     </layouts>
   </component>
   <component name="AutoImportSettings">
@@ -263,7 +268,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateMakeCrewableFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateMakeCrewableFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateDetailActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateDetailActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/lifestyle_info/BasicInfoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/lifestyle_info/BasicInfoFragment.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +284,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CN80CXBCX]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/doyoung/.android/avd/Pixel_8_Pro_API_TiramisuPrivacySandbox_2.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

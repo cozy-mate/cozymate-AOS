@@ -45,22 +45,17 @@ class BasicInfoFragment : Fragment() {
         userInfo = spfHelper.loadUserInfo()
 
         // Restore state if available
-        savedInstanceState?.let {
-            onLiving = it.getString("onLiving")
-            numPeople = it.getInt("numPeople")
-            binding.etNumber.setText(it.getString("number"))
-//            binding.etBirth.setText(it.getString("birth"))
-//            binding.etName.setText(it.getString("name"))
-            binding.etMajor.setText(it.getString("major"))
-        } ?: run {
-            // If no savedInstanceState, load from SharedPreferences
-            onLiving = userInfo.acceptance
-            numPeople = userInfo.numOfRoommate
-            binding.etNumber.setText(userInfo.admissionYear)
-//            binding.etBirth.setText(userInfo.birth)
-//            binding.etName.setText(userInfo.name)
-            binding.etMajor.setText(userInfo.major)
-        }
+//        savedInstanceState?.let {
+//            onLiving = it.getString("onLiving")
+//            numPeople = it.getInt("numPeople")
+//            binding.etNumber.setText(it.getString("number"))
+//            binding.etMajor.setText(it.getString("major"))
+//        } ?: run {
+//            onLiving = userInfo.acceptance
+//            numPeople = userInfo.numOfRoommate
+//            binding.etNumber.setText(userInfo.admissionYear)
+//            binding.etMajor.setText(userInfo.major)
+//        }
 
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
@@ -80,10 +75,7 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun initTextChangeListener() {
-        // Initialize EditText fields with TextWatchers
         binding.etNumber.addTextChangedListener(createTextWatcher())
-//        binding.etBirth.addTextChangedListener(createTextWatcher())
-//        binding.etName.addTextChangedListener(createTextWatcher())
         binding.etMajor.addTextChangedListener(createMajorTextWatcher())
     }
 
@@ -114,15 +106,13 @@ class BasicInfoFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("onLiving", onLiving)
-        outState.putInt("numPeople", numPeople!!)
-        outState.putString("number", binding.etNumber.text.toString())
-//        outState.putString("birth", binding.etBirth.text.toString())
-//        outState.putString("name", binding.etName.text.toString())
-        outState.putString("major", binding.etMajor.text.toString())
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putString("onLiving", onLiving)
+//        outState.putInt("numPeople", numPeople!!)
+//        outState.putString("number", binding.etNumber.text.toString())
+//        outState.putString("major", binding.etMajor.text.toString())
+//    }
 
     private fun onLivingOptionSelected(view: View, value: String) {
         // Update UI for selected living option

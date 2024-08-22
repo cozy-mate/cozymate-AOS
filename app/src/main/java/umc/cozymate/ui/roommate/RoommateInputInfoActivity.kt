@@ -130,10 +130,18 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         }
     }
 
+    //    private fun navigateToRoommateMakeCrewableFragment() {
+//        val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
+//            putExtra("navigate_to", "RoommateMakeCrewable")
+//        }
+//        startActivity(mainActivityIntent)
+//        finish()
+//    }
     private fun navigateToRoommateMakeCrewableFragment() {
         val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
             putExtra("navigate_to", "RoommateMakeCrewable")
         }
+        Log.d("RoommateInputInfoActivity", "navigate_to = RoommateMakeCrewable")
         startActivity(mainActivityIntent)
         finish()
     }

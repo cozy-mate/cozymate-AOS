@@ -64,20 +64,41 @@ class MainActivity : AppCompatActivity() {
 //
 //
 //        }
+//        if (savedInstanceState == null) {
+//            val navigateTo = intent.getStringExtra("navigate_to")
+//            if (navigateTo == "RoommateOnboarding") {
+//                // RoommateOnboardingFragment로 이동
+//                switchToRoommateOnboardingFragment()
+//            }
+//            else if (navigateTo == "RoommateMakeCrewable") {
+//                switchToRoommateMakeCrewableFragment()
+//            }
+//            else {
+//                // 기본 홈 화면 설정
+//                binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+//            }
+//        }
         if (savedInstanceState == null) {
             val navigateTo = intent.getStringExtra("navigate_to")
-            if (navigateTo == "RoommateOnboarding") {
-                // RoommateOnboardingFragment로 이동
-                switchToRoommateOnboardingFragment()
-            }
-            else if (navigateTo == "RoommateMakeCrewable") {
-                switchToRoommateMakeCrewableFragment()
-            }
-            else {
-                // 기본 홈 화면 설정
-                binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+            Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
+
+            when (navigateTo) {
+                "RoommateOnboarding" -> {
+                    // RoommateOnboardingFragment로 이동
+                    switchToRoommateOnboardingFragment()
+                }
+                "RoommateMakeCrewable" -> {
+                    // RoommateMakeCrewableFragment로 이동
+                    switchToRoommateMakeCrewableFragment()
+                }
+                else -> {
+                    // 기본 홈 화면 설정
+//                    binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+                    switchToRoommateMakeCrewableFragment()
+                }
             }
         }
+
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
@@ -120,53 +141,98 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchToRoommateMakeCrewableFragment() {
+        Log.d("MainActivity navigation", "Switching to RoommateMakeCrewableFragment")
         supportFragmentManager.beginTransaction()
+//            .replace(R.id.main_container, RoommateMakeCrewableFragment())
+//            .replace(R.id.main_container, R.layout.fragment_roommate_make_crewable)
             .replace(R.id.main_container, RoommateMakeCrewableFragment())
-            .commit()
+            .commitAllowingStateLoss()
     }
 
 
-    fun setBottomNavigationView() {
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.fragment_home -> {
-                    if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
-                        loadDefaultFragment()
-                    } else {
-                        loadActiveFragment()
-                    }
-
-                    true
+//    fun setBottomNavigationView() {
+//        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.fragment_home -> {
+//                    if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
+//                        loadDefaultFragment()
+//                    } else {
+//                        loadActiveFragment()
+//                    }
+//
+//                    true
+//                }
+//
+//                R.id.fragment_feed -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, FeedFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_role_and_rule -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_rommate -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, RoommateFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_mypage -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, MyPageFragment()).commit()
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
+//    }
+fun setBottomNavigationView() {
+    binding.bottomNavigationView.setOnItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.fragment_home -> {
+                // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
+                if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
+                    loadDefaultFragment()
+                } else {
+                    loadActiveFragment()
                 }
-
-                R.id.fragment_feed -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, FeedFragment()).commit()
-                    true
-                }
-
-                R.id.fragment_role_and_rule -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
-                    true
-                }
-
-                R.id.fragment_rommate -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoommateFragment()).commit()
-                    true
-                }
-
-                R.id.fragment_mypage -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, MyPageFragment()).commit()
-                    true
-                }
-
-                else -> false
+                true
             }
+
+            R.id.fragment_feed -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, FeedFragment()).commit()
+                true
+            }
+
+            R.id.fragment_role_and_rule -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                true
+            }
+
+            R.id.fragment_rommate -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, RoommateFragment()).commit()
+                true
+            }
+
+            R.id.fragment_mypage -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, MyPageFragment()).commit()
+                true
+            }
+
+            else -> false
         }
     }
+}
+
 
     private fun observeError() {
         homeViewModel.errorResponse.observe(this) { errorResponse ->
