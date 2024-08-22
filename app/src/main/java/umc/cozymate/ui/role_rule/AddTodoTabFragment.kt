@@ -11,10 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.TodoInfoRequest
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
+
 
 @AndroidEntryPoint
 class AddTodoTabFragment: Fragment(){
@@ -32,6 +34,10 @@ class AddTodoTabFragment: Fragment(){
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         setTodoinput()
         getPreference()
+
+        //오늘보다 이전 날짜 선택 제한
+        binding.calendarView.state().edit().setMinimumDate(CalendarDay.today()).commit()
+
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
             if (content.isNotEmpty() && selectedDate != null) {

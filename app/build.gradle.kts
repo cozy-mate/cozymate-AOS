@@ -137,6 +137,9 @@ dependencies {
     //달력
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
 
+    // 맴버에 수에 따라 맴버리스트 2줄로 내릴때 사용
+    implementation(libs.flexbox)
+
     //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 
     //

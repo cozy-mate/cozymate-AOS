@@ -9,13 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateOnboardingBinding
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
+@AndroidEntryPoint
 class RoommateOnboardingFragment : Fragment() {
     private var _binding: umc.cozymate.databinding.FragmentRoommateOnboardingBinding? = null
     private val splashViewModel: SplashViewModel by viewModels()
     private val binding get() = _binding!!
+
+    private var myNickname : String = ""
 
 //    private var nickname = ""
     private var persona = 0
@@ -34,17 +38,15 @@ class RoommateOnboardingFragment : Fragment() {
             startActivity(intent)
         }
 
-        val nickname = splashViewModel.membmerInfo.value?.nickname
         getPreference()
-        binding.tvName1.text = nickname
-        binding.tvName2.text = nickname
+        binding.tvName1.text = myNickname
+        binding.tvName2.text = myNickname
 
         return binding.root
     }
 
     private fun getPreference() {
-        val sharedPref = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        nickname = sharedPref.getString("user_nickname", "홍길동").toString()
-        persona = sharedPref.getInt("user_persona", 0)
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        myNickname =  spf.getString("user_nickname", "No user found").toString()
     }
 }

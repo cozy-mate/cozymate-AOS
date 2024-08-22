@@ -15,6 +15,8 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.RoleRequest
@@ -33,6 +35,7 @@ class AddRoleTabFragment: Fragment() {
     private val memberBox = mutableListOf<CheckBox>()
     private val weekdayBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
+
     private val viewModel: RoleViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +44,6 @@ class AddRoleTabFragment: Fragment() {
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         getPreference()
-        test()
         initMember()
         initWeekdays()
         initClickListener()
@@ -62,14 +64,6 @@ class AddRoleTabFragment: Fragment() {
             (requireActivity() as AddTodoActivity).finish()
         }
         return binding.root
-    }
-
-    private fun test() {
-        mateList = listOf(
-            GetRoomInfoResponse.Result.Mate(26,  "용용1", 61),
-            GetRoomInfoResponse.Result.Mate(27,  "용용2", 62),
-            GetRoomInfoResponse.Result.Mate(28,  "신기해", 72),
-            GetRoomInfoResponse.Result.Mate(35,  "두디", 75))
     }
 
     private fun initWeekdays() {
@@ -101,8 +95,14 @@ class AddRoleTabFragment: Fragment() {
     }
     private fun initMember(){
         val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
-        layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
-        layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
+//        layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
+//        layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
+        layoutParams.setMargins(
+            ConvertDPtoPX(requireContext(), 0),
+            ConvertDPtoPX(requireContext(), 8),
+            ConvertDPtoPX(requireContext(), 8),
+            ConvertDPtoPX(requireContext(), 8)
+        )
         for (mate in mateList) {
             val checkBox = CheckBox(context).apply {
                 text = mate.nickname
@@ -115,9 +115,9 @@ class AddRoleTabFragment: Fragment() {
                 setOnClickListener {
                     updateCheckBoxColor(this,this.isChecked)
                     if (this.isChecked) {
-                        selectedMateIds.add(mate.memberId) // 체크되면 mateId를 추가
+                        selectedMateIds.add(mate.mateId) // 체크되면 mateId를 추가
                     } else {
-                        selectedMateIds.remove(mate.memberId) // 체크 해제되면 mateId를 제거
+                        selectedMateIds.remove(mate.mateId) // 체크 해제되면 mateId를 제거
                     }
                     checkInput()
                 }
@@ -151,10 +151,28 @@ class AddRoleTabFragment: Fragment() {
         }
     }
 
+    // shzredpreference에서 데이터 받아오기
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
+        val mateListJson = spf.getString("mate_list", null)
+        if (mateListJson != null) {
+            mateList = getListFromPrefs(mateListJson)!!
+            Log.d(TAG, "Mates list: $ mateList")
+        } else {
+            Log.d(TAG, "No mate list found")
+        }
 
+    }
+    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.Mate>? {
+        return try {
+            val gson = Gson()
+            val type = object : TypeToken<List<GetRoomInfoResponse.Result.Mate>>() {}.type
+            gson.fromJson(json, type)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse mates list JSON", e)
+            null
+        }
     }
 
     // 텍스트 입력 설정
