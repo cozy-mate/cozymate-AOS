@@ -1,6 +1,5 @@
 package umc.cozymate.ui.roommate
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -39,6 +38,13 @@ class RoommateOnboardingFragment : Fragment() {
             startActivity(intent)
         }
 
+        splashViewModel.memberCheck()
+        splashViewModel.membmerInfo.observe(viewLifecycleOwner) { info ->
+            myNickname = info.nickname
+            binding.tvName1.text = myNickname
+            binding.tvName2.text = myNickname
+        }
+
         binding.btnGoCrew.setOnClickListener {
 //            (context as MainActivity).supportFragmentManager.beginTransaction()
 //                .replace(R.id.main_container, RoommateMakeCrewableFragment())
@@ -54,15 +60,12 @@ class RoommateOnboardingFragment : Fragment() {
                 .addToBackStack(null)  // 뒤로 가기 버튼을 눌렀을 때 이전 프래그먼트로 돌아갈 수 있도록 백스택에 추가
                 .commit()  // 트랜잭션 완료
         }
-        getPreference()
-        binding.tvName1.text = myNickname
-        binding.tvName2.text = myNickname
 
         return binding.root
     }
 
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        myNickname = spf.getString("user_nickname", "No user found").toString()
-    }
+//    private fun getPreference() {
+//        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        myNickname = spf.getString("user_nickname", "No user found").toString()
+//    }
 }

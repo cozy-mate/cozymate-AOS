@@ -79,6 +79,15 @@ class SplashViewModel @Inject constructor(
         sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
     }
 
+    fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
+
+    fun getRefreshToken(): String? {
+        return sharedPreferences.getString("refresh_token", null)
+    }
+
+
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
         sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
@@ -128,7 +137,8 @@ class SplashViewModel @Inject constructor(
     }
 
     fun reissue() {
-        val refreshToken = "Bearer " + _tokenInfo.value!!.refreshToken
+        val refreshToken = getRefreshToken()
+        //val refreshToken = "Bearer " + _tokenInfo.value!!.refreshToken
 
         _loading.value = true // 로딩 시작
         _requestFail.value = false
@@ -165,7 +175,8 @@ class SplashViewModel @Inject constructor(
     }
 
     fun memberCheck() {
-        val accessToken = "Bearer " + _tokenInfo.value!!.accessToken
+        //val accessToken = "Bearer " + _tokenInfo.value!!.accessToken
+        val accessToken = getToken()
 
         _loading.value = true // 로딩 시작
         if (accessToken != null) {
