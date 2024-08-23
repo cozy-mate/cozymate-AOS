@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberInfo
 import umc.cozymate.data.model.entity.TokenInfo
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
@@ -42,6 +44,9 @@ class OnboardingViewModel @Inject constructor(
 
     private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
     val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
+
+    private val _errorResponse = MutableLiveData<ErrorResponse>()
+    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
     private val _persona = MutableLiveData<Int>()
     val persona: LiveData<Int> get() = _persona
@@ -117,10 +122,19 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
+                        _tokenInfo.value!!.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        _tokenInfo.value!!.message = response.body()!!.result?.tokenResponseDTO!!.message
+                        _tokenInfo.value!!.refreshToken = response.body()!!.result?.tokenResponseDTO!!.message
                         saveToken()
                         saveUserInfo()
                     }
                 } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
                     Log.d(TAG, "회원가입 api 응답 실패: ${response}")
                 }
                 _signUpResponse.value = response
@@ -152,6 +166,16 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "닉네임 유효성 체크 api 요청 실패: ${e}")
                 }
             }
+        }
+    }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
         }
     }
 }
