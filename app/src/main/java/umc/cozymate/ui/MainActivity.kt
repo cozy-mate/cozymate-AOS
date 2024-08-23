@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     // 기본 홈 화면 설정
                     binding.bottomNavigationView.selectedItemId = R.id.fragment_home
-                    switchToRoommateMakeCrewableFragment()
                 }
             }
         }

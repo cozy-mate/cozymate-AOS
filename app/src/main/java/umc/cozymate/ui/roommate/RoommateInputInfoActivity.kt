@@ -60,9 +60,12 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 //        val _accessToken = getString(R.string.access_token_1)
 
 
-        val _accessToken = todoViewModel.getToken()
-        val accessToken = _accessToken!!
+//        val _accessToken = todoViewModel.getToken()
+//        val accessToken = _accessToken!!
 //        Log.d("RoommateInputInfoActivity", "token: ${accessToken!!}")
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val accessToken = spf.getString("access_token", "")!!
+        Log.d("RoommateInputInfoActivity", "token: ${accessToken!!}")
 
         btnNext.setOnClickListener {
             // 현재 페이지의 프래그먼트를 가져옵니다.
