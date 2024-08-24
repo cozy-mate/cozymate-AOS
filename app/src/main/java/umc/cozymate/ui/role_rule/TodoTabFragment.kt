@@ -38,6 +38,27 @@ class TodoTabFragment: Fragment() {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
+        return binding.root
+    }
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTodo(roomId, currentDate.toString())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initData()
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+        nickname =  spf.getString("user_nickname", "No user found").toString()
+        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+
+    }
+
+    private fun initData(){
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
@@ -58,23 +79,7 @@ class TodoTabFragment: Fragment() {
                 binding.rvMyTodoList.visibility = View.GONE
             }
         })
-
-        return binding.root
     }
-    override fun onResume() {
-        super.onResume()
-        viewModel.getTodo(roomId, currentDate.toString())
-    }
-
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", 0)
-        nickname =  spf.getString("user_nickname", "No user found").toString()
-        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
-
-    }
-
-
     private fun updateInfo(){
         // 날짜
         val formatter = DateTimeFormatter.ofPattern("M/dd(EEE), ", Locale.KOREA)
@@ -109,5 +114,7 @@ class TodoTabFragment: Fragment() {
         binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         binding.rvMemberTodo.adapter = memberTodoListRVAdapter
     }
+
+
 }
 

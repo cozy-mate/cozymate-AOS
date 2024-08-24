@@ -39,6 +39,29 @@ class RoleAndRuleTabFragment: Fragment() {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
+        return binding.root
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        ruleViewModel.getRule(roomId)
+        roleViewModel.getRole(roomId)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initdata()
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+        roomName = spf.getString("room_name", "no_room_found").toString()
+        myNickname =  spf.getString("user_nickname", "No user found").toString()
+    }
+
+    private fun initdata(){
         ruleViewModel.getRule(roomId)
         ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
 
@@ -80,22 +103,6 @@ class RoleAndRuleTabFragment: Fragment() {
                 binding.rvRules.visibility = View.GONE
             }
         })
-
-        return binding.root
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        ruleViewModel.getRule(roomId)
-        roleViewModel.getRole(roomId)
-    }
-
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", 0)
-        roomName = spf.getString("room_name", "no_room_found").toString()
-        myNickname =  spf.getString("user_nickname", "No user found").toString()
     }
 
     private fun updateInfo(){
