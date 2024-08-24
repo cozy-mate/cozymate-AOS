@@ -11,7 +11,7 @@ class RuleRVAdapter(private var rule : List<RuleInfo>) : RecyclerView.Adapter<Ru
     inner class ViewHolder(val binding: RvItemRuleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
             binding.tvRule.text = rule[pos].content
-            binding.tvRuleNum.text = rule[pos].id.toString()
+            binding.tvRuleNum.text = (pos+1).toString()
             if(rule[pos].memo == ""){
                 binding.tvMemo.visibility = View.GONE
             }
