@@ -218,7 +218,7 @@ class SplashActivity : AppCompatActivity() {
 
                     if (userId != null) {
                         splashViewModel.setClientId(userId.toString())
-                        //splashViewModel.setClientId("4444")
+                        //splashViewModel.setClientId("1")
                         splashViewModel.setSocialType("KAKAO")
                         splashViewModel.signIn()
                     }
