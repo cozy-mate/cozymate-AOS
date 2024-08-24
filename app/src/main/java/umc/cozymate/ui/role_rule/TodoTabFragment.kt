@@ -41,13 +41,15 @@ class TodoTabFragment: Fragment() {
         return binding.root
     }
     override fun onResume() {
+        initData()
+        Log.d(TAG,"resume ${mytodo?.mateTodoList}")
         super.onResume()
-        viewModel.getTodo(roomId, currentDate.toString())
     }
 
     override fun onStart() {
-        super.onStart()
         initData()
+        Log.d(TAG,"start ${mytodo?.mateTodoList}")
+        super.onStart()
     }
 
     private fun getPreference() {
