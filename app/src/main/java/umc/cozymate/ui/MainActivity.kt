@@ -1,10 +1,13 @@
 package umc.cozymate.ui
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     private val homeViewModel: CozyHomeViewModel by viewModels()
-    private val roommateViewModel : RoommateViewModel by viewModels()
+    private val roommateViewModel: RoommateViewModel by viewModels()
 
     var isItemEnable = false
 
@@ -47,6 +50,9 @@ class MainActivity : AppCompatActivity() {
 
         homeViewModel.getRoomId()    //// 이 코드 추가 !!!!!
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermission()
+        }
         // Check and fetch RoomId if needed
         // homeViewModel.fetchRoomIdIfNeeded() ///// 이 코드 삭제!!!!!
 
@@ -79,17 +85,18 @@ class MainActivity : AppCompatActivity() {
                     // RoommateOnboardingFragment로 이동
                     switchToRoommateOnboardingFragment()
                 }
+
                 "RoommateMakeCrewable" -> {
                     // RoommateMakeCrewableFragment로 이동
                     switchToRoommateMakeCrewableFragment()
                 }
+
                 else -> {
                     // 기본 홈 화면 설정
                     binding.bottomNavigationView.selectedItemId = R.id.fragment_home
                 }
             }
         }
-
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
@@ -154,7 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-//    fun setBottomNavigationView() {
+    //    fun setBottomNavigationView() {
 //        binding.bottomNavigationView.setOnItemSelectedListener { item ->
 //            when (item.itemId) {
 //                R.id.fragment_home -> {
@@ -195,67 +202,84 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
-fun setBottomNavigationView() {
-    binding.bottomNavigationView.setOnItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.fragment_home -> {
-                // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
-                observeRoomID()
-                if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
-                    loadDefaultFragment()
-                } else {
-                    loadActiveFragment()
+    fun setBottomNavigationView() {
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.fragment_home -> {
+                    // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
+                    observeRoomID()
+                    if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
+                        loadDefaultFragment()
+                    } else {
+                        loadActiveFragment()
+                    }
+                    true
                 }
-                true
-            }
 
-            R.id.fragment_feed -> {
-                if (!isItemEnable) {
-                    Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
-                    return@setOnItemSelectedListener false // 선택을 막음
-                } else {
+                R.id.fragment_feed -> {
+                    if (!isItemEnable) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false // 선택을 막음
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, FeedFragment()).commit()
+                    }
+                    true
+                }
+
+                R.id.fragment_role_and_rule -> {
+                    if (!isItemEnable) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false // 선택을 막음
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                    }
+                    true
+                }
+
+                R.id.fragment_rommate -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, FeedFragment()).commit()
+                        .replace(R.id.main_container, RoommateFragment()).commit()
+                    true
                 }
-                true
-            }
 
-            R.id.fragment_role_and_rule -> {
-                if (!isItemEnable) {
-                    Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
-                    return@setOnItemSelectedListener false // 선택을 막음
-                } else {
+                R.id.fragment_mypage -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                        .replace(R.id.main_container, MyPageFragment()).commit()
+                    true
                 }
-                true
-            }
 
-            R.id.fragment_rommate -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, RoommateFragment()).commit()
-                true
+                else -> false
             }
-
-            R.id.fragment_mypage -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, MyPageFragment()).commit()
-                true
-            }
-
-            else -> false
         }
     }
-}
 
 
     private fun observeError() {
 
         homeViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
-                val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                val errorDialog =
+                    ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
                 errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun checkNotificationPermission() {
+        val permission = android.Manifest.permission.POST_NOTIFICATIONS
+        when {
+            shouldShowRequestPermissionRationale(permission) -> {
+                // permission denied permanently
+            }
+            else -> {
+                requestNotificationPermission.launch(permission)
+            }
+        }
+    }
+
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 }
