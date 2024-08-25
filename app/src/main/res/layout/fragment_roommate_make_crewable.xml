@@ -411,6 +411,19 @@
                             android:src="@drawable/ic_down" />
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_list_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_gravity="end"
+                        android:text=""
+                        android:layout_marginEnd="10dp"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/unuse_font"
+                        tools:text="5명"/>
+
                     <!-- 필터 결과가 없을 때 표시할 메시지 -->
                     <TextView
                         android:id="@+id/tv_no_selection"
@@ -475,6 +488,18 @@
                             android:backgroundTint="@color/white"
                             android:src="@drawable/ic_down" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_table_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_gravity="end"
+                        android:text=""
+                        android:layout_marginEnd="10dp"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/unuse_font"
+                        tools:text="5명"/>
 
 
                     <!-- 필터 없는 결과 리스트 -->

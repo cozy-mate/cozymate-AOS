@@ -431,7 +431,8 @@ class EssentialInfoFragment : Fragment() {
         val acTexts = listOf(
             binding.acStrong to "세게 틀어요",
             binding.acEnough to "적당하게 틀어요",
-            binding.acWeak to "약하게 틀어요"
+            binding.acWeak to "약하게 틀어요",
+            binding.acNo to "아예 틀지 않아요"
         )
         for ((textView, value) in acTexts) {
             textView.setOnClickListener { acSelected(it, value) }
@@ -462,7 +463,8 @@ class EssentialInfoFragment : Fragment() {
         val heaterTexts = listOf(
             binding.heaterStrong to "세게 틀어요",
             binding.heaterEnough to "적당하게 틀어요",
-            binding.heaterWeak to "약하게 틀어요"
+            binding.heaterWeak to "약하게 틀어요",
+            binding.heaterNo to "아예 틀지 않아요"
         )
         for ((textView, value) in heaterTexts) {
             textView.setOnClickListener { heaterSelected(it, value) }
@@ -773,6 +775,7 @@ class EssentialInfoFragment : Fragment() {
         val cleanFrequencyTexts = listOf(
             binding.cleanFrequencyEveryDay to "매일매일 해요",
             binding.cleanFrequencyEvery2days to "이틀에 한 번 정도 해요",
+            binding.cleanFrequencyEveryWeeks to "일주일에 한 번 정도 해요",
             binding.cleanFrequencyEvery34days to "일주일에 3~4번 하는 거 같아요",
             binding.cleanFrequencyEvery2weeks to "2주에 한 번씩 해요",
             binding.cleanFrequencyEveryMonth to "한 달에 한 번씩 해요",

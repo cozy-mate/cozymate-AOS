@@ -179,6 +179,7 @@ font pretendard_medium
 font pretendard_regular
 font pretendard_semi_bold
 id ac_enough
+id ac_no
 id ac_strong
 id ac_weak
 id bottom
@@ -284,6 +285,7 @@ id clean_frequency_every_2weeks
 id clean_frequency_every_34days
 id clean_frequency_every_day
 id clean_frequency_every_month
+id clean_frequency_every_weeks
 id clean_frequency_no
 id container
 id cy_light_off_ampm
@@ -324,6 +326,7 @@ id guide_other
 id guide_rv_crewable_list
 id guide_user
 id heater_enough
+id heater_no
 id heater_strong
 id heater_weak
 id iv
@@ -384,6 +387,7 @@ id ll_2
 id ll_detail_dialog_btn
 id ll_name
 id ly_ac_check
+id ly_ac_check2
 id ly_call_check
 id ly_clean_check2
 id ly_clean_check5
@@ -397,6 +401,7 @@ id ly_friendly
 id ly_game_check
 id ly_guide
 id ly_heater_check
+id ly_heater_check2
 id ly_light_off_time_1
 id ly_light_off_time_7
 id ly_list_table_select
@@ -662,6 +667,7 @@ id tv_list_name_title
 id tv_list_never
 id tv_list_noise_check
 id tv_list_noise_check_title
+id tv_list_num
 id tv_list_personality_check
 id tv_list_personality_check_title
 id tv_list_rule
@@ -761,6 +767,7 @@ id tv_table_mbti
 id tv_table_name
 id tv_table_never
 id tv_table_noise
+id tv_table_num
 id tv_table_other_ac
 id tv_table_other_acceptance
 id tv_table_other_birth
