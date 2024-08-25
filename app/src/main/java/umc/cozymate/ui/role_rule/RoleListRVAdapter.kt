@@ -19,7 +19,7 @@ class RoleListRVAdapter(private val members :  Map<String, RoleData>) : Recycler
             if(roleList.size == 0){
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
-                binding.tvEmpty.text = "등록된 역할이 없어요!"
+                binding.tvEmpty.text = "아직 등록된 역할이 없어요"
             }
             else{
                 binding.rvList.visibility = View.VISIBLE

@@ -173,7 +173,7 @@
                 android:id="@+id/tv_RoleEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="오늘 등록된 할 일이 없어요"
+                android:text="아직 등록된 역할이 없어요"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/unuse_font"
                 android:gravity="center_vertical"

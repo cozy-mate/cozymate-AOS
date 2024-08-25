@@ -44,14 +44,15 @@ class RoleAndRuleTabFragment: Fragment() {
 
 
     override fun onResume() {
+        initData()
+        Log.d(TAG,"resume ${myRole}")
         super.onResume()
-        ruleViewModel.getRule(roomId)
-        roleViewModel.getRole(roomId)
     }
 
     override fun onStart() {
+        initData()
+        Log.d(TAG,"start ${myRole}")
         super.onStart()
-        initdata()
     }
 
     private fun getPreference() {
@@ -61,7 +62,7 @@ class RoleAndRuleTabFragment: Fragment() {
         myNickname =  spf.getString("user_nickname", "No user found").toString()
     }
 
-    private fun initdata(){
+    private fun initData(){
         ruleViewModel.getRule(roomId)
         ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
 
