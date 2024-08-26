@@ -5,21 +5,21 @@
     <item
         android:id="@+id/fragment_home"
         android:title="코지홈"
-        android:icon="@drawable/ic_basic_character"/>
+        android:icon="@drawable/ic_home" />
     <item
         android:id="@+id/fragment_role_and_rule"
         android:title="롤앤룰"
-        android:icon="@drawable/ic_basic_character"/>
+        android:icon="@drawable/ic_role_and_rule"/>
+    <item
+        android:id="@+id/fragment_rommate"
+        android:title="룸메이트"
+        android:icon="@drawable/ic_roommate"/>
     <item
         android:id="@+id/fragment_feed"
         android:title="피드"
-        android:icon="@drawable/ic_basic_character"/>
-    <item
-        android:id="@+id/fragment_rommate"
-        android:title="룸메"
-        android:icon="@drawable/ic_basic_character"/>
+        android:icon="@drawable/ic_feed"/>
     <item
         android:id="@+id/fragment_mypage"
         android:title="마이페이지"
-        android:icon="@drawable/ic_basic_character"/>
+        android:icon="@drawable/ic_my"/>
 </menu>
