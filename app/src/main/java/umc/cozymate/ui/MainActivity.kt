@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -127,6 +128,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initScreen() {
         this.setStatusBarTransparent()
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                )
+        window.setNavigationBarColor(android.graphics.Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
@@ -274,6 +280,7 @@ class MainActivity : AppCompatActivity() {
             shouldShowRequestPermissionRationale(permission) -> {
                 // permission denied permanently
             }
+
             else -> {
                 requestNotificationPermission.launch(permission)
             }
