@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="umc.cozymate.ui.viewmodel.CozyHomeViewModel" />
@@ -18,11 +19,11 @@
             android:id="@+id/cl_cozyhome_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/background_cozyhome_active_png"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="375:812"
-            android:background="@drawable/background_cozyhome_active_png"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -48,11 +49,12 @@
                 android:id="@+id/iv_light"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="43dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="43dp"
+                android:background="@drawable/ic_cozyhome_light"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/ic_cozyhome_light" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_whose_room1"
@@ -84,13 +86,13 @@
                 android:layout_height="33dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="4dp"
                 android:background="@drawable/btn_rectangle_12"
                 android:drawableEnd="@drawable/ic_copy"
                 android:drawablePadding="-10dp"
                 android:drawableTint="@color/color_font"
                 android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="4dp"
                 android:text="QUIIRK"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
@@ -101,8 +103,9 @@
                 android:id="@+id/iv_char_back"
                 android:layout_width="176dp"
                 android:layout_height="190dp"
-                android:layout_marginTop="63dp"
+                android:layout_marginTop="42dp"
                 android:background="@drawable/background_cozyhome_character_2"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_message" />
 
@@ -122,7 +125,7 @@
             android:id="@+id/iv_char"
             android:layout_width="135dp"
             android:layout_height="135dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="155dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/background_circle"
             android:elevation="2dp"
@@ -133,7 +136,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="268dp"
+            android:layout_marginTop="238dp"
             android:background="@drawable/background_round_corner_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
