@@ -8,15 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyHomeRoomInfoBinding
+import umc.cozymate.ui.cozy_home.making_room.view_model.MakingRoomViewModel
 import umc.cozymate.util.setupTextInputWithMaxLength
 
 // 플로우1 : "방정보 입력창(1)" > 룸메이트 선택창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
+@AndroidEntryPoint
 class CozyHomeRoomInfoFragment : Fragment() {
 
     private var _binding: FragmentCozyHomeRoomInfoBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: MakingRoomViewModel
 
     private var numPeopleOption: TextView? = null
     private var numPeople: String? = null
@@ -26,6 +32,9 @@ class CozyHomeRoomInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCozyHomeRoomInfoBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
+
         return binding.root
     }
 

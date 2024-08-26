@@ -11,5 +11,5 @@ data class ErrorResponse(
     @SerialName("isSuccess")
     val isSuccess: Boolean,
     @SerialName("message")
-    val message: String
+    var message: String
 )

@@ -70,15 +70,6 @@
             android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateSelectionInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateEssentialInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.roommate.lifestyle_info.RoommateBasicInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
 
