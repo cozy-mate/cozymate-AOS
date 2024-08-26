@@ -759,6 +759,15 @@
                         android:layout_marginEnd="8dp"
                         android:text="적당하게 틀어요" />
 
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_ac_check2"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check">
                     <TextView
                         android:id="@+id/ac_weak"
                         style="@style/OptionBox"
@@ -766,13 +775,21 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="약하게 틀어요" />
+                    <TextView
+                        android:id="@+id/ac_no"
+                        style="@style/OptionBox"
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="아예 틀지 않아요" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -818,6 +835,17 @@
                         android:layout_marginEnd="8dp"
                         android:text="적당하게 틀어요" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ly_heater_check2"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_heater_check">
+
                     <TextView
                         android:id="@+id/heater_weak"
                         style="@style/OptionBox"
@@ -826,13 +854,20 @@
                         android:layout_marginEnd="8dp"
                         android:text="약하게 틀어요" />
 
+                    <TextView
+                        android:id="@+id/heater_no"
+                        style="@style/OptionBox"
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="아예 틀지 않아요" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1458,19 +1493,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_frequency1">
 
                     <TextView
+                        android:id="@+id/clean_frequency_every_weeks"
+                        style="@style/OptionBox"
+                        android:layout_width="156dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="일주일에 한 번 정도 해요" />
+                    <TextView
                         android:id="@+id/clean_frequency_every_34days"
                         style="@style/OptionBox"
                         android:layout_width="185dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
                         android:text="일주일에 3~4번 하는 거 같아요" />
 
-                    <TextView
-                        android:id="@+id/clean_frequency_every_2weeks"
-                        style="@style/OptionBox"
-                        android:layout_width="125dp"
-                        android:layout_height="40dp"
-                        android:text="2주에 한 번씩 해요" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1482,6 +1517,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_frequency2">
 
+                    <TextView
+                        android:id="@+id/clean_frequency_every_2weeks"
+                        style="@style/OptionBox"
+                        android:layout_width="125dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="2주에 한 번씩 해요" />
                     <TextView
                         android:id="@+id/clean_frequency_every_month"
                         style="@style/OptionBox"

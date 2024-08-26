@@ -38,6 +38,29 @@ class TodoTabFragment: Fragment() {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
+        return binding.root
+    }
+    override fun onResume() {
+        initData()
+        Log.d(TAG,"resume ${mytodo?.mateTodoList}")
+        super.onResume()
+    }
+
+    override fun onStart() {
+        initData()
+        Log.d(TAG,"start ${mytodo?.mateTodoList}")
+        super.onStart()
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+        nickname =  spf.getString("user_nickname", "No user found").toString()
+        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+
+    }
+
+    private fun initData(){
         viewModel.getTodo(roomId, currentDate.toString())
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
@@ -58,22 +81,7 @@ class TodoTabFragment: Fragment() {
                 binding.rvMyTodoList.visibility = View.GONE
             }
         })
-
-        return binding.root
     }
-    override fun onResume() {
-        super.onResume()
-        viewModel.getTodo(roomId, currentDate.toString())
-    }
-
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", 0)
-        nickname =  spf.getString("user_nickname", "No user found").toString()
-        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
-
-    }
-
 
     private fun updateInfo(){
         // 날짜
@@ -83,6 +91,7 @@ class TodoTabFragment: Fragment() {
         // 이름
         binding.tvTodoName.text = nickname
     }
+
     private fun updateRecyclerView(mytodoList: TodoMateData, memberList: Map<String, TodoMateData>){
         // 내 할일
         if(mytodoList.mateTodoList.isEmpty()){
@@ -101,13 +110,20 @@ class TodoTabFragment: Fragment() {
             binding.rvMyTodoList.adapter = myTodoRVAdapter
         }
         // 룸메 할일(중첩 리사이클러뷰)
-        val memberTodoListRVAdapter =  TodoListRVAdapter(memberList) { todoItem ->
-            // 서버로 TodoItem 상태 업데이트 요청
-            //viewModel.updateTodo(token, UpdateTodoRequest(todoItem.id, todoItem.completed))
-
+        if(memberList.isEmpty()){
+            binding.tvNoMate.visibility = View.VISIBLE
+            binding.rvMemberTodo.visibility = View.GONE
         }
-        binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        binding.rvMemberTodo.adapter = memberTodoListRVAdapter
+        else{
+            binding.tvNoMate.visibility = View.GONE
+            binding.rvMemberTodo.visibility = View.VISIBLE
+            val memberTodoListRVAdapter =  TodoListRVAdapter(memberList) { todoItem -> }
+            binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+            binding.rvMemberTodo.adapter = memberTodoListRVAdapter
+        }
+
     }
+
+
 }
 

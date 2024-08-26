@@ -107,6 +107,7 @@ private fun convertACToInt(canShare: String): Int {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
+        "아예 틀지 않아요" -> 0
         else -> 1
     }
 }
@@ -115,6 +116,7 @@ private fun convertHeaterToInt(canShare: String): Int {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
+        "아예 틀지 않아요" -> 0
         else -> 1
     }
 }
