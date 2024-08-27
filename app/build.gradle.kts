@@ -12,11 +12,8 @@ plugins {
 
     //kotlin("jvm") version "2.0.10"
     kotlin("plugin.serialization") version "2.0.10"
+    alias(libs.plugins.google.firebase.crashlytics)
 }
-
-//val properties = Properties().apply{
-//    load(FileInputStream(rootProject.file("local.properties")))
-//}
 
 android {
     namespace = "umc.cozymate"
@@ -66,6 +63,8 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.crashlytics)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
