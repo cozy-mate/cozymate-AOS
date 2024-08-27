@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
@@ -13,6 +14,7 @@ import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
 // 플로우1 : 방정보 입력창 캐릭터 수정 버튼 클릭
+@AndroidEntryPoint
 class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName

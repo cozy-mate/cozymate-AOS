@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeGivingInviteCodeBinding
 import umc.cozymate.ui.MainActivity
@@ -13,6 +14,7 @@ import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
 
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
+@AndroidEntryPoint
 class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCozyHomeGivingInviteCodeBinding
