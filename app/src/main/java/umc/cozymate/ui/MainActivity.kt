@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
+
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
 
@@ -46,8 +47,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setBottomNavigationView()
         window.navigationBarColor = getResources().getColor(R.color.white)
-
         initScreen()
+
+        // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
+        val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
+        if (showCozyDefault) {
+            loadDefaultFragment()
+        }
 
         homeViewModel.getRoomId()    //// 이 코드 추가 !!!!!
 
