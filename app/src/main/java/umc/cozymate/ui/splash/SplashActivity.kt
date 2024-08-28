@@ -73,14 +73,25 @@ class SplashActivity : AppCompatActivity() {
             openKakaoLoginPage()
         }
 
+        // 애플 로그인 버튼 >> 코지홈 비활성화
         binding.btnAppleLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
             }
             startActivity(intent)
-
         }
 
+        // 회원가입 버튼 >> 테스트 로그인 >> 온보딩
+        binding.btnSignIn.setOnClickListener {
+            testSignIn()
+        }
+
+    }
+
+    private fun testSignIn() {
+        splashViewModel.setClientId("TEST")
+        splashViewModel.setSocialType("TEST")
+        splashViewModel.signIn()
     }
 
     private fun observeError() {
@@ -220,8 +231,8 @@ class SplashActivity : AppCompatActivity() {
                     Log.d(TAG, "사용자 ID: $userId")
 
                     if (userId != null) {
-                        splashViewModel.setClientId(userId.toString())
-                        //splashViewModel.setClientId("8")
+                        //splashViewModel.setClientId(userId.toString())
+                        splashViewModel.setClientId("9")
                         splashViewModel.setSocialType("KAKAO")
                         splashViewModel.signIn()
                     }
@@ -233,22 +244,6 @@ class SplashActivity : AppCompatActivity() {
                 .show()
             goLoginFail()
         }
-
-
-        /*// 토큰 정보 보기
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                Log.e(TAG, "토큰 정보 보기 실패", error)
-                // refreshToken()
-            } else if (tokenInfo != null) {
-                Log.i(
-                    TAG, "토큰 정보 보기 성공" +
-                            "\n회원번호: ${tokenInfo.id}" +
-                            "\n만료시간: ${tokenInfo.expiresIn} 초"
-                )
-            }
-        }*/
-
     }
 
 }

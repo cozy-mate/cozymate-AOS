@@ -27,6 +27,9 @@ class OnboardingViewModel @Inject constructor(
 
     private val TAG = this.javaClass.simpleName
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> get() = _name
 
@@ -119,31 +122,17 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
-                        _tokenInfo.value?.accessToken =
-                            response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        _tokenInfo.value?.message =
-                            response.body()!!.result?.tokenResponseDTO!!.message
-                        _tokenInfo.value?.refreshToken =
-                            response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
+                        _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
 
-                        sharedPreferences.edit().putString(
-                            "access_token",
-                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        ).commit()
-                        sharedPreferences.edit().putString(
-                            "refresh_token",
-                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        ).commit()
-                        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name)
-                            .commit()
-                        sharedPreferences.edit()
-                            .putString("user_nickname", _memberInfo.value!!.nickname).commit()
-                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona)
-                            .commit()
-                        sharedPreferences.edit()
-                            .putString("user_gender", _memberInfo.value!!.gender).commit()
-                        sharedPreferences.edit()
-                            .putString("user_birthday", _memberInfo.value!!.birthday).commit()
+                        sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
+                        sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
+                        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+                        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
+                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
+                        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
+                        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

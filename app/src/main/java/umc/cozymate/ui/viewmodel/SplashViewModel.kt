@@ -75,8 +75,10 @@ class SplashViewModel @Inject constructor(
 
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
-        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
+        sharedPreferences.edit()
+            .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit()
+            .putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
 
     fun getToken(): String? {
@@ -90,11 +92,11 @@ class SplashViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
-        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).apply()
-        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).apply()
-        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).apply()
-        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).apply()
+        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
+        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
+        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
+        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
     }
 
     fun signIn() {
