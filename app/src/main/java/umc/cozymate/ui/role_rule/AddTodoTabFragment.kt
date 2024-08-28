@@ -54,6 +54,8 @@ class AddTodoTabFragment: Fragment(){
                         Log.d(TAG,"연결 실패")
                     }
                 }
+                // 부모 뷰 visibility 변경
+                // (activity as AddTodoActivity)?.onLoading(1)
                 (requireActivity() as AddTodoActivity).finish()
             }
             }
