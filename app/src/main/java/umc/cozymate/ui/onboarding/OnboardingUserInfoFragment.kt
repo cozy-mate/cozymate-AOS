@@ -198,6 +198,11 @@ class OnboardingUserInfoFragment : Fragment() {
             putString("nickname", nickname)
             apply()
         }
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("user_nickname", nickname)
+        editor.commit() // or editor.commit()
     }
 
     private fun setFocusColor(til: TextInputLayout, et: EditText, tv: TextView) {

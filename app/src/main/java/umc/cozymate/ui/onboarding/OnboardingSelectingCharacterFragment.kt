@@ -124,5 +124,10 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             putInt("persona", persona)
             apply()
         }
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("user_persona", persona)
+        editor.commit() // or editor.commit()
     }
 }
