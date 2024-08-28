@@ -72,7 +72,7 @@ class MyPageFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         persona = spf.getInt("uesr_persona", 0)
         nickname =  spf.getString("user_nickname", "No user found").toString()
-        roomname =spf.getString("room_name", "No room found").toString()
+        roomname =spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
     }
 
     private fun initCharactor() : Int{

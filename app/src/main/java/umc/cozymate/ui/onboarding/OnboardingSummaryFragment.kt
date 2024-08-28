@@ -50,8 +50,8 @@ class OnboardingSummaryFragment : Fragment() {
 
     private fun getPreference() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        nickname = sharedPref.getString("user_nickname", "No user found").toString()
-        persona = sharedPref.getInt("user_persona", 1)
+        nickname = sharedPref.getString("nickname", "No user found").toString()
+        persona = sharedPref.getInt("persona", 1)
     }
 
     private fun setCharacterImage(persona: Int) {

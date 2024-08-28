@@ -114,7 +114,7 @@ class OnboardingViewModel @Inject constructor(
         val token = getToken() // 이때 임시 토큰이어야 함
         Log.d(TAG, "유저 정보: $memberInfo")
         Log.d(TAG, "토큰: $token")
-
+        _tokenInfo.value = TokenInfo("", "", "")
         viewModelScope.launch {
             try {
                 val response = repository.signUp(token = token!!, memberInfo = memberInfo)
@@ -125,6 +125,11 @@ class OnboardingViewModel @Inject constructor(
                         _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
                         _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
                         _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        _memberInfo.value?.name = response.body()!!.result?.memberInfoDTO!!.name
+                        _memberInfo.value?.nickname = response.body()!!.result?.memberInfoDTO!!.nickname
+                        _memberInfo.value?.persona = response.body()!!.result?.memberInfoDTO!!.persona
+                        _memberInfo.value?.gender = response.body()!!.result?.memberInfoDTO!!.gender
+                        _memberInfo.value?.birthday = response.body()!!.result?.memberInfoDTO!!.birthday
 
                         sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
                         sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()

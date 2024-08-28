@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = getResources().getColor(R.color.white)
         initScreen()
 
+        // ProgressBar 초기화
+        binding.progressBar.visibility = View.VISIBLE // 로딩 시작
+
         // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
         val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
         if (showCozyDefault) {
@@ -103,9 +106,11 @@ class MainActivity : AppCompatActivity() {
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
                 loadDefaultFragment()
+                binding.progressBar.visibility = View.GONE
             } else {
                 isRoomExist = true
                 loadActiveFragment()
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
@@ -200,8 +205,10 @@ class MainActivity : AppCompatActivity() {
                     observeRoomID()
                     if (!isRoomExist) {
                         loadDefaultFragment()
+                        binding.progressBar.visibility = View.GONE
                     } else {
                         loadActiveFragment()
+                        binding.progressBar.visibility = View.GONE
                     }
                     true
                 }

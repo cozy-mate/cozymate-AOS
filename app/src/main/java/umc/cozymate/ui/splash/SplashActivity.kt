@@ -64,6 +64,8 @@ class SplashActivity : AppCompatActivity() {
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
 
+        binding.progressBar.visibility = View.VISIBLE
+
         // 뷰모델 옵저빙
         observeSignInResponse()
         observeLoading()
@@ -93,6 +95,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun attemptAutoLogin() {
+        binding.progressBar.visibility = View.VISIBLE
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
@@ -102,7 +105,11 @@ class SplashActivity : AppCompatActivity() {
                 } else {
                     goOnboarding() // 온보딩 화면으로 이동
                 }
+                binding.progressBar.visibility = View.GONE
             }
+        } else {
+            // 로딩 숨김 (토큰이 없으면 즉시 로그인을 시도하지 않기 때문에)
+            binding.progressBar.visibility = View.GONE
         }
     }
 
