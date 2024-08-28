@@ -61,14 +61,18 @@ class SplashActivity : AppCompatActivity() {
         }
         window.navigationBarColor = Color.WHITE
 
+        // 카카오 SDK 초기화
+        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+
+        // 뷰모델 옵저빙
         observeSignInResponse()
         observeLoading()
         observeError()
 
-        // 카카오 SDK 초기화
-        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+        // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
+        attemptAutoLogin()
 
-        // 로그인 버튼 클릭 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
+        // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
         }
@@ -86,6 +90,20 @@ class SplashActivity : AppCompatActivity() {
             testSignIn()
         }
 
+    }
+
+    private fun attemptAutoLogin() {
+        val tokenInfo = splashViewModel.getToken()
+        if (tokenInfo != null) {
+            splashViewModel.memberCheck()
+            splashViewModel.isMember.observe(this) { isMember ->
+                if (isMember) {
+                    goCozyHome() // 홈 화면으로 이동
+                } else {
+                    goOnboarding() // 온보딩 화면으로 이동
+                }
+            }
+        }
     }
 
     private fun testSignIn() {
@@ -231,8 +249,8 @@ class SplashActivity : AppCompatActivity() {
                     Log.d(TAG, "사용자 ID: $userId")
 
                     if (userId != null) {
-                        //splashViewModel.setClientId(userId.toString())
-                        splashViewModel.setClientId("9")
+                        splashViewModel.setClientId(userId.toString())
+                        // splashViewModel.setClientId("9")
                         splashViewModel.setSocialType("KAKAO")
                         splashViewModel.signIn()
                     }

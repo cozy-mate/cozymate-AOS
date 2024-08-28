@@ -75,10 +75,8 @@ class SplashViewModel @Inject constructor(
 
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit()
-            .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
-        sharedPreferences.edit()
-            .putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
+        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
 
     fun getToken(): String? {
@@ -107,16 +105,13 @@ class SplashViewModel @Inject constructor(
         if (clientIdValue != null && socialTypeValue != null) {
             viewModelScope.launch {
                 try {
-                    val response = repository.signIn(
-                        SignInRequest(
-                            clientIdValue,
-                            socialTypeValue
-                        )
-                    )
+                    val response = repository.signIn(SignInRequest(clientIdValue, socialTypeValue))
                     if (response.isSuccessful) {
                         Log.d(TAG, "로그인 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
                             Log.d(TAG, "로그인 성공: ${response.body()!!.result}")
+                            _tokenInfo.value!!.accessToken = response.body()!!.result.tokenResponseDTO.accessToken
+                            _tokenInfo.value!!.refreshToken = response.body()!!.result.tokenResponseDTO.refreshToken
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()
@@ -155,7 +150,7 @@ class SplashViewModel @Inject constructor(
                             Log.d(TAG, "토큰 재발행 성공: ${response.body()!!.result}")
                             _tokenInfo.value!!.accessToken = response.body()!!.result.accessToken
                             _tokenInfo.value!!.message = response.body()!!.result.message
-                            _tokenInfo.value!!.refreshToken = response.body()!!.result.message
+                            _tokenInfo.value!!.refreshToken = response.body()!!.result.refreshToken
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()
