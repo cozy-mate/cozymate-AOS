@@ -2,6 +2,8 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,15 +46,17 @@ class RoleAndRuleTabFragment: Fragment() {
 
 
     override fun onResume() {
-        initData()
-        Log.d(TAG,"resume ${myRole}")
         super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            initData()
+            Log.d(TAG,"resume ${myRole}")
+        }, 1000)
     }
 
     override fun onStart() {
+        super.onStart()
         initData()
         Log.d(TAG,"start ${myRole}")
-        super.onStart()
     }
 
     private fun getPreference() {
