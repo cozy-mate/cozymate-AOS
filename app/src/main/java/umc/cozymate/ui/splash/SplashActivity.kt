@@ -74,10 +74,13 @@ class SplashActivity : AppCompatActivity() {
         }
 
         binding.btnAppleLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
+            }
             startActivity(intent)
-            finish()
+
         }
+
     }
 
     private fun observeError() {
@@ -218,7 +221,7 @@ class SplashActivity : AppCompatActivity() {
 
                     if (userId != null) {
                         splashViewModel.setClientId(userId.toString())
-                        //splashViewModel.setClientId("1")
+                        //splashViewModel.setClientId("8")
                         splashViewModel.setSocialType("KAKAO")
                         splashViewModel.signIn()
                     }

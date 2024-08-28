@@ -49,7 +49,8 @@ class RoleListRVAdapter(private val members :  Map<String, RoleData>) : Recycler
                 13 -> R.drawable.character_13
                 14 -> R.drawable.character_14
                 15 -> R.drawable.character_15
-                else -> R.drawable.character_0 // 기본 이미지 설정
+                16 -> R.drawable.character_16
+                else -> R.drawable.character_1 // 기본 이미지 설정
             }
         }
 

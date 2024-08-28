@@ -46,7 +46,6 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
     private fun initCharacterList() {
 
         val characters = listOf(
-            CharacterItem(R.drawable.character_0),
             CharacterItem(R.drawable.character_1),
             CharacterItem(R.drawable.character_2),
             CharacterItem(R.drawable.character_3),
@@ -62,6 +61,7 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
             CharacterItem(R.drawable.character_13),
             CharacterItem(R.drawable.character_14),
             CharacterItem(R.drawable.character_15),
+            CharacterItem(R.drawable.character_16),
         )
         val adapter = CharactersAdapter(characters, this)
         binding.rvList.adapter = adapter

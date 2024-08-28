@@ -53,7 +53,7 @@ class CozyHomeRoomInfoFragment : Fragment() {
                 startActivity(intent)
                 isSelected = true
             }
-            if (isSelected) ivCharacter.setImageResource(R.drawable.character_0)
+            if (isSelected) ivCharacter.setImageResource(R.drawable.character_1)
 
             val numPeopleTexts = listOf(
                 binding.chip1 to "2명",
