@@ -2,6 +2,8 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,9 +43,14 @@ class TodoTabFragment: Fragment() {
         return binding.root
     }
     override fun onResume() {
-        initData()
-        Log.d(TAG,"resume ${mytodo?.mateTodoList}")
         super.onResume()
+        binding.progressBar.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.progressBar.visibility = View.GONE
+            initData()
+            Log.d(TAG,"resume ${mytodo?.mateTodoList}")
+        }, 1500)
+
     }
 
     override fun onStart() {
