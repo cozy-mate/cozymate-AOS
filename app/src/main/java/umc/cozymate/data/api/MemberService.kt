@@ -34,7 +34,7 @@ interface MemberService {
     @GET("/members/sign-out")
     suspend fun signOut(
         @Header("Authorization") accessToken: String,
-    )
+    ): Response<Unit>
 
     // 사용자 정보 조회
     @GET("/members/member-info")

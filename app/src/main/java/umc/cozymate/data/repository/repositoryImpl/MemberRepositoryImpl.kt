@@ -20,7 +20,7 @@ class MemberRepositoryImpl @Inject constructor(
         return api.reissue(refreshToken)
     }
 
-    override suspend fun signOut(accessToken: String) {
+    override suspend fun signOut(accessToken: String): Response<Unit> {
         return api.signOut(accessToken)
     }
 
