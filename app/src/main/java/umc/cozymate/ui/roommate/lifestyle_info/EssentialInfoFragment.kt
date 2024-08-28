@@ -1,6 +1,8 @@
 package umc.cozymate.ui.roommate.lifestyle_info
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,15 +87,19 @@ class EssentialInfoFragment : Fragment() {
     private var mbtiOption: TextView? = null
     private var mbtiCheck: String? = null
 
+    private val handler = Handler(Looper.getMainLooper())
+    private var runnable: Runnable? = null
+    private val delayInMillis: Long = 500
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEssentialInfoBinding.inflate(layoutInflater, container, false)
-        
+
         spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
-        
+
         userInfo = spfHelper.loadUserInfo()
 
         savedInstanceState?.let {
@@ -124,7 +130,7 @@ class EssentialInfoFragment : Fragment() {
             wakeAmpm = userInfo.wakeAmPm
             wakeTime = userInfo.wakeUpTime
             sleepAmpm = userInfo.sleepAmPm
-            sleepTime= userInfo.sleepTime
+            sleepTime = userInfo.sleepTime
             lightOffAmpm = userInfo.lightOffAmPm
             lightOffTime = userInfo.lightOffTime
             smokeCheck = userInfo.smokingState
@@ -154,7 +160,13 @@ class EssentialInfoFragment : Fragment() {
         return binding.root
     }
 
-    private fun initPage(){
+    private fun resetDebounceTimer(action: () -> Unit) {
+        runnable?.let { handler.removeCallbacks(it) }  // 기존 타이머 취소
+        runnable = Runnable { action() }  // 새로운 작업 설정
+        handler.postDelayed(runnable!!, delayInMillis)  // 1초 후 실행
+    }
+
+    private fun initPage() {
         initWakeAmpm()
         initWakeTime()
         initSleepAmpm()
@@ -178,6 +190,7 @@ class EssentialInfoFragment : Fragment() {
         initPersonality()
         initMbti()
     }
+
     private fun initWakeAmpm() {
         val wakeAmpmTexts = listOf(
             binding.tvWakeAm to "오전",
@@ -212,24 +225,26 @@ class EssentialInfoFragment : Fragment() {
         wakeAmpm = value
         userInfo = userInfo.copy(wakeAmPm = value)
         spfHelper.saveUserInfo(userInfo)
-        showSleepLayout()
+        resetDebounceTimer { showSleepLayout() }
         updateNextButtonState()
     }
 
     private fun wakeUpTimeSelected(view: View, value: Int) {
         wakeTimeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         wakeTimeOption = view as TextView
         wakeTimeOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         wakeTime = value
         userInfo = userInfo.copy(wakeUpTime = value)
         spfHelper.saveUserInfo(userInfo)
-        showSleepLayout()
+        resetDebounceTimer { showSleepLayout() }
         updateNextButtonState()
     }
 
@@ -273,29 +288,31 @@ class EssentialInfoFragment : Fragment() {
         sleepAmpm = value
         userInfo = userInfo.copy(sleepAmPm = value)
         spfHelper.saveUserInfo(userInfo)
-        showLightOffLayout()
+        resetDebounceTimer { showLightOffLayout() }
         updateNextButtonState()
     }
 
     private fun sleepTimeSelected(view: View, value: Int) {
         sleepTimeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         sleepTimeOption = view as TextView
         sleepTimeOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         sleepTime = value
         userInfo = userInfo.copy(sleepTime = value)
         spfHelper.saveUserInfo(userInfo)
-        showLightOffLayout()
+        resetDebounceTimer { showLightOffLayout() }
         updateNextButtonState()
     }
 
     private fun showLightOffLayout() {
-        if(sleepAmpmOption != null && sleepTimeOption != null) {
+        if (sleepAmpmOption != null && sleepTimeOption != null) {
             binding.clLightOff.showWithSlideDownAnimation()
         }
     }
@@ -334,24 +351,26 @@ class EssentialInfoFragment : Fragment() {
         lightOffAmpm = value
         userInfo = userInfo.copy(lightOffAmPm = value)
         spfHelper.saveUserInfo(userInfo)
-        showSmokeLayout()
+        resetDebounceTimer { showSmokeLayout() }
         updateNextButtonState()
     }
 
     private fun lightOffTimeSelected(view: View, value: Int) {
         lightOffTimeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         lightOffTimeOption = view as TextView
         lightOffTimeOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         lightOffTime = value
         userInfo = userInfo.copy(lightOffTime = value)
         spfHelper.saveUserInfo(userInfo)
-        showSmokeLayout()
+        resetDebounceTimer { showSmokeLayout() }
         updateNextButtonState()
     }
 
@@ -376,17 +395,19 @@ class EssentialInfoFragment : Fragment() {
     private fun smokeSelected(view: View, value: String) {
         smokeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         smokeOption = view as TextView
         smokeOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         smokeCheck = value
         userInfo = userInfo.copy(smokingState = value)
         spfHelper.saveUserInfo(userInfo)
-        showSleepHabitLayout()
+        resetDebounceTimer { showSleepHabitLayout() }
         updateNextButtonState()
     }
 
@@ -410,23 +431,26 @@ class EssentialInfoFragment : Fragment() {
     private fun sleepHabitSelected(view: View, value: String) {
         sleepHabitOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         sleepHabitOption = view as TextView
         sleepHabitOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         sleepHabitCheck = value
         userInfo = userInfo.copy(sleepingHabit = value)
         spfHelper.saveUserInfo(userInfo)
-        showAcLayout()
+        resetDebounceTimer { showAcLayout() }
         updateNextButtonState()
     }
 
     private fun showAcLayout() {
         binding.clAc.showWithSlideDownAnimation()
     }
+
     private fun initAc() {
         val acTexts = listOf(
             binding.acStrong to "세게 틀어요",
@@ -442,23 +466,26 @@ class EssentialInfoFragment : Fragment() {
     private fun acSelected(view: View, value: String) {
         acOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         acOption = view as TextView
         acOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         acCheck = value
         userInfo = userInfo.copy(airConditioningIntensity = value)
         spfHelper.saveUserInfo(userInfo)
-        showHeaterLayout()
+        resetDebounceTimer { showHeaterLayout() }
         updateNextButtonState()
     }
 
     private fun showHeaterLayout() {
         binding.clHeater.showWithSlideDownAnimation()
     }
+
     private fun initHeater() {
         val heaterTexts = listOf(
             binding.heaterStrong to "세게 틀어요",
@@ -474,23 +501,26 @@ class EssentialInfoFragment : Fragment() {
     private fun heaterSelected(view: View, value: String) {
         heaterOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         heaterOption = view as TextView
         heaterOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         heaterCheck = value
         userInfo = userInfo.copy(heatingIntensity = value)
         spfHelper.saveUserInfo(userInfo)
-        showLivingPatternLayout()
+        resetDebounceTimer { showLivingPatternLayout() }
         updateNextButtonState()
     }
 
     private fun showLivingPatternLayout() {
         binding.clLiving.showWithSlideDownAnimation()
     }
+
     private fun initLiving() {
         val livingTexts = listOf(
             binding.livingMorning to "아침형 인간",
@@ -504,23 +534,26 @@ class EssentialInfoFragment : Fragment() {
     private fun livingSelected(view: View, value: String) {
         livingPatternOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         livingPatternOption = view as TextView
         livingPatternOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         livingPatternCheck = value
         userInfo = userInfo.copy(lifePattern = value)
         spfHelper.saveUserInfo(userInfo)
-        showFriendlyLayout()
+        resetDebounceTimer { showFriendlyLayout() }
         updateNextButtonState()
     }
 
     private fun showFriendlyLayout() {
         binding.clFriendly.showWithSlideDownAnimation()
     }
+
     private fun initFriendly() {
         val friendlyTexts = listOf(
             binding.friendlyNo to "필요한 말만 했으면 좋겠어요",
@@ -535,23 +568,26 @@ class EssentialInfoFragment : Fragment() {
     private fun friendlySelected(view: View, value: String) {
         friendlyOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         friendlyOption = view as TextView
         friendlyOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         friendlyCheck = value
         userInfo = userInfo.copy(intimacy = value)
         spfHelper.saveUserInfo(userInfo)
-        showShareLayout()
+        resetDebounceTimer { showShareLayout() }
         updateNextButtonState()
     }
 
     private fun showShareLayout() {
         binding.clShare.showWithSlideDownAnimation()
     }
+
     private fun initShare() {
         val shareTexts = listOf(
             binding.shareYes to "O",
@@ -565,23 +601,26 @@ class EssentialInfoFragment : Fragment() {
     private fun shareSelected(view: View, value: String) {
         shareOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         shareOption = view as TextView
         shareOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         shareCheck = value
         userInfo = userInfo.copy(canShare = value)
         spfHelper.saveUserInfo(userInfo)
-        showGameLayout()
+        resetDebounceTimer { showGameLayout() }
         updateNextButtonState()
     }
 
     private fun showGameLayout() {
         binding.clGame.showWithSlideDownAnimation()
     }
+
     private fun initGame() {
         val gameTexts = listOf(
             binding.gameYes to "O",
@@ -595,23 +634,26 @@ class EssentialInfoFragment : Fragment() {
     private fun gameSelected(view: View, value: String) {
         gameOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         gameOption = view as TextView
         gameOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         gameCheck = value
         userInfo = userInfo.copy(isPlayGame = value)
         spfHelper.saveUserInfo(userInfo)
-        showCallLayout()
+        resetDebounceTimer { showCallLayout() }
         updateNextButtonState()
     }
 
     private fun showCallLayout() {
         binding.clCall.showWithSlideDownAnimation()
     }
+
     private fun initCall() {
         val callTexts = listOf(
             binding.callYes to "O",
@@ -625,23 +667,26 @@ class EssentialInfoFragment : Fragment() {
     private fun callSelected(view: View, value: String) {
         callOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         callOption = view as TextView
         callOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         callCheck = value
         userInfo = userInfo.copy(isPhoneCall = value)
         spfHelper.saveUserInfo(userInfo)
-        showStudyLayout()
+        resetDebounceTimer { showStudyLayout() }
         updateNextButtonState()
     }
 
     private fun showStudyLayout() {
         binding.clStudy.showWithSlideDownAnimation()
     }
+
     private fun initStudy() {
         val studyTexts = listOf(
             binding.studyYes to "O",
@@ -656,23 +701,26 @@ class EssentialInfoFragment : Fragment() {
     private fun studySelected(view: View, value: String) {
         studyOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         studyOption = view as TextView
         studyOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         studyCheck = value
         userInfo = userInfo.copy(studying = value)
         spfHelper.saveUserInfo(userInfo)
-        showEatingLayout()
+        resetDebounceTimer { showEatingLayout() }
         updateNextButtonState()
     }
 
     private fun showEatingLayout() {
         binding.clEating.showWithSlideDownAnimation()
     }
+
     private fun initEating() {
         val eatingTexts = listOf(
             binding.eatingNo to "아예 안 먹었으면 좋겠어요",
@@ -688,23 +736,26 @@ class EssentialInfoFragment : Fragment() {
     private fun eatingSelected(view: View, value: String) {
         eatingOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         eatingOption = view as TextView
         eatingOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         eatingCheck = value
         userInfo = userInfo.copy(intake = value)
         spfHelper.saveUserInfo(userInfo)
-        showCleanLayout()
+        resetDebounceTimer { showCleanLayout() }
         updateNextButtonState()
     }
 
     private fun showCleanLayout() {
         binding.clCleanCheck.showWithSlideDownAnimation()
     }
+
     private fun initClean() {
         val cleanTexts = listOf(
             binding.clean5 to "매우 예민해요",
@@ -721,23 +772,26 @@ class EssentialInfoFragment : Fragment() {
     private fun cleanSelected(view: View, value: String) {
         cleanOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         cleanOption = view as TextView
         cleanOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         cleanCheck = value
         userInfo = userInfo.copy(cleanSensitivity = value)
         spfHelper.saveUserInfo(userInfo)
-        showNoiseLayout()
+        resetDebounceTimer { showNoiseLayout() }
         updateNextButtonState()
     }
 
     private fun showNoiseLayout() {
         binding.clNoise.showWithSlideDownAnimation()
     }
+
     private fun initNoise() {
         val noiseTexts = listOf(
             binding.noise1 to "매우 예민하지 않아요",
@@ -754,23 +808,26 @@ class EssentialInfoFragment : Fragment() {
     private fun noiseSelected(view: View, value: String) {
         noiseOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         noiseOption = view as TextView
         noiseOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         noiseCheck = value
         userInfo = userInfo.copy(noiseSensitivity = value)
         spfHelper.saveUserInfo(userInfo)
-        showCleanFrequencyLayout()
+        resetDebounceTimer { showCleanFrequencyLayout() }
         updateNextButtonState()
     }
 
     private fun showCleanFrequencyLayout() {
         binding.clCleanFrequency.showWithSlideDownAnimation()
     }
+
     private fun initCleanFrequency() {
         val cleanFrequencyTexts = listOf(
             binding.cleanFrequencyEveryDay to "매일매일 해요",
@@ -789,23 +846,26 @@ class EssentialInfoFragment : Fragment() {
     private fun cleanFrequencySelected(view: View, value: String) {
         cleanFrequencyOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         cleanFrequencyOption = view as TextView
         cleanFrequencyOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         cleanFrequencyCheck = value
         userInfo = userInfo.copy(cleaningFrequency = value)
         spfHelper.saveUserInfo(userInfo)
-        showPersonalityLayout()
+        resetDebounceTimer { showPersonalityLayout() }
         updateNextButtonState()
     }
 
     private fun showPersonalityLayout() {
         binding.clPersonality.showWithSlideDownAnimation()
     }
+
     private fun initPersonality() {
         val personalityTexts = listOf(
             binding.personalityQuite to "조용해요",
@@ -824,23 +884,26 @@ class EssentialInfoFragment : Fragment() {
     private fun personalitySelected(view: View, value: String) {
         personalityOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         personalityOption = view as TextView
         personalityOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         personalityCheck = value
         userInfo = userInfo.copy(personality = value)
         spfHelper.saveUserInfo(userInfo)
-        showMbtiLayout()
+        resetDebounceTimer { showMbtiLayout() }
         updateNextButtonState()
     }
 
     private fun showMbtiLayout() {
         binding.clMbti.showWithSlideDownAnimation()
     }
+
     private fun initMbti() {
         val mbtiTexts = listOf(
             binding.mbtiIstj to "ISTJ",
@@ -871,12 +934,14 @@ class EssentialInfoFragment : Fragment() {
     private fun mbtiSelected(view: View, value: String) {
         mbtiOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         mbtiOption = view as TextView
         mbtiOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         mbtiCheck = value
         userInfo = userInfo.copy(mbti = value)
@@ -939,13 +1004,71 @@ class EssentialInfoFragment : Fragment() {
         spfHelper.saveUserInfo(userInfo)
     }
 
+    //    fun updateNextButtonState() {
+//        val isNextButtonEnabled = wakeAmpm != null &&
+//                mbtiCheck != null &&
+//                mbtiOption != null
+//
+//        if (isNextButtonEnabled) {
+//            (activity as? RoommateInputInfoActivity)?.showNextButton()
+//        }
+//    }
     fun updateNextButtonState() {
-        val isNextButtonEnabled = wakeAmpm != null &&
-                mbtiCheck != null &&
-                mbtiOption != null
+        // 각 항목이 입력되었는지 확인
+        val isWakeSelected = wakeAmpmOption != null && wakeTimeOption != null
+        val isSleepSelected = sleepAmpmOption != null && sleepTimeOption != null
+        val isLightOffSelected = lightOffAmpmOption != null && lightOffTimeOption != null
+        val isSmokeSelected = smokeOption != null
+        val isSleepHabitSelected = sleepHabitOption != null
+        val isAcSelected = acOption != null
+        val isHeaterSelected = heaterOption != null
+        val isLivingPatternSelected = livingPatternOption != null
+        val isFriendlySelected = friendlyOption != null
+        val isShareSelected = shareOption != null
+        val isGameSelected = gameOption != null
+        val isCallSelected = callOption != null
+        val isStudySelected = studyOption != null
+        val isEatingSelected = eatingOption != null
+        val isCleanSelected = cleanOption != null
+        val isNoiseSelected = noiseOption != null
+        val isCleanFrequencySelected = cleanFrequencyOption != null
+        val isPersonalitySelected = personalityOption != null
+        val isMbtiSelected = mbtiOption != null
 
-        if (isNextButtonEnabled) {
+        // 총 항목 수 및 완료된 항목 수 계산
+        val totalSteps = 19
+        val completedSteps = listOf(
+            isWakeSelected,
+            isSleepSelected,
+            isLightOffSelected,
+            isSmokeSelected,
+            isSleepHabitSelected,
+            isAcSelected,
+            isHeaterSelected,
+            isLivingPatternSelected,
+            isFriendlySelected,
+            isShareSelected,
+            isGameSelected,
+            isCallSelected,
+            isStudySelected,
+            isEatingSelected,
+            isCleanSelected,
+            isNoiseSelected,
+            isCleanFrequencySelected,
+            isPersonalitySelected,
+            isMbtiSelected
+        ).count { it }
+
+        // ProgressBar에 반영할 진행도 계산
+        val progress = completedSteps / totalSteps.toFloat()
+
+        // ProgressBar 업데이트
+        (activity as? RoommateInputInfoActivity)?.updateProgressBar(progress)
+
+        // 모든 항목이 완료되면 다음 버튼을 활성화
+        if (completedSteps == totalSteps) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()
         }
     }
+
 }

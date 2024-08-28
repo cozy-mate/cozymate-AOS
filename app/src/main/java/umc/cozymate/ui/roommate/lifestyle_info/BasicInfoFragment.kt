@@ -2,6 +2,8 @@ package umc.cozymate.ui.roommate.lifestyle_info
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -27,11 +29,14 @@ class BasicInfoFragment : Fragment() {
     private lateinit var spfHelper: UserInfoSPFHelper
 
     private var userInfo = UserInfo()
-
     private var onLivingOption: TextView? = null
-    private var onLiving: String? = null
     private var numPeopleOption: TextView? = null
     private var numPeople: Int? = 2
+
+    // 타이머를 위한 Handler와 Runnable 선언
+    private val handler = Handler(Looper.getMainLooper())
+    private var runnable: Runnable? = null
+    private val delayInMillis: Long = 500  // 1초 (1000ms)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,22 +45,7 @@ class BasicInfoFragment : Fragment() {
         binding = FragmentBasicInfoBinding.inflate(inflater, container, false)
 
         spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
-
-        // Load saved userInfo from SharedPreferences
         userInfo = spfHelper.loadUserInfo()
-
-        // Restore state if available
-//        savedInstanceState?.let {
-//            onLiving = it.getString("onLiving")
-//            numPeople = it.getInt("numPeople")
-//            binding.etNumber.setText(it.getString("number"))
-//            binding.etMajor.setText(it.getString("major"))
-//        } ?: run {
-//            onLiving = userInfo.acceptance
-//            numPeople = userInfo.numOfRoommate
-//            binding.etNumber.setText(userInfo.admissionYear)
-//            binding.etMajor.setText(userInfo.major)
-//        }
 
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
@@ -79,8 +69,14 @@ class BasicInfoFragment : Fragment() {
         binding.etMajor.addTextChangedListener(createMajorTextWatcher())
     }
 
+    // 텍스트 변경 시 딜레이 후 레이아웃 표시를 위한 타이머 재설정 함수
+    private fun resetDebounceTimer(action: () -> Unit) {
+        runnable?.let { handler.removeCallbacks(it) }  // 기존 타이머 취소
+        runnable = Runnable { action() }  // 새로운 작업 설정
+        handler.postDelayed(runnable!!, delayInMillis)  // 1초 후 실행
+    }
+
     private fun initLivingSelector() {
-        // Initialize options with click listeners
         val onLivingTexts = listOf(
             binding.dormitoryPass to "합격",
             binding.dormitoryWaiting to "대기중",
@@ -106,16 +102,7 @@ class BasicInfoFragment : Fragment() {
         }
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        outState.putString("onLiving", onLiving)
-//        outState.putInt("numPeople", numPeople!!)
-//        outState.putString("number", binding.etNumber.text.toString())
-//        outState.putString("major", binding.etMajor.text.toString())
-//    }
-
     private fun onLivingOptionSelected(view: View, value: String) {
-        // Update UI for selected living option
         onLivingOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
             background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
@@ -125,14 +112,12 @@ class BasicInfoFragment : Fragment() {
             setTextColor(resources.getColor(R.color.main_blue, null))
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        onLiving = value
         userInfo = userInfo.copy(acceptance = value)
-        spfHelper.saveUserInfo(userInfo)  // Save updated value
+        spfHelper.saveUserInfo(userInfo)
         updateNextButtonState()
     }
 
     private fun numPeopleSelected(view: View, value: Int) {
-        // Update UI for selected people number
         numPeopleOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
             background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
@@ -144,24 +129,27 @@ class BasicInfoFragment : Fragment() {
         }
         numPeople = value
         userInfo = userInfo.copy(numOfRoommate = value)
-        spfHelper.saveUserInfo(userInfo)  // Save updated value
-        showDormitoryLayout() // Show dormitory layout when a number is selected
+        spfHelper.saveUserInfo(userInfo)
+
+        // numPeople 선택 후 dormitory 레이아웃 표시
+        showDormitoryLayout()
+
         updateNextButtonState()
     }
 
     fun updateNextButtonState() {
-        // Check if all fields are filled to enable next button
-        val isNextButtonEnabled = onLivingOption != null &&
-                numPeopleOption != null &&
-//                binding.etMajor.text?.toString()?.isNotEmpty() == true &&
-                binding.etMajor.text != null &&
-//                binding.etNumber.text?.toString()?.isNotEmpty() == true
-                binding.etNumber.text != null
-//                binding.etNumber.text?.toString()?.isNotEmpty() == true &&
-//                binding.etBirth.text?.toString()?.isNotEmpty() == true &&
-//                binding.etName.text?.toString()?.isNotEmpty() == true
+        val isDormitorySelected = onLivingOption != null
+        val isRoommateNumSelected = numPeopleOption != null
+        val isMajorFilled = binding.etMajor.text?.isNotEmpty() == true
+        val isNumberFilled = binding.etNumber.text?.isNotEmpty() == true
 
-        if (isNextButtonEnabled) {
+        val filledCount = listOf(isDormitorySelected, isRoommateNumSelected, isMajorFilled, isNumberFilled).count { it }
+        val completionRate = filledCount / 4f
+
+        (activity as? RoommateInputInfoActivity)?.updateProgressBar(completionRate)
+
+        // 다음 버튼 활성화 여부
+        if (isDormitorySelected && isRoommateNumSelected && isMajorFilled && isNumberFilled) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()
         }
     }
@@ -169,13 +157,11 @@ class BasicInfoFragment : Fragment() {
     private fun createTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                userInfo = userInfo.copy(
-//                    birth = binding.etBirth.text.toString(),
-//                    name = binding.etName.text.toString(),
-                    admissionYear = binding.etNumber.text.toString()
-                )
-                spfHelper.saveUserInfo(userInfo)  // Save updated value
-                showMajorLayout()
+                userInfo = userInfo.copy(admissionYear = binding.etNumber.text.toString())
+                spfHelper.saveUserInfo(userInfo)
+                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
+                resetDebounceTimer { showMajorLayout() }
+                updateNextButtonState()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -186,11 +172,10 @@ class BasicInfoFragment : Fragment() {
     private fun createMajorTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                userInfo = userInfo.copy(
-                    major = binding.etMajor.text.toString()
-                )
+                userInfo = userInfo.copy(major = binding.etMajor.text.toString())
                 spfHelper.saveUserInfo(userInfo)
-                showPeopleNumberLayout()
+                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
+                resetDebounceTimer { showPeopleNumberLayout() }
                 updateNextButtonState()
             }
 
@@ -200,11 +185,7 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun showMajorLayout() {
-        if (binding.etNumber.text?.isNotEmpty() == true
-//            binding.etNumber.text?.isNotEmpty() == true &&
-//            binding.etBirth.text?.isNotEmpty() == true &&
-//            binding.etName.text?.isNotEmpty() == true
-        ) {
+        if (binding.etNumber.text?.isNotEmpty() == true) {
             binding.clMajor.showWithSlideDownAnimation()
             scrollToTop()
         }
@@ -234,8 +215,6 @@ class BasicInfoFragment : Fragment() {
 
     private fun removeEditTextFocus() {
         binding.etNumber.clearFocus()
-//        binding.etBirth.clearFocus()
-//        binding.etName.clearFocus()
         binding.etMajor.clearFocus()
         hideKeyboard()
     }
@@ -255,14 +234,5 @@ class BasicInfoFragment : Fragment() {
             visibility = View.VISIBLE
             startAnimation(animationSet)
         }
-    }
-
-    fun saveUserInfo() {
-        spfHelper.saveUserInfo(userInfo)
-    }
-
-    private fun validName() = REGEX_ady.toRegex().matches(binding.etNumber.text!!)
-    companion object {
-        private const val REGEX_ady = "^[0-9]{2}"
     }
 }
