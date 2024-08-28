@@ -45,6 +45,9 @@ class OnboardingViewModel @Inject constructor(
     private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
     val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
 
+    private val _isNicknameValid = MutableLiveData<Boolean>()
+    val isNicknameValid: LiveData<Boolean> get() = _isNicknameValid
+
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
 
@@ -56,27 +59,21 @@ class OnboardingViewModel @Inject constructor(
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    fun setTokenInfo(tokenInfo: TokenInfo) {
-        _tokenInfo.value = TokenInfo(
-            accessToken = tokenInfo.accessToken,
-            message = tokenInfo.message,
-            refreshToken = tokenInfo.refreshToken
-        )
-    }
-
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
-        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
+        sharedPreferences.edit()
+            .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit()
+            .putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
-        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).apply()
-        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).apply()
-        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).apply()
-        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).apply()
+        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
+        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
+        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
+        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
     }
 
     fun getToken(): String? {
@@ -111,7 +108,7 @@ class OnboardingViewModel @Inject constructor(
             birthday = _birthday.value ?: "2001-01-01",
             persona = _persona.value ?: 0
         )
-        val token = getToken()
+        val token = getToken() // 이때 임시 토큰이어야 함
         Log.d(TAG, "유저 정보: $memberInfo")
         Log.d(TAG, "토큰: $token")
 
@@ -122,11 +119,31 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
-                        _tokenInfo.value!!.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        _tokenInfo.value!!.message = response.body()!!.result?.tokenResponseDTO!!.message
-                        _tokenInfo.value!!.refreshToken = response.body()!!.result?.tokenResponseDTO!!.message
-                        saveToken()
-                        saveUserInfo()
+                        _tokenInfo.value?.accessToken =
+                            response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        _tokenInfo.value?.message =
+                            response.body()!!.result?.tokenResponseDTO!!.message
+                        _tokenInfo.value?.refreshToken =
+                            response.body()!!.result?.tokenResponseDTO!!.refreshToken
+
+                        sharedPreferences.edit().putString(
+                            "access_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "refresh_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        ).commit()
+                        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name)
+                            .commit()
+                        sharedPreferences.edit()
+                            .putString("user_nickname", _memberInfo.value!!.nickname).commit()
+                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona)
+                            .commit()
+                        sharedPreferences.edit()
+                            .putString("user_gender", _memberInfo.value!!.gender).commit()
+                        sharedPreferences.edit()
+                            .putString("user_birthday", _memberInfo.value!!.birthday).commit()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -139,7 +156,7 @@ class OnboardingViewModel @Inject constructor(
                 }
                 _signUpResponse.value = response
             } catch (e: Exception) {
-                Log.d(TAG, "api 요청 실패: ${e}")
+                Log.d(TAG, "회원가입 api 요청 실패: ${e}")
             }
         }
     }
@@ -157,15 +174,21 @@ class OnboardingViewModel @Inject constructor(
                         Log.d(TAG, "닉네임 유효성 체크 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
                             Log.d(TAG, "닉네임 유효성 체크 성공: ${response.body()!!.result}")
-
+                            _isNicknameValid.value = response.body()!!.result == true
+                        } else {
+                            _isNicknameValid.value = false
                         }
                     } else {
                         Log.d(TAG, "닉네임 유효성 체크 api 응답 실패: ${response}")
+                        _isNicknameValid.value = false
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "닉네임 유효성 체크 api 요청 실패: ${e}")
+                    _isNicknameValid.value = false
                 }
             }
+        } else {
+            _isNicknameValid.value = false
         }
     }
 
