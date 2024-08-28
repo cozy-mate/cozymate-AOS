@@ -62,6 +62,8 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {
                 if (response.body()!!.isSuccess) {
+                    viewModel.saveToken()
+                    viewModel.saveUserInfo()
                     Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "회원가입 성공: ${response.body()}")
                 }
