@@ -102,6 +102,8 @@ class SplashViewModel @Inject constructor(
         val socialTypeValue = _socialType.value
 
         _loading.value = true // 로딩 시작
+        _tokenInfo.value = TokenInfo("", "", "")
+
         if (clientIdValue != null && socialTypeValue != null) {
             viewModelScope.launch {
                 try {
@@ -139,6 +141,7 @@ class SplashViewModel @Inject constructor(
 
         _loading.value = true // 로딩 시작
         _requestFail.value = false
+        _tokenInfo.value = TokenInfo("", "", "")
 
         if (refreshToken != null) {
             viewModelScope.launch {
