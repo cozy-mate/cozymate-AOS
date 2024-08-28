@@ -13,6 +13,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,14 +100,17 @@ class InviteCodeSuccessPopUp : DialogFragment() {
 
     private fun observeViewModel() {
         // 방 참여 성공 시 CozyHomeActiveFragment로 전환
-        viewModel.roomJoinSuccess .observe(viewLifecycleOwner, Observer { success ->
+        viewModel.roomJoinSuccess.observe(viewLifecycleOwner, Observer { success ->
             if (success) {
                 dismiss()
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, CozyHomeActiveFragment())
-                    .addToBackStack(null)
-                    .commit()
+                // Fragment 전환을 UI 스레드에서 안전하게 수행
+                view?.post {
+                    parentFragmentManager.commit {
+                        replace(R.id.main_container, CozyHomeActiveFragment())
+                        addToBackStack(null)
+                    }
+                }
             }
         })
     }
@@ -135,7 +139,6 @@ class InviteCodeSuccessPopUp : DialogFragment() {
             }
         })
     }
-
 
 
     override fun onDestroyView() {
