@@ -102,8 +102,6 @@ class SplashActivity : AppCompatActivity() {
             splashViewModel.isMember.observe(this) { isMember ->
                 if (isMember) {
                     goCozyHome() // 홈 화면으로 이동
-                } else {
-                    goOnboarding() // 온보딩 화면으로 이동
                 }
                 binding.progressBar.visibility = View.GONE
             }
