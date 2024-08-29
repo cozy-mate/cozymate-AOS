@@ -96,7 +96,7 @@
         android:text="코지메이트\n초대하기\ncozymate로\n룸메이트를 구한 경우에만\n이용할 수 있어요!"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/main_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintEnd_toStartOf="@id/btn_invite_code"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_cozyhome_top"
@@ -137,13 +137,14 @@
         android:text="초대코드로 \n방 참여하기"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
         android:textColor="@color/main_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintEnd_toEndOf="@id/btn_invite_code"
         app:layout_constraintStart_toStartOf="@id/btn_invite_code"
         app:layout_constraintTop_toBottomOf="@id/btn_invite_code" />
 
     <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
