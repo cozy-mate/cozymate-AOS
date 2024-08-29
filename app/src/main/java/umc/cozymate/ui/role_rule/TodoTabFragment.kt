@@ -22,16 +22,16 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @AndroidEntryPoint
-class TodoTabFragment: Fragment() {
+class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
     private val currentDate = LocalDate.now()
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodo : TodoMateData? = null
-    private var memberList : Map<String, TodoMateData> =  emptyMap()
-    private var roomId : Int = 0
-    private var nickname : String = ""
-
+    private var mytodo: TodoMateData? = null
+    private var memberList: Map<String, TodoMateData> = emptyMap()
+    private var roomId: Int = 0
+    private var nickname: String = ""
+    private var isCreated: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,32 +40,40 @@ class TodoTabFragment: Fragment() {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
+        isCreated = false
         return binding.root
     }
+
     override fun onResume() {
         // 단순 시간 딜레이
         super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            initData()
-            Log.d(TAG,"resume ${mytodo?.mateTodoList}")
-        }, 1000)
+        if (isCreated) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                initData()
+                Log.d(TAG, "resume ${mytodo?.mateTodoList}")
+            }, 1000)
+        }
+
     }
-    override fun onStart() {
-        super.onStart()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initData()
-        Log.d(TAG,"start  ${mytodo?.mateTodoList}")
+        isCreated = true
     }
 
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
-        nickname =  spf.getString("user_nickname", "No user found").toString()
+        nickname = spf.getString("user_nickname", "No user found").toString()
         Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
 
     }
 
-    private fun initData(){
+    private fun initData() {
         viewModel.getTodo(roomId, currentDate.toString())
+
+
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
                 binding.tvEmpty.visibility = View.VISIBLE
@@ -85,9 +93,10 @@ class TodoTabFragment: Fragment() {
                 binding.rvMyTodoList.visibility = View.GONE
             }
         })
+
     }
 
-    private fun updateInfo(){
+    private fun updateInfo() {
         // 날짜
         val formatter = DateTimeFormatter.ofPattern("M/dd(EEE), ", Locale.KOREA)
         binding.tvTodoDate.text = currentDate.format(formatter)
@@ -96,33 +105,36 @@ class TodoTabFragment: Fragment() {
         binding.tvTodoName.text = nickname
     }
 
-    private fun updateRecyclerView(mytodoList: TodoMateData, memberList: Map<String, TodoMateData>){
+    private fun updateRecyclerView(
+        mytodoList: TodoMateData,
+        memberList: Map<String, TodoMateData>
+    ) {
         // 내 할일
-        if(mytodoList.mateTodoList.isEmpty()){
+        if (mytodoList.mateTodoList.isEmpty()) {
             binding.tvEmpty.visibility = View.VISIBLE
             binding.rvMyTodoList.visibility = View.GONE
-        }
-        else{
+        } else {
             binding.rvMyTodoList.visibility = View.VISIBLE
             binding.tvEmpty.visibility = View.GONE
 
             val myTodoRVAdapter = TodoRVAdapter(mytodoList.mateTodoList, true) { todoItem ->
                 val request = UpdateTodoRequest(todoItem.id, todoItem.completed)
-                viewModel.updateTodo( request )
+                viewModel.updateTodo(request)
             }
-            binding.rvMyTodoList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.rvMyTodoList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodoList.adapter = myTodoRVAdapter
         }
         // 룸메 할일(중첩 리사이클러뷰)
-        if(memberList.isEmpty()){
+        if (memberList.isEmpty()) {
             binding.tvNoMate.visibility = View.VISIBLE
             binding.rvMemberTodo.visibility = View.GONE
-        }
-        else{
+        } else {
             binding.tvNoMate.visibility = View.GONE
             binding.rvMemberTodo.visibility = View.VISIBLE
-            val memberTodoListRVAdapter =  TodoListRVAdapter(memberList) { todoItem -> }
-            binding.rvMemberTodo.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+            val memberTodoListRVAdapter = TodoListRVAdapter(memberList) { todoItem -> }
+            binding.rvMemberTodo.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
 

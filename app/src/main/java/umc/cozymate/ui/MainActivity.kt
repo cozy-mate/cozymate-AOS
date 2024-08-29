@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         val fcmSpf = getSharedPreferences("FCMtoken", Context.MODE_PRIVATE)
         val fcmToken = fcmSpf.getString("FCMtoken", "")
         val fcmInfoRequest = FcmInfoRequest(
-            deviceId = "1",
+            deviceId = "2",
             token = fcmToken ?: ""  // fcmToken이 null일 경우 빈 문자열로 처리
         )
         roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
