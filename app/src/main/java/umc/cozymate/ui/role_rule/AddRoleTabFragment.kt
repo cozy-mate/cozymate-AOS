@@ -98,10 +98,10 @@ class AddRoleTabFragment: Fragment() {
 //        layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
 //        layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
         layoutParams.setMargins(
-            ConvertDPtoPX(requireContext(), 0),
-            ConvertDPtoPX(requireContext(), 8),
-            ConvertDPtoPX(requireContext(), 8),
-            ConvertDPtoPX(requireContext(), 8)
+            ConvertDPtoPX(requireContext(), 0), // left
+            ConvertDPtoPX(requireContext(), 0), // top
+            ConvertDPtoPX(requireContext(), 8), // right
+            ConvertDPtoPX(requireContext(), 8)  // bottom
         )
         for (mate in mateList) {
             val checkBox = CheckBox(context).apply {
@@ -212,4 +212,9 @@ class AddRoleTabFragment: Fragment() {
         val allChecked = weekdayBox.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
         binding.cbEveryday.isChecked = allChecked // cbEveryday 체크 상태 업데이트
     }
+
+
+
+
+
 }
