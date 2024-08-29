@@ -32,6 +32,7 @@ class AddTodoTabFragment: Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
+        binding.calendarView.setSelectedDate(CalendarDay.today())
         setTodoinput()
         getPreference()
 
@@ -84,7 +85,9 @@ class AddTodoTabFragment: Fragment(){
                 selectedDate = String.format("%04d-%02d-%02d", date.year, date.month, date.day)
                 binding.btnInputButton.isEnabled = !binding.etInputTodo.text.isNullOrEmpty() && selectedDate != null
             }
+
         }
+
 
 
 }
