@@ -408,7 +408,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:backgroundTint="@color/white"
-                            android:src="@drawable/ic_down" />
+                            android:src="@drawable/ic_down_2" />
 
                     </LinearLayout>
 
@@ -480,13 +480,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 
-                        <ImageButton
-                            android:id="@+id/btn_crewable_chip_table_more"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:backgroundTint="@color/white"
-                            android:src="@drawable/ic_down" />
+<!--                        <ImageButton-->
+<!--                            android:id="@+id/btn_crewable_chip_table_more"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:backgroundTint="@color/white"-->
+<!--                            android:src="@drawable/ic_down" />-->
                     </LinearLayout>
 
                     <TextView

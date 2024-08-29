@@ -51,7 +51,7 @@ class OnboardingSummaryFragment : Fragment() {
     private fun getPreference() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         nickname = sharedPref.getString("nickname", "No user found").toString()
-        persona = sharedPref.getInt("persona", 0)
+        persona = sharedPref.getInt("persona", 1)
     }
 
     private fun setCharacterImage(persona: Int) {
@@ -71,7 +71,8 @@ class OnboardingSummaryFragment : Fragment() {
             13 -> binding.ivChar.setImageResource(R.drawable.character_13)
             14 -> binding.ivChar.setImageResource(R.drawable.character_14)
             15 -> binding.ivChar.setImageResource(R.drawable.character_15)
-            else -> binding.ivChar.setImageResource(R.drawable.character_0) // 기본 이미지 설정
+            16 -> binding.ivChar.setImageResource(R.drawable.character_16)
+            else -> binding.ivChar.setImageResource(R.drawable.character_1) // 기본 이미지 설정
         }
     }
 }

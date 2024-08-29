@@ -18,14 +18,14 @@ data class MemberInfoResponse(
     @Serializable
     data class Result(
         @SerialName("birthday")
-        val birthday: String,
+        var birthday: String,
         @SerialName("gender")
-        val gender: String,
+        var gender: String,
         @SerialName("name")
-        val name: String,
+        var name: String,
         @SerialName("nickname")
-        val nickname: String,
+        var nickname: String,
         @SerialName("persona")
-        val persona: Int
+        var persona: Int
     )
 }

@@ -13,7 +13,7 @@ interface MemberRepository {
 
     suspend fun reissue(refreshToken: String): Response<ReissueResponse>
 
-    suspend fun signOut(accessToken: String)
+    suspend fun signOut(accessToken: String): Response<Unit>
 
     suspend fun getMemberInfo(accessToken: String): Response<MemberInfoResponse>
 

@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
@@ -46,10 +47,7 @@ class OnboardingUserInfoFragment : Fragment() {
     ): View {
         _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
 
-        //viewModel = ViewModelProvider(this).get(OnboardingViewModel::class.java) // 방법2
-
         with(binding) {
-
             // 포커싱 색상 변경
             setFocusColor(tilOnboardingName, etOnboardingName, tvLabelName)
             setFocusColor(tilOnboardingNickname, etOnboardingNickname, tvLabelNickname)
@@ -114,6 +112,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 if (!nicknamePattern.matches(input)) {
                     binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                     binding.tvAlertNickname.visibility = View.VISIBLE
+                    binding.tvAlertNickname.text = "닉네임은 2~8자인 한글, 영어, 숫자만 가능해요!"
                     binding.tilOnboardingNickname.isErrorEnabled = true
                     binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
                 } else {
@@ -128,6 +127,7 @@ class OnboardingUserInfoFragment : Fragment() {
                         delay(500L) // 500ms 대기
                         viewModel.setNickname(input)
                         viewModel.nicknameCheck() // API 호출
+                        observeNicknameValid()
                     }
                 }
                 updateNextBtnState()
@@ -146,6 +146,22 @@ class OnboardingUserInfoFragment : Fragment() {
         })
     }
 
+    fun observeNicknameValid() {
+        viewModel.isNicknameValid.observe(viewLifecycleOwner, Observer { isValid ->
+            if (!isValid) {
+                binding.tvAlertNickname.visibility = View.VISIBLE
+                binding.tvAlertNickname.text = "다른 사람이 사용 중인 닉네임이에요!"
+                binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
+                binding.tilOnboardingNickname.isErrorEnabled = true
+                binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+            } else {
+                binding.tvAlertNickname.visibility = View.GONE
+                binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
+                binding.tilOnboardingNickname.isErrorEnabled = false
+                binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.sub_color1)
+            }
+        })
+    }
     fun updateNextBtnState() {
         val isNameEntered = binding.etOnboardingName.text?.isNotEmpty() == true
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
@@ -182,6 +198,11 @@ class OnboardingUserInfoFragment : Fragment() {
             putString("nickname", nickname)
             apply()
         }
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("user_nickname", nickname)
+        editor.commit() // or editor.commit()
     }
 
     private fun setFocusColor(til: TextInputLayout, et: EditText, tv: TextView) {

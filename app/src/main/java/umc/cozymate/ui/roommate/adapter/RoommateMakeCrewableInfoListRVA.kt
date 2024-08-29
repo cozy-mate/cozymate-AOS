@@ -35,23 +35,23 @@ class RoommateMakeCrewableInfoListRVA(
         holder.binding.tvOtherUserEquality.text = "${userInfo.info.equality}%"
 
         val profileImageResId = when (userInfo.info.memberPersona) {
-            1 -> R.drawable.character_0
-            2 -> R.drawable.character_1
-            3 -> R.drawable.character_2
-            4 -> R.drawable.character_3
-            5 -> R.drawable.character_4
-            6 -> R.drawable.character_5
-            7 -> R.drawable.character_6
-            8 -> R.drawable.character_7
-            9 -> R.drawable.character_8
-            10 -> R.drawable.character_9
-            11 -> R.drawable.character_10
-            12 -> R.drawable.character_11
-            13 -> R.drawable.character_12
-            14 -> R.drawable.character_13
-            15 -> R.drawable.character_14
-            16 -> R.drawable.character_15
-            else -> R.drawable.character_0  // 기본 이미지 (해당 숫자가 없을 경우)
+            1 -> R.drawable.character_1
+            2 -> R.drawable.character_2
+            3 -> R.drawable.character_3
+            4 -> R.drawable.character_4
+            5 -> R.drawable.character_5
+            6 -> R.drawable.character_6
+            7 -> R.drawable.character_7
+            8 -> R.drawable.character_8
+            9 -> R.drawable.character_9
+            10 -> R.drawable.character_10
+            11 -> R.drawable.character_11
+            12 -> R.drawable.character_12
+            13 -> R.drawable.character_13
+            14 -> R.drawable.character_14
+            15 -> R.drawable.character_15
+            16 -> R.drawable.character_16
+            else -> R.drawable.character_1  // 기본 이미지 (해당 숫자가 없을 경우)
         }
 
         // ImageView에 리소스 설정

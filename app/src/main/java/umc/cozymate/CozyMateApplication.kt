@@ -30,6 +30,13 @@ class CozyMateApplication: Application(), DefaultLifecycleObserver {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
+        // 앱이 시작될 때 SharedPreferences 데이터 삭제
+        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove("user_nickname")
+        editor.remove("room_name")
+        editor.apply()
     }
 
     override fun onStop(owner: LifecycleOwner){

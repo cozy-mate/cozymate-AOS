@@ -61,23 +61,60 @@ class SplashActivity : AppCompatActivity() {
         }
         window.navigationBarColor = Color.WHITE
 
+        // 카카오 SDK 초기화
+        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+
+        binding.progressBar.visibility = View.VISIBLE
+
+        // 뷰모델 옵저빙
         observeSignInResponse()
         observeLoading()
         observeError()
 
-        // 카카오 SDK 초기화
-        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+        // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
+        attemptAutoLogin()
 
-        // 로그인 버튼 클릭 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
+        // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
         }
 
+        // 애플 로그인 버튼 >> 코지홈 비활성화
         binding.btnAppleLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
+            }
             startActivity(intent)
-            finish()
         }
+
+        // 회원가입 버튼 >> 테스트 로그인 >> 온보딩
+        binding.btnSignIn.setOnClickListener {
+            testSignIn()
+        }
+
+    }
+
+    private fun attemptAutoLogin() {
+        binding.progressBar.visibility = View.VISIBLE
+        val tokenInfo = splashViewModel.getToken()
+        if (tokenInfo != null) {
+            splashViewModel.memberCheck()
+            splashViewModel.isMember.observe(this) { isMember ->
+                if (isMember) {
+                    goCozyHome() // 홈 화면으로 이동
+                }
+                binding.progressBar.visibility = View.GONE
+            }
+        } else {
+            // 로딩 숨김 (토큰이 없으면 즉시 로그인을 시도하지 않기 때문에)
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun testSignIn() {
+        splashViewModel.setClientId("TEST")
+        splashViewModel.setSocialType("TEST")
+        splashViewModel.signIn()
     }
 
     private fun observeError() {
@@ -218,7 +255,7 @@ class SplashActivity : AppCompatActivity() {
 
                     if (userId != null) {
                         splashViewModel.setClientId(userId.toString())
-                        //splashViewModel.setClientId("1")
+                        // splashViewModel.setClientId("9")
                         splashViewModel.setSocialType("KAKAO")
                         splashViewModel.signIn()
                     }
@@ -230,22 +267,6 @@ class SplashActivity : AppCompatActivity() {
                 .show()
             goLoginFail()
         }
-
-
-        /*// 토큰 정보 보기
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                Log.e(TAG, "토큰 정보 보기 실패", error)
-                // refreshToken()
-            } else if (tokenInfo != null) {
-                Log.i(
-                    TAG, "토큰 정보 보기 성공" +
-                            "\n회원번호: ${tokenInfo.id}" +
-                            "\n만료시간: ${tokenInfo.expiresIn} 초"
-                )
-            }
-        }*/
-
     }
 
 }

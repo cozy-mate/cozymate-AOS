@@ -2,6 +2,8 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,15 +43,17 @@ class TodoTabFragment: Fragment() {
         return binding.root
     }
     override fun onResume() {
+        // 단순 시간 딜레이
         super.onResume()
-
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            initData()
+            Log.d(TAG,"resume ${mytodo?.mateTodoList}")
+        }, 1000)
     }
-
     override fun onStart() {
-        initData()
-        Log.d(TAG,"start ${mytodo?.mateTodoList}")
         super.onStart()
+        initData()
+        Log.d(TAG,"start  ${mytodo?.mateTodoList}")
     }
 
     private fun getPreference() {

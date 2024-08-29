@@ -99,7 +99,7 @@ class CozyHomeActiveFragment : Fragment() {
             }
         })
 
-        binding.ivChar.setImageResource(R.drawable.character_0)
+        // binding.ivChar.setImageResource(R.drawable.character_0)
 
     }
 
@@ -130,7 +130,7 @@ class CozyHomeActiveFragment : Fragment() {
                     13 -> binding.ivChar.setImageResource(R.drawable.character_13)
                     14 -> binding.ivChar.setImageResource(R.drawable.character_14)
                     15 -> binding.ivChar.setImageResource(R.drawable.character_15)
-                    else -> binding.ivChar.setImageResource(R.drawable.character_0) // 기본 이미지 설정
+                    16 -> binding.ivChar.setImageResource(R.drawable.character_16) // 기본 이미지 설정
                 }
             }
         })

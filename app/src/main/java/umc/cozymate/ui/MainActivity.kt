@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
 
-    var isItemEnable = false
+    var isRoomExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,37 +46,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setBottomNavigationView()
         window.navigationBarColor = getResources().getColor(R.color.white)
-
         initScreen()
 
-        homeViewModel.getRoomId()    //// 이 코드 추가 !!!!!
+        // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
+        val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
+        if (showCozyDefault) {
+            isRoomExist = false
+            loadDefaultFragment()
+        }
+
+        homeViewModel.getRoomId()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
         }
-        // Check and fetch RoomId if needed
-        // homeViewModel.fetchRoomIdIfNeeded() ///// 이 코드 삭제!!!!!
 
-        // 앱 초기 실행 시 홈화면으로 설정
-//        if (savedInstanceState == null) {
-//            binding.bottomNavigationView.selectedItemId = R.id.fragment_home
-//
-//
-//        }
-//        if (savedInstanceState == null) {
-//            val navigateTo = intent.getStringExtra("navigate_to")
-//            if (navigateTo == "RoommateOnboarding") {
-//                // RoommateOnboardingFragment로 이동
-//                switchToRoommateOnboardingFragment()
-//            }
-//            else if (navigateTo == "RoommateMakeCrewable") {
-//                switchToRoommateMakeCrewableFragment()
-//            }
-//            else {
-//                // 기본 홈 화면 설정
-//                binding.bottomNavigationView.selectedItemId = R.id.fragment_home
-//            }
-//        }
         if (savedInstanceState == null) {
             val navigateTo = intent.getStringExtra("navigate_to")
             Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
@@ -115,13 +99,16 @@ class MainActivity : AppCompatActivity() {
 
     fun observeRoomID() {
         // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
+        binding.progressBar.visibility = View.VISIBLE
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
+                isRoomExist = false
                 loadDefaultFragment()
-                isItemEnable = false
+                binding.progressBar.visibility = View.GONE
             } else {
+                isRoomExist = true
                 loadActiveFragment()
-                isItemEnable = true
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
@@ -214,16 +201,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragment_home -> {
                     // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
                     observeRoomID()
-                    if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
+                    if (!isRoomExist) {
                         loadDefaultFragment()
+                        binding.progressBar.visibility = View.GONE
                     } else {
                         loadActiveFragment()
+                        binding.progressBar.visibility = View.GONE
                     }
                     true
                 }
 
                 R.id.fragment_feed -> {
-                    if (!isItemEnable) {
+                    if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
                         return@setOnItemSelectedListener false // 선택을 막음
                     } else {
@@ -234,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_role_and_rule -> {
-                    if (!isItemEnable) {
+                    if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
                         return@setOnItemSelectedListener false // 선택을 막음
                     } else {
@@ -260,7 +249,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun observeError() {
 

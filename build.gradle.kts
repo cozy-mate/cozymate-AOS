@@ -4,7 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.22" apply false
     id("com.google.dagger.hilt.android") version "2.47" apply false
     // Firebase 추가
-    id("com.google.gms.google-services") version "4.4.1" apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
+    alias(libs.plugins.google.firebase.crashlytics) apply false
 }
 
 buildscript {
@@ -14,6 +15,6 @@ buildscript {
     dependencies {
         val nav_version = "2.5.3"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-        classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.google.gms:google-services:4.4.2")
     }
 }

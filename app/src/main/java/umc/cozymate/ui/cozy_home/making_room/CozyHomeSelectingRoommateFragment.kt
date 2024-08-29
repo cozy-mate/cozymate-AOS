@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeSelectingRoommateBinding
 import umc.cozymate.ui.cozy_home.adapter.OnItemClickListener
 import umc.cozymate.ui.cozy_home.adapter.RoommateAdapter
 import umc.cozymate.ui.cozy_home.adapter.SelectingRoommateItem
 
 // 플로우1 : 방정보 입력창(1) > "룸메이트 선택창(2)" > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
+@AndroidEntryPoint
 class CozyHomeSelectingRoommateFragment : Fragment(), OnItemClickListener {
 
     private val TAG = this.javaClass.simpleName

@@ -66,7 +66,6 @@ class CozyHomeDefaultFragment : Fragment() {
                 startActivity(Intent(activity, CozyHomeEnteringInviteCodeActivity::class.java))
             }
 
-
             /*// 쪽지
             btnMessage.setOnClickListener {
                 startActivity(Intent(activity, MessageActivity::class.java))

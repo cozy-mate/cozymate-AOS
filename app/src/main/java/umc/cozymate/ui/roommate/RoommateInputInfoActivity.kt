@@ -1,5 +1,6 @@
 package umc.cozymate.ui.roommate
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,6 @@ import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
-import umc.cozymate.ui.viewmodel.TodoViewModel
 
 @AndroidEntryPoint
 class RoommateInputInfoActivity : AppCompatActivity() {
@@ -34,9 +34,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
     private lateinit var btnBack: ImageView
     private lateinit var tvTitle: TextView
 
-    //    private lateinit var viewModel: ViewModel
     private val viewModel: RoommateViewModel by viewModels()
-    private val todoViewModel: TodoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,26 +50,18 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
         viewPager.adapter = RoommateInputInfoVPA(this)
 
-        progressBar.progress = 33
+        progressBar.progress = 0  // 초기에는 0으로 설정
         tvTitle.text = "기본정보"
 
         spfHelper = UserInfoSPFHelper(this)
 
-//        val _accessToken = getString(R.string.access_token_1)
-
-
-//        val _accessToken = todoViewModel.getToken()
-//        val accessToken = _accessToken!!
-//        Log.d("RoommateInputInfoActivity", "token: ${accessToken!!}")
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val accessToken = spf.getString("access_token", "")!!
-        Log.d("RoommateInputInfoActivity", "token: ${accessToken!!}")
+        Log.d("RoommateInputInfoActivity", "token: ${accessToken}")
 
         btnNext.setOnClickListener {
-            // 현재 페이지의 프래그먼트를 가져옵니다.
             val fragment = supportFragmentManager.findFragmentByTag("f${viewPager.currentItem}")
 
-            // 다음 페이지로 이동
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
@@ -98,11 +88,19 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                progressBar.progress = (position + 1) * 33
-                btnNext.visibility = View.GONE
-                updateFragmentTitle(position)
 
-                // Fragment를 정확히 식별하여 saveUserInfo 호출
+                // 첫 번째, 두 번째 프래그먼트에서 ProgressBar 0
+                if (position == 0 || position == 1) {
+                    resetProgressBar()  // ProgressBar를 0으로 초기화
+                }
+
+                // 마지막 프래그먼트에서는 ProgressBar 100
+                if (position == viewPager.adapter!!.itemCount - 1) {
+                    setProgressBarToFull()  // ProgressBar를 100으로 설정
+                }
+                updateFragmentTitle(position)
+                btnNext.visibility = View.GONE
+
                 val fragment = supportFragmentManager.findFragmentByTag("f$position")
                 when (fragment) {
                     is BasicInfoFragment -> fragment.updateNextButtonState()
@@ -117,6 +115,13 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         }
     }
 
+    private fun resetProgressBar() {
+        progressBar.progress = 0  // ProgressBar를 0으로 초기화
+    }
+    private fun setProgressBarToFull() {
+        binding.pbBasic.progress = 100  // ProgressBar를 100으로 설정
+    }
+
     private fun handleBackButton() {
         when (viewPager.currentItem) {
             0 -> {
@@ -126,20 +131,12 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-
             else -> {
                 viewPager.currentItem -= 1
             }
         }
     }
 
-    //    private fun navigateToRoommateMakeCrewableFragment() {
-//        val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
-//            putExtra("navigate_to", "RoommateMakeCrewable")
-//        }
-//        startActivity(mainActivityIntent)
-//        finish()
-//    }
     private fun navigateToRoommateMakeCrewableFragment() {
         val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
             putExtra("navigate_to", "RoommateMakeCrewable")
@@ -154,6 +151,17 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             0 -> tvTitle.text = "기본정보"
             1 -> tvTitle.text = "필수정보"
             2 -> tvTitle.text = "선택정보"
+        }
+    }
+
+    // 프로그레스바 업데이트 함수 (애니메이션 적용)
+    fun updateProgressBar(progress: Float) {
+        val progressPercentage = (progress * 100).toInt()
+
+        // ObjectAnimator를 사용하여 ProgressBar의 진행도를 부드럽게 변경
+        ObjectAnimator.ofInt(binding.pbBasic, "progress", binding.pbBasic.progress, progressPercentage).apply {
+            duration = 500  // 애니메이션 지속 시간 (500ms)
+            start()
         }
     }
 

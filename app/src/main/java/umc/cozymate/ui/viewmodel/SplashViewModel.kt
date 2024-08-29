@@ -75,8 +75,8 @@ class SplashViewModel @Inject constructor(
 
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).apply()
-        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).apply()
+        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
 
     fun getToken(): String? {
@@ -90,11 +90,11 @@ class SplashViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).apply()
-        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).apply()
-        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).apply()
-        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).apply()
-        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).apply()
+        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
+        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
+        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
+        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
     }
 
     fun signIn() {
@@ -102,19 +102,18 @@ class SplashViewModel @Inject constructor(
         val socialTypeValue = _socialType.value
 
         _loading.value = true // 로딩 시작
+        _tokenInfo.value = TokenInfo("", "", "")
+
         if (clientIdValue != null && socialTypeValue != null) {
             viewModelScope.launch {
                 try {
-                    val response = repository.signIn(
-                        SignInRequest(
-                            clientIdValue,
-                            socialTypeValue
-                        )
-                    )
+                    val response = repository.signIn(SignInRequest(clientIdValue, socialTypeValue))
                     if (response.isSuccessful) {
                         Log.d(TAG, "로그인 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {
                             Log.d(TAG, "로그인 성공: ${response.body()!!.result}")
+                            _tokenInfo.value!!.accessToken = response.body()!!.result.tokenResponseDTO.accessToken
+                            _tokenInfo.value!!.refreshToken = response.body()!!.result.tokenResponseDTO.refreshToken
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()
@@ -142,6 +141,7 @@ class SplashViewModel @Inject constructor(
 
         _loading.value = true // 로딩 시작
         _requestFail.value = false
+        _tokenInfo.value = TokenInfo("", "", "")
 
         if (refreshToken != null) {
             viewModelScope.launch {
@@ -153,7 +153,7 @@ class SplashViewModel @Inject constructor(
                             Log.d(TAG, "토큰 재발행 성공: ${response.body()!!.result}")
                             _tokenInfo.value!!.accessToken = response.body()!!.result.accessToken
                             _tokenInfo.value!!.message = response.body()!!.result.message
-                            _tokenInfo.value!!.refreshToken = response.body()!!.result.message
+                            _tokenInfo.value!!.refreshToken = response.body()!!.result.refreshToken
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()

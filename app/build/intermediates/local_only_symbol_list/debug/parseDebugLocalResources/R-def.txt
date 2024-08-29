@@ -2,6 +2,7 @@ R_DEF: Internal format may change without notice
 local
 color basic_font
 color black
+color bottom_nav_item_color
 color box
 color color_box
 color color_font
@@ -22,6 +23,7 @@ color unuse_btn
 color unuse_font
 color white
 color yellow
+dimen design_bottom_navigation_height
 drawable app_icon_png
 drawable app_icon_svg
 drawable app_icon_v2
@@ -132,6 +134,7 @@ drawable ic_down_2
 drawable ic_dropdown
 drawable ic_edit
 drawable ic_fcm
+drawable ic_feed
 drawable ic_graph
 drawable ic_heart
 drawable ic_heartfull
@@ -148,6 +151,7 @@ drawable ic_login_apple
 drawable ic_login_kakao
 drawable ic_main_icon
 drawable ic_message
+drawable ic_my
 drawable ic_my_circle
 drawable ic_option
 drawable ic_pencil
@@ -156,6 +160,8 @@ drawable ic_photoedit
 drawable ic_picture
 drawable ic_rectangle_12
 drawable ic_reload
+drawable ic_role_and_rule
+drawable ic_roommate
 drawable ic_rule_number
 drawable ic_school
 drawable ic_school_color
@@ -195,7 +201,6 @@ id btn_chat
 id btn_copy_invite_code
 id btn_crew
 id btn_crewable_chip_list_more
-id btn_crewable_chip_table_more
 id btn_crewable_search
 id btn_dialog_detail_no
 id btn_dialog_detail_yes
@@ -557,6 +562,7 @@ id tv_Item
 id tv_Memo
 id tv_MypageRoomName
 id tv_MypageUserName
+id tv_NoMate
 id tv_Role
 id tv_RoleEmpty
 id tv_RoleMemberName
