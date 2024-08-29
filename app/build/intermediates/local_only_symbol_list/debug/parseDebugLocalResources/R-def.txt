@@ -61,7 +61,7 @@ drawable btn_rectangle_81
 drawable btn_rectangle_cozyhome_state
 drawable btn_rectangle_next_state
 drawable btn_roommate_selection_info_plus
-drawable character_0
+drawable btn_sign_in
 drawable character_1
 drawable character_10
 drawable character_11
@@ -69,6 +69,7 @@ drawable character_12
 drawable character_13
 drawable character_14
 drawable character_15
+drawable character_16
 drawable character_2
 drawable character_3
 drawable character_4
@@ -221,6 +222,7 @@ id btn_roommate_invite
 id btn_rule
 id btn_save
 id btn_school
+id btn_sign_in
 id btn_test
 id calendar_view
 id call_no
@@ -735,6 +737,7 @@ id tv_rule
 id tv_school_guide
 id tv_school_name
 id tv_share_check
+id tv_sign_out
 id tv_sleep_1
 id tv_sleep_10
 id tv_sleep_11
@@ -943,6 +946,7 @@ string access_token_1
 string access_token_2
 string app_name
 string base_url
+string com.google.firebase.crashlytics.mapping_file_id
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id
