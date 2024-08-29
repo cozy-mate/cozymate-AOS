@@ -50,12 +50,11 @@ class TodoTabFragment: Fragment() {
             Log.d(TAG,"resume ${mytodo?.mateTodoList}")
         }, 1000)
     }
-    override fun onStart() {
-        super.onStart()
-        initData()
-        Log.d(TAG,"start  ${mytodo?.mateTodoList}")
-    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initData()
+    }
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
