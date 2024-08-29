@@ -2729,7 +2729,7 @@ drawable btn_rectangle_81
 drawable btn_rectangle_cozyhome_state
 drawable btn_rectangle_next_state
 drawable btn_roommate_selection_info_plus
-drawable character_0
+drawable btn_sign_in
 drawable character_1
 drawable character_10
 drawable character_11
@@ -2737,6 +2737,7 @@ drawable character_12
 drawable character_13
 drawable character_14
 drawable character_15
+drawable character_16
 drawable character_2
 drawable character_3
 drawable character_4
@@ -3110,6 +3111,7 @@ id btn_roommate_invite
 id btn_rule
 id btn_save
 id btn_school
+id btn_sign_in
 id btn_test
 id buttonPanel
 id cache_measures
@@ -4030,6 +4032,7 @@ id tv_rule
 id tv_school_guide
 id tv_school_name
 id tv_share_check
+id tv_sign_out
 id tv_sleep_1
 id tv_sleep_10
 id tv_sleep_11
@@ -4477,6 +4480,7 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw firebase_common_keep
+raw firebase_crashlytics_keep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -4528,6 +4532,7 @@ string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
 string clear_text_end_icon_content_description
+string com_google_firebase_crashlytics_mapping_file_id
 string com_kakao_talk_chooser_text
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
