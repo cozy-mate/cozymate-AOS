@@ -28,6 +28,7 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
+import java.util.UUID
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -89,11 +90,14 @@ class MainActivity : AppCompatActivity() {
         val accessToken = spf.getString("access_token", "")
         val fcmSpf = getSharedPreferences("FCMtoken", Context.MODE_PRIVATE)
         val fcmToken = fcmSpf.getString("FCMtoken", "")
+        val _deviceId = UUID.randomUUID().toString()
         val fcmInfoRequest = FcmInfoRequest(
-            deviceId = "2",
+//            deviceId = "1",
+            deviceId = _deviceId,
             token = fcmToken ?: ""  // fcmToken이 null일 경우 빈 문자열로 처리
         )
         roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
+        Log.d("MainActivity device ID", "$_deviceId")
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
 
