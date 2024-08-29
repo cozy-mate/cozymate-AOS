@@ -13,8 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Response
 import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
@@ -31,7 +33,6 @@ class TodoTabFragment: Fragment() {
     private var memberList : Map<String, TodoMateData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +54,7 @@ class TodoTabFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObservers()
         initData()
     }
     private fun getPreference() {
@@ -62,28 +64,39 @@ class TodoTabFragment: Fragment() {
         Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
 
     }
-
-    private fun initData(){
-        viewModel.getTodo(roomId, currentDate.toString())
+    private fun setupObservers() {
+        // viewLifecycleOwner는 onViewCreated에서 안전하게 접근 가능
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) {
-                binding.tvEmpty.visibility = View.VISIBLE
-                binding.rvMyTodoList.visibility = View.GONE
-                return@Observer
-            }
-            if (response.isSuccessful) {
-                val todoResponse = response.body()
-                todoResponse?.let {
-                    mytodo = it.result.myTodoList
-                    memberList = it.result.mateTodoList
-                    updateRecyclerView(mytodo!!, memberList)
-                }
-            } else {
-                Log.d(TAG, "response 응답 실패")
-                binding.tvEmpty.visibility = View.VISIBLE
-                binding.rvMyTodoList.visibility = View.GONE
-            }
+            updateUI(response)
         })
+    }
+
+    private fun updateUI(response: Response<TodoResponse>) {
+        // 옵저버에서 데이터 처리
+        if (response == null) {
+            binding.tvEmpty.visibility = View.VISIBLE
+            binding.rvMyTodoList.visibility = View.GONE
+            return
+        }
+        if (response.isSuccessful) {
+            val todoResponse = response.body()
+            todoResponse?.let {
+                mytodo = it.result.myTodoList
+                memberList = it.result.mateTodoList
+                updateRecyclerView(mytodo!!, memberList)
+            }
+        } else {
+            Log.d(TAG, "response 응답 실패")
+            binding.tvEmpty.visibility = View.VISIBLE
+            binding.rvMyTodoList.visibility = View.GONE
+        }
+    }
+    private fun initData(){
+        if (view == null) {
+            return  // 뷰가 없는 경우 안전하게 종료
+        }
+        // 데이터 요청만 수행, 옵저버는 이미 설정됨
+        viewModel.getTodo(roomId, currentDate.toString())
     }
 
     private fun updateInfo(){
