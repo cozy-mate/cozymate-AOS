@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.making_room.view_model
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
