@@ -5,5 +5,5 @@ import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 
 interface RoomLogRepository {
 
-    suspend fun getRoomLog(accessToken: String, roomId: Int, memberId: Int? = 0, size: Int? = 10,): Response<RoomLogResponse>
+    suspend fun getRoomLog(accessToken: String, roomId: Int, page: Int? = 0, size: Int? = 10,): Response<RoomLogResponse>
 }

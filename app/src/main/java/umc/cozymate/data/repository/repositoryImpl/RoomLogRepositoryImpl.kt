@@ -13,9 +13,9 @@ class RoomLogRepositoryImpl @Inject constructor(
     override suspend fun getRoomLog(
         accessToken: String,
         roomId: Int,
-        memberId: Int?,
-        size: Int?
+        page: Int?,
+        size: Int?,
     ): Response<RoomLogResponse> {
-        return api.getRoomLog(accessToken, roomId, memberId, roomId)
+        return api.getRoomLog(accessToken, roomId, page, size)
     }
 }

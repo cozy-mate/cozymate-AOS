@@ -13,19 +13,19 @@ data class RoomLogResponse(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: Result
+    val result: RoomLogResult
 ) {
     @Serializable
-    data class Result(
+    data class RoomLogResult(
         @SerialName("hasNext")
         val hasNext: Boolean,
         @SerialName("page")
         val page: Int,
         @SerialName("result")
-        val result: List<Result>
+        val result: List<RoomLogItem>
     ) {
         @Serializable
-        data class Result(
+        data class RoomLogItem(
             @SerialName("content")
             val content: String,
             @SerialName("createdAt")

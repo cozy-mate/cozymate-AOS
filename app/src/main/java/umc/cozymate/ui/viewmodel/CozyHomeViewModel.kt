@@ -230,7 +230,7 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-    fun mapRoomLogResponseToItem(roomLog: RoomLogResponse.Result.Result): AchievementItem {
+    fun mapRoomLogResponseToItem(roomLog: RoomLogResponse.RoomLogResult.RoomLogItem): AchievementItem {
         return AchievementItem(
             content = roomLog.content,
             datetime = roomLog.createdAt,
