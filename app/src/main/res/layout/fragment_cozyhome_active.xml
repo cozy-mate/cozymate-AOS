@@ -138,7 +138,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="238dp"
             android:background="@drawable/background_round_corner_20"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -152,8 +152,10 @@
 
         <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom"
             android:layout_width="match_parent"
             android:layout_height="65dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

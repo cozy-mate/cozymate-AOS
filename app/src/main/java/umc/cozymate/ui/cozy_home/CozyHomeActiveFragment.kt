@@ -115,21 +115,24 @@ class CozyHomeActiveFragment : Fragment() {
         viewModel.profileImage.observe(viewLifecycleOwner, Observer { img ->
             if (img != null) {
                 when (img) {
+                    // 일 단 피 그 마 디 자 인 순 서
                     1 -> binding.ivChar.setImageResource(R.drawable.character_1)
                     2 -> binding.ivChar.setImageResource(R.drawable.character_2)
                     3 -> binding.ivChar.setImageResource(R.drawable.character_3)
-                    4 -> binding.ivChar.setImageResource(R.drawable.character_4)
-                    5 -> binding.ivChar.setImageResource(R.drawable.character_5)
-                    6 -> binding.ivChar.setImageResource(R.drawable.character_6)
-                    7 -> binding.ivChar.setImageResource(R.drawable.character_7)
-                    8 -> binding.ivChar.setImageResource(R.drawable.character_8)
-                    9 -> binding.ivChar.setImageResource(R.drawable.character_9)
-                    10 -> binding.ivChar.setImageResource(R.drawable.character_10)
+                    4 -> binding.ivChar.setImageResource(R.drawable.character_6)
+                    5 -> binding.ivChar.setImageResource(R.drawable.character_4)
+                    6 -> binding.ivChar.setImageResource(R.drawable.character_5)
+                    7 -> binding.ivChar.setImageResource(R.drawable.character_10)
+                    8 -> binding.ivChar.setImageResource(R.drawable.character_9)
+
+                    9 -> binding.ivChar.setImageResource(R.drawable.character_15)
+                    10 -> binding.ivChar.setImageResource(R.drawable.character_13)
                     11 -> binding.ivChar.setImageResource(R.drawable.character_11)
                     12 -> binding.ivChar.setImageResource(R.drawable.character_12)
-                    13 -> binding.ivChar.setImageResource(R.drawable.character_13)
-                    14 -> binding.ivChar.setImageResource(R.drawable.character_14)
-                    15 -> binding.ivChar.setImageResource(R.drawable.character_15)
+
+                    13 -> binding.ivChar.setImageResource(R.drawable.character_14)
+                    14 -> binding.ivChar.setImageResource(R.drawable.character_8)
+                    15 -> binding.ivChar.setImageResource(R.drawable.character_7)
                     16 -> binding.ivChar.setImageResource(R.drawable.character_16) // 기본 이미지 설정
                 }
             }
