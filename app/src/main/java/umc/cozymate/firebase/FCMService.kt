@@ -117,10 +117,9 @@ class FCMService : FirebaseMessagingService() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val safeAreaName = data ?: "알림1"
-        val time = data ?: "알림2"
-        val contentText = "알림1: $safeAreaName\n알림2: $time"
-        // 알림 내용에 따라 수정 필요!!!!
+        // body 텍스트에서 {}를 제거
+        val bodyText = notification.body?.replace(Regex("[{}]"), "") ?: ""
+        val contentText = bodyText
 
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_fcm)
@@ -172,10 +171,9 @@ class FCMService : FirebaseMessagingService() {
         }
         val pendingIntent = PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE)
 
-        val data = remoteMessage.data
-//        val time = remoteMessage.data ?: "알림2"
-        val contentText = "$data"
-        // 알림 내용에 따라 수정 필요!!
+        // body 텍스트에서 {}를 제거
+        val bodyText = remoteMessage.data["body"]?.replace(Regex("[{}]"), "") ?: ""
+        val contentText = bodyText
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
