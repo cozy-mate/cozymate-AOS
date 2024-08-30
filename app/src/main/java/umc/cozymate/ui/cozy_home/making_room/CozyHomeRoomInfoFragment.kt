@@ -46,14 +46,13 @@ class CozyHomeRoomInfoFragment : Fragment() {
             btnNext.setOnClickListener {
                 // 방 이름과 최대 인원 수를 ViewModel에 설정
                 val roomName = etRoomName.text.toString()
-                val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 0 // 인원 수 숫자만 추출
-                val characterImage = 0 // 기본 캐릭터 이미지 (선택된 값이 없으므로 0으로 설정)
+                val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 6 // 인원 수 숫자만 추출
+                val characterImage = 1 // 기본 캐릭터 이미지 (선택된 값이 없으므로 0으로 설정)
 
                 if (roomName.isNotEmpty() && maxNum > 0) {
                     viewModel.setNickname(roomName)
                     viewModel.setMaxNum(maxNum)
                     viewModel.setImg(characterImage)
-                    viewModel.setCreatorId(1) // 예시로 creatorId를 1로 설정
 
                     // 방 생성 요청
                     viewModel.createRoom()

@@ -39,8 +39,8 @@ class MakingRoomViewModel @Inject constructor(
     private val _maxNum = MutableLiveData<Int>()
     val maxNum: LiveData<Int> get() = _maxNum
 
-    private val _roomCreationResult = MutableLiveData<CreateRoomResponse<CreateRoomResponse.SuccessResult>>()
-    val roomCreationResult: MutableLiveData<CreateRoomResponse<CreateRoomResponse.SuccessResult>> get() = _roomCreationResult
+    private val _roomCreationResult = MutableLiveData<CreateRoomResponse>()
+    val roomCreationResult: MutableLiveData<CreateRoomResponse> get() = _roomCreationResult
 
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
@@ -77,9 +77,8 @@ class MakingRoomViewModel @Inject constructor(
                 try {
                     val roomRequest = CreateRoomRequest(
                         nickname.value!!,
-                        img.value!!,
-                        maxNum.value!!,
-                        creatorId.value!!
+                        img.value ?: 1,
+                        maxNum.value ?: 6,
                     )
                     val response = roomRepository.createRoom(token, roomRequest)
                     if (response.body()!!.isSuccess) {
