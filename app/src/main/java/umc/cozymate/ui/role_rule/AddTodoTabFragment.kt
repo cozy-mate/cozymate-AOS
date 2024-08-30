@@ -38,21 +38,9 @@ class AddTodoTabFragment: Fragment(){
         calendarView = binding.calendarView
         // 오늘 날짜 선택
         //binding.calendarView.setSelectedDate(CalendarDay.today())
-        setTodoinput()
         getPreference()
-
-
-        // 오늘 날짜 색상 변경
-        val todayDecorator = CalenderDecorator(requireContext(),calendarView)
-        calendarView.addDecorator(todayDecorator)
-        // 월이 변경될 때마다 데코레이터를 업데이트
-        calendarView.setOnMonthChangedListener { widget, date ->
-            // 데코레이터를 재적용
-            widget.addDecorator(todayDecorator)
-        }
-
-        //오늘보다 이전 날짜 선택 제한
-        calendarView.state().edit().setMinimumDate(CalendarDay.today()).commit()
+        setTodoinput()
+        setupCalendar()
 
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
@@ -76,7 +64,29 @@ class AddTodoTabFragment: Fragment(){
             }
         return binding.root
     }
-        private fun getPreference() {
+
+    private fun setupCalendar() {
+        // 오늘 날짜 색상 변경
+        val todayDecorator = CalenderDecorator(requireContext(),calendarView)
+        calendarView.addDecorator(todayDecorator)
+
+        // 월이 변경될 때마다 데코레이터를 업데이트
+        calendarView.setOnMonthChangedListener { widget, date ->
+            // 데코레이터를 재적용
+            widget.addDecorator(todayDecorator)
+        }
+
+        //오늘보다 이전 날짜 선택 제한
+        calendarView.state().edit().setMinimumDate(CalendarDay.today()).commit()
+
+        calendarView.setOnDateChangedListener { _, date, _ ->
+            selectedDate = String.format("%04d-%02d-%02d", date.year, date.month, date.day)
+            Log.d(TAG, "선택된 날짜: $selectedDate")
+            binding.btnInputButton.isEnabled = !binding.etInputTodo.text.isNullOrEmpty() && selectedDate != null
+        }
+    }
+
+    private fun getPreference() {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             roomId = spf.getInt("room_id", 0)
         }
@@ -94,11 +104,11 @@ class AddTodoTabFragment: Fragment(){
                 override fun afterTextChanged(s: Editable?) {}
             })
 
-            calendarView.setOnDateChangedListener { _, date, _ ->
-                // 날짜 형식 변환 (예: yyyy-MM-dd)
-                selectedDate = String.format("%04d-%02d-%02d", date.year, date.month, date.day)
-                binding.btnInputButton.isEnabled = !binding.etInputTodo.text.isNullOrEmpty() && selectedDate != null
-            }
+//            calendarView.setOnDateChangedListener { _, date, _ ->
+//                // 날짜 형식 변환 (예: yyyy-MM-dd)
+//                selectedDate = String.format("%04d-%02d-%02d", date.year, date.month, date.day)
+//                binding.btnInputButton.isEnabled = !binding.etInputTodo.text.isNullOrEmpty() && selectedDate != null
+//            }
 
         }
 

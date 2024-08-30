@@ -41,19 +41,16 @@ class TodoTabFragment : Fragment() {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         getPreference()
         updateInfo()
-        isCreated = false
         return binding.root
     }
 
     override fun onResume() {
         // 단순 시간 딜레이
         super.onResume()
-        if (isCreated) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                initData()
-                Log.d(TAG, "resume ${mytodo?.mateTodoList}")
-            }, 1000)
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            initData()
+            Log.d(TAG,"resume ${mytodo?.mateTodoList}")
+        }, 1000)
 
     }
 
