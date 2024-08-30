@@ -35,6 +35,7 @@ class CozyHomeRoomInfoFragment : Fragment() {
         _binding = FragmentCozyHomeRoomInfoBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
+        setupObservers()
 
         return binding.root
     }
@@ -83,7 +84,6 @@ class CozyHomeRoomInfoFragment : Fragment() {
                 textView.setOnClickListener { numPeopleSelected(it, value) }
             }
         }
-
         checkValidInfo()
     }
 
@@ -138,10 +138,8 @@ class CozyHomeRoomInfoFragment : Fragment() {
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
-            if (result != null && result.isSuccess) {
-                // 방 생성 성공 시 다음 화면으로 이동
-                (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
-            }
+            // 방 생성 성공 시 다음 화면으로 이동
+            (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
         }
 
         // 에러 응답도 추가로 처리할 수 있음
