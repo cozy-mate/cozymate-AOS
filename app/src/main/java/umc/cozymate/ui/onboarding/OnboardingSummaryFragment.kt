@@ -42,10 +42,8 @@ class OnboardingSummaryFragment : Fragment() {
 
         val mainText = "${nickname}님, "
         val spannable = SpannableStringBuilder(mainText)
-        val start = mainText.indexOf(nickname)
-        val end = start + nickname.length
         val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
-        spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(color), 0, nickname.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.title1Onboarding3.text = spannable
 
         setCharacterImage(persona)

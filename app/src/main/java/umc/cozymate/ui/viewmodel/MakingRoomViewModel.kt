@@ -94,7 +94,7 @@ class MakingRoomViewModel @Inject constructor(
                         Log.d(TAG, "방 생성 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
-                    _errorResponse.value!!.message = e.message.toString()
+                    _errorResponse.value?.message = e.message.toString()
                     Log.d(TAG, "방 생성 api 요청 실패: ${e}")
                 } finally {
                     _loading.value = false
