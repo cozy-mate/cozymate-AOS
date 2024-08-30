@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.making_room
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +30,8 @@ class CozyHomeRoomInfoFragment : Fragment() {
     private var numPeopleOption: TextView? = null
     private var numPeople: String? = null
 
+    private var charId: Int? = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,20 +44,28 @@ class CozyHomeRoomInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.setImg(charId ?: 1)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            ivBack.setOnClickListener {
+                requireActivity().onBackPressed()
+            }
             btnNext.setOnClickListener {
                 // 방 이름과 최대 인원 수를 ViewModel에 설정
                 val roomName = etRoomName.text.toString()
                 val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 6 // 인원 수 숫자만 추출
-                val characterImage = 1 // 기본 캐릭터 이미지 (선택된 값이 없으므로 0으로 설정)
 
                 if (roomName.isNotEmpty() && maxNum > 0) {
                     viewModel.setNickname(roomName)
                     viewModel.setMaxNum(maxNum)
-                    viewModel.setImg(characterImage)
+                    viewModel.setImg(charId ?: 1)
 
                     // 방 생성 요청
                     viewModel.createRoom()
@@ -68,7 +80,7 @@ class CozyHomeRoomInfoFragment : Fragment() {
             var isSelected = false
             ivCharacter.setOnClickListener {
                 val intent = Intent(context, CozyHomeSelectingCharacterActivity::class.java)
-                startActivity(intent)
+                characterResultLauncher.launch(intent)
                 isSelected = true
             }
             if (isSelected) ivCharacter.setImageResource(R.drawable.character_1)
@@ -154,6 +166,43 @@ class CozyHomeRoomInfoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // 캐릭터 아이디 받아오기
+    private val characterResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // 결과가 정상적으로 반환되었는지 확인
+            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 1
+            // 이미지 리소스를 반영
+            charId = selectedCharacterId
+            setCharacterImage(selectedCharacterId)
+            // ViewModel에 선택된 이미지 ID 저장
+            viewModel.setImg(selectedCharacterId)
+        }
+    }
+
+    private fun setCharacterImage(persona: Int) {
+        when (persona) {
+            1 -> binding.ivCharacter.setImageResource(R.drawable.character_1)
+            2 -> binding.ivCharacter.setImageResource(R.drawable.character_2)
+            3 -> binding.ivCharacter.setImageResource(R.drawable.character_3)
+            4 -> binding.ivCharacter.setImageResource(R.drawable.character_4)
+            5 -> binding.ivCharacter.setImageResource(R.drawable.character_5)
+            6 -> binding.ivCharacter.setImageResource(R.drawable.character_6)
+            7 -> binding.ivCharacter.setImageResource(R.drawable.character_7)
+            8 -> binding.ivCharacter.setImageResource(R.drawable.character_8)
+            9 -> binding.ivCharacter.setImageResource(R.drawable.character_9)
+            10 -> binding.ivCharacter.setImageResource(R.drawable.character_10)
+            11 -> binding.ivCharacter.setImageResource(R.drawable.character_11)
+            12 -> binding.ivCharacter.setImageResource(R.drawable.character_12)
+            13 -> binding.ivCharacter.setImageResource(R.drawable.character_13)
+            14 -> binding.ivCharacter.setImageResource(R.drawable.character_14)
+            15 -> binding.ivCharacter.setImageResource(R.drawable.character_15)
+            16 -> binding.ivCharacter.setImageResource(R.drawable.character_16)
+            else -> binding.ivCharacter.setImageResource(R.drawable.character_1) // 기본 이미지 설정
+        }
     }
 }
 

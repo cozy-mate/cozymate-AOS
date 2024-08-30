@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.making_room
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -20,23 +21,25 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
     private val TAG = this.javaClass.simpleName
 
     lateinit var binding: ActivityCozyHomeSelectingCharacterBinding
+    private var selectedCharacterId: Int? = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCozyHomeSelectingCharacterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //enableEdgeToEdge()
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }*/
 
         with(binding) {
             btnNext.setOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
+                val intent = Intent()
+                selectedCharacterId?.let {
+                    intent.putExtra("selectedCharacterId", it)
+                    setResult(RESULT_OK, intent)
+                }
+                finish() // 현재 Activity를 종료하고 이전 화면으로 돌아감
             }
+
+
         }
 
         initCharacterList()
@@ -74,7 +77,7 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
     }
 
     override fun onItemClick(character: CharacterItem, position: Int) {
-        // Handle the item click
+        selectedCharacterId = position + 1 // 1부터 시작
         Log.d(TAG, "Selected item position: $position")
     }
 }
