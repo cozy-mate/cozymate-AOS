@@ -27,4 +27,9 @@ class AddTodoActivity:AppCompatActivity() {
             finish()
         }
     }
+    fun onLoading(isLoading : Int){
+        binding.progressBar.visibility = isLoading
+        binding.overlay.visibility = isLoading
+    }
 }
+

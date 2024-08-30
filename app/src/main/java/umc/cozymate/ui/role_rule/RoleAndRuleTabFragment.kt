@@ -2,8 +2,6 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,18 +43,16 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            initData()
-            Log.d(TAG,"resume ${myRole}")
-        }, 1000)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupObservers() // 옵저버 설정
+        initData()       // 초기 데이터 로드
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+        // 화면이 다시 보일 때 데이터를 갱신
         initData()
-        Log.d(TAG,"start ${myRole}")
     }
 
     private fun getPreference() {
@@ -66,49 +62,52 @@ class RoleAndRuleTabFragment: Fragment() {
         myNickname =  spf.getString("user_nickname", "No user found").toString()
     }
 
-    private fun initData(){
-        ruleViewModel.getRule(roomId)
-        ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
+    private fun setupObservers() {
+        // 옵저버는 onViewCreated에서 한 번만 설정합니다.
+        ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response == null) return@Observer
 
-            if (response == null){
-                return@Observer
-            }
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 val ruleResponse = response.body()
-                ruleResponse?.let{
+                ruleResponse?.let {
                     rules = it.result
                     updateRule()
                 }
-            }
-            else{
-                Log.d(TAG,"response 응답 실패")
+            } else {
+                Log.d(TAG, "response 응답 실패")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvRules.visibility = View.GONE
             }
         })
 
-        roleViewModel.getRole(roomId)
-        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response->
-            if (response == null){
-                binding.rvMyRoleList.visibility  = View.GONE
+        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response == null) {
+                binding.rvMyRoleList.visibility = View.GONE
                 binding.tvRole.visibility = View.VISIBLE
                 return@Observer
             }
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 val roleResponse = response.body()
-                roleResponse?.let{
+                roleResponse?.let {
                     myRole = it.result.myRoleList
                     memberRole = it.result.otherRoleList
                     updateRole()
                 }
-            }
-            else{
-                Log.d(TAG,"response 응답 실패")
+            } else {
+                Log.d(TAG, "response 응답 실패")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvRules.visibility = View.GONE
             }
         })
     }
+    private fun initData(){
+        if (view == null) return
+
+        // 데이터를 요청하여 갱신
+        ruleViewModel.getRule(roomId)
+        roleViewModel.getRole(roomId)
+    }
+
 
     private fun updateInfo(){
         binding.tvRule.text = roomName

@@ -281,4 +281,14 @@ class MainActivity : AppCompatActivity() {
 
     private val requestNotificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+
+    override fun onResume() {
+        super.onResume()
+        // 현재 표시되고 있는 프래그먼트를 확인하고 바텀 네비게이션 상태를 업데이트
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.main_container)
+        when (currentFragment) {
+            is RoommateOnboardingFragment -> binding.bottomNavigationView.selectedItemId = R.id.fragment_rommate
+            // 다른 프래그먼트에 대한 처리도 추가할 수 있음
+        }
+    }
 }

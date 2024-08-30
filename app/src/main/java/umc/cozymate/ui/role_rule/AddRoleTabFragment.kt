@@ -23,6 +23,7 @@ import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
+import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 
 @AndroidEntryPoint
 class AddRoleTabFragment: Fragment() {
@@ -35,7 +36,7 @@ class AddRoleTabFragment: Fragment() {
     private val memberBox = mutableListOf<CheckBox>()
     private val weekdayBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
-
+    private val tabViewModel: SelectedTabViewModel by viewModels()
     private val viewModel: RoleViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +58,7 @@ class AddRoleTabFragment: Fragment() {
             viewModel.createResponse.observe(viewLifecycleOwner){response->
                 if (response.isSuccessful) {
                     Log.d(TAG,"연결 성공 ${request}")
+                    tabViewModel.setSelectedTab(1)
                 } else {
                     Log.d(TAG,"연결 실패")
                 }
@@ -98,10 +100,10 @@ class AddRoleTabFragment: Fragment() {
 //        layoutParams.marginStart = ConvertDPtoPX(requireContext(),8)
 //        layoutParams.marginEnd = ConvertDPtoPX(requireContext(),8)
         layoutParams.setMargins(
-            ConvertDPtoPX(requireContext(), 0),
-            ConvertDPtoPX(requireContext(), 8),
-            ConvertDPtoPX(requireContext(), 8),
-            ConvertDPtoPX(requireContext(), 8)
+            ConvertDPtoPX(requireContext(), 0), // left
+            ConvertDPtoPX(requireContext(), 0), // top
+            ConvertDPtoPX(requireContext(), 8), // right
+            ConvertDPtoPX(requireContext(), 8)  // bottom
         )
         for (mate in mateList) {
             val checkBox = CheckBox(context).apply {
@@ -212,4 +214,9 @@ class AddRoleTabFragment: Fragment() {
         val allChecked = weekdayBox.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
         binding.cbEveryday.isChecked = allChecked // cbEveryday 체크 상태 업데이트
     }
+
+
+
+
+
 }

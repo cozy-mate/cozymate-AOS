@@ -63,7 +63,7 @@
         android:id="@+id/et_InputMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="258dp"
+        android:minHeight="130dp"
         android:background="@drawable/ic_inputbox"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
         android:textColor="@color/basic_font"
