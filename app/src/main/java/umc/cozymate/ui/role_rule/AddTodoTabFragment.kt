@@ -55,7 +55,6 @@ class AddTodoTabFragment: Fragment(){
         calendarView.state().edit().setMinimumDate(CalendarDay.today()).commit()
 
 
-
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
             if (content.isNotEmpty() && selectedDate != null) {
@@ -72,8 +71,6 @@ class AddTodoTabFragment: Fragment(){
                         Log.d(TAG,"연결 실패")
                     }
                 }
-                // 부모 뷰 visibility 변경
-                // (activity as AddTodoActivity)?.onLoading(1)
                 (requireActivity() as AddTodoActivity).finish()
             }
             }
