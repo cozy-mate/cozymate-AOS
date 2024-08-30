@@ -16,6 +16,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.TodoInfoRequest
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
+import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 
 
@@ -27,7 +28,7 @@ class AddTodoTabFragment: Fragment(){
     lateinit var calendarView: MaterialCalendarView
     private var selectedDate: String? = null
     private var roomId : Int = 0
-
+    private val tabViewModel: SelectedTabViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,10 +51,8 @@ class AddTodoTabFragment: Fragment(){
             widget.addDecorator(todayDecorator)
         }
 
-
         //오늘보다 이전 날짜 선택 제한
         calendarView.state().edit().setMinimumDate(CalendarDay.today()).commit()
-
 
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
@@ -67,6 +66,7 @@ class AddTodoTabFragment: Fragment(){
                 viewModel.createResponse.observe(viewLifecycleOwner) { response ->
                     if (response.isSuccessful) {
                         Log.d(TAG,"연결 성공 ${todoRequest}")
+                        tabViewModel.setSelectedTab(0)
                     } else {
                         Log.d(TAG,"연결 실패")
                     }
