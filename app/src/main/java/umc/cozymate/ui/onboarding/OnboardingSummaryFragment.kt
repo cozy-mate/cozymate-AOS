@@ -4,9 +4,13 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import umc.cozymate.R
@@ -36,7 +40,14 @@ class OnboardingSummaryFragment : Fragment() {
 
         getPreference()
 
-        binding.title1Onboarding3.text = "${nickname}님, "
+        val mainText = "${nickname}님, "
+        val spannable = SpannableStringBuilder(mainText)
+        val start = mainText.indexOf(nickname)
+        val end = start + nickname.length
+        val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
+        spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.title1Onboarding3.text = spannable
+
         setCharacterImage(persona)
 
         val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
