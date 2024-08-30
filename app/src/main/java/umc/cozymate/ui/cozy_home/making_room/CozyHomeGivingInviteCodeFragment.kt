@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeGivingInviteCodeBinding
+import umc.cozymate.ui.cozy_home.making_room.view_model.MakingRoomViewModel
 
 // 플로우2 : 방정보 입력창(1) > "초대코드 발급창(2)" > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
@@ -15,11 +18,18 @@ class CozyHomeGivingInviteCodeFragment : Fragment() {
     private var _binding: FragmentCozyHomeGivingInviteCodeBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: MakingRoomViewModel
+
+    private lateinit var popup: DialogFragment
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCozyHomeGivingInviteCodeBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
+
         return binding.root
     }
 

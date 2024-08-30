@@ -172,9 +172,9 @@ class FCMService : FirebaseMessagingService() {
         }
         val pendingIntent = PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE)
 
-        val safeAreaName = remoteMessage.data ?: "알림1"
-        val time = remoteMessage.data ?: "알림2"
-        val contentText = "알림1: $safeAreaName\n알림2: $time"
+        val data = remoteMessage.data
+//        val time = remoteMessage.data ?: "알림2"
+        val contentText = "$data"
         // 알림 내용에 따라 수정 필요!!
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)

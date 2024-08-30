@@ -135,7 +135,7 @@ class RoommateMakeCrewableFragment : Fragment() {
 
     // 텍스트 선택 초기화
     fun initTextView() {
-        setupTextSelection(binding.selectBirth, "birthYear")
+        // setupTextSelection(binding.selectBirth, "birthYear")
         setupTextSelection(binding.selectNumber, "admissionYear")
         setupTextSelection(binding.selectMajor, "major")
         setupTextSelection(binding.selectRoomNum, "numOfRoommate")
@@ -255,6 +255,12 @@ class RoommateMakeCrewableFragment : Fragment() {
                 viewModel.getFilteredUserInfo(it, 0)  // 필터에 맞는 첫 페이지 데이터 호출
             }
         }
+    }
+
+    // dp를 픽셀로
+    private fun ConvertDPtoPX(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return Math.round(dp.toFloat() * density)
     }
 
     override fun onDestroyView() {

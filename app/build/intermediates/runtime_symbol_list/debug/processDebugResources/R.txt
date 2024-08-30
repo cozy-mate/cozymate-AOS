@@ -3139,14 +3139,11 @@ int id chip3 0x7f0900a8
 int id chip4 0x7f0900a9
 int id chip5 0x7f0900aa
 int id chips1 0x7f0900ab
-int id chips2 0x7f0900ac
-int id chips3 0x7f0900ad
-int id chips4 0x7f0900ae
-int id chips5 0x7f0900af
 int id chronometer 0x7f0900b0
 int id circle_center 0x7f0900b1
 int id cl_ac 0x7f0900b2
 int id cl_alert 0x7f0900b3
+int id cl_bottom 0x7f0904d1
 int id cl_call 0x7f0900b4
 int id cl_chips 0x7f0900b5
 int id cl_clean_check 0x7f0900b6
@@ -3699,7 +3696,6 @@ int id search_src_text 0x7f0902d8
 int id search_voice_btn 0x7f0902d9
 int id select_ac 0x7f0902da
 int id select_acceptance 0x7f0902db
-int id select_birth 0x7f0902dc
 int id select_call 0x7f0902dd
 int id select_clean 0x7f0902de
 int id select_clean_frequency 0x7f0902df

@@ -75,23 +75,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_crewable_background">
 
-                    <LinearLayout
+                    <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/chips1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        app:alignItems="flex_start"
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/select_birth"
-                            style="@style/SelectChip"
-                            android:layout_width="69dp"
-                            android:layout_height="33dp"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="8dp"
-                            android:clickable="true"
-                            android:text="출생년도" />
 
                         <TextView
                             android:id="@+id/select_number"
@@ -99,6 +92,7 @@
                             android:layout_width="49dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="학번" />
 
@@ -108,6 +102,7 @@
                             android:layout_width="49dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="학과" />
 
@@ -117,6 +112,7 @@
                             android:layout_width="59dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="신청실" />
 
@@ -126,26 +122,18 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="합격여부" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/chips2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chips1">
 
                         <TextView
                             android:id="@+id/select_wake"
                             style="@style/SelectChip"
                             android:layout_width="69dp"
                             android:layout_height="33dp"
-                            android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="기상시간" />
 
@@ -155,6 +143,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="취침시간" />
 
@@ -164,6 +153,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="소등시간" />
 
@@ -173,26 +163,18 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="흡연여부" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/chips3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chips2">
 
                         <TextView
                             android:id="@+id/select_sleep_habit"
                             style="@style/SelectChip"
                             android:layout_width="59dp"
                             android:layout_height="33dp"
-                            android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="잠버릇" />
 
@@ -202,6 +184,7 @@
                             android:layout_width="49dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="추위" />
 
@@ -211,6 +194,7 @@
                             android:layout_width="49dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="더위" />
 
@@ -220,6 +204,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="생활패턴" />
 
@@ -229,26 +214,17 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="물건공유" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/chips4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chips3">
 
                         <TextView
                             android:id="@+id/select_study"
                             style="@style/SelectChip"
                             android:layout_width="69dp"
                             android:layout_height="33dp"
-                            android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="공부여부" />
 
@@ -258,6 +234,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="게임여부" />
 
@@ -267,6 +244,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="전화여부" />
 
@@ -276,6 +254,7 @@
                             android:layout_width="79dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="청결예민도" />
 
@@ -285,26 +264,18 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="섭취여부" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/chips5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chips4">
 
                         <TextView
                             android:id="@+id/select_friendly"
                             style="@style/SelectChip"
                             android:layout_width="59dp"
                             android:layout_height="33dp"
-                            android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="친밀도" />
 
@@ -315,6 +286,7 @@
                             android:layout_height="33dp"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="소음예민도" />
 
@@ -324,6 +296,7 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="청소빈도" />
 
@@ -333,6 +306,7 @@
                             android:layout_width="49dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="성격" />
 
@@ -342,10 +316,10 @@
                             android:layout_width="69dp"
                             android:layout_height="33dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:text="MBTI" />
-                    </LinearLayout>
-
+                    </com.google.android.flexbox.FlexboxLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -416,13 +390,13 @@
                         android:id="@+id/tv_list_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_gravity="end"
-                        android:text=""
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="10dp"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                         android:textColor="@color/unuse_font"
-                        tools:text="5명"/>
+                        tools:text="5명" />
 
                     <!-- 필터 결과가 없을 때 표시할 메시지 -->
                     <TextView
@@ -480,26 +454,26 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 
-<!--                        <ImageButton-->
-<!--                            android:id="@+id/btn_crewable_chip_table_more"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="10dp"-->
-<!--                            android:backgroundTint="@color/white"-->
-<!--                            android:src="@drawable/ic_down" />-->
+                        <!--                        <ImageButton-->
+                        <!--                            android:id="@+id/btn_crewable_chip_table_more"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="10dp"-->
+                        <!--                            android:backgroundTint="@color/white"-->
+                        <!--                            android:src="@drawable/ic_down" />-->
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_table_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_gravity="end"
-                        android:text=""
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="10dp"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                         android:textColor="@color/unuse_font"
-                        tools:text="5명"/>
+                        tools:text="5명" />
 
 
                     <!-- 필터 없는 결과 리스트 -->
