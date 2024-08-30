@@ -9,12 +9,21 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import umc.cozymate.R
 
-class CalenderDecorator (private val context: Context, private val calendarView: MaterialCalendarView) : DayViewDecorator  {
+class CalenderDecorator (private val context: Context, private val calendarView: MaterialCalendarView, private val isDefault : Boolean) : DayViewDecorator  {
     private val today: CalendarDay = CalendarDay.today() // 오늘 날짜를 CalendarDay 형식으로 가져오기
+    private var selectedDate: CalendarDay? = null
+
+    init {
+        // 날짜 선택 이벤트 리스너 설정
+        calendarView.setOnDateChangedListener { _, date, _ ->
+            selectedDate = date // 선택된 날짜를 업데이트
+            calendarView.invalidateDecorators() // 데코레이터를 갱신
+        }
+    }
     override fun shouldDecorate(day: CalendarDay): Boolean {
         // 현재 표시되고 있는 달과 오늘 날짜가 같은 경우만 데코레이터를 적용
         val currentMonth = calendarView.currentDate
-        return day == today && day.month == currentMonth.month
+        return day == today && day.month == currentMonth.month  && day != selectedDate && !isDefault
     }
 
     override fun decorate(view: DayViewFacade) {
