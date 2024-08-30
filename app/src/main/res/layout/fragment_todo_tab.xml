@@ -15,6 +15,7 @@
         android:paddingEnd="20dp"
         android:background="@drawable/background_todo_tab">
 
+
         <TextView
             android:id="@+id/tv_TodoDate"
             android:layout_width="wrap_content"
