@@ -58,6 +58,6 @@ interface RoomService {
     suspend fun createRoom(
         @Header("Authorization") accessToken: String,
         @Body roomInfo: CreateRoomRequest
-    ) : Response<CreateRoomResponse<CreateRoomResponse.SuccessResult>>
+    ) : Response<CreateRoomResponse>
 
 }

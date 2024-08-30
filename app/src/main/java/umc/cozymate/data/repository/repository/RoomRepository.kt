@@ -18,6 +18,6 @@ interface RoomRepository {
 
     suspend fun isRoomExist(accessToken: String) : Response<IsRoomExistResponse>
 
-    suspend fun createRoom(accessToken: String, roomInfo: CreateRoomRequest): Response<CreateRoomResponse<CreateRoomResponse.SuccessResult>>
+    suspend fun createRoom(accessToken: String, roomInfo: CreateRoomRequest): Response<CreateRoomResponse>
 }
 

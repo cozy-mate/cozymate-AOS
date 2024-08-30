@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,24 @@ class CozyHomeRoomInfoFragment : Fragment() {
 
         with(binding) {
             btnNext.setOnClickListener {
-                (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment2()
+                // 방 이름과 최대 인원 수를 ViewModel에 설정
+                val roomName = etRoomName.text.toString()
+                val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 0 // 인원 수 숫자만 추출
+                val characterImage = 0 // 기본 캐릭터 이미지 (선택된 값이 없으므로 0으로 설정)
+
+                if (roomName.isNotEmpty() && maxNum > 0) {
+                    viewModel.setNickname(roomName)
+                    viewModel.setMaxNum(maxNum)
+                    viewModel.setImg(characterImage)
+                    viewModel.setCreatorId(1) // 예시로 creatorId를 1로 설정
+
+                    // 방 생성 요청
+                    viewModel.createRoom()
+                } else {
+                    Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                }
+
+                // (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment2()
                 (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
             }
 
@@ -74,7 +92,8 @@ class CozyHomeRoomInfoFragment : Fragment() {
     private fun numPeopleSelected(view: View, value: String) {
         numPeopleOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         numPeopleOption = view as TextView
         numPeopleOption?.apply {

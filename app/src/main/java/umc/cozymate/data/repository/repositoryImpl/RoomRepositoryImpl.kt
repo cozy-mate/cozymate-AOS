@@ -45,7 +45,7 @@ class RoomRepositoryImpl @Inject constructor(
     override suspend fun createRoom(
         accessToken: String,
         roomInfo: CreateRoomRequest
-    ): Response<CreateRoomResponse<CreateRoomResponse.SuccessResult>> {
+    ): Response<CreateRoomResponse> {
         return api.createRoom(accessToken, roomInfo)
     }
 
