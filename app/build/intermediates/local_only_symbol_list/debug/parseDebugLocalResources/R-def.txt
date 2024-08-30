@@ -235,12 +235,9 @@ id chip3
 id chip4
 id chip5
 id chips1
-id chips2
-id chips3
-id chips4
-id chips5
 id cl_ac
 id cl_alert
+id cl_bottom
 id cl_call
 id cl_chips
 id cl_clean_check
@@ -503,7 +500,6 @@ id rv_roommate
 id rv_rule
 id select_ac
 id select_acceptance
-id select_birth
 id select_call
 id select_clean
 id select_clean_frequency
