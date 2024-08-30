@@ -21,7 +21,6 @@ class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     private val viewModel: OnboardingViewModel by viewModels()
-
     lateinit var binding: ActivityCozyHomeEnteringInviteCodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,6 +24,9 @@ class MakingRoomViewModel @Inject constructor(
 
     private val TAG = this.javaClass.simpleName
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
 
@@ -65,25 +68,38 @@ class MakingRoomViewModel @Inject constructor(
     }
 
     fun createRoom() {
-        viewModelScope.launch {
-            try {
-                val token = getToken()
-                val roomRequest = CreateRoomRequest(nickname.value!!, img.value!!, maxNum.value!!, creatorId.value!!)
-                val response = roomRepository.createRoom(token!!, roomRequest)
-                if (response.body()!!.isSuccess) {
-                    Log.d(TAG, "방 생성 성공: ${response.body()!!.result}")
-                    _roomCreationResult.value = response.body()!!
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
+        val token = getToken()
+        Log.d(TAG, "방 생성 전 토큰: $token")
+        _loading.value = true // 로딩 시작
+
+        if (token != null) {
+            viewModelScope.launch {
+                try {
+                    val roomRequest = CreateRoomRequest(
+                        nickname.value!!,
+                        img.value!!,
+                        maxNum.value!!,
+                        creatorId.value!!
+                    )
+                    val response = roomRepository.createRoom(token, roomRequest)
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 생성 성공: ${response.body()!!.result}")
+                        _roomCreationResult.value = response.body()!!
                     } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
+                        Log.d(TAG, "방 생성 api 응답 실패: ${response}")
                     }
-                    Log.d(TAG, "방 생성 api 응답 실패: ${response}")
+                } catch (e: Exception) {
+                    _errorResponse.value!!.message = e.message.toString()
+                    Log.d(TAG, "방 생성 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
                 }
-            } catch (e: Exception) {
-                _errorResponse.value!!.message = e.message.toString()
             }
         }
     }

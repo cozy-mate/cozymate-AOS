@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home.making_room
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -10,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeGivingInviteCodeBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_home.making_room.view_model.MakingRoomViewModel
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
 
@@ -17,6 +19,8 @@ import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
 @AndroidEntryPoint
 class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
 
+    private val TAG = this.javaClass.simpleName
+    private val viewModel: MakingRoomViewModel by viewModels()
     private lateinit var binding: ActivityCozyHomeGivingInviteCodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
