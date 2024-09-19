@@ -21,6 +21,8 @@ class MyPageFragment : Fragment() {
     private var persona : Int = 0
     private var nickname : String = ""
     private var roomname : String = ""
+    private var schoolFlag : Boolean = true
+    private var roomFlag : Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,13 +31,37 @@ class MyPageFragment : Fragment() {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MyPageViewModel::class.java)
         getPreference()
+        updateTextStyle()
         binding.tvMypageUserName.text =nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
-        binding.tvMypageRoomName.text = roomname
-        binding.tvSignOut.setOnClickListener {
+        binding.tvMypageRoom.text = roomname
+        binding.tvMypageSignout.setOnClickListener {
             performLogout()
         }
         return binding.root
+    }
+
+    private fun updateTextStyle() {
+        // 나의 코지룸
+        if(roomFlag){
+            binding.ivMypageRoom.visibility = View.VISIBLE
+            binding.tvMypageRoom.setTextColor(binding.root.context.getColor(R.color.main_blue))
+        }
+        else {
+            binding.ivMypageRoom.visibility = View.GONE
+            binding.tvMypageRoom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+        }
+
+        // 학교 인증
+        if(schoolFlag){
+            binding.ivMypageSchoolVerifiedMark.visibility = View.VISIBLE
+            binding.tvMypageSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
+        }
+        else {
+            binding.ivMypageSchoolVerifiedMark.visibility = View.GONE
+            binding.tvMypageSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.tvMypageSchool.text = "아직 학교인증이 되어있지 않아요"
+        }
     }
 
     private fun performLogout() {
