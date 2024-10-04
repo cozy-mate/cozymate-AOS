@@ -1,19 +1,18 @@
-package umc.cozymate.ui.roommate
+package umc.cozymate.ui.school_certification
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import umc.cozymate.R
-import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.databinding.FragmentRoommateSchoolBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 
-class RoommateFragment : Fragment() {
+class SchoolCertificationFragment : Fragment() {
     private var _binding: FragmentRoommateSchoolBinding? = null
     private val binding get() = _binding!!
 
@@ -27,7 +26,8 @@ class RoommateFragment : Fragment() {
     ): View {
         _binding = FragmentRoommateSchoolBinding.inflate(inflater, container, false)
 
-        (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
+        (context as MainActivity).supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
 //        binding.btnTest.setOnClickListener {
 //            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
 //        }
@@ -35,9 +35,6 @@ class RoommateFragment : Fragment() {
 //        }
 //        (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateMakeCrewableFragment()).commitAllowingStateLoss()
         return binding.root
-    }
-    private fun updateUI(userInfoList: List<OtherUserInfoResponse>){
-        Log.d("updateOtherUserInfo", userInfoList.toString())
     }
 
 }
