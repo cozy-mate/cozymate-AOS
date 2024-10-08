@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.school_certification.SchoolSearchFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 검색창 -->
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.school_certification.SchoolSearchFragment">
 
-        <View
-            android:id="@+id/iv_search"
-            android:layout_width="0dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="21dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ripple_box_12dp"
-            android:backgroundTint="@color/color_box"
-            app:layout_constraintEnd_toStartOf="@id/btn_cancle"
+        <!-- 검색창 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+            <View
+                android:id="@+id/iv_search"
+                android:layout_width="0dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ripple_box_12dp"
+                android:backgroundTint="@color/color_box"
+                app:layout_constraintEnd_toStartOf="@id/btn_cancle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/transparent"
+                android:cursorVisible="false"
+                android:hint="학교를 입력해주세요"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                android:textColorHint="@color/unuse_font"
+                app:layout_constraintBottom_toBottomOf="@id/iv_search"
+                app:layout_constraintEnd_toEndOf="@id/iv_search"
+                app:layout_constraintStart_toStartOf="@id/iv_search"
+                app:layout_constraintTop_toTopOf="@id/iv_search" />
+
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparent"
+                android:padding="0dp"
+                android:text="취소"
+                android:textColor="@color/basic_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="16dp"
-            android:background="@color/transparent"
-            android:cursorVisible="false"
-            android:hint="학교를 입력해주세요"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/basic_font"
-            android:textColorHint="@color/unuse_font"
-            app:layout_constraintBottom_toBottomOf="@id/iv_search"
-            app:layout_constraintEnd_toEndOf="@id/iv_search"
-            app:layout_constraintStart_toStartOf="@id/iv_search"
-            app:layout_constraintTop_toTopOf="@id/iv_search" />
+            android:layout_marginTop="16dp"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_school"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_search" />
 
-        <Button
-            android:id="@+id/btn_cancle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
-            android:background="@color/transparent"
-            android:padding="0dp"
-            android:text="취소"
-            android:textColor="@color/basic_font"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색결과가 없어요"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_search" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_search" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="검색결과가 없어요"
-        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-        android:textColor="@color/unuse_font"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_search" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
