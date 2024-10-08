@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
+import umc.cozymate.ui.school_certification.SchoolCertificationFragment
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.viewmodel.MyPageViewModel
 
@@ -18,9 +19,9 @@ class MyPageFragment : Fragment() {
     private lateinit var viewModel: MyPageViewModel
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
-    private var persona : Int = 0
-    private var nickname : String = ""
-    private var roomname : String = ""
+    private var persona: Int = 0
+    private var nickname: String = ""
+    private var roomname: String = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,13 +30,25 @@ class MyPageFragment : Fragment() {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MyPageViewModel::class.java)
         getPreference()
-        binding.tvMypageUserName.text =nickname
+        binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvMypageRoomName.text = roomname
         binding.tvSignOut.setOnClickListener {
             performLogout()
         }
+        binding.ivMypageData1.setOnClickListener {
+            loadSchoolCert()
+        }
         return binding.root
+    }
+
+    private fun loadSchoolCert() {
+        val fragment = SchoolCertificationFragment()
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_container, fragment) // fragment_container는 프래그먼트를 담을 컨테이너 ID
+            .addToBackStack(null) // 뒤로 가기 버튼을 눌렀을 때 이전 프래그먼트로 돌아가기 위함
+            .commit()
     }
 
     private fun performLogout() {
@@ -71,11 +84,11 @@ class MyPageFragment : Fragment() {
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         persona = spf.getInt("uesr_persona", 0)
-        nickname =  spf.getString("user_nickname", "No user found").toString()
-        roomname =spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
+        nickname = spf.getString("user_nickname", "No user found").toString()
+        roomname = spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
     }
 
-    private fun initCharactor() : Int{
+    private fun initCharactor(): Int {
         return when (persona) {
             1 -> R.drawable.character_1
             2 -> R.drawable.character_2

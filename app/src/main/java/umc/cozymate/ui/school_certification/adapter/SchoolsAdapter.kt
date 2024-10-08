@@ -10,9 +10,10 @@ import com.bumptech.glide.Glide
 import umc.cozymate.R
 
 class SchoolsAdapter(
-    private val schoolList: List<SchoolItem>,
     private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<SchoolsAdapter.SchoolViewHolder>() {
+
+    private var schoolList: List<SchoolItem> = emptyList()
 
     class SchoolViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val logo: ImageView = itemView.findViewById(R.id.iv_school_logo)
@@ -47,5 +48,10 @@ class SchoolsAdapter(
         holder.itemView.setOnClickListener {
             onItemClick(school.name)
         }
+    }
+
+    fun submitList(list: List<SchoolItem>) {
+        schoolList = list
+        notifyDataSetChanged()
     }
 }
