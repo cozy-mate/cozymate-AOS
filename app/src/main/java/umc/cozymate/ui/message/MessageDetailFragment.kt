@@ -1,5 +1,6 @@
 package umc.cozymate.ui.message
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,20 @@ class MessageDetailFragment : Fragment() {
         binding.rvMessageDetail.apply {
             adapter = messageDetailAdapter
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        initOnClickListener()
+    }
+
+    private fun  initOnClickListener(){
+        binding.ivBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+        binding.ivMore.setOnClickListener {
+            binding.layoutMessageDetailMore.visibility = View.VISIBLE
+        }
+        binding.btnWriteMessage.setOnClickListener {
+            startActivity(Intent(activity, WriteMessageActivity::class.java))
         }
     }
 }

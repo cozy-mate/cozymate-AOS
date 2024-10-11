@@ -1,6 +1,7 @@
 package umc.cozymate.ui.MessageDetail
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.RvItemMessageBinding
@@ -17,7 +18,7 @@ class MessageDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageDetailViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int = items.size
@@ -31,10 +32,12 @@ class MessageDetailAdapter(
         private val binding: RvItemMessageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: MessageDetailItem) {
+        fun bind(pos : Int) {
+            val item = items[pos]
             binding.tvMessageName.text = item.nickname
             binding.tvMessageText.text = item.content
             binding.tvMessageTime.text = item.datetime
+            if(pos == items.size-1) binding.ivLine.visibility = View.GONE
         }
     }
 }
