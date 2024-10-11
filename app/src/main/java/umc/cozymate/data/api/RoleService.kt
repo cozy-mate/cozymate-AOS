@@ -10,7 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.RoleResponse
+import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 
 interface RoleService {
     @POST("/role/{roomId}")

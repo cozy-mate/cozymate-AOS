@@ -2,9 +2,10 @@ package umc.cozymate.ui.message
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMessageBinding
-
+@AndroidEntryPoint
 class MessageActivity : AppCompatActivity(){
     lateinit var binding: ActivityMessageBinding
     private lateinit var messageAdapter: MessageAdapter

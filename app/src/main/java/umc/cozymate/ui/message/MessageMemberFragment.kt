@@ -5,13 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.entity.ChatRoomData
 import umc.cozymate.databinding.FragmentMessageMemberBinding
+import umc.cozymate.ui.viewmodel.ChatViewModel
 
+@AndroidEntryPoint
 class MessageMemberFragment : Fragment() {
     private lateinit var binding : FragmentMessageMemberBinding
     private lateinit var messageAdapter: MessageAdapter
+    private val viewModel : ChatViewModel by viewModels()
+    private var chatRooms : List<ChatRoomData> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,19 +32,45 @@ class MessageMemberFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //setupObservers()
+        //initData()
         // 1. MessageItem 더미 데이터 생성
-        val dummyMessages = listOf(
-            MessageItem(nickname = "제이", content = "그럼 저희 같이 하는 건가용?"),
-            MessageItem(nickname = "더기", content = "혹시 소등시간 오전 4시 괜찮으실까요..?"),
-            MessageItem(nickname = "name1", content = "test"),
-            MessageItem(nickname = "name2", content = "test"),
+        chatRooms = listOf(
+            ChatRoomData(persona = 1, nickName = "제이", lastContent = "그럼 저희 같이 하는 건가용?", chatRoomId = 1),
+            ChatRoomData(persona = 12, nickName = "더기", lastContent = "혹시 소등시간 오전 4시 괜찮으실까요..?", chatRoomId = 1),
+            ChatRoomData(persona = 5, nickName = "name1", lastContent = "test", chatRoomId = 1),
+            ChatRoomData(persona = 1, nickName = "name2", lastContent = "test", chatRoomId = 1),
 
             )
+        updateChatRooms()
+        // 뒤로가기
+        binding.ivClose.setOnClickListener {
+            requireActivity().finish()
+        }
+    }
 
+    private fun setupObservers() {
+        viewModel.getChatRoomsResponse.observe(viewLifecycleOwner, Observer{response ->
+            if (response == null) return@Observer
+            if (response.isSuccessful) {
+                val chatRoomResponse = response.body()
+                chatRoomResponse?.let {
+                    chatRooms = it.result
+                    updateChatRooms()
+                }
+            }
+        })
+    }
+
+    private fun initData() {
+        if (view == null) return
+        viewModel.getChatRooms()
+    }
+
+    private fun updateChatRooms() {
         // 2. MessageAdapter 인스턴스 생성 및 데이터 설정
-        messageAdapter = MessageAdapter(dummyMessages, object : MessageAdapter.OnItemClickListener {
-            override fun onItemClick(item: MessageItem) {
+        messageAdapter = MessageAdapter(chatRooms, object : MessageAdapter.OnItemClickListener {
+            override fun onItemClick(item: ChatRoomData) {
                 // 클릭된 아이템에 대해 MessageDetailFragment로 전환
                 val fragment = MessageDetailFragment()
 
@@ -50,13 +84,7 @@ class MessageMemberFragment : Fragment() {
         binding.rvMessage.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvMessage.adapter = messageAdapter
-
-        // 뒤로가기
-        binding.ivClose.setOnClickListener {
-            requireActivity().finish()
-        }
     }
-
 
 
 }
