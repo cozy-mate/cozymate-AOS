@@ -7,11 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
-
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
+import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.data.model.response.chat.ChatContentsResponse
 import umc.cozymate.data.model.response.chat.ChatRoomResponse
+import umc.cozymate.data.model.response.chat.WriteChatResponse
 
 interface ChatService {
 
@@ -21,12 +21,12 @@ interface ChatService {
         @Path("chatRoomId") chatRoomId: Int
     ): Response<ChatContentsResponse>
 
-    @POST("/chats/members")
+    @POST("/chats/members/{recipientId}")
     suspend fun postChat(
         @Header("Authorization") accessToken: String,
         @Path("recipientId") recipientId: Int,
-        @Body content: String
-    ): Response<ResponseBody<Int>>
+        @Body request : ChatRequest
+    ): Response<WriteChatResponse>
 
     @DELETE("/chatrooms/{chatRoomId}")
     suspend fun deleteChatRooms (

@@ -11,9 +11,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
+import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.data.model.response.chat.ChatContentsResponse
 import umc.cozymate.data.model.response.chat.ChatRoomResponse
+import umc.cozymate.data.model.response.chat.WriteChatResponse
 import umc.cozymate.data.repository.repository.ChatRepository
 import javax.inject.Inject
 
@@ -28,8 +29,8 @@ class ChatViewModel @Inject constructor(
     private val _getChatContentsResponse = MutableLiveData<Response<ChatContentsResponse>>()
     val getChatContentsResponse : LiveData<Response<ChatContentsResponse>> get() = _getChatContentsResponse
 
-    private val _postChatResponse = MutableLiveData<Response<ResponseBody<Int>>>()
-    val postChatResponse :  LiveData<Response<ResponseBody<Int>>> get() = _postChatResponse
+    private val _postChatResponse = MutableLiveData<Response<WriteChatResponse>>()
+    val postChatResponse :  LiveData<Response<WriteChatResponse>> get() = _postChatResponse
 
     private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
     val deleteResponse : LiveData<Response<DefaultResponse>> get() = _deleteResponse
@@ -52,23 +53,24 @@ class ChatViewModel @Inject constructor(
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "getRole api 요청 실패: ${e}")
+                Log.d(TAG, "api 요청 실패: ${e}")
             }
         }
     }
 
-    fun postChat(recipientId : Int , content : String){
+    fun postChat(recipientId : Int , request : ChatRequest){
         viewModelScope.launch {
             val token = getToken()
             try{
-                val response = repository.postChat(token!!, recipientId, content)
+                val response = repository.postChat(token!!, recipientId, request)
+                Log.d(TAG,"데이터 확인 ${recipientId} , ${request}")
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     _postChatResponse.postValue(response)
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "getRole api 요청 실패: ${e}")
+                Log.d(TAG, "api 요청 실패: ${e}")
             }
         }
     }
@@ -84,7 +86,7 @@ class ChatViewModel @Inject constructor(
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "getRole api 요청 실패: ${e}")
+                Log.d(TAG, "api 요청 실패: ${e}")
             }
         }
     }
@@ -100,7 +102,7 @@ class ChatViewModel @Inject constructor(
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "getRole api 요청 실패: ${e}")
+                Log.d(TAG, "api 요청 실패: ${e}")
             }
         }
     }

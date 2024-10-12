@@ -7,14 +7,13 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMessageBinding
 @AndroidEntryPoint
 class MessageActivity : AppCompatActivity(){
-    lateinit var binding: ActivityMessageBinding
-    private lateinit var messageAdapter: MessageAdapter
+    private lateinit var binding: ActivityMessageBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initFragment()
 
     }

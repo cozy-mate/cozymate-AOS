@@ -2,10 +2,11 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.ChatService
+import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.data.model.response.chat.ChatContentsResponse
 import umc.cozymate.data.model.response.chat.ChatRoomResponse
+import umc.cozymate.data.model.response.chat.WriteChatResponse
 import umc.cozymate.data.repository.repository.ChatRepository
 import javax.inject.Inject
 
@@ -22,9 +23,9 @@ class ChatRepositoryImpl @Inject constructor(
     override suspend fun postChat(
         accessToken: String,
         recipientId: Int,
-        content: String
-    ): Response<ResponseBody<Int>> {
-        return api.postChat(accessToken, recipientId, content)
+        request : ChatRequest
+    ): Response<WriteChatResponse> {
+        return api.postChat(accessToken, recipientId, request)
     }
 
     override suspend fun deleteChatRooms(

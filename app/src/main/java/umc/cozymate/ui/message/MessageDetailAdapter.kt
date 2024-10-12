@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.databinding.RvItemMessageBinding
-import umc.cozymate.ui.message.MessageDetailItem
 
 class MessageDetailAdapter(
-    private var items: List<MessageDetailItem>
+    private var items: List<ChatContentData>
 ) : RecyclerView.Adapter<MessageDetailAdapter.MessageDetailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageDetailViewHolder {
@@ -23,7 +23,7 @@ class MessageDetailAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(newItems: List<MessageDetailItem>) {
+    fun setItems(newItems: List<ChatContentData>) {
         items = newItems
         notifyDataSetChanged()
     }
@@ -36,7 +36,7 @@ class MessageDetailAdapter(
             val item = items[pos]
             binding.tvMessageName.text = item.nickname
             binding.tvMessageText.text = item.content
-            binding.tvMessageTime.text = item.datetime
+            binding.tvMessageTime.text = item.dateTime
             if(pos == items.size-1) binding.ivLine.visibility = View.GONE
         }
     }
