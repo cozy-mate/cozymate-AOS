@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentRoommateSchoolBinding
+import umc.cozymate.databinding.FragmentSchoolCertificationBinding
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.StatusBarUtil
 
 class SchoolCertificationFragment : Fragment() {
-    private var _binding: FragmentRoommateSchoolBinding? = null
+    private var _binding: FragmentSchoolCertificationBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: RoommateViewModel by activityViewModels()
@@ -24,7 +24,7 @@ class SchoolCertificationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRoommateSchoolBinding.inflate(inflater, container, false)
+        _binding = FragmentSchoolCertificationBinding.inflate(inflater, container, false)
 
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
 
