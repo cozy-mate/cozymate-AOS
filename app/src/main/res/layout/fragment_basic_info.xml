@@ -25,7 +25,8 @@
                 android:layout_marginBottom="55dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_dormitory"
@@ -87,7 +88,8 @@
                 android:layout_marginBottom="55dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory">
+                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_people_number"
@@ -166,13 +168,14 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_people_number">
+                app:layout_constraintTop_toBottomOf="@+id/cl_people_number"
+                tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_major"
+                    android:id="@+id/tv_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학과를 입력헤주세요"
+                    android:text="출생년도를 입력헤주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
                     android:visibility="visible"
@@ -187,14 +190,14 @@
                     android:visibility="visible"
                     app:boxBackgroundMode="outline"
                     app:hintEnabled="false"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_major">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_birth">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_major"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edittext"
-                        android:hint="ex. 경영학과"
+                        android:hint="ex. 2002"
                         android:inputType="text"
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font" />
