@@ -163,7 +163,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_major"
+                android:id="@+id/cl_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -183,7 +183,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tvil_major"
+                    android:id="@+id/tvil_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -193,7 +193,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_birth">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_major"
+                        android:id="@+id/et_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edittext"
@@ -207,7 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvil_major" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvil_birth" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -220,7 +220,7 @@
                 android:textColor="@color/highlight_font"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_major" />
+                app:layout_constraintTop_toBottomOf="@id/cl_birth" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tvil_number"
