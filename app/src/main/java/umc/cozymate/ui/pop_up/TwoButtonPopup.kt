@@ -10,19 +10,20 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import umc.cozymate.databinding.PopupTemplateOnebuttonBinding
+import umc.cozymate.databinding.PopupTemplateTwobuttonsBinding
 import umc.cozymate.ui.role_rule.AddTodoActivity
 
-class OneButtonPopup(
+class TwoButtonPopup (
     message: List<String>,
     private val clickFunc : PopupClick
 ) : DialogFragment(){
-    lateinit var binding: PopupTemplateOnebuttonBinding
+    lateinit var binding: PopupTemplateTwobuttonsBinding
     val text = message[0]
     val subText = message[1]
-    val btn = message[2]
+    val btnLeft = message[2]
+    val btnRight = message[3]
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = PopupTemplateOnebuttonBinding.inflate(layoutInflater)
+        binding = PopupTemplateTwobuttonsBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
         val dialog = builder.create()
@@ -48,15 +49,16 @@ class OneButtonPopup(
         return dialog
     }
 
-    // 버튼 클릭시 실행할 함수 연결 인터페이스
-    interface ClickFunc{
-        fun setClickFunction()
-    }
-
     private fun setOnClickListener() {
-        binding.btnOk.setOnClickListener {
+        binding.btnLeft.setOnClickListener {
             // 함수 실행
-            clickFunc.clickFunction()
+            clickFunc.leftClickFunction()
+            // 모든 함수 수행 후 팝업 닫기
+            dismiss()
+        }
+        binding.btnRight.setOnClickListener {
+            // 함수 실행
+            clickFunc.rightClickFunction()
             // 모든 함수 수행 후 팝업 닫기
             dismiss()
         }
@@ -64,13 +66,11 @@ class OneButtonPopup(
 
     // 팝업창 실행할 곳에 넣을 함수 예시 (팝업 띄울 위치에 복붙해서 사용하면 됩니다!
     private fun popupTest() {
-        val text = listOf("main text ","sub text (없으면 공백 넣어주세요)","버튼텍스트")
-        val dialog = OneButtonPopup(text,object : PopupClick{
-            override fun clickFunction() {
-                // 실행하고자 하는 함수 예시
-                startActivity(Intent(activity, AddTodoActivity::class.java))
-                // 없으면 그냥 retrun
-                return
+        val text = listOf("main text ","sub text (없으면 공백 넣어주세요)","Left","Right")
+        val dialog = TwoButtonPopup(text,object : PopupClick{
+            override fun rightClickFunction() {
+                // 실행하고자 하는 함수 있으면 overriding
+                startActivity(Intent(activity,AddTodoActivity::class.java))
             }
         })
         dialog.show(activity?.supportFragmentManager!!, "testPopup")
@@ -86,7 +86,8 @@ class OneButtonPopup(
             binding.tvPopupSubtext.visibility = View.VISIBLE
         }
 
-        binding.btnOk.text = btn
+        binding.btnLeft.text = btnLeft
+        binding.btnRight.text = btnRight
     }
 
 }

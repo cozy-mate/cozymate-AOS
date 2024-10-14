@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import umc.cozymate.databinding.FragmentRoleAndRuleBinding
+import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 
 class RoleAndRuleFragment : Fragment() {
@@ -36,7 +38,22 @@ class RoleAndRuleFragment : Fragment() {
             startActivity(Intent(activity,AddTodoActivity::class.java))
         }
 
+        popupTest()
         return binding.root
+    }
+
+
+    private fun popupTest() {
+        binding.ivPopupTest.setOnClickListener {
+            val text = listOf("main text ","sub text (없으면 공백 넣어주세요)","Left","Right")
+            val dialog = TwoButtonPopup(text,object : PopupClick{
+                override fun rightClickFunction() {
+                    // 실행하고자 하는 함수 있으면 overriding
+                    startActivity(Intent(activity,AddTodoActivity::class.java))
+                }
+            })
+            dialog.show(activity?.supportFragmentManager!!, "testPopup")
+        }
     }
 
     override fun onResume() {
