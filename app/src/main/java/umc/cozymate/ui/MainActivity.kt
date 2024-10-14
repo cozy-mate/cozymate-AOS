@@ -21,9 +21,8 @@ import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
-import umc.cozymate.ui.roommate.RoommateFragment
-import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
+import umc.cozymate.ui.school_certification.SchoolCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.navigationHeight
@@ -143,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun switchToRoommateOnboardingFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, RoommateOnboardingFragment())
+            .replace(R.id.main_container, SchoolCertificationFragment()) // RoommateOnboardingFragment()
             .addToBackStack(null)
             .commit()
     }
@@ -153,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
 //            .replace(R.id.main_container, RoommateMakeCrewableFragment())
 //            .replace(R.id.main_container, R.layout.fragment_roommate_make_crewable)
-            .replace(R.id.main_container, RoommateMakeCrewableFragment())
+            .replace(R.id.main_container, SchoolCertificationFragment())
             .commitAllowingStateLoss()
     }
 
@@ -239,7 +238,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.fragment_rommate -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoommateFragment()).commit()
+                        .replace(R.id.main_container, SchoolCertificationFragment()).commit() // RoommateFragment()
                     true
                 }
 
