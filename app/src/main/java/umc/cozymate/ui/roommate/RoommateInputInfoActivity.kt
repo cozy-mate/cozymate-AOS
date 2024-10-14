@@ -11,10 +11,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
+import umc.cozymate.ui.AnimationActivity
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
@@ -23,7 +23,7 @@ import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 
 @AndroidEntryPoint
-class RoommateInputInfoActivity : AppCompatActivity() {
+class RoommateInputInfoActivity : AnimationActivity(TransitionMode.HORIZON) {
 
     private lateinit var binding: ActivityRoommateInputInfoBinding
     private lateinit var spfHelper: UserInfoSPFHelper

@@ -2,9 +2,110 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.roommate.RoommateOnboardingActivity">
+
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="95dp"
+        android:text=""
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="델로" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="님과"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/basic_font"
+        app:layout_constraintStart_toEndOf="@+id/tv_name1"
+        app:layout_constraintTop_toTopOf="@+id/tv_name1" />
+
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="딱 맞는 라이프스타일을 가진"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/basic_font"
+        app:layout_constraintStart_toStartOf="@+id/tv_name1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name1" />
+
+    <TextView
+        android:id="@+id/tv_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cozymate"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintStart_toStartOf="@+id/tv_name1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="를 찾아볼까요?"
+        android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
+        android:textColor="@color/basic_font"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_title2"
+        app:layout_constraintStart_toEndOf="@+id/tv_title2" />
+
+    <ImageView
+        android:id="@+id/iv_char"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/iv_search_cozy"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_go_lifestyle"
+        app:layout_constraintTop_toTopOf="@id/btn_go_lifestyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 라이프 스타일 입력하러 가기"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/white" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_go_lifestyle"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/custom_roommate_onboarding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

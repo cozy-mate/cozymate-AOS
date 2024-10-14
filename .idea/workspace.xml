@@ -210,6 +210,11 @@
           <theme>@style/Theme.Cozymate</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_loading.xml">
+        <config>
+          <theme>@style/Theme.Cozymate</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/roommate_detail_bottom_sheet.xml">
         <config>
           <theme>@style/Theme.Cozymate</theme>
@@ -272,19 +277,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3c50aee-37ca-4c3e-abe4-22c7e786e8be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/AnimationActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/horizon_enter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/horizon_exit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/none.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/vertical_enter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/vertical_exit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_onboarding.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/custom_roommate_onboarding.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_onboarding.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_onboarding.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -330,8 +328,8 @@
         <option value="Kotlin Interface" />
         <option value="Kotlin Data Class" />
         <option value="navigationResourceFile" />
-        <option value="resourceFile" />
         <option value="Kotlin Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
