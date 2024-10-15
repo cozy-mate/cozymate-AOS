@@ -607,10 +607,10 @@
                     <TextView
                         android:id="@+id/smoke_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="담배를 피지 않아요" />
 
                     <TextView
                         android:id="@+id/smoke_paper"
@@ -623,26 +623,38 @@
                     <TextView
                         android:id="@+id/smoke_eletronic"
                         style="@style/OptionBox"
-                        android:layout_width="80dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="전자담배" />
+                        android:text="궐련형 전자담배" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_smoke_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check">
 
                     <TextView
-                        android:id="@+id/smoke_stopping"
+                        android:id="@+id/smoke_water"
                         style="@style/OptionBox"
                         android:layout_width="100dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="끊는 중이에요" />
+                        android:text="액상 전자담배" />
 
                 </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -676,18 +688,10 @@
                     <TextView
                         android:id="@+id/sleep_habit_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
-
-                    <TextView
-                        android:id="@+id/sleep_habit_move"
-                        style="@style/OptionBox"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="잠꼬대" />
+                        android:text="잠버릇이 없어요" />
 
                     <TextView
                         android:id="@+id/sleep_habit_noise"
@@ -705,19 +709,40 @@
                         android:layout_marginEnd="8dp"
                         android:text="이갈이" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/ly_sleep_habit_check2"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check">
+
                     <TextView
                         android:id="@+id/sleep_habit_move_sick"
                         style="@style/OptionBox"
                         android:layout_width="70dp"
                         android:layout_height="40dp"
-                        android:text="몽유병" />
+                        android:text="몽유병"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:id="@+id/sleep_habit_move"
+                        style="@style/OptionBox"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="잠꼬대" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -764,15 +789,6 @@
                         android:layout_marginEnd="8dp"
                         android:text="적당하게 틀어요" />
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ly_ac_check2"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check">
                     <TextView
                         android:id="@+id/ac_weak"
                         style="@style/OptionBox"
@@ -780,13 +796,6 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="약하게 틀어요" />
-                    <TextView
-                        android:id="@+id/ac_no"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="아예 틀지 않아요" />
 
                 </LinearLayout>
 
@@ -794,7 +803,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check2" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -841,17 +850,6 @@
                         android:layout_marginEnd="8dp"
                         android:text="적당하게 틀어요" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ly_heater_check2"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_heater_check">
-
                     <TextView
                         android:id="@+id/heater_weak"
                         style="@style/OptionBox"
@@ -860,20 +858,13 @@
                         android:layout_marginEnd="8dp"
                         android:text="약하게 틀어요" />
 
-                    <TextView
-                        android:id="@+id/heater_no"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="아예 틀지 않아요" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check2" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1515,6 +1506,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="일주일에 한 번 정도 해요" />
+
                     <TextView
                         android:id="@+id/clean_frequency_every_34days"
                         style="@style/OptionBox"
@@ -1540,6 +1532,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="2주에 한 번씩 해요" />
+
                     <TextView
                         android:id="@+id/clean_frequency_every_month"
                         style="@style/OptionBox"
@@ -1641,6 +1634,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="부끄러움이 많아요" />
+
                     <TextView
                         android:id="@+id/personality_home"
                         style="@style/OptionBox"
