@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import umc.cozymate.R
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
-import umc.cozymate.databinding.FragmentRoommateSchoolBinding
+import umc.cozymate.databinding.FragmentSchoolCertificationBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 
 class RoommateFragment : Fragment() {
-    private var _binding: FragmentRoommateSchoolBinding? = null
+    private var _binding: FragmentSchoolCertificationBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: RoommateViewModel by activityViewModels()
@@ -25,7 +25,7 @@ class RoommateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRoommateSchoolBinding.inflate(inflater, container, false)
+        _binding = FragmentSchoolCertificationBinding.inflate(inflater, container, false)
 
         (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
 //        binding.btnTest.setOnClickListener {

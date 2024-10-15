@@ -22,7 +22,7 @@ class SchoolSearchViewModel : ViewModel() {
         }
 
     }
-
+    
     // 검색 결과가 비었는지 확인하는 변수
     val isEmpty: LiveData<Boolean> = filteredSchoolList.map {
         it.isEmpty()
@@ -31,11 +31,10 @@ class SchoolSearchViewModel : ViewModel() {
     // 초기 데이터 설정 (예시 데이터)
     init {
         _schoolList.value = listOf(
-            SchoolItem(1, "인하대학교", "url_to_logo_1"),
-            SchoolItem(2, "인하공업대학교", "url_to_logo_2"),
+            SchoolItem(1, "가톨릭대학교", "url_to_logo_3"),
+            SchoolItem(2, "인하대학교", "url_to_logo_1"),
             SchoolItem(3, "숭실대학교", "url_to_logo_3"),
-            SchoolItem(3, "카톨릭대학교", "url_to_logo_3"),
-            SchoolItem(3, "한국공학대학교", "url_to_logo_3")
+            SchoolItem(4, "한국공학대학교", "url_to_logo_3")
         )
     }
 }

@@ -11,7 +11,7 @@ import androidx.core.view.WindowCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-// 아이템 간견 조정할 때 필요한 함수임당
+// 아이템 간격 조정할 때 필요한 함수
 fun Float.fromDpToPx(): Int =
     (this * Resources.getSystem().displayMetrics.density).toInt()
 
