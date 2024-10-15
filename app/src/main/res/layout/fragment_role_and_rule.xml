@@ -44,15 +44,7 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <ImageView
-        android:id="@+id/iv_popup_test"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/character_1"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
-        app:layout_constraintStart_toStartOf="parent"/>
+    
 
     <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
     <androidx.constraintlayout.widget.ConstraintLayout
