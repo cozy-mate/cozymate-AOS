@@ -1167,20 +1167,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_call_check">
 
                     <TextView
-                        android:id="@+id/call_yes"
-                        style="@style/OptionBox"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="O" />
-
-                    <TextView
                         android:id="@+id/call_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="아예 하지 않았으면 좋겠어요" />
+
+                    <TextView
+                        android:id="@+id/call_parent"
+                        style="@style/OptionBox"
+                        android:layout_width="170dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="부모님과의 전화는 괜찮아요" />
                 </LinearLayout>
 
                 <View

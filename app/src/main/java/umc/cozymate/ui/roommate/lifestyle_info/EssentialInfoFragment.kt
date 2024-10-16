@@ -385,7 +385,7 @@ class EssentialInfoFragment : Fragment() {
             binding.smokeNo to "X",
             binding.smokePaper to "연초",
             binding.smokeEletronic to "전자담배",
-            binding.smokeStopping to "끊는 중이에요"
+            binding.smokeWater to "끊는 중이에요"
         )
         for ((textView, value) in smokeTexts) {
             textView.setOnClickListener { smokeSelected(it, value) }
@@ -456,7 +456,6 @@ class EssentialInfoFragment : Fragment() {
             binding.acStrong to "세게 틀어요",
             binding.acEnough to "적당하게 틀어요",
             binding.acWeak to "약하게 틀어요",
-            binding.acNo to "아예 틀지 않아요"
         )
         for ((textView, value) in acTexts) {
             textView.setOnClickListener { acSelected(it, value) }
@@ -491,7 +490,6 @@ class EssentialInfoFragment : Fragment() {
             binding.heaterStrong to "세게 틀어요",
             binding.heaterEnough to "적당하게 틀어요",
             binding.heaterWeak to "약하게 틀어요",
-            binding.heaterNo to "아예 틀지 않아요"
         )
         for ((textView, value) in heaterTexts) {
             textView.setOnClickListener { heaterSelected(it, value) }
@@ -590,8 +588,8 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initShare() {
         val shareTexts = listOf(
-            binding.shareYes to "O",
-            binding.shareNo to "X"
+            binding.shareNothing to "O",
+            binding.shareCloths to "X"
         )
         for ((textView, value) in shareTexts) {
             textView.setOnClickListener { shareSelected(it, value) }
@@ -623,7 +621,6 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initGame() {
         val gameTexts = listOf(
-            binding.gameYes to "O",
             binding.gameNo to "X"
         )
         for ((textView, value) in gameTexts) {
@@ -656,7 +653,6 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initCall() {
         val callTexts = listOf(
-            binding.callYes to "O",
             binding.callNo to "X"
         )
         for ((textView, value) in callTexts) {
