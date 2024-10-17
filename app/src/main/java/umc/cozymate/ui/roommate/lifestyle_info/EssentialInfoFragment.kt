@@ -81,6 +81,9 @@ class EssentialInfoFragment : Fragment() {
     private var cleanFrequencyOption: TextView? = null
     private var cleanFrequencyCheck: String? = null
 
+    private var drinkingFrequencyOption: TextView? = null
+    private var drinkingFrequencyCheck: String? = null
+
     private var personalityOption: TextView? = null
     private var personalityCheck: String? = null
 
@@ -124,6 +127,7 @@ class EssentialInfoFragment : Fragment() {
             cleanCheck = it.getString("cleanCheck")
             noiseCheck = it.getString("noiseCheck")
             cleanFrequencyCheck = it.getString("cleanFrequencyCheck")
+            drinkFrequencyCheck = it.getString("drinkFrequencyCheck")
             personalityCheck = it.getString("personalityCheck")
             mbtiCheck = it.getString("mbtiCheck")
         } ?: run {
@@ -854,6 +858,39 @@ class EssentialInfoFragment : Fragment() {
         cleanFrequencyCheck = value
         userInfo = userInfo.copy(cleaningFrequency = value)
         spfHelper.saveUserInfo(userInfo)
+        resetDebounceTimer { showDrinkingFrequencyLayout() }
+        updateNextButtonState()
+    }
+
+    private fun showDrinkingFrequencyLayout() {
+        binding.clDrink.showWithSlideDownAnimation()
+    }
+
+    private fun initDrinkingFrequency() {
+        val drinkingFrequencyTexts = listOf(
+            binding.drinkNo to "아예 안 마시요",
+            binding.drinkMonth to "",
+            binding.drinkWeek to "",
+            binding.drink4Weeks to "",
+            binding.drinkEveryday to ""
+        )
+        for ((textView, value) in drinkingFrequencyTexts) {
+            textView.setOnClickListener { drinkSelected(it, value) }
+        }
+    }
+
+    private fun drinkingFrequencySelected(view: View, value: String) {
+        drinkingFrequencyOption?.apply {
+            setTextColor(resources.getColor(R.color.unuse_font, null))
+            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+        }
+        drinkingFrequencyOption = view as TextView
+        drinkingFrequencyOption?.apply {
+            setTextColor(resources.getColor(R.color.main_blue, null))
+            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+        }
+        drinkingFrequencyCheck = value
+        userInfo = userInfo.copy(drinkingFrequency = value)
         resetDebounceTimer { showPersonalityLayout() }
         updateNextButtonState()
     }
@@ -992,6 +1029,7 @@ class EssentialInfoFragment : Fragment() {
         outState.putString("cleanCheck", cleanCheck)
         outState.putString("noiseCheck", noiseCheck)
         outState.putString("cleanFrequencyCheck", cleanFrequencyCheck)
+        outState.putString("drinkFrequencyCheck", drinkingFrequencyCheck)
         outState.putString("personalityCheck", personalityCheck)
         outState.putString("mbtiCheck", mbtiCheck)
     }
@@ -1028,11 +1066,12 @@ class EssentialInfoFragment : Fragment() {
         val isCleanSelected = cleanOption != null
         val isNoiseSelected = noiseOption != null
         val isCleanFrequencySelected = cleanFrequencyOption != null
+        val isDrinkingFrequencySelected = drinkingFrequencyOption != null
         val isPersonalitySelected = personalityOption != null
         val isMbtiSelected = mbtiOption != null
 
         // 총 항목 수 및 완료된 항목 수 계산
-        val totalSteps = 19
+        val totalSteps = 20
         val completedSteps = listOf(
             isWakeSelected,
             isSleepSelected,
@@ -1051,6 +1090,7 @@ class EssentialInfoFragment : Fragment() {
             isCleanSelected,
             isNoiseSelected,
             isCleanFrequencySelected,
+            isDrinkingFrequencySelected,
             isPersonalitySelected,
             isMbtiSelected
         ).count { it }

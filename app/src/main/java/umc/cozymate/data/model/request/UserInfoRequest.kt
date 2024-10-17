@@ -26,6 +26,7 @@ data class UserInfoRequest(
     val cleanSensitivity: Int,
     val noiseSensitivity: Int,
     val cleaningFrequency: String,
+    val drinkingFrequency: String,
     val personality: String,
     val mbti: String,
     val options: Map<String, List<String>> // 이 부분이 다양한 값을 담을 수 있게 해줍니다.

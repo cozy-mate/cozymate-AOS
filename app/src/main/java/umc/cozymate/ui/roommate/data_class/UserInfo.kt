@@ -31,7 +31,6 @@ data class UserInfo(
     val lifePattern: String = "",
     val intimacy: String = "",
     val canShare: String = "",
-    // api 상에선 Boolean으로 넘겨야 함
     val isPlayGame: String = "",
     val isPhoneCall: String = "",
     val studying: String = "",
@@ -39,6 +38,7 @@ data class UserInfo(
     val cleanSensitivity: String = "",
     val noiseSensitivity: String = "",
     val cleaningFrequency: String = "",
+    val drinkingFrequency: String = "",
     val personality: String = "",
     val mbti: String = ""
 ) {
@@ -69,6 +69,7 @@ data class UserInfo(
             cleanSensitivity = convertCleanToInt(cleanSensitivity),
             noiseSensitivity = convertNoiseToInt(noiseSensitivity),
             cleaningFrequency = cleaningFrequency,
+            drinkingFrequency = drinkingFrequency,
             personality = personality,
             mbti = mbti,
             options = mapOf(
