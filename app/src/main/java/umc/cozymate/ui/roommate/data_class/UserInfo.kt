@@ -22,7 +22,7 @@ data class UserInfo(
     val lightOffTime: Int = 0,
 
     val smokingState: String = "",
-    val sleepingHabit: String = "",
+    val sleepingHabit: List<String> = emptyList(),
 
     val airConditioningIntensity: String = "",
     val heatingIntensity: String = "",

@@ -43,7 +43,8 @@ class EssentialInfoFragment : Fragment() {
     private var smokeCheck: String? = null
 
     private var sleepHabitOption: TextView? = null
-    private var sleepHabitCheck: String? = null
+    //    private var sleepHabitCheck: String? = null
+    private var selectedSleepHabits: List<String> = emptyList()
 
     private var acOption: TextView? = null
     private var acCheck: String? = null
@@ -114,7 +115,7 @@ class EssentialInfoFragment : Fragment() {
             lightOffTime = it.getInt("lightOffTime")
 
             smokeCheck = it.getString("smokeCheck")
-            sleepHabitCheck = it.getString("sleepHabitCheck")
+            selectedSleepHabits = it.getStringArrayList("sleepHabitCheck") ?: emptyList()
             acCheck = it.getString("acCheck")
             heaterCheck = it.getString("heaterCheck")
             livingPatternCheck = it.getString("livingPatternCheck")
@@ -127,7 +128,7 @@ class EssentialInfoFragment : Fragment() {
             cleanCheck = it.getString("cleanCheck")
             noiseCheck = it.getString("noiseCheck")
             cleanFrequencyCheck = it.getString("cleanFrequencyCheck")
-            drinkFrequencyCheck = it.getString("drinkFrequencyCheck")
+            drinkingFrequencyCheck = it.getString("drinkFrequencyCheck")
             personalityCheck = it.getString("personalityCheck")
             mbtiCheck = it.getString("mbtiCheck")
         } ?: run {
@@ -138,7 +139,7 @@ class EssentialInfoFragment : Fragment() {
             lightOffAmpm = userInfo.lightOffAmPm
             lightOffTime = userInfo.lightOffTime
             smokeCheck = userInfo.smokingState
-            sleepHabitCheck = userInfo.sleepingHabit
+            selectedSleepHabits = userInfo.sleepingHabit
             acCheck = userInfo.airConditioningIntensity
             heaterCheck = userInfo.heatingIntensity
             livingPatternCheck = userInfo.lifePattern
@@ -420,33 +421,49 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun initSleepHabit() {
-        val smokeTexts = listOf(
+        val sleepHabitTexts = listOf(
             binding.sleepHabitNo to "X",
             binding.sleepHabitMove to "잠꼬대",
             binding.sleepHabitNoise to "코골이",
             binding.sleepHabitTeeth to "이갈이",
             binding.sleepHabitMoveSick to "몽유병"
         )
-        for ((textView, value) in smokeTexts) {
+        for ((textView, value) in sleepHabitTexts) {
             textView.setOnClickListener { sleepHabitSelected(it, value) }
         }
     }
 
     private fun sleepHabitSelected(view: View, value: String) {
-        sleepHabitOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background =
-                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//        sleepHabitOption?.apply {
+//            setTextColor(resources.getColor(R.color.unuse_font, null))
+//            background =
+//                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//        }
+//        sleepHabitOption = view as TextView
+//        sleepHabitOption?.apply {
+//            setTextColor(resources.getColor(R.color.main_blue, null))
+//            background =
+//                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+//        }
+//        sleepHabitCheck = value
+//        userInfo = userInfo.copy(sleepingHabit = value)
+//        spfHelper.saveUserInfo(userInfo)
+
+        val textView = view as TextView
+        if (selectedSleepHabits.contains(value)){
+            // 이미 선택된 경우 해제
+            selectedSleepHabits.remove(value)
+            textView.setTextColor(resources.getColor(R.color.unuse_font, null))
+            textView.background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+        } else {
+            // 선택되지 않은 경우 선택
+            selectedSleepHabits.add(value)
+            textView.setTextColor(resources.getColor(R.color.main_blue, null))
+            textView.background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        sleepHabitOption = view as TextView
-        sleepHabitOption?.apply {
-            setTextColor(resources.getColor(R.color.main_blue, null))
-            background =
-                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
-        }
-        sleepHabitCheck = value
-        userInfo = userInfo.copy(sleepingHabit = value)
+        userInfo = userInfo.copy(sleepingHabit =  selectedSleepHabits.joinToString(", "))
         spfHelper.saveUserInfo(userInfo)
+
         resetDebounceTimer { showAcLayout() }
         updateNextButtonState()
     }
@@ -875,19 +892,21 @@ class EssentialInfoFragment : Fragment() {
             binding.drinkEveryday to ""
         )
         for ((textView, value) in drinkingFrequencyTexts) {
-            textView.setOnClickListener { drinkSelected(it, value) }
+            textView.setOnClickListener { drinkingFrequencySelected(it, value) }
         }
     }
 
     private fun drinkingFrequencySelected(view: View, value: String) {
         drinkingFrequencyOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         drinkingFrequencyOption = view as TextView
         drinkingFrequencyOption?.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
         drinkingFrequencyCheck = value
         userInfo = userInfo.copy(drinkingFrequency = value)
@@ -1016,7 +1035,7 @@ class EssentialInfoFragment : Fragment() {
         outState.putInt("lightOffTime", lightOffTime ?: -1)
 
         outState.putString("smokeCheck", smokeCheck)
-        outState.putString("sleepHabitCheck", sleepHabitCheck)
+        outState.putStringArrayList("sleepHabitCheck", ArrayList(selectedSleepHabits))
         outState.putString("acCheck", acCheck)
         outState.putString("heaterCheck", heaterCheck)
         outState.putString("livingPatternCheck", livingPatternCheck)
