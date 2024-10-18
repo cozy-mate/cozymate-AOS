@@ -15,11 +15,11 @@ class WidgetRoommateRecommendFragment : Fragment() {
 
     private val viewModel: WidgetRoommateRecommendViewModel by viewModels()
     private val rrData = listOf(
-        RoommateRecommendItem("델로", "75%", "-", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "-", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "-", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "-", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "-", "-", "-", ""),
+        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
+        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
+        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
+        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
+        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
     )
     companion object {
         fun newInstance() = WidgetRoommateRecommendFragment()

@@ -11,12 +11,12 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
         android:text="델로님과"
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
-        app:layout_constraintStart_toStartOf="@id/tv_ment"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -27,6 +27,7 @@
         android:text="꼭 맞는 룸메이트를 추천해드릴게요"
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
@@ -36,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

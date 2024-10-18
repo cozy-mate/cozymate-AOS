@@ -31,7 +31,7 @@
                     android:id="@+id/iv_school"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_school_circle"
+                    android:src="@drawable/ic_school_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -181,7 +181,7 @@
             android:id="@+id/roommate_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_request_container" />
@@ -192,7 +192,6 @@
             android:id="@+id/room_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_fragment_container" />
