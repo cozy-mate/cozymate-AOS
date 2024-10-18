@@ -146,16 +146,18 @@
                         android:clickable="true"
                         android:text="4명" />
 
-                    <TextView
-                        android:id="@+id/num5"
-                        style="@style/OptionBox"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:text="5명" />
-
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/num5"
+                    style="@style/OptionBox"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:text="5명"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/ly_people_number"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/num6"
@@ -163,9 +165,10 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:clickable="true"
+                    android:layout_marginStart="8dp"
                     android:text="6명"
                     app:layout_constraintTop_toBottomOf="@id/ly_people_number"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/num5"
                     android:layout_marginTop="8dp"/>
 
 
