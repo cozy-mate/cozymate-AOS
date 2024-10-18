@@ -43,6 +43,7 @@ class EssentialInfoFragment : Fragment() {
     private var smokeCheck: String? = null
 
     private var sleepHabitOption: TextView? = null
+
     //    private var sleepHabitCheck: String? = null
     private var selectedSleepHabits: List<String> = emptyList()
 
@@ -387,10 +388,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initSmoke() {
         val smokeTexts = listOf(
-            binding.smokeNo to "X",
+            binding.smokeNo to "비흡연자",
             binding.smokePaper to "연초",
-            binding.smokeEletronic to "전자담배",
-            binding.smokeWater to "끊는 중이에요"
+            binding.smokeEletronic to "궐련형 전자담배",
+            binding.smokeWater to "액상형 전자담배"
         )
         for ((textView, value) in smokeTexts) {
             textView.setOnClickListener { smokeSelected(it, value) }
@@ -422,11 +423,12 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initSleepHabit() {
         val sleepHabitTexts = listOf(
-            binding.sleepHabitNo to "X",
-            binding.sleepHabitMove to "잠꼬대",
+            binding.sleepHabitNo to "잠버릇이 없어요",
             binding.sleepHabitNoise to "코골이",
             binding.sleepHabitTeeth to "이갈이",
-            binding.sleepHabitMoveSick to "몽유병"
+            binding.sleepHabitMoveSick to "몽유병",
+            binding.sleepHabitSpeak to "잠꼬대",
+            binding.sleepHabitMove to "뒤척임"
         )
         for ((textView, value) in sleepHabitTexts) {
             textView.setOnClickListener { sleepHabitSelected(it, value) }
@@ -450,18 +452,20 @@ class EssentialInfoFragment : Fragment() {
 //        spfHelper.saveUserInfo(userInfo)
 
         val textView = view as TextView
-        if (selectedSleepHabits.contains(value)){
+        if (selectedSleepHabits.contains(value)) {
             // 이미 선택된 경우 해제
             selectedSleepHabits.remove(value)
             textView.setTextColor(resources.getColor(R.color.unuse_font, null))
-            textView.background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            textView.background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         } else {
             // 선택되지 않은 경우 선택
             selectedSleepHabits.add(value)
             textView.setTextColor(resources.getColor(R.color.main_blue, null))
-            textView.background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            textView.background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        userInfo = userInfo.copy(sleepingHabit =  selectedSleepHabits.joinToString(", "))
+        userInfo = userInfo.copy(sleepingHabit = selectedSleepHabits.joinToString(", "))
         spfHelper.saveUserInfo(userInfo)
 
         resetDebounceTimer { showAcLayout() }
@@ -477,6 +481,7 @@ class EssentialInfoFragment : Fragment() {
             binding.acStrong to "세게 틀어요",
             binding.acEnough to "적당하게 틀어요",
             binding.acWeak to "약하게 틀어요",
+            binding.acNo to "안 틀어요"
         )
         for ((textView, value) in acTexts) {
             textView.setOnClickListener { acSelected(it, value) }
@@ -511,6 +516,7 @@ class EssentialInfoFragment : Fragment() {
             binding.heaterStrong to "세게 틀어요",
             binding.heaterEnough to "적당하게 틀어요",
             binding.heaterWeak to "약하게 틀어요",
+            binding.heaterNo to "안 틀어요"
         )
         for ((textView, value) in heaterTexts) {
             textView.setOnClickListener { heaterSelected(it, value) }
@@ -609,8 +615,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initShare() {
         val shareTexts = listOf(
-            binding.shareNothing to "O",
-            binding.shareCloths to "X"
+            binding.shareNothing to "아무것도 공유하고 싶지 않아요",
+            binding.shareTissue to "휴지정도는 빌려줄 수 있어요",
+            binding.shareCloths to "옷정도는 빌려줄 수 있어요",
+            binding.shareEverything to "칫솔만 아니면 돼요"
         )
         for ((textView, value) in shareTexts) {
             textView.setOnClickListener { shareSelected(it, value) }
@@ -642,7 +650,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initGame() {
         val gameTexts = listOf(
-            binding.gameNo to "X"
+            binding.gameNo to "아예 하지 않아요",
+            binding.gameKeyboard to "키보드 채팅정도만 쳐요",
+            binding.gameVoice to "보이스 채팅도 해요"
+
         )
         for ((textView, value) in gameTexts) {
             textView.setOnClickListener { gameSelected(it, value) }
