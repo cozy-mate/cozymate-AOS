@@ -1,6 +1,6 @@
-package umc.cozymate.ui.cozy_home.adapter
+package umc.cozymate.ui.cozy_home.roommate_recommend
 
-data class RoommateCriteria(
+data class RoommateRecommendItem(
     val nickname: String,
     val matchRate: String,
     val first_criteria: String,

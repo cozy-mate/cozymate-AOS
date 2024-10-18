@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cozy_home.widget.WidgetRoommateRecommendFragment">
+    tools:context=".ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment">
 
     <!--제목 -->
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
-        android:text="{델로}님과"
+        android:text="델로님과"
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
         app:layout_constraintStart_toStartOf="@id/tv_ment"
