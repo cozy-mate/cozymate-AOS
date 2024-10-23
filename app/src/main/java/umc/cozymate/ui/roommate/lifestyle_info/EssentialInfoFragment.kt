@@ -87,7 +87,8 @@ class EssentialInfoFragment : Fragment() {
     private var drinkingFrequencyCheck: String? = null
 
     private var personalityOption: TextView? = null
-    private var personalityCheck: String? = null
+//    private var personalityCheck: String? = null
+    private var selectedPerosonalitys: List<String> = emptyList()
 
     private var mbtiOption: TextView? = null
     private var mbtiCheck: String? = null
@@ -130,7 +131,8 @@ class EssentialInfoFragment : Fragment() {
             noiseCheck = it.getString("noiseCheck")
             cleanFrequencyCheck = it.getString("cleanFrequencyCheck")
             drinkingFrequencyCheck = it.getString("drinkFrequencyCheck")
-            personalityCheck = it.getString("personalityCheck")
+//            personalityCheck = it.getString("personalityCheck")
+            selectedPerosonalitys = it.getStringArrayList("personalityCheck") ?: emptyList()
             mbtiCheck = it.getString("mbtiCheck")
         } ?: run {
             wakeAmpm = userInfo.wakeAmPm
@@ -153,7 +155,8 @@ class EssentialInfoFragment : Fragment() {
             cleanCheck = userInfo.cleanSensitivity
             noiseCheck = userInfo.noiseSensitivity
             cleanFrequencyCheck = userInfo.cleaningFrequency
-            personalityCheck = userInfo.personality
+//            personalityCheck = userInfo.personality
+            selectedPerosonalitys = userInfo.personality
             mbtiCheck = userInfo.mbti
         }
 
