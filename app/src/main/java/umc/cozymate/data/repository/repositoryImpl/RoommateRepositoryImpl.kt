@@ -4,7 +4,7 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.model.request.FcmInfoRequest
-import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.request.UserInfoRequest2
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.util.NetworkResult
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class RoommateRepositoryImpl @Inject constructor(
     private val api: RoommateService
 ) : RoommateRepository {
-    override suspend fun sendUserInfo(accessToken: String, request: UserInfoRequest): NetworkResult<DefaultResponse> {
+    override suspend fun sendUserInfo(accessToken: String, request: UserInfoRequest2): NetworkResult<DefaultResponse> {
         return handleApi({ api.sendUserInfo(accessToken, request) }) { response: ResponseBody<DefaultResponse> -> response.result }
     }
 

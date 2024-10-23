@@ -26,7 +26,6 @@ data class UserInfo(
 
     val airConditioningIntensity: String = "",
     val heatingIntensity: String = "",
-    // api 상에선 Int로 넘겨줘야 함
 
     val lifePattern: String = "",
     val intimacy: String = "",
@@ -39,8 +38,9 @@ data class UserInfo(
     val noiseSensitivity: String = "",
     val cleaningFrequency: String = "",
     val drinkingFrequency: String = "",
-    val personality: String = "",
-    val mbti: String = ""
+    val personality: List<String> = emptyList(),
+    val mbti: String = "",
+    val selfIntroduction: String = ""
 ) {
     fun toRequest(): UserInfoRequest {
         return UserInfoRequest(
@@ -61,9 +61,9 @@ data class UserInfo(
             heatingIntensity = convertHeaterToInt(heatingIntensity),
             lifePattern = lifePattern,
             intimacy = intimacy,
-            canShare = convertCanShareToInt(canShare),
-            isPlayGame = convertIsPlayGameToInt(isPlayGame),
-            isPhoneCall = convertIsPhoneCallToInt(isPhoneCall),
+            canShare = canShare,
+            isPlayGame = isPlayGame,
+            isPhoneCall = isPhoneCall,
             studying = studying,
             intake = intake,
             cleanSensitivity = convertCleanToInt(cleanSensitivity),
@@ -72,37 +72,11 @@ data class UserInfo(
             drinkingFrequency = drinkingFrequency,
             personality = personality,
             mbti = mbti,
-            options = mapOf(
-                "additionalProp1" to listOf("String1", "String2"),
-                "additionalProp2" to listOf("String3"),
-                "additionalProp3" to listOf("String4", "String5")
-            )
+            selfIntroduction = selfIntroduction
         )
     }
 }
 
-private fun convertCanShareToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
-
-private fun convertIsPlayGameToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
-private fun convertIsPhoneCallToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
 private fun convertACToInt(canShare: String): Int {
     return when (canShare) {
         "세게 틀어요" -> 3

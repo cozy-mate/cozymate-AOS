@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.OtherUserInfo
 import umc.cozymate.data.model.request.FcmInfoRequest
-import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.request.UserInfoRequest2
 import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repositoryImpl.RoommateRepositoryImpl
@@ -133,7 +133,7 @@ class RoommateViewModel @Inject constructor(
 //    }
 
 
-    fun sendUserInfo(accessToken: String, request: UserInfoRequest) {
+    fun sendUserInfo(accessToken: String, request: UserInfoRequest2) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
