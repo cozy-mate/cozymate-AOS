@@ -9,14 +9,14 @@ import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.FcmInfoRequest
-import umc.cozymate.data.model.request.UserInfoRequest2
+import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 
 interface RoommateService {
     @POST("/members/stat")
     suspend fun sendUserInfo(
         @Header("Authorization") accessToken: String,
-        @Body request: UserInfoRequest2
+        @Body request: UserInfoRequest
     ): Response<ResponseBody<DefaultResponse>>
 
     //    @GET("/members/stat/search/details")

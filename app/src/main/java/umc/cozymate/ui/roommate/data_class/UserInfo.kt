@@ -82,19 +82,21 @@ private fun convertACToInt(canShare: String): Int {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
-        "아예 틀지 않아요" -> 0
+        "안 틀어요" -> 0
         else -> 1
     }
 }
+
 private fun convertHeaterToInt(canShare: String): Int {
     return when (canShare) {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
-        "아예 틀지 않아요" -> 0
+        "안 틀어요" -> 0
         else -> 1
     }
 }
+
 private fun convertCleanToInt(canShare: String): Int {
     return when (canShare) {
         "매우 예민해요" -> 5
@@ -105,6 +107,7 @@ private fun convertCleanToInt(canShare: String): Int {
         else -> 1
     }
 }
+
 private fun convertNoiseToInt(canShare: String): Int {
     return when (canShare) {
         "매우 예민해요" -> 5

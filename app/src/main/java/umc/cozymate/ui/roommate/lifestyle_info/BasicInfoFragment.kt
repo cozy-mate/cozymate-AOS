@@ -92,6 +92,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun initNumPeoPleSelector() {
         val numPeopleTexts = listOf(
+            binding.num0 to 0,
             binding.num2 to 2,
             binding.num3 to 3,
             binding.num4 to 4,

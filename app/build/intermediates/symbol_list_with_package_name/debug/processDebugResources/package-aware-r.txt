@@ -2992,6 +2992,7 @@ id SYM
 id TOP_END
 id TOP_START
 id ac_enough
+id ac_no
 id ac_strong
 id ac_weak
 id accelerate
@@ -3100,7 +3101,6 @@ id btn_WriteMessage
 id btn_apple_login
 id btn_back
 id btn_bell
-id btn_can_do
 id btn_cancel
 id btn_cancle
 id btn_chat
@@ -3120,12 +3120,10 @@ id btn_invite_code
 id btn_kakao_login
 id btn_like
 id btn_message
-id btn_never
 id btn_next
 id btn_ok
 id btn_request_roommate
 id btn_roommate_invite
-id btn_rule
 id btn_save
 id btn_school
 id btn_school_email
@@ -3135,8 +3133,9 @@ id buttonPanel
 id cache_measures
 id calendar_view
 id callMeasure
+id call_frequently
+id call_hurry
 id call_no
-id call_parent
 id cancel_action
 id cancel_button
 id carryVelocity
@@ -3176,6 +3175,7 @@ id cl_crewable_background
 id cl_crewable_chip_result
 id cl_crewable_title
 id cl_dormitory
+id cl_drink
 id cl_eating
 id cl_friendly
 id cl_game
@@ -3211,13 +3211,11 @@ id clean2
 id clean3
 id clean4
 id clean5
-id clean_frequency_every_2days
+id clean_frequency_2days
 id clean_frequency_every_2weeks
-id clean_frequency_every_34days
-id clean_frequency_every_day
-id clean_frequency_every_month
-id clean_frequency_every_weeks
-id clean_frequency_no
+id clean_frequency_every_week
+id clean_frequency_everyday
+id clean_frequency_month
 id clear_text
 id clip_horizontal
 id clip_vertical
@@ -3280,13 +3278,18 @@ id dragLeft
 id dragRight
 id dragStart
 id dragUp
+id drink_4_weeks
+id drink_everyday
+id drink_month
+id drink_no
+id drink_week
 id dropdown_menu
 id easeIn
 id easeInOut
 id easeOut
 id east
+id eating_delivery
 id eating_drink
-id eating_free
 id eating_no
 id eating_snack
 id edit_query
@@ -3343,7 +3346,6 @@ id friendly_no
 id friendly_yes
 id frost
 id fullscreen_header
-id game_everything
 id game_keyboard
 id game_no
 id game_voice
@@ -3365,6 +3367,7 @@ id guideline
 id header
 id header_title
 id heater_enough
+id heater_no
 id heater_strong
 id heater_weak
 id hide_ime_id
@@ -3474,6 +3477,7 @@ id ll_name
 id locale
 id ltr
 id ly_ac_check
+id ly_ac_check2
 id ly_call_check
 id ly_clean_check2
 id ly_clean_check5
@@ -3481,6 +3485,9 @@ id ly_clean_frequency1
 id ly_clean_frequency2
 id ly_clean_frequency3
 id ly_dormitory
+id ly_drink1
+id ly_drink2
+id ly_drink3
 id ly_eating_check1
 id ly_eating_check2
 id ly_friendly
@@ -3488,6 +3495,7 @@ id ly_game_check
 id ly_game_check2
 id ly_guide
 id ly_heater_check
+id ly_heater_check2
 id ly_light_off_time_1
 id ly_light_off_time_7
 id ly_list_table_select
@@ -3501,6 +3509,8 @@ id ly_noise_check5
 id ly_people_number
 id ly_personality1
 id ly_personality2
+id ly_personality3
+id ly_personality4
 id ly_share_check
 id ly_share_check2
 id ly_sleep_habit_check
@@ -3628,6 +3638,7 @@ id nowrap
 id np_day
 id np_month
 id np_year
+id num0
 id num2
 id num3
 id num4
@@ -3658,10 +3669,15 @@ id peekHeight
 id percent
 id personality_activity
 id personality_clean
+id personality_diligent
 id personality_go_out
 id personality_home
+id personality_hurry
+id personality_lazy
 id personality_quite
+id personality_relaxed
 id personality_shame
+id personality_shy
 id personality_tmt
 id pin
 id position
@@ -3697,7 +3713,6 @@ id rv_MyRoleList
 id rv_MyTodoList
 id rv_Rules
 id rv_acheivement
-id rv_can_do
 id rv_crewable_result_list
 id rv_crewable_result_table
 id rv_detail_list_can_do
@@ -3709,9 +3724,7 @@ id rv_detail_table_rule
 id rv_list
 id rv_message
 id rv_message_detail
-id rv_never
 id rv_roommate
-id rv_rule
 id rv_schools
 id saturday
 id save_non_transition_alpha
@@ -3779,6 +3792,7 @@ id sleep_habit_move
 id sleep_habit_move_sick
 id sleep_habit_no
 id sleep_habit_noise
+id sleep_habit_speak
 id sleep_habit_teeth
 id slide
 id sliding_pane_detail_container
@@ -3816,9 +3830,9 @@ id staticPostLayout
 id status_bar_latest_event_content
 id stop
 id stretch
+id study_everyday
+id study_exam
 id study_no
-id study_some_times
-id study_yes
 id submenuarrow
 id submit_area
 id sunday
@@ -3924,7 +3938,6 @@ id tv_alert_nickname
 id tv_birth
 id tv_box
 id tv_call_check
-id tv_can_do
 id tv_check_verify_code
 id tv_clean_check
 id tv_clean_frequency
@@ -3939,6 +3952,7 @@ id tv_crewable_school
 id tv_detail_list_rule
 id tv_dialog_request_other_name
 id tv_dormitory
+id tv_drink
 id tv_eating_check
 id tv_feed_room_detail
 id tv_feed_room_name
@@ -4045,7 +4059,6 @@ id tv_message_text
 id tv_message_time
 id tv_name1
 id tv_name2
-id tv_never
 id tv_nick
 id tv_nickname
 id tv_no_selection
@@ -4068,7 +4081,6 @@ id tv_roommate1
 id tv_roommate2
 id tv_roommate3
 id tv_roomname
-id tv_rule
 id tv_school_email
 id tv_school_guide
 id tv_school_name

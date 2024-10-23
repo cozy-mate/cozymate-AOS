@@ -2991,6 +2991,7 @@ int id SYM 0x7f09000b
 int id TOP_END 0x7f09000c
 int id TOP_START 0x7f09000d
 int id ac_enough 0x7f09000e
+int id ac_no 0x7f0904f1
 int id ac_strong 0x7f09000f
 int id ac_weak 0x7f090010
 int id accelerate 0x7f090011
@@ -3099,7 +3100,6 @@ int id btn_WriteMessage 0x7f090077
 int id btn_apple_login 0x7f090078
 int id btn_back 0x7f090079
 int id btn_bell 0x7f09007a
-int id btn_can_do 0x7f09007b
 int id btn_cancel 0x7f09007c
 int id btn_cancle 0x7f09007d
 int id btn_chat 0x7f09007e
@@ -3119,12 +3119,10 @@ int id btn_invite_code 0x7f09008b
 int id btn_kakao_login 0x7f09008c
 int id btn_like 0x7f09008d
 int id btn_message 0x7f09008e
-int id btn_never 0x7f09008f
 int id btn_next 0x7f090090
 int id btn_ok 0x7f090091
 int id btn_request_roommate 0x7f090092
 int id btn_roommate_invite 0x7f090093
-int id btn_rule 0x7f090094
 int id btn_save 0x7f090095
 int id btn_school 0x7f090096
 int id btn_school_email 0x7f090097
@@ -3134,8 +3132,9 @@ int id buttonPanel 0x7f09009a
 int id cache_measures 0x7f09009b
 int id calendar_view 0x7f09009c
 int id callMeasure 0x7f09009d
+int id call_frequently 0x7f0904f2
+int id call_hurry 0x7f0904f3
 int id call_no 0x7f09009e
-int id call_parent 0x7f09009f
 int id cancel_action 0x7f0900a0
 int id cancel_button 0x7f0900a1
 int id carryVelocity 0x7f0900a2
@@ -3175,6 +3174,7 @@ int id cl_crewable_background 0x7f0900c3
 int id cl_crewable_chip_result 0x7f0900c4
 int id cl_crewable_title 0x7f0900c5
 int id cl_dormitory 0x7f0900c6
+int id cl_drink 0x7f0904f4
 int id cl_eating 0x7f0900c7
 int id cl_friendly 0x7f0900c8
 int id cl_game 0x7f0900c9
@@ -3210,13 +3210,11 @@ int id clean2 0x7f0900e6
 int id clean3 0x7f0900e7
 int id clean4 0x7f0900e8
 int id clean5 0x7f0900e9
-int id clean_frequency_every_2days 0x7f0900ea
+int id clean_frequency_2days 0x7f0904f5
 int id clean_frequency_every_2weeks 0x7f0900eb
-int id clean_frequency_every_34days 0x7f0900ec
-int id clean_frequency_every_day 0x7f0900ed
-int id clean_frequency_every_month 0x7f0900ee
-int id clean_frequency_every_weeks 0x7f0900ef
-int id clean_frequency_no 0x7f0900f0
+int id clean_frequency_every_week 0x7f0904f6
+int id clean_frequency_everyday 0x7f0904f7
+int id clean_frequency_month 0x7f0904f8
 int id clear_text 0x7f0900f1
 int id clip_horizontal 0x7f0900f2
 int id clip_vertical 0x7f0900f3
@@ -3279,13 +3277,18 @@ int id dragLeft 0x7f09012b
 int id dragRight 0x7f09012c
 int id dragStart 0x7f09012d
 int id dragUp 0x7f09012e
+int id drink_4_weeks 0x7f0904f9
+int id drink_everyday 0x7f0904fa
+int id drink_month 0x7f0904fb
+int id drink_no 0x7f0904fc
+int id drink_week 0x7f0904fd
 int id dropdown_menu 0x7f09012f
 int id easeIn 0x7f090130
 int id easeInOut 0x7f090131
 int id easeOut 0x7f090132
 int id east 0x7f090133
+int id eating_delivery 0x7f0904fe
 int id eating_drink 0x7f090134
-int id eating_free 0x7f090135
 int id eating_no 0x7f090136
 int id eating_snack 0x7f090137
 int id edit_query 0x7f090138
@@ -3342,7 +3345,6 @@ int id friendly_no 0x7f09016a
 int id friendly_yes 0x7f09016b
 int id frost 0x7f09016c
 int id fullscreen_header 0x7f09016d
-int id game_everything 0x7f09016e
 int id game_keyboard 0x7f09016f
 int id game_no 0x7f090170
 int id game_voice 0x7f090171
@@ -3364,6 +3366,7 @@ int id guideline 0x7f090180
 int id header 0x7f090181
 int id header_title 0x7f090182
 int id heater_enough 0x7f090183
+int id heater_no 0x7f0904ff
 int id heater_strong 0x7f090184
 int id heater_weak 0x7f090185
 int id hide_ime_id 0x7f090186
@@ -3473,6 +3476,7 @@ int id ll_name 0x7f0901ed
 int id locale 0x7f0901ee
 int id ltr 0x7f0901ef
 int id ly_ac_check 0x7f0901f0
+int id ly_ac_check2 0x7f090500
 int id ly_call_check 0x7f0901f1
 int id ly_clean_check2 0x7f0901f2
 int id ly_clean_check5 0x7f0901f3
@@ -3480,6 +3484,9 @@ int id ly_clean_frequency1 0x7f0901f4
 int id ly_clean_frequency2 0x7f0901f5
 int id ly_clean_frequency3 0x7f0901f6
 int id ly_dormitory 0x7f0901f7
+int id ly_drink1 0x7f090501
+int id ly_drink2 0x7f090502
+int id ly_drink3 0x7f090503
 int id ly_eating_check1 0x7f0901f8
 int id ly_eating_check2 0x7f0901f9
 int id ly_friendly 0x7f0901fa
@@ -3487,6 +3494,7 @@ int id ly_game_check 0x7f0901fb
 int id ly_game_check2 0x7f0901fc
 int id ly_guide 0x7f0901fd
 int id ly_heater_check 0x7f0901fe
+int id ly_heater_check2 0x7f090504
 int id ly_light_off_time_1 0x7f0901ff
 int id ly_light_off_time_7 0x7f090200
 int id ly_list_table_select 0x7f090201
@@ -3500,6 +3508,8 @@ int id ly_noise_check5 0x7f090208
 int id ly_people_number 0x7f090209
 int id ly_personality1 0x7f09020a
 int id ly_personality2 0x7f09020b
+int id ly_personality3 0x7f090505
+int id ly_personality4 0x7f090506
 int id ly_share_check 0x7f09020c
 int id ly_share_check2 0x7f09020d
 int id ly_sleep_habit_check 0x7f09020e
@@ -3627,6 +3637,7 @@ int id nowrap 0x7f090287
 int id np_day 0x7f090288
 int id np_month 0x7f090289
 int id np_year 0x7f09028a
+int id num0 0x7f090507
 int id num2 0x7f09028b
 int id num3 0x7f09028c
 int id num4 0x7f09028d
@@ -3657,10 +3668,15 @@ int id peekHeight 0x7f0902a5
 int id percent 0x7f0902a6
 int id personality_activity 0x7f0902a7
 int id personality_clean 0x7f0902a8
+int id personality_diligent 0x7f090508
 int id personality_go_out 0x7f0902a9
 int id personality_home 0x7f0902aa
+int id personality_hurry 0x7f090509
+int id personality_lazy 0x7f09050a
 int id personality_quite 0x7f0902ab
+int id personality_relaxed 0x7f09050b
 int id personality_shame 0x7f0902ac
+int id personality_shy 0x7f09050c
 int id personality_tmt 0x7f0902ad
 int id pin 0x7f0902ae
 int id position 0x7f0902af
@@ -3696,7 +3712,6 @@ int id rv_MyRoleList 0x7f0902cc
 int id rv_MyTodoList 0x7f0902cd
 int id rv_Rules 0x7f0902ce
 int id rv_acheivement 0x7f0902cf
-int id rv_can_do 0x7f0902d0
 int id rv_crewable_result_list 0x7f0902d1
 int id rv_crewable_result_table 0x7f0902d2
 int id rv_detail_list_can_do 0x7f0902d3
@@ -3708,9 +3723,7 @@ int id rv_detail_table_rule 0x7f0902d8
 int id rv_list 0x7f0902d9
 int id rv_message 0x7f0902da
 int id rv_message_detail 0x7f0902db
-int id rv_never 0x7f0902dc
 int id rv_roommate 0x7f0902dd
-int id rv_rule 0x7f0902de
 int id rv_schools 0x7f0902df
 int id saturday 0x7f0902e0
 int id save_non_transition_alpha 0x7f0902e1
@@ -3778,6 +3791,7 @@ int id sleep_habit_move 0x7f09031e
 int id sleep_habit_move_sick 0x7f09031f
 int id sleep_habit_no 0x7f090320
 int id sleep_habit_noise 0x7f090321
+int id sleep_habit_speak 0x7f09050d
 int id sleep_habit_teeth 0x7f090322
 int id slide 0x7f090323
 int id sliding_pane_detail_container 0x7f090324
@@ -3815,9 +3829,9 @@ int id staticPostLayout 0x7f090343
 int id status_bar_latest_event_content 0x7f090344
 int id stop 0x7f090345
 int id stretch 0x7f090346
+int id study_everyday 0x7f09050e
+int id study_exam 0x7f09050f
 int id study_no 0x7f090347
-int id study_some_times 0x7f090348
-int id study_yes 0x7f090349
 int id submenuarrow 0x7f09034a
 int id submit_area 0x7f09034b
 int id sunday 0x7f09034c
@@ -3923,7 +3937,6 @@ int id tv_alert_nickname 0x7f0903af
 int id tv_birth 0x7f0903b0
 int id tv_box 0x7f0903b1
 int id tv_call_check 0x7f0903b2
-int id tv_can_do 0x7f0903b3
 int id tv_check_verify_code 0x7f0903b4
 int id tv_clean_check 0x7f0903b5
 int id tv_clean_frequency 0x7f0903b6
@@ -3938,6 +3951,7 @@ int id tv_crewable_school 0x7f0903be
 int id tv_detail_list_rule 0x7f0903bf
 int id tv_dialog_request_other_name 0x7f0903c0
 int id tv_dormitory 0x7f0903c1
+int id tv_drink 0x7f090510
 int id tv_eating_check 0x7f0903c2
 int id tv_feed_room_detail 0x7f0903c3
 int id tv_feed_room_name 0x7f0903c4
@@ -4044,7 +4058,6 @@ int id tv_message_text 0x7f090428
 int id tv_message_time 0x7f090429
 int id tv_name1 0x7f09042a
 int id tv_name2 0x7f09042b
-int id tv_never 0x7f09042c
 int id tv_nick 0x7f09042d
 int id tv_nickname 0x7f09042e
 int id tv_no_selection 0x7f09042f
@@ -4067,7 +4080,6 @@ int id tv_roommate1 0x7f09043f
 int id tv_roommate2 0x7f090440
 int id tv_roommate3 0x7f090441
 int id tv_roomname 0x7f090442
-int id tv_rule 0x7f090443
 int id tv_school_email 0x7f090444
 int id tv_school_guide 0x7f090445
 int id tv_school_name 0x7f090446
