@@ -13,7 +13,7 @@
             android:id="@+id/cl_top"
             android:layout_width="match_parent"
             android:layout_height="283dp"
-            android:background="#CADFFF"
+            android:background="@drawable/background_cozyhome_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,7 +31,7 @@
                     android:id="@+id/iv_school"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_school_circle"
+                    android:src="@drawable/ic_school_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -176,23 +176,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_room_fragment_container" />
 
-        <!-- 룸메이트 추천 (조건 : ??) -->
+        <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/roommate_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.RoommateRecommendComponent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_request_container" />
 
         <!-- 방 추천 (조건 : 방 없음) -->
-        <!--name="com.example.childfragment"-->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/room_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendComponent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_fragment_container" />
@@ -204,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_banner"
+            android:background="@drawable/background_banner"
             app:layout_constraintTop_toBottomOf="@id/room_recommend_fragment_container"
             app:layout_constraintBottom_toTopOf="@id/cl_bottom"
             app:layout_constraintEnd_toEndOf="parent"

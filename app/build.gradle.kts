@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.firebase.database)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -80,11 +82,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
 
     // ViewModel
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime:2.6.2")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
-
 
     //lifecycle
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
@@ -134,12 +136,15 @@ dependencies {
     implementation("com.google.android.material:material:1.0.0-beta01")
 
     //달력
-    implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
 
     // 맴버에 수에 따라 맴버리스트 2줄로 내릴때 사용
     implementation(libs.flexbox)
 
     //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
+    // 인디케이터 https://github.com/tommybuonomo/dotsindicator
+    implementation("com.tbuonomo:dotsindicator:5.0")
 
     //
     // Ktor HTTP client

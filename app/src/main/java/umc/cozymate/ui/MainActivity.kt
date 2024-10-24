@@ -15,8 +15,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
-import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
-import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
+import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
@@ -128,14 +127,14 @@ class MainActivity : AppCompatActivity() {
 
     fun loadDefaultFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, CozyHomeDefaultFragment())
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 수정
             .addToBackStack(null)
             .commit()
     }
 
     fun loadActiveFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, CozyHomeActiveFragment())
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 임시
             .addToBackStack(null)
             .commit()
     }
