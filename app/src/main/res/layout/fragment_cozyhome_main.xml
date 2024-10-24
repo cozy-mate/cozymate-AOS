@@ -181,13 +181,12 @@
             android:id="@+id/roommate_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment"
+            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.RoommateRecommendComponent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_request_container" />
 
         <!-- 방 추천 (조건 : 방 없음) -->
-        <!--name="com.example.childfragment"-->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/room_recommend_fragment_container"
             android:layout_width="match_parent"

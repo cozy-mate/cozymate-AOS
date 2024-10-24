@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import umc.cozymate.databinding.FragmentWidgetRoommateRecommendBinding
 
-class WidgetRoommateRecommendFragment : Fragment() {
+class RoommateRecommendComponent : Fragment() {
 
     private var _binding: FragmentWidgetRoommateRecommendBinding?= null
     private val binding get() = _binding!!
 
-    private val viewModel: WidgetRoommateRecommendViewModel by viewModels()
+    private val viewModel: RoommateRecommendViewModel by viewModels()
     private val rrData = listOf(
         RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
         RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
@@ -22,7 +22,7 @@ class WidgetRoommateRecommendFragment : Fragment() {
         RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
     )
     companion object {
-        fun newInstance() = WidgetRoommateRecommendFragment()
+        fun newInstance() = RoommateRecommendComponent
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
