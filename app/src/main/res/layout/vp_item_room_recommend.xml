@@ -255,5 +255,17 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_1"
             app:layout_constraintStart_toEndOf="@id/tv_hashtag_1" />
 
+        <!-- 방 인원수 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 / 3명"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/color_font"
+            app:layout_constraintTop_toTopOf="@id/tv_hashtag_1"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
