@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <!-- 방이름 -->
         <TextView
-            android:id="@+id/tv_nickname"
+            android:id="@+id/tv_room_name"
             android:layout_width="252dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -35,7 +35,7 @@
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/main_blue"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+            app:layout_constraintTop_toTopOf="@id/tv_room_name" />
 
         <View
             android:id="@+id/v_divider"
@@ -44,7 +44,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:background="#F6F6F6"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+            app:layout_constraintTop_toBottomOf="@id/tv_room_name" />
 
         <!-- 방 선택 기준1 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -230,12 +230,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="18dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="8dp"
+            android:background="@drawable/custom_rectangle_4_white"
             android:backgroundTint="@color/color_box"
             android:text="#히로아카"
             android:textColor="@color/color_font"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_hashtag_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="8dp"
+            android:background="@drawable/custom_rectangle_4_white"
+            android:backgroundTint="@color/color_box"
+            android:text="#바쿠고"
+            android:textColor="@color/color_font"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_1"
+            app:layout_constraintStart_toEndOf="@id/tv_hashtag_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
