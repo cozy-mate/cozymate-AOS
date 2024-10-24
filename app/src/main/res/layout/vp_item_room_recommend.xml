@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/custom_rectangle_12_unuse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- 방이름 -->
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="252dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:text="방이름름"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/basic_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 일치율 -->
+        <TextView
+            android:id="@+id/tv_match_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="75%"
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/main_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="#F6F6F6"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+
+        <!-- 방 선택 기준1 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_1"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_hashtag_1"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+            <ImageView
+                android:id="@+id/iv_crieteria_icon_1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wake_up_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_1" />
+
+            <TextView
+                android:id="@+id/tv_criteria_content_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모두 일치"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_criteria_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 방 선택 기준2 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_3"
+            app:layout_constraintStart_toEndOf="@id/cl_criteria_1"
+            app:layout_constraintTop_toTopOf="@id/cl_criteria_1">
+
+            <ImageView
+                android:id="@+id/iv_crieteria_icon_2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_turn_off_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="취침시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_2" />
+
+            <TextView
+                android:id="@+id/tv_criteria_content_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2명 일치"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_criteria_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 방 선택 기준3 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_4"
+            app:layout_constraintStart_toEndOf="@id/cl_criteria_2"
+            app:layout_constraintTop_toTopOf="@id/cl_criteria_2">
+
+            <ImageView
+                android:id="@+id/iv_crieteria_icon_3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_noise_sensitivity_red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_3" />
+
+            <TextView
+                android:id="@+id/tv_criteria_content_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1명 일치"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_criteria_3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 방 선택 기준4 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_criteria_3"
+            app:layout_constraintTop_toTopOf="@id/cl_criteria_3">
+
+            <ImageView
+                android:id="@+id/iv_crieteria_icon_4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_clean_sensitivity_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="청결예민도"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_4" />
+
+            <TextView
+                android:id="@+id/tv_criteria_content_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2명 일치"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_criteria_4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 해시태그 리스트 -->
+        <TextView
+            android:id="@+id/tv_hashtag_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="@color/color_box"
+            android:text="#히로아카"
+            android:textColor="@color/color_font"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
