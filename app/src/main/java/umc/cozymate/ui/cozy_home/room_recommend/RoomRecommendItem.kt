@@ -7,7 +7,7 @@ data class RoomRecommendItem(
     val secondCriteria: String,
     val thirdCriteria: String,
     val fourthCriteria: String,
-    val hashtagList: List<String>,
+    val hashtagList: ArrayList<String>,
     val currentPeopleNum: Int,
     val maxPeopleNum: Int,
 )
