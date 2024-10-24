@@ -191,7 +191,7 @@
             android:id="@+id/room_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendFragment"
+            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendComponent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_fragment_container" />

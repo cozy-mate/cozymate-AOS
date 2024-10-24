@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.rooo_recommend
+package umc.cozymate.ui.cozy_home.room_recommend
 
 import androidx.lifecycle.ViewModel
 
