@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate_recommend
+package umc.cozymate.ui.cozy_home.rooo_recommend
 
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.VpItemRoomRecommendBinding

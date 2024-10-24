@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate_recommend
+package umc.cozymate.ui.cozy_home.rooo_recommend
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import umc.cozymate.databinding.ComponentRoomRecommendBinding
-import umc.cozymate.ui.cozy_home.Room_recommend.RoomRecommendVPAdapter
+import umc.cozymate.ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment
 
 class RoomRecommendComponent : Fragment() {
 

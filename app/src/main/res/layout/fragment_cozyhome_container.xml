@@ -176,7 +176,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_room_fragment_container" />
 
-        <!-- 룸메이트 추천 (조건 : ??) -->
+        <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/roommate_recommend_fragment_container"
             android:layout_width="match_parent"
@@ -192,6 +192,7 @@
             android:id="@+id/room_recommend_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendFragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_fragment_container" />
