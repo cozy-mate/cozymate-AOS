@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import umc.cozymate.databinding.ComponentRoomRecommendBinding
-import umc.cozymate.ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment
+import umc.cozymate.ui.cozy_home.roommate_recommend.RoommateRecommendComponent
 
 class RoomRecommendComponent : Fragment() {
 
@@ -23,7 +23,7 @@ class RoomRecommendComponent : Fragment() {
         RoomRecommendItem("방이룸룸", "60%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
     )
     companion object {
-        fun newInstance() = WidgetRoommateRecommendFragment()
+        fun newInstance() = RoommateRecommendComponent()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

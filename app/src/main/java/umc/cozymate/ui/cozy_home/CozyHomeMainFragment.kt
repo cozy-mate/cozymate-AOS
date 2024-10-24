@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import umc.cozymate.databinding.FragmentCozyhomeContainerBinding
+import umc.cozymate.databinding.FragmentCozyhomeMainBinding
 
 class CozyHomeMainFragment : Fragment() {
-    private var _binding: FragmentCozyhomeContainerBinding? = null
+    private var _binding: FragmentCozyhomeMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,
+        Main: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCozyhomeContainerBinding.inflate(inflater, container, false)
+        _binding = FragmentCozyhomeMainBinding.inflate(inflater, Main, false)
 
         initView()
         initListener()
