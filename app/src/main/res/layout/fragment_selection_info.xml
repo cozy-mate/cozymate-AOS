@@ -13,14 +13,39 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/tv_wakeup_time"
+                android:id="@+id/tv_selection_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="하고싶은 말을 적어주세요 (선택"
+                android:text="하고싶은 말을 적어주세요 (선택)"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:id="@+id/input_container"
+                android:background="@drawable/custom_selection_info_text"
+                app:layout_constraintTop_toBottomOf="@+id/tv_selection_title"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <EditText
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/et_selection_info"
+                    android:background="@null"
+                    android:hint="내용을 입력해주세요"
+                    android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                    android:padding="8dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

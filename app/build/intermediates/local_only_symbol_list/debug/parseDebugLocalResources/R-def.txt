@@ -103,6 +103,7 @@ drawable custom_roommate_onboarding_background
 drawable custom_select_chip_background
 drawable custom_select_chip_default
 drawable custom_select_chip_selected
+drawable custom_selection_info_text
 drawable custom_tv_background
 drawable custom_tv_default_background
 drawable custom_tv_selected_background
@@ -336,6 +337,7 @@ id et_onboarding_name
 id et_onboarding_nickname
 id et_room_name
 id et_school_email
+id et_selection_info
 id fragment_container
 id fragment_container_giving
 id fragment_feed
@@ -359,6 +361,7 @@ id heater_enough
 id heater_no
 id heater_strong
 id heater_weak
+id input_container
 id iv
 id ivListViewIcon
 id ivTableViewIcon
@@ -789,6 +792,7 @@ id tv_roomname
 id tv_school_email
 id tv_school_guide
 id tv_school_name
+id tv_selection_title
 id tv_share_check
 id tv_sleep_1
 id tv_sleep_10

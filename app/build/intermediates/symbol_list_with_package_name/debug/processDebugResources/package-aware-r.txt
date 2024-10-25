@@ -2790,6 +2790,7 @@ drawable custom_roommate_onboarding_background
 drawable custom_select_chip_background
 drawable custom_select_chip_default
 drawable custom_select_chip_selected
+drawable custom_selection_info_text
 drawable custom_tv_background
 drawable custom_tv_default_background
 drawable custom_tv_selected_background
@@ -3312,6 +3313,7 @@ id et_onboarding_name
 id et_onboarding_nickname
 id et_room_name
 id et_school_email
+id et_selection_info
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3388,6 +3390,7 @@ id immediateStop
 id included
 id indeterminate
 id info
+id input_container
 id invisible
 id inward
 id italic
@@ -4084,6 +4087,7 @@ id tv_roomname
 id tv_school_email
 id tv_school_guide
 id tv_school_name
+id tv_selection_title
 id tv_share_check
 id tv_sleep_1
 id tv_sleep_10
