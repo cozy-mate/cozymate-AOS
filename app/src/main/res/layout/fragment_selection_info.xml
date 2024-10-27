@@ -1,116 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_selection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하고싶은 말을 적어주세요 (선택)"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_input_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="true">>
+            android:layout_height="270dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_selection_info_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_selection_title">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <EditText
+                android:id="@+id/et_selection_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:gravity="top|start"
+                android:hint="내용을 입력해주세요"
+                android:inputType="textMultiLine"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_rule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="무조건 지켜줘야 해요!"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_rule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_rule" />
+        <TextView
+            android:id="@+id/tv_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text="이런 내용을 적어주면 좋아요!"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_input_container" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_rule"
-                    android:layout_width="match_parent"
-                    android:layout_height="49dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/btn_roommate_selection_info_plus"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_rule" />
+        <TextView
+            android:id="@+id/tv_guide1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text="1) 자기소개"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide" />
 
-                <TextView
-                    android:id="@+id/tv_can_do"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
-                    android:text="이정도는 맞춰줄 수 있어요!"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_rule" />
+        <TextView
+            android:id="@+id/tv_guide2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="2) 학교에서 하고 있는 동아리"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide1" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_can_do"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_can_do" />
+        <TextView
+            android:id="@+id/tv_guide3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="3) 평소 관심사"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide2" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_can_do"
-                    android:layout_width="match_parent"
-                    android:layout_height="49dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/btn_roommate_selection_info_plus"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_can_do" />
+        <TextView
+            android:id="@+id/tv_guide4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="4) 원하는 룸메이트의 성향"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide3" />
 
-                <TextView
-                    android:id="@+id/tv_never"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
-                    android:text="이건 절대 절대 안 돼요!"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_can_do" />
+        <TextView
+            android:id="@+id/tv_guide5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="5) 같이 살면서 꼭 알아둬야할 점"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide4" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_never"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_never" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_never"
-                    android:layout_width="match_parent"
-                    android:layout_height="49dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/btn_roommate_selection_info_plus"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_never" />
-
-                <View
-                    android:id="@+id/bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_never" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
 
 </layout>

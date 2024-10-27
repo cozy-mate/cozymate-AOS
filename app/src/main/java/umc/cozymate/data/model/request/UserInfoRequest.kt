@@ -13,21 +13,21 @@ data class UserInfoRequest(
     val turnOffMeridian: String,
     val turnOffTime: Int,
     val smokingState: String,
-    val sleepingHabit: String,
+    val sleepingHabit: List<String>,
     val airConditioningIntensity: Int,
     val heatingIntensity: Int,
     val lifePattern: String,
     val intimacy: String,
-    val canShare: Boolean,
-    val isPlayGame: Boolean,
-    val isPhoneCall: Boolean,
+    val canShare: String,
+    val isPlayGame: String,
+    val isPhoneCall: String,
     val studying: String,
     val intake: String,
     val cleanSensitivity: Int,
     val noiseSensitivity: Int,
     val cleaningFrequency: String,
-    val personality: String,
+    val drinkingFrequency: String,
+    val personality: List<String>,
     val mbti: String,
-    val options: Map<String, List<String>> // 이 부분이 다양한 값을 담을 수 있게 해줍니다.
-
+    val selfIntroduction: String
 )
