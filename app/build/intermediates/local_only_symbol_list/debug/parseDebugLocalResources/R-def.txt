@@ -274,6 +274,7 @@ id cl_eating
 id cl_friendly
 id cl_game
 id cl_heater
+id cl_input_container
 id cl_light_off
 id cl_list_basic_info
 id cl_list_can_do_info
@@ -361,7 +362,6 @@ id heater_enough
 id heater_no
 id heater_strong
 id heater_weak
-id input_container
 id iv
 id ivListViewIcon
 id ivTableViewIcon
@@ -667,7 +667,12 @@ id tv_feed_room_name
 id tv_female
 id tv_friendly
 id tv_game_check
+id tv_guide
 id tv_guide1
+id tv_guide2
+id tv_guide3
+id tv_guide4
+id tv_guide5
 id tv_heater_check
 id tv_home_name
 id tv_home_people_num

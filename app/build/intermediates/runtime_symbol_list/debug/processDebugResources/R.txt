@@ -3180,6 +3180,7 @@ int id cl_eating 0x7f0900c7
 int id cl_friendly 0x7f0900c8
 int id cl_game 0x7f0900c9
 int id cl_heater 0x7f0900ca
+int id cl_input_container 0x7f090500
 int id cl_light_off 0x7f0900cb
 int id cl_list_basic_info 0x7f0900cc
 int id cl_list_can_do_info 0x7f0900cd
@@ -3389,7 +3390,6 @@ int id immediateStop 0x7f090198
 int id included 0x7f090199
 int id indeterminate 0x7f09019a
 int id info 0x7f09019b
-int id input_container 0x7f09019c
 int id invisible 0x7f09019d
 int id inward 0x7f09019e
 int id italic 0x7f09019f
@@ -3961,7 +3961,12 @@ int id tv_feed_room_name 0x7f0903d4
 int id tv_female 0x7f0903d5
 int id tv_friendly 0x7f0903d6
 int id tv_game_check 0x7f0903d7
+int id tv_guide 0x7f090501
 int id tv_guide1 0x7f0903d8
+int id tv_guide2 0x7f090502
+int id tv_guide3 0x7f090503
+int id tv_guide4 0x7f090504
+int id tv_guide5 0x7f090505
 int id tv_heater_check 0x7f0903d9
 int id tv_home_name 0x7f0903da
 int id tv_home_people_num 0x7f0903db
