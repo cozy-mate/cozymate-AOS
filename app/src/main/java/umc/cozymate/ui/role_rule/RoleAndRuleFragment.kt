@@ -39,6 +39,9 @@ class RoleAndRuleFragment : Fragment() {
         return binding.root
     }
 
+
+
+
     override fun onResume() {
         super.onResume()
 
