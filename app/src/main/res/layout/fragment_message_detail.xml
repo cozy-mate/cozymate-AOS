@@ -67,16 +67,18 @@
 
 
     </LinearLayout>
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_message_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingHorizontal="20dp"
         tools:listitem="@layout/rv_item_message"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@id/layout_TopButtons"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_WriteMessage"
