@@ -176,8 +176,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_cozybot -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyBotFragment()).commit()
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false // 선택을 막음
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, CozyBotFragment()).commit()
+                    }
                     true
                 }
 
