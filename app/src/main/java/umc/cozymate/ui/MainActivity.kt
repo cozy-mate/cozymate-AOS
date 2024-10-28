@@ -15,7 +15,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
-import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
+import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.fragment_cozybot -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyHomeActiveFragment()).commit()
+                        .replace(R.id.main_container, CozyBotFragment()).commit()
                     true
                 }
 

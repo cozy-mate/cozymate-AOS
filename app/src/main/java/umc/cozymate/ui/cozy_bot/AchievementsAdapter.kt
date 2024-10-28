@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.adapter
+package umc.cozymate.ui.cozy_bot
 
 import android.content.Context
 import android.text.Spannable

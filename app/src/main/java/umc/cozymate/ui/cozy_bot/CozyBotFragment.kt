@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home
+package umc.cozymate.ui.cozy_bot
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -21,11 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
-import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
-class CozyHomeActiveFragment : Fragment() {
+class CozyBotFragment : Fragment() {
 
     private lateinit var binding: FragmentCozyhomeActiveBinding
     private val viewModel: CozyHomeViewModel by viewModels()
@@ -35,7 +34,7 @@ class CozyHomeActiveFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozyhome_active, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozy_bot, container, false)
 
         with(binding){
             binding.viewModel = viewModel

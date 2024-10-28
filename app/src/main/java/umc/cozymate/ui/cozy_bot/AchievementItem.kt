@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.adapter
+package umc.cozymate.ui.cozy_bot
 
 data class AchievementItem(
     val content: String,
