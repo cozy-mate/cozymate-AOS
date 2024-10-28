@@ -20,13 +20,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
+import umc.cozymate.databinding.FragmentCozyBotBinding
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class CozyBotFragment : Fragment() {
 
-    private lateinit var binding: FragmentCozyhomeActiveBinding
+    private lateinit var binding: FragmentCozyBotBinding
     private val viewModel: CozyHomeViewModel by viewModels()
 
     override fun onCreateView(
