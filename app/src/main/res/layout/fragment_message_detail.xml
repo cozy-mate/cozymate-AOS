@@ -67,7 +67,15 @@
 
 
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_Empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="아직 주고 받은 쪽지가 없어요!"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/unuse_font"
+        android:gravity="center"
+        android:visibility="gone"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_message_detail"
         android:layout_width="match_parent"

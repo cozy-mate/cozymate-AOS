@@ -34,14 +34,6 @@ class MessageMemberFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         initData()
-        // 1. MessageItem 더미 데이터 생성
-//        chatRooms = listOf(
-//            ChatRoomData(persona = 1, nickName = "제이", lastContent = "그럼 저희 같이 하는 건가용?", chatRoomId = 1),
-//            ChatRoomData(persona = 12, nickName = "더기", lastContent = "혹시 소등시간 오전 4시 괜찮으실까요..?", chatRoomId = 1),
-//            ChatRoomData(persona = 5, nickName = "name1", lastContent = "test", chatRoomId = 1),
-//            ChatRoomData(persona = 1, nickName = "name2", lastContent = "test", chatRoomId = 1),
-//
-//            )
         updateChatRooms()
         // 뒤로가기
         binding.ivClose.setOnClickListener {
@@ -85,6 +77,7 @@ class MessageMemberFragment : Fragment() {
                     // 데이터를 arguments로 전달
                     val args = Bundle()
                     args.putInt("chatRoomId", item.chatRoomId)
+                    args.putString("nickName",item.nickName)
                     fragment.arguments = args
 
                     // FragmentManager를 통해 Fragment 전환
