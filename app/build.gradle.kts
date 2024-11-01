@@ -65,8 +65,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.firebase.database)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
