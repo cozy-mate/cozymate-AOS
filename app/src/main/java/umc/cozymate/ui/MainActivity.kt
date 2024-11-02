@@ -16,6 +16,7 @@ import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
+import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
@@ -143,13 +144,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
-                    // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
                     observeRoomID()
-                    if (!isRoomExist) {
-                        binding.progressBar.visibility = View.GONE
-                    } else {
-                        binding.progressBar.visibility = View.GONE
-                    }
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, CozyHomeMainFragment()).commit()
                     true
                 }
 
