@@ -30,6 +30,9 @@ class OnboardingViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
+    private val _name = MutableLiveData<String>()
+    val name: LiveData<String> get() = _name
+
     private val _school = MutableLiveData<String>()
     val school: LiveData<String> get() = _school
 
@@ -72,7 +75,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
+        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -105,7 +108,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun joinMember() {
         val memberInfo = MemberInfo(
-            school = _school.value ?: "unknown",
+            name = _school.value ?: "unknown", //
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
             birthday = _birthday.value ?: "2001-01-01",
@@ -125,7 +128,7 @@ class OnboardingViewModel @Inject constructor(
                         _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
                         _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
                         _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        _memberInfo.value?.school = response.body()!!.result?.memberInfoDTO!!.school
+                        //_memberInfo.value?.school = response.body()!!.result?.memberInfoDTO!!.school
                         _memberInfo.value?.nickname = response.body()!!.result?.memberInfoDTO!!.nickname
                         _memberInfo.value?.persona = response.body()!!.result?.memberInfoDTO!!.persona
                         _memberInfo.value?.gender = response.body()!!.result?.memberInfoDTO!!.gender
@@ -133,7 +136,7 @@ class OnboardingViewModel @Inject constructor(
 
                         sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
                         sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
-                        sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
+                        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
                         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
                         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
                         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
