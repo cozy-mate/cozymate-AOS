@@ -11,4 +11,8 @@ interface PopupClick {
         return
     }
 
+    fun reportFunction(reason : Int, content : String?){
+        return
+    }
+
 }

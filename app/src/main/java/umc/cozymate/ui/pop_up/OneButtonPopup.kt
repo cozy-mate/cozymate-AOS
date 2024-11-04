@@ -48,11 +48,6 @@ class OneButtonPopup(
         return dialog
     }
 
-    // 버튼 클릭시 실행할 함수 연결 인터페이스
-    interface ClickFunc{
-        fun setClickFunction()
-    }
-
     private fun setOnClickListener() {
         binding.btnOk.setOnClickListener {
             // 함수 실행
