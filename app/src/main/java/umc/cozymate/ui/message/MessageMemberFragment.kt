@@ -39,6 +39,9 @@ class MessageMemberFragment : Fragment() {
         binding.ivClose.setOnClickListener {
             requireActivity().finish()
         }
+        binding.ivBack.setOnClickListener {
+            requireActivity().finish()
+        }
     }
 
     private fun setupObservers() {
@@ -64,10 +67,14 @@ class MessageMemberFragment : Fragment() {
         if(chatRooms.size == 0){
             binding.rvMessage.visibility = View.GONE
             binding.tvEmpty.visibility = View.VISIBLE
+            binding.ivBack.visibility = View.GONE
+            binding.ivClose.visibility = View.VISIBLE
         }
         else{
             binding.rvMessage.visibility = View.VISIBLE
             binding.tvEmpty.visibility = View.GONE
+            binding.ivBack.visibility = View.VISIBLE
+            binding.ivClose.visibility = View.GONE
 
             messageAdapter = MessageAdapter(chatRooms, object : MessageAdapter.OnItemClickListener {
                 override fun onItemClick(item: ChatRoomData) {

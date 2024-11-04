@@ -19,7 +19,7 @@ class ReportPopup(
 ) : DialogFragment() {
     lateinit var binding: PopupTemplateReportBinding
     private var reportReason : Int = 0
-    private var content : String? = null
+    private var content : String = ""
     private var isChecking = false
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = PopupTemplateReportBinding.inflate(layoutInflater)
@@ -87,7 +87,7 @@ class ReportPopup(
     private val reportViewModel : ReportViewModel by viewModels()
     private fun test(){
         val dialog = ReportPopup(object : PopupClick {
-            override fun reportFunction(reason: Int, content : String?) {
+            override fun reportFunction(reason: Int, content : String) {
                 reportViewModel.postReport(id, 0, reason, content)
             }
         })

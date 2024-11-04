@@ -17,18 +17,23 @@ import umc.cozymate.databinding.FragmentMessageDetailBinding
 import umc.cozymate.ui.MessageDetail.MessageDetailAdapter
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.ChatViewModel
+import umc.cozymate.ui.viewmodel.ReportViewModel
 
 @AndroidEntryPoint
 class MessageDetailFragment : Fragment() {
     private lateinit var binding: FragmentMessageDetailBinding
     private lateinit var messageDetailAdapter: MessageDetailAdapter
     private val viewModel : ChatViewModel by viewModels()
+    private val reportViewModel : ReportViewModel by viewModels()
     private var contents : List<ChatContentData> = emptyList()
     private var chatRoomId : Int = 0
     private var recipientId : Int = 0
     private var nickname :String = ""
+    private var moreFlag : Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,7 +80,7 @@ class MessageDetailFragment : Fragment() {
     }
 
     private fun updateContents() {
-        messageDetailAdapter = MessageDetailAdapter(contents)
+        messageDetailAdapter = MessageDetailAdapter(contents.reversed())
         if(contents.size == 0){
             val text = "["+nickname+"]님과\n아직 주고 받은 쪽지가 없어요!"
             binding.tvEmpty.text = text
@@ -100,23 +105,47 @@ class MessageDetailFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.ivMore.setOnClickListener {
-            binding.layoutMessageDetailMore.visibility = View.VISIBLE
+            if(!moreFlag) {
+                binding.layoutMessageDetailMore.visibility = View.VISIBLE
+                binding.layoutMessageDetailMore.bringToFront() // 우선순위 조정
+                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(true) // RecyclerView의 터치 차단
+                moreFlag = true
+            }
+            else{
+                binding.layoutMessageDetailMore.visibility = View.GONE
+                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(false)
+                moreFlag = false
+            }
         }
         binding.btnWriteMessage.setOnClickListener {
             val intent : Intent = Intent(activity, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",recipientId)
             startActivity(intent)
         }
+
+
         binding.tvMessageDelete.setOnClickListener {
             deletePopup()
         }
+        binding.tvMessageReport.setOnClickListener {
+            reportPopup()
+        }
+    }
+
+    private fun reportPopup(){
+        val dialog = ReportPopup(object : PopupClick {
+            override fun reportFunction(reason: Int, content : String) {
+                reportViewModel.postReport(recipientId, 1, reason, content)
+            }
+        })
+        dialog.show(activity?.supportFragmentManager!!, "reportPopup")
     }
 
     private fun deletePopup() {
         val text = listOf("쪽지를 삭제하시나요?","삭제하면 해당 사용자와 나눴던\n모든 쪽지 내용이 사라져요","취소","삭제")
         val dialog = TwoButtonPopup(text,object : PopupClick {
             override fun rightClickFunction() {
-                popupTest()
+                popup()
                 viewModel.deleteChatRooms(chatRoomId)
                 Handler(Looper.getMainLooper()).postDelayed({
                     updateData()
@@ -126,10 +155,10 @@ class MessageDetailFragment : Fragment() {
         dialog.show(activity?.supportFragmentManager!!, "MessageDeletePopup")
     }
 
-    private fun popupTest() {
+    private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
         val dialog = OneButtonPopup(text,object : PopupClick{
         })
-        dialog.show(activity?.supportFragmentManager!!, "testPopup")
+        dialog.show(activity?.supportFragmentManager!!, "messagePopup")
     }
 }

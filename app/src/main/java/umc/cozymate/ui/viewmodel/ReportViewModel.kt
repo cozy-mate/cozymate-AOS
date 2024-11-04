@@ -34,10 +34,11 @@ class ReportViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
-    fun postReport(id : Int, source : Int, reason : Int, content : String? ){
+    fun postReport(id : Int, source : Int, reason : Int, content : String ){
         viewModelScope.launch {
             val token = getToken()
             val request = ReportRequest(id, reportSource[source], reportReason[reason],content)
+            Log.d(TAG,"입력 데이터 ${request.toString()}")
             try {
                 val response = repository.postReport(token!!, request)
                 if(response.isSuccessful){

@@ -10,5 +10,5 @@ data class ReportRequest(
     @SerializedName("reportReason")
     val reportReason : String,
     @SerializedName("content")
-    val content : String?
+    val content : String
 )

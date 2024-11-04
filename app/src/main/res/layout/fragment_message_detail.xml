@@ -10,14 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="28dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingEnd="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <ImageView
             android:id="@+id/iv_Back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back"
+            app:tint="@color/basic_font" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -28,7 +30,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_seemore"
-            />
+            app:tint="@color/basic_font" />
     </LinearLayout>
 
 

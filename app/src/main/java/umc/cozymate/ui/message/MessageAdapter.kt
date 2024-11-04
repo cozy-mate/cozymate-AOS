@@ -23,8 +23,7 @@ class MessageAdapter(
             binding.tvMessageMemberName.text = item.nickName
             binding.tvMessageMemberText.text = item.lastContent
             if(pos == items.size-1) binding.ivLine.visibility = View.GONE
-
-            binding.ivMessageMoveDetail.setOnClickListener {
+            binding.layout.setOnClickListener {
                 itemClickListener.onItemClick(item)
             }
         }
