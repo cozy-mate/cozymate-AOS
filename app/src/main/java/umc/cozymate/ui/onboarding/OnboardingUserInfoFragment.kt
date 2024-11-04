@@ -156,7 +156,7 @@ class OnboardingUserInfoFragment : Fragment() {
             val birth = binding.tvBirth.text.toString()
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
             else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
-            val school = binding.tvSchool.text
+            val school = binding.tvSchool.text.toString()
 
             viewModel.setNickname(nickname)
             viewModel.setBirthday(birth)
