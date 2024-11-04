@@ -8,6 +8,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -68,6 +70,31 @@ class OnboardingUserInfoFragment : Fragment() {
         return binding.root
     }
 
+    private fun initSpinner() {
+        val schools = arrayOf("학교1", "학교2", "학교3", "학교4")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, schools)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        with(binding) {
+            spinnerSchool.adapter = adapter
+            mcvSchool.setOnClickListener {
+                spinnerSchool.visibility = View.VISIBLE
+            }
+            spinnerSchool.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedSchool = schools[position]
+                    tvSchool.text = selectedSchool
+                    spinnerSchool.visibility = View.GONE
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) { }
+            }
+        }
+    }
     // 성별 선택 시 이미지 변경
     private fun toggleImage(isSelected: Boolean, iv: ImageView) {
         if (isSelected) {

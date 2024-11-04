@@ -310,6 +310,12 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <Spinner
+        android:id="@+id/spinner_school"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <!--다음 버튼-->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
