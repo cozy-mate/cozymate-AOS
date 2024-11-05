@@ -296,6 +296,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <Spinner
+                android:id="@+id/spinner_school"
+                android:layout_width="0dp"
+                android:layout_height="143dp"
+                android:layout_marginTop="10dp"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@drawable/spinner_background"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_school"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -309,12 +320,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <Spinner
-        android:id="@+id/spinner_school"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
 
     <!--다음 버튼-->
     <androidx.appcompat.widget.AppCompatButton

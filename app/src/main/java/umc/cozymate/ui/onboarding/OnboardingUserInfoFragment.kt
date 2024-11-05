@@ -50,6 +50,9 @@ class OnboardingUserInfoFragment : Fragment() {
         _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
 
         with(binding) {
+            // 학교 스피너
+            initSpinner()
+
             // 포커싱 색상 변경
             setFocusColor()
 
@@ -71,7 +74,7 @@ class OnboardingUserInfoFragment : Fragment() {
     }
 
     private fun initSpinner() {
-        val schools = arrayOf("학교1", "학교2", "학교3", "학교4")
+        val schools = arrayOf("학교를 선택해주세요", "학교1", "학교2", "학교3", "학교4")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, schools)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         with(binding) {
@@ -88,7 +91,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 ) {
                     val selectedSchool = schools[position]
                     tvSchool.text = selectedSchool
-                    spinnerSchool.visibility = View.GONE
+                    //spinnerSchool.visibility = View.GONE
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -173,7 +176,7 @@ class OnboardingUserInfoFragment : Fragment() {
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
         val isGenderChecked = isSelectedMale || isSelectedFemale
         val isBirthSelected = binding.tvBirth.text?.isNotEmpty() == true
-        val isSchoolSelected = binding.tvSchool.text == "학교를 선택해주세요"
+        val isSchoolSelected = binding.tvSchool.text != "학교를 선택해주세요"
         val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected && isSchoolSelected
 
         binding.btnNext.isEnabled = isEnabled
