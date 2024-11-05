@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_bot
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
+import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -42,31 +44,22 @@ class CozyBotFragment : Fragment() {
         }
 
         viewModel.fetchRoomIdIfNeeded()
-
         val savedRoomId = viewModel.getSavedRoomId()
-
         if (savedRoomId == 0) {
-            // SharedPreferences에 방 ID가 저장되어 있지 않다면 getRoomId 호출
             viewModel.getRoomId()
         } else {
-            // 방 ID가 이미 저장되어 있다면 roomId에 값을 설정
             viewModel.setRoomId(savedRoomId)
         }
-
         viewModel.roomId.observe(viewLifecycleOwner) { id ->
             if (id != null && id != 0) {
-                // 방 ID가 null이 아니면 방 정보를 가져옴
                 observeViewModel()
             }
         }
 
         initAchievmentList()
         initView()
+        openMessage()
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun observeViewModel() {
@@ -161,5 +154,12 @@ class CozyBotFragment : Fragment() {
             clipboard.setPrimaryClip(clip)
             Toast.makeText(requireContext(), "텍스트가 클립보드에 복사되었습니다!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun openMessage(){
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageActivity::class.java))
+        }
+
     }
 }
