@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.making_room.MakingRoomDialogFragment
+import umc.cozymate.ui.message.MessageActivity
 
 class CozyHomeMainFragment : Fragment() {
     private var _binding: FragmentCozyHomeMainBinding? = null
@@ -22,7 +24,7 @@ class CozyHomeMainFragment : Fragment() {
 
         initView()
         initListener()
-
+        openMessage()
         return binding.root
     }
 
@@ -41,5 +43,12 @@ class CozyHomeMainFragment : Fragment() {
             val popup: DialogFragment = MakingRoomDialogFragment()
             popup.show(childFragmentManager, "팝업")
         }
+    }
+
+    private fun openMessage(){
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageActivity::class.java))
+        }
+
     }
 }

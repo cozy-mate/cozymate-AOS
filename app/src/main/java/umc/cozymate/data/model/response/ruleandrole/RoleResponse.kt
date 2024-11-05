@@ -1,4 +1,4 @@
-package umc.cozymate.data.model.response
+package umc.cozymate.data.model.response.ruleandrole
 
 import com.google.gson.annotations.SerializedName
 import umc.cozymate.data.model.entity.RoleData

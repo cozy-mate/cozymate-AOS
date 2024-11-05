@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="77dp"
-    android:paddingVertical="12dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout">
     <ImageView
         android:id="@+id/iv_message_member_character"
         android:layout_width="24dp"
@@ -28,14 +29,26 @@
         android:text="text message"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
         android:textColor="@color/basic_font"
-        android:layout_marginTop="12dp"
+        android:layout_marginVertical="12dp"
         app:layout_constraintTop_toBottomOf="@id/iv_message_member_character"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/iv_line"/>
     <ImageView
+        android:id="@+id/iv_message_move_detail"
         android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_back"
+        android:layout_height="12dp"
+        android:src="@drawable/ic_next"
+        app:tint="@color/unuse_font"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <View
+        android:id="@+id/iv_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="#F1F2F4"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_member_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

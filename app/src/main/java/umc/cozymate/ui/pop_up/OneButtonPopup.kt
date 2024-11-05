@@ -15,7 +15,8 @@ import umc.cozymate.ui.role_rule.AddTodoActivity
 
 class OneButtonPopup(
     message: List<String>,
-    private val clickFunc : PopupClick
+    private val clickFunc : PopupClick,
+    private val isCancelable : Boolean = true
 ) : DialogFragment(){
     lateinit var binding: PopupTemplateOnebuttonBinding
     val text = message[0]
@@ -32,7 +33,7 @@ class OneButtonPopup(
         setOnClickListener()
 
         // 취소 불가능
-        setCancelable(false)
+        setCancelable(isCancelable)
 
         // 배경 투명 + 밝기 조절 (0.7)
         dialog.window?.let { window ->
@@ -46,11 +47,6 @@ class OneButtonPopup(
         }
 
         return dialog
-    }
-
-    // 버튼 클릭시 실행할 함수 연결 인터페이스
-    interface ClickFunc{
-        fun setClickFunction()
     }
 
     private fun setOnClickListener() {
@@ -72,7 +68,7 @@ class OneButtonPopup(
                 // 없으면 그냥 retrun
                 return
             }
-        })
+        },false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
         dialog.show(activity?.supportFragmentManager!!, "testPopup")
     }
 
