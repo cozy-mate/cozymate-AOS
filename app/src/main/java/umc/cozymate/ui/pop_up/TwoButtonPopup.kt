@@ -15,7 +15,8 @@ import umc.cozymate.ui.role_rule.AddTodoActivity
 
 class TwoButtonPopup (
     message: List<String>,
-    private val clickFunc : PopupClick
+    private val clickFunc : PopupClick,
+    private val isCancelable : Boolean = true
 ) : DialogFragment(){
     lateinit var binding: PopupTemplateTwobuttonsBinding
     val text = message[0]
@@ -33,7 +34,7 @@ class TwoButtonPopup (
         setOnClickListener()
 
         // 취소 불가능
-        setCancelable(false)
+        setCancelable(isCancelable)
 
         // 배경 투명 + 밝기 조절 (0.7)
         dialog.window?.let { window ->
@@ -72,7 +73,7 @@ class TwoButtonPopup (
                 // 실행하고자 하는 함수 있으면 overriding
                 startActivity(Intent(activity,AddTodoActivity::class.java))
             }
-        })
+        }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
         dialog.show(activity?.supportFragmentManager!!, "testPopup")
     }
 

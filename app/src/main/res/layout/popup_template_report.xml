@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="352dp"
+    android:layout_height="wrap_content"
+    android:minHeight="148dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/btn_rectangle_12"
+    android:padding="24dp">
+    <TextView
+        android:id="@+id/tv_popup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신고사유"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        android:gravity="center"
+        android:layout_marginHorizontal="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:id="@+id/layout_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_popup_text"
+        app:layout_constraintBottom_toTopOf="@id/btn_ok">
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+            <RadioButton
+                android:id="@+id/radio_report_obscenity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  음란성/선정성"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"
+                android:layout_marginEnd="15dp"/>
+            <RadioButton
+                android:id="@+id/radio_report_insult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  욕설/인신공격"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"/>
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radio_group2"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_report_commercial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  영리목적/홍보성"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"
+                android:layout_marginEnd="15dp"/>
+            <RadioButton
+                android:id="@+id/radio_report_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  기타"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"/>
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_input_reasons"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:background="@drawable/ic_inputbox"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/basic_font"
+            android:textColorHint="@color/unuse_font"
+            android:hint="내용을 입력해주세요"
+            android:gravity="top"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_rectangle_8"
+        android:backgroundTint="@color/main_blue"
+        android:text="신고"
+        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+        android:textColor="@color/white"
+        android:paddingVertical="14dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_input"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

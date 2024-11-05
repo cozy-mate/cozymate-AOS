@@ -73,7 +73,12 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
+
+
+        <!--쪽지-->
         <activity android:name=".ui.message.MessageActivity" />
+        <activity android:name=".ui.message.WriteMessageActivity"/>
+
         <activity
             android:name=".ui.role_rule.AddTodoActivity"
             android:windowSoftInputMode="adjustNothing" />

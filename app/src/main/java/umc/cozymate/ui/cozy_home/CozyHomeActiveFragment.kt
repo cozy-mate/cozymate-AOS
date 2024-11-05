@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -22,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
 import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
+import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -63,6 +65,7 @@ class CozyHomeActiveFragment : Fragment() {
 
         initAchievmentList()
         initView()
+        openMessage()
         return binding.root
     }
 
@@ -162,5 +165,12 @@ class CozyHomeActiveFragment : Fragment() {
             clipboard.setPrimaryClip(clip)
             Toast.makeText(requireContext(), "텍스트가 클립보드에 복사되었습니다!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun openMessage(){
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageActivity::class.java))
+        }
+
     }
 }
