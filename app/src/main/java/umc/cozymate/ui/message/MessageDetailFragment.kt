@@ -157,8 +157,7 @@ class MessageDetailFragment : Fragment() {
 
     private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
-        val dialog = OneButtonPopup(text,object : PopupClick{
-        })
+        val dialog = OneButtonPopup(text,object : PopupClick{},false)
         dialog.show(activity?.supportFragmentManager!!, "messagePopup")
     }
 }
