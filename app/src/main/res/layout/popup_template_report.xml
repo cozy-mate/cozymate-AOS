@@ -36,17 +36,19 @@
                 android:id="@+id/radio_report_obscenity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="음란성/선정성"
+                android:text="  음란성/선정성"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/basic_font"
-                android:layout_marginEnd="7dp"/>
+                android:button="@drawable/custom_radiobutton"
+                android:layout_marginEnd="15dp"/>
             <RadioButton
                 android:id="@+id/radio_report_insult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="욕설/인신공격"
+                android:text="  욕설/인신공격"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"/>
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"/>
         </RadioGroup>
         <RadioGroup
             android:id="@+id/radio_group2"
@@ -57,17 +59,19 @@
                 android:id="@+id/radio_report_commercial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="영리목적/홍보성"
+                android:text="  영리목적/홍보성"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/basic_font"
-                android:layout_marginEnd="7dp"/>
+                android:button="@drawable/custom_radiobutton"
+                android:layout_marginEnd="15dp"/>
             <RadioButton
                 android:id="@+id/radio_report_other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="기타"
+                android:text="  기타"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"/>
+                android:textColor="@color/basic_font"
+                android:button="@drawable/custom_radiobutton"/>
         </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatEditText

@@ -2,12 +2,15 @@ package umc.cozymate.ui.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.RadioButton
+import androidx.core.widget.CompoundButtonCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import umc.cozymate.R
@@ -29,7 +32,7 @@ class ReportPopup(
 
         setOnClickListener()
         setRadioButton()
-
+        resetStyle()
         setCancelable(true)
 
         // 배경 투명 + 밝기 조절 (0.7)
@@ -56,13 +59,22 @@ class ReportPopup(
     }
 
     private fun setRadioButton() {
+        val selectedColor =  binding.root.context.getColor(R.color.main_blue)
+
         binding.radioGroup.setOnCheckedChangeListener{group, checkedId->
             // 상호 참조를 통한 무한루프 방지?
             if (isChecking) return@setOnCheckedChangeListener
             isChecking = true
+            resetStyle()
             when(checkedId){
-                R.id.radio_report_obscenity -> reportReason = 0
-                R.id.radio_report_insult -> reportReason = 1
+                binding.radioReportObscenity.id -> {
+                    reportReason = 0
+                    updateStyle(binding.radioReportObscenity ,selectedColor)
+                }
+                binding.radioReportInsult.id -> {
+                    reportReason = 1
+                    updateStyle(binding.radioReportInsult ,selectedColor)
+                }
             }
             binding.radioGroup2.clearCheck()
             binding.etInputReasons.visibility = View.GONE
@@ -71,9 +83,16 @@ class ReportPopup(
         binding.radioGroup2.setOnCheckedChangeListener{group, checkedId->
             if (isChecking) return@setOnCheckedChangeListener
             isChecking = true
+            resetStyle()
             when(checkedId){
-                R.id.radio_report_commercial -> reportReason = 2
-                R.id.radio_report_other -> reportReason = 3
+                binding.radioReportCommercial.id -> {
+                    reportReason = 2
+                    updateStyle(binding.radioReportCommercial , selectedColor)
+                }
+                binding.radioReportOther.id -> {
+                    reportReason = 3
+                    updateStyle(binding.radioReportOther , selectedColor)
+                }
             }
             if ( reportReason == 3) binding.etInputReasons.visibility = View.VISIBLE
             else binding.etInputReasons.visibility = View.GONE
@@ -81,6 +100,20 @@ class ReportPopup(
             isChecking = false
         }
     }
+
+    private fun resetStyle(){
+        val color = binding.root.context.getColor(R.color.basic_font)
+        updateStyle(binding.radioReportObscenity ,color)
+        updateStyle(binding.radioReportInsult ,color)
+        updateStyle(binding.radioReportCommercial ,color)
+        updateStyle(binding.radioReportOther , color)
+    }
+
+    private fun updateStyle( radio : RadioButton , color : Int){
+        radio.setTextColor(color)
+        CompoundButtonCompat.setButtonTintList(radio, ColorStateList.valueOf(color))
+    }
+
 
     // 팝업창 호출하는데 붙여넣을 함수
     // id만 신고할 사용자 아이디로 변경해서 사용해주세요.
@@ -93,5 +126,7 @@ class ReportPopup(
         })
         dialog.show(activity?.supportFragmentManager!!, "reportPopup")
     }
+
+
 
 }
