@@ -5,6 +5,7 @@ import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.request.UserInfoRequest2
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.util.NetworkResult

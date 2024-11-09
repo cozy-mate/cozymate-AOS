@@ -15,7 +15,7 @@ import umc.cozymate.ui.viewmodel.SplashViewModel
 
 @AndroidEntryPoint
 class RoommateOnboardingFragment : Fragment() {
-    private var _binding: umc.cozymate.databinding.FragmentRoommateOnboardingBinding? = null
+    private var _binding: FragmentRoommateOnboardingBinding? = null
     private val splashViewModel: SplashViewModel by viewModels()
     private val binding get() = _binding!!
 

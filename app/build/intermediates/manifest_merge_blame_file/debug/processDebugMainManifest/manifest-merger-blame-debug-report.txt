@@ -42,16 +42,16 @@
 23        <intent>
 23-->[com.kakao.sdk:v2-common:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/e4ce0cdd72e6b9d4faea75cb7038d83c/transformed/jetified-v2-common-2.20.3/AndroidManifest.xml:15:9-21:18
 24            <action android:name="android.intent.action.VIEW" />
-24-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:17-69
-24-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:25-66
+24-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:17-69
+24-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:25-66
 25
 26            <category android:name="android.intent.category.BROWSABLE" />
-26-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:17-78
-26-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:27-75
+26-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:17-78
+26-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:27-75
 27
 28            <data android:scheme="https" />
-28-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:17-39:61
-28-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:39:21-58
+28-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:17-40:61
+28-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:40:21-58
 29        </intent>
 30    </queries> <!-- Required by older versions of Google Play services to create IID tokens -->
 31    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -114,115 +114,118 @@
 58-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:21:9-46
 59        <activity
 59-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:23:9-25:40
-60            android:name="umc.cozymate.ui.roommate.RoommateInputInfoActivity"
-60-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:24:13-66
+60            android:name="umc.cozymate.ui.roommate.RoommateOnboardingActivity"
+60-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:24:13-67
 61            android:exported="false" />
 61-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:25:13-37
-62
-63        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
-64        <activity
-64-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:9-41:20
-65            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-65-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:29:13-70
-66            android:exported="true"
-66-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:30:13-36
-67            android:launchMode="singleTask"
-67-->[com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/fd0c85f8ee578e234fa46018768195bf/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:18:13-44
-68            android:theme="@style/TransparentCompat" >
-68-->[com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/fd0c85f8ee578e234fa46018768195bf/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:19:13-53
-69            <intent-filter android:label="kakao_login_handler" >
-69-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:13-40:29
-69-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:28-63
-70                <action android:name="android.intent.action.VIEW" />
-70-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:17-69
-70-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:25-66
-71
-72                <category android:name="android.intent.category.DEFAULT" />
-72-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:17-76
-72-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:27-73
-73                <category android:name="android.intent.category.BROWSABLE" />
-73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:17-78
-73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:27-75
-74
-75                <data
-75-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:17-39:61
-76                    android:host="oauth"
-76-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:21-41
-77                    android:scheme="@string/kakao_scheme" />
-77-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:39:21-58
-78            </intent-filter>
-79        </activity>
-80        <!-- 시작 화면 -->
+62        <activity
+62-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:26:9-28:40
+63            android:name="umc.cozymate.ui.roommate.RoommateInputInfoActivity"
+63-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:27:13-66
+64            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+64-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:28:13-37
+65        <activity
+65-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:29:9-42:20
+66            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+66-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:30:13-70
+67            android:exported="true"
+67-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:31:13-36
+68            android:launchMode="singleTask"
+68-->[com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/fd0c85f8ee578e234fa46018768195bf/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:18:13-44
+69            android:theme="@style/TransparentCompat" >
+69-->[com.kakao.sdk:v2-auth:2.20.3] /Users/doyoung/.gradle/caches/transforms-4/fd0c85f8ee578e234fa46018768195bf/transformed/jetified-v2-auth-2.20.3/AndroidManifest.xml:19:13-53
+70            <intent-filter android:label="kakao_login_handler" >
+70-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:13-41:29
+70-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:32:28-63
+71                <action android:name="android.intent.action.VIEW" />
+71-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:17-69
+71-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:33:25-66
+72
+73                <category android:name="android.intent.category.DEFAULT" />
+73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:17-76
+73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:27-73
+74                <category android:name="android.intent.category.BROWSABLE" />
+74-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:17-78
+74-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:27-75
+75
+76                <data
+76-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:17-40:61
+77                    android:host="oauth"
+77-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:39:21-41
+78                    android:scheme="@string/kakao_scheme" />
+78-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:40:21-58
+79            </intent-filter>
+80        </activity> <!-- 시작 화면 -->
 81        <activity
-81-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:43:9-50:20
+81-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:43:9-51:20
 82            android:name="umc.cozymate.ui.splash.SplashActivity"
 82-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:44:13-53
 83            android:exported="true" >
 83-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:45:13-36
 84            <intent-filter>
-84-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:46:13-49:29
+84-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:46:13-50:29
 85                <action android:name="android.intent.action.MAIN" />
 85-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:17-69
 85-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:25-66
 86
 87                <category android:name="android.intent.category.LAUNCHER" />
-87-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:17-77
-87-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:27-74
+87-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:17-77
+87-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:27-74
 88            </intent-filter>
 89        </activity>
 90        <activity
-90-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:51:9-53:39
+90-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:52:9-54:39
 91            android:name="umc.cozymate.ui.splash.LoginFailActivity"
-91-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:52:13-56
+91-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:53:13-56
 92            android:exported="true" />
-92-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:53:13-36
+92-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:54:13-36
 93        <activity
-93-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:54:9-56:39
+93-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:55:9-57:39
 94            android:name="umc.cozymate.ui.onboarding.OnboardingActivity"
-94-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:55:13-61
+94-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:56:13-61
 95            android:exported="true" />
-95-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:56:13-36
+95-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:57:13-36
 96        <activity
-96-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:57:9-59:39
+96-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:58:9-60:39
 97            android:name="umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity"
-97-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:58:13-90
+97-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:59:13-90
 98            android:exported="true" />
-98-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:59:13-36
+98-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:60:13-36
 99        <activity
-99-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:60:9-62:39
+99-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:61:9-63:39
 100            android:name="umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity"
-100-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:61:13-86
+100-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:62:13-86
 101            android:exported="true" />
-101-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:62:13-36
+101-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:63:13-36
 102        <activity
-102-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:63:9-65:39
+102-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:64:9-66:39
 103            android:name="umc.cozymate.ui.cozy_home.making_room.CozyHomeSelectingCharacterActivity"
-103-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:64:13-88
+103-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:65:13-88
 104            android:exported="true" />
-104-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:65:13-36
+104-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:66:13-36
 105        <activity
-105-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:66:9-68:39
+105-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:67:9-69:39
 106            android:name="umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity"
-106-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:67:13-86
+106-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:68:13-86
 107            android:exported="true" />
-107-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:68:13-36
+107-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:69:13-36
 108        <activity
-108-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:69:9-71:39
+108-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:70:9-72:39
 109            android:name="umc.cozymate.ui.roommate.RoommateDetailActivity"
-109-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:70:13-63
+109-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:71:13-63
 110            android:exported="true" />
-110-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:71:13-36
+110-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:72:13-36
 111        <activity
-111-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:72:9-74:39
+111-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:73:9-75:39
 112            android:name="umc.cozymate.ui.MainActivity"
-112-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:73:13-44
+112-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:74:13-44
 113            android:exported="true" />
-113-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:74:13-36
+113-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:75:13-36
 114        <activity android:name="umc.cozymate.ui.message.MessageActivity" />
 114-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:76:9-64
 114-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:76:19-61
 115        <activity
-115-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:77:9-79:58
+115-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:77:9-79:59
 116            android:name="umc.cozymate.ui.role_rule.AddTodoActivity"
 116-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:78:13-57
 117            android:windowSoftInputMode="adjustNothing" />

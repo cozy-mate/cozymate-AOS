@@ -15,15 +15,13 @@ import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
-import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
-import umc.cozymate.ui.cozy_home.CozyHomeDefaultFragment
+import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
-import umc.cozymate.ui.roommate.RoommateFragment
-import umc.cozymate.ui.roommate.RoommateMakeCrewableFragment
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
+import umc.cozymate.ui.school_certification.SchoolCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.navigationHeight
@@ -129,21 +127,21 @@ class MainActivity : AppCompatActivity() {
 
     fun loadDefaultFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, CozyHomeDefaultFragment())
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 수정
             .addToBackStack(null)
             .commit()
     }
 
     fun loadActiveFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, CozyHomeActiveFragment())
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 임시
             .addToBackStack(null)
             .commit()
     }
 
     private fun switchToRoommateOnboardingFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, RoommateOnboardingFragment())
+            .replace(R.id.main_container, SchoolCertificationFragment()) // RoommateOnboardingFragment()
             .addToBackStack(null)
             .commit()
     }
@@ -153,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
 //            .replace(R.id.main_container, RoommateMakeCrewableFragment())
 //            .replace(R.id.main_container, R.layout.fragment_roommate_make_crewable)
-            .replace(R.id.main_container, RoommateMakeCrewableFragment())
+            .replace(R.id.main_container, SchoolCertificationFragment())
             .commitAllowingStateLoss()
     }
 
@@ -239,7 +237,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.fragment_rommate -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoommateFragment()).commit()
+                        .replace(R.id.main_container, SchoolCertificationFragment()).commit() // RoommateFragment()
                     true
                 }
 

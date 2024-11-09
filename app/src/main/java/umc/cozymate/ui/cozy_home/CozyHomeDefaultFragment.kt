@@ -16,6 +16,7 @@ import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
+import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.roommate.RoommateFragment
 
 class CozyHomeDefaultFragment : Fragment() {
@@ -31,7 +32,7 @@ class CozyHomeDefaultFragment : Fragment() {
 
         initView()
         initListener()
-
+        openMessage()
         return binding.root
     }
 
@@ -113,5 +114,12 @@ class CozyHomeDefaultFragment : Fragment() {
             //btnText.setBackgroundColor(resources.getColor(R.color.box))
         }
         btn.text = spannableString
+    }
+
+    private fun openMessage(){
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageActivity::class.java))
+        }
+
     }
 }

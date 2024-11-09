@@ -3,12 +3,15 @@ package umc.cozymate.ui.roommate
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import umc.cozymate.ui.roommate.data_class.UserInfo
 
 class UserInfoSPFHelper(context: Context) {
 
     private val spf: SharedPreferences =
         context.getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+    private val gson = Gson()
 
     fun saveUserInfo(info: UserInfo) {
         with(spf.edit()) {
@@ -30,7 +33,8 @@ class UserInfoSPFHelper(context: Context) {
             putInt("lightOffTime", info.lightOffTime)
 
             putString("smokingState", info.smokingState)
-            putString("sleepingHabit", info.sleepingHabit)
+//            putString("sleepingHabit", info.sleepingHabit)
+            putString("sleepingHabit", gson.toJson(info.sleepingHabit))
             putString("airConditioningIntensity", info.airConditioningIntensity)
             putString("heatingIntensity", info.heatingIntensity)
             putString("lifePattern", info.lifePattern)
@@ -43,10 +47,14 @@ class UserInfoSPFHelper(context: Context) {
             putString("cleanSensitivity", info.cleanSensitivity)
             putString("noiseSensitivity", info.noiseSensitivity)
             putString("cleaningFrequency", info.cleaningFrequency)
-            putString("personality", info.personality)
+            putString("drinkingFrequency", info.drinkingFrequency)
+//            putString("personality", info.personality)
+            putString("personality", gson.toJson(info.personality))
             putString("mbti", info.mbti)
 
-            commit()
+//            commit()
+            apply()
+
             Log.d("SPFHelper", "User Info: $info")
         }
     }
@@ -69,7 +77,11 @@ class UserInfoSPFHelper(context: Context) {
         val lightOffTime = spf.getInt("lightOffTime", 0)
 
         val smokingState = spf.getString("smokingState", "") ?: ""
-        val sleepingHabit = spf.getString("sleepingHabit", "") ?: ""
+//        val sleepingHabit = spf.getString("sleepingHabit", "") ?: ""
+
+        val sleepingHabitJson = spf.getString("sleepingHabit", "[]") ?: "[]"
+        val sleepingHabit: List<String> = gson.fromJson(sleepingHabitJson, object : TypeToken<List<String>>() {}.type)
+
         val airConditioningIntensity = spf.getString("airConditioningIntensity", "") ?: ""
         val heatingIntensity = spf.getString("heatingIntensity", "") ?: ""
         val lifePattern = spf.getString("lifePattern", "") ?: ""
@@ -82,10 +94,15 @@ class UserInfoSPFHelper(context: Context) {
         val cleanSensitivity = spf.getString("cleanSensitivity", "") ?: ""
         val noiseSensitivity = spf.getString("noiseSensitivity", "") ?: ""
         val cleaningFrequency = spf.getString("cleaningFrequency", "") ?: ""
-        val personality = spf.getString("personality", "") ?: ""
+        val drinkingFrequency = spf.getString("dringkingFrequency", "") ?: ""
+
+//        val personality = spf.getString("personality", "") ?: ""
+        val personalityJson = spf.getString("personality", "[]") ?: "[]"
+        val personality: List<String> = gson.fromJson(personalityJson, object : TypeToken<List<String>>() {}.type)
+
         val mbti = spf.getString("mbti", "") ?: ""
 
-        val info = UserInfo(
+        return UserInfo(
             login,
             school,
             name,
@@ -114,10 +131,13 @@ class UserInfoSPFHelper(context: Context) {
             cleanSensitivity,
             noiseSensitivity,
             cleaningFrequency,
+            drinkingFrequency,
             personality,
             mbti
-        )
-        Log.d("SPFHelper Load", "Loaded UserInfo: $info")
-        return info
+        ).also {
+            Log.d("SPFHelper Load", "Loaded UserInfo: $it")
+        }
+//        Log.d("SPFHelper Load", "Loaded UserInfo: $info")
+//        return info
     }
 }

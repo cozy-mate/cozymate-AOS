@@ -25,7 +25,8 @@
                 android:layout_marginBottom="55dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_dormitory"
@@ -58,11 +59,11 @@
                     <TextView
                         android:id="@+id/dormitory_waiting"
                         style="@style/OptionBox"
-                        android:layout_width="70dp"
+                        android:layout_width="90dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        android:text="대기중" />
+                        android:text="결과 대기중" />
 
                     <TextView
                         android:id="@+id/dormitory_number"
@@ -87,7 +88,8 @@
                 android:layout_marginBottom="55dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory">
+                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_people_number"
@@ -107,6 +109,15 @@
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_people_number">
+
+                    <TextView
+                        android:id="@+id/num0"
+                        style="@style/OptionBox"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="미정" />
 
                     <TextView
                         android:id="@+id/num2"
@@ -135,44 +146,53 @@
                         android:clickable="true"
                         android:text="4명" />
 
-                    <TextView
-                        android:id="@+id/num5"
-                        style="@style/OptionBox"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:text="5명" />
-
-                    <TextView
-                        android:id="@+id/num6"
-                        style="@style/OptionBox"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:clickable="true"
-                        android:text="6명" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/num5"
+                    style="@style/OptionBox"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:text="5명"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/ly_people_number"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/num6"
+                    style="@style/OptionBox"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:layout_marginStart="8dp"
+                    android:text="6명"
+                    app:layout_constraintTop_toBottomOf="@id/ly_people_number"
+                    app:layout_constraintStart_toEndOf="@id/num5"
+                    android:layout_marginTop="8dp"/>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_people_number" />
+                    app:layout_constraintTop_toBottomOf="@+id/num6" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_major"
+                android:id="@+id/cl_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_people_number">
+                app:layout_constraintTop_toBottomOf="@+id/cl_people_number"
+                tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_major"
+                    android:id="@+id/tv_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학과를 입력헤주세요"
+                    android:text="출생년도를 입력헤주세요"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
                     android:visibility="visible"
@@ -180,21 +200,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tvil_major"
+                    android:id="@+id/tvil_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:visibility="visible"
                     app:boxBackgroundMode="outline"
                     app:hintEnabled="false"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_major">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_birth">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_major"
+                        android:id="@+id/et_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edittext"
-                        android:hint="ex. 경영학과"
+                        android:hint="ex. 2002"
                         android:inputType="text"
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font" />
@@ -204,7 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvil_major" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvil_birth" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -217,7 +237,7 @@
                 android:textColor="@color/highlight_font"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_major" />
+                app:layout_constraintTop_toBottomOf="@id/cl_birth" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tvil_number"
@@ -241,72 +261,6 @@
                     android:textColor="@color/basic_font" />
                 />
             </com.google.android.material.textfield.TextInputLayout>
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_birth"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="55dp"-->
-<!--                android:text="출생년도를 입력해주세요"-->
-<!--                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"-->
-<!--                android:textColor="@color/highlight_font"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/tvil_number" />-->
-
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/tvil_birth"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                app:boxBackgroundMode="outline"-->
-<!--                app:hintEnabled="false"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tv_birth">-->
-
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/et_birth"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/custom_edittext"-->
-<!--                    android:hint="ex. 2002"-->
-<!--                    android:inputType="text"-->
-<!--                    android:maxLength="4"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
-<!--                    android:textColor="@color/basic_font" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_name"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="55dp"-->
-<!--                android:text="이름을 입력해주세요"-->
-<!--                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"-->
-<!--                android:textColor="@color/highlight_font"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tvil_birth" />-->
-
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/tvil_name"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:visibility="visible"-->
-<!--                app:boxBackgroundMode="outline"-->
-<!--                app:hintEnabled="false"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/tv_name">-->
-
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/et_name"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/custom_edittext"-->
-<!--                    android:hint="ex. 오정현"-->
-<!--                    android:inputType="text"-->
-<!--                    android:maxLength="5"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
-<!--                    android:textColor="@color/basic_font"-->
-<!--                    android:visibility="visible" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <View
                 android:layout_width="match_parent"

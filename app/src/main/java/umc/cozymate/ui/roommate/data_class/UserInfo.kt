@@ -22,16 +22,14 @@ data class UserInfo(
     val lightOffTime: Int = 0,
 
     val smokingState: String = "",
-    val sleepingHabit: String = "",
+    val sleepingHabit: List<String> = emptyList(),
 
     val airConditioningIntensity: String = "",
     val heatingIntensity: String = "",
-    // api 상에선 Int로 넘겨줘야 함
 
     val lifePattern: String = "",
     val intimacy: String = "",
     val canShare: String = "",
-    // api 상에선 Boolean으로 넘겨야 함
     val isPlayGame: String = "",
     val isPhoneCall: String = "",
     val studying: String = "",
@@ -39,8 +37,10 @@ data class UserInfo(
     val cleanSensitivity: String = "",
     val noiseSensitivity: String = "",
     val cleaningFrequency: String = "",
-    val personality: String = "",
-    val mbti: String = ""
+    val drinkingFrequency: String = "",
+    val personality: List<String> = emptyList(),
+    val mbti: String = "",
+    val selfIntroduction: String = ""
 ) {
     fun toRequest(): UserInfoRequest {
         return UserInfoRequest(
@@ -61,65 +61,42 @@ data class UserInfo(
             heatingIntensity = convertHeaterToInt(heatingIntensity),
             lifePattern = lifePattern,
             intimacy = intimacy,
-            canShare = convertCanShareToInt(canShare),
-            isPlayGame = convertIsPlayGameToInt(isPlayGame),
-            isPhoneCall = convertIsPhoneCallToInt(isPhoneCall),
+            canShare = canShare,
+            isPlayGame = isPlayGame,
+            isPhoneCall = isPhoneCall,
             studying = studying,
             intake = intake,
             cleanSensitivity = convertCleanToInt(cleanSensitivity),
             noiseSensitivity = convertNoiseToInt(noiseSensitivity),
             cleaningFrequency = cleaningFrequency,
+            drinkingFrequency = drinkingFrequency,
             personality = personality,
             mbti = mbti,
-            options = mapOf(
-                "additionalProp1" to listOf("String1", "String2"),
-                "additionalProp2" to listOf("String3"),
-                "additionalProp3" to listOf("String4", "String5")
-            )
+            selfIntroduction = selfIntroduction
         )
     }
 }
 
-private fun convertCanShareToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
-
-private fun convertIsPlayGameToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
-private fun convertIsPhoneCallToInt(canShare: String): Boolean {
-    return when (canShare) {
-        "O" -> true
-        "X" -> false
-        else -> false
-    }
-}
 private fun convertACToInt(canShare: String): Int {
     return when (canShare) {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
-        "아예 틀지 않아요" -> 0
+        "안 틀어요" -> 0
         else -> 1
     }
 }
+
 private fun convertHeaterToInt(canShare: String): Int {
     return when (canShare) {
         "세게 틀어요" -> 3
         "적당하게 틀어요" -> 2
         "약하게 틀어요" -> 1
-        "아예 틀지 않아요" -> 0
+        "안 틀어요" -> 0
         else -> 1
     }
 }
+
 private fun convertCleanToInt(canShare: String): Int {
     return when (canShare) {
         "매우 예민해요" -> 5
@@ -130,6 +107,7 @@ private fun convertCleanToInt(canShare: String): Int {
         else -> 1
     }
 }
+
 private fun convertNoiseToInt(canShare: String): Int {
     return when (canShare) {
         "매우 예민해요" -> 5

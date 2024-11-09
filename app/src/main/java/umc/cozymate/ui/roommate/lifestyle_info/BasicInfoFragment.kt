@@ -50,6 +50,9 @@ class BasicInfoFragment : Fragment() {
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
+        binding.etBirth.filters = arrayOf(InputFilter.LengthFilter(4))  // 최대 2자리 입력
+        binding.etBirth.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
+
         initTextChangeListener()
         initLivingSelector()
         initNumPeoPleSelector()
@@ -66,7 +69,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun initTextChangeListener() {
         binding.etNumber.addTextChangedListener(createTextWatcher())
-        binding.etMajor.addTextChangedListener(createMajorTextWatcher())
+        binding.etBirth.addTextChangedListener(createBirthTextWatcher())
     }
 
     // 텍스트 변경 시 딜레이 후 레이아웃 표시를 위한 타이머 재설정 함수
@@ -89,6 +92,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun initNumPeoPleSelector() {
         val numPeopleTexts = listOf(
+            binding.num0 to 0,
             binding.num2 to 2,
             binding.num3 to 3,
             binding.num4 to 4,
@@ -140,16 +144,16 @@ class BasicInfoFragment : Fragment() {
     fun updateNextButtonState() {
         val isDormitorySelected = onLivingOption != null
         val isRoommateNumSelected = numPeopleOption != null
-        val isMajorFilled = binding.etMajor.text?.isNotEmpty() == true
+        val isBirthFilled = binding.etBirth.text?.isNotEmpty() == true
         val isNumberFilled = binding.etNumber.text?.isNotEmpty() == true
 
-        val filledCount = listOf(isDormitorySelected, isRoommateNumSelected, isMajorFilled, isNumberFilled).count { it }
+        val filledCount = listOf(isDormitorySelected, isRoommateNumSelected, isBirthFilled, isNumberFilled).count { it }
         val completionRate = filledCount / 4f
 
         (activity as? RoommateInputInfoActivity)?.updateProgressBar(completionRate)
 
         // 다음 버튼 활성화 여부
-        if (isDormitorySelected && isRoommateNumSelected && isMajorFilled && isNumberFilled) {
+        if (isDormitorySelected && isRoommateNumSelected && isBirthFilled && isNumberFilled) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()
         }
     }
@@ -160,7 +164,7 @@ class BasicInfoFragment : Fragment() {
                 userInfo = userInfo.copy(admissionYear = binding.etNumber.text.toString())
                 spfHelper.saveUserInfo(userInfo)
                 // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
-                resetDebounceTimer { showMajorLayout() }
+                resetDebounceTimer { showBirthLayout() }
                 updateNextButtonState()
             }
 
@@ -169,10 +173,10 @@ class BasicInfoFragment : Fragment() {
         }
     }
 
-    private fun createMajorTextWatcher(): TextWatcher {
+    private fun createBirthTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                userInfo = userInfo.copy(major = binding.etMajor.text.toString())
+                userInfo = userInfo.copy(birth = binding.etBirth.text.toString())
                 spfHelper.saveUserInfo(userInfo)
                 // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
                 resetDebounceTimer { showPeopleNumberLayout() }
@@ -184,15 +188,15 @@ class BasicInfoFragment : Fragment() {
         }
     }
 
-    private fun showMajorLayout() {
+    private fun showBirthLayout() {
         if (binding.etNumber.text?.isNotEmpty() == true) {
-            binding.clMajor.showWithSlideDownAnimation()
+            binding.clBirth.showWithSlideDownAnimation()
             scrollToTop()
         }
     }
 
     private fun showPeopleNumberLayout() {
-        if (binding.etMajor.text?.isNotEmpty() == true) {
+        if (binding.etBirth.text?.isNotEmpty() == true) {
             binding.clPeopleNumber.showWithSlideDownAnimation()
             scrollToTop()
         }
@@ -215,7 +219,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun removeEditTextFocus() {
         binding.etNumber.clearFocus()
-        binding.etMajor.clearFocus()
+        binding.etBirth.clearFocus()
         hideKeyboard()
     }
 

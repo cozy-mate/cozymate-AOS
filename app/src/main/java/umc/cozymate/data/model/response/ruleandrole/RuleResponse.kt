@@ -1,4 +1,4 @@
-package umc.cozymate.data.model.response
+package umc.cozymate.data.model.response.ruleandrole
 
 import umc.cozymate.data.model.entity.RuleInfo
 

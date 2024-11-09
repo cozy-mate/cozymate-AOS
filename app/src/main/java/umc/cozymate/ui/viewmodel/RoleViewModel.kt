@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.RoleResponse
+import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 import umc.cozymate.data.repository.repository.RoleRepository
 import javax.inject.Inject
 

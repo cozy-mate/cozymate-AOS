@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.data.model.request.UpdateTodoRequest
-import umc.cozymate.data.model.response.TodoResponse
+import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate

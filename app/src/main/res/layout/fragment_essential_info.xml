@@ -207,7 +207,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/tv_wakeup_time"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_sleep_time"
@@ -394,7 +395,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/cl_sleep_time"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_light_off_time"
@@ -580,7 +582,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/cl_light_off"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_smoke_check"
@@ -604,10 +607,10 @@
                     <TextView
                         android:id="@+id/smoke_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="비흡연자" />
 
                     <TextView
                         android:id="@+id/smoke_paper"
@@ -620,26 +623,38 @@
                     <TextView
                         android:id="@+id/smoke_eletronic"
                         style="@style/OptionBox"
-                        android:layout_width="80dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="전자담배" />
-
-                    <TextView
-                        android:id="@+id/smoke_stopping"
-                        style="@style/OptionBox"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="끊는 중이에요" />
+                        android:text="궐련형 전자담배" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_smoke_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check">
+
+                    <TextView
+                        android:id="@+id/smoke_water"
+                        style="@style/OptionBox"
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="액상형 전자담배" />
+
+                </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -648,13 +663,14 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_smoke"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_sleep_habit_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="잠버릇을 선택해주세요"
+                    android:text="잠버릇을 선택해주세요 (중복선택 가능)"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
@@ -672,18 +688,10 @@
                     <TextView
                         android:id="@+id/sleep_habit_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
-
-                    <TextView
-                        android:id="@+id/sleep_habit_move"
-                        style="@style/OptionBox"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="잠꼬대" />
+                        android:text="잠버릇이 없어요" />
 
                     <TextView
                         android:id="@+id/sleep_habit_noise"
@@ -701,19 +709,47 @@
                         android:layout_marginEnd="8dp"
                         android:text="이갈이" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_sleep_habit_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check">
+
                     <TextView
                         android:id="@+id/sleep_habit_move_sick"
                         style="@style/OptionBox"
                         android:layout_width="70dp"
                         android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
                         android:text="몽유병" />
+
+                    <TextView
+                        android:id="@+id/sleep_habit_speak"
+                        style="@style/OptionBox"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="잠꼬대" />
+
+                    <TextView
+                        android:id="@+id/sleep_habit_move"
+                        style="@style/OptionBox"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:text="뒤척임" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_sleep_habit_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -722,7 +758,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_sleep_habit"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_ac_check"
@@ -744,44 +781,47 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_ac_check">
 
                     <TextView
-                        android:id="@+id/ac_strong"
+                        android:id="@+id/ac_no"
                         style="@style/OptionBox"
-                        android:layout_width="95dp"
+                        android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="세게 틀어요" />
+                        android:text="안 틀어요" />
+
+                    <TextView
+                        android:id="@+id/ac_weak"
+                        style="@style/OptionBox"
+                        android:layout_width="106dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="약하게 틀어요" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_ac_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_ac_check">
 
                     <TextView
                         android:id="@+id/ac_enough"
                         style="@style/OptionBox"
-                        android:layout_width="115dp"
+                        android:layout_width="116dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="적당하게 틀어요" />
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ly_ac_check2"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_ac_check">
                     <TextView
-                        android:id="@+id/ac_weak"
+                        android:id="@+id/ac_strong"
                         style="@style/OptionBox"
-                        android:layout_width="105dp"
+                        android:layout_width="96dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="약하게 틀어요" />
-                    <TextView
-                        android:id="@+id/ac_no"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="아예 틀지 않아요" />
+                        android:text="세게 틀어요" />
 
                 </LinearLayout>
 
@@ -798,7 +838,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_ac"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_heater_check"
@@ -820,48 +861,49 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_heater_check">
 
                     <TextView
-                        android:id="@+id/heater_strong"
+                        android:id="@+id/heater_no"
                         style="@style/OptionBox"
-                        android:layout_width="95dp"
+                        android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="세게 틀어요" />
-
-                    <TextView
-                        android:id="@+id/heater_enough"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="적당하게 틀어요" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ly_heater_check2"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_heater_check">
+                        android:text="안 틀어요" />
 
                     <TextView
                         android:id="@+id/heater_weak"
                         style="@style/OptionBox"
-                        android:layout_width="105dp"
+                        android:layout_width="106dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="약하게 틀어요" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_heater_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_heater_check">
+
                     <TextView
-                        android:id="@+id/heater_no"
+                        android:id="@+id/heater_enough"
                         style="@style/OptionBox"
-                        android:layout_width="115dp"
+                        android:layout_width="116dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="아예 틀지 않아요" />
+                        android:text="적당하게 틀어요" />
+
+                    <TextView
+                        android:id="@+id/heater_strong"
+                        style="@style/OptionBox"
+                        android:layout_width="96dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="세게 틀어요" />
                 </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -876,7 +918,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_heater"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_living_pattern"
@@ -927,7 +970,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_living"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_friendly"
@@ -939,14 +983,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/friendly_no"
+                    style="@style/OptionBox"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:text="필요한 말만 했으면 좋겠어요"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_friendly" />
+
                 <LinearLayout
                     android:id="@+id/ly_friendly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_friendly">
+                    app:layout_constraintTop_toBottomOf="@id/friendly_no">
+
+                    <TextView
+                        android:id="@+id/friendly_enough"
+                        style="@style/OptionBox"
+                        android:layout_width="170dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="어느정도 친하게 지내요" />
 
                     <TextView
                         android:id="@+id/friendly_yes"
@@ -955,30 +1017,13 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="완전 친하게 지내요" />
-
-                    <TextView
-                        android:id="@+id/friendly_enough"
-                        style="@style/OptionBox"
-                        android:layout_width="170dp"
-                        android:layout_height="40dp"
-                        android:text="어느정도 친하게 지내요" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/friendly_no"
-                    style="@style/OptionBox"
-                    android:layout_width="170dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="8dp"
-                    android:text="필요한 말만 했으면 좋겠어요"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_friendly" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/friendly_no" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_friendly" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -987,7 +1032,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_friendly"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_share_check"
@@ -1010,27 +1056,57 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_share_check">
 
                     <TextView
-                        android:id="@+id/share_yes"
+                        android:id="@+id/share_nothing"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="O" />
+                        android:text="아무것도 공유하고 싶지 않아요" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/share_tissue"
+                    style="@style/OptionBox"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="휴지정도는 빌려줄 수 있어요"
+                    app:layout_constraintTop_toBottomOf="@id/ly_share_check"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/ly_share_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/share_tissue">
 
                     <TextView
-                        android:id="@+id/share_no"
+                        android:id="@+id/share_cloths"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="140dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="옷정도는 빌려줄 수 있어요" />
+
+                    <TextView
+                        android:id="@+id/share_everything"
+                        style="@style/OptionBox"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:text="칫솔만 아니면 돼요" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_share_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_share_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1039,7 +1115,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_share"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_game_check"
@@ -1061,27 +1138,46 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_game_check">
 
                     <TextView
-                        android:id="@+id/game_yes"
-                        style="@style/OptionBox"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="O" />
-
-                    <TextView
                         android:id="@+id/game_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="아예 하지 않아요" />
+
+                    <TextView
+                        android:id="@+id/game_keyboard"
+                        style="@style/OptionBox"
+                        android:layout_width="140dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="키보드 채팅정도만 쳐요" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_game_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_game_check">
+
+                    <TextView
+                        android:id="@+id/game_voice"
+                        style="@style/OptionBox"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="보이스 채팅도 해요" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_game_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_game_check2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1090,7 +1186,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_game"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_call_check"
@@ -1112,27 +1209,37 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_call_check">
 
                     <TextView
-                        android:id="@+id/call_yes"
-                        style="@style/OptionBox"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="O" />
-
-                    <TextView
                         android:id="@+id/call_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="아예 하지 않아요" />
+
+                    <TextView
+                        android:id="@+id/call_hurry"
+                        style="@style/OptionBox"
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="급한 전화만 해요" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/call_frequently"
+                    style="@style/OptionBox"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/ly_call_check"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:text="자주 해요" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_call_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/call_frequently" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1141,7 +1248,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_call"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_study_check"
@@ -1163,35 +1271,39 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_study_check">
 
                     <TextView
-                        android:id="@+id/study_yes"
-                        style="@style/OptionBox"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="O" />
-
-                    <TextView
                         android:id="@+id/study_no"
                         style="@style/OptionBox"
-                        android:layout_width="50dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="X" />
+                        android:text="아예 하지 않아요" />
 
                     <TextView
-                        android:id="@+id/study_some_times"
+                        android:id="@+id/study_exam"
                         style="@style/OptionBox"
-                        android:layout_width="140dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="때마다 다를 거 같아요" />
+                        android:text="시험기간 때만 해요" />
+
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/study_everyday"
+                    style="@style/OptionBox"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_study_check"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:text="매일 해요" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_study_check" />
+                    app:layout_constraintTop_toBottomOf="@+id/study_everyday" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1200,7 +1312,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_study"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_eating_check"
@@ -1224,24 +1337,24 @@
                     <TextView
                         android:id="@+id/eating_no"
                         style="@style/OptionBox"
-                        android:layout_width="160dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="아예 안 먹었으면 좋겠어요" />
+                        android:text="아예 안 먹어요" />
 
                     <TextView
                         android:id="@+id/eating_drink"
                         style="@style/OptionBox"
-                        android:layout_width="115dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:text="음료만 가능해요" />
+                        android:text="음료만 마셔요" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ly_eating_check2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_eating_check1">
@@ -1252,14 +1365,14 @@
                         android:layout_width="150dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="간단한 간식은 괜찮아요" />
+                        android:text="간단한 간식정도만 먹어요" />
 
                     <TextView
-                        android:id="@+id/eating_free"
+                        android:id="@+id/eating_delivery"
                         style="@style/OptionBox"
-                        android:layout_width="160dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
-                        android:text="방에서 마음껏 먹어도 돼요" />
+                        android:text="배달음식도 먹어요" />
                 </LinearLayout>
 
                 <View
@@ -1275,7 +1388,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/cl_eating"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_clean_check"
@@ -1291,18 +1405,45 @@
                     android:id="@+id/ly_clean_check5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_clean_check">
 
                     <TextView
-                        android:id="@+id/clean5"
+                        android:id="@+id/clean1"
                         style="@style/OptionBox"
-                        android:layout_width="105dp"
+                        android:layout_width="135dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="매우 예민해요" />
+                        android:text="매우 예민하지않아요" />
+
+                    <TextView
+                        android:id="@+id/clean2"
+                        style="@style/OptionBox"
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="예민하지 않아요" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_clean_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_clean_check5">
+
+                    <TextView
+                        android:id="@+id/clean3"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="보통이에요" />
 
                     <TextView
                         android:id="@+id/clean4"
@@ -1313,38 +1454,13 @@
                         android:text="예민해요" />
 
                     <TextView
-                        android:id="@+id/clean3"
+                        android:id="@+id/clean5"
                         style="@style/OptionBox"
-                        android:layout_width="90dp"
+                        android:layout_width="105dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="보통이에요" />
-                </LinearLayout>
+                        android:text="매우 예민해요" />
 
-                <LinearLayout
-                    android:id="@+id/ly_clean_check2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_clean_check5">
-
-                    <TextView
-                        android:id="@+id/clean2"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="예민하지 않아요" />
-
-                    <TextView
-                        android:id="@+id/clean1"
-                        style="@style/OptionBox"
-                        android:layout_width="135dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="매우 예민하지않아요" />
                 </LinearLayout>
 
                 <View
@@ -1360,7 +1476,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_clean_check"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_noise_check"
@@ -1382,12 +1499,39 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_noise_check">
 
                     <TextView
-                        android:id="@+id/noise5"
+                        android:id="@+id/noise1"
                         style="@style/OptionBox"
-                        android:layout_width="105dp"
+                        android:layout_width="135dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="매우 예민해요" />
+                        android:text="매우 예민하지않아요" />
+
+                    <TextView
+                        android:id="@+id/noise2"
+                        style="@style/OptionBox"
+                        android:layout_width="115dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="예민하지 않아요" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_noise_check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_noise_check5">
+
+                    <TextView
+                        android:id="@+id/noise3"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="보통이에요" />
 
                     <TextView
                         android:id="@+id/noise4"
@@ -1398,38 +1542,13 @@
                         android:text="예민해요" />
 
                     <TextView
-                        android:id="@+id/noise3"
+                        android:id="@+id/noise5"
                         style="@style/OptionBox"
-                        android:layout_width="90dp"
+                        android:layout_width="105dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="보통이에요" />
-                </LinearLayout>
+                        android:text="매우 예민해요" />
 
-                <LinearLayout
-                    android:id="@+id/ly_noise_check2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_noise_check5">
-
-                    <TextView
-                        android:id="@+id/noise2"
-                        style="@style/OptionBox"
-                        android:layout_width="115dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="예민하지 않아요" />
-
-                    <TextView
-                        android:id="@+id/noise1"
-                        style="@style/OptionBox"
-                        android:layout_width="135dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="매우 예민하지않아요" />
                 </LinearLayout>
 
                 <View
@@ -1445,7 +1564,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_noise"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
 
                 <TextView
@@ -1468,19 +1588,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_clean_frequency">
 
                     <TextView
-                        android:id="@+id/clean_frequency_every_day"
+                        android:id="@+id/clean_frequency_month"
                         style="@style/OptionBox"
-                        android:layout_width="105dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="매일매일 해요" />
+                        android:text="한 달에 한 번 해요" />
 
                     <TextView
-                        android:id="@+id/clean_frequency_every_2days"
+                        android:id="@+id/clean_frequency_every_2weeks"
                         style="@style/OptionBox"
-                        android:layout_width="145dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
-                        android:text="이틀에 한 번 정도 해요" />
+                        android:layout_marginEnd="8dp"
+                        android:text="2주에 한 번 해요" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1492,19 +1613,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_frequency1">
 
+
                     <TextView
-                        android:id="@+id/clean_frequency_every_weeks"
+                        android:id="@+id/clean_frequency_every_week"
                         style="@style/OptionBox"
-                        android:layout_width="156dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="일주일에 한 번 정도 해요" />
+                        android:text="일주일에 한 번 해요" />
+
                     <TextView
-                        android:id="@+id/clean_frequency_every_34days"
+                        android:id="@+id/clean_frequency_2days"
                         style="@style/OptionBox"
-                        android:layout_width="185dp"
+                        android:layout_width="130dp"
                         android:layout_height="40dp"
-                        android:text="일주일에 3~4번 하는 거 같아요" />
+                        android:layout_marginEnd="8dp"
+                        android:text="이틀에 한 번 정도 해요" />
 
                 </LinearLayout>
 
@@ -1518,27 +1642,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/ly_clean_frequency2">
 
                     <TextView
-                        android:id="@+id/clean_frequency_every_2weeks"
+                        android:id="@+id/clean_frequency_everyday"
                         style="@style/OptionBox"
-                        android:layout_width="125dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="2주에 한 번씩 해요" />
-                    <TextView
-                        android:id="@+id/clean_frequency_every_month"
-                        style="@style/OptionBox"
-                        android:layout_width="135dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="한 달에 한 번씩 해요" />
+                        android:text="매일매일 해요" />
 
-                    <TextView
-                        android:id="@+id/clean_frequency_no"
-                        style="@style/OptionBox"
-                        android:layout_width="95dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="거의 안 해요" />
                 </LinearLayout>
 
                 <View
@@ -1549,18 +1659,115 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_drink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/cl_clean_frequency"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_drink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="음주 빈도를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ly_drink1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_drink">
+
+                    <TextView
+                        android:id="@+id/drink_no"
+                        style="@style/OptionBox"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="아예 안 마셔요" />
+
+                    <TextView
+                        android:id="@+id/drink_month"
+                        style="@style/OptionBox"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:text="한 달에 한 두번 마셔요" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_drink2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_drink1">
+
+                    <TextView
+                        android:id="@+id/drink_week"
+                        style="@style/OptionBox"
+                        android:layout_width="140dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="일주일에 한 두번 마셔요" />
+
+                    <TextView
+                        android:id="@+id/drink_4_weeks"
+                        style="@style/OptionBox"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:text="일주일에 네 번 이상 마셔요" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_drink3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_drink2">
+
+                    <TextView
+                        android:id="@+id/drink_everyday"
+                        style="@style/OptionBox"
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="거의 매일 마셔요" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_drink3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_personality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/cl_clean_frequency"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintBottom_toTopOf="@+id/cl_drink"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_personality"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="당신의 성격을 알려주세요!"
+                    android:text="성격을 선택해주세요 (중복선택 가능)"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"
                     app:layout_constraintStart_toStartOf="parent"
@@ -1620,33 +1827,92 @@
                     <TextView
                         android:id="@+id/personality_shame"
                         style="@style/OptionBox"
-                        android:layout_width="125dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="부끄러움이 많아요" />
+
                     <TextView
                         android:id="@+id/personality_home"
                         style="@style/OptionBox"
-                        android:layout_width="95dp"
+                        android:layout_width="90dp"
                         android:layout_height="40dp"
                         android:text="집이 좋아요" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/personality_go_out"
-                    style="@style/OptionBox"
-                    android:layout_width="105dp"
-                    android:layout_height="40dp"
+                <LinearLayout
+                    android:id="@+id/ly_personality3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="바깥이 좋아요"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_personality2" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_personality2">
+
+                    <TextView
+                        android:id="@+id/personality_go_out"
+                        style="@style/OptionBox"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="바깥이 좋아요" />
+
+                    <TextView
+                        android:id="@+id/personality_hurry"
+                        style="@style/OptionBox"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="급해요" />
+
+                    <TextView
+                        android:id="@+id/personality_relaxed"
+                        style="@style/OptionBox"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="느긋해요" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_personality4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_personality3">
+
+                    <TextView
+                        android:id="@+id/personality_shy"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="낯을 가려요" />
+
+                    <TextView
+                        android:id="@+id/personality_lazy"
+                        style="@style/OptionBox"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="귀차니즘이 있어요" />
+
+                    <TextView
+                        android:id="@+id/personality_diligent"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="부지런해요" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/personality_go_out" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_personality4" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1655,7 +1921,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_personality"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_mbti"

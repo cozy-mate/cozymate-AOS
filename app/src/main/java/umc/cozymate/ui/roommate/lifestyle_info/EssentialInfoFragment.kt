@@ -43,7 +43,10 @@ class EssentialInfoFragment : Fragment() {
     private var smokeCheck: String? = null
 
     private var sleepHabitOption: TextView? = null
-    private var sleepHabitCheck: String? = null
+
+    //    private var sleepHabitCheck: String? = null
+//    private var selectedSleepHabits: List<String> = emptyList()
+    private var selectedSleepHabits: MutableList<String> = mutableListOf()
 
     private var acOption: TextView? = null
     private var acCheck: String? = null
@@ -81,8 +84,14 @@ class EssentialInfoFragment : Fragment() {
     private var cleanFrequencyOption: TextView? = null
     private var cleanFrequencyCheck: String? = null
 
+    private var drinkingFrequencyOption: TextView? = null
+    private var drinkingFrequencyCheck: String? = null
+
     private var personalityOption: TextView? = null
-    private var personalityCheck: String? = null
+
+    //    private var personalityCheck: String? = null
+//    private var selectedPerosonalitys: List<String> = emptyList()
+    private var selectedPersonalitys: MutableList<String> = mutableListOf()
 
     private var mbtiOption: TextView? = null
     private var mbtiCheck: String? = null
@@ -111,7 +120,9 @@ class EssentialInfoFragment : Fragment() {
             lightOffTime = it.getInt("lightOffTime")
 
             smokeCheck = it.getString("smokeCheck")
-            sleepHabitCheck = it.getString("sleepHabitCheck")
+//            selectedSleepHabits = it.getStringArrayList("sleepHabitCheck") ?: emptyList()
+            selectedSleepHabits =
+                it.getStringArrayList("sleepHabitCheck")?.toMutableList() ?: mutableListOf()
             acCheck = it.getString("acCheck")
             heaterCheck = it.getString("heaterCheck")
             livingPatternCheck = it.getString("livingPatternCheck")
@@ -124,7 +135,11 @@ class EssentialInfoFragment : Fragment() {
             cleanCheck = it.getString("cleanCheck")
             noiseCheck = it.getString("noiseCheck")
             cleanFrequencyCheck = it.getString("cleanFrequencyCheck")
-            personalityCheck = it.getString("personalityCheck")
+            drinkingFrequencyCheck = it.getString("drinkFrequencyCheck")
+//            personalityCheck = it.getString("personalityCheck")
+//            selectedPersonalitys = it.getStringArrayList("personalityCheck") ?: emptyList()
+            selectedPersonalitys =
+                it.getStringArrayList("personalityCheck")?.toMutableList() ?: mutableListOf()
             mbtiCheck = it.getString("mbtiCheck")
         } ?: run {
             wakeAmpm = userInfo.wakeAmPm
@@ -134,7 +149,7 @@ class EssentialInfoFragment : Fragment() {
             lightOffAmpm = userInfo.lightOffAmPm
             lightOffTime = userInfo.lightOffTime
             smokeCheck = userInfo.smokingState
-            sleepHabitCheck = userInfo.sleepingHabit
+            selectedSleepHabits = userInfo.sleepingHabit.toMutableList()
             acCheck = userInfo.airConditioningIntensity
             heaterCheck = userInfo.heatingIntensity
             livingPatternCheck = userInfo.lifePattern
@@ -147,7 +162,8 @@ class EssentialInfoFragment : Fragment() {
             cleanCheck = userInfo.cleanSensitivity
             noiseCheck = userInfo.noiseSensitivity
             cleanFrequencyCheck = userInfo.cleaningFrequency
-            personalityCheck = userInfo.personality
+//            personalityCheck = userInfo.personality
+            selectedPersonalitys = userInfo.personality.toMutableList()
             mbtiCheck = userInfo.mbti
         }
 
@@ -187,6 +203,7 @@ class EssentialInfoFragment : Fragment() {
         initClean()
         initNoise()
         initCleanFrequency()
+        initDrinkingFrequency()
         initPersonality()
         initMbti()
     }
@@ -233,7 +250,7 @@ class EssentialInfoFragment : Fragment() {
         wakeTimeOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
             background =
-                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                resources .getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         wakeTimeOption = view as TextView
         wakeTimeOption?.apply {
@@ -382,10 +399,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initSmoke() {
         val smokeTexts = listOf(
-            binding.smokeNo to "X",
+            binding.smokeNo to "비흡연자",
             binding.smokePaper to "연초",
-            binding.smokeEletronic to "전자담배",
-            binding.smokeStopping to "끊는 중이에요"
+            binding.smokeEletronic to "궐련형 전자담배",
+            binding.smokeWater to "액상형 전자담배"
         )
         for ((textView, value) in smokeTexts) {
             textView.setOnClickListener { smokeSelected(it, value) }
@@ -416,33 +433,54 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun initSleepHabit() {
-        val smokeTexts = listOf(
-            binding.sleepHabitNo to "X",
-            binding.sleepHabitMove to "잠꼬대",
+        val sleepHabitTexts = listOf(
+            binding.sleepHabitNo to "잠버릇이 없어요",
             binding.sleepHabitNoise to "코골이",
             binding.sleepHabitTeeth to "이갈이",
-            binding.sleepHabitMoveSick to "몽유병"
+            binding.sleepHabitMoveSick to "몽유병",
+            binding.sleepHabitSpeak to "잠꼬대",
+            binding.sleepHabitMove to "뒤척임"
         )
-        for ((textView, value) in smokeTexts) {
+        for ((textView, value) in sleepHabitTexts) {
             textView.setOnClickListener { sleepHabitSelected(it, value) }
         }
     }
 
     private fun sleepHabitSelected(view: View, value: String) {
-        sleepHabitOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background =
+//        sleepHabitOption?.apply {
+//            setTextColor(resources.getColor(R.color.unuse_font, null))
+//            background =
+//                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//        }
+//        sleepHabitOption = view as TextView
+//        sleepHabitOption?.apply {
+//            setTextColor(resources.getColor(R.color.main_blue, null))
+//            background =
+//                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+//        }
+//        sleepHabitCheck = value
+//        userInfo = userInfo.copy(sleepingHabit = value)
+//        spfHelper.saveUserInfo(userInfo)
+
+        val textView = view as TextView
+        if (selectedSleepHabits.contains(value)) {
+            // 이미 선택된 경우 해제
+            selectedSleepHabits.remove(value)
+            textView.setTextColor(resources.getColor(R.color.unuse_font, null))
+            textView.background =
                 resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-        }
-        sleepHabitOption = view as TextView
-        sleepHabitOption?.apply {
-            setTextColor(resources.getColor(R.color.main_blue, null))
-            background =
+        } else {
+            // 선택되지 않은 경우 선택
+            selectedSleepHabits.add(value)
+            textView.setTextColor(resources.getColor(R.color.main_blue, null))
+            textView.background =
                 resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        sleepHabitCheck = value
-        userInfo = userInfo.copy(sleepingHabit = value)
+//        userInfo = userInfo.copy(sleepingHabit = selectedSleepHabits.joinToString(", "))
+//        spfHelper.saveUserInfo(userInfo)
+        userInfo = userInfo.copy(sleepingHabit = selectedSleepHabits)
         spfHelper.saveUserInfo(userInfo)
+
         resetDebounceTimer { showAcLayout() }
         updateNextButtonState()
     }
@@ -456,7 +494,7 @@ class EssentialInfoFragment : Fragment() {
             binding.acStrong to "세게 틀어요",
             binding.acEnough to "적당하게 틀어요",
             binding.acWeak to "약하게 틀어요",
-            binding.acNo to "아예 틀지 않아요"
+            binding.acNo to "안 틀어요"
         )
         for ((textView, value) in acTexts) {
             textView.setOnClickListener { acSelected(it, value) }
@@ -491,7 +529,7 @@ class EssentialInfoFragment : Fragment() {
             binding.heaterStrong to "세게 틀어요",
             binding.heaterEnough to "적당하게 틀어요",
             binding.heaterWeak to "약하게 틀어요",
-            binding.heaterNo to "아예 틀지 않아요"
+            binding.heaterNo to "안 틀어요"
         )
         for ((textView, value) in heaterTexts) {
             textView.setOnClickListener { heaterSelected(it, value) }
@@ -590,8 +628,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initShare() {
         val shareTexts = listOf(
-            binding.shareYes to "O",
-            binding.shareNo to "X"
+            binding.shareNothing to "아무것도 공유하고 싶지 않아요",
+            binding.shareTissue to "휴지정도는 빌려줄 수 있어요",
+            binding.shareCloths to "옷정도는 빌려줄 수 있어요",
+            binding.shareEverything to "칫솔만 아니면 돼요"
         )
         for ((textView, value) in shareTexts) {
             textView.setOnClickListener { shareSelected(it, value) }
@@ -623,8 +663,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initGame() {
         val gameTexts = listOf(
-            binding.gameYes to "O",
-            binding.gameNo to "X"
+            binding.gameNo to "아예 하지 않아요",
+            binding.gameKeyboard to "키보드 채팅정도만 쳐요",
+            binding.gameVoice to "보이스 채팅도 해요"
+
         )
         for ((textView, value) in gameTexts) {
             textView.setOnClickListener { gameSelected(it, value) }
@@ -656,8 +698,9 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initCall() {
         val callTexts = listOf(
-            binding.callYes to "O",
-            binding.callNo to "X"
+            binding.callNo to "아예 하지 않아요",
+            binding.callHurry to "급한 전화만 해요",
+            binding.callFrequently to "자주 해요"
         )
         for ((textView, value) in callTexts) {
             textView.setOnClickListener { callSelected(it, value) }
@@ -689,9 +732,9 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initStudy() {
         val studyTexts = listOf(
-            binding.studyYes to "O",
-            binding.studyNo to "X",
-            binding.studySomeTimes to "때마다 다를 거 같아요"
+            binding.studyNo to "아예 하지 않아요",
+            binding.studyExam to "시험기간 때만 해요",
+            binding.studyEveryday to "매일 해요"
         )
         for ((textView, value) in studyTexts) {
             textView.setOnClickListener { studySelected(it, value) }
@@ -723,10 +766,10 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initEating() {
         val eatingTexts = listOf(
-            binding.eatingNo to "아예 안 먹었으면 좋겠어요",
-            binding.eatingDrink to "음료만 가능해요",
-            binding.eatingSnack to "간단한 간식은 괜찮아요",
-            binding.eatingFree to "방에서 마음껏 먹어도 돼요"
+            binding.eatingNo to "아예 안 먹어요",
+            binding.eatingDrink to "음료만 마셔요",
+            binding.eatingSnack to "간단한 간식정도만 먹어요",
+            binding.eatingDelivery to "배달음식도 먹어요"
         )
         for ((textView, value) in eatingTexts) {
             textView.setOnClickListener { eatingSelected(it, value) }
@@ -758,11 +801,11 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initClean() {
         val cleanTexts = listOf(
-            binding.clean5 to "매우 예민해요",
-            binding.clean4 to "예민해요",
-            binding.clean3 to "보통이에요",
+            binding.clean1 to "매우 예민하지 않아요",
             binding.clean2 to "예민하지 않아요",
-            binding.clean1 to "매우 예민하지 않아요"
+            binding.clean3 to "보통이에요",
+            binding.clean4 to "예민해요",
+            binding.clean5 to "매우 예민해요",
         )
         for ((textView, value) in cleanTexts) {
             textView.setOnClickListener { cleanSelected(it, value) }
@@ -830,13 +873,11 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initCleanFrequency() {
         val cleanFrequencyTexts = listOf(
-            binding.cleanFrequencyEveryDay to "매일매일 해요",
-            binding.cleanFrequencyEvery2days to "이틀에 한 번 정도 해요",
-            binding.cleanFrequencyEveryWeeks to "일주일에 한 번 정도 해요",
-            binding.cleanFrequencyEvery34days to "일주일에 3~4번 하는 거 같아요",
-            binding.cleanFrequencyEvery2weeks to "2주에 한 번씩 해요",
-            binding.cleanFrequencyEveryMonth to "한 달에 한 번씩 해요",
-            binding.cleanFrequencyNo to "거의 안 해요"
+            binding.cleanFrequencyMonth to "한 달에 한 번 해요",
+            binding.cleanFrequencyEvery2weeks to "2주에 한 번 해요",
+            binding.cleanFrequencyEveryWeek to "일주일에 한 번 해요",
+            binding.cleanFrequency2days to "이틀에 한 번 정도 해요",
+            binding.cleanFrequencyEveryday to "매일매일 해요"
         )
         for ((textView, value) in cleanFrequencyTexts) {
             textView.setOnClickListener { cleanFrequencySelected(it, value) }
@@ -858,6 +899,41 @@ class EssentialInfoFragment : Fragment() {
         cleanFrequencyCheck = value
         userInfo = userInfo.copy(cleaningFrequency = value)
         spfHelper.saveUserInfo(userInfo)
+        resetDebounceTimer { showDrinkingFrequencyLayout() }
+        updateNextButtonState()
+    }
+
+    private fun showDrinkingFrequencyLayout() {
+        binding.clDrink.showWithSlideDownAnimation()
+    }
+
+    private fun initDrinkingFrequency() {
+        val drinkingFrequencyTexts = listOf(
+            binding.drinkNo to "아예 안 마시요",
+            binding.drinkMonth to "한 달에 한 두번 마셔요",
+            binding.drinkWeek to "일주일에 한 두번 마셔요",
+            binding.drink4Weeks to "일주일에 네 번 이상 마셔요",
+            binding.drinkEveryday to "거의 매일 마셔요"
+        )
+        for ((textView, value) in drinkingFrequencyTexts) {
+            textView.setOnClickListener { drinkingFrequencySelected(it, value) }
+        }
+    }
+
+    private fun drinkingFrequencySelected(view: View, value: String) {
+        drinkingFrequencyOption?.apply {
+            setTextColor(resources.getColor(R.color.unuse_font, null))
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+        }
+        drinkingFrequencyOption = view as TextView
+        drinkingFrequencyOption?.apply {
+            setTextColor(resources.getColor(R.color.main_blue, null))
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+        }
+        drinkingFrequencyCheck = value
+        userInfo = userInfo.copy(drinkingFrequency = value)
         resetDebounceTimer { showPersonalityLayout() }
         updateNextButtonState()
     }
@@ -874,7 +950,12 @@ class EssentialInfoFragment : Fragment() {
             binding.personalityClean to "깔끔해요",
             binding.personalityShame to "부끄러움이 많아요",
             binding.personalityHome to "집이 좋아요",
-            binding.personalityGoOut to "바깥이 좋아요"
+            binding.personalityGoOut to "바깥이 좋아요",
+            binding.personalityHurry to "급해요",
+            binding.personalityRelaxed to "느긋해요",
+            binding.personalityShy to "낯을 가려요",
+            binding.personalityLazy to "귀차니즘이 있어요",
+            binding.personalityDiligent to "부지런해요"
         )
         for ((textView, value) in personalityTexts) {
             textView.setOnClickListener { personalitySelected(it, value) }
@@ -882,19 +963,21 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun personalitySelected(view: View, value: String) {
-        personalityOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background =
+        val textView = view as TextView
+        if (selectedPersonalitys.contains(value)) {
+            // 이미 선택된 경우 해제
+            selectedPersonalitys.remove(value)
+            textView.setTextColor(resources.getColor(R.color.unuse_font, null))
+            textView.background =
                 resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-        }
-        personalityOption = view as TextView
-        personalityOption?.apply {
-            setTextColor(resources.getColor(R.color.main_blue, null))
-            background =
+        } else {
+            // 선택되지 않은 경우 선택
+            selectedPersonalitys.add(value)
+            textView.setTextColor(resources.getColor(R.color.main_blue, null))
+            textView.background =
                 resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        personalityCheck = value
-        userInfo = userInfo.copy(personality = value)
+        userInfo = userInfo.copy(personality = selectedPersonalitys)
         spfHelper.saveUserInfo(userInfo)
         resetDebounceTimer { showMbtiLayout() }
         updateNextButtonState()
@@ -983,7 +1066,7 @@ class EssentialInfoFragment : Fragment() {
         outState.putInt("lightOffTime", lightOffTime ?: -1)
 
         outState.putString("smokeCheck", smokeCheck)
-        outState.putString("sleepHabitCheck", sleepHabitCheck)
+        outState.putStringArrayList("sleepHabitCheck", ArrayList(selectedSleepHabits))
         outState.putString("acCheck", acCheck)
         outState.putString("heaterCheck", heaterCheck)
         outState.putString("livingPatternCheck", livingPatternCheck)
@@ -996,7 +1079,9 @@ class EssentialInfoFragment : Fragment() {
         outState.putString("cleanCheck", cleanCheck)
         outState.putString("noiseCheck", noiseCheck)
         outState.putString("cleanFrequencyCheck", cleanFrequencyCheck)
-        outState.putString("personalityCheck", personalityCheck)
+        outState.putString("drinkFrequencyCheck", drinkingFrequencyCheck)
+//        outState.putString("personalityCheck", personalityCheck)
+        outState.putStringArrayList("personalityCheck", ArrayList(selectedPersonalitys))
         outState.putString("mbtiCheck", mbtiCheck)
     }
 
@@ -1019,7 +1104,8 @@ class EssentialInfoFragment : Fragment() {
         val isSleepSelected = sleepAmpmOption != null && sleepTimeOption != null
         val isLightOffSelected = lightOffAmpmOption != null && lightOffTimeOption != null
         val isSmokeSelected = smokeOption != null
-        val isSleepHabitSelected = sleepHabitOption != null
+//        val isSleepHabitSelected = sleepHabitOption != null
+        val isSleepHabitSelected = selectedSleepHabits.isNotEmpty()
         val isAcSelected = acOption != null
         val isHeaterSelected = heaterOption != null
         val isLivingPatternSelected = livingPatternOption != null
@@ -1032,11 +1118,13 @@ class EssentialInfoFragment : Fragment() {
         val isCleanSelected = cleanOption != null
         val isNoiseSelected = noiseOption != null
         val isCleanFrequencySelected = cleanFrequencyOption != null
-        val isPersonalitySelected = personalityOption != null
+        val isDrinkingFrequencySelected = drinkingFrequencyOption != null
+//        val isPersonalitySelected = personalityOption != null
+        val isPersonalitySelected = selectedPersonalitys.isNotEmpty()
         val isMbtiSelected = mbtiOption != null
 
         // 총 항목 수 및 완료된 항목 수 계산
-        val totalSteps = 19
+        val totalSteps = 20
         val completedSteps = listOf(
             isWakeSelected,
             isSleepSelected,
@@ -1055,6 +1143,7 @@ class EssentialInfoFragment : Fragment() {
             isCleanSelected,
             isNoiseSelected,
             isCleanFrequencySelected,
+            isDrinkingFrequencySelected,
             isPersonalitySelected,
             isMbtiSelected
         ).count { it }

@@ -4,7 +4,7 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.TodoInfoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
-import umc.cozymate.data.model.response.TodoResponse
+import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 
 
 interface TodoRepository {

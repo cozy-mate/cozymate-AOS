@@ -43,95 +43,6 @@ class RoommateViewModel @Inject constructor(
     private val _filterList = MutableLiveData<List<String>>(mutableListOf())
     val filterList: LiveData<List<String>> get() = _filterList
 
-//    fun getAllOtherUserInfo(accessToken: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val allUserInfo = mutableListOf<OtherUserInfo>() // 모든 사용자 정보를 저장할 리스트
-//            var page = 0
-//            var hasMoreData = true // 더 가져올 데이터가 있는지 여부를 나타내는 플래그
-//
-//            while (hasMoreData) {
-//                repository.getOtherUserInfo(accessToken, page, _filterList.value ?: emptyList()).onSuccess { response ->
-//                    val otherUserInfoDomain = response.result.map { otherUserInfo ->
-//                        otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
-//                    }
-//
-//                    // 결과를 로그로 확인
-//                    Log.d("RoommateViewModel", "Fetched page $page: $otherUserInfoDomain")
-//
-//                    // 받아온 데이터를 리스트에 추가
-//                    allUserInfo.addAll(otherUserInfoDomain)
-//
-//                    // 페이지 결과가 비어 있거나 적으면 더 이상 가져올 데이터가 없다는 의미
-//                    if (response.result.isEmpty()) {
-//                        hasMoreData = false
-//                        Log.d("RoommateViewModel", "No more data to fetch.")
-//                    } else {
-//                        // 다음 페이지로 이동
-//                        page++
-//                    }
-//
-//                }.onError {
-//                    Log.d("GetAllOtherUserInfo", "error: $it")
-//                    hasMoreData = false // 오류 발생 시 반복 종료
-//                }.onException {
-//                    Log.d("GetAllOtherUserInfo", "exception: $it")
-//                    hasMoreData = false // 예외 발생 시 반복 종료
-//                }.onFail {
-//                    Log.d("GetAllOtherUserInfo", "fail: $it")
-//                    hasMoreData = false // 실패 시 반복 종료
-//                }
-//            }
-//
-//            // 모든 페이지에서 데이터를 받아온 후 리스트를 emit
-//            _otherUserInfo.emit(allUserInfo)
-//        }
-//    }
-//
-//    fun getAllFilteredUserInfo(accessToken: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val allFilteredUserInfo = mutableListOf<OtherUserInfo>() // 모든 필터링된 사용자 정보를 저장할 리스트
-//            var page = 0
-//            var hasMoreData = true // 더 가져올 데이터가 있는지 여부를 나타내는 플래그
-//
-//            while (hasMoreData) {
-//                val filters = _filterList.value ?: emptyList() // 현재 적용된 필터 리스트
-//                repository.getOtherUserInfo(accessToken, page, filters).onSuccess { response ->
-//                    val otherUserInfoDomain = response.result.map { otherUserInfo ->
-//                        otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
-//                    }
-//
-//                    // 페이지 데이터 로그로 출력
-//                    Log.d("RoommateViewModel", "Fetched filtered page $page: $otherUserInfoDomain")
-//
-//                    // 받아온 데이터를 리스트에 추가
-//                    allFilteredUserInfo.addAll(otherUserInfoDomain)
-//
-//                    // 페이지 결과가 비어 있으면 더 이상 가져올 데이터가 없다는 의미
-//                    if (response.result.isEmpty()) {
-//                        hasMoreData = false
-//                        Log.d("RoommateViewModel", "No more filtered data to fetch.")
-//                    } else {
-//                        // 다음 페이지로 이동
-//                        page++
-//                    }
-//
-//                }.onError {
-//                    Log.d("GetAllFilteredUserInfo", "error: $it")
-//                    hasMoreData = false // 오류 발생 시 반복 종료
-//                }.onException {
-//                    Log.d("GetAllFilteredUserInfo", "exception: $it")
-//                    hasMoreData = false // 예외 발생 시 반복 종료
-//                }.onFail {
-//                    Log.d("GetAllFilteredUserInfo", "fail: $it")
-//                    hasMoreData = false // 실패 시 반복 종료
-//                }
-//            }
-//
-//            // 모든 페이지에서 데이터를 받아온 후 리스트를 emit
-//            _otherUserInfo.emit(allFilteredUserInfo)
-//        }
-//    }
-
 
     fun sendUserInfo(accessToken: String, request: UserInfoRequest) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -250,29 +161,6 @@ class RoommateViewModel @Inject constructor(
         }
     }
 
-
-//    fun getFilteredUserInfo(accessToken: String, page: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val filters = _filterList.value ?: emptyList()
-//            repository.getOtherUserInfo(accessToken, page, filters).onSuccess { response ->
-//                val otherUserInfoDomain = response.result.map { otherUserInfo ->
-//                    otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
-//                }
-//                Log.d("RoommateViewModel", otherUserInfoDomain.toString())
-//
-//                _otherUserInfo.emit(otherUserInfoDomain)
-//            }.onError {
-//                Log.d("GetOtherUserInfo", "error: $it")
-//                _otherUserInfo.emit(emptyList()) // 오류 발생 시 빈 리스트 반환
-//            }.onException {
-//                Log.d("GetOtherUserInfo", "exception: $it")
-//                _otherUserInfo.emit(emptyList()) // 예외 발생 시 빈 리스트 반환
-//            }.onFail {
-//                Log.d("GetOtherUserInfo", "fail: $it")
-//                _otherUserInfo.emit(emptyList()) // 실패 시 빈 리스트 반환
-//            }
-//        }
-//    }
 fun getFilteredUserInfo(accessToken: String, page: Int) {
     val filters = _filterList.value ?: emptyList()
 

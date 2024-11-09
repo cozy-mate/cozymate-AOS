@@ -21,10 +21,11 @@
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
         <activity
-            android:name=".ui.roommate.RoommateInputInfoActivity"
+            android:name=".ui.roommate.RoommateOnboardingActivity"
             android:exported="false" />
-
-        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+        <activity
+            android:name=".ui.roommate.RoommateInputInfoActivity"
+            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -38,13 +39,13 @@
                     android:host="oauth"
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
-        </activity>
-        <!-- 시작 화면 -->
+        </activity> <!-- 시작 화면 -->
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,10 +74,14 @@
             android:name=".ui.MainActivity"
             android:exported="true" />
 
+
+        <!--쪽지-->
         <activity android:name=".ui.message.MessageActivity" />
+        <activity android:name=".ui.message.WriteMessageActivity"/>
+
         <activity
             android:name=".ui.role_rule.AddTodoActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
 
         <service
             android:name=".firebase.FCMService"
