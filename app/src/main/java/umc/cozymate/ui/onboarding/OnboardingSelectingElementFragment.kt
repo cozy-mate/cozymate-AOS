@@ -28,6 +28,16 @@ class OnboardingSelectingElementFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupTextViews()
+
+        binding.btnNext.setOnClickListener {
+            viewModel.joinMember() // 유저 정보 POST
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_onboarding, OnboardingSummaryFragment()) // 화면 이동
+                .addToBackStack(null)
+                .commit()
+        }
+
         return binding.root
     }
 
