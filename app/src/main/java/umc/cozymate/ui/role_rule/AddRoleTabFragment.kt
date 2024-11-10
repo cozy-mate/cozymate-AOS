@@ -141,8 +141,8 @@ class AddRoleTabFragment: Fragment() {
     private fun initClickListener(){
 
         // 메일 체크박스 체크 여부 확인
-        binding.cbEveryday.setOnClickListener{
-            val isChecked =  binding.cbEveryday.isChecked
+        binding.cbEmptyWeekday.setOnClickListener{
+            val isChecked =  binding.cbEmptyWeekday.isChecked
             weekdayBox.forEach {  checkBox ->
                 checkBox.isChecked = isChecked // 모든 체크박스 체크 상태 변경
                 updateCheckBoxColor(checkBox, isChecked)
@@ -212,7 +212,7 @@ class AddRoleTabFragment: Fragment() {
     // 매일 체크
     private fun checkAllCheckboxes() {
         val allChecked = weekdayBox.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
-        binding.cbEveryday.isChecked = allChecked // cbEveryday 체크 상태 업데이트
+        binding.cbEmptyWeekday.isChecked = allChecked // cbEveryday 체크 상태 업데이트
     }
 
 
