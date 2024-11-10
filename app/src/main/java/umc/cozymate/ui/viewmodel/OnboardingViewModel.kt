@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,9 @@ class OnboardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
+
+    private val _selectedElementCount = MutableLiveData(0)
+    val selectedElementCount: LiveData<Int> get() = _selectedElementCount
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
@@ -64,6 +68,10 @@ class OnboardingViewModel @Inject constructor(
     val signUpResponse: LiveData<Response<SignUpResponse>> get() = _signUpResponse
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    fun updateSelectedElementCount(isSelected: Boolean) {
+        _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
+    }
 
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
@@ -197,5 +205,10 @@ class OnboardingViewModel @Inject constructor(
             Log.e(TAG, "Error parsing JSON: ${e.message}")
             null
         }
+    }
+
+    // 요소 선택 확인 버튼 활성화 여부
+    val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
+        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
     }
 }
