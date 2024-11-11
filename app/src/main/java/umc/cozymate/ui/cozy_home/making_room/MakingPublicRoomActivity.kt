@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyHomeGivingInviteCodeBinding
+import umc.cozymate.databinding.ActivityMakingPublicRoomBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
@@ -22,12 +22,12 @@ class MakingPublicRoomActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     private val viewModel: MakingRoomViewModel by viewModels()
-    private lateinit var binding: ActivityCozyHomeGivingInviteCodeBinding
+    private lateinit var binding: ActivityMakingPublicRoomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyHomeGivingInviteCodeBinding.inflate(layoutInflater)
+        binding = ActivityMakingPublicRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

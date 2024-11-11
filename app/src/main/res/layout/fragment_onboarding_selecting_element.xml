@@ -76,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="출생년도" />
 
             <TextView
@@ -85,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="학번" />
 
             <TextView
@@ -94,7 +92,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="학과" />
 
             <TextView
@@ -103,7 +100,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="합격여부" />
 
             <TextView
@@ -112,7 +108,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="기상시간" />
 
             <TextView
@@ -121,7 +116,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="취침시간" />
 
             <TextView
@@ -130,7 +124,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="소등시간" />
 
             <TextView
@@ -139,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="흡연여부" />
 
             <TextView
@@ -148,7 +140,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="잠버릇" />
 
             <TextView
@@ -157,7 +148,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="에어컨" />
 
             <TextView
@@ -166,7 +156,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="히터" />
 
             <TextView
@@ -175,7 +164,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="생활패턴" />
 
             <TextView
@@ -184,7 +172,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="친밀도" />
 
             <TextView
@@ -193,7 +180,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="물건공유" />
 
             <TextView
@@ -202,7 +188,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="게임여부" />
 
             <TextView
@@ -211,7 +196,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="전화여부" />
 
             <TextView
@@ -220,7 +204,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="공부여부" />
 
             <TextView
@@ -229,7 +212,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="섭취여부" />
 
             <TextView
@@ -238,7 +220,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="청결예민도" />
 
             <TextView
@@ -247,7 +228,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="소음예민도" />
 
             <TextView
@@ -256,7 +236,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="청소빈도" />
 
             <TextView
@@ -265,7 +244,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="음주빈도" />
 
             <TextView
@@ -274,7 +252,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="성격" />
 
             <TextView
@@ -283,7 +260,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{() -> viewModel.updateSelectedElementCount(!chip_birth_year.isSelected)}"
                 android:text="MBTI" />
         </com.google.android.flexbox.FlexboxLayout>
 
