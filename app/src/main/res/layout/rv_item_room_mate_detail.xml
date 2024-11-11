@@ -15,44 +15,44 @@
         android:padding="18dp">
 
         <TextView
-            android:id="@+id/tv_room_name"
+            android:id="@+id/tv_room_mate_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="@color/basic_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="방이름" />
+            tools:text="이름" />
 
         <TextView
-            android:id="@+id/tv_room_match"
+            android:id="@+id/tv_room_mate_match"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/main_blue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="22%" />
 
         <View
             android:id="@+id/guide_view"
+            app:layout_constraintTop_toBottomOf="@+id/tv_room_mate_name"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="20dp"
-            android:background="#F6F6F6"
-            app:layout_constraintTop_toBottomOf="@+id/tv_room_name" />
+            android:background="#F6F6F6" />
 
         <GridLayout
-            android:id="@+id/gl_room_detail"
+            android:id="@+id/gl_room_mate_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="4"
-            android:paddingVertical="20dp"
-            app:layout_constraintStart_toStartOf="parent"
 
-            app:layout_constraintTop_toBottomOf="@id/guide_view">
+            android:paddingVertical="20dp">
 
             <LinearLayout
                 android:id="@+id/iv_wake"
@@ -146,7 +146,7 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                     android:textColor="@color/basic_font"
-                    tools:text="1명 일치" />
+                    tools:text="모두 일치" />
             </LinearLayout>
 
             <LinearLayout
@@ -177,40 +177,9 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                     android:textColor="@color/basic_font"
-                    tools:text="2명 일치" />
+                    tools:text="모두 일치" />
             </LinearLayout>
         </GridLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_room_detail_people"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gl_room_detail">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
-                tools:listitem="@layout/rv_item_room_detail_tag_list" />
-
-        </androidx.core.widget.NestedScrollView>
-
-
-        <TextView
-            android:id="@+id/tv_room_detail_people"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/unuse_font"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gl_room_detail"
-            tools:text="2 / 3" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
