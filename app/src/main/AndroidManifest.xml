@@ -65,7 +65,10 @@
             android:name=".ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity"
+            android:name=".ui.cozy_home.making_room.MakingPrivateRoomActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cozy_home.making_room.MakingPublicRoomActivity"
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.making_room.CozyHomeSelectingCharacterActivity"

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyhomeDefaultBinding
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
-import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.roommate.RoommateFragment
@@ -52,10 +51,10 @@ class CozyHomeDefaultFragment : Fragment() {
                     .commit()
             }
 
-            // 초대코드로 방 만들기
+            /*// 초대코드로 방 만들기
             btnInviteCode.setOnClickListener {
                 startActivity(Intent(activity, CozyHomeGivingInviteCodeActivity::class.java))
-            }
+            }*/
 
             // 룰메이트 초대하기
             btnRoommateInvite.setOnClickListener {
