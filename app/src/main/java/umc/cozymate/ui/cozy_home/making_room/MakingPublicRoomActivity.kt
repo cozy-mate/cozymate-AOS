@@ -18,7 +18,7 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
+class MakingPublicRoomActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     private val viewModel: MakingRoomViewModel by viewModels()

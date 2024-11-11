@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
-import umc.cozymate.ui.cozy_home.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageActivity
 
 class CozyHomeMainFragment : Fragment() {
