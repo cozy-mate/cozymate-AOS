@@ -156,6 +156,19 @@
         <item name="android:background">@drawable/custom_select_chip_background</item>
     </style>
 
+    <style name="RoomHashtagChip">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:textColor">@color/main_blue</item>
+        <item name="android:drawableEnd">@drawable/ic_close</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.14sp.Medium</item>
+        <item name="android:background">@drawable/custom_select_chip_selected</item>
+        <item name="backgroundColor">@color/sub_color2</item>
+    </style>
+
     <style name="RvOtherUserInfoBox">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
