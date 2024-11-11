@@ -14,14 +14,14 @@ import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 
 interface TodoService {
-    @GET("/todo/{roomId}")
+    @GET("/rooms/{roomId}/todos")
     suspend fun getTodo(
         @Header("Authorization") accessToken: String,
         @Path(value = "roomId") roomId : Int,
         @Query("timePoint") timePoint : String?
     ) : Response<TodoResponse>
 
-    @PATCH("/todo/state")
+    @PATCH("/rooms/{roomId}/todos/{todoId}/state")
     suspend fun updateTodo(
         @Header("Authorization") accessToken: String,
         @Body request: UpdateTodoRequest

@@ -2,7 +2,7 @@ package umc.cozymate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class TodoMateData(
+data class TodoData(
     @SerializedName("persona")
     val persona : Int,
     @SerializedName("mateTodoList")
@@ -14,6 +14,9 @@ data class TodoMateData(
 
         @SerializedName("content")
         val content: String,
+
+        @SerializedName("type")
+        val type : String,
 
         @SerializedName("completed")
         var completed: Boolean

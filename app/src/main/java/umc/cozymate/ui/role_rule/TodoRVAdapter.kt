@@ -1,26 +1,40 @@
 package umc.cozymate.ui.role_rule
 
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter(private val todoItems: List<TodoMateData.TodoItem>,
+class TodoRVAdapter(private val todoItems: List<TodoData.TodoItem>,
                     private val isEditable: Boolean,
-                    private val updateTodo: (TodoMateData.TodoItem) -> Unit )
+                    private val updateTodo: (TodoData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
-
+    private val todoType = arrayOf("self","group","other")
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(todoItem: TodoMateData.TodoItem) {
+        fun bind(todoItem: TodoData.TodoItem) {
             binding.tvTodoItem.text = todoItem.content
             binding.cbCheck.isChecked = todoItem.completed
 
             binding.cbCheck.isEnabled = isEditable
+            if(!isEditable){
+                binding.ivTodoType.visibility = View.GONE
+                binding.ivMore.visibility = View.GONE
+            }
+            else{
+                when(todoItem.type){
+
+                    "self" -> binding.ivTodoType.visibility = View.GONE
+                    "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))
+
+                }
+            }
             binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
                 todoItem.completed = isChecked
                 updateTodo(todoItem) // 서버로 상태 업데이트 요청
@@ -43,6 +57,7 @@ class TodoRVAdapter(private val todoItems: List<TodoMateData.TodoItem>,
             }
         }
     }
+
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {

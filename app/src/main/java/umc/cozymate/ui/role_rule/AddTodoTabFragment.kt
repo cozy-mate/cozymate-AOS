@@ -58,6 +58,7 @@ class AddTodoTabFragment: Fragment(){
         setTodoinput()
         setupCalendar()
 
+
         binding.btnInputButton.setOnClickListener {
             val content = binding.etInputTodo.text.toString()
             if (content.isNotEmpty() && selectedDate != null) {
