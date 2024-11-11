@@ -59,23 +59,21 @@ class MakingPublicRoomFragment : Fragment() {
                 requireActivity().onBackPressed()
             }
             btnNext.setOnClickListener {
-                // 방 이름과 최대 인원 수를 ViewModel에 설정
                 val roomName = etRoomName.text.toString()
                 val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 6 // 인원 수 숫자만 추출
 
-                if (roomName.isNotEmpty() && maxNum > 0) {
+                if (roomName.isNotEmpty() && charId != null && maxNum > 0 && hashtags.size > 0) {
                     viewModel.setNickname(roomName)
                     viewModel.setMaxNum(maxNum)
                     viewModel.setImg(charId ?: 1)
+                    viewModel.setHashtags(hashtags)
 
                     // 방 생성 요청
-                    viewModel.createRoom()
+                    viewModel.createPublicRoom()
                 } else {
-                    Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                    if (hashtags.size == 0) "방 해시태그를 한 개 이상 입력해주세요"
+                    else Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
-
-                // (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment2()
-                //(activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
             }
 
             var isSelected = false

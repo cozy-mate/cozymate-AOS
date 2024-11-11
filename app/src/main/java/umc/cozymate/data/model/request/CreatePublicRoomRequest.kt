@@ -4,5 +4,5 @@ data class CreatePublicRoomRequest(
     val name: String,
     val profileImage: Int,
     val maxMateNum: Int,
-    val hashtags: List<Int>,
+    val hashtags: List<String>,
 )

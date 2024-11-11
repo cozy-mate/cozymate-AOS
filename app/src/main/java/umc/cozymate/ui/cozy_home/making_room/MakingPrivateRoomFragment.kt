@@ -68,7 +68,7 @@ class MakingPrivateRoomFragment : Fragment() {
                     viewModel.setImg(charId ?: 1)
 
                     // 방 생성 요청
-                    viewModel.createRoom()
+                    //viewModel.createPrivateRoom()
                 } else {
                     Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
