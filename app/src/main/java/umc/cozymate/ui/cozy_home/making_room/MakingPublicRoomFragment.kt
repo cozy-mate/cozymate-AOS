@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -99,23 +100,55 @@ class MakingPublicRoomFragment : Fragment() {
     }
 
     private fun setupHashtagInput() {
-        binding.etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
-                val hashtagText = binding.etRoomHashtag.text.toString().trim()
+        with(binding) {
+            setupHashtag(hashtag1)
+            setupHashtag(hashtag2)
+            setupHashtag(hashtag3)
+            etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                    val hashtagText = etRoomHashtag.text.toString().trim()
 
-                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
-                    hashtags.add(hashtagText)
-                    updateHashtagChips()
-                    binding.etRoomHashtag.text?.clear()
-                } else if (hashtags.size >= 3) {
-                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                    if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                        hashtags.add(hashtagText)
+                        updateHashtagChips()
+                        etRoomHashtag.text?.clear()
+                    } else if (hashtags.size >= 3) {
+                        Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    true
+                } else {
+                    false
                 }
+            }
+        }
+    }
 
-                true
+    fun setupHashtag(tv: TextView) {
+        tv.visibility = View.GONE
+        tv.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = tv.compoundDrawables[2]
+                drawableEnd?.let {
+                    val drawableWidth = it.bounds.width()
+                    val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
+                    if (event.x >= touchableAreaStart) {
+                        removeHashtag(tv)
+                        true
+                    } else {
+                        false
+                    }
+                } ?: false
             } else {
                 false
             }
         }
+    }
+
+    fun removeHashtag(tv: TextView) {
+        tv.visibility = View.GONE
+        hashtags.remove(tv.text)
     }
 
     private fun updateHashtagChips() {
@@ -130,6 +163,7 @@ class MakingPublicRoomFragment : Fragment() {
             }
         }
     }
+
     // 인원수 옵션 클릭
     private fun numPeopleSelected(view: View, value: String) {
         numPeopleOption?.apply {
