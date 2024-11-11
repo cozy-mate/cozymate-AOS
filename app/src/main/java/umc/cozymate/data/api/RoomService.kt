@@ -8,8 +8,8 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import umc.cozymate.data.model.request.CreateRoomRequest
-import umc.cozymate.data.model.response.room.CreateRoomResponse
+import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
@@ -53,11 +53,17 @@ interface RoomService {
         @Path("roomId") roomId: Int,
     ) : Response<JoinRoomResponse>
 
-    // 방 생성
+    /*// 방 생성
     @POST("/rooms/create")
     suspend fun createRoom(
         @Header("Authorization") accessToken: String,
         @Body roomInfo: CreateRoomRequest
-    ) : Response<CreateRoomResponse>
+    ) : Response<CreateRoomResponse>*/
 
+    // 공개 방 생성
+    @POST("/rooms/create-public")
+    suspend fun createPublicRoom(
+        @Header("Authorization") accessToken: String,
+        @Body roomInfo: CreatePublicRoomRequest
+    ) : Response<CreatePublicRoomResponse>
 }
