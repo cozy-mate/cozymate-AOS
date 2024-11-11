@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,28 +16,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentMakingPrivateRoomBinding
+import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.setupTextInputWithMaxLength
 
 @AndroidEntryPoint
 class MakingPublicRoomFragment : Fragment() {
 
-    private var _binding: FragmentMakingPrivateRoomBinding? = null
+    private var _binding: FragmentMakingPublicRoomBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: MakingRoomViewModel
-
     private var numPeopleOption: TextView? = null
     private var numPeople: String? = null
-
     private var charId: Int? = 1
+    private val hashtags = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMakingPrivateRoomBinding.inflate(inflater, container, false)
+        _binding = FragmentMakingPublicRoomBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
         setupObservers()
@@ -53,6 +53,8 @@ class MakingPublicRoomFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            setupHashtagInput()
+
             ivBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
@@ -98,6 +100,38 @@ class MakingPublicRoomFragment : Fragment() {
         checkValidInfo()
     }
 
+    private fun setupHashtagInput() {
+        binding.etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                val hashtagText = binding.etRoomHashtag.text.toString().trim()
+
+                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                    hashtags.add(hashtagText)
+                    updateHashtagChips()
+                    binding.etRoomHashtag.text?.clear()
+                } else if (hashtags.size >= 3) {
+                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun updateHashtagChips() {
+        val chipViews = listOf(binding.hashtag1, binding.hashtag2, binding.hashtag3)
+
+        for (i in chipViews.indices) {
+            if (i < hashtags.size) {
+                chipViews[i].text = hashtags[i]
+                chipViews[i].visibility = View.VISIBLE
+            } else {
+                chipViews[i].visibility = View.GONE
+            }
+        }
+    }
     // 인원수 옵션 클릭
     private fun numPeopleSelected(view: View, value: String) {
         numPeopleOption?.apply {

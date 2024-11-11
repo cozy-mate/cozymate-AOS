@@ -95,8 +95,7 @@
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font"
-                android:textCursorDrawable="@color/main_blue" />
+                android:textColorHint="@color/unuse_font" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,103 +189,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--방 해시태그-->
-    <TextView
-        android:id="@+id/tv_label_room_hashtag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:text="방을 나타낼 해시태그를 입력해주세요 (최대 3개)"
-        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        android:textColor="@color/basic_font"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_people_number" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_cozy_room_hashtag"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/btn_rectangle_12"
-        android:backgroundTint="@color/color_box"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_room_hashtag">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_room_hashtag"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeErrorColor="@color/red"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="1dp"
-            app:errorTextColor="@color/red"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_room_hashtag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/custom_edittext"
-                android:hint="해시태그를 입력해주세요"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font"
-                android:textCursorDrawable="@color/main_blue" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        app:flexWrap="wrap"
-        app:justifyContent="flex_start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_hashtag">
-
-        <TextView
-            android:id="@+id/chip_birth_year"
-            style="@style/RoomHashtagChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/sub_color2"
-            android:drawableEnd="@drawable/ic_close"
-            android:drawablePadding="10dp"
-            android:text="#해시태그" />
-
-        <TextView
-            android:id="@+id/chip_admission_year"
-            style="@style/RoomHashtagChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/sub_color2"
-            android:drawableEnd="@drawable/ic_close"
-            android:drawablePadding="10dp"
-            android:text="#해시태그해시태그" />
-
-        <TextView
-            android:id="@+id/chip_major"
-            style="@style/RoomHashtagChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/sub_color2"
-            android:drawableEnd="@drawable/ic_close"
-            android:drawablePadding="10dp"
-            android:text="#해시태그해시태그해시태그" />
-    </com.google.android.flexbox.FlexboxLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"

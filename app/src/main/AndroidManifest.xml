@@ -24,9 +24,6 @@
             android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.room_detail.RoomDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"
             android:exported="false" />
         <activity
