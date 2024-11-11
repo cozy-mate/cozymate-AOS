@@ -14,15 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentCozyHomeRoomInfoBinding
+import umc.cozymate.databinding.FragmentMakingPrivateRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.setupTextInputWithMaxLength
 
 // 플로우1 : "방정보 입력창(1)" > 룸메이트 선택창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeRoomInfoFragment : Fragment() {
+class MakingPrivateRoomFragment : Fragment() {
 
-    private var _binding: FragmentCozyHomeRoomInfoBinding? = null
+    private var _binding: FragmentMakingPrivateRoomBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: MakingRoomViewModel
@@ -36,7 +36,7 @@ class CozyHomeRoomInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCozyHomeRoomInfoBinding.inflate(inflater, container, false)
+        _binding = FragmentMakingPrivateRoomBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
         setupObservers()
@@ -141,17 +141,17 @@ class CozyHomeRoomInfoFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 // 로딩 중일 때 ProgressBar를 표시
-                (activity as? CozyHomeGivingInviteCodeActivity)?.showProgressBar(true)
+                (activity as? MakingPrivateRoomActivity)?.showProgressBar(true)
             } else {
                 // 로딩이 끝났을 때 ProgressBar를 숨김
-                (activity as? CozyHomeGivingInviteCodeActivity)?.showProgressBar(false)
+                (activity as? MakingPrivateRoomActivity)?.showProgressBar(false)
             }
         }
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
             // 방 생성 성공 시 다음 화면으로 이동
-            (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
+            (activity as? MakingPrivateRoomActivity)?.loadFragment2()
         }
 
         // 에러 응답도 추가로 처리할 수 있음

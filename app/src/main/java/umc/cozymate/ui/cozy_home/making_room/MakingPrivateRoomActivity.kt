@@ -39,7 +39,7 @@ class MakingPrivateRoomActivity : AppCompatActivity() {
         // 첫번째로 [방정보 입력창]을 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_giving, CozyHomeRoomInfoFragment())
+                .replace(R.id.fragment_container_giving, MakingPrivateRoomFragment())
                 .commit()
         }
 
