@@ -162,11 +162,11 @@ class SplashActivity : AppCompatActivity() {
                         splashViewModel.saveToken()
 
                         splashViewModel.memberCheck()
-                        /*splashViewModel.isMember.observe(this) { isMember ->
+                        splashViewModel.isMember.observe(this) { isMember ->
                             if (isMember) goCozyHome()
                             else goOnboarding()
                             finish()
-                        }*/
+                        }
                     } catch (e: Exception) {
                         goLoginFail()
                         Log.d(TAG, "토큰 저장 실패: $e")
