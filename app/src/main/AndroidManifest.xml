@@ -28,7 +28,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateInputInfoActivity"
-            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+            android:exported="false" />
+        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -83,7 +84,7 @@
 
         <!--쪽지-->
         <activity android:name=".ui.message.MessageActivity" />
-        <activity android:name=".ui.message.WriteMessageActivity"/>
+        <activity android:name=".ui.message.WriteMessageActivity" />
 
         <activity
             android:name=".ui.role_rule.AddTodoActivity"

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,15 +30,6 @@ class OnboardingSelectingElementFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupTextViews()
-
-        binding.btnNext.setOnClickListener {
-            viewModel.joinMember() // 유저 정보 POST
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingSummaryFragment()) // 화면 이동
-                .addToBackStack(null)
-                .commit()
-        }
 
         return binding.root
     }
@@ -69,12 +62,39 @@ class OnboardingSelectingElementFragment : Fragment() {
             binding.chipPersonality
         )
 
+        val selectedChips = mutableListOf<TextView>()
+
+        binding.btnNext.isEnabled = false
+
         textViews.forEach { textView ->
             textView.setOnClickListener {
                 textView.isSelected = !textView.isSelected
+
+                if (textView.isSelected) {
+                    selectedChips.add(textView)
+                } else {
+                    selectedChips.remove(textView)
+                }
+
+                if (selectedChips.size > 4) {
+                    Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+                    binding.btnNext.isEnabled = false
+                }
+
                 viewModel.updateSelectedElementCount(textView.isSelected)
             }
         }
-    }
 
+        binding.btnNext.setOnClickListener {
+            if (selectedChips.size == 4) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_onboarding, OnboardingSummaryFragment()) // 화면 이동
+                    .addToBackStack(null)
+                    .commit()
+            }
+            else {
+                Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
