@@ -3,22 +3,27 @@ package umc.cozymate.data.model.entity
 import com.google.gson.annotations.SerializedName
 
 data class TodoData(
-    @SerializedName("persona")
-    val persona : Int,
-    @SerializedName("mateTodoList")
-    val mateTodoList : List<TodoItem>
+    @SerializedName("memberDetail")
+    val memberDetail : List<String>,
+    @SerializedName("todoList")
+    val todoList : List<TodoItem>
 ){
     data class TodoItem(
-        @SerializedName("id")
-        val id: Int,
+        @SerializedName("todoId")
+        val todoId: Int,
 
         @SerializedName("content")
         val content: String,
 
-        @SerializedName("type")
-        val type : String,
-
         @SerializedName("completed")
-        var completed: Boolean
+        var completed: Boolean,
+
+        @SerializedName("todoType")
+        val todoType : String,
+
+        @SerializedName("mateIdList")
+        val mateIdList: List<Int>
+
+
     )
 }

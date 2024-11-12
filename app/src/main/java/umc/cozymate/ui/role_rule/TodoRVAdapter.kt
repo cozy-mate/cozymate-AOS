@@ -28,7 +28,7 @@ class TodoRVAdapter(private val todoItems: List<TodoData.TodoItem>,
                 binding.ivMore.visibility = View.GONE
             }
             else{
-                when(todoItem.type){
+                when(todoItem.todoType){
 
                     "self" -> binding.ivTodoType.visibility = View.GONE
                     "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))

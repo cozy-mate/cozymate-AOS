@@ -9,15 +9,16 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.model.request.TodoInfoRequest
+import umc.cozymate.data.model.request.CreateTodoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.ruleandrole.CreateTodoResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 
 interface TodoService {
     @GET("/rooms/{roomId}/todos")
     suspend fun getTodo(
         @Header("Authorization") accessToken: String,
-        @Path(value = "roomId") roomId : Int,
+        @Path("roomId") roomId : Int,
         @Query("timePoint") timePoint : String?
     ) : Response<TodoResponse>
 
@@ -27,10 +28,10 @@ interface TodoService {
         @Body request: UpdateTodoRequest
     ) : Response<DefaultResponse>
 
-    @POST("/todo/{roomId}")
+    @POST("/rooms/{roomId}/todos")
     suspend fun createTodo(
         @Header("Authorization") accessToken: String,
-        @Path(value = "roomId") roomId : Int,
-        @Body request: TodoInfoRequest
-    ): Response<DefaultResponse>
+        @Path( "roomId") roomId : Int,
+        @Body request: CreateTodoRequest
+    ): Response<CreateTodoResponse>
 }

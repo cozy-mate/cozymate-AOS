@@ -139,7 +139,6 @@ class AddRoleTabFragment: Fragment() {
     }
 
     private fun initClickListener(){
-
         // 메일 체크박스 체크 여부 확인
         binding.cbEmptyWeekday.setOnClickListener{
             val isChecked =  binding.cbEmptyWeekday.isChecked
