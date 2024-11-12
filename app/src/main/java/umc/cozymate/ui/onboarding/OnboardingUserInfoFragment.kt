@@ -92,6 +92,7 @@ class OnboardingUserInfoFragment : Fragment() {
                     val selectedSchool = schools[position]
                     tvSchool.text = selectedSchool
                     //spinnerSchool.visibility = View.GONE
+                    updateNextBtnState()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -278,6 +279,8 @@ class OnboardingUserInfoFragment : Fragment() {
                 mcvGender.isSelected = false
                 mcvBirth.isSelected = false
                 updateColors()
+
+                updateNextBtnState()
             }
 
             radioMale.setOnClickListener {
