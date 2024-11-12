@@ -16,7 +16,7 @@
         android:background="@drawable/background_todo_tab">
 
         <TextView
-            android:id="@+id/tv_Rule"
+            android:id="@+id/tv_rule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="피그말리온"
@@ -32,45 +32,35 @@
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_Rule" />
+            app:layout_constraintStart_toEndOf="@id/tv_rule" />
 
         <TextView
-            android:id="@+id/tv_Text1"
+            android:id="@+id/tv_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="규칙에 대해 알려드릴게요!"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
-            app:layout_constraintTop_toBottomOf="@id/tv_Rule"
+            app:layout_constraintTop_toBottomOf="@id/tv_rule"
             app:layout_constraintStart_toStartOf="parent"/>
-
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_option"
-            android:paddingHorizontal="11dp"
-            android:paddingVertical="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
 
         <FrameLayout
             android:id="@+id/layout_Rule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_Text1"
+            app:layout_constraintTop_toBottomOf="@id/tv_text1"
             android:background="@drawable/background_checklist"
             android:layout_marginTop="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_Rules"
+                android:id="@+id/rv_rules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/rv_item_rule"/>
 
             <TextView
-                android:id="@+id/tv_Empty"
+                android:id="@+id/tv_empty_rule"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"
                 android:text="아직 등록된 규칙이 없어요!"
@@ -81,7 +71,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tv_Role"
+            android:id="@+id/tv_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="피그말리온"
@@ -97,112 +87,49 @@
             android:text="의"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
-            app:layout_constraintTop_toTopOf="@id/tv_Role"
-            app:layout_constraintStart_toEndOf="@id/tv_Role" />
+            app:layout_constraintTop_toTopOf="@id/tv_role"
+            app:layout_constraintStart_toEndOf="@id/tv_role" />
 
         <TextView
-            android:id="@+id/tv_Text2"
+            android:id="@+id/tv_text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="역할에 대해 알려드릴게요!"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
-            app:layout_constraintTop_toBottomOf="@id/tv_Role"
+            app:layout_constraintTop_toBottomOf="@id/tv_role"
             app:layout_constraintStart_toStartOf="parent"/>
 
 
-        <ImageView
-            android:id="@+id/iv_RoleEdit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_option"
-            android:paddingHorizontal="11dp"
-            android:paddingVertical="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_Role"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_MyRole"
+        <FrameLayout
+            android:id="@+id/layout_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingTop="16dp"
-            android:paddingStart="16dp"
-            android:paddingBottom="8dp"
-            android:paddingEnd="8dp"
-            android:background="@drawable/background_checklist"
-            app:layout_constraintTop_toBottomOf="@id/tv_Text2"
-            app:layout_constraintStart_toStartOf="parent"
-            >
-
-            <LinearLayout
-                android:id="@+id/layout_MyInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-                <ImageView
-                    android:id="@+id/iv_RoleIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_basic_character"
-                    />
-                <TextView
-                    android:id="@+id/tv_RoleMemberName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="name"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/highlight_font"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="6dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="(나)"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/unuse_font"
-                    android:layout_marginStart="2dp"
-                    android:gravity="center_vertical"/>
-            </LinearLayout>
+            android:layout_marginBottom="50dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_text2"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tv_RoleEmpty"
+                android:id="@+id/tv_empty_role"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="아직 등록된 역할이 없어요"
+                android:layout_height="144dp"
+                android:text="등록된 역할이 없어요"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/unuse_font"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toBottomOf="@id/layout_MyInfo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
                 android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_MyRoleList"
+                android:id="@+id/rv_role_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
-                android:layout_marginTop="4dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                app:layout_constraintTop_toBottomOf="@id/layout_MyInfo"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:listitem="@layout/rv_item_role" />
+        </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_MemberRole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintTop_toBottomOf="@id/layout_MyRole"
-            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
-            app:layout_constraintStart_toStartOf="parent"/>
 
         <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
         <androidx.constraintlayout.widget.ConstraintLayout

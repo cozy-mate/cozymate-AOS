@@ -57,7 +57,7 @@ class AddTodoTabFragment: Fragment(){
         initMember()
         setTodoinput()
         setupCalendar()
-        setOnClickListener()
+        initClickListener()
         checkInput()
         return binding.root
     }
@@ -163,10 +163,9 @@ class AddTodoTabFragment: Fragment(){
             memberBox.add(checkBox)
             binding.layoutMember.addView(checkBox)
         }
-
     }
 
-    private fun setOnClickListener() {
+    private fun initClickListener() {
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
             selectedMateIds.clear()

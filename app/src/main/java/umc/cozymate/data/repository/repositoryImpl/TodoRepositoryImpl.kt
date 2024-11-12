@@ -5,7 +5,7 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.TodoService
 import umc.cozymate.data.model.request.CreateTodoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateTodoResponse
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class TodoRepositoryImpl @Inject constructor(
         accessToken: String,
         roomId: Int,
         request: CreateTodoRequest
-    ): Response<CreateTodoResponse> {
+    ): Response<CreateResponse> {
         return api.createTodo(accessToken, roomId,request)
     }
 

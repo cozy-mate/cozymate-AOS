@@ -13,7 +13,7 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreateTodoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateTodoResponse
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
 import javax.inject.Inject
@@ -42,8 +42,8 @@ class TodoViewModel @Inject constructor(
     private val _updateResponse = MutableLiveData<Response<DefaultResponse>>()
     val updateResponse: LiveData<Response<DefaultResponse>> get() = _updateResponse
 
-    private val _createResponse = MutableLiveData<Response<CreateTodoResponse>>()
-    val createResponse: LiveData<Response<CreateTodoResponse>> get() = _createResponse
+    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
+    val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
 
 
     fun getToken(): String? {

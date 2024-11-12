@@ -2,7 +2,7 @@ package umc.cozymate.data.model.response.ruleandrole
 
 import com.google.gson.annotations.SerializedName
 
-data class CreateTodoResponse (
+data class CreateResponse (
     @SerializedName("isSuccess")
     val isSuccess: Boolean,
 
@@ -13,10 +13,9 @@ data class CreateTodoResponse (
     val message: String,
 
     @SerializedName("result")
-    val result: TodoResponse.Result
+    val result: Result
 ){
     data class Result(
-        @SerializedName("todoId")
-        val todoId : Int
+        val Id : Int
     )
 }

@@ -11,7 +11,7 @@ import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreateTodoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateTodoResponse
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 
 interface TodoService {
@@ -33,5 +33,5 @@ interface TodoService {
         @Header("Authorization") accessToken: String,
         @Path( "roomId") roomId : Int,
         @Body request: CreateTodoRequest
-    ): Response<CreateTodoResponse>
+    ): Response<CreateResponse>
 }

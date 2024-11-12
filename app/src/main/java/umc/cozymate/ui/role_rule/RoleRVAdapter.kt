@@ -3,26 +3,37 @@ package umc.cozymate.ui.role_rule
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.data.model.entity.RoleData.RoleItem
+import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.databinding.RvItemRoleBinding
 
-class RoleRVAdapter( private val roles: List<RoleItem>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
+class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
     inner class ViewHolder(val binding: RvItemRoleBinding):  RecyclerView.ViewHolder(binding.root){
-        fun bind(pos : Int){
-            binding.tvItem.text  = roles[pos].content
+        fun bind(role : RoleData){
+            binding.tvContent.text  = role.content
             val string = StringBuilder()
-            var days = 0
-            if(roles[pos].allDays){
+            var count = 0
+            if(role.allDays || role.repeatDayList.size >= 7){
                 binding.tvWeekday.text  = "매일"
             }
+            else if(role.repeatDayList.isNullOrEmpty()){
+                binding.tvWeekday.text  = "미정"
+            }
             else{
-                for (day in roles[pos].repeatDayList){
-                    if(days != 0) string.append(", ")
+                for (day in role.repeatDayList){
+                    if(count != 0) string.append(", ")
                     string.append(day)
-                    days ++
+                    count ++
                 }
                 binding.tvWeekday.text = string.toString()
             }
+            string.clear()
+            count = 0
+            for(mate in role.mateList){
+                if(count != 0) string.append(", ")
+                string.append(mate.nickname)
+                count ++
+            }
+            binding.tvMembers.text = string.toString()
         }
     }
 
@@ -35,6 +46,6 @@ class RoleRVAdapter( private val roles: List<RoleItem>) : RecyclerView.Adapter<R
     override fun getItemCount(): Int  = roles.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(roles[position])
     }
 }
