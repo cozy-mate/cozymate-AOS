@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.making_room
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -125,16 +126,19 @@ class MakingPublicRoomFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun setupHashtag(tv: TextView) {
+        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0) // 닫기 버튼 설정
         tv.visibility = View.GONE
         tv.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
+                removeHashtag(tv) ///
                 val drawableEnd = tv.compoundDrawables[2]
                 drawableEnd?.let {
                     val drawableWidth = it.bounds.width()
                     val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
                     if (event.x >= touchableAreaStart) {
-                        removeHashtag(tv)
+                        removeHashtag(tv) /// 왜 안 됨?
                         true
                     } else {
                         false
