@@ -12,10 +12,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.data.model.entity.MemberInfo
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
-import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
@@ -52,8 +52,8 @@ class OnboardingViewModel @Inject constructor(
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
-    private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
-    val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
+    private val _memberInfo = MutableLiveData<MemberDetailInfo>()
+    val membmerInfo: LiveData<MemberDetailInfo> get() = _memberInfo
 
     private val _isNicknameValid = MutableLiveData<Boolean>()
     val isNicknameValid: LiveData<Boolean> get() = _isNicknameValid
@@ -83,7 +83,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
+        sharedPreferences.edit().putString("user_school", _memberInfo.value!!.universityName).commit()
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -136,19 +136,23 @@ class OnboardingViewModel @Inject constructor(
                         _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
                         _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
                         _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        //_memberInfo.value?.school = response.body()!!.result?.memberInfoDTO!!.school
-                        _memberInfo.value?.nickname = response.body()!!.result?.memberInfoDTO!!.nickname
-                        _memberInfo.value?.persona = response.body()!!.result?.memberInfoDTO!!.persona
-                        _memberInfo.value?.gender = response.body()!!.result?.memberInfoDTO!!.gender
-                        _memberInfo.value?.birthday = response.body()!!.result?.memberInfoDTO!!.birthday
+                        _memberInfo.value?.universityName = response.body()!!.result?.memberDetailResponseDTO!!.universityName
+                        _memberInfo.value?.nickname = response.body()!!.result?.memberDetailResponseDTO!!.nickname
+                        _memberInfo.value?.persona = response.body()!!.result?.memberDetailResponseDTO!!.persona
+                        _memberInfo.value?.gender = response.body()!!.result?.memberDetailResponseDTO!!.gender
+                        _memberInfo.value?.birthday = response.body()!!.result?.memberDetailResponseDTO!!.birthday
+                        _memberInfo.value?.memberId = response.body()!!.result?.memberDetailResponseDTO!!.memberId
+                        _memberInfo.value?.majorName = response.body()!!.result?.memberDetailResponseDTO!!.majorName
 
                         sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
                         sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
-                        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
+                        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityName).commit()
                         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
                         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
                         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
                         sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
+                        sharedPreferences.edit().putInt("user_member_id", _memberInfo.value!!.memberId).commit()
+                        sharedPreferences.edit().putString("user_major_name", _memberInfo.value!!.majorName).commit()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

@@ -3,6 +3,7 @@ package umc.cozymate.data.model.response.member
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import umc.cozymate.data.model.entity.MemberDetailInfo
 
 @Serializable
 data class MemberInfoResponse(
@@ -13,19 +14,5 @@ data class MemberInfoResponse(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: Result
-) {
-    @Serializable
-    data class Result(
-        @SerialName("birthday")
-        var birthday: String,
-        @SerialName("gender")
-        var gender: String,
-        @SerialName("name")
-        var name: String,
-        @SerialName("nickname")
-        var nickname: String,
-        @SerialName("persona")
-        var persona: Int
-    )
-}
+    val result: MemberDetailInfo?,
+)
