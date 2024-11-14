@@ -12,8 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.data.model.entity.MemberDetail
+import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
@@ -37,8 +37,11 @@ class OnboardingViewModel @Inject constructor(
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> get() = _name
 
-    private val _school = MutableLiveData<String>()
-    val school: LiveData<String> get() = _school
+    private val _universityId = MutableLiveData<Int>()
+    val universityId : LiveData<Int> get() = _universityId
+
+    private val _universityName = MutableLiveData<String>()
+    val universityName : LiveData<String> get() = _universityName
 
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
@@ -52,8 +55,8 @@ class OnboardingViewModel @Inject constructor(
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
-    private val _memberInfo = MutableLiveData<MemberDetailInfo>()
-    val membmerInfo: LiveData<MemberDetailInfo> get() = _memberInfo
+    private val _memberInfo = MutableLiveData<MemberDetail>()
+    val membmerInfo: LiveData<MemberDetail> get() = _memberInfo
 
     private val _isNicknameValid = MutableLiveData<Boolean>()
     val isNicknameValid: LiveData<Boolean> get() = _isNicknameValid
@@ -83,7 +86,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_school", _memberInfo.value!!.universityName).commit()
+        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityId).commit() //
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -94,8 +97,8 @@ class OnboardingViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun setSchool(school: String) {
-        _school.value = school
+    fun setUniversity(university: String) {
+        _universityName.value = university
     }
 
     fun setNickname(nickname: String) {
@@ -116,11 +119,11 @@ class OnboardingViewModel @Inject constructor(
 
     fun joinMember() {
         val memberDetail = MemberDetail(
-            name = _school.value ?: "unknown", //
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
             birthday = _birthday.value ?: "2001-01-01",
-            persona = _persona.value ?: 0
+            persona = _persona.value ?: 0,
+            universityId = _universityId.value ?: 0,
         )
         val token = getToken() // 이때 임시 토큰이어야 함
         Log.d(TAG, "유저 정보: $memberDetail")

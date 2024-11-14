@@ -4,6 +4,8 @@ package umc.cozymate.data.model.entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// majorName, universityName
+
 @Serializable
 data class MemberDetailInfo(
     @SerialName("birthday")
