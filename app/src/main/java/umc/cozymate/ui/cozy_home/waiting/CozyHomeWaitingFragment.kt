@@ -10,14 +10,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyHomeWaitingBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.cozy_home.adapter.RoommateType
 import umc.cozymate.ui.cozy_home.adapter.WaitingRoommateItem
 import umc.cozymate.ui.cozy_home.adapter.WaitingRoommatesAdapter
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
+import umc.cozymate.util.replaceFragment
 
 // 플로우1 : 방정보 입력창(1) > 룸메이트 선택창(2) > "룸메이트 대기창(3)" > 코지홈 입장창(4) > 코지홈 활성화창
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > "룸메이트 대기창(3)" > 코지홈 입장창(4) > 코지홈 활성화창
@@ -43,6 +46,7 @@ class CozyHomeWaitingFragment : Fragment() {
         initDummy()
 
         with(binding) {
+
             btnNext.setOnClickListener {
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 intent.putExtra("isActive", "true")
@@ -51,7 +55,7 @@ class CozyHomeWaitingFragment : Fragment() {
             }
 
             ivX.setOnClickListener {
-                (activity as? MainActivity)?.loadDefaultFragment()
+                (activity as? MainActivity)?.replaceFragment(CozyBotFragment(), R.id.main_container)
             }
         }
 

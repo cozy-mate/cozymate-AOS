@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="umc.cozymate.ui.viewmodel.CozyHomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--상단 섹션-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_cozyhome_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/background_cozyhome_active_png"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="375:812"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bell"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="19dp"
+                android:background="@drawable/ic_bell"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_message"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="43dp"
+                android:background="@drawable/ic_message"
+                app:layout_constraintEnd_toStartOf="@id/btn_bell"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_light"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="43dp"
+                android:background="@drawable/ic_cozyhome_light"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_whose_room1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="여기는"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_light" />
+
+            <TextView
+                android:id="@+id/tv_whose_room2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="2dp"
+                android:text="피그말리온의 방이에요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/basic_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_whose_room1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_copy_invite_code"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_rectangle_12"
+                android:drawableEnd="@drawable/ic_copy"
+                android:drawablePadding="-10dp"
+                android:drawableTint="@color/color_font"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="4dp"
+                android:text="QUIIRK"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_whose_room2" />
+
+            <ImageView
+                android:id="@+id/iv_char_back"
+                android:layout_width="176dp"
+                android:layout_height="190dp"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/background_cozyhome_character_2"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_message" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/background_cozyhome_character"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_char_back" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 캐릭터 -->
+        <ImageView
+            android:id="@+id/iv_char"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="155dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_circle"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 업적 -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="238dp"
+            android:background="@drawable/background_round_corner_20"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_acheivement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="24dp"
+                tools:listitem="@layout/item_cozyhome_achievement" />
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

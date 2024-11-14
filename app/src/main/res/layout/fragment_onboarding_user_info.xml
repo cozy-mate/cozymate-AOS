@@ -27,9 +27,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title1" />
 
-    <!--이름-->
+    <!--닉네임-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_onboarding_name"
+        android:id="@+id/cl_onboarding_nickname"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
@@ -37,75 +37,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title2">
-
-        <TextView
-            android:id="@+id/tv_label_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="이름"
-            android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-            android:textColor="@color/color_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_onboarding_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeErrorColor="@color/red"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="1dp"
-            app:errorTextColor="@color/red"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_onboarding_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="이름을 입력해주세요"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:paddingTop="43dp"
-                android:paddingEnd="20dp"
-                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                android:textColor="@color/color_font"
-                android:textColorHint="@color/unuse_font"
-                android:textCursorDrawable="@color/main_blue" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_alert_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="이름은 한글로만 입력가능해요!"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/cl_onboarding_name"
-        app:layout_constraintTop_toBottomOf="@id/cl_onboarding_name" />
-
-    <!--닉네임-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_onboarding_nickname"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_onboarding_name">
 
         <TextView
             android:id="@+id/tv_label_nickname"
@@ -300,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="23dp"
+                android:layout_marginBottom="21dp"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -321,6 +252,76 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <!--학교-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_school"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mcv_birth"
+        app:rippleColor="@color/transparent"
+        app:strokeColor="@color/unuse">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_label_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="학교"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/color_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_school"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="21dp"
+                android:text="학교를 선택해주세요"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spinner_school"
+                android:layout_width="0dp"
+                android:layout_height="143dp"
+                android:layout_marginTop="10dp"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@drawable/spinner_background"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_school"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="11.5dp"
+                android:src="@drawable/ic_dropdown"
+                app:layout_constraintBottom_toBottomOf="@id/tv_school"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_school" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!--다음 버튼-->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
         android:layout_width="0dp"

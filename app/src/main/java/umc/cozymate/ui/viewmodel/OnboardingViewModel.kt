@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,11 +28,17 @@ class OnboardingViewModel @Inject constructor(
 
     private val TAG = this.javaClass.simpleName
 
+    private val _selectedElementCount = MutableLiveData(0)
+    val selectedElementCount: LiveData<Int> get() = _selectedElementCount
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> get() = _name
+
+    private val _school = MutableLiveData<String>()
+    val school: LiveData<String> get() = _school
 
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
@@ -62,6 +69,10 @@ class OnboardingViewModel @Inject constructor(
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
+    fun updateSelectedElementCount(isSelected: Boolean) {
+        _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
+    }
+
     fun saveToken() {
         Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
         sharedPreferences.edit()
@@ -72,7 +83,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -83,8 +94,8 @@ class OnboardingViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun setName(name: String) {
-        _name.value = name
+    fun setSchool(school: String) {
+        _school.value = school
     }
 
     fun setNickname(nickname: String) {
@@ -105,7 +116,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun joinMember() {
         val memberInfo = MemberInfo(
-            name = _name.value ?: "unknown",
+            name = _school.value ?: "unknown", //
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
             birthday = _birthday.value ?: "2001-01-01",
@@ -125,7 +136,7 @@ class OnboardingViewModel @Inject constructor(
                         _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
                         _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
                         _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        _memberInfo.value?.name = response.body()!!.result?.memberInfoDTO!!.name
+                        //_memberInfo.value?.school = response.body()!!.result?.memberInfoDTO!!.school
                         _memberInfo.value?.nickname = response.body()!!.result?.memberInfoDTO!!.nickname
                         _memberInfo.value?.persona = response.body()!!.result?.memberInfoDTO!!.persona
                         _memberInfo.value?.gender = response.body()!!.result?.memberInfoDTO!!.gender
@@ -133,7 +144,7 @@ class OnboardingViewModel @Inject constructor(
 
                         sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
                         sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
-                        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+                        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
                         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
                         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
                         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -194,5 +205,10 @@ class OnboardingViewModel @Inject constructor(
             Log.e(TAG, "Error parsing JSON: ${e.message}")
             null
         }
+    }
+
+    // 요소 선택 확인 버튼 활성화 여부
+    val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
+        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
     }
 }

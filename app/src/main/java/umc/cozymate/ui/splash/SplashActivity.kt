@@ -137,10 +137,10 @@ class SplashActivity : AppCompatActivity() {
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember) {
                             goCozyHome()
+                            finish()
                         } else {
-                            goOnboarding()
+                            //goOnboarding()
                         }
-                        finish()
                     }
                 }
             } catch (e: Exception) {
