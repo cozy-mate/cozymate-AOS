@@ -1,5 +1,6 @@
 package umc.cozymate.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -22,10 +23,7 @@ import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
-// 로그인 >> 멤버 확인 Y >> 코지홈(MainActivity)으로 이동
-// 로그인 >> 멤버 확인 N >> 온보딩(OnboadrdingActivity)으로 이동
-// 로그인 N >> 로그인 실패(LoginFailActivity)로 이동 (<< 현재개발 시점에는 코지홈으로 이동하게 설정함)
-
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
@@ -94,19 +92,18 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
-    private fun attemptAutoLogin() {
+    private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
         binding.progressBar.visibility = View.VISIBLE
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
             splashViewModel.isMember.observe(this) { isMember ->
                 if (isMember) {
-                    goCozyHome() // 홈 화면으로 이동
+                    goCozyHome()
                 }
                 binding.progressBar.visibility = View.GONE
             }
         } else {
-            // 로딩 숨김 (토큰이 없으면 즉시 로그인을 시도하지 않기 때문에)
             binding.progressBar.visibility = View.GONE
         }
     }
@@ -155,8 +152,6 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.signInResponse.observe(this) { result ->
             if (result.isSuccessful) {
                 if (result.body()!!.isSuccess) {
-                    Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "로그인 성공: ${result.body()!!.result}")
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
