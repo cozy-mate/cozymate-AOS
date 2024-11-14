@@ -13,7 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberDetailInfo
-import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
@@ -115,7 +115,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun joinMember() {
-        val memberInfo = MemberInfo(
+        val memberDetail = MemberDetail(
             name = _school.value ?: "unknown", //
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
@@ -123,12 +123,12 @@ class OnboardingViewModel @Inject constructor(
             persona = _persona.value ?: 0
         )
         val token = getToken() // 이때 임시 토큰이어야 함
-        Log.d(TAG, "유저 정보: $memberInfo")
+        Log.d(TAG, "유저 정보: $memberDetail")
         Log.d(TAG, "토큰: $token")
         _tokenInfo.value = TokenInfo("", "", "")
         viewModelScope.launch {
             try {
-                val response = repository.signUp(token = token!!, memberInfo = memberInfo)
+                val response = repository.signUp(token = token!!, memberDetail = memberDetail)
                 if (response.isSuccessful) {
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {

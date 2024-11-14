@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MemberInfo(
+data class MemberDetail(
     @SerialName("birthday")
     val birthday: String,
     @SerialName("gender")

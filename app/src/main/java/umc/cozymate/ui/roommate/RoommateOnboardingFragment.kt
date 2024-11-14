@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.databinding.FragmentRoommateOnboardingBinding
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
@@ -39,8 +40,8 @@ class RoommateOnboardingFragment : Fragment() {
         }
 
         splashViewModel.memberCheck()
-        splashViewModel.membmerInfo.observe(viewLifecycleOwner) { info ->
-            myNickname = info.nickname
+        splashViewModel.membmerInfo.observe(viewLifecycleOwner) { info: MemberDetailInfo? ->
+            myNickname = info!!.nickname
             binding.tvName1.text = myNickname
             binding.tvName2.text = myNickname
         }

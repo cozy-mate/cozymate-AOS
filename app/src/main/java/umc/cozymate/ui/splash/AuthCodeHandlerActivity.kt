@@ -245,7 +245,7 @@ class AuthCodeHandlerActivity : AppCompatActivity() {
         // 성공 여부 확인
         if (kakaoResponse.isSuccess) {
             val refreshToken = kakaoResponse.result.refreshToken
-            val memberInfo = kakaoResponse.result.memberInfoDTO
+            val memberInfo = kakaoResponse.result.memberDetailDTO
 
             // 받은 정보를 사용하여 원하는 작업을 수행
             println("Login Successful!")
