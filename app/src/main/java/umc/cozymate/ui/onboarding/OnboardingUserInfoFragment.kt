@@ -187,12 +187,12 @@ class OnboardingUserInfoFragment : Fragment() {
             val birth = binding.tvBirth.text.toString()
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
             else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
-            val University = binding.tvUniversity.text.toString()
+            val university = binding.tvUniversity.text.toString()
 
             viewModel.setNickname(nickname)
             viewModel.setBirthday(birth)
             viewModel.setGender(gender)
-            viewModel.setUniversity(University)
+            viewModel.setUniversity(university)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())

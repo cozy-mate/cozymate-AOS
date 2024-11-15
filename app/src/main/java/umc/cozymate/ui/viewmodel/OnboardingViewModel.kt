@@ -38,10 +38,10 @@ class OnboardingViewModel @Inject constructor(
     val name: LiveData<String> get() = _name
 
     private val _universityId = MutableLiveData<Int>()
-    val universityId : LiveData<Int> get() = _universityId
+    val universityId: LiveData<Int> get() = _universityId
 
     private val _universityName = MutableLiveData<String>()
-    val universityName : LiveData<String> get() = _universityName
+    val universityName: LiveData<String> get() = _universityName
 
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
@@ -55,8 +55,8 @@ class OnboardingViewModel @Inject constructor(
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
-    private val _memberInfo = MutableLiveData<MemberDetail>()
-    val membmerInfo: LiveData<MemberDetail> get() = _memberInfo
+    private val _memberInfo = MutableLiveData<MemberDetailInfo>()
+    val memberInfo: LiveData<MemberDetailInfo> get() = _memberInfo
 
     private val _isNicknameValid = MutableLiveData<Boolean>()
     val isNicknameValid: LiveData<Boolean> get() = _isNicknameValid
@@ -86,7 +86,8 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityId).commit() //
+        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityName)
+            .commit() //
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -99,6 +100,20 @@ class OnboardingViewModel @Inject constructor(
 
     fun setUniversity(university: String) {
         _universityName.value = university
+        when (university) {
+            "학교1" -> {
+                _universityId.value = 1
+            }
+            "학교2" -> {
+                _universityId.value = 2
+            }
+            "학교3" -> {
+                _universityId.value = 3
+            }
+            "학교4" -> {
+                _universityId.value = 4
+            }
+        }
     }
 
     fun setNickname(nickname: String) {
@@ -136,26 +151,50 @@ class OnboardingViewModel @Inject constructor(
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
-                        _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
-                        _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        _memberInfo.value?.universityName = response.body()!!.result?.memberDetailResponseDTO!!.universityName
-                        _memberInfo.value?.nickname = response.body()!!.result?.memberDetailResponseDTO!!.nickname
-                        _memberInfo.value?.persona = response.body()!!.result?.memberDetailResponseDTO!!.persona
-                        _memberInfo.value?.gender = response.body()!!.result?.memberDetailResponseDTO!!.gender
-                        _memberInfo.value?.birthday = response.body()!!.result?.memberDetailResponseDTO!!.birthday
-                        _memberInfo.value?.memberId = response.body()!!.result?.memberDetailResponseDTO!!.memberId
-                        _memberInfo.value?.majorName = response.body()!!.result?.memberDetailResponseDTO!!.majorName
+                        _tokenInfo.value?.accessToken =
+                            response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        _tokenInfo.value?.message =
+                            response.body()!!.result?.tokenResponseDTO!!.message
+                        _tokenInfo.value?.refreshToken =
+                            response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        _memberInfo.value?.universityName =
+                            response.body()!!.result?.memberDetailResponseDTO!!.universityName
+                        _memberInfo.value?.nickname =
+                            response.body()!!.result?.memberDetailResponseDTO!!.nickname
+                        _memberInfo.value?.persona =
+                            response.body()!!.result?.memberDetailResponseDTO!!.persona
+                        _memberInfo.value?.gender =
+                            response.body()!!.result?.memberDetailResponseDTO!!.gender
+                        _memberInfo.value?.birthday =
+                            response.body()!!.result?.memberDetailResponseDTO!!.birthday
+                        _memberInfo.value?.memberId =
+                            response.body()!!.result?.memberDetailResponseDTO!!.memberId
+                        _memberInfo.value?.majorName =
+                            response.body()!!.result?.memberDetailResponseDTO!!.majorName
 
-                        sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
-                        sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
-                        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityName).commit()
-                        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
-                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
-                        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
-                        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
-                        sharedPreferences.edit().putInt("user_member_id", _memberInfo.value!!.memberId).commit()
-                        sharedPreferences.edit().putString("user_major_name", _memberInfo.value!!.majorName).commit()
+                        sharedPreferences.edit().putString(
+                            "access_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "refresh_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        ).commit()
+                        sharedPreferences.edit()
+                            .putString("user_university", _memberInfo.value!!.universityName)
+                            .commit()
+                        sharedPreferences.edit()
+                            .putString("user_nickname", _memberInfo.value!!.nickname).commit()
+                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona)
+                            .commit()
+                        sharedPreferences.edit()
+                            .putString("user_gender", _memberInfo.value!!.gender).commit()
+                        sharedPreferences.edit()
+                            .putString("user_birthday", _memberInfo.value!!.birthday).commit()
+                        sharedPreferences.edit()
+                            .putInt("user_member_id", _memberInfo.value!!.memberId).commit()
+                        sharedPreferences.edit()
+                            .putString("user_major_name", _memberInfo.value!!.majorName).commit()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

@@ -8,13 +8,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MemberDetail(
     @SerialName("birthday")
-    val birthday: String,
+    var birthday: String,
     @SerialName("gender")
-    val gender: String,
+    var gender: String,
     @SerialName("nickname")
-    val nickname: String,
+    var nickname: String,
     @SerialName("persona")
-    val persona: Int = 1,
+    var persona: Int = 1,
     @SerialName("universityId")
-    val universityId: Int = 0,
+    var universityId: Int = 0,
 )
