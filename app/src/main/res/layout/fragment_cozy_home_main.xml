@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cozy_home_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 상단섹션 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_top"
+            android:layout_width="match_parent"
+            android:layout_height="283dp"
+            android:background="@drawable/background_cozyhome_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_school_certificate"
+                android:layout_width="247dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_school"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_school_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_school_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="학교 인증을 해주세요"
+                    android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_school"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_next"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_school_name"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bell"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="19dp"
+                android:background="@drawable/ic_bell"
+                app:layout_constraintBottom_toBottomOf="@id/btn_school_certificate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_school_certificate" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_message"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_message"
+                app:layout_constraintBottom_toBottomOf="@id/btn_school_certificate"
+                app:layout_constraintEnd_toStartOf="@id/btn_bell"
+                app:layout_constraintTop_toTopOf="@id/btn_school_certificate" />
+
+            <!-- 공지 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_notice"
+                android:layout_width="0dp"
+                android:layout_height="29dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_rectangle_8"
+                android:backgroundTint="@color/color_box"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_school_certificate">
+
+                <ImageView
+                    android:id="@+id/iv_notice"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_speaker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="[공지] 시험기간으로 인한 기숙사 통금시간 변경"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 방 버튼 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_make_room"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/btn_rectangle_cozyhome_state"
+                android:backgroundTint="@color/color_box"
+                android:elevation="0dp"
+                android:gravity="start"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="방 만들기"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/main_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_enter_room"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_notice" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_enter_room"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_rectangle_cozyhome_state"
+                android:backgroundTint="@color/color_box"
+                android:elevation="0dp"
+                android:gravity="start"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="방 참여하기"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/main_blue"
+                app:layout_constraintBottom_toBottomOf="@id/btn_make_room"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_make_room"
+                app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 참여방 컴포넌트 (조건 : 방 있음) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/my_room_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
+            app:layout_goneMarginBottom="0dp"
+            app:layout_goneMarginTop="0dp" />
+
+        <!-- 룸메이트 요청 컴포넌트 (조건 : 공개방 방장)-->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/roommate_request_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_room_container"
+            app:layout_goneMarginBottom="0dp"
+            app:layout_goneMarginTop="0dp" />
+
+        <!-- 룸메이트 추천 (조건 : 방 없음) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/roommate_recommend_container"
+            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.RoommateRecommendComponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
+            app:layout_goneMarginTop="0dp" />
+
+        <!-- 방 추천 (조건 : 방 없음) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/room_recommend_container"
+            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendComponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_container"
+            app:layout_goneMarginTop="0dp" />
+
+        <!-- 하단 광고 -->
+        <ImageView
+            android:id="@+id/banner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_banner"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_recommend_container" />
+
+        <!-- 하단네비 바텀뷰만큼 띄우기 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/banner_container" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

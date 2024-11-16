@@ -18,11 +18,13 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.18sp.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.18sp.Regular" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
@@ -34,11 +36,13 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.16sp.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.16sp.Regular" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
@@ -50,11 +54,13 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.14sp.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.14sp.Regular" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
@@ -66,16 +72,19 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.12sp.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.12sp.Regular" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.12sp.Light" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_light</item>
@@ -87,11 +96,13 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.10sp.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.App.10sp.Regular" parent="TextAppearance.AppCompat">
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
@@ -131,6 +142,17 @@
         <item name="android:textColor">@color/custom_option_text_color</item>
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">12dp</item>
+        <item name="android:background">@drawable/custom_select_chip_background</item>
+    </style>
+
+    <style name="RoommateElementChip">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:textColor">@color/custom_option_text_color</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.14sp.Medium</item>
         <item name="android:background">@drawable/custom_select_chip_background</item>
     </style>
 

@@ -11,9 +11,9 @@
         android:title="롤앤룰"
         android:icon="@drawable/ic_role_and_rule"/>
     <item
-        android:id="@+id/fragment_rommate"
-        android:title="룸메이트"
-        android:icon="@drawable/ic_roommate"/>
+        android:id="@+id/fragment_cozybot"
+        android:title="코지봇"
+        android:icon="@drawable/ic_cozybot"/>
     <item
         android:id="@+id/fragment_feed"
         android:title="피드"
