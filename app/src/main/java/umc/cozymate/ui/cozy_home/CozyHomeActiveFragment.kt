@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_bot
+package umc.cozymate.ui.cozy_home
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -21,14 +21,15 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentCozyBotBinding
+import umc.cozymate.databinding.FragmentCozyhomeActiveBinding
+import umc.cozymate.ui.cozy_home.adapter.AchievementsAdapter
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
-class CozyBotFragment : Fragment() {
+class CozyHomeActiveFragment : Fragment() {
 
-    private lateinit var binding: FragmentCozyBotBinding
+    private lateinit var binding: FragmentCozyhomeActiveBinding
     private val viewModel: CozyHomeViewModel by viewModels()
 
     override fun onCreateView(
@@ -36,7 +37,7 @@ class CozyBotFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozy_bot, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozyhome_active, container, false)
 
         with(binding){
             binding.viewModel = viewModel
@@ -44,14 +45,20 @@ class CozyBotFragment : Fragment() {
         }
 
         viewModel.fetchRoomIdIfNeeded()
+
         val savedRoomId = viewModel.getSavedRoomId()
+
         if (savedRoomId == 0) {
+            // SharedPreferences에 방 ID가 저장되어 있지 않다면 getRoomId 호출
             viewModel.getRoomId()
         } else {
+            // 방 ID가 이미 저장되어 있다면 roomId에 값을 설정
             viewModel.setRoomId(savedRoomId)
         }
+
         viewModel.roomId.observe(viewLifecycleOwner) { id ->
             if (id != null && id != 0) {
+                // 방 ID가 null이 아니면 방 정보를 가져옴
                 observeViewModel()
             }
         }
@@ -60,6 +67,10 @@ class CozyBotFragment : Fragment() {
         initView()
         openMessage()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun observeViewModel() {

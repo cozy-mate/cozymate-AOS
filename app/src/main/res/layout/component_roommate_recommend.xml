@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cozy_home.roommate_recommend.RoommateRecommendComponent">
+    tools:context=".ui.cozy_home.roommate_recommend.WidgetRoommateRecommendFragment">
 
     <!--제목 -->
     <TextView

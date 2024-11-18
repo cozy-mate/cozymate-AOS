@@ -410,7 +410,6 @@ attr customNavigationLayout
 attr customPixelDimension
 attr customReference
 attr customStringValue
-attr dampingRatio
 attr data
 attr dataPattern
 attr dayInvalidStyle
@@ -440,15 +439,6 @@ attr dividerInsetStart
 attr dividerPadding
 attr dividerThickness
 attr dividerVertical
-attr dotsClickable
-attr dotsColor
-attr dotsCornerRadius
-attr dotsElevation
-attr dotsSize
-attr dotsSpacing
-attr dotsStrokeColor
-attr dotsStrokeWidth
-attr dotsWidthFactor
 attr dragDirection
 attr dragScale
 attr dragThreshold
@@ -996,7 +986,6 @@ attr pressedTranslationZ
 attr primaryActivityName
 attr progressBarPadding
 attr progressBarStyle
-attr progressMode
 attr quantizeMotionInterpolator
 attr quantizeMotionPhase
 attr quantizeMotionSteps
@@ -1039,7 +1028,6 @@ attr secondaryActivityName
 attr seekBarStyle
 attr selectableItemBackground
 attr selectableItemBackgroundBorderless
-attr selectedDotColor
 attr selectionRequired
 attr selectorSize
 attr setsTag
@@ -1114,7 +1102,6 @@ attr state_with_icon
 attr statusBarBackground
 attr statusBarForeground
 attr statusBarScrim
-attr stiffness
 attr strokeColor
 attr strokeWidth
 attr subMenuArrow
@@ -1991,8 +1978,6 @@ color transparent60
 color unuse
 color unuse_btn
 color unuse_font
-color vector_tint_color
-color vector_tint_theme_color
 color white
 color yellow
 dimen abc_action_bar_content_inset_material
@@ -2709,7 +2694,6 @@ drawable app_icon_v3
 drawable avd_hide_password
 drawable avd_show_password
 drawable background
-drawable background_banner
 drawable background_bottom_nav
 drawable background_check
 drawable background_checklist
@@ -2719,7 +2703,6 @@ drawable background_cozyhome_active
 drawable background_cozyhome_active_png
 drawable background_cozyhome_character
 drawable background_cozyhome_character_2
-drawable background_cozyhome_top
 drawable background_cozyhome_v2
 drawable background_crewable_scroll
 drawable background_finding_roommate
@@ -2800,8 +2783,6 @@ drawable custom_progress_bar_background
 drawable custom_progress_bar_progress
 drawable custom_progress_bar_state_blue
 drawable custom_rectangle_12
-drawable custom_rectangle_12_unuse
-drawable custom_rectangle_4_white
 drawable custom_rectangle_6
 drawable custom_rectangle_6_sub_blue
 drawable custom_roommate_onboarding
@@ -2819,22 +2800,12 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
-drawable dot_background
 drawable feed__temporarily2
 drawable feed__temporarily3
 drawable feed_temporarily1
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
-drawable ic_acceptance_blue
-drawable ic_acceptance_gray
-drawable ic_acceptance_red
 drawable ic_add
-drawable ic_admission_year_blue
-drawable ic_admission_year_gray
-drawable ic_admission_year_red
-drawable ic_air_conditioning_intensity_blue
-drawable ic_air_conditioning_intensity_gray
-drawable ic_air_conditioning_intensity_red
 drawable ic_alarm
 drawable ic_back
 drawable ic_basic_character
@@ -2842,9 +2813,6 @@ drawable ic_basic_character1
 drawable ic_basic_character2
 drawable ic_basic_character3
 drawable ic_bell
-drawable ic_birth_year_blue
-drawable ic_birth_year_gray
-drawable ic_birth_year_red
 drawable ic_button
 drawable ic_calender_date
 drawable ic_call_answer
@@ -2853,21 +2821,12 @@ drawable ic_call_answer_video
 drawable ic_call_answer_video_low
 drawable ic_call_decline
 drawable ic_call_decline_low
-drawable ic_can_share_blue
-drawable ic_can_share_gray
-drawable ic_can_share_red
 drawable ic_check
 drawable ic_check_full
 drawable ic_check_unuse
 drawable ic_checkbox
 drawable ic_checkbox_checked
 drawable ic_circle
-drawable ic_clean_sensitivity_blue
-drawable ic_clean_sensitivity_gray
-drawable ic_clean_sensitivity_red
-drawable ic_cleaning_frequency_blue
-drawable ic_cleaning_frequency_gray
-drawable ic_cleaning_frequency_red
 drawable ic_clock_black_24dp
 drawable ic_close
 drawable ic_copy
@@ -2881,9 +2840,6 @@ drawable ic_detail_list
 drawable ic_detail_table
 drawable ic_down
 drawable ic_down_2
-drawable ic_drinking_frequency_blue
-drawable ic_drinking_frequency_gray
-drawable ic_drinking_frequency_red
 drawable ic_dropdown
 drawable ic_edit
 drawable ic_fcm
@@ -2891,33 +2847,15 @@ drawable ic_feed
 drawable ic_graph
 drawable ic_heart
 drawable ic_heartfull
-drawable ic_heater_intensity_red
-drawable ic_heating_intensity_blue
-drawable ic_heating_intensity_gray
 drawable ic_home
 drawable ic_home_circle
 drawable ic_home_color
 drawable ic_input_role_member
 drawable ic_inputbox
-drawable ic_intake_blue
-drawable ic_intake_gray
-drawable ic_intake_red
-drawable ic_intimacy_blue
-drawable ic_intimacy_gray
-drawable ic_intimacy_red
-drawable ic_is_phone_call_blue
-drawable ic_is_phone_call_gray
-drawable ic_is_phone_call_red
-drawable ic_is_play_game_blue
-drawable ic_is_play_game_gray
-drawable ic_is_play_game_red
 drawable ic_keyboard_black_24dp
 drawable ic_lamp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
-drawable ic_life_pattern_blue
-drawable ic_life_pattern_gray
-drawable ic_life_pattern_red
 drawable ic_list
 drawable ic_login_apple
 drawable ic_login_kakao
@@ -2925,12 +2863,6 @@ drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
 drawable ic_main_icon
-drawable ic_major_blue
-drawable ic_major_gray
-drawable ic_major_red
-drawable ic_mbti_blue
-drawable ic_mbti_gray
-drawable ic_mbti_red
 drawable ic_message
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
@@ -2939,15 +2871,9 @@ drawable ic_mtrl_chip_close_circle
 drawable ic_my
 drawable ic_my_circle
 drawable ic_next
-drawable ic_noise_sensitivity_blue
-drawable ic_noise_sensitivity_gray
-drawable ic_noise_sensitivity_red
 drawable ic_option
 drawable ic_pencil
 drawable ic_pencil_color
-drawable ic_personality_blue
-drawable ic_personality_gray
-drawable ic_personality_red
 drawable ic_photoedit
 drawable ic_picture
 drawable ic_rectangle_12
@@ -2956,37 +2882,14 @@ drawable ic_role_and_rule
 drawable ic_roommate
 drawable ic_rule_number
 drawable ic_school
-drawable ic_school_circle
 drawable ic_school_color
-drawable ic_school_white
 drawable ic_search
 drawable ic_seemore
 drawable ic_send
-drawable ic_sleeping_habit_blue
-drawable ic_sleeping_habit_gray
-drawable ic_sleeping_habit_red
-drawable ic_sleeping_time_blue
-drawable ic_sleeping_time_gray
-drawable ic_sleeping_time_red
-drawable ic_smoking_blue
-drawable ic_smoking_gray
-drawable ic_smoking_red
-drawable ic_speaker
-drawable ic_studying_blue
-drawable ic_studying_gray
-drawable ic_studying_red
 drawable ic_tab_indicator
 drawable ic_todo_plus
-drawable ic_turn_off_time_blue
-drawable ic_turn_off_time_gray
-drawable ic_turn_off_time_red
 drawable ic_verifiedmark
-drawable ic_wake_up_time_blue
-drawable ic_wake_up_time_gray
-drawable ic_wake_up_time_red
 drawable ic_xmark
-drawable img_private_room
-drawable img_public_room
 drawable iv_radio_selected
 drawable iv_radio_unselected
 drawable iv_search_cozy
@@ -3067,13 +2970,9 @@ drawable ripple_box_12dp
 drawable ripple_color_box_12dp
 drawable ripple_main_blue_12dp
 drawable ripple_unuse_btn_12dp
-drawable spring_dot_background
-drawable spring_dot_stroke_background
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
-drawable worm_dot_background
-drawable worm_dot_stroke_background
 font pretendard_bold
 font pretendard_light
 font pretendard_medium
@@ -3162,7 +3061,6 @@ id aligned
 id all
 id allStates
 id always
-id androidx_compose_ui_view_composition_context
 id androidx_window_activity_scope
 id animateToEnd
 id animateToStart
@@ -3175,7 +3073,6 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
-id banner_fragment_container
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -3222,19 +3119,14 @@ id btn_go_lifestyle
 id btn_go_rommate
 id btn_invite_code
 id btn_kakao_login
-id btn_left
 id btn_like
-id btn_major
-id btn_make_room
 id btn_message
 id btn_next
 id btn_ok
 id btn_request_roommate
-id btn_right
 id btn_roommate_invite
 id btn_save
 id btn_school
-id btn_school_certificate
 id btn_school_email
 id btn_send_verify_code
 id btn_sign_in
@@ -3283,10 +3175,6 @@ id cl_cozyhome_top
 id cl_crewable_background
 id cl_crewable_chip_result
 id cl_crewable_title
-id cl_criteria_1
-id cl_criteria_2
-id cl_criteria_3
-id cl_criteria_4
 id cl_dormitory
 id cl_drink
 id cl_eating
@@ -3304,13 +3192,10 @@ id cl_list_rule_info
 id cl_living
 id cl_mbti
 id cl_noise
-id cl_notice
 id cl_onboarding_name
 id cl_onboarding_nickname
 id cl_people_number
 id cl_personality
-id cl_private_room
-id cl_public_room
 id cl_rectangle
 id cl_room_info
 id cl_search
@@ -3323,7 +3208,6 @@ id cl_table_basic_info
 id cl_table_can_do_info
 id cl_table_never_info
 id cl_table_rule_info
-id cl_top
 id clean1
 id clean2
 id clean3
@@ -3342,11 +3226,9 @@ id closest
 id collapseActionView
 id column
 id column_reverse
-id compose_view_saveable_id_tag
 id compress
 id confirm_button
 id constraint
-id consume_window_insets_tag
 id container
 id content
 id contentPanel
@@ -3390,8 +3272,6 @@ id disjoint
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
-id dot
-id dots_indicator
 id dragAnticlockwise
 id dragClockwise
 id dragDown
@@ -3429,7 +3309,6 @@ id et_InputRule
 id et_InputTodo
 id et_birth
 id et_check_verify_code
-id et_major_email
 id et_number
 id et_onboarding_name
 id et_onboarding_nickname
@@ -3495,7 +3374,6 @@ id heater_no
 id heater_strong
 id heater_weak
 id hide_ime_id
-id hide_in_inspector_tag
 id hideable
 id home
 id homeAsUp
@@ -3513,17 +3391,13 @@ id immediateStop
 id included
 id indeterminate
 id info
-id inspection_slot_table_set
 id invisible
 id inward
-id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
 id iv
 id ivListViewIcon
 id ivTableViewIcon
-id iv_1
-id iv_2
 id iv_Back
 id iv_Close
 id iv_More
@@ -3544,10 +3418,6 @@ id iv_check
 id iv_check_verify_code
 id iv_chk
 id iv_cozy_title
-id iv_crieteria_icon_1
-id iv_crieteria_icon_2
-id iv_crieteria_icon_3
-id iv_crieteria_icon_4
 id iv_edit_back
 id iv_feed_title
 id iv_female
@@ -3557,10 +3427,8 @@ id iv_ic_school
 id iv_light
 id iv_male
 id iv_message_member_character
-id iv_notice
 id iv_other_user_profile
 id iv_robot
-id iv_school
 id iv_school_logo
 id iv_search
 id iv_table_user_profile
@@ -3608,7 +3476,6 @@ id llListView
 id llTableView
 id ll_2
 id ll_detail_dialog_btn
-id ll_more
 id ll_name
 id locale
 id ltr
@@ -3743,7 +3610,6 @@ id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiple
 id multiply
-id my_room_fragment_container
 id nav_controller_view_tag
 id nav_host_fragment_container
 id navigation_bar_item_active_indicator_view
@@ -3817,7 +3683,6 @@ id personality_shame
 id personality_shy
 id personality_tmt
 id pin
-id pooling_container_listener_holder_tag
 id position
 id postLayout
 id pressed
@@ -3839,9 +3704,6 @@ id right_arrow
 id right_arrow2
 id right_icon
 id right_side
-id room_recommend_fragment_container
-id roommate_recommend_fragment_container
-id roommate_request_container
 id rounded
 id row
 id row_index_key
@@ -3957,7 +3819,6 @@ id split_action_bar
 id spread
 id spread_inside
 id spring
-id spring_dot
 id square
 id src_atop
 id src_in
@@ -4091,14 +3952,6 @@ id tv_crewable_chip_list_title2
 id tv_crewable_chip_table_title
 id tv_crewable_chip_table_title2
 id tv_crewable_school
-id tv_criteria_1
-id tv_criteria_2
-id tv_criteria_3
-id tv_criteria_4
-id tv_criteria_content_1
-id tv_criteria_content_2
-id tv_criteria_content_3
-id tv_criteria_content_4
 id tv_detail_list_rule
 id tv_dialog_request_other_name
 id tv_dormitory
@@ -4115,8 +3968,6 @@ id tv_guide2
 id tv_guide3
 id tv_guide4
 id tv_guide5
-id tv_hashtag_1
-id tv_hashtag_2
 id tv_heater_check
 id tv_home_name
 id tv_home_people_num
@@ -4207,17 +4058,13 @@ id tv_list_wake_up_time
 id tv_list_wake_up_title
 id tv_living_pattern
 id tv_login_fail
-id tv_major_guide
 id tv_male
-id tv_match_rate
 id tv_mbti
-id tv_ment
 id tv_message_member_name
 id tv_message_member_text
 id tv_message_name
 id tv_message_text
 id tv_message_time
-id tv_name
 id tv_name1
 id tv_name2
 id tv_nick
@@ -4237,14 +4084,7 @@ id tv_people_number
 id tv_personality
 id tv_please_invite_code
 id tv_please_select_roommate
-id tv_popup_subtext
-id tv_popup_text
-id tv_private_room_title1
-id tv_private_room_title2
-id tv_public_room_title1
-id tv_public_room_title2
 id tv_room_info
-id tv_room_name
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3
@@ -4409,8 +4249,6 @@ id visible_removing_fragment_view_tag
 id vp_AddTodo
 id vp_RoleAndRule
 id vp_input_info
-id vp_room
-id vp_roommate
 id wake_guide_line
 id wednesday
 id week
@@ -4419,12 +4257,10 @@ id wide
 id withText
 id with_icon
 id withinBounds
-id worm_dot
 id wrap
 id wrap_content
 id wrap_content_constrained
 id wrap_reverse
-id wrapped_composition_tag
 id x_left
 id x_right
 integer abc_config_activityDefaultDur
@@ -4560,7 +4396,6 @@ layout activity_login_fail
 layout activity_main
 layout activity_message
 layout activity_onboarding
-layout activity_room_detail
 layout activity_roommate_detail
 layout activity_roommate_input_info
 layout activity_roommate_onboarding
@@ -4569,8 +4404,6 @@ layout activity_talk_auth_code
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout calendar_view
-layout component_room_recommend
-layout component_roommate_recommend
 layout custom_datepicker
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -4589,7 +4422,6 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_roommate_detail_cozymate_request
-layout dot_layout
 layout fragment_add_role_tab
 layout fragment_add_rule_tab
 layout fragment_add_todo_tab
@@ -4602,10 +4434,8 @@ layout fragment_cozy_home_selecting_roommate
 layout fragment_cozy_home_waiting
 layout fragment_cozyhome_active
 layout fragment_cozyhome_default
-layout fragment_cozyhome_main
 layout fragment_essential_info
 layout fragment_feed
-layout fragment_making_room_dialog
 layout fragment_message_detail
 layout fragment_mypage
 layout fragment_onboarding_selecting_character
@@ -4615,7 +4445,7 @@ layout fragment_role_and_rule
 layout fragment_role_and_rule_tab
 layout fragment_roommate_make_crewable
 layout fragment_roommate_onboarding
-layout fragment_school_certification
+layout fragment_roommate_school
 layout fragment_school_search
 layout fragment_selection_info
 layout fragment_todo_tab
@@ -4696,8 +4526,6 @@ layout popup_invite_code_fail
 layout popup_invite_code_success
 layout popup_loading
 layout popup_server_error
-layout popup_template_onebutton
-layout popup_template_twobuttons
 layout roommate_detail_bottom_sheet
 layout rv_item_message
 layout rv_item_message_member
@@ -4711,11 +4539,7 @@ layout rv_item_todo_list
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
-layout spring_dot_layout
 layout support_simple_spinner_dropdown_item
-layout vp_item_room_recommend
-layout vp_item_roommate_recommend
-layout worm_dot_layout
 menu bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
@@ -4773,8 +4597,6 @@ string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
 string clear_text_end_icon_content_description
-string close_drawer
-string close_sheet
 string com_google_firebase_crashlytics_mapping_file_id
 string com_kakao_talk_chooser_text
 string common_google_play_services_enable_button
@@ -4796,10 +4618,7 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
-string default_error_message
-string default_popup_window_title
 string dest_title
-string dropdown_menu
 string error_a11y_label
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
@@ -4817,8 +4636,6 @@ string google_storage_bucket
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string icon_content_description
-string in_progress
-string indeterminate
 string item_view_role_description
 string kakao_app_key
 string kakao_scheme
@@ -4911,11 +4728,7 @@ string mtrl_timepicker_cancel
 string mtrl_timepicker_confirm
 string nav_app_bar_navigate_up_description
 string nav_app_bar_open_drawer_description
-string navigation_menu
 string next
-string not_selected
-string off
-string on
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through
@@ -4923,14 +4736,8 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string previous
 string project_id
-string range_end
-string range_start
 string search_menu_title
-string selected
 string status_bar_notification_info_overflow
-string switch_role
-string tab
-string template_percent
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -5208,9 +5015,6 @@ style CardView_Dark
 style CardView_Light
 style CustomChip_12
 style CustomTextInputLayout
-style DialogWindowTheme
-style FloatingDialogTheme
-style FloatingDialogWindowTheme
 style MaterialAlertDialog_Material3
 style MaterialAlertDialog_Material3_Body_Text
 style MaterialAlertDialog_Material3_Body_Text_CenterStacked
@@ -6073,7 +5877,6 @@ styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
 styleable CustomAttribute attributeName customBoolean customColorDrawableValue customColorValue customDimension customFloatValue customIntegerValue customPixelDimension customReference customStringValue methodName
 styleable DialogFragmentNavigator android_name
-styleable DotsIndicator dotsClickable dotsColor dotsCornerRadius dotsElevation dotsSize dotsSpacing dotsWidthFactor progressMode selectedDotColor
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable DrawerLayout elevation
 styleable ExtendedFloatingActionButton collapsedSize elevation extendMotionSpec hideMotionSpec showMotionSpec shrinkMotionSpec
@@ -6171,7 +5974,6 @@ styleable Spinner android_entries android_popupBackground android_prompt android
 styleable SplitPairFilter primaryActivityName secondaryActivityAction secondaryActivityName
 styleable SplitPairRule clearTop finishPrimaryWithSecondary finishSecondaryWithPrimary splitLayoutDirection splitMinSmallestWidth splitMinWidth splitRatio
 styleable SplitPlaceholderRule placeholderActivityName splitLayoutDirection splitMinSmallestWidth splitMinWidth splitRatio
-styleable SpringDotsIndicator dampingRatio dotsClickable dotsColor dotsCornerRadius dotsSize dotsSpacing dotsStrokeColor dotsStrokeWidth stiffness
 styleable State android_id constraints
 styleable StateListDrawable android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable StateListDrawableItem android_drawable
@@ -6195,7 +5997,6 @@ styleable ViewBackgroundHelper android_background backgroundTint backgroundTintM
 styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 styleable ViewTransition android_id SharedValue SharedValueId clearsTag duration ifTagNotSet ifTagSet motionInterpolator motionTarget onStateTransition pathMotionArc setsTag transitionDisable upDuration viewTransitionMode
-styleable WormDotsIndicator dotsClickable dotsColor dotsCornerRadius dotsSize dotsSpacing dotsStrokeColor dotsStrokeWidth
 styleable include constraintSet
 xml backup_rules
 xml data_extraction_rules

@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_bot.CozyBotFragment
+import umc.cozymate.ui.cozy_home.CozyHomeActiveFragment
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringViewModel
 
 @AndroidEntryPoint
@@ -107,7 +107,7 @@ class InviteCodeSuccessPopUp : DialogFragment() {
                 // Fragment 전환을 UI 스레드에서 안전하게 수행
                 view?.post {
                     parentFragmentManager.commit {
-                        replace(R.id.main_container, CozyBotFragment())
+                        replace(R.id.main_container, CozyHomeActiveFragment())
                         addToBackStack(null)
                     }
                 }
