@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
@@ -32,7 +33,7 @@ class AddRoleTabFragment: Fragment() {
     private var mateList :  List<GetRoomInfoResponse.Result.Mate> = emptyList()
     private val week = arrayListOf("월","화","수","목","금","토","일")
     private val repeatDayList =mutableListOf<String>()
-    private val selectedMateIds = mutableListOf<Int>()
+    private val selectedMates = mutableListOf<RoleData.mateInfo>()
     private val memberBox = mutableListOf<CheckBox>()
     private val weekdayBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
@@ -122,10 +123,11 @@ class AddRoleTabFragment: Fragment() {
                 buttonDrawable = null
                 setOnClickListener {
                     updateCheckBoxColor(this,this.isChecked)
+                    val info = RoleData.mateInfo(mate.mateId,mate.nickname)
                     if (this.isChecked) {
-                        selectedMateIds.add(mate.mateId) // 체크되면 mateId를 추가
+                        selectedMates.add(info) // 체크되면 mate를 추가
                     } else {
-                        selectedMateIds.remove(mate.mateId) // 체크 해제되면 mateId를 제거
+                        selectedMates.remove(info) // 체크 해제되면 mate를 제거
                     }
                     checkAll()
                     checkInput()
@@ -171,11 +173,11 @@ class AddRoleTabFragment: Fragment() {
         // 모두 체크박스 체크 확인
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
-            selectedMateIds.clear()
+            selectedMates.clear()
             for (i :Int in 0..mateList.size-1) {
                 memberBox[i].isChecked = isChecked
                 updateCheckBoxColor(memberBox[i],isChecked)
-                if(isChecked) selectedMateIds.add(mateList[i].mateId)
+                if(isChecked) selectedMates.add( RoleData.mateInfo(mateList[i].mateId,mateList[i].nickname))
             }
             checkInput()
         }
@@ -194,7 +196,7 @@ class AddRoleTabFragment: Fragment() {
         }
 
         binding.btnInputButton.setOnClickListener {
-            val request = RoleRequest(selectedMateIds, binding.etInputRole.text.toString(),repeatDayList)
+            val request = RoleRequest(selectedMates, binding.etInputRole.text.toString(),repeatDayList)
             Log.d(TAG,"Role 입력 데이터 ${request}")
             viewModel.createRole(roomId, request)
             viewModel.createResponse.observe(viewLifecycleOwner){response->
