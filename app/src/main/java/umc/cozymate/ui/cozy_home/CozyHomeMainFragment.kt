@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.message.MessageActivity
+import umc.cozymate.ui.school_certification.SchoolCertificationFragment
 
 class CozyHomeMainFragment : Fragment() {
     private var _binding: FragmentCozyHomeMainBinding? = null
@@ -41,6 +42,10 @@ class CozyHomeMainFragment : Fragment() {
         binding.btnMakeRoom.setOnClickListener {
             val popup: DialogFragment = MakingRoomDialogFragment()
             popup.show(childFragmentManager, "팝업")
+        }
+        // 학교 인증
+        binding.btnSchoolCertificate.setOnClickListener {
+            startActivity(Intent(activity, SchoolCertificationFragment::class.java))
         }
     }
 
