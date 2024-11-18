@@ -101,16 +101,16 @@ class OnboardingViewModel @Inject constructor(
     fun setUniversity(university: String) {
         _universityName.value = university
         when (university) {
-            "학교1" -> {
+            "인하대학교" -> {
                 _universityId.value = 1
             }
             "학교2" -> {
                 _universityId.value = 2
             }
-            "학교3" -> {
+            "숭실대학교" -> {
                 _universityId.value = 3
             }
-            "학교4" -> {
+            "한국공학대학교" -> {
                 _universityId.value = 4
             }
         }
