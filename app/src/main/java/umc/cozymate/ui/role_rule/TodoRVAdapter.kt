@@ -10,7 +10,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter(private val todoItems: List<TodoData.TodoItem>,
+class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                     private val isEditable: Boolean,
                     private val updateTodo: (TodoData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
@@ -29,8 +29,8 @@ class TodoRVAdapter(private val todoItems: List<TodoData.TodoItem>,
             }
             else{
                 when(todoItem.todoType){
-
                     "self" -> binding.ivTodoType.visibility = View.GONE
+                    "role" -> binding.ivTodoType.setColorFilter(Color.parseColor("#ACE246"))
                     "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))
 
                 }
@@ -68,6 +68,15 @@ class TodoRVAdapter(private val todoItems: List<TodoData.TodoItem>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        todoItems = todoItems.sortedWith(Comparator<TodoData.TodoItem>{a,b->
+            val preority : Map<String,Int> = mapOf("self" to 0, "group" to 1, "other" to 2, "role" to 3)
+            when{
+                preority.get(a.todoType)!! > preority.get(b.todoType)!! -> 1
+                preority.get(a.todoType)!! < preority.get(b.todoType)!! -> -1
+                else -> 0
+            }
+        })
+
         holder.bind(todoItems[position])
     }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
+import umc.cozymate.data.model.entity.TestInfo
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
@@ -28,7 +29,7 @@ class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodo : TodoData = TodoData(emptyList(), emptyList())
+    private var mytodo : TodoData = TodoData(TestInfo(), emptyList())
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
@@ -41,6 +42,7 @@ class TodoTabFragment : Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
+
         getPreference()
         updateInfo()
         return binding.root

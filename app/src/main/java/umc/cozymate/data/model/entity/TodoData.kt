@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TodoData(
     @SerializedName("memberDetail")
-    val memberDetail : List<String>,
+    val memberDetail : TestInfo,
     @SerializedName("todoList")
     val todoList : List<TodoItem>
 ){
