@@ -1,5 +1,6 @@
 package umc.cozymate.data.model.entity
 
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,4 +16,5 @@ data class MemberInfo(
     val nickname: String,
     @SerialName("persona")
     val persona: Int = 1
+
 )

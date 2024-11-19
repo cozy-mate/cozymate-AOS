@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoListBinding
 
 
 class TodoListRVAdapter(
-    private val  member:  Map<String, TodoMateData>,
-    private val updateTodo: (TodoMateData) -> Unit
+    private val  member:  Map<String, TodoData>,
+    private val updateTodo: (TodoData) -> Unit
 ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int) {
@@ -21,7 +21,7 @@ class TodoListRVAdapter(
             binding.tvTodoMemberName.text = member.keys.elementAt(pos)
             binding.ivTodoMemberIcon.setImageResource(initCharactor(pos))
             val todoMateData = member.values.elementAt(pos)
-            if (todoMateData.mateTodoList.isEmpty()) {
+            if (todoMateData.todoList.isNullOrEmpty()) {
                 Log.d("MemberTodo", "empty")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
@@ -29,12 +29,12 @@ class TodoListRVAdapter(
                 binding.rvList.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 binding.rvList.apply {
-                    adapter = TodoRVAdapter(todoMateData.mateTodoList, false) { todoItem ->
+                    adapter = TodoRVAdapter(todoMateData.todoList, false) { todoItem ->
                         // 이 콜백에서 변경된 todoItem을 TodoMateData 전체로 반영하여 updateTodo를 호출합니다.
-                        val updatedTodoList = todoMateData.mateTodoList.map {
-                            if (it.id == todoItem.id) todoItem else it
+                        val updatedTodoList = todoMateData.todoList.map {
+                            if (it.todoId == todoItem.todoId) todoItem else it
                         }
-                        updateTodo(todoMateData.copy(mateTodoList = updatedTodoList))
+                        updateTodo(todoMateData.copy(todoList = updatedTodoList))
                     }
                     layoutManager = LinearLayoutManager(context)
                 }
@@ -44,7 +44,8 @@ class TodoListRVAdapter(
 
 
     private fun initCharactor(pos: Int) : Int{
-        val persona = member.values.elementAt(pos).persona
+        //val persona = member.values.elementAt(pos).persona
+        val persona = 1
         return when (persona) {
             1 -> R.drawable.character_1
             2 -> R.drawable.character_2

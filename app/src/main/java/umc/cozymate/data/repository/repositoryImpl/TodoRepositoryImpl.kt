@@ -3,8 +3,9 @@ package umc.cozymate.data.repository.repositoryImpl
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.TodoService
-import umc.cozymate.data.model.request.TodoInfoRequest
+import umc.cozymate.data.model.request.CreateTodoRequest
 import umc.cozymate.data.model.request.UpdateTodoRequest
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
 import javax.inject.Inject
@@ -31,8 +32,8 @@ class TodoRepositoryImpl @Inject constructor(
     override suspend fun createTodo(
         accessToken: String,
         roomId: Int,
-        request: TodoInfoRequest
-    ):  Response<DefaultResponse> {
+        request: CreateTodoRequest
+    ): Response<CreateResponse> {
         return api.createTodo(accessToken, roomId,request)
     }
 

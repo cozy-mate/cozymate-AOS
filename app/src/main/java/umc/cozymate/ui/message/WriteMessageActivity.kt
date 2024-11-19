@@ -17,7 +17,6 @@ class WriteMessageActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private val viewModel: ChatViewModel by viewModels()
     private var recipientId : Int = 0
-    private var message : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

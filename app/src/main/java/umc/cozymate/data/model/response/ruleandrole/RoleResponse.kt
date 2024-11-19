@@ -10,10 +10,8 @@ data class RoleResponse(
     val result: Result
 ){
     data class Result(
-        @SerializedName("myRoleList")
-        val myRoleList: RoleData,
-
-        @SerializedName("otherRoleList")
-        val otherRoleList: Map<String, RoleData>
+        @SerializedName("roleList")
+        val roleList : List<RoleData>
     )
+
 }

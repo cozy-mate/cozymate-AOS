@@ -15,8 +15,8 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
-import umc.cozymate.ui.cozy_bot.AchievementItem
-import umc.cozymate.ui.cozy_bot.AchievementItemType
+import umc.cozymate.ui.cozy_home.adapter.AchievementItem
+import umc.cozymate.ui.cozy_home.adapter.AchievementItemType
 import javax.inject.Inject
 
 @HiltViewModel

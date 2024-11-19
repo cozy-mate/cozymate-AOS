@@ -4,6 +4,7 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.RoleService
 import umc.cozymate.data.model.request.RoleRequest
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 import umc.cozymate.data.repository.repository.RoleRepository
 import javax.inject.Inject
@@ -15,7 +16,7 @@ class RoleRepositoryImpl @Inject constructor(
         accessToken: String,
         roomId: Int,
         request: RoleRequest
-    ): Response<DefaultResponse> {
+    ):  Response<CreateResponse> {
         return api.createRole(accessToken, roomId, request)
     }
 

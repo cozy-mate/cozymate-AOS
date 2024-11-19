@@ -15,12 +15,12 @@ import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
-import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
+import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.ui.school_certification.SchoolCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
         if (showCozyDefault) {
             isRoomExist = false
+            loadDefaultFragment()
         }
 
         homeViewModel.getRoomId()
@@ -104,11 +105,11 @@ class MainActivity : AppCompatActivity() {
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
-                //loadDefaultFragment()
+                loadDefaultFragment()
                 binding.progressBar.visibility = View.GONE
             } else {
                 isRoomExist = true
-                //loadActiveFragment()
+                loadActiveFragment()
                 binding.progressBar.visibility = View.GONE
             }
         }
@@ -122,6 +123,20 @@ class MainActivity : AppCompatActivity() {
                 )
         window.setNavigationBarColor(android.graphics.Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
+    }
+
+    fun loadDefaultFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 수정
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun loadActiveFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, CozyHomeMainFragment()) //// 임시
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun switchToRoommateOnboardingFragment() {
@@ -140,13 +155,61 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+
+    //    fun setBottomNavigationView() {
+//        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.fragment_home -> {
+//                    if (homeViewModel.roomId.value == 0 || homeViewModel.roomId.value == null) {
+//                        loadDefaultFragment()
+//                    } else {
+//                        loadActiveFragment()
+//                    }
+//
+//                    true
+//                }
+//
+//                R.id.fragment_feed -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, FeedFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_role_and_rule -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_rommate -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, RoommateFragment()).commit()
+//                    true
+//                }
+//
+//                R.id.fragment_mypage -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_container, MyPageFragment()).commit()
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
+//    }
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
+                    // homeViewModel.roomId.value가 null이거나 0일 때만 홈 화면으로 이동하게 조건을 추가
                     observeRoomID()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyHomeMainFragment()).commit()
+                    if (!isRoomExist) {
+                        loadDefaultFragment()
+                        binding.progressBar.visibility = View.GONE
+                    } else {
+                        loadActiveFragment()
+                        binding.progressBar.visibility = View.GONE
+                    }
                     true
                 }
 
@@ -172,14 +235,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.fragment_cozybot -> {
-                    if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
-                        return@setOnItemSelectedListener false // 선택을 막음
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_container, CozyBotFragment()).commit()
-                    }
+                R.id.fragment_rommate -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, SchoolCertificationFragment()).commit() // RoommateFragment()
                     true
                 }
 
@@ -221,4 +279,14 @@ class MainActivity : AppCompatActivity() {
 
     private val requestNotificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+
+    override fun onResume() {
+        super.onResume()
+        // 현재 표시되고 있는 프래그먼트를 확인하고 바텀 네비게이션 상태를 업데이트
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.main_container)
+        when (currentFragment) {
+            is RoommateOnboardingFragment -> binding.bottomNavigationView.selectedItemId = R.id.fragment_rommate
+            // 다른 프래그먼트에 대한 처리도 추가할 수 있음
+        }
+    }
 }

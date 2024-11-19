@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RuleRequest
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RuleResponse
 import umc.cozymate.data.repository.repository.RuleRepository
 import javax.inject.Inject
@@ -28,8 +29,8 @@ class RuleViewModel @Inject constructor(
     private val _roomId = MutableLiveData<Int>()
     val roomId: LiveData<Int> get() = _roomId
 
-    private val _createResponse = MutableLiveData<Response<DefaultResponse>>()
-    val  createResponse : LiveData<Response<DefaultResponse>> get() =  _createResponse
+    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
+    val  createResponse : LiveData<Response<CreateResponse>> get() =  _createResponse
 
     private val _getResponse = MutableLiveData<Response<RuleResponse>>()
     val  getResponse : LiveData<Response<RuleResponse>> get() =  _getResponse
@@ -37,6 +38,8 @@ class RuleViewModel @Inject constructor(
     private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
     val  deleteResponse : LiveData<Response<DefaultResponse>> get() =  _deleteResponse
 
+    private val _updateResponse = MutableLiveData<Response<DefaultResponse>>()
+    val  updateResponse : LiveData<Response<DefaultResponse>> get() =  _updateResponse
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
@@ -74,7 +77,7 @@ class RuleViewModel @Inject constructor(
         }
     }
 
-    fun deleteRule(accessToken: String, roomId : Int, ruleId : Int ){
+    fun deleteRule(accessToken: String, roomId : Int, ruleId : Int  ){
         viewModelScope.launch {
             try{
                 val response  = repository.deleteRule(accessToken, roomId, ruleId)
@@ -85,6 +88,21 @@ class RuleViewModel @Inject constructor(
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "deleteRule api 요청 실패: ${e}")
+            }
+        }
+    }
+
+    fun updateRule(accessToken: String, roomId : Int, ruleId : Int , request : RuleRequest){
+        viewModelScope.launch {
+            try{
+                val response  = repository.updateRule(accessToken, roomId, ruleId, request)
+                if(response.isSuccessful){
+                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
+                    _updateResponse.postValue(response)
+                }
+                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+            }catch (e: Exception){
+                Log.d(TAG, "updateRule api 요청 실패: ${e}")
             }
         }
     }

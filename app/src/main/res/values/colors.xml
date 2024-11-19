@@ -43,5 +43,9 @@
 
     <color name="detail_gray">#F1F2F4</color>
     <!-- 타인 상세정보 리스트 중 구분선 -->
+    
+    <color name="todo_other">#FFCE3D</color>
+    <color name="todo_role">#ACE246</color>
+    <!-- 투두 종류 구별용  -->
 
 </resources>

@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RoleRequest
+import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 import umc.cozymate.data.repository.repository.RoleRepository
 import javax.inject.Inject
@@ -25,8 +26,8 @@ class RoleViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _createResponse = MutableLiveData<Response<DefaultResponse>>()
-    val  createResponse : LiveData<Response<DefaultResponse>> get() =  _createResponse
+    private val _createResponse = MutableLiveData< Response<CreateResponse>>()
+    val  createResponse : LiveData< Response<CreateResponse>> get() =  _createResponse
 
     private val _getResponse = MutableLiveData<Response<RoleResponse>>()
     val  getResponse : LiveData<Response<RoleResponse>> get() =  _getResponse
