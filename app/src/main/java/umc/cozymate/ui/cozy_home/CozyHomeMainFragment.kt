@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.message.MessageActivity
-import umc.cozymate.ui.school_certification.SchoolCertificationFragment
+import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 
 class CozyHomeMainFragment : Fragment() {
     private var _binding: FragmentCozyHomeMainBinding? = null
@@ -45,7 +45,7 @@ class CozyHomeMainFragment : Fragment() {
         }
         // 학교 인증
         binding.btnSchoolCertificate.setOnClickListener {
-            startActivity(Intent(activity, SchoolCertificationFragment::class.java))
+            startActivity(Intent(activity, UniversityCertificationActivity::class.java))
         }
     }
 

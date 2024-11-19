@@ -1,4 +1,4 @@
-package umc.cozymate.ui.school_certification.adapter
+package umc.cozymate.ui.university_certification.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import umc.cozymate.R
 
-class SchoolsAdapter(
+class UniversitiesAdapter(
     private val onItemClick: (String) -> Unit
-) : RecyclerView.Adapter<SchoolsAdapter.SchoolViewHolder>() {
+) : RecyclerView.Adapter<UniversitiesAdapter.SchoolViewHolder>() {
 
-    private var schoolList: List<SchoolItem> = emptyList()
+    private var schoolList: List<UniversitylItem> = emptyList()
 
     class SchoolViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val logo: ImageView = itemView.findViewById(R.id.iv_school_logo)
         private val name: TextView = itemView.findViewById(R.id.tv_school_name)
         val divider: View = itemView.findViewById(R.id.view_divider)
 
-        fun bind(school: SchoolItem) {
+        fun bind(school: UniversitylItem) {
             name.text = school.name
 
             // Glide를 사용해 로고 이미지 로드
@@ -50,7 +50,7 @@ class SchoolsAdapter(
         }
     }
 
-    fun submitList(list: List<SchoolItem>) {
+    fun submitList(list: List<UniversitylItem>) {
         schoolList = list
         notifyDataSetChanged()
     }

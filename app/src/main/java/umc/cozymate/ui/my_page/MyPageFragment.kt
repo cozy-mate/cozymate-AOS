@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
-import umc.cozymate.ui.school_certification.SchoolCertificationFragment
+import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.viewmodel.MyPageViewModel
 
@@ -46,7 +46,7 @@ class MyPageFragment : Fragment() {
     }
 
     private fun loadSchool() {
-        val fragment = SchoolCertificationFragment()
+        val fragment = UniversityCertificationFragment()
 
         // 프래그먼트 트랜잭션을 통해 전환 수행
         parentFragmentManager.beginTransaction()
