@@ -14,15 +14,18 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.entity.MemberDetailInfo
+import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
+import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val repository: MemberRepository,
+    private val preferenceRepository: MemberStatPreferenceRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -51,6 +54,9 @@ class OnboardingViewModel @Inject constructor(
 
     private val _gender = MutableLiveData<String>()
     val gender: LiveData<String> get() = _gender
+
+    private val _preferences = MutableLiveData<PreferenceList>()
+    val preferences: LiveData<PreferenceList> get() = _preferences
 
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
@@ -130,6 +136,10 @@ class OnboardingViewModel @Inject constructor(
 
     fun setPersona(persona: Int) {
         _persona.value = persona
+    }
+
+    fun setPreferences(preferences: PreferenceList){
+        _preferences.value = preferences
     }
 
     fun joinMember() {
@@ -240,6 +250,33 @@ class OnboardingViewModel @Inject constructor(
             }
         } else {
             _isNicknameValid.value = false
+        }
+    }
+
+    fun postPreference() {
+        val accessToken = getToken()
+        Log.d(TAG, "멤버 선호 항목 생성 토큰 확인: $accessToken")
+        Log.d(TAG, "${preferences.value}")
+
+        if (accessToken != null) {
+            viewModelScope.launch {
+                try {
+                    val response =
+                        preferenceRepository.postMyPreference(accessToken, preferenceList = preferences.value ?: PreferenceList(
+                            arrayListOf("","","",""))
+                            )
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "멤버 선호 항목 생성 api 응답 성공: ${response}")
+                        if (response.body()!!.isSuccess) {
+                            Log.d(TAG, "멤버 선호 항목 생성 성공: ${response.body()!!.result}")
+                        }
+                    } else {
+                        Log.d(TAG, "멤버 선호 항목 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "멤버 선호 항목 api 요청 실패: ${e}")
+                }
+            }
         }
     }
 

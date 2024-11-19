@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.databinding.FragmentOnboardingSelectingElementBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
+import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
 class OnboardingSelectingElementFragment : Fragment() {
@@ -87,6 +89,11 @@ class OnboardingSelectingElementFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
+                val preferences = PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                viewModel.setPreferences(preferences)
+
+                viewModel.postPreference()
+
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_onboarding, OnboardingSummaryFragment()) // 화면 이동
                     .addToBackStack(null)
