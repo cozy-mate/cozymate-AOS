@@ -12,6 +12,7 @@ import umc.cozymate.databinding.RvItemTodoBinding
 
 class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                     private val isEditable: Boolean,
+                    private val clickFunc: ItemClick? = null,
                     private val updateTodo: (TodoData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
@@ -41,6 +42,10 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                 updateTextStyle(isChecked)
             }
             updateTextStyle(todoItem.completed)
+
+            binding.ivMore.setOnClickListener {
+                clickFunc!!.editClickFunction()
+            }
         }
         // 완료 상태에 따라 텍스트 스타일을 업데이트하는 함수
         private fun updateTextStyle(isCompleted: Boolean) {
@@ -76,7 +81,6 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                 else -> 0
             }
         })
-
         holder.bind(todoItems[position])
     }
 

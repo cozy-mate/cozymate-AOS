@@ -1,6 +1,7 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -118,7 +119,18 @@ class TodoTabFragment : Fragment() {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
 
-            val myTodoRVAdapter = TodoRVAdapter(mytodoList.todoList, true) { todoItem ->
+            val myTodoRVAdapter = TodoRVAdapter(
+                todoItems = mytodoList.todoList,
+                isEditable = true,
+                clickFunc = object : ItemClick {
+                    override fun editClickFunction() {
+                        super.editClickFunction()
+                        val intent = Intent(activity,AddTodoActivity()::class.java)
+                        intent.putExtra("type",0)
+                        startActivity(intent)
+                    }
+                }
+            ) { todoItem ->
                 val request = UpdateTodoRequest(todoItem.todoId, todoItem.completed)
                 viewModel.updateTodo(request)
             }
