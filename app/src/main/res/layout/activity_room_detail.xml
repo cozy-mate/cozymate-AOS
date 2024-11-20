@@ -107,17 +107,17 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:fillViewport="true"
             android:scrollbars="none"
-            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_room_search_list">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_room_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/rv_item_room_detail"
-                android:id="@+id/rv_room_detail"/>
+                tools:listitem="@layout/rv_item_room_detail" />
 
         </androidx.core.widget.NestedScrollView>
 
