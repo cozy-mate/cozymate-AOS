@@ -16,20 +16,23 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.CreateTodoRequest
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
 import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
-class AddTodoTabFragment: Fragment(){
+class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     lateinit var binding: FragmentAddTodoTabBinding
     lateinit var calendarView: MaterialCalendarView
 
@@ -37,11 +40,13 @@ class AddTodoTabFragment: Fragment(){
 
     private var today = CalendarDay.today()
     private var selectedDate: String? = ""
-    private val selectedMateIds = mutableListOf<Int>()
-
-    private var mateList :  List<GetRoomInfoResponse.Result.Mate> = emptyList()
+    private var selectedMateIds = mutableListOf<Int>()
+    private var content : String? = ""
+    private var mateList :  List<Mate> = emptyList()
     private val memberBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
+    private var todoId : Int = 0
+    private var dummy : List<Mate> = emptyList()
 
     private val viewModel: TodoViewModel by viewModels()
     private val tabViewModel: SelectedTabViewModel by viewModels()
@@ -53,8 +58,16 @@ class AddTodoTabFragment: Fragment(){
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
 
+        dummy = listOf(
+            Mate(memberId=7, nickname="눈꽃", mateId=1),
+            Mate(memberId=8, nickname="용용", mateId=3),
+            Mate(memberId=3, nickname="말즈", mateId=6),
+            Mate(memberId=12, nickname="델로롱", mateId=11),
+            Mate(memberId=13, nickname="리원", mateId=12)
+        )
         getPreference()
         initMember()
+        initdata()
         setTodoinput()
         setupCalendar()
         initClickListener()
@@ -72,11 +85,12 @@ class AddTodoTabFragment: Fragment(){
         } else {
             Log.d(TAG, "No mate list found")
         }
+
     }
-    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.Mate>? {
+    fun getListFromPrefs(json: String): List<Mate>? {
         return try {
             val gson = Gson()
-            val type = object : TypeToken<List<GetRoomInfoResponse.Result.Mate>>() {}.type
+            val type = object : TypeToken<List<Mate>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse mates list JSON", e)
@@ -84,22 +98,62 @@ class AddTodoTabFragment: Fragment(){
         }
     }
 
+    private fun initdata(){
+        if(isEditable){
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            todoId = spf.getInt("todo_id",0)
+            spf.edit().remove("todo_id")
+            content = spf.getString("todo_content","")
+            spf.edit().remove("todo_content")
+            selectedDate = spf.getString("todo_selected_date","")
+            spf.edit().remove("todo_selected_date")
+            try{
+                val json = spf.getString("todo_mate_list","")
+                val type = object : TypeToken<MutableList<Int>>(){}.type
+                if(!json.isNullOrEmpty())selectedMateIds = Gson().fromJson(json,type)
+
+            }catch (e: JsonParseException){ e.printStackTrace() }
+            spf.edit().remove("todo_mate_list")
+            for(id in selectedMateIds){
+                for (i :Int in 0..mateList.size-1){
+                    if(id == mateList[i].mateId) {
+                        memberBox[i].isChecked = true
+                        updateCheckBoxColor(memberBox[i],true)
+                    }
+                }
+            }
+        }
+        else{
+            todoId=0;
+            content = ""
+            selectedDate = ""
+            selectedMateIds.clear()
+        }
+    }
     private fun checkInput() {
         val memberFlag = memberBox.any{it.isChecked}
-        val todoFlag = !binding.etInputTodo.text.isNullOrEmpty()
+        val todoFlag = !content.isNullOrEmpty()
         val dateFlag = !selectedDate.isNullOrEmpty()
         binding.btnInputButton.isEnabled = ( todoFlag && memberFlag && dateFlag)
     }
 
     private fun setupCalendar() {
-        // 오늘 날짜 선택
-        binding.calendarView.setSelectedDate(today)
-        selectedDate = String.format("%04d-%02d-%02d", today.year, today.month, today.day)
+        // 초기 날짜 선택
+        if (selectedDate.isNullOrEmpty()){
+            binding.calendarView.setSelectedDate(today)
+            selectedDate = String.format("%04d-%02d-%02d", today.year, today.month, today.day)
+        }
+        else{
+            val date: LocalDate = LocalDate.parse(selectedDate, DateTimeFormatter.ISO_LOCAL_DATE)
+            val test : CalendarDay =  CalendarDay.from(date.year, date.monthValue, date.dayOfMonth)
+            Log.d(TAG,"calendar ${test.date}")
+            binding.calendarView.setSelectedDate(test)
+        }
+
 
         val decorator = CalenderDecorator(requireContext(),binding.calendarView)
         val todayDecorator = todayDecorator(requireContext(),binding.calendarView)
         binding.calendarView.addDecorators(decorator,todayDecorator)
-        binding.calendarView.setSelectedDate(CalendarDay.today())
 
         // 월이 변경될 때마다 데코레이터를 업데이트
         binding.calendarView.setOnMonthChangedListener { widget, date ->
@@ -120,12 +174,15 @@ class AddTodoTabFragment: Fragment(){
     private fun setTodoinput() {
         val maxLength = 20 // 최대 글자수 설정
         binding.etInputTodo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
+        binding.etInputTodo.setText(content)
         binding.etInputTodo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged( s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkInput()
             }
-            override fun afterTextChanged(s: Editable?) { checkInput()}
+            override fun afterTextChanged(s: Editable?) {
+                content = binding.etInputTodo.text.toString()
+                checkInput()}
         })
     }
 
@@ -138,6 +195,7 @@ class AddTodoTabFragment: Fragment(){
             ConvertDPtoPX(requireContext(), 8)  // bottom
         )
 
+        mateList = dummy
         // 맴버 선택 추가
         for (mate in mateList) {
             val checkBox = CheckBox(context).apply {
@@ -178,25 +236,16 @@ class AddTodoTabFragment: Fragment(){
         }
 
         binding.btnInputButton.setOnClickListener {
-            val content = binding.etInputTodo.text.toString()
-            if (content.isNotEmpty() && selectedDate != null) {
-                val todoRequest = CreateTodoRequest(
-                    mateIdList = selectedMateIds,
-                    content = content,
-                    timePoint = selectedDate!!
-                )
-                Log.d(TAG,"입력 데이터 ${todoRequest}")
-                viewModel.createTodo(roomId, todoRequest)
-                viewModel.createResponse.observe(viewLifecycleOwner) { response ->
-                    if (response.isSuccessful) {
-                        Log.d(TAG,"연결 성공 ${todoRequest}")
-                        //tabViewModel.setSelectedTab(0)
-                    } else {
-                        Log.d(TAG,"연결 실패")
-                    }
-                }
-                (requireActivity() as AddTodoActivity).finish()
+            val todoRequest = CreateTodoRequest(mateIdList = selectedMateIds, content = content!!, timePoint = selectedDate!!)
+            Log.d(TAG,"입력 데이터 ${todoRequest}")
+            if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
+            else viewModel.createTodo(roomId, todoRequest)
+            viewModel.createResponse.observe(viewLifecycleOwner) { response ->
+                if (response.isSuccessful) Log.d(TAG,"연결 성공 ${todoRequest}")
+                else Log.d(TAG,"연결 실패")
             }
+            (requireActivity() as AddTodoActivity).finish()
+
         }
     }
 

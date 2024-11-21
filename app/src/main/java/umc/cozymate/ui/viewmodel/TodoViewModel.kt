@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreateTodoRequest
-import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
@@ -45,6 +44,9 @@ class TodoViewModel @Inject constructor(
     private val _createResponse = MutableLiveData<Response<CreateResponse>>()
     val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
 
+    private val _editResponse = MutableLiveData<Response<DefaultResponse>>()
+    val editResponse: LiveData<Response<DefaultResponse>> get() = _editResponse
+
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -67,11 +69,11 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(request: UpdateTodoRequest) {
+    fun updateTodo(roomId: Int, todoId: Int, completed: Boolean) {
         viewModelScope.launch {
             val token = getToken()
             try {
-                val response = repository.updateTodo( token!!, request)
+                val response = repository.updateTodo( token!!,roomId, todoId, completed )
                 if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"api 요청 실패:  ${e}")
@@ -84,6 +86,17 @@ class TodoViewModel @Inject constructor(
             val token = getToken()
             try {
                 val response = repository.createTodo( token!! ,roomId, request)
+                if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+            } catch (e: Exception) {
+                Log.d(TAG,"api 요청 실패:  ${e}")
+            }
+        }
+    }
+    fun editTodo(roomId: Int,todoId: Int, request: CreateTodoRequest) {
+        viewModelScope.launch {
+            val token = getToken()
+            try {
+                val response = repository.editTodo( token!! ,roomId,todoId, request)
                 if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"api 요청 실패:  ${e}")

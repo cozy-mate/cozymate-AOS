@@ -11,13 +11,12 @@ import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoBinding
 
 class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
-                    private val isEditable: Boolean,
-                    private val clickFunc: ItemClick? = null,
-                    private val updateTodo: (TodoData.TodoItem) -> Unit )
+                    private val isEditable: Boolean )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
     private val todoType = arrayOf("self","group","other")
+    private lateinit var myListener: itemClickListener
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(todoItem: TodoData.TodoItem) {
             binding.tvTodoItem.text = todoItem.content
@@ -33,20 +32,21 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                     "self" -> binding.ivTodoType.visibility = View.GONE
                     "role" -> binding.ivTodoType.setColorFilter(Color.parseColor("#ACE246"))
                     "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))
-
                 }
             }
             binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
                 todoItem.completed = isChecked
-                updateTodo(todoItem) // 서버로 상태 업데이트 요청
+                myListener.checkboxClickFunction(todoItem)
                 updateTextStyle(isChecked)
             }
             updateTextStyle(todoItem.completed)
 
             binding.ivMore.setOnClickListener {
-                clickFunc!!.editClickFunction()
+                myListener.editClickFunction(todoItem)
             }
         }
+
+
         // 완료 상태에 따라 텍스트 스타일을 업데이트하는 함수
         private fun updateTextStyle(isCompleted: Boolean) {
             if (isCompleted) {
@@ -62,8 +62,6 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
             }
         }
     }
-
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding: RvItemTodoBinding
@@ -85,5 +83,14 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
     }
 
     override fun getItemCount(): Int  =  todoItems.size
+
+    fun setItemClickListener(listener : itemClickListener){
+            myListener = listener
+    }
+    interface itemClickListener : ItemClick{
+        fun checkboxClickFunction(todo: TodoData.TodoItem)
+    }
+
+
 
 }

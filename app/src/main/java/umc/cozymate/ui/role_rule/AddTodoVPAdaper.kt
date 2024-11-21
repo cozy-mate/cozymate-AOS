@@ -11,8 +11,9 @@ class AddTodoVPAdaper(fragmentManager: FragmentManager, lifecycle: androidx.life
     };
 
     override fun createFragment(position: Int): Fragment {
-        val fragments = listOf( AddTodoTabFragment(),AddRoleTabFragment(), AddRuleTabFragment())
-        if(itemCount == 1) return fragments[type]
+        val isEditable : Boolean = (itemCount==1)
+        val fragments = listOf( AddTodoTabFragment(isEditable),AddRoleTabFragment(), AddRuleTabFragment())
+        if(isEditable) return fragments[type]
         return fragments[position]
     }
 

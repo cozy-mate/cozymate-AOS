@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 
 data class TestInfo(
-//    @SerialName("name")
-//    val name: String,
+
     @SerialName("memberId")
     val memberId: Int = 0,
     @SerialName("nickname")

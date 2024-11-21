@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TestInfo
 import umc.cozymate.data.model.entity.TodoData
-import umc.cozymate.data.model.request.UpdateTodoRequest
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
@@ -43,7 +43,6 @@ class TodoTabFragment : Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
-
         getPreference()
         updateInfo()
         return binding.root
@@ -119,25 +118,25 @@ class TodoTabFragment : Fragment() {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
 
-            val myTodoRVAdapter = TodoRVAdapter(
-                todoItems = mytodoList.todoList,
-                isEditable = true,
-                clickFunc = object : ItemClick {
-                    override fun editClickFunction() {
-                        super.editClickFunction()
-                        val intent = Intent(activity,AddTodoActivity()::class.java)
-                        intent.putExtra("type",0)
-                        startActivity(intent)
-                    }
-                }
-            ) { todoItem ->
-                val request = UpdateTodoRequest(todoItem.todoId, todoItem.completed)
-                viewModel.updateTodo(request)
-            }
-            binding.rvMyTodo.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList.todoList, isEditable = true)
+            binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
+
+            myTodoRVAdapter.setItemClickListener(object: TodoRVAdapter.itemClickListener{
+                override fun checkboxClickFunction(todo: TodoData.TodoItem) {
+                    viewModel.updateTodo(roomId, todo.todoId, todo.completed)
+                }
+
+                override fun editClickFunction(todo : TodoData.TodoItem) {
+                    saveSpf(todo)
+                    val intent = Intent(activity,AddTodoActivity()::class.java)
+                    intent.putExtra("type",0)
+                    startActivity(intent)
+                }
+
+            } )
         }
+
         // 룸메 할일(중첩 리사이클러뷰)
         if (memberList?.isNullOrEmpty() == true) {
             binding.tvEmptyMember.visibility = View.VISIBLE
@@ -151,6 +150,16 @@ class TodoTabFragment : Fragment() {
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
 
+    }
+
+    private fun saveSpf(todo: TodoData.TodoItem){
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = spf.edit()
+        editor.putInt("todo_id",todo.todoId)
+        editor.putString("todo_content",todo.content)
+        editor.putString("todo_selected_date",selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+        editor.putString("todo_mate_list",Gson().toJson(todo.mateIdList))
+        editor.apply()
     }
 
     private fun setupCalendar() {

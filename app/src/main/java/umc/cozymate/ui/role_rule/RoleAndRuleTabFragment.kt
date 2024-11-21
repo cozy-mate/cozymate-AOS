@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.RoleData
-import umc.cozymate.data.model.entity.RuleInfo
+import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.RuleViewModel
@@ -21,7 +21,7 @@ import umc.cozymate.ui.viewmodel.RuleViewModel
 class RoleAndRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentRoleAndRuleTabBinding
-    private var rules : List<RuleInfo> = emptyList()
+    private var rules : List<RuleData> = emptyList()
     private var roles : List<RoleData> = emptyList()
     private val ruleViewModel : RuleViewModel by viewModels()
     private val roleViewModel : RoleViewModel by viewModels()

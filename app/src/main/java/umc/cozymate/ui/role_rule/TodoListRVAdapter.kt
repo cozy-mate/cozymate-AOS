@@ -29,13 +29,7 @@ class TodoListRVAdapter(
                 binding.rvList.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 binding.rvList.apply {
-                    adapter = TodoRVAdapter(todoMateData.todoList, false) { todoItem ->
-                        // 이 콜백에서 변경된 todoItem을 TodoMateData 전체로 반영하여 updateTodo를 호출합니다.
-                        val updatedTodoList = todoMateData.todoList.map {
-                            if (it.todoId == todoItem.todoId) todoItem else it
-                        }
-                        updateTodo(todoMateData.copy(todoList = updatedTodoList))
-                    }
+                    adapter = TodoRVAdapter(todoMateData.todoList, false)
                     layoutManager = LinearLayoutManager(context)
                 }
             }
