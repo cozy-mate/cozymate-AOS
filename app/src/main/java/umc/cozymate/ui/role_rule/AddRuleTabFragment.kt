@@ -15,14 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.databinding.FragmentAddRuleTabBinding
 import umc.cozymate.ui.viewmodel.RuleViewModel
-import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 
 @AndroidEntryPoint
 class AddRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRuleTabBinding
     private val viewModel : RuleViewModel by viewModels()
-    private val tabViewModel: SelectedTabViewModel by viewModels()
     private var roomId : Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,23 +30,8 @@ class AddRuleTabFragment: Fragment() {
         binding = FragmentAddRuleTabBinding.inflate(inflater, container, false)
         setRuleinput()
         setMemo()
-        binding.btnInputButton.setOnClickListener {
-            val ruleRequest = RuleRequest(binding.etInputRule.text.toString(),binding.etInputMemo.text.toString())
-            Log.d(TAG,"입력데이터 ${ruleRequest}")
-            getPreference()
-            viewModel.createRule(roomId, ruleRequest)
-            viewModel.createResponse.observe(viewLifecycleOwner){response->
-                if(response.isSuccessful){
-                    Log.d(TAG, "연결 성공 ${ruleRequest}")
-                    tabViewModel.setSelectedTab(1)
-
-                }else{
-                    Log.d(TAG, "연결 실패")
-                }
-            }
-
-            (requireActivity() as AddTodoActivity).finish()
-        }
+        getPreference()
+        initClickListener()
         return binding.root
     }
 
@@ -74,6 +57,30 @@ class AddRuleTabFragment: Fragment() {
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    private fun initClickListener(){
+        binding.btnInputButton.setOnClickListener {
+            val ruleRequest = RuleRequest(binding.etInputRule.text.toString(),binding.etInputMemo.text.toString())
+            Log.d(TAG,"입력데이터 ${ruleRequest}")
+            getPreference()
+            viewModel.createRule(roomId, ruleRequest)
+            viewModel.createResponse.observe(viewLifecycleOwner){response->
+                if(response.isSuccessful){
+                    Log.d(TAG, "연결 성공 ${ruleRequest}")
+                }else{
+                    Log.d(TAG, "연결 실패")
+                }
+            }
+
+            // 돌아갈 룰앤롤탭 순서 지정
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1)
+            editor.apply()
+
+            (requireActivity() as AddTodoActivity).finish()
+        }
     }
 
 

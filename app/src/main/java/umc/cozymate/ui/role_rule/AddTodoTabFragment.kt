@@ -22,10 +22,9 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.data.model.request.CreateTodoRequest
+import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
-import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -49,7 +48,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     private var dummy : List<Mate> = emptyList()
 
     private val viewModel: TodoViewModel by viewModels()
-    private val tabViewModel: SelectedTabViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,7 +83,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         } else {
             Log.d(TAG, "No mate list found")
         }
-
     }
     fun getListFromPrefs(json: String): List<Mate>? {
         return try {
@@ -236,7 +233,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         }
 
         binding.btnInputButton.setOnClickListener {
-            val todoRequest = CreateTodoRequest(mateIdList = selectedMateIds, content = content!!, timePoint = selectedDate!!)
+            val todoRequest = TodoRequest(mateIdList = selectedMateIds, content = content!!, timePoint = selectedDate!!)
             Log.d(TAG,"입력 데이터 ${todoRequest}")
             if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
             else viewModel.createTodo(roomId, todoRequest)
@@ -244,6 +241,13 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
                 if (response.isSuccessful) Log.d(TAG,"연결 성공 ${todoRequest}")
                 else Log.d(TAG,"연결 실패")
             }
+
+            // 돌아갈 룰앤롤탭 순서 지정
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 0)
+            editor.apply()
+
             (requireActivity() as AddTodoActivity).finish()
 
         }

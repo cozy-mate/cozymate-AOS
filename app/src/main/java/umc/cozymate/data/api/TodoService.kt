@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.model.request.CreateTodoRequest
+import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 
@@ -34,7 +34,7 @@ interface TodoService {
     suspend fun createTodo(
         @Header("Authorization") accessToken: String,
         @Path( "roomId") roomId : Int,
-        @Body request: CreateTodoRequest
+        @Body request: TodoRequest
     ): Response<CreateResponse>
 
     @PATCH("/rooms/{roomId}/todos/{todoId}")
@@ -42,7 +42,7 @@ interface TodoService {
         @Header("Authorization") accessToken: String,
         @Path( "roomId") roomId : Int,
         @Path( "todoId") todoId : Int,
-        @Body request: CreateTodoRequest
+        @Body request: TodoRequest
     ) : Response<DefaultResponse>
 
 }

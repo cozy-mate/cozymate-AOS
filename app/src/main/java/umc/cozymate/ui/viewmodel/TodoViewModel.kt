@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
-import umc.cozymate.data.model.request.CreateTodoRequest
+import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
@@ -81,7 +81,7 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    fun createTodo(roomId: Int, request: CreateTodoRequest) {
+    fun createTodo(roomId: Int, request: TodoRequest) {
         viewModelScope.launch {
             val token = getToken()
             try {
@@ -92,7 +92,7 @@ class TodoViewModel @Inject constructor(
             }
         }
     }
-    fun editTodo(roomId: Int,todoId: Int, request: CreateTodoRequest) {
+    fun editTodo(roomId: Int,todoId: Int, request: TodoRequest) {
         viewModelScope.launch {
             val token = getToken()
             try {

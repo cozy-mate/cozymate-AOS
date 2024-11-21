@@ -24,7 +24,6 @@ import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
-import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 
 @AndroidEntryPoint
 class AddRoleTabFragment: Fragment() {
@@ -37,7 +36,6 @@ class AddRoleTabFragment: Fragment() {
     private val memberBox = mutableListOf<CheckBox>()
     private val weekdayBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
-    private val tabViewModel: SelectedTabViewModel by viewModels()
     private val viewModel: RoleViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -203,6 +201,13 @@ class AddRoleTabFragment: Fragment() {
                 if (!response.isSuccessful) Log.d(TAG,"연결 실패")
             }
             (requireActivity() as AddTodoActivity).finish()
+
+            // 돌아갈 룰앤롤탭 순서 지정
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1)
+            editor.apply()
+            Log.d("RoleAndRuleFragment","role spf ${spf.getInt("tab_idx",0)}, roomid : ${spf.getInt("room_id",0)}")
         }
     }
 

@@ -2,7 +2,7 @@ package umc.cozymate.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class CreateTodoRequest(
+data class TodoRequest(
     @SerializedName("mateIdList")
     val mateIdList: List<Int>,
     @SerializedName("content")

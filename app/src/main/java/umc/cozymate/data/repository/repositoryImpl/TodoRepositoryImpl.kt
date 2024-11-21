@@ -3,7 +3,7 @@ package umc.cozymate.data.repository.repositoryImpl
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.TodoService
-import umc.cozymate.data.model.request.CreateTodoRequest
+import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
@@ -33,7 +33,7 @@ class TodoRepositoryImpl @Inject constructor(
     override suspend fun createTodo(
         accessToken: String,
         roomId: Int,
-        request: CreateTodoRequest
+        request: TodoRequest
     ): Response<CreateResponse> {
         return api.createTodo(accessToken, roomId,request)
     }
@@ -42,7 +42,7 @@ class TodoRepositoryImpl @Inject constructor(
         accessToken: String,
         roomId: Int,
         todoId: Int,
-        request: CreateTodoRequest
+        request: TodoRequest
     ): Response<DefaultResponse> {
         return api.editTodo(accessToken, roomId, todoId, request)
     }
