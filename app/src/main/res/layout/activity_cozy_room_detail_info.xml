@@ -526,17 +526,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-        
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_request_room"
-            android:layout_margin="16dp"
-            android:background="@drawable/btn_rectangle_next_state"
-            android:foregroundGravity="bottom"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/fab_request_enter_room"
+            android:gravity="center"
+            android:background="@drawable/btn_room_detail_request"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="visible"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
