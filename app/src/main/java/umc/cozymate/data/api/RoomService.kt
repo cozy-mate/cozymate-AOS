@@ -9,6 +9,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.response.room.CancelInvitationResponse
+import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
@@ -18,7 +20,7 @@ import umc.cozymate.data.model.response.room.JoinRoomResponse
 
 interface RoomService {
 
-    // 방 삭제
+    // 방 삭제 (방장 권한)
     @DELETE("rooms/{roomId}")
     suspend fun deleteRoom(
         @Header("Authorization") accessToken: String,
@@ -26,7 +28,22 @@ interface RoomService {
         @Query("memberId") memberId: Int? = null
     ): Response<DeleteRoomResponse>
 
-    // 방장이 생성한 방 정보 조회
+    // 사용자 -> 방 참여 요청 취소
+    @DELETE("/rooms/{roomId}/request-join")
+    suspend fun cancelJoinRequest(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ): Response<CancelJoinRequestResponse>
+
+    // 방장 -> 내방으로 초대 취소
+    @DELETE("/rooms/invitee/{inviteeId}")
+    suspend fun cancelInvitation(
+        @Header("Authorization") accessToken: String,
+        @Path("inviteeId") inviteeId: Int
+    ): Response<CancelInvitationResponse>
+
+    // 방 정보 조회
+    // 공개방은 모두 조회 가능, 비공개방은 사용자가 속한 방만 조회 가능
     @GET("/rooms/{roomId}")
     suspend fun getRoomInfo(
         @Header("Authorization") accessToken: String,
