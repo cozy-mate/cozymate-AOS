@@ -35,13 +35,13 @@ class RuleRepositoryImpl @Inject constructor(
         return api.deleteRule(accessToken, roomId, ruleId)
     }
 
-    override suspend fun updateRule(
+    override suspend fun editRule(
         accessToken: String,
         roomId: Int,
         ruleId: Int,
         request: RuleRequest
     ): Response<DefaultResponse> {
-        return api.updateRule(accessToken, roomId, ruleId, request)
+        return api.editRule(accessToken, roomId, ruleId, request)
     }
 
 }

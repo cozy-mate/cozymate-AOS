@@ -126,6 +126,14 @@ class RoleAndRuleTabFragment: Fragment() {
             val ruleRVAdapter = RuleRVAdapter(rules)
             binding.rvRules.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
             binding.rvRules.adapter = ruleRVAdapter
+            ruleRVAdapter.setItemClickListener(object :ItemClick{
+                override fun editClickFunction(rule: RuleData){
+                    saveRuleSpf(rule)
+                    val intent = Intent(activity,AddTodoActivity()::class.java)
+                    intent.putExtra("type",2)
+                    startActivity(intent)
+                }
+            })
         }
 
     }
@@ -143,7 +151,7 @@ class RoleAndRuleTabFragment: Fragment() {
             binding.rvRoleList.adapter = roleRVAdapter
             roleRVAdapter.setItemClickListener(object : ItemClick{
                 override fun editClickFunction(role: RoleData) {
-                    saveSpf(role)
+                    saveRoleSpf(role)
                     val intent = Intent(activity,AddTodoActivity()::class.java)
                     intent.putExtra("type",1)
                     startActivity(intent)
@@ -151,12 +159,19 @@ class RoleAndRuleTabFragment: Fragment() {
             })
         }
     }
-    private fun saveSpf(role: RoleData){
+    private fun saveRoleSpf(role: RoleData){
         val editor = spf.edit()
         editor.putInt("role_id",role.roleId)
         editor.putString("role_content",role.content)
         editor.putString("role_mate_list", Gson().toJson(role.mateList))
         editor.putString("role_day_list",Gson().toJson(role.repeatDayList))
+        editor.apply()
+    }
+    private fun saveRuleSpf(rule: RuleData){
+        val editor = spf.edit()
+        editor.putInt("rule_id",rule.ruleId)
+        editor.putString("rule_content",rule.content)
+        editor.putString("rule_memo",rule.memo)
         editor.apply()
     }
 

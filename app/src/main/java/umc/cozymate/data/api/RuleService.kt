@@ -36,7 +36,7 @@ interface RuleService {
     ): Response<DefaultResponse>
 
     @PUT("/rooms/{roomId}/rules/{ruleId}")
-    suspend fun updateRule(
+    suspend fun editRule(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
         @Path("ruleId") ruleId : Int,

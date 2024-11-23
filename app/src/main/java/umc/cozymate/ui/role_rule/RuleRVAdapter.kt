@@ -8,6 +8,7 @@ import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.RvItemRuleBinding
 
 class RuleRVAdapter(private var rule : List<RuleData>) : RecyclerView.Adapter<RuleRVAdapter.ViewHolder>() {
+    private lateinit var myListener: ItemClick
     inner class ViewHolder(val binding: RvItemRuleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
             binding.tvRule.text = rule[pos].content
@@ -18,6 +19,9 @@ class RuleRVAdapter(private var rule : List<RuleData>) : RecyclerView.Adapter<Ru
             else{
                 binding.tvMemo.visibility = View.VISIBLE
                 binding.tvMemo.text = rule[pos].memo
+            }
+            binding.ivMore.setOnClickListener {
+                myListener.editClickFunction(rule[pos])
             }
         }
     }
@@ -30,4 +34,8 @@ class RuleRVAdapter(private var rule : List<RuleData>) : RecyclerView.Adapter<Ru
     override fun onBindViewHolder(holder: RuleRVAdapter.ViewHolder, position: Int) {
         holder.bind(position)
     }
+    fun setItemClickListener(listener : ItemClick){
+        myListener = listener
+    }
+
 }

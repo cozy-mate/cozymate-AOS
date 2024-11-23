@@ -57,6 +57,5 @@ class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<R
     fun setItemClickListener(listener : ItemClick){
         myListener = listener
     }
-    interface itemClickListener : ItemClick{
-    }
+
 }

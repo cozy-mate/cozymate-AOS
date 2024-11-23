@@ -29,9 +29,9 @@ import umc.cozymate.ui.viewmodel.RoleViewModel
 
 @AndroidEntryPoint
 class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
+    private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRoleTabBinding
     lateinit var spf : SharedPreferences
-    private val TAG = this.javaClass.simpleName
     private var repeatDayList =mutableListOf<String>()
     private var selectedMates = mutableListOf<mateInfo>()
     private val weekdayBox = mutableListOf<Daybox>()
@@ -94,7 +94,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             roleId = spf.getInt("role_id",0)
             spf.edit().remove("role_id")
             content = spf.getString("role_content","")
-            spf.edit().remove("role_content",)
+            spf.edit().remove("role_content")
             try{
                 var json = spf.getString("role_mate_list","")
                 var type = object : TypeToken<MutableList<mateInfo>>(){}.type
@@ -165,9 +165,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkInput()
             }
-            override fun afterTextChanged(s: Editable?) {
-                checkInput()
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
