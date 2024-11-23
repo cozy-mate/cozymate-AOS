@@ -62,10 +62,9 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         initMember(dummy)
         initWeekdays()
         initdata()
-        initClickListener()
         setTextinput()
+        initClickListener()
         checkInput()
-
         return binding.root
     }
 
@@ -97,24 +96,25 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             content = spf.getString("role_content","")
             spf.edit().remove("role_content",)
             try{
-                var json = spf.getString("todo_mate_list","")
+                var json = spf.getString("role_mate_list","")
                 var type = object : TypeToken<MutableList<mateInfo>>(){}.type
-                if(!json.isNullOrEmpty()) selectedMates = Gson().fromJson(json,type)
-                json = spf.getString("role_repeatday_list","")
-                type = object : TypeToken<MutableList<String>>(){}.type
-                if(!json.isNullOrEmpty())  repeatDayList = Gson().fromJson(json,type)
-            }catch (e: JsonParseException){ e.printStackTrace() }
-            spf.edit().remove("role_mate_list")
-            spf.edit().remove("role_repeatday_list")
-            for(mate in mateBox ){
-                if(selectedMates.contains(mate.getMateInfo()))mate.box.isChecked = true
-            }
-            if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
-            else{
-                for(day in weekdayBox){
-                    if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
+                if(!json.isNullOrEmpty()) {
+                    selectedMates = Gson().fromJson(json,type)
+                    for(mate in mateBox )
+                        if(selectedMates.contains(mate.getMateInfo()))mate.box.isChecked = true
                 }
-            }
+                json = spf.getString("role_day_list","")
+                type = object : TypeToken<MutableList<String>>(){}.type
+                if(!json.isNullOrEmpty()) {
+                    repeatDayList = Gson().fromJson(json,type)
+                    for(day in weekdayBox)
+                        if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
+                }
+            }catch (e: JsonParseException){ e.printStackTrace() }
+            if(repeatDayList.isNullOrEmpty())binding.cbEmptyWeekday.isChecked = true
+            spf.edit().remove("role_mate_list")
+            spf.edit().remove("role_day_list")
+            spf.edit().apply()
         }
         else{
             roleId=0
@@ -130,8 +130,8 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (box.isChecked) selectedMates.add(m.getMateInfo()) // 체크되면 mate를 추가
-                else selectedMates.remove(m.getMateInfo()) // 체크 해제되면 mate를 제거
+                if (box.isChecked && !selectedMates.contains(m.getMateInfo())) selectedMates.add(m.getMateInfo()) // 체크되면 mate를 추가
+                if(!isChecked) selectedMates.remove(m.getMateInfo()) // 체크 해제되면 mate를 제거
                 checkAll()
                 checkInput()
             }
@@ -159,6 +159,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private fun setTextinput() {
         val maxLength = 20 // 최대 글자수 설정
         binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
+        binding.etInputRole.setText(content)
         binding.etInputRole.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -170,17 +171,11 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         })
     }
 
-
-
     private fun initClickListener(){
         // 모두 체크박스 체크 확인
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
-            selectedMates.clear()
-            for(mate in mateBox){
-                mate.box.isChecked = isChecked
-                if(isChecked) selectedMates.add(mate.getMateInfo())
-            }
+            for(mate in mateBox)mate.box.isChecked = isChecked
             checkInput()
         }
 
@@ -198,15 +193,14 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         binding.btnInputButton.setOnClickListener {
             val request = RoleRequest(selectedMates, binding.etInputRole.text.toString(),repeatDayList)
             Log.d(TAG,"Role 입력 데이터 ${request}")
-            viewModel.createRole(roomId, request)
-            viewModel.createResponse.observe(viewLifecycleOwner){response->
-                if (!response.isSuccessful) Log.d(TAG,"연결 실패")
-            }
-            (requireActivity() as AddTodoActivity).finish()
+            if(isEditable) viewModel.editRole(roomId, roleId, request)
+            else viewModel.createRole(roomId, request)
 
             // 돌아갈 룰앤롤탭 순서 지정
             spf.edit().putInt("tab_idx", 1)
             spf.edit().apply()
+
+            (requireActivity() as AddTodoActivity).finish()
         }
     }
 
@@ -222,41 +216,6 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     }
 
 
-    inner class MateBox(
-        val info : Mate,
-        val box : CheckBox
-    ){
-        init { setBox() }
-        fun getMateInfo(): mateInfo { return mateInfo(info.mateId, info.nickname) }
-        fun setBox(){
-            box.apply {
-                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
-                layoutParams.setMargins(
-                    ConvertDPtoPX(requireContext(), 0), // left
-                    ConvertDPtoPX(requireContext(), 0), // top
-                    ConvertDPtoPX(requireContext(), 8), // right
-                    ConvertDPtoPX(requireContext(), 8)  // bottom
-                )
-                text = info.nickname
-                setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
-                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
-                setBackgroundResource(R.drawable.ic_input_role_member)
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                gravity = Gravity.CENTER
-                buttonDrawable = null
-                this.layoutParams = layoutParams
-            }
-            box.setOnCheckedChangeListener { box, isChecked ->
-                val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
-                box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (box.isChecked) selectedMates.add(getMateInfo()) // 체크되면 mate를 추가
-                else selectedMates.remove(getMateInfo()) // 체크 해제되면 mate를 제거
-                checkAll()
-                checkInput()
-            }
-            binding.layoutMember.addView(box)
-        }
-    }
     inner class Daybox(
         val weekDay : String,
         val box : CheckBox
@@ -277,13 +236,12 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (isChecked) {
+                if (isChecked && !repeatDayList.contains(this.weekDay)) {
                     repeatDayList.add(this.weekDay) // 체크되면 요일 문자열 추가
                     binding.cbEmptyWeekday.isChecked = false
-                } else {
-                    repeatDayList.remove(this.weekDay)
-                    if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
                 }
+                if(!isChecked && repeatDayList.contains(this.weekDay)) repeatDayList.remove(this.weekDay)
+                if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
                 checkInput()
             }
             binding.layoutWeekdays.addView(box)

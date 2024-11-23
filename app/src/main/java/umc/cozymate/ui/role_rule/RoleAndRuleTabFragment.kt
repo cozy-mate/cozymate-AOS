@@ -2,6 +2,7 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +26,7 @@ import umc.cozymate.ui.viewmodel.RuleViewModel
 class RoleAndRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentRoleAndRuleTabBinding
+    lateinit var spf : SharedPreferences
     private var rules : List<RuleData> = emptyList()
     private var roles : List<RoleData> = emptyList()
     private val ruleViewModel : RuleViewModel by viewModels()
@@ -38,6 +40,7 @@ class RoleAndRuleTabFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
+        spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
         updateInfo()
         return binding.root
@@ -57,7 +60,6 @@ class RoleAndRuleTabFragment: Fragment() {
 
 
     private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         roomName = spf.getString("room_name", "no_room_found").toString()
     }
@@ -129,7 +131,6 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
     private fun updateRole() {
-
         if(roles.isNullOrEmpty()){
             binding.tvEmptyRole.visibility = View.VISIBLE
             binding.rvRoleList.visibility = View.GONE
@@ -142,6 +143,7 @@ class RoleAndRuleTabFragment: Fragment() {
             binding.rvRoleList.adapter = roleRVAdapter
             roleRVAdapter.setItemClickListener(object : ItemClick{
                 override fun editClickFunction(role: RoleData) {
+                    saveSpf(role)
                     val intent = Intent(activity,AddTodoActivity()::class.java)
                     intent.putExtra("type",1)
                     startActivity(intent)
@@ -150,12 +152,11 @@ class RoleAndRuleTabFragment: Fragment() {
         }
     }
     private fun saveSpf(role: RoleData){
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = spf.edit()
         editor.putInt("role_id",role.roleId)
         editor.putString("role_content",role.content)
         editor.putString("role_mate_list", Gson().toJson(role.mateList))
-        editor.putString("role_repeatday_list",Gson().toJson(role.repeatDayList))
+        editor.putString("role_day_list",Gson().toJson(role.repeatDayList))
         editor.apply()
     }
 

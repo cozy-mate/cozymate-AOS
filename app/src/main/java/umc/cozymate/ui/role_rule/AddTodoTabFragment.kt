@@ -95,7 +95,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
 
     private fun initdata(){
         if(isEditable){
-            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             todoId = spf.getInt("todo_id",0)
             spf.edit().remove("todo_id")
             content = spf.getString("todo_content","")
@@ -111,7 +110,9 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
             spf.edit().remove("todo_mate_list")
             for(mate in mateBox ){
                 if(selectedMateIds.contains(mate.info.mateId))mate.box.isChecked = true
+                Log.d(TAG,"init test ${mate.getMateInfo()} : ${selectedMateIds}")
             }
+            spf.edit().apply()
         }
         else{
             todoId=0;
@@ -121,9 +122,10 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         }
     }
     private fun checkInput() {
-        val memberFlag = mateBox.any{it.box.isChecked}
-        val todoFlag = !content.isNullOrEmpty()
+        val memberFlag = mateBox.any{it.box.isChecked }
+        val todoFlag = !binding.etInputTodo.text.isNullOrEmpty()
         val dateFlag = !selectedDate.isNullOrEmpty()
+        Log.d(TAG,"flag test : member ${memberFlag} / todo ${todoFlag} / date ${dateFlag}")
         binding.btnInputButton.isEnabled = ( todoFlag && memberFlag && dateFlag)
     }
 
@@ -171,8 +173,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                content = binding.etInputTodo.text.toString()
-                checkInput()}
+                checkInput()
+            }
         })
     }
 
@@ -182,8 +184,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (isChecked) selectedMateIds.add(m.info.mateId)
-                else selectedMateIds.remove(m.info.mateId)
+                if (isChecked && !selectedMateIds.contains(m.info.mateId)) selectedMateIds.add(m.info.mateId)
+                if(!isChecked) selectedMateIds.remove(m.info.mateId)
                 checkAll()
                 checkInput()
             }
@@ -195,23 +197,15 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     private fun initClickListener() {
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
-            selectedMateIds.clear()
-            for(mate in mateBox){
-                mate.box.isChecked = isChecked
-                if(isChecked) selectedMateIds.add(mate.info.mateId)
-            }
+            for(mate in mateBox)  mate.box.isChecked = isChecked
             checkInput()
         }
 
         binding.btnInputButton.setOnClickListener {
-            val todoRequest = TodoRequest(mateIdList = selectedMateIds, content = content!!, timePoint = selectedDate!!)
+            val todoRequest = TodoRequest(mateIdList = selectedMateIds, content =  binding.etInputTodo.text.toString(), timePoint = selectedDate!!)
             Log.d(TAG,"입력 데이터 ${todoRequest}")
             if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
             else viewModel.createTodo(roomId, todoRequest)
-            viewModel.createResponse.observe(viewLifecycleOwner) { response ->
-                if (response.isSuccessful) Log.d(TAG,"연결 성공 ${todoRequest}")
-                else Log.d(TAG,"연결 실패")
-            }
 
             // 돌아갈 룰앤롤탭 순서 지정
             spf.edit().putInt("tab_idx", 0)
@@ -222,13 +216,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         }
     }
 
-    private fun updateCheckBoxColor(checkBox: CheckBox, isChecked: Boolean ){
-        if (isChecked) {
-            checkBox.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-        } else {
-            checkBox.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-        }
-    }
     private fun checkAll() {
         val isAll = mateBox.all { it.box.isChecked } // 모든 체크박스가 체크되었는지 확인
         binding.cbEveryone.isChecked = isAll // cbEveryday 체크 상태 업데이트
