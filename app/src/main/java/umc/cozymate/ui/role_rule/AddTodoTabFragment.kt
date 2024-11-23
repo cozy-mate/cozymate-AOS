@@ -1,17 +1,16 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,18 +33,17 @@ import java.time.format.DateTimeFormatter
 class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     lateinit var binding: FragmentAddTodoTabBinding
     lateinit var calendarView: MaterialCalendarView
-
+    lateinit var spf : SharedPreferences
     private val TAG = this.javaClass.simpleName
-
-    private var today = CalendarDay.today()
     private var selectedDate: String? = ""
     private var selectedMateIds = mutableListOf<Int>()
+    private var mateBox = mutableListOf<MemberBox>()
     private var content : String? = ""
-    private var mateList :  List<Mate> = emptyList()
-    private val memberBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
     private var todoId : Int = 0
+    private var today = CalendarDay.today()
     private var dummy : List<Mate> = emptyList()
+
 
     private val viewModel: TodoViewModel by viewModels()
     override fun onCreateView(
@@ -55,7 +53,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     ): View? {
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
-
+        spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         dummy = listOf(
             Mate(memberId=7, nickname="눈꽃", mateId=1),
             Mate(memberId=8, nickname="용용", mateId=3),
@@ -64,7 +62,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
             Mate(memberId=13, nickname="리원", mateId=12)
         )
         getPreference()
-        initMember()
+        initMember(dummy)
         initdata()
         setTodoinput()
         setupCalendar()
@@ -74,11 +72,11 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     }
 
     private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         val mateListJson = spf.getString("mate_list", null)
         if (mateListJson != null) {
-            mateList = getListFromPrefs(mateListJson)!!
+            val mateList = getListFromPrefs(mateListJson)!!
+            initMember(mateList)
             Log.d(TAG, "Mates list: $ mateList")
         } else {
             Log.d(TAG, "No mate list found")
@@ -111,13 +109,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
 
             }catch (e: JsonParseException){ e.printStackTrace() }
             spf.edit().remove("todo_mate_list")
-            for(id in selectedMateIds){
-                for (i :Int in 0..mateList.size-1){
-                    if(id == mateList[i].mateId) {
-                        memberBox[i].isChecked = true
-                        updateCheckBoxColor(memberBox[i],true)
-                    }
-                }
+            for(mate in mateBox ){
+                if(selectedMateIds.contains(mate.info.mateId))mate.box.isChecked = true
             }
         }
         else{
@@ -128,7 +121,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         }
     }
     private fun checkInput() {
-        val memberFlag = memberBox.any{it.isChecked}
+        val memberFlag = mateBox.any{it.box.isChecked}
         val todoFlag = !content.isNullOrEmpty()
         val dateFlag = !selectedDate.isNullOrEmpty()
         binding.btnInputButton.isEnabled = ( todoFlag && memberFlag && dateFlag)
@@ -183,40 +176,19 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         })
     }
 
-    private fun initMember(){
-        val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
-        layoutParams.setMargins(
-            ConvertDPtoPX(requireContext(), 0), // left
-            ConvertDPtoPX(requireContext(), 0), // top
-            ConvertDPtoPX(requireContext(), 8), // right
-            ConvertDPtoPX(requireContext(), 8)  // bottom
-        )
-
-        mateList = dummy
-        // 맴버 선택 추가
-        for (mate in mateList) {
-            val checkBox = CheckBox(context).apply {
-                text = mate.nickname
-                setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
-                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
-                setBackgroundResource(R.drawable.ic_input_role_member)
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                gravity = Gravity.CENTER
-                buttonDrawable = null
-                setOnClickListener {
-                    updateCheckBoxColor(this,this.isChecked)
-                    if (this.isChecked) {
-                        selectedMateIds.add(mate.mateId) // 체크되면 mateId를 추가
-                    } else {
-                        selectedMateIds.remove(mate.mateId) // 체크 해제되면 mateId를 제거
-                    }
-                    checkAll()
-                    checkInput()
-                }
-                this.layoutParams = layoutParams
+    private fun initMember(list : List<Mate>){
+        for (mate in list) {
+            val m = MemberBox(mate,CheckBox(context))
+            m.box.setOnCheckedChangeListener { box, isChecked ->
+                val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
+                box.setTextColor(ContextCompat.getColor(requireContext(),color))
+                if (isChecked) selectedMateIds.add(m.info.mateId)
+                else selectedMateIds.remove(m.info.mateId)
+                checkAll()
+                checkInput()
             }
-            memberBox.add(checkBox)
-            binding.layoutMember.addView(checkBox)
+            binding.layoutMember.addView(m.box)
+            mateBox.add(m)
         }
     }
 
@@ -224,10 +196,9 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
             selectedMateIds.clear()
-            for (i :Int in 0..mateList.size-1) {
-                memberBox[i].isChecked = isChecked
-                updateCheckBoxColor(memberBox[i],isChecked)
-                if(isChecked) selectedMateIds.add(mateList[i].mateId)
+            for(mate in mateBox){
+                mate.box.isChecked = isChecked
+                if(isChecked) selectedMateIds.add(mate.info.mateId)
             }
             checkInput()
         }
@@ -243,10 +214,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
             }
 
             // 돌아갈 룰앤롤탭 순서 지정
-            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            val editor = spf.edit()
-            editor.putInt("tab_idx", 0)
-            editor.apply()
+            spf.edit().putInt("tab_idx", 0)
+            spf.edit().apply()
 
             (requireActivity() as AddTodoActivity).finish()
 
@@ -261,13 +230,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         }
     }
     private fun checkAll() {
-        val isAll = memberBox.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
+        val isAll = mateBox.all { it.box.isChecked } // 모든 체크박스가 체크되었는지 확인
         binding.cbEveryone.isChecked = isAll // cbEveryday 체크 상태 업데이트
     }
 
-    // dp를 픽셀로
-    private fun ConvertDPtoPX(context: Context, dp: Int): Int {
-        val density = context.resources.displayMetrics.density
-        return Math.round(dp.toFloat() * density)
-    }
 }

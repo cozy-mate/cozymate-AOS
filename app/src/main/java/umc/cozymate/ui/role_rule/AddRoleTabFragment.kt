@@ -1,6 +1,7 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -16,34 +17,40 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.RoleData
+import umc.cozymate.data.model.entity.RoleData.mateInfo
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
 @AndroidEntryPoint
-class AddRoleTabFragment: Fragment() {
+class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     lateinit var binding: FragmentAddRoleTabBinding
+    lateinit var spf : SharedPreferences
     private val TAG = this.javaClass.simpleName
-    private var mateList :  List<Mate> = emptyList()
-    private val week = arrayListOf("월","화","수","목","금","토","일")
-    private val repeatDayList =mutableListOf<String>()
-    private val selectedMates = mutableListOf<RoleData.mateInfo>()
-    private val memberBox = mutableListOf<CheckBox>()
-    private val weekdayBox = mutableListOf<CheckBox>()
+    private var repeatDayList =mutableListOf<String>()
+    private var selectedMates = mutableListOf<mateInfo>()
+    private val weekdayBox = mutableListOf<Daybox>()
+    private var mateBox = mutableListOf<MemberBox>()
     private var roomId : Int = 0
+    private var roleId : Int = 0
+    private var content : String? = ""
     private val viewModel: RoleViewModel by viewModels()
     private var dummy : List<Mate> = emptyList()
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
+        spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         dummy = listOf(
             Mate(memberId = 7, nickname = "눈꽃", mateId = 1),
             Mate(memberId = 8, nickname = "용용", mateId = 3),
@@ -51,10 +58,10 @@ class AddRoleTabFragment: Fragment() {
             Mate(memberId = 12, nickname = "델로롱", mateId = 11),
             Mate(memberId = 13, nickname = "리원", mateId = 12)
         )
-
         getPreference()
-        initMember()
+        initMember(dummy)
         initWeekdays()
+        initdata()
         initClickListener()
         setTextinput()
         checkInput()
@@ -63,15 +70,14 @@ class AddRoleTabFragment: Fragment() {
     }
 
     private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         val mateListJson = spf.getString("mate_list", null)
         if (mateListJson != null) {
-            mateList = getListFromPrefs(mateListJson)!!
-            Log.d(TAG, "Mates list: $ mateList")
-        } else {
-            Log.d(TAG, "No mate list found")
+            val list =  getListFromPrefs(mateListJson)!!
+            initMember(list)
+            Log.d(TAG, "Mates list: $ mateBox")
         }
+        else Log.d(TAG, "No mate list found")
     }
     fun getListFromPrefs(json: String): List<Mate>? {
         return try {
@@ -84,10 +90,67 @@ class AddRoleTabFragment: Fragment() {
         }
     }
 
+    private fun initdata(){
+        if(isEditable){
+            roleId = spf.getInt("role_id",0)
+            spf.edit().remove("role_id")
+            content = spf.getString("role_content","")
+            spf.edit().remove("role_content",)
+            try{
+                var json = spf.getString("todo_mate_list","")
+                var type = object : TypeToken<MutableList<mateInfo>>(){}.type
+                if(!json.isNullOrEmpty()) selectedMates = Gson().fromJson(json,type)
+                json = spf.getString("role_repeatday_list","")
+                type = object : TypeToken<MutableList<String>>(){}.type
+                if(!json.isNullOrEmpty())  repeatDayList = Gson().fromJson(json,type)
+            }catch (e: JsonParseException){ e.printStackTrace() }
+            spf.edit().remove("role_mate_list")
+            spf.edit().remove("role_repeatday_list")
+            for(mate in mateBox ){
+                if(selectedMates.contains(mate.getMateInfo()))mate.box.isChecked = true
+            }
+            if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
+            else{
+                for(day in weekdayBox){
+                    if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
+                }
+            }
+        }
+        else{
+            roleId=0
+            content = ""
+            selectedMates.clear()
+            repeatDayList.clear()
+        }
+    }
+
+    private fun initMember(list : List<Mate>){
+        for (mate in list) {
+            val m = MemberBox(mate,CheckBox(context))
+            m.box.setOnCheckedChangeListener { box, isChecked ->
+                val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
+                box.setTextColor(ContextCompat.getColor(requireContext(),color))
+                if (box.isChecked) selectedMates.add(m.getMateInfo()) // 체크되면 mate를 추가
+                else selectedMates.remove(m.getMateInfo()) // 체크 해제되면 mate를 제거
+                checkAll()
+                checkInput()
+            }
+            binding.layoutMember.addView(m.box)
+            mateBox.add(m)
+        }
+    }
+
+    private fun initWeekdays() {
+        val week =  listOf("월","화","수","목","금","토","일")
+        for(w in week){
+            val box = Daybox(w,CheckBox(context))
+            weekdayBox.add(box)
+        }
+    }
     // 입력 버튼 활성화
     private fun checkInput() {
-        val memberFlag = memberBox.any{it.isChecked}
-        val weekdayFlag = weekdayBox.any{it.isChecked} || binding.cbEmptyWeekday.isChecked
+        val memberFlag = mateBox.any{it.box.isChecked}
+        val weekdayFlag = weekdayBox.any{it.box.isChecked} || binding.cbEmptyWeekday.isChecked
         val titleFlag = !binding.etInputRole.text.isNullOrEmpty()
         binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag)
     }
@@ -97,9 +160,7 @@ class AddRoleTabFragment: Fragment() {
         val maxLength = 20 // 최대 글자수 설정
         binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputRole.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 변경 전 텍스트에 대한 처리
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkInput()
             }
@@ -109,82 +170,16 @@ class AddRoleTabFragment: Fragment() {
         })
     }
 
-    private fun initMember(){
-        val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
-        layoutParams.setMargins(
-            ConvertDPtoPX(requireContext(), 0), // left
-            ConvertDPtoPX(requireContext(), 0), // top
-            ConvertDPtoPX(requireContext(), 8), // right
-            ConvertDPtoPX(requireContext(), 8)  // bottom
-        )
 
-        // 맴버 선택 추가
-        for (mate in mateList) {
-            val checkBox = CheckBox(context).apply {
-                text = mate.nickname
-                setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
-                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
-                setBackgroundResource(R.drawable.ic_input_role_member)
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                gravity = Gravity.CENTER
-                buttonDrawable = null
-                setOnClickListener {
-                    updateCheckBoxColor(this,this.isChecked)
-                    val info = RoleData.mateInfo(mate.mateId,mate.nickname)
-                    if (this.isChecked) {
-                        selectedMates.add(info) // 체크되면 mate를 추가
-                    } else {
-                        selectedMates.remove(info) // 체크 해제되면 mate를 제거
-                    }
-                    checkAll()
-                    checkInput()
-                }
-                this.layoutParams = layoutParams
-            }
-            memberBox.add(checkBox)
-            binding.layoutMember.addView(checkBox)
-        }
-    }
-
-
-    private fun initWeekdays() {
-        val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),32),ConvertDPtoPX(requireContext(),32))
-        layoutParams.marginEnd = ConvertDPtoPX(requireContext(),12)
-        for(index in week.indices){
-            val checkBox  = CheckBox(context).apply {
-                text = week[index]
-                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
-                setBackgroundResource(R.drawable.ic_circle)
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                gravity = Gravity.CENTER
-                buttonDrawable = null
-                setOnClickListener {
-                    updateCheckBoxColor(this, this.isChecked)
-                    checkInput()
-                    if (this.isChecked) {
-                        repeatDayList.add(week[index]) // 체크되면 요일 문자열 추가
-                        binding.cbEmptyWeekday.isChecked = false
-                    } else {
-                        repeatDayList.remove(week[index])
-                        if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
-                    }
-                }
-                this.layoutParams = layoutParams
-            }
-            weekdayBox.add(checkBox)
-            binding.layoutWeekdays.addView(checkBox)
-        }
-    }
 
     private fun initClickListener(){
         // 모두 체크박스 체크 확인
         binding.cbEveryone.setOnClickListener{
             val isChecked= binding.cbEveryone.isChecked
             selectedMates.clear()
-            for (i :Int in 0..mateList.size-1) {
-                memberBox[i].isChecked = isChecked
-                updateCheckBoxColor(memberBox[i],isChecked)
-                if(isChecked) selectedMates.add( RoleData.mateInfo(mateList[i].mateId,mateList[i].nickname))
+            for(mate in mateBox){
+                mate.box.isChecked = isChecked
+                if(isChecked) selectedMates.add(mate.getMateInfo())
             }
             checkInput()
         }
@@ -193,10 +188,8 @@ class AddRoleTabFragment: Fragment() {
         binding.cbEmptyWeekday.setOnClickListener{
             val isChecked =  binding.cbEmptyWeekday.isChecked
             if(isChecked){
-                weekdayBox.forEach {  checkBox ->
-                    checkBox.isChecked = !isChecked
-                    updateCheckBoxColor(checkBox, !isChecked)
-                }
+                weekdayBox.forEach { 
+                    it.box.isChecked = !isChecked }
                 repeatDayList.clear()
             }
             checkInput()
@@ -212,28 +205,15 @@ class AddRoleTabFragment: Fragment() {
             (requireActivity() as AddTodoActivity).finish()
 
             // 돌아갈 룰앤롤탭 순서 지정
-            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            val editor = spf.edit()
-            editor.putInt("tab_idx", 1)
-            editor.apply()
-            Log.d("RoleAndRuleFragment","role spf ${spf.getInt("tab_idx",0)}, roomid : ${spf.getInt("room_id",0)}")
-        }
-    }
-
-
-    private fun updateCheckBoxColor(checkBox: CheckBox, isChecked: Boolean ){
-        if (isChecked) {
-            checkBox.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-        } else {
-            checkBox.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+            spf.edit().putInt("tab_idx", 1)
+            spf.edit().apply()
         }
     }
 
     private fun checkAll() {
-        val isAll = memberBox.all { it.isChecked } // 모든 체크박스가 체크되었는지 확인
-        binding.cbEveryone.isChecked = isAll // cbEveryday 체크 상태 업데이트
+        val isAll = mateBox.all { it.box.isChecked } // 모든 체크박스가 체크되었는지 확인
+        binding.cbEveryone.isChecked = isAll // cbEveryone 체크 상태 업데이트
     }
-
 
     // dp를 픽셀로
     private fun ConvertDPtoPX(context: Context, dp: Int): Int {
@@ -242,8 +222,71 @@ class AddRoleTabFragment: Fragment() {
     }
 
 
-
-
-
-
+    inner class MateBox(
+        val info : Mate,
+        val box : CheckBox
+    ){
+        init { setBox() }
+        fun getMateInfo(): mateInfo { return mateInfo(info.mateId, info.nickname) }
+        fun setBox(){
+            box.apply {
+                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(requireContext(),37)) // 여기 wrap으로 줄이기
+                layoutParams.setMargins(
+                    ConvertDPtoPX(requireContext(), 0), // left
+                    ConvertDPtoPX(requireContext(), 0), // top
+                    ConvertDPtoPX(requireContext(), 8), // right
+                    ConvertDPtoPX(requireContext(), 8)  // bottom
+                )
+                text = info.nickname
+                setPadding( ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10), ConvertDPtoPX(requireContext(),20), ConvertDPtoPX(requireContext(),10))
+                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
+                setBackgroundResource(R.drawable.ic_input_role_member)
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                gravity = Gravity.CENTER
+                buttonDrawable = null
+                this.layoutParams = layoutParams
+            }
+            box.setOnCheckedChangeListener { box, isChecked ->
+                val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
+                box.setTextColor(ContextCompat.getColor(requireContext(),color))
+                if (box.isChecked) selectedMates.add(getMateInfo()) // 체크되면 mate를 추가
+                else selectedMates.remove(getMateInfo()) // 체크 해제되면 mate를 제거
+                checkAll()
+                checkInput()
+            }
+            binding.layoutMember.addView(box)
+        }
+    }
+    inner class Daybox(
+        val weekDay : String,
+        val box : CheckBox
+    ){
+        init { setBox() }
+        fun setBox(){
+            val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),32),ConvertDPtoPX(requireContext(),32))
+            layoutParams.marginEnd = ConvertDPtoPX(requireContext(),12)
+            box.apply {
+                text = weekDay
+                setTextAppearance(requireContext(), R.style.TextAppearance_App_12sp_Medium)
+                setBackgroundResource(R.drawable.ic_circle)
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                gravity = Gravity.CENTER
+                buttonDrawable = null
+                this.layoutParams = layoutParams
+            }
+            box.setOnCheckedChangeListener { box, isChecked ->
+                val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
+                box.setTextColor(ContextCompat.getColor(requireContext(),color))
+                if (isChecked) {
+                    repeatDayList.add(this.weekDay) // 체크되면 요일 문자열 추가
+                    binding.cbEmptyWeekday.isChecked = false
+                } else {
+                    repeatDayList.remove(this.weekDay)
+                    if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
+                }
+                checkInput()
+            }
+            binding.layoutWeekdays.addView(box)
+        }
+    }
 }
