@@ -1,7 +1,10 @@
 package umc.cozymate.ui.role_rule
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
@@ -38,19 +42,19 @@ class RoleAndRuleTabFragment: Fragment() {
         updateInfo()
         return binding.root
     }
-
-
+    override fun onResume() {
+        super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            initData()
+        }, 1000)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers() // 옵저버 설정
         initData()       // 초기 데이터 로드
     }
 
-    override fun onResume() {
-        super.onResume()
-        // 화면이 다시 보일 때 데이터를 갱신
-        initData()
-    }
+
 
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -59,7 +63,6 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
     private fun setupObservers() {
-        // 옵저버는 onViewCreated에서 한 번만 설정합니다.
         ruleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
@@ -134,12 +137,27 @@ class RoleAndRuleTabFragment: Fragment() {
         else{
             binding.tvEmptyRole.visibility = View.GONE
             binding.rvRoleList.visibility = View.VISIBLE
-            val myRoleRVAdapter = RoleRVAdapter(roles!!)
+            val roleRVAdapter = RoleRVAdapter(roles!!)
             binding.rvRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.rvRoleList.adapter = myRoleRVAdapter
+            binding.rvRoleList.adapter = roleRVAdapter
+            roleRVAdapter.setItemClickListener(object : ItemClick{
+                override fun editClickFunction(role: RoleData) {
+                    val intent = Intent(activity,AddTodoActivity()::class.java)
+                    intent.putExtra("type",1)
+                    startActivity(intent)
+                }
+            })
         }
     }
-
+    private fun saveSpf(role: RoleData){
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = spf.edit()
+        editor.putInt("role_id",role.roleId)
+        editor.putString("role_content",role.content)
+        editor.putString("role_mate_list", Gson().toJson(role.mateList))
+        editor.putString("role_repeatday_list",Gson().toJson(role.repeatDayList))
+        editor.apply()
+    }
 
 }
 

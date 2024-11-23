@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
@@ -38,14 +37,14 @@ class TodoViewModel @Inject constructor(
     private val _todoResponse = MutableLiveData<Response<TodoResponse>>()
     val todoResponse: LiveData<Response<TodoResponse>> get() = _todoResponse
 
-    private val _updateResponse = MutableLiveData<Response<DefaultResponse>>()
-    val updateResponse: LiveData<Response<DefaultResponse>> get() = _updateResponse
+//    private val _updateResponse = MutableLiveData<Response<DefaultResponse>>()
+//    val updateResponse: LiveData<Response<DefaultResponse>> get() = _updateResponse
 
     private val _createResponse = MutableLiveData<Response<CreateResponse>>()
     val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
 
-    private val _editResponse = MutableLiveData<Response<DefaultResponse>>()
-    val editResponse: LiveData<Response<DefaultResponse>> get() = _editResponse
+//    private val _editResponse = MutableLiveData<Response<DefaultResponse>>()
+//    val editResponse: LiveData<Response<DefaultResponse>> get() = _editResponse
 
 
     fun getToken(): String? {
@@ -58,13 +57,13 @@ class TodoViewModel @Inject constructor(
             try {
                 val response = repository.getTodo(token!!, roomId, timePoint)
                 if(response.isSuccessful){
-                    Log.d(TAG,"응답 성공: ${response.body()!!.result}")
+                    Log.d(TAG," getTodo 응답 성공: ${response.body()!!.result}")
                     _todoResponse.postValue(response)
                 }
-                else Log.d(TAG,"응답 실패: ${response.body()!!.result}")
+                else Log.d(TAG," getTodo 응답 실패: ${response.body()!!.result}")
 
             } catch (e: Exception) {
-               Log.d(TAG,"api 요청 실패:  ${e}")
+               Log.d(TAG," getTodo api 요청 실패:  ${e}")
             }
         }
     }
@@ -74,9 +73,9 @@ class TodoViewModel @Inject constructor(
             val token = getToken()
             try {
                 val response = repository.updateTodo( token!!,roomId, todoId, completed )
-                if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                if(!response.isSuccessful) Log.d(TAG, "updateTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
-                Log.d(TAG,"api 요청 실패:  ${e}")
+                Log.d(TAG,"updateTodo api 요청 실패:  ${e}")
             }
         }
     }
@@ -86,9 +85,9 @@ class TodoViewModel @Inject constructor(
             val token = getToken()
             try {
                 val response = repository.createTodo( token!! ,roomId, request)
-                if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                if(!response.isSuccessful) Log.d(TAG, "createTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
-                Log.d(TAG,"api 요청 실패:  ${e}")
+                Log.d(TAG,"createTodo api 요청 실패:  ${e}")
             }
         }
     }
@@ -97,9 +96,21 @@ class TodoViewModel @Inject constructor(
             val token = getToken()
             try {
                 val response = repository.editTodo( token!! ,roomId,todoId, request)
-                if(!response.isSuccessful) Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                if(!response.isSuccessful) Log.d(TAG, "editTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
-                Log.d(TAG,"api 요청 실패:  ${e}")
+                Log.d(TAG,"editTodo api 요청 실패:  ${e}")
+            }
+        }
+    }
+
+    fun deleteTodo(roomId: Int,todoId: Int) {
+        viewModelScope.launch {
+            val token = getToken()
+            try {
+                val response = repository.deleteTodo( token!! ,roomId,todoId)
+                if(!response.isSuccessful) Log.d(TAG, "deleteTodo 응답 실패: ${response.body()!!.result}")
+            } catch (e: Exception) {
+                Log.d(TAG,"deleteTodo api 요청 실패:  ${e}")
             }
         }
     }

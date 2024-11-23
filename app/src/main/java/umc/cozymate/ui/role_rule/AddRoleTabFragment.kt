@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
@@ -29,7 +29,7 @@ import umc.cozymate.ui.viewmodel.RoleViewModel
 class AddRoleTabFragment: Fragment() {
     lateinit var binding: FragmentAddRoleTabBinding
     private val TAG = this.javaClass.simpleName
-    private var mateList :  List<GetRoomInfoResponse.Result.Mate> = emptyList()
+    private var mateList :  List<Mate> = emptyList()
     private val week = arrayListOf("월","화","수","목","금","토","일")
     private val repeatDayList =mutableListOf<String>()
     private val selectedMates = mutableListOf<RoleData.mateInfo>()
@@ -37,12 +37,21 @@ class AddRoleTabFragment: Fragment() {
     private val weekdayBox = mutableListOf<CheckBox>()
     private var roomId : Int = 0
     private val viewModel: RoleViewModel by viewModels()
+    private var dummy : List<Mate> = emptyList()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
+        dummy = listOf(
+            Mate(memberId = 7, nickname = "눈꽃", mateId = 1),
+            Mate(memberId = 8, nickname = "용용", mateId = 3),
+            Mate(memberId = 3, nickname = "말즈", mateId = 6),
+            Mate(memberId = 12, nickname = "델로롱", mateId = 11),
+            Mate(memberId = 13, nickname = "리원", mateId = 12)
+        )
+
         getPreference()
         initMember()
         initWeekdays()
@@ -64,10 +73,10 @@ class AddRoleTabFragment: Fragment() {
             Log.d(TAG, "No mate list found")
         }
     }
-    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.Mate>? {
+    fun getListFromPrefs(json: String): List<Mate>? {
         return try {
             val gson = Gson()
-            val type = object : TypeToken<List<GetRoomInfoResponse.Result.Mate>>() {}.type
+            val type = object : TypeToken<List<Mate>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse mates list JSON", e)

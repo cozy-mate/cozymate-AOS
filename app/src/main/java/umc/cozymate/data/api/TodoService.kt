@@ -2,6 +2,7 @@ package umc.cozymate.data.api
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -43,6 +44,13 @@ interface TodoService {
         @Path( "roomId") roomId : Int,
         @Path( "todoId") todoId : Int,
         @Body request: TodoRequest
+    ) : Response<DefaultResponse>
+
+    @DELETE("/rooms/{roomId}/todos/{todoId}")
+    suspend fun deleteTodo(
+        @Header("Authorization") accessToken: String,
+        @Path( "roomId") roomId : Int,
+        @Path( "todoId") todoId : Int
     ) : Response<DefaultResponse>
 
 }

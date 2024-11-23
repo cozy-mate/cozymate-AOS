@@ -15,7 +15,6 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
-    private val todoType = arrayOf("self","group","other")
     private lateinit var myListener: itemClickListener
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(todoItem: TodoData.TodoItem) {
@@ -42,6 +41,7 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
             updateTextStyle(todoItem.completed)
 
             binding.ivMore.setOnClickListener {
+                //myListener.deleteClickFunction(todoItem.todoId)
                 myListener.editClickFunction(todoItem)
             }
         }

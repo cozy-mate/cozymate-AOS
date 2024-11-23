@@ -47,5 +47,13 @@ class TodoRepositoryImpl @Inject constructor(
         return api.editTodo(accessToken, roomId, todoId, request)
     }
 
+    override suspend fun deleteTodo(
+        accessToken: String,
+        roomId: Int,
+        todoId: Int
+    ): Response<DefaultResponse> {
+        return api.deleteTodo(accessToken, roomId, todoId)
+    }
+
 
 }

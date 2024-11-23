@@ -134,6 +134,11 @@ class TodoTabFragment : Fragment() {
                     startActivity(intent)
                 }
 
+                override fun deleteClickFunction(id : Int) {
+                    viewModel.deleteTodo(roomId, id )
+                    initData()
+                }
+
             } )
         }
 
@@ -149,7 +154,6 @@ class TodoTabFragment : Fragment() {
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
-
     }
 
     private fun saveSpf(todo: TodoData.TodoItem){
@@ -182,6 +186,8 @@ class TodoTabFragment : Fragment() {
             updateInfo()
         }
     }
+
+
 
 
 }

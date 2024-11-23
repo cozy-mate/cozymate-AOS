@@ -7,6 +7,7 @@ import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.databinding.RvItemRoleBinding
 
 class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
+    private lateinit var myListener: ItemClick
     inner class ViewHolder(val binding: RvItemRoleBinding):  RecyclerView.ViewHolder(binding.root){
         fun bind(role : RoleData){
             binding.tvContent.text  = role.content
@@ -34,6 +35,10 @@ class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<R
                 count ++
             }
             binding.tvMembers.text = string.toString()
+
+            binding.ivMore.setOnClickListener {
+                myListener.editClickFunction(role)
+            }
         }
     }
 
@@ -47,5 +52,11 @@ class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<R
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(roles[position])
+    }
+
+    fun setItemClickListener(listener : ItemClick){
+        myListener = listener
+    }
+    interface itemClickListener : ItemClick{
     }
 }

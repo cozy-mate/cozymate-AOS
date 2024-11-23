@@ -35,4 +35,13 @@ class RoleRepositoryImpl @Inject constructor(
         return api.deleteRole(accessToken, roomId, roleId)
     }
 
+    override suspend fun editRole(
+        accessToken: String,
+        roomId: Int,
+        roleId: Int,
+        request: RoleRequest
+    ): Response<DefaultResponse> {
+        return api.editRole(accessToken, roomId, roleId, request)
+    }
+
 }
