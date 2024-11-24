@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
-class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
+class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemClick{
     lateinit var binding: FragmentAddTodoTabBinding
     lateinit var calendarView: MaterialCalendarView
     lateinit var spf : SharedPreferences
@@ -46,6 +46,10 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
 
 
     private val viewModel: TodoViewModel by viewModels()
+
+    override fun deleteClickFunction() {
+        viewModel.deleteTodo(roomId,todoId)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

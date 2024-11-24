@@ -8,5 +8,5 @@ interface ItemClick {
     fun editClickFunction(todo: TodoData.TodoItem){return}
     fun editClickFunction(role: RoleData){return}
     fun editClickFunction(rule: RuleData){return}
-    fun deleteClickFunction(id : Int) { return }
+    fun deleteClickFunction() { return }
 }
