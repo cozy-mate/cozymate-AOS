@@ -301,23 +301,15 @@
                 android:layout_width="0dp"
                 android:layout_height="143dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:overlapAnchor="false"
+                android:background="@drawable/spinner_bg"
                 android:popupBackground="@drawable/spinner_background"
                 android:spinnerMode="dropdown"
                 android:dropDownWidth="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_university" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="11.5dp"
-                android:src="@drawable/ic_dropdown"
-                app:layout_constraintBottom_toBottomOf="@id/tv_university"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_university" />
+                app:layout_constraintTop_toTopOf="@id/tv_label_university" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

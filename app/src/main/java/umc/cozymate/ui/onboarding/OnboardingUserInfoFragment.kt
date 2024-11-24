@@ -75,8 +75,8 @@ class OnboardingUserInfoFragment : Fragment() {
 
     private fun initSpinner() {
         val universities = arrayOf("학교를 선택해주세요", "인하대학교", "숭실대학교", "한국공학대학교")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, universities)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_txt, universities)
+        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
         with(binding) {
             spinnerUniversity.adapter = adapter
             mcvUniversity.setOnClickListener {
