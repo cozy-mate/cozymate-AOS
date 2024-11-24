@@ -24,8 +24,8 @@ class UniversitySearchFragment : Fragment() {
         val binding: FragmentUniversitySearchBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_university_search, container, false
         )
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        //binding.lifecycleOwner = viewLifecycleOwner
+        //binding.viewModel = viewModel
 
         val adapter = UniversitiesAdapter { schoolName ->
             // 학교 클릭 시 처리할 로직

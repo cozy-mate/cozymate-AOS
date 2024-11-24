@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <!--<data>
 
         <variable
             name="viewModel"
             type="umc.cozymate.ui.viewmodel.CozyHomeViewModel" />
-    </data>
+    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -39,8 +39,8 @@ class CozyBotFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozy_bot, container, false)
 
         with(binding){
-            binding.viewModel = viewModel
-            lifecycleOwner = viewLifecycleOwner
+            //binding.viewModel = viewModel
+            //lifecycleOwner = viewLifecycleOwner
         }
 
         viewModel.fetchRoomIdIfNeeded()

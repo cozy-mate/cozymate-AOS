@@ -31,7 +31,7 @@ class UniversitiesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
-       val view = LayoutInflater.from(parent.context).inflate(R.layout.item_school, parent, false)
+       val view = LayoutInflater.from(parent.context).inflate(R.layout.item_university, parent, false)
         return SchoolViewHolder(view)
     }
 
