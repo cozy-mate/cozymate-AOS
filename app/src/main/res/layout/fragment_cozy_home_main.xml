@@ -158,9 +158,10 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 참여방 컴포넌트 (조건 : 방 있음) -->
+        <!-- 참여한 방 컴포넌트 (조건 : 방 있음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/my_room_container"
+            android:name="umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"

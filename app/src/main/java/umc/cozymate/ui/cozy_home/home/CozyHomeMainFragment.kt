@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
@@ -20,7 +21,7 @@ class CozyHomeMainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by activityViewModels()
     private var roomId: Int = 0
-    private var
+    private var state: UserRoomState = UserRoomState.NO_ROOM
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +30,7 @@ class CozyHomeMainFragment : Fragment() {
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
 
+        initState()
         initView()
         initListener()
         openMessage()
@@ -40,24 +42,42 @@ class CozyHomeMainFragment : Fragment() {
         _binding = null
     }
 
-    private fun initView() {
-
-        /*viewModel.fetchRoomIdIfNeeded()
-        val savedRoomId = viewModel.getSavedRoomId()
-        if (savedRoomId == 0) {
-            // SharedPreferences에 방 ID가 저장되어 있지 않다면 getRoomId 호출
-            viewModel.getRoomId()
+    private fun initState() {
+        if (roomId == 0) {
+            state = UserRoomState.NO_ROOM
         } else {
-            // 방 ID가 이미 저장되어 있다면 roomId에 값을 설정
-            viewModel.setRoomId(savedRoomId)
+            state = UserRoomState.HAS_ROOM
+        }
+    }
+
+    private fun initView() {
+        with(binding) {
+            when (state) {
+                UserRoomState.NO_ROOM -> {
+                    roomRecommendContainer.visibility = View.VISIBLE
+                    roommateRecommendContainer.visibility = View.VISIBLE
+                }
+
+                UserRoomState.CREATED_ROOM -> {
+                    myRoomContainer.visibility = View.VISIBLE
+                    roomRecommendContainer.visibility = View.VISIBLE
+                    roommateRecommendContainer.visibility = View.VISIBLE
+                    roommateRequestContainer.visibility = View.VISIBLE
+                }
+
+                UserRoomState.REQUEST_SENT -> {
+                    roomRecommendContainer.visibility = View.VISIBLE
+                    roommateRecommendContainer.visibility = View.VISIBLE
+                }
+
+                UserRoomState.HAS_ROOM -> {
+                    myRoomContainer.visibility = View.VISIBLE
+                    roomRecommendContainer.visibility = View.VISIBLE
+                    roommateRecommendContainer.visibility = View.VISIBLE
+                }
+            }
         }
 
-        viewModel.roomId.observe(viewLifecycleOwner) { id ->
-            if (id != null && id != 0) {
-                // 방 ID가 null이 아니면 방 정보를 가져옴
-                // observeViewModel()
-            }
-        }*/
     }
 
     private fun initListener() {
@@ -72,7 +92,7 @@ class CozyHomeMainFragment : Fragment() {
         }
     }
 
-    private fun openMessage(){
+    private fun openMessage() {
         binding.btnMessage.setOnClickListener {
             startActivity(Intent(activity, MessageActivity::class.java))
         }
