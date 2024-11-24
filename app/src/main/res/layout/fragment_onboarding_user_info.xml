@@ -294,12 +294,13 @@
                 android:textColor="@color/unuse_font"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
             <Spinner
                 android:id="@+id/spinner_university"
                 android:layout_width="0dp"
-                android:layout_height="143dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:overlapAnchor="false"
@@ -309,7 +310,8 @@
                 android:dropDownWidth="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_label_university" />
+                app:layout_constraintTop_toTopOf="@id/tv_label_university"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

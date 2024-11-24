@@ -10,5 +10,5 @@
         android:height="40dp"
         android:bottom="10dp"
         android:drawable="@drawable/ic_dropdown"
-        android:gravity="right|top" />
+        android:gravity="right|center_vertical" />
 </layer-list>
