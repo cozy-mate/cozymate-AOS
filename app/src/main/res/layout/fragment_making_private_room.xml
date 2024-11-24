@@ -37,6 +37,17 @@
         app:layout_constraintEnd_toEndOf="@id/iv_character" />
 
     <ImageView
+        android:id="@+id/iv_edit_back2"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:background="@drawable/background_circle"
+        android:backgroundTint="#E7E7E7"
+        app:layout_constraintStart_toStartOf="@id/iv_edit_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_edit_back"
+        app:layout_constraintEnd_toEndOf="@id/iv_edit_back"
+        app:layout_constraintTop_toTopOf="@+id/iv_edit_back"/>
+
+    <ImageView
         android:id="@+id/iv_character_edit"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -74,7 +85,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_room_name"
             android:layout_width="match_parent"
-            android:layout_height="49dp"
+            android:layout_height="52dp"
             app:boxBackgroundMode="outline"
             app:boxStrokeErrorColor="@color/red"
             app:boxStrokeWidth="0dp"
@@ -90,6 +101,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/custom_edittext"
                 android:hint="방이름을 입력해주세요"
+                android:paddingBottom="16dp"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
