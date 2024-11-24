@@ -117,26 +117,24 @@ class TodoTabFragment : Fragment() {
         } else {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
-
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList.todoList, isEditable = true)
+            Log.d(TAG,"date test : s ${selectedDate} / n ${LocalDate.now()} / == ${selectedDate == LocalDate.now()}")
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
             myTodoRVAdapter.setItemClickListener(object: TodoRVAdapter.itemClickListener{
+                // 체크박스 클릭
                 override fun checkboxClickFunction(todo: TodoData.TodoItem) {
                     viewModel.updateTodo(roomId, todo.todoId, todo.completed)
                 }
 
                 override fun editClickFunction(todo : TodoData.TodoItem) {
+                    // 롤 투두는 수정 불가
+                    if (todo.todoType.equals("role")) return
                     saveSpf(todo)
                     val intent = Intent(activity,AddTodoActivity()::class.java)
                     intent.putExtra("type",0)
                     startActivity(intent)
-                }
-
-                override fun deleteClickFunction(id : Int) {
-                    viewModel.deleteTodo(roomId, id )
-                    initData()
                 }
 
             } )

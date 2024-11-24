@@ -11,7 +11,8 @@ import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoBinding
 
 class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
-                    private val isEditable: Boolean )
+                    private val isEditable: Boolean,
+                    private val isCheckable : Boolean = false)
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
@@ -20,8 +21,7 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
         fun bind(todoItem: TodoData.TodoItem) {
             binding.tvTodoItem.text = todoItem.content
             binding.cbCheck.isChecked = todoItem.completed
-
-            binding.cbCheck.isEnabled = isEditable
+            binding.cbCheck.isEnabled = isCheckable
             if(!isEditable){
                 binding.ivTodoType.visibility = View.GONE
                 binding.ivMore.visibility = View.GONE
@@ -32,6 +32,7 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
                     "role" -> binding.ivTodoType.setColorFilter(Color.parseColor("#ACE246"))
                     "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))
                 }
+
             }
             binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
                 todoItem.completed = isChecked
@@ -88,7 +89,7 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
             myListener = listener
     }
     interface itemClickListener : ItemClick{
-        fun checkboxClickFunction(todo: TodoData.TodoItem)
+        fun checkboxClickFunction(todo: TodoData.TodoItem){}
     }
 
 
