@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
-import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
@@ -53,7 +53,7 @@ interface MemberService {
     @POST("/members/sign-up")
     suspend fun signUp(
         @Header("Authorization") accessToken: String,
-        @Body memberInfo: MemberInfo
+        @Body memberDetail: MemberDetail
     ) : Response<SignUpResponse>
 
     // 로그인

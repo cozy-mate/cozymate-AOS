@@ -43,8 +43,8 @@ class CozyHomeViewModel @Inject constructor(
     private val _profileImage = MutableLiveData<Int>()
     val profileImage: LiveData<Int> get() = _profileImage
 
-    private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.Mate>> ()
-    val mateList: LiveData<List<GetRoomInfoResponse.Result.Mate>> get() = _mateList
+    private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.MateDetail>> ()
+    val mateList: LiveData<List<GetRoomInfoResponse.Result.MateDetail>> get() = _mateList
 
     private val _roomLogResponse = MutableLiveData<RoomLogResponse>()
     val roomLogResponse: LiveData<RoomLogResponse> get() = _roomLogResponse
@@ -67,7 +67,7 @@ class CozyHomeViewModel @Inject constructor(
         sharedPreferences.edit().putString("room_name", _roomName.value).apply()
     }
 
-    fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.Mate>) {
+    fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.MateDetail>) {
         val gson = Gson()
         val json = gson.toJson(mateList)
 
@@ -159,8 +159,8 @@ class CozyHomeViewModel @Inject constructor(
                     if (response.body()!!.isSuccess) {
                         _roomName.value = response.body()!!.result.name
                         _inviteCode.value = response.body()!!.result.inviteCode
-                        _profileImage.value = response.body()!!.result.profileImage
-                        _mateList.value = response.body()!!.result.mateList
+                        //_profileImage.value = response.body()!!.result.profileImage
+                        _mateList.value = response.body()!!.result.mateDetailList
                         saveRoomInfo("mate_list", _mateList.value!!)
                         saveRoomName()
                         Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")

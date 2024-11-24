@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyHomeGivingInviteCodeBinding
+import umc.cozymate.databinding.ActivityMakingPrivateRoomBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
@@ -18,16 +18,16 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
+class MakingPrivateRoomActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     private val viewModel: MakingRoomViewModel by viewModels()
-    private lateinit var binding: ActivityCozyHomeGivingInviteCodeBinding
+    private lateinit var binding: ActivityMakingPrivateRoomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyHomeGivingInviteCodeBinding.inflate(layoutInflater)
+        binding = ActivityMakingPrivateRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -39,7 +39,7 @@ class CozyHomeGivingInviteCodeActivity : AppCompatActivity() {
         // 첫번째로 [방정보 입력창]을 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_giving, CozyHomeRoomInfoFragment())
+                .replace(R.id.fragment_container_giving, MakingPrivateRoomFragment())
                 .commit()
         }
 

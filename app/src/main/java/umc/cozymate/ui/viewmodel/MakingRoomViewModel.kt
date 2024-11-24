@@ -10,8 +10,9 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.request.CreateRoomRequest
+import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.CreateRoomResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
@@ -27,6 +28,9 @@ class MakingRoomViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
+    private val _hashtags = MutableLiveData<List<String>>()
+    val hashtags: LiveData<List<String>> get() = _hashtags
+
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
 
@@ -38,6 +42,9 @@ class MakingRoomViewModel @Inject constructor(
 
     private val _maxNum = MutableLiveData<Int>()
     val maxNum: LiveData<Int> get() = _maxNum
+
+    private val _publicRoomCreationResult = MutableLiveData<CreatePublicRoomResponse>()
+    val publicRoomCreationResult: MutableLiveData<CreatePublicRoomResponse> get() = _publicRoomCreationResult
 
     private val _roomCreationResult = MutableLiveData<CreateRoomResponse>()
     val roomCreationResult: MutableLiveData<CreateRoomResponse> get() = _roomCreationResult
@@ -67,7 +74,11 @@ class MakingRoomViewModel @Inject constructor(
         _maxNum.value = maxNum
     }
 
-    fun createRoom() {
+    fun setHashtags(hashtags: List<String>) {
+        _hashtags.value = hashtags
+    }
+
+    fun createPublicRoom() {
         val token = getToken()
         Log.d(TAG, "방 생성 전 토큰: $token")
         _loading.value = true // 로딩 시작
@@ -75,15 +86,16 @@ class MakingRoomViewModel @Inject constructor(
         if (token != null) {
             viewModelScope.launch {
                 try {
-                    val roomRequest = CreateRoomRequest(
+                    val roomRequest = CreatePublicRoomRequest(
                         nickname.value!!,
                         img.value ?: 1,
                         maxNum.value ?: 6,
+                        hashtags.value!!
                     )
-                    val response = roomRepository.createRoom(token, roomRequest)
+                    val response = roomRepository.createPublicRoom(token, roomRequest)
                     if (response.body()!!.isSuccess) {
-                        Log.d(TAG, "방 생성 성공: ${response.body()!!.result}")
-                        _roomCreationResult.value = response.body()!!
+                        Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
+                        _publicRoomCreationResult.value = response.body()!!
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
@@ -91,11 +103,11 @@ class MakingRoomViewModel @Inject constructor(
                         } else {
                             _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
                         }
-                        Log.d(TAG, "방 생성 api 응답 실패: ${response}")
+                        Log.d(TAG, "공개 방 생성 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
                     _errorResponse.value?.message = e.message.toString()
-                    Log.d(TAG, "방 생성 api 요청 실패: ${e}")
+                    Log.d(TAG, "공개 방 생성 api 요청 실패: ${e}")
                 } finally {
                     _loading.value = false
                 }

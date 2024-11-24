@@ -2,29 +2,32 @@ package umc.cozymate.ui.cozy_home.making_room
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyHomeInvitingRoommateBinding
+import umc.cozymate.databinding.ActivityMakingPublicRoomBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeEnteringFragment
 import umc.cozymate.ui.cozy_home.waiting.CozyHomeWaitingFragment
-import umc.cozymate.util.navigationHeight
-import umc.cozymate.util.setStatusBarTransparent
+import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 플로우1 : 방정보 입력창(1) > 룸메이트 선택창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
+// 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
+class MakingPublicRoomActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCozyHomeInvitingRoommateBinding
+    private val TAG = this.javaClass.simpleName
+    private val viewModel: MakingRoomViewModel by viewModels()
+    private lateinit var binding: ActivityMakingPublicRoomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyHomeInvitingRoommateBinding.inflate(layoutInflater)
+        binding = ActivityMakingPublicRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -33,26 +36,23 @@ class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
             insets
         }
 
-        // initScreen()
-
         // 첫번째로 [방정보 입력창]을 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MakingPrivateRoomFragment())
+                .replace(R.id.fragment_container_giving, MakingPublicRoomFragment())
                 .commit()
         }
 
     }
 
-    private fun initScreen() {
-        this.setStatusBarTransparent()
-        binding.main.setPadding(0, 0, 0, this.navigationHeight())
+    fun showProgressBar(show: Boolean) {
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    // 두번째 [룸메이트 선택창] 로드
+    // 두번째 [초대코드 발급창] 로드
     fun loadFragment2() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CozyHomeSelectingRoommateFragment())
+            .replace(R.id.fragment_container_giving, CozyHomeGivingInviteCodeFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -60,7 +60,7 @@ class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
     // 세번째 [룸메이트 대기창] 로드
     fun loadFragment3() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CozyHomeWaitingFragment())
+            .replace(R.id.fragment_container_giving, CozyHomeWaitingFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -68,7 +68,7 @@ class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
     // 네번째 [코지홈 입장창] 로드
     fun loadFragment4() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CozyHomeEnteringFragment())
+            .replace(R.id.fragment_container_giving, CozyHomeEnteringFragment())
             .addToBackStack(null)
             .commit()
     }

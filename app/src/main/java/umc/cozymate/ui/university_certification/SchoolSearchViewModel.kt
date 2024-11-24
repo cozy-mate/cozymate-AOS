@@ -1,20 +1,20 @@
-package umc.cozymate.ui.school_certification
+package umc.cozymate.ui.university_certification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 
-import umc.cozymate.ui.school_certification.adapter.SchoolItem
+import umc.cozymate.ui.university_certification.adapter.UniversitylItem
 
 class SchoolSearchViewModel : ViewModel() {
     val searchQuery = MutableLiveData<String>("")
 
-    private val _schoolList = MutableLiveData<List<SchoolItem>>() // 전체 학교 목록
-    val schoolList: LiveData<List<SchoolItem>> = _schoolList
+    private val _schoolList = MutableLiveData<List<UniversitylItem>>() // 전체 학교 목록
+    val schoolList: LiveData<List<UniversitylItem>> = _schoolList
 
     // 검색어에 따라 학교 목록이 필터링 결과
-    val filteredSchoolList: LiveData<List<SchoolItem>> = searchQuery.map { query ->
+    val filteredSchoolList: LiveData<List<UniversitylItem>> = searchQuery.map { query ->
         if (query.isEmpty()) {
             _schoolList.value ?: emptyList()
         } else {
@@ -31,10 +31,10 @@ class SchoolSearchViewModel : ViewModel() {
     // 초기 데이터 설정 (예시 데이터)
     init {
         _schoolList.value = listOf(
-            SchoolItem(1, "가톨릭대학교", "url_to_logo_3"),
-            SchoolItem(2, "인하대학교", "url_to_logo_1"),
-            SchoolItem(3, "숭실대학교", "url_to_logo_3"),
-            SchoolItem(4, "한국공학대학교", "url_to_logo_3")
+            UniversitylItem(1, "가톨릭대학교", "url_to_logo_3"),
+            UniversitylItem(2, "인하대학교", "url_to_logo_1"),
+            UniversitylItem(3, "숭실대학교", "url_to_logo_3"),
+            UniversitylItem(4, "한국공학대학교", "url_to_logo_3")
         )
     }
 }

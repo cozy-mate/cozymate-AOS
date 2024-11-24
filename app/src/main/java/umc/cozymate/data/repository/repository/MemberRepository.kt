@@ -1,7 +1,7 @@
 package umc.cozymate.data.repository.repository
 
 import retrofit2.Response
-import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
@@ -19,7 +19,7 @@ interface MemberRepository {
 
     suspend fun checkNickname(accessToken: String, nickname: String): Response<CheckNicknameResponse>
 
-    suspend fun signUp(token: String, memberInfo: MemberInfo): Response<SignUpResponse>
+    suspend fun signUp(token: String, memberDetail: MemberDetail): Response<SignUpResponse>
 
     suspend fun signIn(request: SignInRequest): Response<SignInResponse>
 

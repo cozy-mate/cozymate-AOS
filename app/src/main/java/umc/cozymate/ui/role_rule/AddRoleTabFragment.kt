@@ -29,7 +29,7 @@ import umc.cozymate.ui.viewmodel.SelectedTabViewModel
 class AddRoleTabFragment: Fragment() {
     lateinit var binding: FragmentAddRoleTabBinding
     private val TAG = this.javaClass.simpleName
-    private var mateList :  List<GetRoomInfoResponse.Result.Mate> = emptyList()
+    private var mateList :  List<GetRoomInfoResponse.Result.MateDetail> = emptyList()
     private val week = arrayListOf("월","화","수","목","금","토","일")
     private val repeatDayList =mutableListOf<String>()
     private val selectedMateIds = mutableListOf<Int>()
@@ -166,10 +166,10 @@ class AddRoleTabFragment: Fragment() {
         }
 
     }
-    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.Mate>? {
+    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.MateDetail>? {
         return try {
             val gson = Gson()
-            val type = object : TypeToken<List<GetRoomInfoResponse.Result.Mate>>() {}.type
+            val type = object : TypeToken<List<GetRoomInfoResponse.Result.MateDetail>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse mates list JSON", e)

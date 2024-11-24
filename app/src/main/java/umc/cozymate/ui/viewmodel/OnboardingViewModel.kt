@@ -12,17 +12,20 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.MemberDetail
+import umc.cozymate.data.model.entity.MemberDetailInfo
+import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
-import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.repository.repository.MemberRepository
+import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val repository: MemberRepository,
+    private val preferenceRepository: MemberStatPreferenceRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -37,8 +40,11 @@ class OnboardingViewModel @Inject constructor(
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> get() = _name
 
-    private val _school = MutableLiveData<String>()
-    val school: LiveData<String> get() = _school
+    private val _universityId = MutableLiveData<Int>()
+    val universityId: LiveData<Int> get() = _universityId
+
+    private val _universityName = MutableLiveData<String>()
+    val universityName: LiveData<String> get() = _universityName
 
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
@@ -49,11 +55,14 @@ class OnboardingViewModel @Inject constructor(
     private val _gender = MutableLiveData<String>()
     val gender: LiveData<String> get() = _gender
 
+    private val _preferences = MutableLiveData<PreferenceList>()
+    val preferences: LiveData<PreferenceList> get() = _preferences
+
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
-    private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
-    val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
+    private val _memberInfo = MutableLiveData<MemberDetailInfo>()
+    val memberInfo: LiveData<MemberDetailInfo> get() = _memberInfo
 
     private val _isNicknameValid = MutableLiveData<Boolean>()
     val isNicknameValid: LiveData<Boolean> get() = _isNicknameValid
@@ -83,7 +92,8 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
+        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityName)
+            .commit() //
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
@@ -94,8 +104,22 @@ class OnboardingViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun setSchool(school: String) {
-        _school.value = school
+    fun setUniversity(university: String) {
+        _universityName.value = university
+        when (university) {
+            "인하대학교" -> {
+                _universityId.value = 1
+            }
+            "학교2" -> {
+                _universityId.value = 2
+            }
+            "숭실대학교" -> {
+                _universityId.value = 3
+            }
+            "한국공학대학교" -> {
+                _universityId.value = 4
+            }
+        }
     }
 
     fun setNickname(nickname: String) {
@@ -114,41 +138,73 @@ class OnboardingViewModel @Inject constructor(
         _persona.value = persona
     }
 
+    fun setPreferences(preferences: PreferenceList){
+        _preferences.value = preferences
+    }
+
     fun joinMember() {
-        val memberInfo = MemberInfo(
-            name = _school.value ?: "unknown", //
+        val memberDetail = MemberDetail(
             nickname = _nickname.value ?: "unknown",
             gender = _gender.value ?: "MALE",
             birthday = _birthday.value ?: "2001-01-01",
-            persona = _persona.value ?: 0
+            persona = _persona.value ?: 0,
+            universityId = _universityId.value ?: 0,
         )
         val token = getToken() // 이때 임시 토큰이어야 함
-        Log.d(TAG, "유저 정보: $memberInfo")
+        Log.d(TAG, "유저 정보: $memberDetail")
         Log.d(TAG, "토큰: $token")
         _tokenInfo.value = TokenInfo("", "", "")
         viewModelScope.launch {
             try {
-                val response = repository.signUp(token = token!!, memberInfo = memberInfo)
+                val response = repository.signUp(token = token!!, memberDetail = memberDetail)
                 if (response.isSuccessful) {
                     Log.d(TAG, "회원가입 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
-                        _tokenInfo.value?.accessToken = response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        _tokenInfo.value?.message = response.body()!!.result?.tokenResponseDTO!!.message
-                        _tokenInfo.value?.refreshToken = response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        //_memberInfo.value?.school = response.body()!!.result?.memberInfoDTO!!.school
-                        _memberInfo.value?.nickname = response.body()!!.result?.memberInfoDTO!!.nickname
-                        _memberInfo.value?.persona = response.body()!!.result?.memberInfoDTO!!.persona
-                        _memberInfo.value?.gender = response.body()!!.result?.memberInfoDTO!!.gender
-                        _memberInfo.value?.birthday = response.body()!!.result?.memberInfoDTO!!.birthday
+                        _tokenInfo.value?.accessToken =
+                            response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        _tokenInfo.value?.message =
+                            response.body()!!.result?.tokenResponseDTO!!.message
+                        _tokenInfo.value?.refreshToken =
+                            response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        _memberInfo.value?.universityName =
+                            response.body()!!.result?.memberDetailResponseDTO!!.universityName
+                        _memberInfo.value?.nickname =
+                            response.body()!!.result?.memberDetailResponseDTO!!.nickname
+                        _memberInfo.value?.persona =
+                            response.body()!!.result?.memberDetailResponseDTO!!.persona
+                        _memberInfo.value?.gender =
+                            response.body()!!.result?.memberDetailResponseDTO!!.gender
+                        _memberInfo.value?.birthday =
+                            response.body()!!.result?.memberDetailResponseDTO!!.birthday
+                        _memberInfo.value?.memberId =
+                            response.body()!!.result?.memberDetailResponseDTO!!.memberId
+                        _memberInfo.value?.majorName =
+                            response.body()!!.result?.memberDetailResponseDTO!!.majorName
 
-                        sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken).commit()
-                        sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken).commit()
-                        //sharedPreferences.edit().putString("user_school", _memberInfo.value!!.school).commit()
-                        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
-                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
-                        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
-                        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
+                        sharedPreferences.edit().putString(
+                            "access_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "refresh_token",
+                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                        ).commit()
+//                        sharedPreferences.edit()
+//                            .putString("user_university", _memberInfo.value?.universityName)
+//                            .commit()
+//                        sharedPreferences.edit()
+//                            .putString("user_nickname", _memberInfo.value?.nickname).commit()
+//                        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona)
+//                            .commit()
+//                        sharedPreferences.edit()
+//                            .putString("user_gender", _memberInfo.value?.gender).commit()
+//                        sharedPreferences.edit()
+//                            .putString("user_birthday", _memberInfo.value?.birthday).commit()
+//                        sharedPreferences.edit()
+//                            .putInt("user_member_id", _memberInfo.value?.memberId?:0).commit()
+//                        sharedPreferences.edit()
+//                            .putString("user_major_name", _memberInfo.value?.majorName).commit()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -194,6 +250,33 @@ class OnboardingViewModel @Inject constructor(
             }
         } else {
             _isNicknameValid.value = false
+        }
+    }
+
+    fun postPreference() {
+        val accessToken = getToken()
+        Log.d(TAG, "멤버 선호 항목 생성 토큰 확인: $accessToken")
+        Log.d(TAG, "${preferences.value}")
+
+        if (accessToken != null) {
+            viewModelScope.launch {
+                try {
+                    val response =
+                        preferenceRepository.postMyPreference(accessToken, preferenceList = preferences.value ?: PreferenceList(
+                            arrayListOf("","","",""))
+                            )
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "멤버 선호 항목 생성 api 응답 성공: ${response}")
+                        if (response.body()!!.isSuccess) {
+                            Log.d(TAG, "멤버 선호 항목 생성 성공: ${response.body()!!.result}")
+                        }
+                    } else {
+                        Log.d(TAG, "멤버 선호 항목 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "멤버 선호 항목 api 요청 실패: ${e}")
+                }
+            }
         }
     }
 

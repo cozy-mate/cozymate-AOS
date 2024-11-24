@@ -1,12 +1,16 @@
 package umc.cozymate.ui.cozy_home.making_room
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,29 +18,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentCozyHomeRoomInfoBinding
+import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.setupTextInputWithMaxLength
 
-// 플로우1 : "방정보 입력창(1)" > 룸메이트 선택창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeRoomInfoFragment : Fragment() {
+class MakingPublicRoomFragment : Fragment() {
 
-    private var _binding: FragmentCozyHomeRoomInfoBinding? = null
+    private var _binding: FragmentMakingPublicRoomBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: MakingRoomViewModel
-
     private var numPeopleOption: TextView? = null
     private var numPeople: String? = null
-
     private var charId: Int? = 1
+    private val hashtags = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCozyHomeRoomInfoBinding.inflate(inflater, container, false)
+        _binding = FragmentMakingPublicRoomBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
         setupObservers()
@@ -54,27 +55,27 @@ class CozyHomeRoomInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            setupHashtagInput()
+
             ivBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
             btnNext.setOnClickListener {
-                // 방 이름과 최대 인원 수를 ViewModel에 설정
                 val roomName = etRoomName.text.toString()
                 val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 6 // 인원 수 숫자만 추출
 
-                if (roomName.isNotEmpty() && maxNum > 0) {
+                if (roomName.isNotEmpty() && charId != null && maxNum > 0 && hashtags.size > 0) {
                     viewModel.setNickname(roomName)
                     viewModel.setMaxNum(maxNum)
                     viewModel.setImg(charId ?: 1)
+                    viewModel.setHashtags(hashtags)
 
                     // 방 생성 요청
-                    viewModel.createRoom()
+                    viewModel.createPublicRoom()
                 } else {
-                    Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                    if (hashtags.size == 0) "방 해시태그를 한 개 이상 입력해주세요"
+                    else Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
-
-                // (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment2()
-                //(activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
             }
 
             var isSelected = false
@@ -97,6 +98,74 @@ class CozyHomeRoomInfoFragment : Fragment() {
             }
         }
         checkValidInfo()
+    }
+
+    private fun setupHashtagInput() {
+        with(binding) {
+            setupHashtag(hashtag1)
+            setupHashtag(hashtag2)
+            setupHashtag(hashtag3)
+            etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                    val hashtagText = etRoomHashtag.text.toString().trim()
+
+                    if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                        hashtags.add(hashtagText)
+                        updateHashtagChips()
+                        etRoomHashtag.text?.clear()
+                    } else if (hashtags.size >= 3) {
+                        Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun setupHashtag(tv: TextView) {
+        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0) // 닫기 버튼 설정
+        tv.visibility = View.GONE
+        tv.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                removeHashtag(tv) ///
+                val drawableEnd = tv.compoundDrawables[2]
+                drawableEnd?.let {
+                    val drawableWidth = it.bounds.width()
+                    val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
+                    if (event.x >= touchableAreaStart) {
+                        removeHashtag(tv) /// 왜 안 됨?
+                        true
+                    } else {
+                        false
+                    }
+                } ?: false
+            } else {
+                false
+            }
+        }
+    }
+
+    fun removeHashtag(tv: TextView) {
+        tv.visibility = View.GONE
+        hashtags.remove(tv.text)
+    }
+
+    private fun updateHashtagChips() {
+        val chipViews = listOf(binding.hashtag1, binding.hashtag2, binding.hashtag3)
+
+        for (i in chipViews.indices) {
+            if (i < hashtags.size) {
+                chipViews[i].text = hashtags[i]
+                chipViews[i].visibility = View.VISIBLE
+            } else {
+                chipViews[i].visibility = View.GONE
+            }
+        }
     }
 
     // 인원수 옵션 클릭
@@ -141,17 +210,17 @@ class CozyHomeRoomInfoFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 // 로딩 중일 때 ProgressBar를 표시
-                (activity as? CozyHomeGivingInviteCodeActivity)?.showProgressBar(true)
+                (activity as? MakingPrivateRoomActivity)?.showProgressBar(true)
             } else {
                 // 로딩이 끝났을 때 ProgressBar를 숨김
-                (activity as? CozyHomeGivingInviteCodeActivity)?.showProgressBar(false)
+                (activity as? MakingPrivateRoomActivity)?.showProgressBar(false)
             }
         }
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
             // 방 생성 성공 시 다음 화면으로 이동
-            (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment2()
+            (activity as? MakingPrivateRoomActivity)?.loadFragment2()
         }
 
         // 에러 응답도 추가로 처리할 수 있음

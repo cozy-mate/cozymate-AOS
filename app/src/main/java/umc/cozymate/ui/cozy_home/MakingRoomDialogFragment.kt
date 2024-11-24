@@ -1,7 +1,8 @@
-package umc.cozymate.ui.cozy_home.making_room
+package umc.cozymate.ui.cozy_home
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,6 +15,8 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingRoomDialogBinding
+import umc.cozymate.ui.cozy_home.making_room.MakingPrivateRoomActivity
+import umc.cozymate.ui.cozy_home.making_room.MakingPublicRoomActivity
 
 class MakingRoomDialogFragment : DialogFragment() {
     private var _binding: FragmentMakingRoomDialogBinding? = null
@@ -31,9 +34,18 @@ class MakingRoomDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
 
-        // x 버튼 > 팝업 닫기
-        binding.ivX.setOnClickListener {
-            dismiss()
+        with(binding) {
+            ivX.setOnClickListener {
+                dismiss()
+            }
+            clPublicRoom.setOnClickListener {
+                val intent = Intent(requireContext(), MakingPublicRoomActivity::class.java)
+                startActivity(intent)
+            }
+            clPrivateRoom.setOnClickListener {
+                val intent = Intent(requireContext(), MakingPrivateRoomActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         val dialog = builder.create()

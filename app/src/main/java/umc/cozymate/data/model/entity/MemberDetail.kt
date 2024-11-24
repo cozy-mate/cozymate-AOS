@@ -3,16 +3,18 @@ package umc.cozymate.data.model.entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// nickname, gender, birthday, persona, *universityId
+
 @Serializable
-data class MemberInfo(
+data class MemberDetail(
     @SerialName("birthday")
-    val birthday: String,
+    var birthday: String,
     @SerialName("gender")
-    val gender: String,
-    @SerialName("name")
-    val name: String,
+    var gender: String,
     @SerialName("nickname")
-    val nickname: String,
+    var nickname: String,
     @SerialName("persona")
-    val persona: Int = 1
+    var persona: Int = 1,
+    @SerialName("universityId")
+    var universityId: Int = 0,
 )

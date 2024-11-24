@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
+import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.databinding.ActivityRoommateOnboardingBinding
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
@@ -38,8 +39,8 @@ class RoommateOnboardingActivity : AppCompatActivity() {
 //        }
 
             splashViewModel.memberCheck()
-            splashViewModel.membmerInfo.observe(this) { info ->
-                myNickname = info.nickname
+            splashViewModel.membmerInfo.observe(this) { info: MemberDetailInfo? ->
+                myNickname = info!!.nickname
                 binding.tvName1.text = myNickname
             }
         }

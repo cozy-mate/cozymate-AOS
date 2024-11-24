@@ -11,10 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.ErrorResponse
-import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
@@ -49,8 +49,8 @@ class SplashViewModel @Inject constructor(
     private val _tokenInfo = MutableLiveData<TokenInfo>()
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
-    private val _memberInfo = MutableLiveData<MemberInfoResponse.Result>()
-    val membmerInfo: LiveData<MemberInfoResponse.Result> get() = _memberInfo
+    private val _memberInfo = MutableLiveData<MemberDetailInfo?>()
+    val membmerInfo: LiveData<MemberDetailInfo?> get() = _memberInfo
 
     private val _isMember = MutableLiveData<Boolean>(false)
     val isMember: LiveData<Boolean> get() = _isMember
@@ -90,11 +90,13 @@ class SplashViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_name", _memberInfo.value!!.name).commit()
+        sharedPreferences.edit().putInt("user_member_id", _memberInfo.value!!.memberId).commit()
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
         sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
+        sharedPreferences.edit().putString("user_university_name", _memberInfo.value!!.universityName).commit()
+        sharedPreferences.edit().putString("user_major_name", _memberInfo.value!!.majorName).commit()
     }
 
     fun signIn() {

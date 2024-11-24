@@ -1,8 +1,8 @@
 package umc.cozymate.data.repository.repository
 
 import retrofit2.Response
-import umc.cozymate.data.model.request.CreateRoomRequest
-import umc.cozymate.data.model.response.room.CreateRoomResponse
+import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
@@ -18,6 +18,9 @@ interface RoomRepository {
 
     suspend fun isRoomExist(accessToken: String) : Response<IsRoomExistResponse>
 
-    suspend fun createRoom(accessToken: String, roomInfo: CreateRoomRequest): Response<CreateRoomResponse>
+    //suspend fun createRoom(accessToken: String, roomInfo: CreateRoomRequest): Response<CreateRoomResponse>
+
+    suspend fun createPublicRoom(accessToken: String, roomInfo: CreatePublicRoomRequest): Response<CreatePublicRoomResponse>
+
 }
 

@@ -2,7 +2,7 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.api.MemberService
-import umc.cozymate.data.model.entity.MemberInfo
+import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
@@ -32,8 +32,8 @@ class MemberRepositoryImpl @Inject constructor(
         return api.checkNickname(accessToken, nickname)
     }
 
-    override suspend fun signUp(token: String, memberInfo: MemberInfo): Response<SignUpResponse> {
-        return api.signUp(token, memberInfo)
+    override suspend fun signUp(token: String, memberDetail: MemberDetail): Response<SignUpResponse> {
+        return api.signUp(token, memberDetail)
     }
 
     override suspend fun signIn(request: SignInRequest): Response<SignInResponse> {

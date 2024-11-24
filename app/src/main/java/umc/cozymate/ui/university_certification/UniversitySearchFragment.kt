@@ -1,4 +1,4 @@
-package umc.cozymate.ui.school_certification
+package umc.cozymate.ui.university_certification
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentSchoolSearchBinding
-import umc.cozymate.ui.school_certification.adapter.SchoolsAdapter
+import umc.cozymate.databinding.FragmentUniversitySearchBinding
+import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
 
-class SchoolSearchFragment : Fragment() {
+class UniversitySearchFragment : Fragment() {
 
     private val viewModel: SchoolSearchViewModel by viewModels()
 
@@ -21,13 +21,13 @@ class SchoolSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentSchoolSearchBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_school_search, container, false
+        val binding: FragmentUniversitySearchBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_university_search, container, false
         )
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        //binding.lifecycleOwner = viewLifecycleOwner
+        //binding.viewModel = viewModel
 
-        val adapter = SchoolsAdapter { schoolName ->
+        val adapter = UniversitiesAdapter { schoolName ->
             // 학교 클릭 시 처리할 로직
             println("학교 선택됨: $schoolName")
         }

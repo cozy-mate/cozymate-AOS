@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentCozyHomeEnteringBinding
 import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity
-import umc.cozymate.ui.cozy_home.making_room.CozyHomeGivingInviteCodeActivity
 import umc.cozymate.ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity
+import umc.cozymate.ui.cozy_home.making_room.MakingPrivateRoomActivity
 
 // 플로우1 : 방정보 입력창(1) > 룸메이트 선택창(2) > 룸메이트 대기창(3) > "코지홈 입장창(4)" > 코지홈 활성화창
 // 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > "코지홈 입장창(4)" > 코지홈 활성화창
@@ -33,7 +33,7 @@ class CozyHomeEnteringFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment5()
-            (activity as? CozyHomeGivingInviteCodeActivity)?.loadFragment5()
+            (activity as? MakingPrivateRoomActivity)?.loadFragment5()
             (activity as? CozyHomeEnteringInviteCodeActivity)?.loadFragment4()
         }
     }

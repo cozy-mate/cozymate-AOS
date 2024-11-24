@@ -61,7 +61,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = false
-                mcvSchool.isSelected = false
+                mcvUniversity.isSelected = false
                 updateColors()
             }
 
@@ -74,24 +74,36 @@ class OnboardingUserInfoFragment : Fragment() {
     }
 
     private fun initSpinner() {
-        val schools = arrayOf("학교를 선택해주세요", "학교1", "학교2", "학교3", "학교4")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, schools)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        with(binding) {
-            spinnerSchool.adapter = adapter
-            mcvSchool.setOnClickListener {
-                spinnerSchool.visibility = View.VISIBLE
+        val universities = arrayOf("학교를 선택해주세요", "인하대학교", "숭실대학교", "한국공학대학교")
+        //val adapter = ArrayAdapter(requireContext(), R.layout.spinner_selected_item_txt, universities)
+        val adapter = object : ArrayAdapter<String>(requireContext(), R.layout.spinner_selected_item_txt, universities) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                return view
             }
-            spinnerSchool.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                return View(context)
+            }
+        }
+        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
+        with(binding) {
+            spinnerUniversity.adapter = adapter
+            spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            mcvUniversity.setOnClickListener {
+                spinnerUniversity.visibility = View.VISIBLE
+            }
+            spinnerUniversity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
-                    val selectedSchool = schools[position]
-                    tvSchool.text = selectedSchool
-                    //spinnerSchool.visibility = View.GONE
+                    val selectedUniversity = universities[position]
+                    tvUniversity.text = selectedUniversity
+                    //spinnerUniversity.visibility = View.GONE
+                    updateNextBtnState()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -176,8 +188,8 @@ class OnboardingUserInfoFragment : Fragment() {
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
         val isGenderChecked = isSelectedMale || isSelectedFemale
         val isBirthSelected = binding.tvBirth.text?.isNotEmpty() == true
-        val isSchoolSelected = binding.tvSchool.text != "학교를 선택해주세요"
-        val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected && isSchoolSelected
+        val isUniversitySelected = binding.tvUniversity.text != "학교를 선택해주세요"
+        val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected && isUniversitySelected
 
         binding.btnNext.isEnabled = isEnabled
 
@@ -186,12 +198,12 @@ class OnboardingUserInfoFragment : Fragment() {
             val birth = binding.tvBirth.text.toString()
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
             else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
-            val school = binding.tvSchool.text.toString()
+            val university = binding.tvUniversity.text.toString()
 
             viewModel.setNickname(nickname)
             viewModel.setBirthday(birth)
             viewModel.setGender(gender)
-            viewModel.setSchool(school)
+            viewModel.setUniversity(university)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())
@@ -234,7 +246,7 @@ class OnboardingUserInfoFragment : Fragment() {
                     setTextColor(tv, R.color.main_blue)
                     binding.mcvGender.isSelected = false
                     binding.mcvBirth.isSelected = false
-                    binding.mcvSchool.isSelected = false
+                    binding.mcvUniversity.isSelected = false
                     updateColors()
                 } else {
                     setTextColor(tv, R.color.color_font)
@@ -249,14 +261,14 @@ class OnboardingUserInfoFragment : Fragment() {
             mcvGender.setOnClickListener {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
-                mcvSchool.isSelected = false
+                mcvUniversity.isSelected = false
                 updateColors()
             }
 
             mcvBirth.setOnClickListener {
                 etOnboardingNickname.clearFocus()
                 mcvGender.isSelected = false
-                mcvSchool.isSelected = false
+                mcvUniversity.isSelected = false
                 updateColors()
 
                 // 바텀시트 띄우기
@@ -273,11 +285,13 @@ class OnboardingUserInfoFragment : Fragment() {
                 updateNextBtnState()
             }
 
-            mcvSchool.setOnClickListener {
+            mcvUniversity.setOnClickListener {
                 etOnboardingNickname.clearFocus()
                 mcvGender.isSelected = false
                 mcvBirth.isSelected = false
                 updateColors()
+
+                updateNextBtnState()
             }
 
             radioMale.setOnClickListener {
@@ -289,7 +303,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
-                mcvSchool.isSelected = false
+                mcvUniversity.isSelected = false
                 updateColors()
                 viewModel.setGender("MALE")
 
@@ -307,7 +321,7 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
-                mcvSchool.isSelected = false
+                mcvUniversity.isSelected = false
                 updateColors()
                 viewModel.setGender("FEMALE")
 
@@ -336,12 +350,12 @@ class OnboardingUserInfoFragment : Fragment() {
                 setTextColor(tvLabelGender, R.color.color_font)
             }
 
-            if (mcvSchool.isSelected) {
-                setStrokeColor(mcvSchool, R.color.sub_color1)
-                setTextColor(tvLabelSchool, R.color.main_blue)
+            if (mcvUniversity.isSelected) {
+                setStrokeColor(mcvUniversity, R.color.sub_color1)
+                setTextColor(tvLabelUniversity, R.color.main_blue)
             } else {
-                setStrokeColor(mcvSchool, R.color.unuse)
-                setTextColor(tvLabelSchool, R.color.color_font)
+                setStrokeColor(mcvUniversity, R.color.unuse)
+                setTextColor(tvLabelUniversity, R.color.color_font)
             }
         }
     }

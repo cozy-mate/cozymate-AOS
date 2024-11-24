@@ -7,6 +7,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.cozymate.data.api.ChatService
 import umc.cozymate.data.api.MemberService
+import umc.cozymate.data.api.MemberStatPreferenceService
 import umc.cozymate.data.api.ReportService
 import umc.cozymate.data.api.RoleService
 import umc.cozymate.data.api.RoomLogService
@@ -15,6 +16,7 @@ import umc.cozymate.data.api.RuleService
 import umc.cozymate.data.api.TodoService
 import umc.cozymate.data.repository.repository.ChatRepository
 import umc.cozymate.data.repository.repository.MemberRepository
+import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import umc.cozymate.data.repository.repository.ReportRepository
 import umc.cozymate.data.repository.repository.RoleRepository
 import umc.cozymate.data.repository.repository.RoomLogRepository
@@ -23,6 +25,7 @@ import umc.cozymate.data.repository.repository.RuleRepository
 import umc.cozymate.data.repository.repository.TodoRepository
 import umc.cozymate.data.repository.repositoryImpl.ChatRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.MemberRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.MemberStatPreferenceRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.ReportRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.RoleRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.RoomLogRepositoryImpl
@@ -60,6 +63,12 @@ object RepositoryModule {
 
     @ViewModelScoped
     @Provides
+    fun providesMemberStatPreferenceRepository(
+        preferenceService: MemberStatPreferenceService
+    ): MemberStatPreferenceRepository = MemberStatPreferenceRepositoryImpl(preferenceService)
+
+    @ViewModelScoped
+    @Provides
     fun providesRuleRepository(
         service: RuleService
     ): RuleRepository = RuleRepositoryImpl(service)
@@ -81,5 +90,4 @@ object RepositoryModule {
     fun providesReportRepository(
         reportService: ReportService
     ): ReportRepository = ReportRepositoryImpl(reportService)
-
 }

@@ -1,12 +1,11 @@
-package umc.cozymate.data.model.response.member
+package umc.cozymate.data.model.response.member.stat
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import umc.cozymate.data.model.entity.MemberDetailInfo
 
 @Serializable
-data class MemberInfoResponse(
+data class PostMyPreferenceResponse(
     @SerialName("code")
     val code: String,
     @SerialName("isSuccess")
@@ -14,5 +13,5 @@ data class MemberInfoResponse(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: MemberDetailInfo?,
+    val result: Int
 )

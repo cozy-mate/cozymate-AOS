@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetRoomInfoResponse(
+data class CreatePublicRoomResponse(
     @SerialName("code")
     val code: String,
     @SerialName("isSuccess")
@@ -17,34 +17,28 @@ data class GetRoomInfoResponse(
 ) {
     @Serializable
     data class Result(
-        @SerialName("arrivalMateNum")
-        val arrivalMateNum: Int,
         @SerialName("difference")
         val difference: Difference,
-        @SerialName("dormitoryName")
-        val dormitoryName: String,
         @SerialName("equality")
         val equality: Int,
-        @SerialName("hashtagList")
-        val hashtagList: List<String>,
+        @SerialName("hashtags")
+        val hashtags: List<String>,
         @SerialName("inviteCode")
         val inviteCode: String,
-        @SerialName("isFavorited")
-        val isFavorited: Boolean,
         @SerialName("isRoomManager")
         val isRoomManager: Boolean,
-        @SerialName("managerMemberId")
-        val managerMemberId: Int,
-        @SerialName("managerNickname")
-        val managerNickname: String,
-        @SerialName("mateDetailList")
-        val mateDetailList: List<MateDetail>,
+        @SerialName("managerId")
+        val managerId: Int,
+        @SerialName("mateList")
+        val mateList: List<Mate>,
         @SerialName("maxMateNum")
         val maxMateNum: Int,
         @SerialName("name")
         val name: String,
-        @SerialName("persona")
-        val persona: Int,
+        @SerialName("numOfArrival")
+        val numOfArrival: Int,
+        @SerialName("profileImage")
+        val profileImage: Int,
         @SerialName("roomId")
         val roomId: Int,
         @SerialName("roomType")
@@ -61,7 +55,7 @@ data class GetRoomInfoResponse(
         )
 
         @Serializable
-        data class MateDetail(
+        data class Mate(
             @SerialName("mateEquality")
             val mateEquality: Int,
             @SerialName("mateId")

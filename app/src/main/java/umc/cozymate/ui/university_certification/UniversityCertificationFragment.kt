@@ -1,4 +1,4 @@
-package umc.cozymate.ui.school_certification
+package umc.cozymate.ui.university_certification
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentSchoolCertificationBinding
+import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.roommate.RoommateOnboardingFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.StatusBarUtil
 
-class SchoolCertificationFragment : Fragment() {
-    private var _binding: FragmentSchoolCertificationBinding? = null
+class UniversityCertificationFragment : Fragment() {
+    private var _binding: FragmentUniversityCertificationBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: RoommateViewModel by activityViewModels()
@@ -24,12 +24,12 @@ class SchoolCertificationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSchoolCertificationBinding.inflate(inflater, container, false)
+        _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
 
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
 
         binding.btnSchool.setOnClickListener {
-            val fragment = SchoolSearchFragment()
+            val fragment = UniversitySearchFragment()
 
             // 프래그먼트 트랜잭션을 통해 전환 수행
             parentFragmentManager.beginTransaction()
