@@ -16,7 +16,7 @@ import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
+import umc.cozymate.ui.cozy_home.home.CozyHomeMainFragment
 import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp

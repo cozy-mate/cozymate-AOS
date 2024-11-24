@@ -24,7 +24,7 @@
             android:name=".ui.university_certification.SchoolCertificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
+            android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"
@@ -62,19 +62,19 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity"
+            android:name=".ui.cozy_home.room.entering_room.CozyHomeEnteringInviteCodeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.MakingPrivateRoomActivity"
+            android:name=".ui.cozy_home.room.making_room.MakingPrivateRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.MakingPublicRoomActivity"
+            android:name=".ui.cozy_home.room.making_room.MakingPublicRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.CozyHomeSelectingCharacterActivity"
+            android:name=".ui.cozy_home.room.making_room.CozyHomeSelectingCharacterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity"
+            android:name=".ui.cozy_home.room.making_room.CozyHomeInvitingRoommateActivity"
             android:exported="true" />
         <activity
             android:name=".ui.roommate.RoommateDetailActivity"
