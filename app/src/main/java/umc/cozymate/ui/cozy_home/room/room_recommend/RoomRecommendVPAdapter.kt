@@ -3,9 +3,10 @@ package umc.cozymate.ui.cozy_home.room.room_recommend
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
-class RoomRecommendVPAdapter(private val items: List<RoomRecommendItem>) :
+class RoomRecommendVPAdapter(private val items: List<GetRecommendedRoomListResponse.Result.Result>) :
     RecyclerView.Adapter<RoomRecommendVPViewHolder>() {
 
     override fun onCreateViewHolder(

@@ -13,6 +13,7 @@ import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
@@ -70,7 +71,7 @@ interface RoomService {
         @Query("size") size: Int,
         @Query("page") page: Int,
         @Query("sortType") sortType: String?
-    )
+    ) : Response<GetRecommendedRoomListResponse>
 
     // 방 참여
     @POST("/rooms/{roomId}/join")
