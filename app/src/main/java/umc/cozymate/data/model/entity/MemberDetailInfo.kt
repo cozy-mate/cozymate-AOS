@@ -21,5 +21,7 @@ data class MemberDetailInfo(
     @SerialName("persona")
     var persona: Int,
     @SerialName("universityName")
-    var universityName: String
+    var universityName: String,
+    @SerialName("universityId")
+    var universityId: Int?,
 )
