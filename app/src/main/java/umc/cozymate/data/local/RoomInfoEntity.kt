@@ -1,7 +1,8 @@
-package umc.cozymate.data.model.entity
+package umc.cozymate.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 
 @Entity(tableName = "room_info")
 data class RoomInfoEntity(
@@ -19,11 +20,5 @@ data class RoomInfoEntity(
     val roomType: String,
     val equality: Int,
     val hashtagList: List<String>,
-    val difference: Difference
-)
-
-data class Difference(
-    val blue: List<String>,
-    val red: List<String>,
-    val white: List<String>
+    val difference: GetRoomInfoResponse.Result.Difference
 )

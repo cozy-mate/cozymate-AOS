@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import umc.cozymate.databinding.ComponentRoommateRecommendBinding
+import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 
 class RoommateRecommendComponent : Fragment() {
 
-    private var _binding: ComponentRoommateRecommendBinding?= null
+    private var _binding: FragmentRoommateRecommendComponentBinding?= null
     private val binding get() = _binding!!
 
     private val viewModel: RoommateRecommendViewModel by viewModels()
@@ -33,7 +33,7 @@ class RoommateRecommendComponent : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ComponentRoommateRecommendBinding.inflate(inflater, container, false)
+        _binding = FragmentRoommateRecommendComponentBinding.inflate(inflater, container, false)
 
         val dotsIndicator = binding.dotsIndicator
         val viewPager = binding.vpRoommate
