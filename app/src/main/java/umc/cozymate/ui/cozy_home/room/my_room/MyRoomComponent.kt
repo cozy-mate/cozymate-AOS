@@ -33,15 +33,10 @@ class MyRoomComponent : Fragment() {
     }
 
     private fun initData() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val nickname =  spf.getString("user_nickname", "No user found").toString()
-        //roomname =spf.getInt("room_id", "아직 활성화된 방이 없어요").toString()
-
-
-        // 방 id 받아오기
         viewModel.fetchRoomIdIfNeeded()
         val roomId = viewModel.getSavedRoomId()
-        // 방 정보 조회
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val nickname =  spf.getString("user_nickname", "No user found").toString()
         viewModel.getRoomInfoById(roomId).observe(viewLifecycleOwner, Observer { roomInfo ->
             binding.tvMyNickname.text = nickname + "님이"
             binding.tvHashtag1.text = "#" + roomInfo?.hashtagList?.get(0) ?: "없음"
@@ -49,11 +44,5 @@ class MyRoomComponent : Fragment() {
             binding.tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() +"명"
             binding.tvEquality.text = roomInfo?.equality.toString() +"%"
         })
-
-
-    }
-
-    private fun initView() {
-
     }
 }

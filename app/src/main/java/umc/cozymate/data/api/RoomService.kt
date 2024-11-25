@@ -63,6 +63,15 @@ interface RoomService {
         @Header("Authorization") accessToken: String
     ) : Response<IsRoomExistResponse>
 
+    // 방 추천 리스트 조회
+    @GET("/rooms/list")
+    suspend fun getRecommendedRoomList(
+        @Header("Authorization") accessToken: String,
+        @Query("size") size: Int,
+        @Query("page") page: Int,
+        @Query("sortType") sortType: String?
+    )
+
     // 방 참여
     @POST("/rooms/{roomId}/join")
     suspend fun joinRoom(
