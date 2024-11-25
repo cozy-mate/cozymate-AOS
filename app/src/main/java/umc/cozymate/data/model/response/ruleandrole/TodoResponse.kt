@@ -1,7 +1,7 @@
 package umc.cozymate.data.model.response.ruleandrole
 
 import com.google.gson.annotations.SerializedName
-import umc.cozymate.data.model.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoData
 
 
 data class TodoResponse(
@@ -22,9 +22,9 @@ data class TodoResponse(
         val timePoint: String,
 
         @SerializedName("myTodoList")
-        val myTodoList: TodoMateData,
+        val myTodoList: TodoData,
 
         @SerializedName("mateTodoList")
-        val mateTodoList: Map<String, TodoMateData>
+        val mateTodoList: Map<String, TodoData>
     )
 }

@@ -1,17 +1,21 @@
 package umc.cozymate.data.model.response.ruleandrole
 
 import com.google.gson.annotations.SerializedName
-import umc.cozymate.data.model.entity.RoleData
 
-data class RoleResponse(
+data class CreateResponse (
+    @SerializedName("isSuccess")
     val isSuccess: Boolean,
+
+    @SerializedName("code")
     val code: String,
+
+    @SerializedName("message")
     val message: String,
+
+    @SerializedName("result")
     val result: Result
 ){
     data class Result(
-        @SerializedName("roleList")
-        val roleList : List<RoleData>
+        val Id : Int
     )
-
 }
