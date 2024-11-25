@@ -30,13 +30,6 @@ class RoomRecommendComponent : Fragment() {
     private var _binding: FragmentRoomRecommendComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
-    private val rrData = listOf(
-        RoomRecommendItem("방이름", "75%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
-        RoomRecommendItem("방이룸", "73%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
-        RoomRecommendItem("방이름", "73%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
-        RoomRecommendItem("방이룸", "63%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
-        RoomRecommendItem("방이름", "60%", "기상시간", "-", "-", "", arrayListOf(), 2, 3),
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
