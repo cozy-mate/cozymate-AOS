@@ -80,12 +80,12 @@ class RoommateDetailActivity : AppCompatActivity() {
         isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
 
         if (isRoommateRequested) {
-            binding.btnRequestRoommate.apply {
+            binding.fabRequestEnterRoom.apply {
                 setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.yellow))
                 text = "요청 취소"
             }
         } else {
-            binding.btnRequestRoommate.apply {
+            binding.fabRequestEnterRoom.apply {
                 setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
                 text = "코지메이트 요청"
             }

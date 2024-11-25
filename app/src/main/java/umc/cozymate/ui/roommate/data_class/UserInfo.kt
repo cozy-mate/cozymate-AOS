@@ -6,6 +6,7 @@ data class UserInfo(
 
     val login: Boolean = false,
     val school: Int = 1,
+    val dormitoryName : String = "",
 
     val name: String = "",
     val birth: String = "",
@@ -44,9 +45,9 @@ data class UserInfo(
 ) {
     fun toRequest(): UserInfoRequest {
         return UserInfoRequest(
-            universityId = school,  // 예시로 변환, 실제 구현에 맞게 변경 필요
+              // 예시로 변환, 실제 구현에 맞게 변경 필요
+            dormitoryName = dormitoryName,
             admissionYear = admissionYear,
-            major = major,
             numOfRoommate = numOfRoommate,
             acceptance = acceptance,
             wakeUpMeridian = wakeAmPm,

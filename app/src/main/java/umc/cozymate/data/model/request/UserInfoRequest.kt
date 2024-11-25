@@ -11,7 +11,7 @@ data class UserInfoRequest(
     val sleepingTime: Int,
     val turnOffMeridian: String,
     val turnOffTime: Int,
-    val smoking: String,
+    val smokingState: String,
     val sleepingHabit: List<String>,
     val airConditioningIntensity: Int,
     val heatingIntensity: Int,

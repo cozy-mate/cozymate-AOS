@@ -3085,6 +3085,7 @@ int drawable ripple_color_box_12dp 0x7f0701ec
 int drawable ripple_main_blue_12dp 0x7f0701ed
 int drawable ripple_unuse_btn_12dp 0x7f0701ee
 int drawable spinner_background 0x7f070208
+int drawable spinner_bg 0x7f070209
 int drawable spring_dot_background 0x7f0701ef
 int drawable spring_dot_stroke_background 0x7f0701f0
 int drawable test_level_drawable 0x7f0701f1
@@ -3320,6 +3321,7 @@ int id cl_chips 0x7f0900c3
 int id cl_clean_check 0x7f0900c4
 int id cl_clean_frequency 0x7f0900c5
 int id cl_cozy_home_main 0x7f09055e
+int id cl_cozy_room_hashtag 0x7f0905b1
 int id cl_cozy_room_name 0x7f0900c6
 int id cl_cozy_room_people_number 0x7f0900c7
 int id cl_cozyhome_top 0x7f0900c8
@@ -3476,6 +3478,7 @@ int id et_input_reasons 0x7f090565
 int id et_major_email 0x7f09015e
 int id et_number 0x7f09015f
 int id et_onboarding_nickname 0x7f090161
+int id et_room_hashtag 0x7f0905b2
 int id et_room_name 0x7f090162
 int id et_school_email 0x7f090163
 int id et_selection_info 0x7f090164
@@ -3508,6 +3511,7 @@ int id fragment_home 0x7f09017c
 int id fragment_mypage 0x7f09017d
 int id fragment_onboarding 0x7f09017e
 int id fragment_role_and_rule 0x7f09017f
+int id fragment_university_cert 0x7f0905b3
 int id friday 0x7f090181
 int id friendly_enough 0x7f090182
 int id friendly_no 0x7f090183
@@ -3535,6 +3539,9 @@ int id guide_rv_crewable_list 0x7f090196
 int id guide_user 0x7f090197
 int id guide_view 0x7f09056a
 int id guideline 0x7f090198
+int id hashtag1 0x7f0905b4
+int id hashtag2 0x7f0905b5
+int id hashtag3 0x7f0905b6
 int id header 0x7f090199
 int id header_title 0x7f09019a
 int id heater_enough 0x7f09019b
@@ -3599,6 +3606,7 @@ int id iv_crieteria_icon_2 0x7f0901d2
 int id iv_crieteria_icon_3 0x7f0901d3
 int id iv_crieteria_icon_4 0x7f0901d4
 int id iv_edit_back 0x7f0901d5
+int id iv_edit_back2 0x7f0905b7
 int id iv_feed_title 0x7f0901d6
 int id iv_female 0x7f0901d7
 int id iv_filter 0x7f09056e
@@ -3767,7 +3775,7 @@ int id mbti_istp 0x7f09026d
 int id mcv_birth 0x7f09026e
 int id mcv_gender 0x7f09026f
 int id mcv_pager 0x7f090270
-int id mcv_school 0x7f09057c
+int id mcv_university 0x7f0905b8
 int id media_actions 0x7f090271
 int id message 0x7f090272
 int id middle 0x7f090273
@@ -4022,7 +4030,7 @@ int id space_between 0x7f090365
 int id space_evenly 0x7f090366
 int id spacer 0x7f090367
 int id special_effects_controller_view_tag 0x7f090368
-int id spinner_school 0x7f09058c
+int id spinner_university 0x7f0905b9
 int id spline 0x7f090369
 int id split_action_bar 0x7f09036a
 int id spread 0x7f09036b
@@ -4086,6 +4094,7 @@ int id textinput_suffix_text 0x7f0903a4
 int id thursday 0x7f0903a5
 int id til_invite_code 0x7f0903a6
 int id til_onboarding_nickname 0x7f0903a8
+int id til_room_hashtag 0x7f0905ba
 int id til_room_name 0x7f0903a9
 int id time 0x7f0903aa
 int id title 0x7f0903ab
@@ -4108,6 +4117,7 @@ int id transition_scene_layoutid_cache 0x7f0903bb
 int id transition_transform 0x7f0903bc
 int id triangle 0x7f0903bd
 int id tuesday 0x7f0903be
+int id tv 0x7f0905bb
 int id tvListView 0x7f0903bf
 int id tvTableView 0x7f0903c0
 int id tv_AddRoleText1 0x7f0903c1
@@ -4198,9 +4208,10 @@ int id tv_isitroom 0x7f090411
 int id tv_label_birth 0x7f090412
 int id tv_label_gender 0x7f090413
 int id tv_label_nickname 0x7f090415
+int id tv_label_room_hashtag 0x7f0905bc
 int id tv_label_room_name 0x7f090416
 int id tv_label_room_people_number 0x7f090417
-int id tv_label_school 0x7f090592
+int id tv_label_university 0x7f0905bd
 int id tv_lifestyle_guide 0x7f090593
 int id tv_lifestyle_title 0x7f090594
 int id tv_light_off_1 0x7f090418
@@ -4346,7 +4357,6 @@ int id tv_roommate1 0x7f09048e
 int id tv_roommate2 0x7f09048f
 int id tv_roommate3 0x7f090490
 int id tv_roomname 0x7f090491
-int id tv_school 0x7f0905ae
 int id tv_school_email 0x7f090492
 int id tv_school_guide 0x7f090493
 int id tv_school_name 0x7f090494
@@ -4369,6 +4379,7 @@ int id tv_sleep_habit_check 0x7f0904a4
 int id tv_sleep_pm 0x7f0904a5
 int id tv_sleep_time 0x7f0904a6
 int id tv_smoke_check 0x7f0904a7
+int id tv_spinner 0x7f0905be
 int id tv_study_check 0x7f0904a8
 int id tv_table_ac 0x7f0904a9
 int id tv_table_acceptance 0x7f0904aa
@@ -4461,6 +4472,7 @@ int id tv_text2 0x7f090503
 int id tv_title 0x7f090504
 int id tv_title1 0x7f090505
 int id tv_title2 0x7f090506
+int id tv_university 0x7f0905bf
 int id tv_user_match_percent 0x7f090507
 int id tv_user_name 0x7f0905af
 int id tv_user_name_guide 0x7f0905b0
@@ -4650,13 +4662,14 @@ int layout abc_select_dialog_material 0x7f0c001a
 int layout abc_tooltip 0x7f0c001b
 int layout activity_add_todo 0x7f0c001c
 int layout activity_cozy_home_entering_invite_code 0x7f0c001d
-int layout activity_cozy_home_giving_invite_code 0x7f0c001e
 int layout activity_cozy_home_inviting_roommate 0x7f0c001f
 int layout activity_cozy_home_roommate_detail 0x7f0c00c1
 int layout activity_cozy_home_selecting_character 0x7f0c0020
 int layout activity_cozy_room_detail_info 0x7f0c00c2
 int layout activity_login_fail 0x7f0c0021
 int layout activity_main 0x7f0c0022
+int layout activity_making_private_room 0x7f0c00ce
+int layout activity_making_public_room 0x7f0c00cf
 int layout activity_message 0x7f0c0023
 int layout activity_onboarding 0x7f0c0024
 int layout activity_room_detail 0x7f0c0025
@@ -4665,6 +4678,7 @@ int layout activity_roommate_input_info 0x7f0c0027
 int layout activity_roommate_onboarding 0x7f0c0028
 int layout activity_splash 0x7f0c0029
 int layout activity_talk_auth_code 0x7f0c002a
+int layout activity_university_certification 0x7f0c00d0
 int layout activity_write_message 0x7f0c00c3
 int layout browser_actions_context_menu_page 0x7f0c002b
 int layout browser_actions_context_menu_row 0x7f0c002c
@@ -4698,14 +4712,14 @@ int layout fragment_basic_info 0x7f0c0046
 int layout fragment_cozy_bot 0x7f0c00c5
 int layout fragment_cozy_home_entering 0x7f0c0047
 int layout fragment_cozy_home_entering_invite_code 0x7f0c0048
-int layout fragment_cozy_home_giving_invite_code 0x7f0c0049
 int layout fragment_cozy_home_main 0x7f0c00c6
-int layout fragment_cozy_home_room_info 0x7f0c004a
 int layout fragment_cozy_home_selecting_roommate 0x7f0c004b
 int layout fragment_cozy_home_waiting 0x7f0c004c
 int layout fragment_cozyhome_default 0x7f0c004e
 int layout fragment_essential_info 0x7f0c0050
 int layout fragment_feed 0x7f0c0051
+int layout fragment_making_private_room 0x7f0c00d1
+int layout fragment_making_public_room 0x7f0c00d2
 int layout fragment_making_room_dialog 0x7f0c0052
 int layout fragment_message_detail 0x7f0c0053
 int layout fragment_message_member 0x7f0c00c7
@@ -4714,14 +4728,15 @@ int layout fragment_onboarding_selecting_character 0x7f0c0055
 int layout fragment_onboarding_selecting_element 0x7f0c00c8
 int layout fragment_onboarding_summary 0x7f0c0056
 int layout fragment_onboarding_user_info 0x7f0c0057
+int layout fragment_publish_private_room_code 0x7f0c00d3
 int layout fragment_role_and_rule 0x7f0c0058
 int layout fragment_role_and_rule_tab 0x7f0c0059
 int layout fragment_roommate_make_crewable 0x7f0c005a
 int layout fragment_roommate_onboarding 0x7f0c005b
-int layout fragment_school_certification 0x7f0c005c
-int layout fragment_school_search 0x7f0c005d
 int layout fragment_selection_info 0x7f0c005e
 int layout fragment_todo_tab 0x7f0c005f
+int layout fragment_university_certification 0x7f0c00d4
+int layout fragment_university_search 0x7f0c00d5
 int layout ime_base_split_test_activity 0x7f0c0060
 int layout ime_secondary_split_test_activity 0x7f0c0061
 int layout item_character 0x7f0c0062
@@ -4729,8 +4744,8 @@ int layout item_cozyhome_achievement 0x7f0c0063
 int layout item_roommate_detail_list 0x7f0c0064
 int layout item_roommate_detail_table 0x7f0c0065
 int layout item_roommate_select_box 0x7f0c0066
-int layout item_school 0x7f0c0067
 int layout item_select_roommate 0x7f0c0068
+int layout item_university 0x7f0c00d6
 int layout item_waiting_roommate 0x7f0c0069
 int layout m3_alert_dialog 0x7f0c006a
 int layout m3_alert_dialog_actions 0x7f0c006b
@@ -4819,6 +4834,8 @@ int layout rv_item_todo_list 0x7f0c00b8
 int layout select_dialog_item_material 0x7f0c00b9
 int layout select_dialog_multichoice_material 0x7f0c00ba
 int layout select_dialog_singlechoice_material 0x7f0c00bb
+int layout spinner_item_txt 0x7f0c00d7
+int layout spinner_selected_item_txt 0x7f0c00d8
 int layout spring_dot_layout 0x7f0c00bc
 int layout support_simple_spinner_dropdown_item 0x7f0c00bd
 int layout vp_item_room_recommend 0x7f0c00be
@@ -5353,6 +5370,7 @@ int style Platform_V21_AppCompat_Light 0x7f130136
 int style Platform_V25_AppCompat 0x7f130137
 int style Platform_V25_AppCompat_Light 0x7f130138
 int style Platform_Widget_AppCompat_Spinner 0x7f130139
+int style RoomHashtagChip 0x7f130444
 int style RoommateElementChip 0x7f130443
 int style RtlOverlay_DialogWindowTitle_AppCompat 0x7f13013a
 int style RtlOverlay_Widget_AppCompat_ActionBar_TitleItem 0x7f13013b
