@@ -14,12 +14,24 @@ class MyRoomComponent : Fragment() {
         fun newInstance() = MyRoomComponent()
     }
 
-    private val viewModel: MyRoomComponentViewModel by viewModels()
+    private val viewModel: MyRoomViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: Use the ViewModel
+        initData()
+        initView()
+    }
+
+    private fun initData() {
+        // 방 id 받아오기
+
+        // 방 정보 조회
+
+    }
+
+    private fun initView() {
+
     }
 
     override fun onCreateView(

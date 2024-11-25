@@ -10,23 +10,44 @@
         android:id="@+id/tv_my_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
         android:text="닉네임님이"
-        />
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="현재 참여하고 있는 방이에요"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="@id/tv_my_nickname"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_nickname" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/background_my_room"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_my_nickname">
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <TextView
             android:id="@+id/tv_hashtag1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/custom_rectangle_4_white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:text="#해시태그1"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
@@ -36,7 +57,10 @@
             android:id="@+id/tv_hashtag2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
             android:background="@drawable/custom_rectangle_4_white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:text="#해시태그2"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
@@ -46,7 +70,10 @@
             android:id="@+id/tv_hashtag3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
             android:background="@drawable/custom_rectangle_4_white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:text="#해시태그3"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
@@ -56,6 +83,7 @@
             android:id="@+id/tv_room_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:text="피그말리온"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="@color/highlight_font"
@@ -66,6 +94,7 @@
             android:id="@+id/tv_cur_member_count"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:text="3명"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/main_blue"
@@ -88,6 +117,7 @@
             android:text="32%"
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/color_font"
+            app:layout_constraintBottom_toBottomOf="@id/tv_cur_member_count"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_cur_member_count" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import umc.cozymate.databinding.ComponentRoomRecommendBinding
+import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
 
 class RoomRecommendComponent : Fragment() {
@@ -24,7 +24,7 @@ class RoomRecommendComponent : Fragment() {
         private const val EXTRA_DATA = "EXTRA_DATA"
     }
 
-    private var _binding: ComponentRoomRecommendBinding? = null
+    private var _binding: FragmentRoomRecommendComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoomRecommendViewModel by viewModels()
     private val rrData = listOf(
@@ -39,7 +39,7 @@ class RoomRecommendComponent : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ComponentRoomRecommendBinding.inflate(inflater, container, false)
+        _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
 
         val dotsIndicator = binding.dotsIndicator
         val viewPager = binding.vpRoom
