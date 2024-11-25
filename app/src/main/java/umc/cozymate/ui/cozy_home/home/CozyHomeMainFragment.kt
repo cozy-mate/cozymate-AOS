@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ class CozyHomeMainFragment : Fragment() {
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
 
+        viewModel.fetchRoomIdIfNeeded()
         initState()
         initView()
         initListener()
@@ -43,6 +45,9 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun initState() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+
         if (roomId == 0) {
             state = UserRoomState.NO_ROOM
         } else {

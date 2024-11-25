@@ -164,7 +164,6 @@
             android:name="umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +176,6 @@
             android:id="@+id/roommate_request_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -194,7 +192,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top"
+            app:layout_constraintTop_toBottomOf="@+id/roommate_request_container"
             app:layout_goneMarginTop="0dp" />
 
         <!-- 방 추천 (조건 : 방 없음) -->

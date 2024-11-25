@@ -97,7 +97,7 @@ class CozyHomeViewModel @Inject constructor(
         val savedRoomId = getSavedRoomId()
         if (savedRoomId != 0) {
             _roomId.value = savedRoomId
-            getRoomInfo()
+            fetchRoomInfo()
         } else {
             // 방 ID가 없으면 새로 가져오기
             getRoomId()
@@ -119,7 +119,7 @@ class CozyHomeViewModel @Inject constructor(
 
                         // 방 ID를 가져온 후에 방 정보를 가져옴
                         _roomId.value?.let {
-                            getRoomInfo()
+                            fetchRoomInfo()
                         }
                     } else {
                         Log.d(TAG, "방존재여부 조회 에러 메시지: ${response}")
@@ -143,7 +143,7 @@ class CozyHomeViewModel @Inject constructor(
         _roomId.value = roomId
     }
 
-    fun getRoomInfo() {
+    fun fetchRoomInfo() {
         val token = getToken()
         val roomId = _roomId.value ?: getSavedRoomId()
 
@@ -196,6 +196,14 @@ class CozyHomeViewModel @Inject constructor(
                 Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
             }
         }
+    }
+
+    fun getRoomInfoById(roomId: Int): LiveData<RoomInfoEntity?> {
+        val roomInfo = MutableLiveData<RoomInfoEntity?>()
+        viewModelScope.launch {
+            roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+        }
+        return roomInfo
     }
 
     fun loadAchievements() {
