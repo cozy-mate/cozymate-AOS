@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_room_detail_rv_background"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/tv_room_mate_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/basic_font"
+            tools:text="이름" />
+
+        <TextView
+            android:id="@+id/tv_room_mate_match"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/main_blue"
+            tools:text="22%" />
+
+        <View
+            android:id="@+id/guide_view"
+            app:layout_constraintTop_toBottomOf="@+id/tv_room_mate_name"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="20dp"
+            android:background="#F6F6F6" />
+
+        <GridLayout
+            android:id="@+id/gl_room_mate_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+
+            android:paddingVertical="20dp">
+
+            <LinearLayout
+                android:id="@+id/iv_wake"
+                android:layout_width="0dp"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:src="@drawable/ic_room_detail_wake">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_room_detail_wake" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="기상시간"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font" />
+
+                <TextView
+                    android:id="@+id/tv_room_detail_wake_match"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    tools:text="모두 일치" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_room_detail_sleep" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="취침시간"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font" />
+
+                <TextView
+                    android:id="@+id/tv_room_detail_sleep_match"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    tools:text="모두 일치" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_room_detail_noise" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="소음예민도"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font" />
+
+                <TextView
+                    android:id="@+id/tv_room_detail_noise_match"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    tools:text="모두 일치" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_room_detail_clean" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="청결예민도"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font" />
+
+                <TextView
+                    android:id="@+id/tv_room_detail_clean_match"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    tools:text="모두 일치" />
+            </LinearLayout>
+        </GridLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

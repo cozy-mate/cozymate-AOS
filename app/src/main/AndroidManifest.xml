@@ -22,6 +22,13 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.university_certification.SchoolCertificationActivity"
+            android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.roommate_detail.CozyHomeRoommateDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
