@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RoleData.mateInfo
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
@@ -53,15 +53,8 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        dummy = listOf(
-            Mate(memberId = 7, nickname = "눈꽃", mateId = 1),
-            Mate(memberId = 8, nickname = "용용", mateId = 3),
-            Mate(memberId = 3, nickname = "말즈", mateId = 6),
-            Mate(memberId = 12, nickname = "델로롱", mateId = 11),
-            Mate(memberId = 13, nickname = "리원", mateId = 12)
-        )
         getPreference()
-        initMember(dummy)
+        //initMember(dummy)
         initWeekdays()
         initdata()
         setTextinput()
@@ -80,10 +73,10 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         }
         else Log.d(TAG, "No mate list found")
     }
-    fun getListFromPrefs(json: String): List<Mate>? {
+    fun getListFromPrefs(json: String): List<MateDetail>? {
         return try {
             val gson = Gson()
-            val type = object : TypeToken<List<Mate>>() {}.type
+            val type = object : TypeToken<List<MateDetail>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse mates list JSON", e)
@@ -126,8 +119,9 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         }
     }
 
-    private fun initMember(list : List<Mate>){
-        for (mate in list) {
+    private fun initMember(list : List<MateDetail>){
+        for (l in list) {
+            val mate = Mate(l)
             val m = MemberBox(mate,CheckBox(context))
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font

@@ -22,7 +22,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.TodoRequest
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
@@ -58,15 +58,15 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        dummy = listOf(
-            Mate(memberId=7, nickname="눈꽃", mateId=1),
-            Mate(memberId=8, nickname="용용", mateId=3),
-            Mate(memberId=3, nickname="말즈", mateId=6),
-            Mate(memberId=12, nickname="델로롱", mateId=11),
-            Mate(memberId=13, nickname="리원", mateId=12)
-        )
+//        dummy = listOf(
+//            Mate(memberId=7, nickname="눈꽃", mateId=1),
+//            Mate(memberId=8, nickname="용용", mateId=3),
+//            Mate(memberId=3, nickname="말즈", mateId=6),
+//            Mate(memberId=12, nickname="델로롱", mateId=11),
+//            Mate(memberId=13, nickname="리원", mateId=12)
+//        )
         getPreference()
-        initMember(dummy)
+        //initMember(dummy)
         initdata()
         setTodoinput()
         setupCalendar()
@@ -86,7 +86,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             Log.d(TAG, "No mate list found")
         }
     }
-    fun getListFromPrefs(json: String): List<Mate>? {
+    fun getListFromPrefs(json: String): List<MateDetail>? {
         return try {
             val gson = Gson()
             val type = object : TypeToken<List<Mate>>() {}.type
@@ -182,8 +182,9 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         })
     }
 
-    private fun initMember(list : List<Mate>){
-        for (mate in list) {
+    private fun initMember(list : List<MateDetail>){
+        for (l in list) {
+            val mate = Mate(l)
             val m = MemberBox(mate,CheckBox(context))
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font

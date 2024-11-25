@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RoleData
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.Mate
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 
 class MemberBox (
     val info : Mate,
@@ -39,4 +39,17 @@ class MemberBox (
         val density = context.resources.displayMetrics.density
         return Math.round(dp.toFloat() * density)
     }
+}
+class Mate(m : MateDetail? = null){
+    var memberId : Int = 0
+    var nickname : String = ""
+    var mateId : Int = 0
+    init {
+        if (m != null) {
+            memberId = m.memberId
+            nickname = m.nickname
+            mateId = m.mateId
+        }
+    }
+
 }
