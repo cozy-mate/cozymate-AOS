@@ -151,6 +151,9 @@ dependencies {
     implementation("io.ktor:ktor-client-android:2.2.4")
     implementation("io.ktor:ktor-client-json:2.2.4")
     implementation("io.ktor:ktor-client-serialization:2.2.4")
+
+    // roomDB
+    implementation("androidx.room:room-runtime:2.5.2")
 }
 kapt {
     correctErrorTypes = true
