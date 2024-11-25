@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="기상시간"
+                    android:text="소음예민도"
                     android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                     android:textColor="@color/unuse_font" />
 
@@ -146,7 +146,7 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                     android:textColor="@color/basic_font"
-                    tools:text="모두 일치" />
+                    tools:text="1명 일치" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="기상시간"
+                    android:text="청결예민도"
                     android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                     android:textColor="@color/unuse_font" />
 
@@ -177,7 +177,7 @@
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                     android:textColor="@color/basic_font"
-                    tools:text="모두 일치" />
+                    tools:text="2명 일치" />
             </LinearLayout>
         </GridLayout>
 
@@ -194,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
                 tools:listitem="@layout/rv_item_room_detail_tag_list" />
 
         </androidx.core.widget.NestedScrollView>

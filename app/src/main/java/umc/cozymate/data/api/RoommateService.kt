@@ -19,13 +19,7 @@ interface RoommateService {
         @Body request: UserInfoRequest
     ): Response<ResponseBody<DefaultResponse>>
 
-    //    @GET("/members/stat/search/details")
-//    suspend fun getOtherUserInfo(
-//        @Header("Authorization") accessToken: String,
-//        @Query("page") page: Int,
-//        @Query("filterList") filterList: String
-//    ): Response<OtherUserResponseBody<List<OtherUserInfoResponse>>>
-    @GET("/members/stat/search/details")
+    @GET("/members/stat/filter")
     suspend fun getOtherUserInfo(
         @Header("Authorization") accessToken: String,
         @Query("page") page: Int,
@@ -37,4 +31,5 @@ interface RoommateService {
         @Header("Authorization") accessToken: String,
         @Body request: FcmInfoRequest
     ) : Response<ResponseBody<DefaultResponse>>
+
 }
