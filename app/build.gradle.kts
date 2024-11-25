@@ -145,7 +145,6 @@ dependencies {
     // 인디케이터 https://github.com/tommybuonomo/dotsindicator
     implementation("com.tbuonomo:dotsindicator:5.0")
 
-    //
     // Ktor HTTP client
     implementation("io.ktor:ktor-client-core:2.2.4")
     implementation("io.ktor:ktor-client-android:2.2.4")
@@ -153,7 +152,9 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:2.2.4")
 
     // roomDB
-    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }
 kapt {
     correctErrorTypes = true
