@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.room_recommend
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,7 +25,7 @@ class RoomRecommendComponent : Fragment() {
             fragment.startActivity(intent)
         }
 
-        private const val EXTRA_DATA = "EXTRA_DATA"
+        // private const val EXTRA_DATA = "EXTRA_DATA"
     }
 
     private var _binding: FragmentRoomRecommendComponentBinding? = null
@@ -37,6 +38,9 @@ class RoomRecommendComponent : Fragment() {
     ): View {
         _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
 
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val nickname =  spf.getString("user_nickname", "No user found").toString()
+        binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoomList()
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             val dotsIndicator = binding.dotsIndicator
