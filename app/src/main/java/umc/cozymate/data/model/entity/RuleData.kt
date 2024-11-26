@@ -2,9 +2,9 @@ package umc.cozymate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class RuleInfo(
-    @SerializedName("id")
-    val id : Int,
+data class RuleData(
+    @SerializedName("ruleId")
+    val ruleId : Int,
     @SerializedName("content")
     val content: String,
     @SerializedName("memo")
