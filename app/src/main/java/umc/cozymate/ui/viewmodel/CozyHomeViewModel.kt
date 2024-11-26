@@ -196,7 +196,7 @@ class CozyHomeViewModel @Inject constructor(
         val token = getToken()
         viewModelScope.launch {
             try {
-                val response = repository.getRecommendedRoomList(accessToken = token!!, size = 5, page = 1, sortType = SortType.LATEST.value) // 최신순
+                val response = repository.getRecommendedRoomList(accessToken = token!!, size = 5, page = 0, sortType = SortType.LATEST.value) // 최신순
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
