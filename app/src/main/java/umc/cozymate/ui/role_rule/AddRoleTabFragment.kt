@@ -40,7 +40,6 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     private var roleId : Int = 0
     private var content : String? = ""
     private val viewModel: RoleViewModel by viewModels()
-    private var dummy : List<Mate> = emptyList()
 
     override fun deleteClickFunction() {
         viewModel.deleteRole(roomId, roleId)
@@ -54,7 +53,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
-        //initMember(dummy)
+        initMember(emptyList())
         initWeekdays()
         initdata()
         setTextinput()
@@ -120,9 +119,8 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     }
 
     private fun initMember(list : List<MateDetail>){
-        for (l in list) {
-            val mate = Mate(l)
-            val m = MemberBox(mate,CheckBox(context))
+        for (mate in list) {
+            val m = MemberBox(mate.mateId, mate.nickname, CheckBox(context))
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
