@@ -18,19 +18,8 @@ class RoommateRecommendComponent : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: RoommateRecommendViewModel by viewModels()
-    private val rrData = listOf(
-        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
-        RoommateRecommendItem("델로", "75%", "기상시간", "-", "-", ""),
-    )
     companion object {
         fun newInstance() = RoommateRecommendComponent
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -43,6 +32,7 @@ class RoommateRecommendComponent : Fragment() {
         val nickname =  spf.getString("user_nickname", "No user found").toString()
         binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoommateList()
+        viewModel.fetchRoommateListByEquality()
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
             val dotsIndicator = binding.dotsIndicator
             val viewPager = binding.vpRoommate
