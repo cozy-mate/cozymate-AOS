@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeViewModel.getRoomId()
+        homeViewModel.fetchMyPreference()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
