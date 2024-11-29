@@ -17,8 +17,8 @@ import com.google.gson.Gson
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
-import umc.cozymate.data.model.entity.TestInfo
 import umc.cozymate.data.model.entity.TodoData
+import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
@@ -29,13 +29,15 @@ import java.time.format.DateTimeFormatter
 class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
+    //lateinit var mytodo : TodoData
+    private var mytodo : TodoData? = null
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodo : TodoData = TodoData(TestInfo(), emptyList())
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
     lateinit var calendarView: MaterialCalendarView
     private var selectedDate= LocalDate.now()
+    private var roleTodo : Map<String, List<TodoItem>> = mapOf("월" to emptyList(), "화" to emptyList(), "수" to emptyList(), "목" to emptyList(), "금" to emptyList(), "토" to emptyList(), "일" to emptyList(),)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,7 +55,7 @@ class TodoTabFragment : Fragment() {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
             initData()
-            Log.d(TAG,"resume ${mytodo.todoList}")
+            Log.d(TAG,"resume ${mytodo?.todoList}")
         }, 1000)
 
     }
@@ -91,6 +93,7 @@ class TodoTabFragment : Fragment() {
             }
         } else {
             Log.d(TAG, "response 응답 실패")
+            mytodo = null
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
         }
@@ -109,26 +112,26 @@ class TodoTabFragment : Fragment() {
         binding.tvUserName.text = nickname
     }
 
-    private fun updateRecyclerView( mytodoList: TodoData, memberList: Map<String, TodoData>?) {
+    private fun updateRecyclerView( mytodoList: TodoData?, memberList: Map<String, TodoData>?) {
         // 내 할일
-        if (mytodoList.todoList.isNullOrEmpty()) {
+        if (mytodoList?.todoList.isNullOrEmpty()) {
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
         } else {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
             Log.d(TAG,"date test : s ${selectedDate} / n ${LocalDate.now()} / == ${selectedDate == LocalDate.now()}")
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
             myTodoRVAdapter.setItemClickListener(object: TodoRVAdapter.itemClickListener{
                 // 체크박스 클릭
-                override fun checkboxClickFunction(todo: TodoData.TodoItem) {
+                override fun checkboxClickFunction(todo: TodoItem) {
                     viewModel.updateTodo(roomId, todo.todoId, todo.completed)
                 }
 
-                override fun editClickFunction(todo : TodoData.TodoItem) {
+                override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
                     if (todo.todoType.equals("role")) return
                     saveSpf(todo)
@@ -154,7 +157,7 @@ class TodoTabFragment : Fragment() {
         }
     }
 
-    private fun saveSpf(todo: TodoData.TodoItem){
+    private fun saveSpf(todo: TodoItem){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = spf.edit()
         editor.putInt("todo_id",todo.todoId)
@@ -185,6 +188,16 @@ class TodoTabFragment : Fragment() {
         }
     }
 
+//    private fun saveRoleTodo(role : RoleData){
+//        var todoList : List <TodoItem>
+//
+//        val todo = TodoItem(todoId = 0, content = role.content, completed = false, todoType = "role", mateIdList = emptyList())
+//        for(day in role.repeatDayList){
+//            todoList = roleTodo.get(day)!!
+//            todoList += listOf(todo)
+//        }
+//
+//    }
 
 
 

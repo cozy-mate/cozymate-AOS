@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class TodoData(
     @SerializedName("memberDetail")
-    val memberDetail : TestInfo,
+    val memberDetail: MemberDetailInfo,
     @SerializedName("todoList")
-    val todoList : List<TodoItem>
+    val todoList: List<TodoItem>
 ){
     data class TodoItem(
         @SerializedName("todoId")
