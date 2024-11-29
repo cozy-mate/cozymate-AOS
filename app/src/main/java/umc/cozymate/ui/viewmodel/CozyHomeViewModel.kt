@@ -17,6 +17,7 @@ import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
+import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_bot.AchievementItem
@@ -27,6 +28,7 @@ import javax.inject.Inject
 class CozyHomeViewModel @Inject constructor(
     private val repository: RoomRepository,
     private val logRepository: RoomLogRepository,
+    private val prefRepository: MemberStatPreferenceRepository,
     private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
@@ -79,6 +81,13 @@ class CozyHomeViewModel @Inject constructor(
 
         sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
         Log.d(TAG, "spf 룸메이트 정보 : ${json}")
+    }
+
+    fun saveMyPreference(key: String, prefList: List<String>) {
+        val gson = Gson()
+        val json = gson.toJson(prefList)
+        sharedPreferences.edit().putString(key, json).apply()
+        Log.d(TAG, "spf 선호도 정보 : $json")
     }
 
     fun getSavedRoomId(): Int {
@@ -196,7 +205,12 @@ class CozyHomeViewModel @Inject constructor(
         val token = getToken()
         viewModelScope.launch {
             try {
-                val response = repository.getRecommendedRoomList(accessToken = token!!, size = 5, page = 0, sortType = SortType.LATEST.value) // 최신순
+                val response = repository.getRecommendedRoomList(
+                    accessToken = token!!,
+                    size = 5,
+                    page = 0,
+                    sortType = SortType.LATEST.value
+                ) // 최신순
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
@@ -238,7 +252,6 @@ class CozyHomeViewModel @Inject constructor(
                             mapRoomLogResponseToItem(roomLog)
                         }
 
-                        // UI 업데이트 (RecyclerView에 데이터 전달)
                         _achievements.value = achievementItems
 
                         Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
@@ -277,4 +290,28 @@ class CozyHomeViewModel @Inject constructor(
             AchievementItemType.DEFAULT
         )
     }
+
+    private val _myPreference = MutableLiveData<List<String>>()
+    val myPreference: LiveData<List<String>> get() = _myPreference
+
+    fun fetchMyPreference() {
+        val token = getToken()
+        viewModelScope.launch {
+            try {
+                val response = prefRepository.getMyPreference(token!!)
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
+                        Log.d(TAG, "선호 항목 조회 성공: ${response.body()!!.result} ")
+                        _myPreference.value = response.body()!!.result?.preferenceList
+                        saveMyPreference("pref_list", _myPreference.value!!)
+                    } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
+                } else {
+                    Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "선호 항목 조회 api 요청 실패: $e ")
+            }
+        }
+    }
+
 }
