@@ -8,13 +8,14 @@ import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
-class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding) :
+class RoomRecommendVPViewHolder(
+    private val binding: VpItemRoomRecommendBinding,
+    private val prefList: List<String>) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            //tvCriteria1.text = item.equalMemberStatNum.toString()
             tvMatchRate.text = "${item.equality}%"
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}"
             when (item.hashtags.size) {
@@ -43,10 +44,8 @@ class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding)
                 }
             }
 
-            // spf에서 불러오기 -> 아이디
-
             setPreferenceProp(
-                id = Preference.BIRTH_YEAR.name,
+                prefList.get(0),
                 tvCriteria1,
                 tvCriteriaContent1,
                 ivCriteriaIcon1,
@@ -54,7 +53,7 @@ class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding)
                 item.numOfArrival
             )
             setPreferenceProp(
-                id = Preference.BIRTH_YEAR.name,
+                prefList[1],
                 tvCriteria2,
                 tvCriteriaContent2,
                 ivCrieteriaIcon2,
@@ -62,7 +61,7 @@ class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding)
                 item.numOfArrival
             )
             setPreferenceProp(
-                id = Preference.BIRTH_YEAR.name,
+                prefList[2],
                 tvCriteria3,
                 tvCriteriaContent3,
                 ivCrieteriaIcon3,
@@ -70,7 +69,7 @@ class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding)
                 item.numOfArrival
             )
             setPreferenceProp(
-                id = Preference.BIRTH_YEAR.name,
+                prefList[3],
                 tvCriteria1,
                 tvCriteriaContent1,
                 ivCriteriaIcon1,
@@ -89,7 +88,7 @@ class RoomRecommendVPViewHolder(private val binding: VpItemRoomRecommendBinding)
         equalNum: Int,
         arrivalNum: Int
     ) {
-        val preference = Preference.entries.find { it.name == id }
+        val preference = Preference.entries.find { it.pref == id }
         if (preference != null) {
             tv1.text = preference.displayName
             when (equalNum) {

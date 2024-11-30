@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 
-class RoommateRecommendVPAdapter(private val items: List<GetRecommendedRoommateResponse.Result.Member>) :
+class RoommateRecommendVPAdapter(
+    private val items: List<GetRecommendedRoommateResponse.Result.Member>,
+    private val prefList: List<String>) :
     RecyclerView.Adapter<RoommateRecommendVPViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -19,7 +21,7 @@ class RoommateRecommendVPAdapter(private val items: List<GetRecommendedRoommateR
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        return RoommateRecommendVPViewHolder(binding)
+        return RoommateRecommendVPViewHolder(binding, prefList)
     }
 
     override fun onBindViewHolder(holder: RoommateRecommendVPViewHolder, position: Int) {
