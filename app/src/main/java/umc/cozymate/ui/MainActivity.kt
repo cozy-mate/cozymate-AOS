@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
@@ -80,6 +81,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        var keyHash = Utility.getKeyHash(this)
+        Log.d("Main_keyHasH", keyHash)
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
