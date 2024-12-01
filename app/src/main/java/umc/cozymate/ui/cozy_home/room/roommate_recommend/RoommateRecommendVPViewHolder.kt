@@ -72,7 +72,6 @@ class RoommateRecommendVPViewHolder(
                 rmPrefStat -> {
                     iv.setImageResource(preference.blueDrawable)
                 }
-
                 else -> {
                     iv.setImageResource(preference.redDrawable)
                 }
