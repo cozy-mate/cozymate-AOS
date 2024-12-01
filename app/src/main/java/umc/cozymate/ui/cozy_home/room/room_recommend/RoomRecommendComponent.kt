@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
@@ -30,9 +28,12 @@ class RoomRecommendComponent : Fragment() {
         // private const val EXTRA_DATA = "EXTRA_DATA"
     }
 
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentRoomRecommendComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
+    private var nickname: String = ""
+    private var prefList: List<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,28 +41,33 @@ class RoomRecommendComponent : Fragment() {
     ): View {
         _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
 
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val nickname = spf.getString("user_nickname", "No user found").toString()
-        val json = spf.getString("pref_list", null)
-        val listType = object : TypeToken<List<String>>() {}.type
-        try {
-            val prefList: List<String> = Gson().fromJson(json, listType)
-            binding.tvName.text = "${nickname}님과"
-            viewModel.fetchRecommendedRoomList()
-            viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
-                val dotsIndicator = binding.dotsIndicator
-                val viewPager = binding.vpRoom
-                val adapter = RoomRecommendVPAdapter(roomList, prefList)
-                viewPager.adapter = adapter
-                dotsIndicator.attachTo(viewPager)
-            }
-        } catch (e: Exception){
-
+        getPreference()
+        binding.tvName.text = "${nickname}님과"
+        viewModel.fetchRecommendedRoomList()
+        viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
+            val dotsIndicator = binding.dotsIndicator
+            val viewPager = binding.vpRoom
+            val adapter = RoomRecommendVPAdapter(roomList, prefList)
+            viewPager.adapter = adapter
+            dotsIndicator.attachTo(viewPager)
         }
+
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }
 
         return binding.root
+    }
+
+    // sharedpreference에서 데이터 받아오기
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        nickname = spf.getString("user_nickname", "No user found").toString()
+        prefList = arrayListOf(
+            spf.getString("pref_1", "No pref found").toString(),
+            spf.getString("pref_2", "No pref found").toString(),
+            spf.getString("pref_3", "No pref found").toString(),
+            spf.getString("pref_4", "No pref found").toString(),
+        )
     }
 }

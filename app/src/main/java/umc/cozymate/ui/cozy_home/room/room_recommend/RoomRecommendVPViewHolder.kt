@@ -53,7 +53,7 @@ class RoomRecommendVPViewHolder(
                 item.numOfArrival
             )
             setPreferenceProp(
-                prefList[1],
+                prefList.get(1),
                 tvCriteria2,
                 tvCriteriaContent2,
                 ivCrieteriaIcon2,
@@ -89,6 +89,7 @@ class RoomRecommendVPViewHolder(
         arrivalNum: Int
     ) {
         val preference = Preference.entries.find { it.pref == id }
+        println("Debug: id=$id, matchedPreference=${Preference.entries.find { it.pref == id }}")
         if (preference != null) {
             tv1.text = preference.displayName
             when (equalNum) {

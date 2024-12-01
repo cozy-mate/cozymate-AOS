@@ -83,11 +83,14 @@ class CozyHomeViewModel @Inject constructor(
         Log.d(TAG, "spf 룸메이트 정보 : ${json}")
     }
 
-    fun saveMyPreference(key: String, prefList: List<String>) {
-        val gson = Gson()
-        val json = gson.toJson(prefList)
-        sharedPreferences.edit().putString(key, json).apply()
-        Log.d(TAG, "spf 선호도 정보 : $json")
+    fun saveMyPreference(prefList: List<String>) {
+        //sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장 <- 왜 안 되냐
+        sharedPreferences.edit().putString("pref_1", prefList[0])
+        sharedPreferences.edit().putString("pref_2", prefList[1])
+        sharedPreferences.edit().putString("pref_3", prefList[2])
+        sharedPreferences.edit().putString("pref_4", prefList[3])
+
+        //Log.d(TAG, "spf 선호도 정보 : $pref_1")
     }
 
     fun getSavedRoomId(): Int {
@@ -303,7 +306,23 @@ class CozyHomeViewModel @Inject constructor(
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "선호 항목 조회 성공: ${response.body()!!.result} ")
                         _myPreference.value = response.body()!!.result?.preferenceList
-                        saveMyPreference("pref_list", _myPreference.value!!)
+                        //saveMyPreference(_myPreference.value!!)
+                        sharedPreferences.edit().putString(
+                            "pref_1",
+                            response.body()!!.result?.preferenceList?.get(0)
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "pref_2",
+                            response.body()!!.result?.preferenceList?.get(1)
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "pref_3",
+                            response.body()!!.result?.preferenceList?.get(2)
+                        ).commit()
+                        sharedPreferences.edit().putString(
+                            "pref_4",
+                            response.body()!!.result?.preferenceList?.get(3)
+                        ).commit()
                     } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
                 } else {
                     Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
