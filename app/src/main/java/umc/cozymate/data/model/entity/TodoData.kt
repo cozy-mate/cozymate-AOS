@@ -6,20 +6,20 @@ data class TodoData(
     @SerializedName("memberDetail")
     val memberDetail: MemberDetailInfo,
     @SerializedName("todoList")
-    val todoList: List<TodoItem>
+    var todoList: List<TodoItem>
 ){
     data class TodoItem(
         @SerializedName("todoId")
-        val todoId: Int,
+        val todoId: Int = 0,
 
         @SerializedName("content")
-        val content: String,
+        val content: String = "",
 
         @SerializedName("completed")
-        var completed: Boolean,
+        var completed: Boolean = false,
 
         @SerializedName("todoType")
-        val todoType : String,
+        val todoType : String = "self",
 
         @SerializedName("mateIdList")
         val mateIdList: List<Int>

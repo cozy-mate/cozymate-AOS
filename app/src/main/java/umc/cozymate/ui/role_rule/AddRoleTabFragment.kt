@@ -21,7 +21,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.RoleData.mateInfo
+import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
@@ -33,7 +33,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     lateinit var binding: FragmentAddRoleTabBinding
     lateinit var spf : SharedPreferences
     private var repeatDayList =mutableListOf<String>()
-    private var selectedMates = mutableListOf<mateInfo>()
+    private var selectedMates = mutableListOf<MateInfo>()
     private val weekdayBox = mutableListOf<Daybox>()
     private var mateBox = mutableListOf<MemberBox>()
     private var roomId : Int = 0
@@ -91,7 +91,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             spf.edit().remove("role_content")
             try{
                 var json = spf.getString("role_mate_list","")
-                var type = object : TypeToken<MutableList<mateInfo>>(){}.type
+                var type = object : TypeToken<MutableList<MateInfo>>(){}.type
                 if(!json.isNullOrEmpty()) {
                     selectedMates = Gson().fromJson(json,type)
                     for(mate in mateBox )

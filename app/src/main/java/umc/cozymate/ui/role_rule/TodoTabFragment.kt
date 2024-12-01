@@ -17,27 +17,33 @@ import com.google.gson.Gson
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
+import umc.cozymate.data.model.entity.MateInfo
+import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
+import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @AndroidEntryPoint
 class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
-    //lateinit var mytodo : TodoData
     private var mytodo : TodoData? = null
     private val viewModel: TodoViewModel by viewModels()
+    private val roleViewModel : RoleViewModel by viewModels()
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
     lateinit var calendarView: MaterialCalendarView
     private var selectedDate= LocalDate.now()
-    private var roleTodo : Map<String, List<TodoItem>> = mapOf("월" to emptyList(), "화" to emptyList(), "수" to emptyList(), "목" to emptyList(), "금" to emptyList(), "토" to emptyList(), "일" to emptyList(),)
+    private var roleList : List<RoleData> = emptyList()
+    private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,19 +57,17 @@ class TodoTabFragment : Fragment() {
     }
 
     override fun onResume() {
-        // 단순 시간 딜레이
         super.onResume()
+        roleViewModel.getRole(roomId)
         Handler(Looper.getMainLooper()).postDelayed({
             initData()
             Log.d(TAG,"resume ${mytodo?.todoList}")
         }, 1000)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        initData()
         updateRecyclerView(mytodo,memberList)
         setupCalendar()
     }
@@ -75,6 +79,17 @@ class TodoTabFragment : Fragment() {
 
     }
     private fun setupObservers() {
+        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response == null) return@Observer
+            if (response.isSuccessful) {
+                val list =  response.body()!!.result.roleList
+                if(!roleList.equals(list)){
+                    roleList = list
+                    setRoleTodo()
+                }
+            }
+            else Log.d(TAG,"roleresponse 응답 실패")
+        })
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
@@ -91,12 +106,18 @@ class TodoTabFragment : Fragment() {
                 mytodo = it.result.myTodoList
                 memberList = it.result.mateTodoList
             }
+            // 오늘보다 미래의 날짜에만 롤 투두 추가
+            if(selectedDate.isAfter(LocalDate.now())){
+                val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
+                mytodo!!.todoList += roleTodo[day]!!
+            }
         } else {
             Log.d(TAG, "response 응답 실패")
             mytodo = null
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
         }
+
         updateRecyclerView(mytodo!!, memberList)
     }
     private fun initData(){
@@ -120,7 +141,6 @@ class TodoTabFragment : Fragment() {
         } else {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
-            Log.d(TAG,"date test : s ${selectedDate} / n ${LocalDate.now()} / == ${selectedDate == LocalDate.now()}")
             val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
@@ -187,17 +207,23 @@ class TodoTabFragment : Fragment() {
             updateInfo()
         }
     }
+    private fun setRoleTodo(){
+        val myInfo = MateInfo(12, nickname)
+        // roleTodo 초기화
+        for(entry in roleTodo) entry.value.clear()
+        for(role in roleList){
+            // 반복 요일이 있고, 내가 포함 된 롤만 저장
+            if (!role.repeatDayList.isNullOrEmpty() && role.mateList.contains(myInfo))
+                initRoleTodo(role)
+        }
+        Log.d(TAG, "롤 투두 입력 후 : ${roleTodo}")
+    }
 
-//    private fun saveRoleTodo(role : RoleData){
-//        var todoList : List <TodoItem>
-//
-//        val todo = TodoItem(todoId = 0, content = role.content, completed = false, todoType = "role", mateIdList = emptyList())
-//        for(day in role.repeatDayList){
-//            todoList = roleTodo.get(day)!!
-//            todoList += listOf(todo)
-//        }
-//
-//    }
+    private fun initRoleTodo(role: RoleData) {
+        val todo = TodoItem( content = role.content, todoType = "role", mateIdList = emptyList())
+        for (day in role.repeatDayList)
+            roleTodo[day]!!.add(todo)
+    }
 
 
 

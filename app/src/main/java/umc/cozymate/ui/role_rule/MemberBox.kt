@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.RoleData
+import umc.cozymate.data.model.entity.MateInfo
 
 class MemberBox (
     val mateId : Int,
@@ -15,7 +15,7 @@ class MemberBox (
     val box : CheckBox
 ){
     init { setBox() }
-    fun getMateInfo(): RoleData.mateInfo { return RoleData.mateInfo(mateId,nickname) }
+    fun getMateInfo(): MateInfo { return MateInfo(mateId,nickname) }
     fun setBox(){
         box.apply {
             val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ConvertDPtoPX(context,37)) // 여기 wrap으로 줄이기
