@@ -17,5 +17,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_university_cert, UniversityCertificationFragment()).commit()
     }
 }
