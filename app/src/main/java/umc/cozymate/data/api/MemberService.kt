@@ -10,6 +10,7 @@ import retrofit2.http.Query
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
@@ -97,13 +98,14 @@ interface MemberService {
     @POST("/members/mail")
     suspend fun sendMail(
         @Header("Authorization") accessToken: String,
+        @Body request: SendMailRequest
     ): Response<Unit>
 
     // 메일 인증
     @POST("/members/mail/verify")
     suspend fun verifyMail(
         @Header("Authorization") accessToken: String,
-        @Body request: SendMailRequest
+        @Body request: VerifyMailRequest
     ): Response<VerifyMailResponse>
 
 }

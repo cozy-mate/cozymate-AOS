@@ -116,7 +116,7 @@ class CozyHomeMainFragment : Fragment() {
 
     private fun observeViewModel() {
         univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true) {
+            if (isVerified == true && univViewModel.university.value == null) {
                 univViewModel.fetchMyUniversity()
             }
         }

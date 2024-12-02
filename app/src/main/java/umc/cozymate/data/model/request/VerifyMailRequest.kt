@@ -5,9 +5,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SendMailRequest(
-    @SerialName("mailAddress")
-    val mailAddress: String,
+data class VerifyMailRequest(
+    @SerialName("code")
+    val code: String,
+    @SerialName("majorName")
+    val majorName: String,
     @SerialName("universityId")
     val universityId: Int
 )

@@ -5,6 +5,7 @@ import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
@@ -65,13 +66,13 @@ class MemberRepositoryImpl @Inject constructor(
         return api.getMailVerify(accessToken)
     }
 
-    override suspend fun sendMail(accessToken: String): Response<Unit> {
-        return api.sendMail(accessToken)
+    override suspend fun sendMail(accessToken: String, request: SendMailRequest): Response<Unit> {
+        return api.sendMail(accessToken, request)
     }
 
     override suspend fun verifyMail(
         accessToken: String,
-        request: SendMailRequest
+        request: VerifyMailRequest
     ): Response<VerifyMailResponse> {
         return api.verifyMail(accessToken, request)
     }

@@ -5,14 +5,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.cozymate.data.model.request.SendMailRequest
+import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.repository.repository.MemberRepository
-import umc.cozymate.ui.university_certification.adapter.UniversitylItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +24,7 @@ class UniversityViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? { return sharedPreferences.getString("access_token", null) }
 
+    // 대학교 메일 인증 여부
     private val _isVerified = MutableLiveData(false)
     val isVerified: LiveData<Boolean> get() = _isVerified
     fun isMailVerified() {
@@ -47,6 +48,8 @@ class UniversityViewModel @Inject constructor(
             }
         }
     }
+
+    // 대학교 이름 조회 (인증 완료되었을 때)
     private val _university = MutableLiveData<String>()
     val university: LiveData<String> get() = _university
     fun fetchMyUniversity() {
@@ -66,6 +69,8 @@ class UniversityViewModel @Inject constructor(
             }
         }
     }
+
+    // 대학교 정보 조회
     private val _universityInfo = MutableLiveData<GetUniversityInfoResponse.Result>()
     val universityInfo: LiveData<GetUniversityInfoResponse.Result> get() = _universityInfo
     private val _universityId = MutableLiveData<Int>()
@@ -104,29 +109,75 @@ class UniversityViewModel @Inject constructor(
         }
     }
 
-    val searchQuery = MutableLiveData<String>("")
-    private val _schoolList = MutableLiveData<List<UniversitylItem>>() // 전체 학교 목록
-    val schoolList: LiveData<List<UniversitylItem>> = _schoolList
-    // 검색어에 따라 학교 목록이 필터링 결과
-    val filteredSchoolList: LiveData<List<UniversitylItem>> = searchQuery.map { query ->
-        if (query.isEmpty()) {
-            _schoolList.value ?: emptyList()
-        } else {
-            _schoolList.value?.filter { it.name.contains(query, true) } ?: emptyList()
+    // 메일 인증
+    private val _mailPattern = MutableLiveData<String>()
+    val mailPattern: LiveData<String> get() = _mailPattern
+    private val _emailInput = MutableLiveData<String>()
+    val emailInput: LiveData<String> get() = _emailInput
+    private val _isValidMail = MutableLiveData<Boolean>()
+    val isValidMail: LiveData<Boolean> get() = _isValidMail
+    private val _sendVerifyCodeStatus = MutableLiveData<Boolean>() // 인증번호 전송 결과 상태
+    val sendVerifyCodeStatus: LiveData<Boolean> get() = _sendVerifyCodeStatus
+    fun setMailPattern(pattern: String) {
+        _mailPattern.value = pattern
+    }
+    fun validateEmail(email: String) {
+        val pattern = mailPattern.value
+        _isValidMail.value = pattern?.toRegex()?.matches(email) == true
+        val regex = "^[a-zA-Z0-9._%+-]+@$pattern$".toRegex() // example@inha.edu 패턴 생성
+        _isValidMail.value = regex.matches(email)
+    }
+    fun sendVerifyCode(email: String) {
+        val token = getToken()
+        if (token != null && emailInput.value != null) {
+            viewModelScope.launch {
+                try {
+                    val request = SendMailRequest(
+                        mailAddress = emailInput.value!!,
+                        universityId = universityId.value!!
+                    )
+                    val response = memberRepo.sendMail(token, request)
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "메일 보내기 성공")
+                        _sendVerifyCodeStatus.value = true
+                    } else {
+                        Log.d(TAG, "메일 보내기 성공")
+                        _sendVerifyCodeStatus.value = false
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "메일 보내기 api 요청 실패: $e")
+                    _sendVerifyCodeStatus.value = false
+                }
+            }
         }
+    }
 
-    }
-    // 검색 결과가 비었는지 확인하는 변수
-    val isEmpty: LiveData<Boolean> = filteredSchoolList.map {
-        it.isEmpty()
-    }
-    // 초기 데이터 설정 (예시 데이터)
-    init {
-        _schoolList.value = listOf(
-            UniversitylItem(1, "가톨릭대학교", "url_to_logo_3"),
-            UniversitylItem(2, "인하대학교", "url_to_logo_1"),
-            UniversitylItem(3, "숭실대학교", "url_to_logo_3"),
-            UniversitylItem(4, "한국공학대학교", "url_to_logo_3")
-        )
+    // 인증코드 확인
+    private val _verifyCode = MutableLiveData<String>()
+    val verifyCode: LiveData<String> get() = _verifyCode
+    fun verifyCode(code: String, majorName: String) {
+        val token = getToken()
+        if (token != null && emailInput.value != null) {
+            viewModelScope.launch {
+                try {
+                    val request = VerifyMailRequest(
+                        code = code,
+                        universityId = universityId.value!!,
+                        majorName = majorName
+                    )
+                    val response = memberRepo.verifyMail(token, request)
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "메일 인증 성공")
+                        _sendVerifyCodeStatus.value = true
+                    } else {
+                        Log.d(TAG, "메일 인증 성공")
+                        _sendVerifyCodeStatus.value = false
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "메일 인증 api 요청 실패: $e")
+                    _sendVerifyCodeStatus.value = false
+                }
+            }
+        }
     }
 }

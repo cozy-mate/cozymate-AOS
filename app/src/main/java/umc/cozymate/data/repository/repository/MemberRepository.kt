@@ -4,6 +4,7 @@ import retrofit2.Response
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
@@ -37,8 +38,8 @@ interface MemberRepository {
 
     suspend fun getMailVerify(accessToken: String): Response<GetMailVerifyResponse>
 
-    suspend fun sendMail(accessToken: String): Response<Unit>
+    suspend fun sendMail(accessToken: String, request: SendMailRequest): Response<Unit>
 
-    suspend fun verifyMail(accessToken: String, request: SendMailRequest): Response<VerifyMailResponse>
+    suspend fun verifyMail(accessToken: String, request: VerifyMailRequest): Response<VerifyMailResponse>
 
 }
