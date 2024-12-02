@@ -88,13 +88,24 @@ class UniversityCertificationFragment : Fragment() {
             viewModel.verifyCode(binding.etCheckVerifyCode.text.toString(), majorName)
 
             // 인증되었는지 체크
+            viewModel.isMailVerified()
 
-
-            // 학교 인증 완료 팝업
-
-            // 화면 이동
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
+        }
+
+        // 학교 인증 완료 팝업
+
+        // 화면 이동
+        //val intent = Intent(requireContext(), MainActivity::class.java)
+        //startActivity(intent)
+    }
+
+    fun observeVerified() {
+        viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            if (isVerified == true) {
+
+            }
         }
     }
 
