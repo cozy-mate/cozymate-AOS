@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="40dp"
+    android:layout_marginBottom="4dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
     >
     <TextView
         android:id="@+id/tv_RuleNum"
@@ -22,11 +23,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="40dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_RuleNum">
         <TextView
             android:id="@+id/tv_Rule"
@@ -46,8 +47,51 @@
                 android:layout_marginTop="2dp"
                 android:textAppearance="@style/TextAppearance.App.10sp.Medium"
                 android:textColor="@color/unuse_font"
+                android:gravity="center_vertical"
                 android:visibility="gone"
                 />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_more"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_seemore"
+        app:tint="#E6E6E6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <LinearLayout
+        android:id="@+id/layout_more"
+        android:layout_width="64dp"
+        android:layout_height="57dp"
+        android:background="@drawable/background_morebox"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toTopOf="@id/iv_more"
+        app:layout_constraintEnd_toEndOf="@id/iv_more"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:text="수정하기"
+            android:textAppearance="@style/TextAppearance.App.10sp.Medium"
+            android:textColor="@color/basic_font"
+            android:gravity="center"/>
+        <View
+            android:layout_width="48dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="#EAEAEA"/>
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:text="삭제하기"
+            android:textAppearance="@style/TextAppearance.App.10sp.Medium"
+            android:textColor="@color/basic_font"
+            android:gravity="center"/>
     </LinearLayout>
 
 

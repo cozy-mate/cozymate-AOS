@@ -18,6 +18,8 @@ class UserInfoSPFHelper(context: Context) {
             putBoolean("login", info.login)
             putInt("school", info.school)
 
+            putString("dormitoryName", info.dormitoryName)
+
             putString("name", info.name)
             putString("birth", info.birth)
             putString("admissionYear", info.admissionYear)
@@ -51,6 +53,7 @@ class UserInfoSPFHelper(context: Context) {
 //            putString("personality", info.personality)
             putString("personality", gson.toJson(info.personality))
             putString("mbti", info.mbti)
+            putString("selfIntroduction", info.selfIntroduction)
 
 //            commit()
             apply()
@@ -62,6 +65,7 @@ class UserInfoSPFHelper(context: Context) {
     fun loadUserInfo(): UserInfo {
         val login = spf.getBoolean("login", false) ?: false
         val school = spf.getInt("school", 1) ?: 0
+        val dormitoryName = spf.getString("dormitoryName", "") ?: ""
         val name = spf.getString("name", "") ?: ""
         val birth = spf.getString("birth", "") ?: ""
         val admissionYear = spf.getString("admissionYear", "") ?: ""
@@ -77,13 +81,13 @@ class UserInfoSPFHelper(context: Context) {
         val lightOffTime = spf.getInt("lightOffTime", 0)
 
         val smokingState = spf.getString("smokingState", "") ?: ""
-//        val sleepingHabit = spf.getString("sleepingHabit", "") ?: ""
 
         val sleepingHabitJson = spf.getString("sleepingHabit", "[]") ?: "[]"
         val sleepingHabit: List<String> = gson.fromJson(sleepingHabitJson, object : TypeToken<List<String>>() {}.type)
 
         val airConditioningIntensity = spf.getString("airConditioningIntensity", "") ?: ""
         val heatingIntensity = spf.getString("heatingIntensity", "") ?: ""
+
         val lifePattern = spf.getString("lifePattern", "") ?: ""
         val intimacy = spf.getString("intimacy", "") ?: ""
         val canShare = spf.getString("canShare", "") ?: ""
@@ -101,10 +105,12 @@ class UserInfoSPFHelper(context: Context) {
         val personality: List<String> = gson.fromJson(personalityJson, object : TypeToken<List<String>>() {}.type)
 
         val mbti = spf.getString("mbti", "") ?: ""
+        val selfIntroduction = spf.getString("selfIntroduction", "") ?: ""
 
         return UserInfo(
             login,
             school,
+            dormitoryName,
             name,
             birth,
             admissionYear,
@@ -133,7 +139,8 @@ class UserInfoSPFHelper(context: Context) {
             cleaningFrequency,
             drinkingFrequency,
             personality,
-            mbti
+            mbti,
+            selfIntroduction
         ).also {
             Log.d("SPFHelper Load", "Loaded UserInfo: $it")
         }

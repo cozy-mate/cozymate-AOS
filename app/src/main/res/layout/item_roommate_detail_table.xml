@@ -1189,92 +1189,64 @@
                     tools:text="INTJ" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/cl_table_basic_info"
+                android:id="@+id/tv_ect"
+                android:text="하고 싶은 말"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintTop_toBottomOf="@+id/cl_table_basic_info"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/custom_background_roommate_detail_12"
-                android:id="@+id/cl_table_rule_info"
-                app:layout_constraintStart_toStartOf="parent"
-                android:padding="16dp">
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/tv_table_rule"
-                    android:text="무조건 지켜줘야 해요!"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/color_font"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rv_detail_table_rule"
-                    android:padding="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_table_rule"
-                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_report_title"
+                app:layout_constraintTop_toTopOf="@+id/tv_ect"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_ect"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:text="신고하기"
+                android:textColor="@color/unuse_font"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:backgroundTint="@color/unuse_font"
+                app:layout_constraintStart_toStartOf="@+id/tv_report_title"
+                app:layout_constraintEnd_toEndOf="@+id/tv_report_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_report_title"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_table_rule_info"
-                android:id="@+id/cl_table_can_do_info"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/custom_background_roommate_detail_12"
-                android:padding="16dp">
+                app:layout_constraintTop_toBottomOf="@id/tv_report_title"
+                android:id="@+id/cl_report"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="12dp"
+                >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/tv_table_can_do"
-                    android:text="이정도는 맞춰줄 수 있어요!"
+                    android:id="@+id/tv_report"
+                    android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/color_font"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rv_detail_table_can_do"
-                    android:padding="8dp"
+                    android:textColor="@color/basic_font"
+                    tools:text="안녕하세요 델로입니다.\n저는 유엠씨를 합니다."
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_table_can_do"
-                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_table_can_do_info"
-                android:id="@+id/cl_table_never_info"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_background_roommate_detail_12"
-                android:padding="16dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/tv_table_never"
-                    android:text="이건 절대 절대 안 돼요!"
-                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                    android:textColor="@color/color_font"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rv_detail_table_never"
-                    android:padding="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_table_never"
-                    tools:listitem="@layout/rv_item_roommate_detail_rule_cando_never"/>
+                    android:padding="8dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
