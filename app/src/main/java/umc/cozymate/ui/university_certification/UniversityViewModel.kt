@@ -42,7 +42,6 @@ class UniversityViewModel @Inject constructor(
         }
     }
 
-
     val searchQuery = MutableLiveData<String>("")
     private val _schoolList = MutableLiveData<List<UniversitylItem>>() // 전체 학교 목록
     val schoolList: LiveData<List<UniversitylItem>> = _schoolList
