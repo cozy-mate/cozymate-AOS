@@ -15,7 +15,7 @@ import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
 
 class UniversitySearchFragment : Fragment() {
 
-    private val viewModel: SchoolSearchViewModel by viewModels()
+    private val viewModel: UniversityViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

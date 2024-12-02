@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -24,7 +23,7 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 class CozyHomeMainFragment : Fragment() {
     private var _binding: FragmentCozyHomeMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CozyHomeViewModel by activityViewModels()
+    private val viewModel: CozyHomeViewModel by viewModels()
     private val univViewModel: UniversityViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
@@ -48,7 +47,7 @@ class CozyHomeMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
-        univViewModel.fetchMyUniversity()
+        univViewModel.isMailVerified()
     }
 
     override fun onDestroyView() {
@@ -103,6 +102,9 @@ class CozyHomeMainFragment : Fragment() {
             val popup: DialogFragment = MakingRoomDialogFragment()
             popup.show(childFragmentManager, "팝업")
         }
+        binding.btnSchoolCertificate.setOnClickListener {
+            startActivity(Intent(activity, UniversityCertificationActivity::class.java))
+        }
     }
 
     private fun openMessage() {
@@ -113,6 +115,11 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            if (isVerified == true) {
+                univViewModel.fetchMyUniversity()
+            }
+        }
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
@@ -120,15 +127,13 @@ class CozyHomeMainFragment : Fragment() {
                     ivSchoolWhite.visibility = View.VISIBLE
                     ivSchoolBlue.visibility = View.GONE
                     ivNext.visibility = View.VISIBLE
-                    btnSchoolCertificate.setOnClickListener {
-                        startActivity(Intent(activity, UniversityCertificationActivity::class.java))
-                    }
+
                 } else {
                     ivSchoolWhite.visibility = View.GONE
                     ivSchoolBlue.visibility = View.VISIBLE
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-                    btnSchoolCertificate.setOnClickListener(null)
+                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }

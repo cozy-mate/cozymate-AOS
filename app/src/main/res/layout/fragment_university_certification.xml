@@ -38,7 +38,7 @@
 
     <!-- 학교-->
     <ImageView
-        android:id="@+id/btn_school"
+        android:id="@+id/btn_university"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_roommate1" />
 
     <TextView
-        android:id="@+id/tv_school_guide"
+        android:id="@+id/tv_university_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -56,20 +56,36 @@
         android:text="학교"
         android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
         android:textColor="@color/color_font"
-        app:layout_constraintStart_toStartOf="@id/btn_school"
-        app:layout_constraintTop_toTopOf="@+id/btn_school" />
+        app:layout_constraintStart_toStartOf="@id/btn_university"
+        app:layout_constraintTop_toTopOf="@+id/btn_university" />
 
     <TextView
-        android:id="@+id/tv_school_name"
+        android:id="@+id/tv_university_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="이름을 입력해주세요"
+        android:text="학교를 선택해주세요"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
         android:textColor="@color/unuse_font"
-        app:layout_constraintStart_toStartOf="@id/btn_school"
-        app:layout_constraintTop_toTopOf="@id/tv_school_guide" />
+        app:layout_constraintStart_toStartOf="@id/btn_university"
+        app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
+
+    <Spinner
+        android:id="@+id/spinner_university"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:overlapAnchor="false"
+        android:background="@drawable/spinner_bg"
+        android:popupBackground="@drawable/spinner_background"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="match_parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_university"
+        app:layout_constraintStart_toStartOf="@id/btn_university"
+        app:layout_constraintTop_toTopOf="@id/tv_university_guide"
+        />
 
     <!-- 학과-->
     <ImageView
@@ -80,7 +96,7 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/custom_rectangle_12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_school" />
+        app:layout_constraintTop_toBottomOf="@id/btn_university" />
 
     <TextView
         android:id="@+id/tv_major_guide"
@@ -94,8 +110,8 @@
         app:layout_constraintStart_toStartOf="@id/btn_major"
         app:layout_constraintTop_toTopOf="@+id/btn_major" />
 
-    <EditText
-        android:id="@+id/et_major_email"
+    <TextView
+        android:id="@+id/tv_major"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -109,6 +125,22 @@
         app:layout_constraintStart_toStartOf="@id/btn_major"
         app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
 
+    <Spinner
+        android:id="@+id/spinner_major"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:overlapAnchor="false"
+        android:background="@drawable/spinner_bg"
+        android:popupBackground="@drawable/spinner_background"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="match_parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_university"
+        app:layout_constraintStart_toStartOf="@id/btn_university"
+        app:layout_constraintTop_toTopOf="@id/tv_major_guide"
+        />
+
     <!-- 학교 이메일-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_onboarding_name"
@@ -121,7 +153,7 @@
         app:layout_constraintTop_toBottomOf="@id/btn_major">
 
         <ImageView
-            android:id="@+id/btn_school_email"
+            android:id="@+id/btn_university_email"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:src="@drawable/custom_rectangle_12"
@@ -129,7 +161,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_school_email"
+            android:id="@+id/tv_university_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -141,7 +173,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/et_school_email"
+            android:id="@+id/et_university_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -153,7 +185,7 @@
             android:textColor="@color/basic_font"
             android:textColorHint="@color/unuse_font"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_school_email" />
+            app:layout_constraintTop_toTopOf="@id/tv_university_email" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_send_verify_code"

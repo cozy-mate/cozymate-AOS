@@ -11,13 +11,15 @@ import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
+import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
+import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.ReissueResponse
-import umc.cozymate.data.model.response.member.SendMailResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
+import umc.cozymate.data.model.response.member.VerifyMailResponse
 import umc.cozymate.data.model.response.member.WithdrawResponse
 
 interface MemberService {
@@ -78,17 +80,30 @@ interface MemberService {
         @Header("Authorization") accessToken: String
     ): Response<GetUniversityListResponse>
 
-    // 메일 인증 여부
+    // 대학교 정보 조회
+    @GET("/university/get-info")
+    suspend fun getUniversityInfo(
+        @Header("Authorization") accessToken: String,
+        @Query("universityId") id: Int
+    ): Response<GetUniversityInfoResponse>
 
+    // 메일 인증 여부
+    @GET("/members/mail/verify")
+    suspend fun getMailVerify(
+        @Header("Authorization") accessToken: String,
+    ): Response<GetMailVerifyResponse>
 
     // 메일 보내기
-    @POST("/members/mail/verify")
+    @POST("/members/mail")
     suspend fun sendMail(
         @Header("Authorization") accessToken: String,
-        @Body request: SendMailRequest
-    ): Response<SendMailResponse>
+    ): Response<Unit>
 
     // 메일 인증
-
+    @POST("/members/mail/verify")
+    suspend fun verifyMail(
+        @Header("Authorization") accessToken: String,
+        @Body request: SendMailRequest
+    ): Response<VerifyMailResponse>
 
 }

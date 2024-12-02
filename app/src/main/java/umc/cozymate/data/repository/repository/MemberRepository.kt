@@ -5,13 +5,15 @@ import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
+import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
+import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.ReissueResponse
-import umc.cozymate.data.model.response.member.SendMailResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
+import umc.cozymate.data.model.response.member.VerifyMailResponse
 
 interface MemberRepository {
 
@@ -31,6 +33,12 @@ interface MemberRepository {
 
     suspend fun getUniversityList(accessToken: String): Response<GetUniversityListResponse>
 
-    suspend fun sendMail(accessToken: String, request: SendMailRequest): Response<SendMailResponse>
+    suspend fun getUniversityInfo(accessToken: String, id: Int): Response<GetUniversityInfoResponse>
+
+    suspend fun getMailVerify(accessToken: String): Response<GetMailVerifyResponse>
+
+    suspend fun sendMail(accessToken: String): Response<Unit>
+
+    suspend fun verifyMail(accessToken: String, request: SendMailRequest): Response<VerifyMailResponse>
 
 }

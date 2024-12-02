@@ -75,7 +75,6 @@ class OnboardingUserInfoFragment : Fragment() {
 
     private fun initSpinner() {
         val universities = arrayOf("학교를 선택해주세요", "인하대학교", "숭실대학교", "한국공학대학교")
-        //val adapter = ArrayAdapter(requireContext(), R.layout.spinner_selected_item_txt, universities)
         val adapter = object : ArrayAdapter<String>(requireContext(), R.layout.spinner_selected_item_txt, universities) {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)

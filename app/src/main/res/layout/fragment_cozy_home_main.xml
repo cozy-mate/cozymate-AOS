@@ -57,7 +57,7 @@
                     android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                     android:textColor="@color/unuse_font"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_school"
+                    app:layout_constraintStart_toEndOf="@id/iv_school_white"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
