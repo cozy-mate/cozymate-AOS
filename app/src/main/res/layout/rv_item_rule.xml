@@ -21,14 +21,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/layout_contents"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_RuleNum">
+        app:layout_constraintStart_toEndOf="@id/tv_RuleNum"
+        app:layout_constraintEnd_toStartOf="@id/iv_more">
         <TextView
             android:id="@+id/tv_Rule"
             android:layout_width="wrap_content"
@@ -58,6 +60,7 @@
         android:layout_height="40dp"
         android:src="@drawable/ic_seemore"
         app:tint="#E6E6E6"
+        app:layout_constraintStart_toEndOf="@id/layout_contents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

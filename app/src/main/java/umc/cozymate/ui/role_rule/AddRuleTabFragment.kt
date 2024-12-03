@@ -65,13 +65,21 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     }
 
     private fun setMemo() {
-        val maxLength = 20 // 최대 글자수 설정
+        val maxLength = 50 // 최대 글자수 설정
         binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputMemo.setText(memo)
+        binding.etInputMemo.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val l = binding.etInputMemo.length()
+                binding.tvMemoLength.text = "${l}/50"
+            }
+        })
     }
 
     private fun setRuleinput() {
-        val maxLength = 20 // 최대 글자수 설정
+        val maxLength = 50 // 최대 글자수 설정
         binding.etInputRule.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputRule.setText(content)
         binding.etInputRule.addTextChangedListener(object : TextWatcher {
