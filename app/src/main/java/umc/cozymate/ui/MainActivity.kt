@@ -16,8 +16,7 @@ import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
-import umc.cozymate.ui.feed.FeedFragment
+import umc.cozymate.ui.cozy_home.home.CozyHomeMainFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeViewModel.getRoomId()
+        homeViewModel.fetchMyPreference()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.fragment_feed -> {
+                /*R.id.fragment_feed -> {
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
                         return@setOnItemSelectedListener false // 선택을 막음
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                             .replace(R.id.main_container, FeedFragment()).commit()
                     }
                     true
-                }
+                }*/
 
                 R.id.fragment_role_and_rule -> {
                     if (!isRoomExist) {
