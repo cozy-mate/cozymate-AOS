@@ -32,28 +32,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/iv_cozy_title"
-        android:layout_width="220dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="236dp"
-        android:src="@drawable/ic_cozymate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tv_cozy_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_medium"
+        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
         android:gravity="center"
-        android:text="&quot;나와 꼭 맞는 룸메이트와 함께 만드는\n우리만의 편안한 공간&quot;"
-        android:textColor="@color/basic_font"
-        android:textSize="14sp"
+        android:text="나와 꼭 맞는 룸메이트 찾기"
+        android:textColor="@color/highlight_font"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_cozy_title" />
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimation"
+         />
+
+    <TextView
+        android:id="@+id/tv_cozy_description2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:gravity="center"
+        android:text="정형화된 라이프스타일로\n나와 꼭 맞는 룸메이트를 쉽고 빠르게 찾아봐요"
+        android:textColor="@color/basic_font"
+        android:textSize="14dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_cozy_description"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -83,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@id/btn_sign_in" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
+        <!--androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_apple_login"
             android:layout_width="300dp"
             android:layout_height="56dp"
@@ -91,7 +97,7 @@
             android:background="@drawable/ic_login_apple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_kakao_login" />
+            app:layout_constraintTop_toBottomOf="@id/btn_kakao_login" /-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent.Companion.startActivityFromFragment
@@ -17,10 +15,12 @@ import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent.Comp
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
 
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentRoommateRecommendComponentBinding?= null
     private val binding get() = _binding!!
-
     private val viewModel: RoommateRecommendViewModel by viewModels()
+    private var nickname: String = ""
+    private var prefList: List<String> = mutableListOf()
     companion object {
         fun newInstance() = RoommateRecommendComponent
     }
@@ -31,11 +31,7 @@ class RoommateRecommendComponent : Fragment() {
     ): View {
         _binding = FragmentRoommateRecommendComponentBinding.inflate(inflater, container, false)
 
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val nickname =  spf.getString("user_nickname", "No user found").toString()
-        val json = spf.getString("pref_list", null)
-        val listType = object : TypeToken<List<String>>() {}.type
-        try{val prefList: List<String> = Gson().fromJson(json, listType)
+        getPreference()
         binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoommateList()
         viewModel.fetchRoommateListByEquality()
@@ -45,13 +41,24 @@ class RoommateRecommendComponent : Fragment() {
             val adapter = RoommateRecommendVPAdapter(rmList, prefList)
             viewPager.adapter = adapter
             dotsIndicator.attachTo(viewPager)
-        }} catch (e: Exception){
-            Log.e("Roommate", "ㅠㅠ")
         }
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }
 
         return binding.root
+    }
+
+    // sharedpreference에서 데이터 받아오기
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        nickname = spf.getString("user_nickname", "No user found").toString()
+        prefList = arrayListOf(
+            spf.getString("pref_1", "No pref found").toString(),
+            spf.getString("pref_2", "No pref found").toString(),
+            spf.getString("pref_3", "No pref found").toString(),
+            spf.getString("pref_4", "No pref found").toString(),
+        )
+        Log.d(TAG, "prefList: $prefList")
     }
 }

@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home.room.room_recommend
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,6 @@ class RoomRecommendComponent : Fragment() {
             viewPager.adapter = adapter
             dotsIndicator.attachTo(viewPager)
         }
-
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }
@@ -69,5 +69,6 @@ class RoomRecommendComponent : Fragment() {
             spf.getString("pref_3", "No pref found").toString(),
             spf.getString("pref_4", "No pref found").toString(),
         )
+        Log.d(TAG, "prefList: $prefList")
     }
 }
