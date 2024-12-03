@@ -68,6 +68,7 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         val maxLength = 50 // 최대 글자수 설정
         binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputMemo.setText(memo)
+        binding.tvMemoLength.text = "${memo?.length}/50"
         binding.etInputMemo.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
