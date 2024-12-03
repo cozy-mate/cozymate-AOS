@@ -78,12 +78,12 @@ class SplashActivity : AppCompatActivity() {
         }
 
         // 애플 로그인 버튼 >> 코지홈 비활성화
-        binding.btnAppleLogin.setOnClickListener {
+        /*binding.btnAppleLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
             }
             startActivity(intent)
-        }
+        }*/
 
         // 회원가입 버튼 >> 테스트 로그인 >> 온보딩
         binding.btnSignIn.setOnClickListener {
