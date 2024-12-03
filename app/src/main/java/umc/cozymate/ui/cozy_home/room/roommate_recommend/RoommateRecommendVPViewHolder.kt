@@ -1,8 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.roommate_recommend
 
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
@@ -46,68 +44,56 @@ class RoommateRecommendVPViewHolder(
             if (pref2 != null) {
                 tvCriteria2.text = pref2.displayName
                 tvCriteriaContent2.text = item.preferenceStats[1].value.toString()
-                when (item.preferenceStats[0].color) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
+                when (item.preferenceStats[1].color) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
                     "blue" -> {
                         ivCrieteriaIcon2.setImageResource(pref2.blueDrawable)
                     }
-                    else -> {
-                        ivCrieteriaIcon2.setImageResource(pref2.redDrawable)
+                    "red" -> {
+                        ivCrieteriaIcon1.setImageResource(pref2.redDrawable)
+                    }
+                    "white" -> {
+                        ivCrieteriaIcon1.setImageResource(pref2.grayDrawable)
                     }
                 }
             }
 
-            if (prefList.size != 0) {
-                setPreferenceProp(
-                    prefList[1],
-                    tvCriteria2,
-                    tvCriteriaContent2,
-                    ivCrieteriaIcon2,
-                    "!!",
-                    "어렵"
-                )
-                setPreferenceProp(
-                    prefList[2],
-                    tvCriteria3,
-                    tvCriteriaContent3,
-                    ivCrieteriaIcon3,
-                    "ㅠ",
-                    "ㅠㅠㅠ"
-                )
-                setPreferenceProp(
-                    prefList[3],
-                    tvCriteria4,
-                    tvCriteriaContent4,
-                    ivCrieteriaIcon4,
-                    ">->",
-                    "0-0"
-                )
-
+            // 선호항목 3번
+            val pref3 = Preference.entries.find { it.pref == prefList[2] }
+            if (pref3 != null) {
+                tvCriteria3.text = pref3.displayName
+                tvCriteriaContent3.text = item.preferenceStats[2].value.toString()
+                when (item.preferenceStats[2].color) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
+                    "blue" -> {
+                        ivCrieteriaIcon3.setImageResource(pref3.blueDrawable)
+                    }
+                    "red" -> {
+                        ivCrieteriaIcon1.setImageResource(pref3.redDrawable)
+                    }
+                    "white" -> {
+                        ivCrieteriaIcon1.setImageResource(pref3.grayDrawable)
+                    }
+                }
             }
+
+            // 선호항목 4번
+            val pref4 = Preference.entries.find { it.pref == prefList[3] }
+            if (pref4 != null) {
+                tvCriteria4.text = pref4.displayName
+                tvCriteriaContent4.text = item.preferenceStats[2].value.toString()
+                when (item.preferenceStats[3].color) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
+                    "blue" -> {
+                        ivCrieteriaIcon4.setImageResource(pref4.blueDrawable)
+                    }
+                    "red" -> {
+                        ivCrieteriaIcon1.setImageResource(pref4.redDrawable)
+                    }
+                    "white" -> {
+                        ivCrieteriaIcon1.setImageResource(pref4.grayDrawable)
+                    }
+                }
+            }
+
         }
     }
 
-
-    fun setPreferenceProp(
-        id: String,
-        tv1: TextView,
-        tv2: TextView,
-        iv: ImageView,
-        myPrefStat: String,
-        rmPrefStat: String
-    ) {
-        val preference = Preference.entries.find { it.pref == id }
-        Log.d("roomRecommend", "Debug: id=$id, matchedPreference=${Preference.entries.find { it.pref == id }}")
-        if (preference != null) {
-            tv1.text = preference.displayName
-            tv2.text = rmPrefStat
-            when (myPrefStat) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
-                rmPrefStat -> {
-                    iv.setImageResource(preference.blueDrawable)
-                }
-                else -> {
-                    iv.setImageResource(preference.redDrawable)
-                }
-            }
-        }
-    }
 }
