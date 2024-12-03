@@ -195,22 +195,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_university_email" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_send_verify_code"
-            android:layout_width="96dp"
-            android:layout_height="33dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/btn_rectangle_26"
-            android:elevation="0dp"
-            android:outlineProvider="none"
-            android:text="인증번호 전송"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/main_blue"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_send_verify_code"
+        android:layout_width="96dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/btn_rectangle_26"
+        android:elevation="0dp"
+        android:outlineProvider="none"
+        android:text="인증번호 전송"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/main_blue"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/cl_email_input"
+        app:layout_constraintEnd_toEndOf="@id/cl_email_input"
+        app:layout_constraintTop_toTopOf="@id/cl_email_input" />
 
     <TextView
         android:id="@+id/tv_alert_email"

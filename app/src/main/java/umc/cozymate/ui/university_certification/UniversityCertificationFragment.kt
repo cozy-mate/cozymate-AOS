@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class UniversityCertificationFragment : Fragment() {
     private val viewModel: UniversityViewModel by viewModels()
     private var universityName: String = ""
     private var majorName: String = ""
-    private var mailAddress: String = ""
+    private var email: String = ""
     private var isValidMail = false
     private var certNum: Int = 0
     private var debounceJob: Job? = null
@@ -43,7 +44,7 @@ class UniversityCertificationFragment : Fragment() {
         _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
 
-        binding.btnSendVerifyCode.visibility = View.GONE
+        //binding.btnSendVerifyCode.visibility = View.GONE
         checkIsValidMail()
         setMailBtnListener()
         setVerifyBtnListener()
@@ -61,27 +62,27 @@ class UniversityCertificationFragment : Fragment() {
 
     fun setMailBtnListener() {
         binding.btnSendVerifyCode.setOnClickListener {
-            val email = binding.etUniversityEmail.text.toString()
-            if (email.isNotEmpty()) {// 인증번호 전송
-                viewModel.setUniversityId(universityName)
+            if (email.isNotEmpty()) {
                 viewModel.sendVerifyCode(binding.etUniversityEmail.text.toString())
             }
-            // 인증번호 전송 상태 관찰
-            viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
-                if (isSent) {
-                    // 인증번호 전송 완료 시 텍스트 변경
-                    binding.btnSendVerifyCode.text = "인증번호 재전송"
-                } else {
-                    // 전송 실패 시 사용자에게 알림
-                    Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            }
-            // binding.btnSendVerifyCode.text = "인증번호 재전송"
+            Log.d("UniversityCertificationFragment", "인증번호 전송 버튼 클릭: $email")
         }
 
+        // 인증번호 전송 상태 관찰
+        viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
+            if (isSent) {
+                binding.btnSendVerifyCode.text = "인증번호 재전송"
+            } else {
+                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun setVerifyBtnListener() {
+        viewModel.setUniversityId(universityName)
+        viewModel.universityId.observe(viewLifecycleOwner) {
+
+        }
         binding.btnCheckVerifyCode.setOnClickListener {
             // 인증하기
             viewModel.setUniversityId(universityName)
@@ -130,10 +131,13 @@ class UniversityCertificationFragment : Fragment() {
                             // 메일 패턴이 유효함
                             binding.tvAlertEmail.visibility = View.GONE
                             binding.btnSendVerifyCode.visibility = View.VISIBLE
+                            binding.btnSendVerifyCode.isClickable = true
+                            email = binding.etUniversityEmail.text.toString()
                         } else {
                             // 메일 패턴이 유효하지 않음
                             binding.tvAlertEmail.visibility = View.VISIBLE
-                            binding.btnSendVerifyCode.visibility = View.GONE
+                            //binding.btnSendVerifyCode.visibility = View.GONE
+                            //binding.btnSendVerifyCode.isClickable = false
                         }
                     }
                 }

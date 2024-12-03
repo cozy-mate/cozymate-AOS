@@ -129,19 +129,20 @@ class UniversityViewModel @Inject constructor(
     }
     fun sendVerifyCode(email: String) {
         val token = getToken()
-        if (token != null && emailInput.value != null) {
+        if (token != null) {
             viewModelScope.launch {
                 try {
                     val request = SendMailRequest(
-                        mailAddress = emailInput.value!!,
+                        mailAddress = email,
                         universityId = universityId.value!!
                     )
+                    Log.d(TAG, "메일 request: ${request}")
                     val response = memberRepo.sendMail(token, request)
                     if (response.isSuccessful) {
                         Log.d(TAG, "메일 보내기 성공")
                         _sendVerifyCodeStatus.value = true
                     } else {
-                        Log.d(TAG, "메일 보내기 성공")
+                        Log.d(TAG, "메일 보내기 실패")
                         _sendVerifyCodeStatus.value = false
                     }
                 } catch (e: Exception) {
