@@ -46,6 +46,13 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        spf.edit().putInt("tab_idx", 1 )
+        spf.edit().apply()
+        Log.d(TAG,"resume tab_idx ${spf.getInt("tab_idx",300)}")
+    }
+
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
@@ -91,9 +98,6 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             if (isEditable) viewModel.editRule(roomId, ruleId, ruleRequest)
             else viewModel.createRule(roomId, ruleRequest)
 
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", 1)
-            spf.edit().apply()
 
             (requireActivity() as AddTodoActivity).finish()
         }

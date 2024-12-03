@@ -52,12 +52,8 @@ class AddTodoActivity():AppCompatActivity() {
                     fragment.deleteClickFunction()
             }
             else Log.d(TAG, "fragment ${fragment}/ pos : ${type} / isAdded ${fragment?.isAdded}")
-            val idx = if (type == 0) 0 else 1
-            Log.d(TAG, "idx text : ${idx}")
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", idx )
-            spf.edit().apply()
             finish()
+
         }
     }
 

@@ -32,6 +32,8 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
         isCreated = false
+        //changeTab()
+        Log.d(TAG,"view Created")
         binding.ivAddTodo.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val editor = spf.edit()
@@ -45,6 +47,7 @@ class RoleAndRuleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG,"view Resumed ${isCreated}")
         changeTab()
     }
     override fun onDestroyView() {

@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
@@ -21,6 +22,7 @@ import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.data.model.entity.TodoData.TodoItem
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
@@ -40,6 +42,7 @@ class TodoTabFragment : Fragment() {
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
+    private var mateId :Int = 0
     lateinit var calendarView: MaterialCalendarView
     private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
@@ -75,8 +78,25 @@ class TodoTabFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
-        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+        val memberId = spf.getInt("user_member_id", 0)
 
+        // mateid 저장
+        val mateListJson = spf.getString("mate_list", null)
+        if (mateListJson != null) {
+            val mateList = getListFromPrefs(mateListJson)!!
+            for(mate in mateList)
+                if(mate.memberId == memberId) mateId = mate.mateId
+        }
+    }
+    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.MateDetail>? {
+        return try {
+            val gson = Gson()
+            val type = object : TypeToken<List<GetRoomInfoResponse.Result.MateDetail>>() {}.type
+            gson.fromJson(json, type)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse mates list JSON", e)
+            null
+        }
     }
     private fun setupObservers() {
         roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
@@ -141,7 +161,7 @@ class TodoTabFragment : Fragment() {
         } else {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
@@ -208,7 +228,7 @@ class TodoTabFragment : Fragment() {
         }
     }
     private fun setRoleTodo(){
-        val myInfo = MateInfo(12, nickname)
+        val myInfo = MateInfo(mateId, nickname)
         // roleTodo 초기화
         for(entry in roleTodo) entry.value.clear()
         for(role in roleList){

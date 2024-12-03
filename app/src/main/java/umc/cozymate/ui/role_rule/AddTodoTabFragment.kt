@@ -68,13 +68,20 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        spf.edit().putInt("tab_idx", 0 )
+        spf.edit().apply()
+        Log.d(TAG,"resume tab_idx ${spf.getInt("tab_idx",100)}")
+    }
+
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
         val mateListJson = spf.getString("mate_list", null)
         if (mateListJson != null) {
             val mateList = getListFromPrefs(mateListJson)!!
             initMember(mateList)
-            Log.d(TAG, "Mates list: $ mateList")
+            Log.d(TAG, "Mates list: ${mateList}")
         } else {
             Log.d(TAG, "No mate list found")
         }
@@ -89,6 +96,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             null
         }
     }
+
 
     private fun initdata(){
         if(isEditable){
@@ -204,14 +212,11 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
             else viewModel.createTodo(roomId, todoRequest)
 
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", 0)
-            spf.edit().apply()
-
             (requireActivity() as AddTodoActivity).finish()
 
         }
     }
+
 
     private fun checkAll() {
         val isAll = mateBox.all { it.box.isChecked } // 모든 체크박스가 체크되었는지 확인
