@@ -13,6 +13,7 @@
         android:name=".CozyMateApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/app_icon_v3"
         android:label="@string/app_name"
@@ -25,7 +26,10 @@
             android:name=".ui.cozy_home.roommate_detail.CozyHomeRoommateDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
+            android:name=".ui.university_certification.UniversityCertificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"
@@ -63,19 +67,19 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.entering_room.CozyHomeEnteringInviteCodeActivity"
+            android:name=".ui.cozy_home.room.entering_room.CozyHomeEnteringInviteCodeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.MakingPrivateRoomActivity"
+            android:name=".ui.cozy_home.room.making_room.MakingPrivateRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.MakingPublicRoomActivity"
+            android:name=".ui.cozy_home.room.making_room.MakingPublicRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.CozyHomeSelectingCharacterActivity"
+            android:name=".ui.cozy_home.room.making_room.CozyHomeSelectingCharacterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.making_room.CozyHomeInvitingRoommateActivity"
+            android:name=".ui.cozy_home.room.making_room.CozyHomeInvitingRoommateActivity"
             android:exported="true" />
         <activity
             android:name=".ui.roommate.RoommateDetailActivity"

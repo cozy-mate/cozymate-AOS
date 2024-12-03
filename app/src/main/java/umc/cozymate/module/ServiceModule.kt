@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import umc.cozymate.data.api.ChatService
 import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.api.MemberStatPreferenceService
+import umc.cozymate.data.api.MemberStatService
 import umc.cozymate.data.api.ReportService
 import umc.cozymate.data.api.RoleService
 import umc.cozymate.data.api.RoomLogService
@@ -52,6 +53,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideMemberApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): MemberService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMemberStatApi(@NetworkModule.BaseRetrofit retrofit: Retrofit) : MemberStatService {
         return retrofit.buildService()
     }
 
