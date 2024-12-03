@@ -14,28 +14,39 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
-import umc.cozymate.data.model.entity.TestInfo
+import umc.cozymate.data.model.entity.MateInfo
+import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
+import umc.cozymate.data.model.entity.TodoData.TodoItem
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
+import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @AndroidEntryPoint
 class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
+    private var mytodo : TodoData? = null
     private val viewModel: TodoViewModel by viewModels()
-    private var mytodo : TodoData = TodoData(TestInfo(), emptyList())
+    private val roleViewModel : RoleViewModel by viewModels()
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
+    private var mateId :Int = 0
     lateinit var calendarView: MaterialCalendarView
     private var selectedDate= LocalDate.now()
+    private var roleList : List<RoleData> = emptyList()
+    private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,19 +60,17 @@ class TodoTabFragment : Fragment() {
     }
 
     override fun onResume() {
-        // 단순 시간 딜레이
         super.onResume()
+        roleViewModel.getRole(roomId)
         Handler(Looper.getMainLooper()).postDelayed({
             initData()
-            Log.d(TAG,"resume ${mytodo.todoList}")
+            Log.d(TAG,"resume ${mytodo?.todoList}")
         }, 1000)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        initData()
         updateRecyclerView(mytodo,memberList)
         setupCalendar()
     }
@@ -69,10 +78,38 @@ class TodoTabFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
-        Log.d(TAG, "room : ${roomId} , nickname : ${nickname}")
+        val memberId = spf.getInt("user_member_id", 0)
 
+        // mateid 저장
+        val mateListJson = spf.getString("mate_list", null)
+        if (mateListJson != null) {
+            val mateList = getListFromPrefs(mateListJson)!!
+            for(mate in mateList)
+                if(mate.memberId == memberId) mateId = mate.mateId
+        }
+    }
+    fun getListFromPrefs(json: String): List<GetRoomInfoResponse.Result.MateDetail>? {
+        return try {
+            val gson = Gson()
+            val type = object : TypeToken<List<GetRoomInfoResponse.Result.MateDetail>>() {}.type
+            gson.fromJson(json, type)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse mates list JSON", e)
+            null
+        }
     }
     private fun setupObservers() {
+        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response == null) return@Observer
+            if (response.isSuccessful) {
+                val list =  response.body()!!.result.roleList
+                if(!roleList.equals(list)){
+                    roleList = list
+                    setRoleTodo()
+                }
+            }
+            else Log.d(TAG,"roleresponse 응답 실패")
+        })
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
@@ -89,11 +126,18 @@ class TodoTabFragment : Fragment() {
                 mytodo = it.result.myTodoList
                 memberList = it.result.mateTodoList
             }
+            // 오늘보다 미래의 날짜에만 롤 투두 추가
+            if(selectedDate.isAfter(LocalDate.now())){
+                val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
+                mytodo!!.todoList += roleTodo[day]!!
+            }
         } else {
             Log.d(TAG, "response 응답 실패")
+            mytodo = null
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
         }
+
         updateRecyclerView(mytodo!!, memberList)
     }
     private fun initData(){
@@ -109,26 +153,25 @@ class TodoTabFragment : Fragment() {
         binding.tvUserName.text = nickname
     }
 
-    private fun updateRecyclerView( mytodoList: TodoData, memberList: Map<String, TodoData>?) {
+    private fun updateRecyclerView( mytodoList: TodoData?, memberList: Map<String, TodoData>?) {
         // 내 할일
-        if (mytodoList.todoList.isNullOrEmpty()) {
+        if (mytodoList?.todoList.isNullOrEmpty()) {
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
         } else {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
-            Log.d(TAG,"date test : s ${selectedDate} / n ${LocalDate.now()} / == ${selectedDate == LocalDate.now()}")
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList.todoList, isEditable = true, isCheckable =(selectedDate == LocalDate.now()) )
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
             myTodoRVAdapter.setItemClickListener(object: TodoRVAdapter.itemClickListener{
                 // 체크박스 클릭
-                override fun checkboxClickFunction(todo: TodoData.TodoItem) {
+                override fun checkboxClickFunction(todo: TodoItem) {
                     viewModel.updateTodo(roomId, todo.todoId, todo.completed)
                 }
 
-                override fun editClickFunction(todo : TodoData.TodoItem) {
+                override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
                     if (todo.todoType.equals("role")) return
                     saveSpf(todo)
@@ -154,7 +197,7 @@ class TodoTabFragment : Fragment() {
         }
     }
 
-    private fun saveSpf(todo: TodoData.TodoItem){
+    private fun saveSpf(todo: TodoItem){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = spf.edit()
         editor.putInt("todo_id",todo.todoId)
@@ -184,7 +227,23 @@ class TodoTabFragment : Fragment() {
             updateInfo()
         }
     }
+    private fun setRoleTodo(){
+        val myInfo = MateInfo(mateId, nickname)
+        // roleTodo 초기화
+        for(entry in roleTodo) entry.value.clear()
+        for(role in roleList){
+            // 반복 요일이 있고, 내가 포함 된 롤만 저장
+            if (!role.repeatDayList.isNullOrEmpty() && role.mateList.contains(myInfo))
+                initRoleTodo(role)
+        }
+        Log.d(TAG, "롤 투두 입력 후 : ${roleTodo}")
+    }
 
+    private fun initRoleTodo(role: RoleData) {
+        val todo = TodoItem( content = role.content, todoType = "role", mateIdList = emptyList())
+        for (day in role.repeatDayList)
+            roleTodo[day]!!.add(todo)
+    }
 
 
 

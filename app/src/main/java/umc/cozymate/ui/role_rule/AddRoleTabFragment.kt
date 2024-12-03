@@ -21,7 +21,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.RoleData.mateInfo
+import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
@@ -33,14 +33,13 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     lateinit var binding: FragmentAddRoleTabBinding
     lateinit var spf : SharedPreferences
     private var repeatDayList =mutableListOf<String>()
-    private var selectedMates = mutableListOf<mateInfo>()
+    private var selectedMates = mutableListOf<MateInfo>()
     private val weekdayBox = mutableListOf<Daybox>()
     private var mateBox = mutableListOf<MemberBox>()
     private var roomId : Int = 0
     private var roleId : Int = 0
     private var content : String? = ""
     private val viewModel: RoleViewModel by viewModels()
-    private var dummy : List<Mate> = emptyList()
 
     override fun deleteClickFunction() {
         viewModel.deleteRole(roomId, roleId)
@@ -54,7 +53,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
-        //initMember(dummy)
+        initMember(emptyList())
         initWeekdays()
         initdata()
         setTextinput()
@@ -84,6 +83,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         }
     }
 
+
     private fun initdata(){
         if(isEditable){
             roleId = spf.getInt("role_id",0)
@@ -92,7 +92,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             spf.edit().remove("role_content")
             try{
                 var json = spf.getString("role_mate_list","")
-                var type = object : TypeToken<MutableList<mateInfo>>(){}.type
+                var type = object : TypeToken<MutableList<MateInfo>>(){}.type
                 if(!json.isNullOrEmpty()) {
                     selectedMates = Gson().fromJson(json,type)
                     for(mate in mateBox )
@@ -120,9 +120,8 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     }
 
     private fun initMember(list : List<MateDetail>){
-        for (l in list) {
-            val mate = Mate(l)
-            val m = MemberBox(mate,CheckBox(context))
+        for (mate in list) {
+            val m = MemberBox(mate.mateId, mate.nickname, CheckBox(context))
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
@@ -190,10 +189,10 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             if(isEditable) viewModel.editRole(roomId, roleId, request)
             else viewModel.createRole(roomId, request)
 
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", 1)
-            spf.edit().apply()
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1 )
+            editor.commit()
+            Log.d(TAG,"addRole tab_idx ${spf.getInt("tab_idx",202)}")
             (requireActivity() as AddTodoActivity).finish()
         }
     }

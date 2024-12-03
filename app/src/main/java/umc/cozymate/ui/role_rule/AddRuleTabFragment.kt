@@ -47,6 +47,7 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     }
 
 
+
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
     }
@@ -64,13 +65,22 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     }
 
     private fun setMemo() {
-        val maxLength = 20 // 최대 글자수 설정
+        val maxLength = 50 // 최대 글자수 설정
         binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputMemo.setText(memo)
+        binding.tvMemoLength.text = "${memo?.length}/50"
+        binding.etInputMemo.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val l = binding.etInputMemo.length()
+                binding.tvMemoLength.text = "${l}/50"
+            }
+        })
     }
 
     private fun setRuleinput() {
-        val maxLength = 20 // 최대 글자수 설정
+        val maxLength = 50 // 최대 글자수 설정
         binding.etInputRule.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputRule.setText(content)
         binding.etInputRule.addTextChangedListener(object : TextWatcher {
@@ -90,11 +100,10 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             Log.d(TAG,"입력데이터 ${ruleRequest} ruleId : ${ruleId}")
             if (isEditable) viewModel.editRule(roomId, ruleId, ruleRequest)
             else viewModel.createRule(roomId, ruleRequest)
-
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", 1)
-            spf.edit().apply()
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1 )
+            editor.apply()
+            Log.d(TAG,"addrule tab_idx ${spf.getInt("tab_idx",303)}")
             (requireActivity() as AddTodoActivity).finish()
         }
     }
