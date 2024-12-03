@@ -51,9 +51,7 @@ class AddTodoActivity():AppCompatActivity() {
             if(fragment != null && fragment.isAdded && fragment is ItemClick) {
                     fragment.deleteClickFunction()
             }
-            else Log.d(TAG, "fragment ${fragment}/ pos : ${type} / isAdded ${fragment?.isAdded}")
             finish()
-
         }
     }
 

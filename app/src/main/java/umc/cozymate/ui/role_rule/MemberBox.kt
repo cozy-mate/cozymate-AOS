@@ -40,16 +40,3 @@ class MemberBox (
         return Math.round(dp.toFloat() * density)
     }
 }
-//class Mate(m : MateDetail? = null){
-//    var memberId : Int = 0
-//    var nickname : String = ""
-//    var mateId : Int = 0
-//    init {
-//        if (m != null) {
-//            memberId = m.memberId
-//            nickname = m.nickname
-//            mateId = m.mateId
-//        }
-//    }
-//
-//}

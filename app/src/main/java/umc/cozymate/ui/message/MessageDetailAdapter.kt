@@ -24,10 +24,10 @@ class MessageDetailAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(newItems: List<ChatContentData>) {
-        items = newItems
-        notifyDataSetChanged()
-    }
+//    fun setItems(newItems: List<ChatContentData>) {
+//        items = newItems
+//        notifyDataSetChanged()
+//    }
 
     inner class MessageDetailViewHolder(
         private val binding: RvItemMessageBinding
@@ -38,7 +38,7 @@ class MessageDetailAdapter(
             val nickname = item.nickname
             binding.tvMessageName.text = nickname
             binding.tvMessageText.text = item.content
-            binding.tvMessageTime.text = item.dateTime
+            binding.tvMessageTime.text = item.datetime
 
             if (nickname.length >= 3 && nickname.takeLast(3) == "(나)") { // 끝에 3글자 비교
                 binding.tvMessageName.apply {

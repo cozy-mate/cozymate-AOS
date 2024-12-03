@@ -3,7 +3,6 @@ package umc.cozymate.ui.role_rule
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +31,6 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
         isCreated = false
-        //changeTab()
-        Log.d(TAG,"view Created")
         binding.ivAddTodo.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val editor = spf.edit()
@@ -47,7 +44,6 @@ class RoleAndRuleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG,"view Resumed ${isCreated}")
         changeTab()
     }
     override fun onDestroyView() {
@@ -63,7 +59,6 @@ class RoleAndRuleFragment : Fragment() {
             idx = 0
             isCreated = true
         }
-        Log.d(TAG,"spf test ${idx}")
         binding.vpRoleAndRule.setCurrentItem(idx,false)
     }
 

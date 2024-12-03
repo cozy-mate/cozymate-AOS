@@ -68,12 +68,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        spf.edit().putInt("tab_idx", 0 )
-        spf.edit().apply()
-        Log.d(TAG,"resume tab_idx ${spf.getInt("tab_idx",100)}")
-    }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
@@ -189,8 +183,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (isChecked && !selectedMateIds.contains(mate.mateId)) selectedMateIds.add(mate.mateId)
-                if(!isChecked) selectedMateIds.remove(mate.mateId)
+                if (isChecked && !selectedMateIds.contains(m.mateId)) selectedMateIds.add(m.mateId)
+                if(!isChecked) selectedMateIds.remove(m.mateId)
                 checkAll()
                 checkInput()
             }
@@ -211,7 +205,10 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             Log.d(TAG,"입력 데이터 ${todoRequest}")
             if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
             else viewModel.createTodo(roomId, todoRequest)
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 0 )
+            editor.apply()
+            Log.d(TAG,"addTodo tab_idx ${spf.getInt("tab_idx",101)}")
             (requireActivity() as AddTodoActivity).finish()
 
         }

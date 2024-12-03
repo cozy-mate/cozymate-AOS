@@ -62,13 +62,6 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        spf.edit().putInt("tab_idx", 1 )
-        spf.edit().apply()
-        Log.d(TAG,"resume tab_idx ${spf.getInt("tab_idx",200)}")
-    }
-
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
         val mateListJson = spf.getString("mate_list", null)
@@ -196,7 +189,10 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             if(isEditable) viewModel.editRole(roomId, roleId, request)
             else viewModel.createRole(roomId, request)
 
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1 )
+            editor.commit()
+            Log.d(TAG,"addRole tab_idx ${spf.getInt("tab_idx",202)}")
             (requireActivity() as AddTodoActivity).finish()
         }
     }

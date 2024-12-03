@@ -46,12 +46,6 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        spf.edit().putInt("tab_idx", 1 )
-        spf.edit().apply()
-        Log.d(TAG,"resume tab_idx ${spf.getInt("tab_idx",300)}")
-    }
 
 
     private fun getPreference() {
@@ -97,8 +91,10 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             Log.d(TAG,"입력데이터 ${ruleRequest} ruleId : ${ruleId}")
             if (isEditable) viewModel.editRule(roomId, ruleId, ruleRequest)
             else viewModel.createRule(roomId, ruleRequest)
-
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 1 )
+            editor.apply()
+            Log.d(TAG,"addrule tab_idx ${spf.getInt("tab_idx",303)}")
             (requireActivity() as AddTodoActivity).finish()
         }
     }
