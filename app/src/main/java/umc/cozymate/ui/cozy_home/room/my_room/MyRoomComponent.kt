@@ -38,11 +38,38 @@ class MyRoomComponent : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val nickname =  spf.getString("user_nickname", "No user found").toString()
         viewModel.getRoomInfoById(roomId).observe(viewLifecycleOwner, Observer { roomInfo ->
-            binding.tvMyNickname.text = nickname + "님이"
-            binding.tvHashtag1.text = "#" + roomInfo?.hashtagList?.get(0) ?: "없음"
-            binding.tvRoomName.text = roomInfo?.name
-            binding.tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() +"명"
-            binding.tvEquality.text = roomInfo?.equality.toString() +"%"
+            with(binding) {
+                tvMyNickname.text = nickname + "님이"
+                tvRoomName.text = roomInfo?.name
+                tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
+                tvEquality.text = roomInfo?.equality.toString() + "%"
+
+                when (roomInfo?.hashtagList?.size) {
+                    0 -> {
+                        tvHashtag1.visibility = View.GONE
+                        tvHashtag2.visibility = View.GONE
+                        tvHashtag3.visibility = View.GONE
+                    }
+
+                    1 -> {
+                        tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        tvHashtag2.visibility = View.GONE
+                        tvHashtag3.visibility = View.GONE
+                    }
+
+                    2 -> {
+                        tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        tvHashtag2.text = "#${roomInfo?.hashtagList?.get(1)}"
+                        tvHashtag3.visibility = View.GONE
+                    }
+
+                    3 -> {
+                        tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        tvHashtag2.text = "#${roomInfo?.hashtagList?.get(1)}"
+                        tvHashtag3.text = "#${roomInfo?.hashtagList?.get(2)}"
+                    }
+                }
+            }
         })
     }
 }

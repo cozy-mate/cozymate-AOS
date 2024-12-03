@@ -18,8 +18,12 @@ data class GetRecommendedRoommateResponse(
 ) {
     @Serializable
     data class Result(
+        @SerialName("hasNext")
+        val hasNext: Boolean,
         @SerialName("memberList")
-        val memberList: List<Member>
+        val memberList: List<Member>,
+        @SerialName("page")
+        val page: Int
     ) {
         @Serializable
         data class Member(
@@ -28,26 +32,17 @@ data class GetRecommendedRoommateResponse(
             @SerialName("memberDetail")
             val memberDetail: MemberDetailInfo,
             @SerialName("preferenceStats")
-            val preferenceStats: PreferenceStats
+            val preferenceStats: List<PreferenceStat>
         ) {
             @Serializable
-            data class PreferenceStats(
-                @SerialName("additionalProp1")
-                val additionalProp1: AdditionalProp1,
-                @SerialName("additionalProp2")
-                val additionalProp2: AdditionalProp2,
-                @SerialName("additionalProp3")
-                val additionalProp3: AdditionalProp3
-            ) {
-                @Serializable
-                class AdditionalProp1
-
-                @Serializable
-                class AdditionalProp2
-
-                @Serializable
-                class AdditionalProp3
-            }
+            data class PreferenceStat(
+                @SerialName("color")
+                val color: String,
+                @SerialName("stat")
+                val stat: String,
+                @SerialName("value")
+                val value: Int
+            )
         }
     }
 }

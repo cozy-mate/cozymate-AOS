@@ -17,41 +17,43 @@ class RoommateRecommendVPViewHolder(
         with(binding) {
             tvNickname.text = item.memberDetail.nickname
             tvMatchRate.text = "${item.equality}%"
-            // 색깔
-            // 텍스트는 멤버 디테일 pref
-            setPreferenceProp(
-                prefList[0],
-                tvCriteria1,
-                tvCriteriaContent1,
-                ivCrieteriaIcon1,
-                "11",
-                "111"
-            )
-            setPreferenceProp(
-                prefList[1],
-                tvCriteria2,
-                tvCriteriaContent2,
-                ivCrieteriaIcon2,
-                "!!",
-                "어렵"
-            )
-            setPreferenceProp(
-                prefList[2],
-                tvCriteria3,
-                tvCriteriaContent3,
-                ivCrieteriaIcon3,
-                "ㅠ",
-                "ㅠㅠㅠ"
-            )
-            setPreferenceProp(
-                prefList[3],
-                tvCriteria1,
-                tvCriteriaContent1,
-                ivCrieteriaIcon4,
-                ">->",
-                "0-0"
-            )
+            // 색깔: 나와같을때(파랑), 다를때(빨강), 라이프스타일 입력전에(흰색)
+            // 텍스트는 멤버 디테일 pref (내정보는 spf, 다른사람정보는 livedata)
+            if (prefList.size != 0) {
+                setPreferenceProp(
+                    prefList[0],
+                    tvCriteria1,
+                    tvCriteriaContent1,
+                    ivCrieteriaIcon1,
+                    "11",
+                    "111"
+                )
+                setPreferenceProp(
+                    prefList[1],
+                    tvCriteria2,
+                    tvCriteriaContent2,
+                    ivCrieteriaIcon2,
+                    "!!",
+                    "어렵"
+                )
+                setPreferenceProp(
+                    prefList[2],
+                    tvCriteria3,
+                    tvCriteriaContent3,
+                    ivCrieteriaIcon3,
+                    "ㅠ",
+                    "ㅠㅠㅠ"
+                )
+                setPreferenceProp(
+                    prefList[3],
+                    tvCriteria1,
+                    tvCriteriaContent1,
+                    ivCrieteriaIcon4,
+                    ">->",
+                    "0-0"
+                )
 
+            }
         }
     }
 
@@ -68,7 +70,7 @@ class RoommateRecommendVPViewHolder(
         if (preference != null) {
             tv1.text = preference.displayName
             tv2.text = rmPrefStat
-            when (myPrefStat) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색
+            when (myPrefStat) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
                 rmPrefStat -> {
                     iv.setImageResource(preference.blueDrawable)
                 }
