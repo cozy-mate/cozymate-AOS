@@ -19,10 +19,12 @@ import javax.inject.Inject
 class UniversityViewModel @Inject constructor(
     private val memberRepo: MemberRepository,
     @ApplicationContext private val context: Context
-): ViewModel() {
+) : ViewModel() {
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    fun getToken(): String? { return sharedPreferences.getString("access_token", null) }
+    fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
 
     // 대학교 메일 인증 여부
     private val _isVerified = MutableLiveData(false)
@@ -32,14 +34,13 @@ class UniversityViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = memberRepo.getMailVerify(token!!)
-                if (response.isSuccessful){
-                    if (response.body()?.isSuccess == true){
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
                         if (response.body()!!.result == "") {
                             _isVerified.value = false
                             _university.value = "학교 인증을 해주세요"
-                        }
-                        else _isVerified.value = true
+                        } else _isVerified.value = true
                     }
                 }
             } catch (e: Exception) {
@@ -75,11 +76,13 @@ class UniversityViewModel @Inject constructor(
     val universityInfo: LiveData<GetUniversityInfoResponse.Result> get() = _universityInfo
     private val _universityId = MutableLiveData<Int>()
     val universityId: LiveData<Int> get() = _universityId
+    private val _major = MutableLiveData<String>()
+    val major: LiveData<String> get() = _major
     fun fetchUniversityInfo() {
         val token = getToken()
         viewModelScope.launch {
             try {
-                val response = memberRepo.getUniversityInfo(token!!, id=universityId.value ?: 0)
+                val response = memberRepo.getUniversityInfo(token!!, id = universityId.value ?: 0)
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
@@ -97,16 +100,22 @@ class UniversityViewModel @Inject constructor(
             "인하대학교" -> {
                 _universityId.value = 1
             }
+
             "학교2" -> {
                 _universityId.value = 2
             }
+
             "숭실대학교" -> {
                 _universityId.value = 3
             }
+
             "한국공학대학교" -> {
                 _universityId.value = 4
             }
         }
+    }
+    fun setMajor(majorName: String) {
+        _major.value = majorName
     }
 
     // 메일 인증
@@ -121,12 +130,7 @@ class UniversityViewModel @Inject constructor(
     fun setMailPattern(pattern: String) {
         _mailPattern.value = pattern
     }
-    fun validateEmail(email: String) {
-        val pattern = mailPattern.value
-        _isValidMail.value = pattern?.toRegex()?.matches(email) == true
-        val regex = "^[a-zA-Z0-9._%+-]+@$pattern$".toRegex() // example@inha.edu 패턴 생성
-        _isValidMail.value = regex.matches(email)
-    }
+
     fun sendVerifyCode(email: String) {
         val token = getToken()
         if (token != null) {
@@ -156,29 +160,30 @@ class UniversityViewModel @Inject constructor(
     // 인증코드 확인
     private val _verifyCode = MutableLiveData<String>()
     val verifyCode: LiveData<String> get() = _verifyCode
-    fun verifyCode(code: String, majorName: String) {
+    fun verifyCode(code: String) {
         val token = getToken()
-        if (token != null && emailInput.value != null) {
-            viewModelScope.launch {
-                try {
-                    val request = VerifyMailRequest(
-                        code = code,
-                        universityId = universityId.value!!,
-                        majorName = majorName
-                    )
-                    val response = memberRepo.verifyMail(token, request)
-                    if (response.isSuccessful) {
-                        Log.d(TAG, "메일 인증 성공")
-                        _sendVerifyCodeStatus.value = true
-                    } else {
-                        Log.d(TAG, "메일 인증 성공")
-                        _sendVerifyCodeStatus.value = false
-                    }
-                } catch (e: Exception) {
-                    Log.d(TAG, "메일 인증 api 요청 실패: $e")
-                    _sendVerifyCodeStatus.value = false
+        Log.d(TAG, "code: $code, major: ${major.value}, univId: ${universityId.value}")
+        viewModelScope.launch {
+            try {
+                val request = VerifyMailRequest(
+                    code = code,
+                    universityId = universityId.value!!,
+                    majorName = major.value!!
+                )
+                Log.d(TAG, "메일인증 request: $request")
+                val response = memberRepo.verifyMail(token!!, request)
+                if (response.isSuccessful) {
+                    Log.d(TAG, "메일 인증 성공")
+                    _isVerified.value = true
+                } else {
+                    Log.d(TAG, "메일 인증 실패")
+                    _isVerified.value = false
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "메일 인증 api 요청 실패: $e")
+                _isVerified.value = false
             }
         }
+
     }
 }

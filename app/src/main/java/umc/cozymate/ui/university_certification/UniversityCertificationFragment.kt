@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,8 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.pop_up.OneButtonPopup
+import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -32,8 +33,7 @@ class UniversityCertificationFragment : Fragment() {
     private var universityName: String = ""
     private var majorName: String = ""
     private var email: String = ""
-    private var isValidMail = false
-    private var certNum: Int = 0
+    private var code: String = ""
     private var debounceJob: Job? = null
 
     override fun onCreateView(
@@ -45,9 +45,12 @@ class UniversityCertificationFragment : Fragment() {
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
 
         //binding.btnSendVerifyCode.visibility = View.GONE
+        binding.btnCheckVerifyCode.isClickable = true
+        binding.tvAlertCode.visibility = View.GONE
         checkIsValidMail()
         setMailBtnListener()
         setVerifyBtnListener()
+        setVerifyCodeTextWatcher()
         initSpinner()
         binding.ivBack.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -65,7 +68,6 @@ class UniversityCertificationFragment : Fragment() {
             if (email.isNotEmpty()) {
                 viewModel.sendVerifyCode(binding.etUniversityEmail.text.toString())
             }
-            Log.d("UniversityCertificationFragment", "인증번호 전송 버튼 클릭: $email")
         }
 
         // 인증번호 전송 상태 관찰
@@ -73,41 +75,42 @@ class UniversityCertificationFragment : Fragment() {
             if (isSent) {
                 binding.btnSendVerifyCode.text = "인증번호 재전송"
             } else {
-                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
     fun setVerifyBtnListener() {
-        viewModel.setUniversityId(universityName)
-        viewModel.universityId.observe(viewLifecycleOwner) {
-
-        }
         binding.btnCheckVerifyCode.setOnClickListener {
-            // 인증하기
-            viewModel.setUniversityId(universityName)
-            viewModel.verifyCode(binding.etCheckVerifyCode.text.toString(), majorName)
-
-            // 인증되었는지 체크
-            viewModel.isMailVerified()
-
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 학교 인증 완료 팝업
-
-        // 화면 이동
-        //val intent = Intent(requireContext(), MainActivity::class.java)
-        //startActivity(intent)
-    }
-
-    fun observeVerified() {
-        viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true) {
-
+            if (code.isNotEmpty()) {
+                viewModel.verifyCode(code)
             }
         }
+
+        viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            if (isVerified == true) { // 인증 완료 시 팝업 후 화면 이동
+                binding.tvAlertCode.visibility = View.GONE
+                showVerifyPopup()
+            } else {
+                binding.tvAlertCode.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    fun showVerifyPopup() {
+        val text = listOf("학교인증이 완료됐어요", "", "확인")
+        // 팝업 객체 생성
+        val dialog = OneButtonPopup(text, object : PopupClick {
+            override fun clickFunction() {
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        }, false)
+
+        // 팝업 띄우기
+        dialog.show(parentFragmentManager, "schoolVerificationPopup")
     }
 
     fun checkIsValidMail() {
@@ -121,6 +124,7 @@ class UniversityCertificationFragment : Fragment() {
                     after: Int
                 ) {
                 }
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val input = s.toString()
                     // 이전 Job 취소 (사용자가 입력을 계속하면 기존 Job 무효화)
@@ -145,6 +149,28 @@ class UniversityCertificationFragment : Fragment() {
                 override fun afterTextChanged(s: Editable?) {}
             })
         }
+    }
+
+    fun setVerifyCodeTextWatcher() {
+        binding.etCheckVerifyCode.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                debounceJob?.cancel()
+                debounceJob = viewLifecycleOwner.lifecycleScope.launch {
+                    delay(500L) // 0.5초 대기
+                    code = binding.etCheckVerifyCode.text.toString()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     fun initSpinner() {
@@ -226,6 +252,7 @@ class UniversityCertificationFragment : Fragment() {
                         val selectedMajor = departments[position]
                         majorName = selectedMajor
                         tvMajor.visibility = View.GONE
+                        viewModel.setMajor(majorName)
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {}

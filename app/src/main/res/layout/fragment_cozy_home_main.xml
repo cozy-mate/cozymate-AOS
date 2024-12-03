@@ -52,12 +52,12 @@
                     android:id="@+id/tv_school_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="30dp"
                     android:text="학교 인증을 해주세요"
                     android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                     android:textColor="@color/unuse_font"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_school_white"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
