@@ -32,8 +32,26 @@ class RoommateRecommendVPViewHolder(
                     "blue" -> {
                         ivCrieteriaIcon1.setImageResource(pref1.blueDrawable)
                     }
-                    else -> {
+                    "red" -> {
                         ivCrieteriaIcon1.setImageResource(pref1.redDrawable)
+                    }
+                    "white" -> {
+                        ivCrieteriaIcon1.setImageResource(pref1.grayDrawable)
+                    }
+                }
+            }
+
+            // 선호항목 2번
+            val pref2 = Preference.entries.find { it.pref == prefList[1] }
+            if (pref2 != null) {
+                tvCriteria2.text = pref2.displayName
+                tvCriteriaContent2.text = item.preferenceStats[1].value.toString()
+                when (item.preferenceStats[0].color) { // 내가 선호하는 정도와 일치하면 파란색, 다르면 빨간색, 선호도가 존재하지 않으면 흰색
+                    "blue" -> {
+                        ivCrieteriaIcon2.setImageResource(pref2.blueDrawable)
+                    }
+                    else -> {
+                        ivCrieteriaIcon2.setImageResource(pref2.redDrawable)
                     }
                 }
             }
