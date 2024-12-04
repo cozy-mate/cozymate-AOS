@@ -121,7 +121,6 @@
         android:textColor="@color/basic_font"
         android:textColorHint="@color/unuse_font"
         android:gravity="top"
-        android:lineHeight="8pt"
         android:hint="서비스 탈퇴 이유를 알려주신다면,\ncozymate가 더 나은 서비스가 되는 데에,\n큰 도움이 될 거에요."
         android:layout_marginTop="16dp"
         android:padding="16dp"
@@ -129,7 +128,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     
-    <androidx.appcompat.widget.AppCompatRadioButton
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:text="  회원 탈퇴 유의사항을 화인하였으며, 이에 동의합니다."

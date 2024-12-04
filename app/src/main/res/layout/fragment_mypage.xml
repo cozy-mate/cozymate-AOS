@@ -262,7 +262,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
         <ImageView
-            android:id="@+id/btn_MypageQuestion"
+            android:id="@+id/btn_inquiry"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_next"/>
@@ -278,7 +278,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
-            android:id="@+id/tv_MypageSignout"
+            android:id="@+id/tv_signout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="로그아웃"
@@ -295,7 +295,7 @@
             android:layout_marginHorizontal="20dp"/>
 
         <TextView
-            android:id="@+id/tv_MyPageDeleteId"
+            android:id="@+id/tv_withdraw"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="회원탈퇴"

@@ -36,11 +36,16 @@ class MyPageFragment : Fragment() {
         binding.tvMypageUserName.text =nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
-        binding.tvMypageSignout.setOnClickListener {
+        binding.tvSignout.setOnClickListener {
             performLogout()
         }
         binding.tvSchool.setOnClickListener {
             loadSchool()
+        }
+
+        binding.tvWithdraw.setOnClickListener {
+            val intent : Intent = Intent(activity, WithDrawActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
     }
