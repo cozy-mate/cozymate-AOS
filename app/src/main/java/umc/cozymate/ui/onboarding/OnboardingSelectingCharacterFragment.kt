@@ -79,22 +79,22 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         binding.btnNext.isEnabled = false
 
         val characters = listOf(
-            CharacterItem(R.drawable.character_1),
-            CharacterItem(R.drawable.character_2),
-            CharacterItem(R.drawable.character_3),
-            CharacterItem(R.drawable.character_4),
-            CharacterItem(R.drawable.character_5),
-            CharacterItem(R.drawable.character_6),
-            CharacterItem(R.drawable.character_7),
-            CharacterItem(R.drawable.character_8),
-            CharacterItem(R.drawable.character_9),
-            CharacterItem(R.drawable.character_10),
-            CharacterItem(R.drawable.character_11),
-            CharacterItem(R.drawable.character_12),
-            CharacterItem(R.drawable.character_13),
-            CharacterItem(R.drawable.character_14),
-            CharacterItem(R.drawable.character_15),
-            CharacterItem(R.drawable.character_16),
+            CharacterItem(R.drawable.character_id_1),
+            CharacterItem(R.drawable.character_id_2),
+            CharacterItem(R.drawable.character_id_3),
+            CharacterItem(R.drawable.character_id_5),
+            CharacterItem(R.drawable.character_id_6),
+            CharacterItem(R.drawable.character_id_4),
+            CharacterItem(R.drawable.character_id_15),
+            CharacterItem(R.drawable.character_id_14),
+            CharacterItem(R.drawable.character_id_8),
+            CharacterItem(R.drawable.character_id_7),
+            CharacterItem(R.drawable.character_id_11),
+            CharacterItem(R.drawable.character_id_12),
+            CharacterItem(R.drawable.character_id_10),
+            CharacterItem(R.drawable.character_id_13),
+            CharacterItem(R.drawable.character_id_9),
+            CharacterItem(R.drawable.character_id_16),
         )
 
         val adapter = CharactersAdapter(characters, this)
@@ -111,8 +111,27 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         // Handle the item click
         val selectedCharacter = position // Assuming character selection logic here
 
-        viewModel.setPersona(selectedCharacter+1)
-        saveUserPreference(position+1)
+        var id = 0
+        when (position) {
+            0 -> id = 1
+            1 -> id = 2
+            2 -> id = 3
+            3 -> id = 5
+            4 -> id = 6
+            5 -> id = 4
+            6 -> id = 15
+            7 -> id = 14
+            8 -> id = 8
+            9 -> id = 7
+            10 -> id = 11
+            11 -> id = 12
+            12 -> id = 10
+            13 -> id = 13
+            14 -> id = 9
+            15 -> id = 16
+        }
+        viewModel.setPersona(id)
+        saveUserPreference(id)
         Log.d(TAG, "Selected item position: $position")
 
         binding.btnNext.isEnabled = true
@@ -125,7 +144,8 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             apply()
         }
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("user_persona", persona)
         editor.commit() // or editor.commit()
