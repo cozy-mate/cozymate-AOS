@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
-import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.splash.SplashActivity
+import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.MyPageViewModel
 
 class MyPageFragment : Fragment() {
@@ -35,11 +35,11 @@ class MyPageFragment : Fragment() {
         updateTextStyle()
         binding.tvMypageUserName.text =nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
-        binding.tvMypageRoom.text = roomname
+        binding.tvCozyroom.text = roomname
         binding.tvMypageSignout.setOnClickListener {
             performLogout()
         }
-        binding.tvMypageSchool.setOnClickListener {
+        binding.tvSchool.setOnClickListener {
             loadSchool()
         }
         return binding.root
@@ -58,23 +58,23 @@ class MyPageFragment : Fragment() {
     private fun updateTextStyle() {
         // 나의 코지룸
         if(roomFlag){
-            binding.ivMypageRoom.visibility = View.VISIBLE
-            binding.tvMypageRoom.setTextColor(binding.root.context.getColor(R.color.main_blue))
+            binding.ivCozyroom.visibility = View.VISIBLE
+            binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.main_blue))
         }
         else {
-            binding.ivMypageRoom.visibility = View.GONE
-            binding.tvMypageRoom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.ivCozyroom.visibility = View.GONE
+            binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
         }
 
         // 학교 인증
         if(schoolFlag){
-            binding.ivMypageSchoolVerifiedMark.visibility = View.VISIBLE
-            binding.tvMypageSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
+            binding.ivSchoolVerifiedMark.visibility = View.VISIBLE
+            binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
         }
         else {
-            binding.ivMypageSchoolVerifiedMark.visibility = View.GONE
-            binding.tvMypageSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
-            binding.tvMypageSchool.text = "아직 학교인증이 되어있지 않아요"
+            binding.ivSchoolVerifiedMark.visibility = View.GONE
+            binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.tvSchool.text = "아직 학교인증이 되어있지 않아요"
         }
     }
 
