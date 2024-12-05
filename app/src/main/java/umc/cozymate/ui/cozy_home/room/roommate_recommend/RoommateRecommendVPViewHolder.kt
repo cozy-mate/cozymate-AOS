@@ -23,7 +23,7 @@ class RoommateRecommendVPViewHolder(
             val pref1 = Preference.entries.find { it.pref == prefList[0] }
             if (pref1 != null) {
                 tvCriteria1.text = pref1.displayName
-                tvCriteriaContent1.text = item.preferenceStats[0].value.toString()+pref1.subText
+                tvCriteriaContent1.text = formatAnswer(pref1.pref, item.preferenceStats[0].value.toString())
                 when (item.preferenceStats[0].color) {
                     "blue" -> {
                         ivCrieteriaIcon1.setImageResource(pref1.blueDrawable)
@@ -41,7 +41,7 @@ class RoommateRecommendVPViewHolder(
             val pref2 = Preference.entries.find { it.pref == prefList[1] }
             if (pref2 != null) {
                 tvCriteria2.text = pref2.displayName
-                tvCriteriaContent2.text = item.preferenceStats[1].value.toString()+pref2.subText
+                tvCriteriaContent2.text = formatAnswer(pref2.pref, item.preferenceStats[1].value.toString())
                 when (item.preferenceStats[1].color) {
                     "blue" -> {
                         ivCrieteriaIcon2.setImageResource(pref2.blueDrawable)
@@ -59,7 +59,7 @@ class RoommateRecommendVPViewHolder(
             val pref3 = Preference.entries.find { it.pref == prefList[2] }
             if (pref3 != null) {
                 tvCriteria3.text = pref3.displayName
-                tvCriteriaContent3.text = item.preferenceStats[2].value.toString()+pref3.subText
+                tvCriteriaContent3.text = formatAnswer(pref3.pref, item.preferenceStats[2].value.toString())
                 when (item.preferenceStats[2].color) {
                     "blue" -> {
                         ivCrieteriaIcon3.setImageResource(pref3.blueDrawable)
@@ -77,7 +77,7 @@ class RoommateRecommendVPViewHolder(
             val pref4 = Preference.entries.find { it.pref == prefList[3] }
             if (pref4 != null) {
                 tvCriteria4.text = pref4.displayName
-                tvCriteriaContent4.text = item.preferenceStats[3].value.toString()+pref4.subText
+                tvCriteriaContent4.text = formatAnswer(pref4.pref, item.preferenceStats[3].value.toString())
                 when (item.preferenceStats[3].color) {
                     "blue" -> {
                         ivCrieteriaIcon4.setImageResource(pref4.blueDrawable)
@@ -91,6 +91,44 @@ class RoommateRecommendVPViewHolder(
                 }
             }
 
+        }
+    }
+
+    fun formatAnswer(option: String, answer: Any): String {
+        return when (option) {
+            "wakeUpTime", "sleepingTime", "turnOffTime" -> {
+                val time = (answer as String).toIntOrNull() ?: 0
+                val period = if (time < 12) "오전" else "오후"
+                val formattedTime = if (time % 12 == 0) 12 else time % 12
+                "$period ${formattedTime.toString().padStart(2, '0')}시"
+            }
+            "birthYear" -> {
+                "${answer}년"
+            }
+            "sleepingHabit", "personality" -> {
+                if (answer is List<*>) {
+                    answer.joinToString(", ")
+                } else {
+                    answer.toString()
+                }
+            }
+            "airConditioningIntensity", "heatingIntensity" -> {
+                val intensityItems = listOf("안 틀어요", "약하게 틀어요", "적당하게 틀어요", "강하게 틀어요")
+                intensityItems.getOrNull((answer as String).toIntOrNull() ?: 0) ?: "알 수 없음"
+            }
+            "cleanSensitivity", "noiseSensitivity" -> {
+                val sensitivityItems = listOf(
+                    "매우 예민하지 않아요",
+                    "예민하지 않아요",
+                    "보통이에요",
+                    "예민해요",
+                    "매우 예민해요"
+                )
+                sensitivityItems.getOrNull((answer as String).toIntOrNull()?.minus(1) ?: 0) ?: "알 수 없음"
+            }
+            else -> {
+                answer.toString()
+            }
         }
     }
 

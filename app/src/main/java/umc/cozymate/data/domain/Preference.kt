@@ -37,6 +37,3 @@ enum class Preference(
     MBTI(24, "mbti", "MBTI", "", R.drawable.ic_mbti_blue, R.drawable.ic_mbti_red, R.drawable.ic_mbti_gray)
 }
 
-enum class PreferenceState {
-    MATCH, MISMATCH, OTHER
-}
