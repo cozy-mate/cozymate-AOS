@@ -2,7 +2,10 @@ package umc.cozymate.ui.cozy_home.room.making_room
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -19,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
-import umc.cozymate.util.setupTextInputWithMaxLength
 
 @AndroidEntryPoint
 class MakingPublicRoomFragment : Fragment() {
@@ -43,29 +45,26 @@ class MakingPublicRoomFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.setImg(charId ?: 0)
+        viewModel.setPersona(charId ?: 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
-            setupHashtagInput()
             // 뒤로가기
             ivBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
+            // 캐릭터 선택
+            ivCharacter.setOnClickListener {
+                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
+                characterResultLauncher.launch(intent)
+            }
+            // 방 이름 유효성 체크
+            checkValidInfo()
 
-
-//            var isSelected = false
-//            ivCharacter.setOnClickListener {
-//                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
-//                characterResultLauncher.launch(intent)
-//                isSelected = true
-//            }
-//            if (isSelected) ivCharacter.setImageResource(R.drawable.character_id_1)
-
+            // 인원수 체크
             val numPeopleTexts = listOf(
                 binding.chip1 to 2,
                 binding.chip2 to 3,
@@ -76,13 +75,13 @@ class MakingPublicRoomFragment : Fragment() {
             for ((textView, value) in numPeopleTexts) {
                 textView.setOnClickListener { numPeopleSelected(it, value) }
             }
+            // 해시태그 설정
+            setupHashtagInput()
 
             // 캐릭터, 이름, 최대인원수, 해시태그 선택되어 있어야 다음 버튼 활성화
-            //setUpRoomNameTextWatcher()
-            //setUpHashTagTextWatcher()
             updateNextButtonState()
         }
-        checkValidInfo()
+
         // 방 생성 옵저빙
         setupObservers()
     }
@@ -93,10 +92,11 @@ class MakingPublicRoomFragment : Fragment() {
             val isRoomNameEntered = etRoomName.text?.isNotEmpty() == true
             val isPeopleNumSelected = numPeople != 0
             val isHashtagEntered = hashtags.isNotEmpty()
-            val isEnabled = isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
+            val isEnabled =
+                isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewModel.setImg(charId!!)
+                viewModel.setPersona(charId!!)
                 viewModel.setNickname(roomName)
                 viewModel.setMaxNum(numPeople!!)
                 viewModel.setHashtags(hashtags)
@@ -110,16 +110,22 @@ class MakingPublicRoomFragment : Fragment() {
         }
     }
 
+    // 해시태그 설정
     private fun setupHashtagInput() {
         with(binding) {
+            hashtag1.visibility = View.GONE
+            hashtag2.visibility = View.GONE
+            hashtag3.visibility = View.GONE
+            // 삭제 버튼 설정
             setupHashtag(hashtag1)
             setupHashtag(hashtag2)
             setupHashtag(hashtag3)
+            // 해시태그 입력값을 반영하기
             etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                     val hashtagText = etRoomHashtag.text.toString().trim()
-
                     if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                        // 해시태그 추가 및 edittext 텍스트 삭제
                         hashtags.add(hashtagText)
                         updateHashtagChips()
                         etRoomHashtag.text?.clear()
@@ -127,7 +133,6 @@ class MakingPublicRoomFragment : Fragment() {
                         Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
                             .show()
                     }
-
                     true
                 } else {
                     false
@@ -138,8 +143,9 @@ class MakingPublicRoomFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     fun setupHashtag(tv: TextView) {
+        tv.isEnabled = true
+        tv.isClickable = true
         tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0) // 닫기 버튼 설정
-        tv.visibility = View.GONE
         tv.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 removeHashtag(tv) ///
@@ -163,11 +169,11 @@ class MakingPublicRoomFragment : Fragment() {
     fun removeHashtag(tv: TextView) {
         tv.visibility = View.GONE
         hashtags.remove(tv.text)
+        updateNextButtonState()
     }
 
     private fun updateHashtagChips() {
         val chipViews = listOf(binding.hashtag1, binding.hashtag2, binding.hashtag3)
-
         for (i in chipViews.indices) {
             if (i < hashtags.size) {
                 chipViews[i].text = hashtags[i]
@@ -176,6 +182,7 @@ class MakingPublicRoomFragment : Fragment() {
                 chipViews[i].visibility = View.GONE
             }
         }
+        updateNextButtonState()
     }
 
     // 인원수 옵션 클릭
@@ -197,12 +204,27 @@ class MakingPublicRoomFragment : Fragment() {
     // 방 이름 유효한지 체크
     private fun checkValidInfo() {
         with(binding) {
-            setupTextInputWithMaxLength(
-                textInputLayout = tilRoomName,
-                textInputEditText = etRoomName,
-                maxLength = 12,
-                errorMessage = "방이름은 최대 12글자만 가능해요!"
-            )
+            // 방 글자수
+            etRoomName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val input = s.toString()
+                    if (input.length > 12) {
+                        tvAlertName.visibility = View.VISIBLE
+                        tvAlertName.text = "방이름은 최대 12글자만 가능해요!"
+                    } else {
+                        tvAlertName.visibility = View.GONE
+                        viewModel.setNickname(input)
+                        roomName = etRoomName.text.toString()
+                        updateNextButtonState()
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            // 해시태그 중복
         }
     }
 
@@ -244,7 +266,8 @@ class MakingPublicRoomFragment : Fragment() {
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
             setCharacterImage(selectedCharacterId)
-            viewModel.setImg(selectedCharacterId)
+            viewModel.setPersona(selectedCharacterId)
+            updateNextButtonState()
         }
     }
 

@@ -37,8 +37,8 @@ class MakingRoomViewModel @Inject constructor(
     private val _creatorId = MutableLiveData<Int>()
     val creatorId: LiveData<Int> get() = _creatorId
 
-    private val _img = MutableLiveData<Int> ()
-    val img: LiveData<Int> get() = _img
+    private val _persona = MutableLiveData<Int> ()
+    val persona: LiveData<Int> get() = _persona
 
     private val _maxNum = MutableLiveData<Int>()
     val maxNum: LiveData<Int> get() = _maxNum
@@ -60,35 +60,43 @@ class MakingRoomViewModel @Inject constructor(
 
     fun setNickname(nickname: String) {
         _nickname.value = nickname
+        checkAndSubmit()
     }
 
     fun setCreatorId(creatorId: Int) {
         _creatorId.value = creatorId
     }
 
-    fun setImg(img: Int) {
-        _img.value = img
+    fun setPersona(id: Int) {
+        _persona.value = id
+        checkAndSubmit()
     }
 
     fun setMaxNum(maxNum: Int) {
         _maxNum.value = maxNum
+        checkAndSubmit()
     }
 
     fun setHashtags(hashtags: List<String>) {
         _hashtags.value = hashtags
+        checkAndSubmit()
     }
 
+    fun checkAndSubmit() {
+        if (persona.value != 0 && !nickname.value.isNullOrEmpty() && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
+            createPublicRoom()
+        }
+    }
     fun createPublicRoom() {
         val token = getToken()
-        Log.d(TAG, "방 생성 전 토큰: $token")
+        Log.d(TAG, "방 생성 request 확인: ${nickname.value} ${persona.value} ${maxNum.value} ${hashtags.value}")
         _loading.value = true // 로딩 시작
-
-        if (token != null && img.value != 0) {
+        if (token != null && persona.value != 0 && nickname.value != null) {
             viewModelScope.launch {
                 try {
                     val roomRequest = CreatePublicRoomRequest(
                         nickname.value!!,
-                        img.value ?: 1,
+                        persona.value ?: 1,
                         maxNum.value ?: 6,
                         hashtags.value!!
                     )
@@ -114,7 +122,6 @@ class MakingRoomViewModel @Inject constructor(
             }
         }
     }
-
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
         return try {
             val gson = Gson()

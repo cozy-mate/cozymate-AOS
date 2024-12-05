@@ -48,7 +48,7 @@ class CozyHomeGivingInviteCodeFragment : Fragment() {
 
         with(binding) {
             btnNext.setOnClickListener {
-                (activity as? MakingPublicRoomActivity)?.loadFragment5() // 코지홈 이동
+               // (activity as? MakingPublicRoomActivity)?.loadFragment5() // 코지홈 이동
             }
         }
     }

@@ -243,35 +243,37 @@ class CozyHomeViewModel @Inject constructor(
         val token = getToken()
         val roomId = _roomId.value ?: getSavedRoomId()
 
-        viewModelScope.launch {
-            try {
-                val response = logRepository.getRoomLog(token!!, roomId!!, 0, 10)
-                if (response.isSuccessful) {
-                    if (response.body()!!.isSuccess) {
-                        _roomLogResponse.value = response.body()!!
+        if (roomId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = logRepository.getRoomLog(token!!, roomId!!, 0, 10)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.isSuccess) {
+                            _roomLogResponse.value = response.body()!!
 
-                        // 데이터를 변환
-                        val achievementItems = response.body()!!.result.result.map { roomLog ->
-                            mapRoomLogResponseToItem(roomLog)
+                            // 데이터를 변환
+                            val achievementItems = response.body()!!.result.result.map { roomLog ->
+                                mapRoomLogResponseToItem(roomLog)
+                            }
+
+                            _achievements.value = achievementItems
+
+                            Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
+                        } else {
+                            Log.d(TAG, "룸로그 에러 메시지: ${response}")
                         }
-
-                        _achievements.value = achievementItems
-
-                        Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
                     } else {
-                        Log.d(TAG, "룸로그 에러 메시지: ${response}")
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
+                        Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
                     }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                    }
-                    Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
+                } catch (e: Exception) {
+                    Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
             }
         }
     }
@@ -332,7 +334,6 @@ class CozyHomeViewModel @Inject constructor(
             }
         }
     }
-
 
 
 }

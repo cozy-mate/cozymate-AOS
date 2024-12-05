@@ -47,7 +47,7 @@ class MakingPrivateRoomFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.setImg(charId ?: 1)
+        viewModel.setPersona(charId ?: 1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class MakingPrivateRoomFragment : Fragment() {
                 if (roomName.isNotEmpty() && maxNum > 0) {
                     viewModel.setNickname(roomName)
                     viewModel.setMaxNum(maxNum)
-                    viewModel.setImg(charId ?: 1)
+                    viewModel.setPersona(charId ?: 1)
 
                     // 방 생성 요청
                     //viewModel.createPrivateRoom()
@@ -179,7 +179,7 @@ class MakingPrivateRoomFragment : Fragment() {
             charId = selectedCharacterId
             setCharacterImage(selectedCharacterId)
             // ViewModel에 선택된 이미지 ID 저장
-            viewModel.setImg(selectedCharacterId)
+            viewModel.setPersona(selectedCharacterId)
         }
     }
 

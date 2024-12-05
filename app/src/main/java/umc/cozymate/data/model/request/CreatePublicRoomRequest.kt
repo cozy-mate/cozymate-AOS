@@ -1,8 +1,14 @@
 package umc.cozymate.data.model.request
 
+import com.google.gson.annotations.SerializedName
+
 data class CreatePublicRoomRequest(
+    @SerializedName("name")
     val name: String,
-    val profileImage: Int,
+    @SerializedName("persona")
+    val persona: Int,
+    @SerializedName("maxMateNum")
     val maxMateNum: Int,
-    val hashtags: List<String>,
+    @SerializedName("hashtagList")
+    val hashtagList: List<String>,
 )
