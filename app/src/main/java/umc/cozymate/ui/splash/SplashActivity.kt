@@ -58,10 +58,13 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
         window.navigationBarColor = Color.WHITE
+        // gif 뷰페이저 설정
+        val adapter = GIFAdapter(this)
+        binding.vpGif.adapter = adapter
+        binding.dotsIndicator.attachTo(binding.vpGif)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
-
         binding.progressBar.visibility = View.VISIBLE
 
         // 뷰모델 옵저빙

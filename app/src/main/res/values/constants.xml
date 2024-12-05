@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url">https://cozymate.store</string>
+    <string name="base_url">https://dev.api.cozymate.store</string>
     <string name="access_token_1">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjQyODA2MTgyOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTE4NjU3LCJleHAiOjE3Mzg4OTcxMzN9.9byrwgq1AmelKV3Nm8--110bMxsiPqSehhwJmqK9PuM</string>
     <string name="access_token_2">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjQyODA2MTgyOktBS0FPIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzIzMTE4NjU3LCJleHAiOjE3Mzg4OTcxMzN9.9byrwgq1AmelKV3Nm8--110bMxsiPqSehhwJmqK9PuM</string>
     <string name="kakao_app_key">7feaa7120f9192caa40266c210bae2b9</string>
