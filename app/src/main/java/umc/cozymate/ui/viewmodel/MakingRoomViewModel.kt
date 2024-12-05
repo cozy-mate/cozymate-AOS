@@ -83,7 +83,7 @@ class MakingRoomViewModel @Inject constructor(
         Log.d(TAG, "방 생성 전 토큰: $token")
         _loading.value = true // 로딩 시작
 
-        if (token != null) {
+        if (token != null && img.value != 0) {
             viewModelScope.launch {
                 try {
                     val roomRequest = CreatePublicRoomRequest(

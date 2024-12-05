@@ -79,7 +79,7 @@ class MakingPrivateRoomFragment : Fragment() {
 
             var isSelected = false
             ivCharacter.setOnClickListener {
-                val intent = Intent(context, CozyHomeSelectingCharacterActivity::class.java)
+                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
                 characterResultLauncher.launch(intent)
                 isSelected = true
             }
