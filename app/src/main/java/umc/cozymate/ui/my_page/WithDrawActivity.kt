@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,6 +17,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivityWithdrawBinding
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.viewmodel.SplashViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class WithDrawActivity : AppCompatActivity() {
@@ -31,7 +33,8 @@ class WithDrawActivity : AppCompatActivity() {
         binding = ActivityWithdrawBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         setContentView(binding.root)
-        //setTextContent()
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE) // 상단바 색상 수정
+        setTextContent()
         setColor()
         getPreference()
         setClickListener()
@@ -77,7 +80,7 @@ class WithDrawActivity : AppCompatActivity() {
     // 화면 크기에 따라 텍스트 변경
     private fun setTextContent() {
         val originalText = "탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
-        val splitText = "탈퇴하시면 모든 정보가 사라지며,모든 데이터는 \n복구가 불가능해요"
+        val splitText = "탈퇴하시면 모든 정보가 사라지며,모든 데이터는 복구가 \n불가능해요"
 
         Log.d(TAG, "로그는 왜 안찍히니")
         // 화면의 가로 크기 확인
