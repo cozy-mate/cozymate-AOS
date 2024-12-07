@@ -15,10 +15,13 @@ import umc.cozymate.data.model.response.member.ReissueResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.model.response.member.VerifyMailResponse
+import umc.cozymate.data.model.response.member.WithdrawResponse
 
 interface MemberRepository {
 
     suspend fun reissue(refreshToken: String): Response<ReissueResponse>
+
+    suspend fun withdraw(accessToken: String) : Response<WithdrawResponse>
 
     suspend fun signOut(accessToken: String): Response<Unit>
 

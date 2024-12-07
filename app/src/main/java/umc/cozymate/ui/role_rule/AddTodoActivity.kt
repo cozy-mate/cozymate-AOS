@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityAddTodoBinding
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class AddTodoActivity():AppCompatActivity() {
@@ -20,6 +21,7 @@ class AddTodoActivity():AppCompatActivity() {
     private var tabText : List<String> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setStatusBarTransparent()
         binding = ActivityAddTodoBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         type = intent.getIntExtra("type",3)
