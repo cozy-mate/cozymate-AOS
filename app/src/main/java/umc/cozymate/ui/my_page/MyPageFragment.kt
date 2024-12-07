@@ -47,6 +47,10 @@ class MyPageFragment : Fragment() {
             val intent : Intent = Intent(activity, WithDrawActivity::class.java)
             startActivity(intent)
         }
+        binding.btnInquiry.setOnClickListener {
+            val intent : Intent = Intent(activity, InquiryActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
 
