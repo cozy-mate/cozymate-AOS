@@ -27,6 +27,7 @@ import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
 
+// 메인화면 진입 시 방존재 여부, 선호항목을 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -140,6 +141,7 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+    // 바텀 네비게이션(홈, 롤앤룰, 코지봇, 마이페이지) 설정
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -149,18 +151,6 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.main_container, CozyHomeMainFragment()).commit()
                     true
                 }
-
-                /*R.id.fragment_feed -> {
-                    if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
-                        return@setOnItemSelectedListener false // 선택을 막음
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_container, FeedFragment()).commit()
-                    }
-                    true
-                }*/
-
                 R.id.fragment_role_and_rule -> {
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
@@ -171,7 +161,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
-
                 R.id.fragment_cozybot -> {
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
@@ -182,13 +171,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
-
                 R.id.fragment_mypage -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MyPageFragment()).commit()
                     true
                 }
-
                 else -> false
             }
         }

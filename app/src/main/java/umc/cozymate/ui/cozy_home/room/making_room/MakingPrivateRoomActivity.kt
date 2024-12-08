@@ -41,8 +41,9 @@ class MakingPrivateRoomActivity : AppCompatActivity() {
     // 두번째 [초대코드 발급 페이지] 로드
     // 방 캐릭터 아이디와 초대코드를 넘겨줍니다
     fun loadGivingInviteCodeFragment(roomCharId: Int, code: String) {
+        val fragment = GivingInviteCodeFragment.newInstance(roomCharId, code)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_giving, GivingInviteCodeFragment(roomCharId, code))
+            .replace(R.id.fragment_container_giving, fragment)
             .addToBackStack(null)
             .commit()
     }

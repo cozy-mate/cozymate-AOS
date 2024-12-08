@@ -13,7 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -29,7 +29,7 @@ class MakingPrivateRoomFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentMakingPrivateRoomBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MakingRoomViewModel
+    private val viewModel: MakingRoomViewModel by viewModels()
     private var numPeopleOption: TextView? = null
     private var numPeople: Int = 0
     private var charId: Int? = 1
@@ -41,7 +41,6 @@ class MakingPrivateRoomFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMakingPrivateRoomBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
         return binding.root
     }
 

@@ -15,6 +15,7 @@ import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
+import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
 
@@ -59,6 +60,10 @@ class MakingRoomViewModel @Inject constructor(
     }
     fun setHashtags(hashtags: List<String>) {
         _hashtags.value = hashtags
+    }
+    // spf에 방 id 저장
+    fun saveRoomId(id: Int) {
+        sharedPreferences.edit().putInt("room_id", id).commit()
     }
     // spf에 방 캐릭터 저장
     fun saveRoomCharacterId(id: Int) {
@@ -174,6 +179,35 @@ class MakingRoomViewModel @Inject constructor(
     fun checkAndSubmitCreatePrivateRoom() {
         if (persona.value != 0 && nickname.value != null && maxNum.value != 0) {
             createPrivateRoom()
+        }
+    }
+    // 방 삭제
+    private val _roomDeletionResult = MutableLiveData<DeleteRoomResponse>()
+    val roomDeletionResult: MutableLiveData<DeleteRoomResponse> get() = _roomDeletionResult
+    fun deleteRoom(roomId: Int? = 0) {
+        val token = getToken()
+        Log.d(TAG, "방삭제 방 id 확인: ${roomId}")
+        _loading.value = true // 로딩 시작
+        if (token != null && roomId != 0 ) {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.deleteRoom(token, roomId!!)
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방삭제 성공: ${response.body()!!.result}")
+                        _roomDeletionResult.value = response.body()!!
+                        // spf에 저장된 방 정보 삭제
+                        sharedPreferences.edit().remove("invite_code").apply()
+                        sharedPreferences.edit().remove("room_id").apply()
+                    } else {
+                        Log.d(TAG, "초대코드 방 생성 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    _errorResponse.value?.message = e.message.toString()
+                    Log.d(TAG, "초대코드 방 생성 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
+                }
+            }
         }
     }
     // 에러 처리

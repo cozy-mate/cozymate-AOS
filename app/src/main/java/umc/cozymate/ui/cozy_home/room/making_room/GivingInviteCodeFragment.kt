@@ -14,9 +14,25 @@ import umc.cozymate.databinding.FragmentGivingInviteCodeBinding
 import umc.cozymate.util.CharacterUtil
 
 @AndroidEntryPoint
-class GivingInviteCodeFragment(private val roomCharId: Int, private val inviteCode: String) : Fragment() {
+class GivingInviteCodeFragment : Fragment() {
     private var _binding: FragmentGivingInviteCodeBinding? = null
     private val binding get() = _binding!!
+    private var roomCharId: Int = 0
+    private var inviteCode: String = ""
+    // 방 캐릭터 아이디와 초대코드는 [초대코드 방 생성]화면에서 Bundle을 통해 불러옵니다.
+    companion object {
+        private const val ARG_ROOM_CHAR_ID = "room_char_id"
+        private const val ARG_INVITE_CODE = "invite_code"
+        fun newInstance(roomCharId: Int, inviteCode: String): GivingInviteCodeFragment {
+            val fragment = GivingInviteCodeFragment()
+            val args = Bundle().apply {
+                putInt(ARG_ROOM_CHAR_ID, roomCharId)
+                putString(ARG_INVITE_CODE, inviteCode)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +42,11 @@ class GivingInviteCodeFragment(private val roomCharId: Int, private val inviteCo
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // arguments로부터 방캐릭터 아이디, 초대코드 값 초기화
+        arguments?.let {
+            roomCharId = it.getInt(ARG_ROOM_CHAR_ID, 0)
+            inviteCode = it.getString(ARG_INVITE_CODE, "") ?: ""
+        }
         with(binding) {
             // 방 캐릭터 이미지 설정
             CharacterUtil.setImg(roomCharId, ivChar)
@@ -45,5 +66,9 @@ class GivingInviteCodeFragment(private val roomCharId: Int, private val inviteCo
                (activity as? MakingPrivateRoomActivity)?.loadMainActivity()
             }
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
