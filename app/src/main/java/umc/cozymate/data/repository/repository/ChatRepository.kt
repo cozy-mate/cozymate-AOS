@@ -15,6 +15,4 @@ interface ChatRepository {
     suspend fun deleteChatRooms (accessToken: String, chatRoomId: Int ): Response<DefaultResponse>
     suspend fun getChatRooms (accessToken: String): Response<ChatRoomResponse>
 
-
-    //suspend fun deleteChat(accessToken: String, chatRoomId: Int, request: DeleteChatRoomsRequest): NetworkResult<DefaultResponse>
 }
