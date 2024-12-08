@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
@@ -135,11 +136,23 @@ class CozyBotFragment : Fragment() {
         val adapter = AchievementsAdapter(requireContext(), emptyList())
         binding.rvAcheivement.adapter = adapter
         binding.rvAcheivement.layoutManager = LinearLayoutManager(requireContext())
-
         viewModel.achievements.observe(viewLifecycleOwner) { items ->
             adapter.setItems(items)
         }
-
+        // RecyclerView 스크롤 리스너 추가
+        binding.rvAcheivement.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                // 마지막 항목 근처에 도달하면 다음 페이지 로드
+                if (!viewModel.isLoading.value!! && lastVisibleItemPosition + 2 >= totalItemCount) {
+                    viewModel.loadAchievements(isNextPage = true)
+                }
+            }
+        })
+        // 룸로그 로드
         viewModel.loadAchievements()
     }
 

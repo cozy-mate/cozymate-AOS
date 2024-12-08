@@ -249,25 +249,36 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     // 룸로그
-    fun loadAchievements() {
+    private var currentPage = 0
+    private val pageSize = 10
+    private var isLastPage = false
+    fun loadAchievements(isNextPage: Boolean = false) {
+        if (isLoading.value == true || isLastPage) return
+        _isLoading.value = true
         val token = getToken()
         val roomId = _roomId.value ?: getSavedRoomId()
-
         if (roomId != 0) {
             viewModelScope.launch {
                 try {
-                    val response = logRepository.getRoomLog(token!!, roomId!!, 0, 10)
+                    val response = logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
                     if (response.isSuccessful) {
                         if (response.body()!!.isSuccess) {
                             _roomLogResponse.value = response.body()!!
-
-                            // 데이터를 변환
-                            val achievementItems = response.body()!!.result.result.map { roomLog ->
+                            val newItems = response.body()!!.result.result.map { roomLog ->
                                 mapRoomLogResponseToItem(roomLog)
                             }
-
-                            _achievements.value = achievementItems
-
+                            // 기존 데이터에 새 데이터 추가
+                            val updatedList = if (isNextPage) {
+                                _achievements.value.orEmpty() + newItems
+                            } else {
+                                newItems
+                            }
+                            _achievements.value = updatedList
+                            // 마지막 페이지 여부 체크
+                            isLastPage = newItems.size < pageSize
+                            if (!isLastPage) {
+                                currentPage++
+                            }
                             Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
                         } else {
                             Log.d(TAG, "룸로그 에러 메시지: ${response}")
