@@ -8,9 +8,12 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
+import umc.cozymate.data.model.response.room.CheckRoomNameResponse
+import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
@@ -19,6 +22,7 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 
+// (10/29) 구현
 interface RoomService {
 
     // 방 삭제 (방장 권한)
@@ -73,6 +77,13 @@ interface RoomService {
         @Query("sortType") sortType: String?
     ) : Response<GetRecommendedRoomListResponse>
 
+    // 방 이름 중복 검증
+    @GET("/rooms/check-roomname")
+    suspend fun checkRoomName(
+        @Header("Authorization") accessToken: String,
+        @Query("roomName") roomName: String
+    ) : Response<CheckRoomNameResponse>
+
     // 방 참여
     @POST("/rooms/{roomId}/join")
     suspend fun joinRoom(
@@ -80,17 +91,17 @@ interface RoomService {
         @Path("roomId") roomId: Int,
     ) : Response<JoinRoomResponse>
 
-    /*// 방 생성
-    @POST("/rooms/create")
-    suspend fun createRoom(
-        @Header("Authorization") accessToken: String,
-        @Body roomInfo: CreateRoomRequest
-    ) : Response<CreateRoomResponse>*/
-
     // 공개 방 생성
     @POST("/rooms/create-public")
     suspend fun createPublicRoom(
         @Header("Authorization") accessToken: String,
         @Body roomInfo: CreatePublicRoomRequest
     ) : Response<CreatePublicRoomResponse>
+
+    // 초대코드 방 생성
+    @POST("/rooms/create-private")
+    suspend fun createPrivateRoom(
+        @Header("Authorization") accessToken: String,
+        @Body roomInfo: CreatePrivateRoomRequest
+    ) : Response<CreatePrivateRoomResponse>
 }

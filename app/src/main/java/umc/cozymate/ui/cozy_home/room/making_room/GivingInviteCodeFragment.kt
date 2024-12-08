@@ -12,15 +12,12 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentPublishPrivateRoomCodeBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 플로우2 : 방정보 입력창(1) > "초대코드 발급창(2)" > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
-class CozyHomeGivingInviteCodeFragment : Fragment() {
+class GivingInviteCodeFragment : Fragment() {
 
     private var _binding: FragmentPublishPrivateRoomCodeBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: MakingRoomViewModel
-
     private lateinit var popup: DialogFragment
 
     override fun onCreateView(
@@ -28,7 +25,6 @@ class CozyHomeGivingInviteCodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPublishPrivateRoomCodeBinding.inflate(inflater, container, false)
-
         viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
 
         return binding.root
@@ -38,17 +34,17 @@ class CozyHomeGivingInviteCodeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // ViewModel에서 roomCreationResult를 관찰
-        viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
+        viewModel.privateRoomCreationResult.observe(viewLifecycleOwner) { result ->
             if (result != null && result.isSuccess) {
                 // 초대 코드를 btnCopyInviteCode에 설정
                 binding.btnCopyInviteCode.text = result.result.inviteCode
-                setImg(result.result.profileImage)
+                setImg(result.result.persona)
             }
         }
 
         with(binding) {
             btnNext.setOnClickListener {
-                (activity as? MakingPublicRoomActivity)?.loadFragment5() // 코지홈 이동
+               (activity as? MakingPrivateRoomActivity)?.loadMainActivity()
             }
         }
     }

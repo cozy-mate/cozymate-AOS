@@ -27,6 +27,7 @@ class CozyHomeMainFragment : Fragment() {
     private val univViewModel: UniversityViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
+    private var isCertificated: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,13 +98,21 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun initListener() {
-        // 방 생성 버튼 > 팝업
-        binding.btnMakeRoom.setOnClickListener {
-            val popup: DialogFragment = MakingRoomDialogFragment()
-            popup.show(childFragmentManager, "팝업")
-        }
-        binding.btnSchoolCertificate.setOnClickListener {
-            startActivity(Intent(activity, UniversityCertificationActivity::class.java))
+        with(binding) {
+            // 방 생성 버튼 > 팝업
+            btnMakeRoom.setOnClickListener {
+                val popup: DialogFragment = MakingRoomDialogFragment()
+                popup.show(childFragmentManager, "팝업")
+            }
+            btnSchoolCertificate.setOnClickListener {
+                startActivity(Intent(activity, UniversityCertificationActivity::class.java))
+            }
+            if (state == UserRoomState.NO_ROOM || state == UserRoomState.REQUEST_SENT) {
+                btnMakeRoom.isEnabled = false
+                btnEnterRoom.isEnabled = false
+                btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+            }
         }
     }
 
@@ -127,13 +136,13 @@ class CozyHomeMainFragment : Fragment() {
                     ivSchoolWhite.visibility = View.VISIBLE
                     ivSchoolBlue.visibility = View.GONE
                     ivNext.visibility = View.VISIBLE
-
                 } else {
                     ivSchoolWhite.visibility = View.GONE
                     ivSchoolBlue.visibility = View.VISIBLE
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-                    // btnSchoolCertificate.setOnClickListener(null)
+                    btnSchoolCertificate.isEnabled = false
+                // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }
