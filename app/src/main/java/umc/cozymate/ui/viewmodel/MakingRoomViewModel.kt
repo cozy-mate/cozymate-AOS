@@ -37,10 +37,10 @@ class MakingRoomViewModel @Inject constructor(
     val persona: LiveData<Int> get() = _persona
     private val _maxNum = MutableLiveData<Int>()
     val maxNum: LiveData<Int> get() = _maxNum
-
+    private val _inviteCode = MutableLiveData<String>()
+    val inviteCode: LiveData<String> get() = _inviteCode
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -59,6 +59,14 @@ class MakingRoomViewModel @Inject constructor(
     }
     fun setHashtags(hashtags: List<String>) {
         _hashtags.value = hashtags
+    }
+    // spf에 방 캐릭터 저장
+    fun saveRoomCharacterId(id: Int) {
+        sharedPreferences.edit().putInt("my_room_persona", id).commit()
+    }
+    // spf에 초대코드 저장
+    fun saveInviteCode(inviteCode: String) {
+        sharedPreferences.edit().putString("invite_code", inviteCode).commit()
     }
     // 방이름 중복 검증
     private val _isNameValid = MutableLiveData(true)
@@ -100,6 +108,7 @@ class MakingRoomViewModel @Inject constructor(
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
                         _publicRoomCreationResult.value = response.body()!!
+                        saveRoomCharacterId(response.body()!!.result.profileImage)
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
@@ -142,6 +151,8 @@ class MakingRoomViewModel @Inject constructor(
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "초대코드 방 생성 성공: ${response.body()!!.result}")
                         _privateRoomCreationResult.value = response.body()!!
+                        saveRoomCharacterId(response.body()!!.result.persona)
+                        saveInviteCode(response.body()!!.result.inviteCode)
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
