@@ -57,7 +57,7 @@ class MakingPublicRoomActivity : AppCompatActivity() {
         this.finish()
     }
 
-    // 세번째 [코지홈_방장]로 화면 전환
+    // 세번째 [코지홈_방장]으로 화면 전환
     fun loadMainActivity() {
         val intent = Intent(baseContext, MainActivity::class.java)
         intent.putExtra("isRoomExist", true)

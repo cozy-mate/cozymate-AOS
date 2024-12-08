@@ -3,8 +3,8 @@ package umc.cozymate.util
 import android.widget.ImageView
 import umc.cozymate.R
 
-class CharacterUtil {
-    fun setImg(id: Int? = 1, iv: ImageView){
+object CharacterUtil {
+    fun setImg(id: Int? = 0, iv: ImageView){
         when (id) {
             1 -> iv.setImageResource(R.drawable.character_id_1)
             2 -> iv.setImageResource(R.drawable.character_id_2)
@@ -21,7 +21,8 @@ class CharacterUtil {
             13 -> iv.setImageResource(R.drawable.character_id_13)
             14 -> iv.setImageResource(R.drawable.character_id_14)
             15 -> iv.setImageResource(R.drawable.character_id_15)
-            16 -> iv.setImageResource(R.drawable.character_id_16)// 기본 이미지 설정
+            16 -> iv.setImageResource(R.drawable.character_id_16)
+            else -> iv.setImageResource(R.drawable.character_id_1) // 기본 이미지 설정
         }
     }
 }

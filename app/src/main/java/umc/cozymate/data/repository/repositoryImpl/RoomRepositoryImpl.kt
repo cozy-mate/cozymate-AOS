@@ -2,7 +2,9 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.api.RoomService
+import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
@@ -39,6 +41,13 @@ class RoomRepositoryImpl @Inject constructor(
         return api.getRecommendedRoomList(accessToken, size, page, sortType)
     }
 
+    override suspend fun createPrivateRoom(
+        accessToken: String,
+        roomInfo: CreatePrivateRoomRequest
+    ): Response<CreatePrivateRoomResponse> {
+        return api.createPrivateRoom(accessToken, roomInfo)
+    }
+
     override suspend fun joinRoom(
         accessToken: String,
         roomId: Int
@@ -58,12 +67,5 @@ class RoomRepositoryImpl @Inject constructor(
     ): Response<CreatePublicRoomResponse> {
         return api.createPublicRoom(accessToken, roomInfo)
     }
-
-    /*override suspend fun createRoom(
-        accessToken: String,
-        roomInfo: CreateRoomRequest
-    ): Response<CreateRoomResponse> {
-        return api.createRoom(accessToken, roomInfo)
-    }*/
 
 }

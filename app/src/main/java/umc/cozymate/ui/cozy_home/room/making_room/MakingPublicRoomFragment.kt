@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -62,9 +61,9 @@ class MakingPublicRoomFragment : Fragment() {
                 characterResultLauncher.launch(intent)
             }
             // 방 이름 유효성 체크
-            checkValidInfo()
+            checkValidRoomName()
 
-            // 인원수 체크
+            // 최대인원수 체크
             val numPeopleTexts = listOf(
                 binding.chip1 to 2,
                 binding.chip2 to 3,
@@ -86,6 +85,7 @@ class MakingPublicRoomFragment : Fragment() {
         setupObservers()
     }
 
+    // 다음 버튼 비활성/활성
     fun updateNextButtonState() {
         with(binding) {
             val isCharacterSelected = charId != 0
@@ -96,13 +96,7 @@ class MakingPublicRoomFragment : Fragment() {
                 isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewModel.setPersona(charId!!)
-                viewModel.setNickname(roomName)
-                viewModel.setMaxNum(numPeople!!)
-                viewModel.setHashtags(hashtags)
-                Log.d(TAG, "잘 되니? : $charId $roomName $numPeople $hashtags")
-                viewModel.createPublicRoom() // 방 정보 POST
-
+                viewModel.checkAndSubmitCreatePublicRoom() // 방 정보 POST
                 if (hashtags.size == 0) {
                     Toast.makeText(context, "방 해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
                 }
@@ -129,6 +123,7 @@ class MakingPublicRoomFragment : Fragment() {
                         hashtags.add(hashtagText)
                         updateHashtagChips()
                         etRoomHashtag.text?.clear()
+                        viewModel.setHashtags(hashtags)
                     } else if (hashtags.size >= 3) {
                         Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
                             .show()
@@ -170,6 +165,7 @@ class MakingPublicRoomFragment : Fragment() {
         tv.visibility = View.GONE
         hashtags.remove(tv.text)
         updateNextButtonState()
+        viewModel.setHashtags(hashtags)
     }
 
     private fun updateHashtagChips() {
@@ -198,11 +194,12 @@ class MakingPublicRoomFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
         }
         numPeople = value
+        viewModel.setMaxNum(numPeople!!)
         updateNextButtonState()
     }
 
     // 방 이름 유효한지 체크
-    private fun checkValidInfo() {
+    private fun checkValidRoomName() {
         with(binding) {
             // 방 글자수
             etRoomName.addTextChangedListener(object : TextWatcher {
@@ -215,8 +212,8 @@ class MakingPublicRoomFragment : Fragment() {
                         tvAlertName.text = "방이름은 최대 12글자만 가능해요!"
                     } else {
                         tvAlertName.visibility = View.GONE
-                        viewModel.setNickname(input)
                         roomName = etRoomName.text.toString()
+                        viewModel.setNickname(roomName)
                         updateNextButtonState()
                     }
                 }
@@ -239,7 +236,7 @@ class MakingPublicRoomFragment : Fragment() {
         }
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
-        viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
+        viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
             (activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
         }
 
