@@ -114,6 +114,7 @@ class MakingRoomViewModel @Inject constructor(
                         Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
                         _publicRoomCreationResult.value = response.body()!!
                         saveRoomCharacterId(response.body()!!.result.profileImage)
+                        saveRoomId(response.body()!!.result.roomId)
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
@@ -158,6 +159,7 @@ class MakingRoomViewModel @Inject constructor(
                         _privateRoomCreationResult.value = response.body()!!
                         saveRoomCharacterId(response.body()!!.result.persona)
                         saveInviteCode(response.body()!!.result.inviteCode)
+                        saveRoomId(response.body()!!.result.roomId)
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
@@ -196,8 +198,11 @@ class MakingRoomViewModel @Inject constructor(
                         Log.d(TAG, "방삭제 성공: ${response.body()!!.result}")
                         _roomDeletionResult.value = response.body()!!
                         // spf에 저장된 방 정보 삭제
-                        sharedPreferences.edit().remove("invite_code").apply()
-                        sharedPreferences.edit().remove("room_id").apply()
+                        sharedPreferences.edit().apply {
+                            remove("invite_code")
+                            remove("room_id")
+                            apply()
+                        }
                     } else {
                         Log.d(TAG, "초대코드 방 생성 api 응답 실패: ${response}")
                     }

@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -16,10 +17,16 @@ import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
+// 방삭제버튼 기능만 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: MakingRoomViewModel by viewModels()
+    private var roomId: Int? = 0
+    // 방 id는  Bundle을 통해 불러옵니다
+    companion object {
+        const val ARG_ROOM_ID = "room_id"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCozyRoomDetailInfoBinding.inflate(layoutInflater)
@@ -30,10 +37,17 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // 방 삭제하기
-        setDeleteRoom()
+        // 방 id 불러오기
+        roomId = intent.getIntExtra(ARG_ROOM_ID, -1)
+        if (roomId == -1) {
+            Log.e(TAG, "Invalid room ID received!")
+        } else {
+            Log.d(TAG, "Received room ID: $roomId")
+        }
+        // 방 삭제하기 (방 생성 완료했을 때 뜸!!) TODO: 상태 처리 필요함. 어케함..?
+        setDeleteRoom(roomId!!)
     }
-    fun setDeleteRoom() {
+    fun setDeleteRoom(roomId: Int) {
         with(binding) {
             ivBack.visibility = View.GONE
             fabRequestEnterRoom.visibility = View.GONE
@@ -41,7 +55,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             btnDeleteRoom.isEnabled = true
             btnDeleteRoom.setOnClickListener {
                 // 방 삭제 요청
-                viewModel.deleteRoom()
+                viewModel.deleteRoom(roomId)
             }
         }
         // 방 삭제 옵저빙

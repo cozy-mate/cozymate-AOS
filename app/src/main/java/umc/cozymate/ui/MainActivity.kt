@@ -27,7 +27,7 @@ import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
 
-// 메인화면 진입 시 방존재 여부, 선호항목을 불러옵니다.
+// 메인화면 진입 시 방존재 여부, 선호 항목을 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
         window.navigationBarColor = getResources().getColor(R.color.white)
         initScreen()
+        observeLoading()
 
         // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
         val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
@@ -97,6 +98,23 @@ class MainActivity : AppCompatActivity() {
         roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
         Log.d("MainActivity device ID", "$_deviceId")
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
+    }
+
+    private fun observeLoading() {
+        homeViewModel.isLoading.observe(this) { isLoading ->
+            try {
+                if (isLoading) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.main.visibility = View.GONE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                    binding.main.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                val errorDialog = ServerErrorPopUp.newInstance("", e.message ?: "")
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
+            }
+        }
     }
 
     fun observeRoomID() {

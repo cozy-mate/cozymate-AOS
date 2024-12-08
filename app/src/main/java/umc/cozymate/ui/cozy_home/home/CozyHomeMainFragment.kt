@@ -15,6 +15,7 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.message.MessageActivity
+import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.university_certification.UniversityViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
