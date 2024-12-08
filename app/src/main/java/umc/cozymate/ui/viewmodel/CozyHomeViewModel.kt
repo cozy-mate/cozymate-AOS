@@ -153,51 +153,53 @@ class CozyHomeViewModel @Inject constructor(
 
         Log.d(TAG, "방 아이디 : ${roomId}")
 
-        viewModelScope.launch {
-            try {
-                val response = repository.getRoomInfo(token!!, roomId)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        _roomName.value = response.body()?.result?.name
-                        _inviteCode.value = response.body()?.result?.inviteCode
-                        //_profileImage.value = response.body()!!.result.profileImage
-                        _mateList.value = response.body()?.result?.mateDetailList
-                        saveRoomInfo("mate_list", _mateList.value!!)
-                        saveRoomName()
+        if (roomId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = repository.getRoomInfo(token!!, roomId)
+                    if (response.isSuccessful) {
+                        if (response.body()?.isSuccess == true) {
+                            _roomName.value = response.body()?.result?.name
+                            _inviteCode.value = response.body()?.result?.inviteCode
+                            //_profileImage.value = response.body()!!.result.profileImage
+                            _mateList.value = response.body()?.result?.mateDetailList
+                            saveRoomInfo("mate_list", _mateList.value!!)
+                            saveRoomName()
 
-                        val roomInfoEntity = RoomInfoEntity(
-                            roomId = response.body()?.result!!.roomId,
-                            name = response.body()?.result!!.name,
-                            inviteCode = response.body()?.result!!.inviteCode,
-                            persona = response.body()?.result!!.persona,
-                            managerMemberId = response.body()?.result!!.managerMemberId,
-                            managerNickname = response.body()?.result!!.managerNickname,
-                            isRoomManager = response.body()?.result!!.isRoomManager,
-                            favoriteId = response.body()?.result!!.favoriteId,
-                            maxMateNum = response.body()?.result!!.maxMateNum,
-                            arrivalMateNum = response.body()?.result!!.arrivalMateNum,
-                            dormitoryName = response.body()?.result!!.dormitoryName,
-                            roomType = response.body()?.result!!.roomType,
-                            equality = response.body()?.result!!.equality,
-                            hashtagList = response.body()?.result!!.hashtagList,
-                            difference = response.body()?.result!!.difference
-                        )
-                        roomInfoDao.insertRoomInfo(roomInfoEntity)
-                        Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
+                            val roomInfoEntity = RoomInfoEntity(
+                                roomId = response.body()?.result!!.roomId,
+                                name = response.body()?.result!!.name,
+                                inviteCode = response.body()?.result!!.inviteCode,
+                                persona = response.body()?.result!!.persona,
+                                managerMemberId = response.body()?.result!!.managerMemberId,
+                                managerNickname = response.body()?.result!!.managerNickname,
+                                isRoomManager = response.body()?.result!!.isRoomManager,
+                                favoriteId = response.body()?.result!!.favoriteId,
+                                maxMateNum = response.body()?.result!!.maxMateNum,
+                                arrivalMateNum = response.body()?.result!!.arrivalMateNum,
+                                dormitoryName = response.body()?.result!!.dormitoryName,
+                                roomType = response.body()?.result!!.roomType,
+                                equality = response.body()?.result!!.equality,
+                                hashtagList = response.body()?.result!!.hashtagList,
+                                difference = response.body()?.result!!.difference
+                            )
+                            roomInfoDao.insertRoomInfo(roomInfoEntity)
+                            Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
+                        } else {
+                            Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
+                        }
                     } else {
-                        Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
+                        Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
                     }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                    }
-                    Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
+                } catch (e: Exception) {
+                    Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
             }
         }
     }

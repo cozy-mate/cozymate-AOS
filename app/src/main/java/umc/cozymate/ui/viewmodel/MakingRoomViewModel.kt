@@ -83,7 +83,7 @@ class MakingRoomViewModel @Inject constructor(
     }
 
     fun checkAndSubmit() {
-        if (persona.value != 0 && !nickname.value.isNullOrEmpty() && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
+        if (persona.value != 0 && nickname.value != null && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
             createPublicRoom()
         }
     }
@@ -91,7 +91,7 @@ class MakingRoomViewModel @Inject constructor(
         val token = getToken()
         Log.d(TAG, "방 생성 request 확인: ${nickname.value} ${persona.value} ${maxNum.value} ${hashtags.value}")
         _loading.value = true // 로딩 시작
-        if (token != null && persona.value != 0 && nickname.value != null) {
+        if (token != null && persona.value != 0 && nickname.value != null &&maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
             viewModelScope.launch {
                 try {
                     val roomRequest = CreatePublicRoomRequest(
