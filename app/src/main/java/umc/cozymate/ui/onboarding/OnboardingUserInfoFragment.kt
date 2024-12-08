@@ -115,32 +115,42 @@ class OnboardingUserInfoFragment : Fragment() {
 
     // 닉네임 유효성 체트
     private fun setupTextWatchers() {
-        val nicknamePattern = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,8}$".toRegex() // 2-8자의 한글,영어,숫자
+        val nicknamePattern = "^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{1,7}$".toRegex() // 2-8자의 한글,영어,숫자
         binding.etOnboardingNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
-                if (!nicknamePattern.matches(input)) {
-                    binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
-                    binding.tvAlertNickname.visibility = View.VISIBLE
-                    binding.tvAlertNickname.text = "닉네임은 2~8자인 한글, 영어, 숫자만 가능해요!"
-                    binding.tilOnboardingNickname.isErrorEnabled = true
-                    binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
-                } else {
-                    binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
-                    binding.tvAlertNickname.visibility = View.GONE
-                    binding.tilOnboardingNickname.isErrorEnabled = false
-                    binding.tilOnboardingNickname.boxStrokeColor =
-                        resources.getColor(R.color.sub_color1)
+                val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
+                when {
+                    containsSeparatedHangul -> {
+                        binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
+                        binding.tvAlertNickname.visibility = View.VISIBLE
+                        binding.tvAlertNickname.text = "닉네임은 분리된 한글(초성, 중성)이 포함되면 안됩니다!"
+                        binding.tilOnboardingNickname.isErrorEnabled = true
+                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                    }
+                    !nicknamePattern.matches(input) -> {
+                        binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
+                        binding.tvAlertNickname.visibility = View.VISIBLE
+                        binding.tvAlertNickname.text = "닉네임은 2~8자로, 한글 또는 영어로 시작해야 합니다!"
+                        binding.tilOnboardingNickname.isErrorEnabled = true
+                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                    }
+                    else -> {
+                        binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
+                        binding.tvAlertNickname.visibility = View.GONE
+                        binding.tilOnboardingNickname.isErrorEnabled = false
+                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.sub_color1)
 
-                    // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
-                    debounceJob?.cancel()
-                    debounceJob = viewModel.viewModelScope.launch {
-                        delay(500L) // 500ms 대기
-                        viewModel.setNickname(input)
-                        viewModel.nicknameCheck() // API 호출
-                        observeNicknameValid()
+                        // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                        debounceJob?.cancel()
+                        debounceJob = viewModel.viewModelScope.launch {
+                            delay(500L) // 500ms 대기
+                            viewModel.setNickname(input)
+                            viewModel.nicknameCheck() // API 호출
+                            observeNicknameValid()
+                        }
                     }
                 }
                 updateNextBtnState()
