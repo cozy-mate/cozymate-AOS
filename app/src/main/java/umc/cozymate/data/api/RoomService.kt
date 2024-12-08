@@ -30,7 +30,6 @@ interface RoomService {
     suspend fun deleteRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
-        @Query("memberId") memberId: Int? = null
     ): Response<DeleteRoomResponse>
 
     // 사용자 -> 방 참여 요청 취소
