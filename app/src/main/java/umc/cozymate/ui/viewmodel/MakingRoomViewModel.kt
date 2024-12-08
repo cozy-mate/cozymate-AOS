@@ -60,6 +60,26 @@ class MakingRoomViewModel @Inject constructor(
     fun setHashtags(hashtags: List<String>) {
         _hashtags.value = hashtags
     }
+    // 방이름 중복 검증
+    private val _isNameValid = MutableLiveData(true)
+    val isNameValid: LiveData<Boolean> get() = _isNameValid
+    fun roomNameCheck() {
+        val token = getToken()
+        Log.d(TAG, "방 이름 중복검증 request 확인: ${nickname.value}")
+        if (token != null && nickname.value != null && nickname.value != "") {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.checkRoomName(token, nickname.value!!)
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 이름 중복검증 성공: ${response.body()!!.result}")
+                        _isNameValid.value = response.body()!!.result
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "공개 방 생성 api 요청 실패: ${e}")
+                }
+            }
+        }
+    }
     // 공개방생성
     private val _publicRoomCreationResult = MutableLiveData<CreatePublicRoomResponse>()
     val publicRoomCreationResult: MutableLiveData<CreatePublicRoomResponse> get() = _publicRoomCreationResult

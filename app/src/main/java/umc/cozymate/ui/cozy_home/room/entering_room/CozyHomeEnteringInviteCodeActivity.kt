@@ -12,7 +12,6 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeEnteringInviteCodeBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeEnteringFragment
-import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeWaitingFragment
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 
 // 플로우3 : 초대코드 입력창(1) > 룸메이트 대기창(2) > 코지홈 입장창(3) > 코지홈 활성화창
@@ -43,13 +42,13 @@ class CozyHomeEnteringInviteCodeActivity : AppCompatActivity() {
         }
     }
 
-    // 두번째 [룸메이트 대기창] 로드
+    /*// 두번째 [룸메이트 대기창] 로드
     fun loadFragment2() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main, CozyHomeWaitingFragment())
             .addToBackStack(null)
             .commit()
-    }
+    }*/
 
     // 세번째 [코지홈 입장창] 로드
     fun loadFragment3() {

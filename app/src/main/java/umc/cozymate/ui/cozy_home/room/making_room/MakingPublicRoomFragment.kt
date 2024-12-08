@@ -17,7 +17,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
@@ -33,6 +37,7 @@ class MakingPublicRoomFragment : Fragment() {
     private var numPeople: Int? = 0
     private var charId: Int? = 0 // 0은 선택 안 되었다는 의미
     private val hashtags = mutableListOf<String>()
+    private var debounceJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -214,6 +219,15 @@ class MakingPublicRoomFragment : Fragment() {
                         tvAlertName.visibility = View.GONE
                         roomName = etRoomName.text.toString()
                         viewModel.setNickname(roomName)
+                        // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                        debounceJob?.cancel()
+                        debounceJob = viewModel.viewModelScope.launch {
+                            delay(500L) // 500ms 대기
+                            viewModel.setNickname(input)
+                            viewModel.roomNameCheck() // API 호출
+                            observeRoomNameValid()
+                        }
+                        // 다음 버튼 상태 확인
                         updateNextButtonState()
                     }
                 }
@@ -222,6 +236,24 @@ class MakingPublicRoomFragment : Fragment() {
             })
 
             // 해시태그 중복
+        }
+    }
+
+    // 방이름 중복체크 옵저빙
+    fun observeRoomNameValid() {
+        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+            with(binding) {
+                if (!isValid) {
+                    tvAlertName.visibility = View.VISIBLE
+                    tvAlertName.text = "이미 사용중인 방이름이에요!"
+                    tilRoomName.isErrorEnabled = true
+                } else {
+                    tvAlertName.visibility = View.GONE
+                    roomName = etRoomName.text.toString()
+                    tilRoomName.isErrorEnabled = false
+                    viewModel.setNickname(roomName)
+                }
+            }
         }
     }
 

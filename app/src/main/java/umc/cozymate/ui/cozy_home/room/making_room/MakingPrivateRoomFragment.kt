@@ -14,7 +14,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPrivateRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
@@ -30,6 +34,7 @@ class MakingPrivateRoomFragment : Fragment() {
     private var numPeople: Int = 0
     private var charId: Int? = 1
     private var roomName: String = ""
+    private var debounceJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,25 +108,56 @@ class MakingPrivateRoomFragment : Fragment() {
         with(binding) {
             // 방 글자수
             etRoomName.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val input = s.toString()
                     if (input.length > 12) {
                         tvAlertName.visibility = View.VISIBLE
                         tvAlertName.text = "방이름은 최대 12글자만 가능해요!"
+                        tilRoomName.isErrorEnabled = true
                     } else {
                         tvAlertName.visibility = View.GONE
                         roomName = etRoomName.text.toString()
+                        tilRoomName.isErrorEnabled = false
                         viewModel.setNickname(roomName)
+                        // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                        debounceJob?.cancel()
+                        debounceJob = viewModel.viewModelScope.launch {
+                            delay(500L) // 500ms 대기
+                            viewModel.setNickname(input)
+                            viewModel.roomNameCheck() // API 호출
+                            observeRoomNameValid()
+                        }
+                        // 다음 버튼 상태 확인
                         updateNextButtonState()
                     }
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
             })
+        }
+    }
 
-            // 방 이름 중복체크
+    // 방이름 중복체크 옵저빙
+    fun observeRoomNameValid() {
+        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+            with(binding) {
+                if (!isValid) {
+                    tvAlertName.visibility = View.VISIBLE
+                    tvAlertName.text = "이미 사용중인 방이름이에요!"
+                } else {
+                    tvAlertName.visibility = View.GONE
+                    roomName = etRoomName.text.toString()
+                    viewModel.setNickname(roomName)
+                }
+            }
         }
     }
 
@@ -129,7 +165,8 @@ class MakingPrivateRoomFragment : Fragment() {
     private fun numPeopleSelected(view: View, value: Int) {
         numPeopleOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
         numPeopleOption = view as TextView
         numPeopleOption?.apply {
@@ -170,7 +207,7 @@ class MakingPrivateRoomFragment : Fragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             // 결과가 정상적으로 반환되었는지 확인
-            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
+            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 0) ?: 0
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
             CharacterUtil.setImg(charId, binding.ivCharacter)
