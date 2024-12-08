@@ -12,7 +12,6 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentPublishPrivateRoomCodeBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 플로우2 : 방정보 입력창(1) > "초대코드 발급창(2)" > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
 @AndroidEntryPoint
 class GivingInviteCodeFragment : Fragment() {
 
