@@ -27,7 +27,7 @@ import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
 
-// 메인화면 진입 시 방존재 여부, 선호 항목을 불러옵니다.
+// 메인화면 진입 시 방존재 여부를 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -41,35 +41,24 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
         initScreen()
         observeLoading()
-
-        // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
-        val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
-        if (showCozyDefault) {
-            isRoomExist = false
-        }
-
+        observeRoomID()
         homeViewModel.getRoomId()
-        homeViewModel.fetchMyPreference()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
         }
-
         if (savedInstanceState == null) {
             val navigateTo = intent.getStringExtra("navigate_to")
             Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
-
             when (navigateTo) {
                 "RoommateOnboarding" -> {
                     // RoommateOnboardingFragment로 이동
                     switchToRoommateOnboardingFragment()
                 }
-
                 "RoommateMakeCrewable" -> {
                     // RoommateMakeCrewableFragment로 이동
                     switchToRoommateMakeCrewableFragment()
                 }
-
                 else -> {
                     // 기본 홈 화면 설정
                     binding.bottomNavigationView.selectedItemId = R.id.fragment_home
@@ -94,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
 
+    // 로딩중 옵저빙
     private fun observeLoading() {
         homeViewModel.isLoading.observe(this) { isLoading ->
             try {
@@ -111,22 +101,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 참여한 방이 있는지를 확인
     fun observeRoomID() {
-        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
         binding.progressBar.visibility = View.VISIBLE
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
-                //loadDefaultFragment()
                 binding.progressBar.visibility = View.GONE
             } else {
                 isRoomExist = true
-                //loadActiveFragment()
                 binding.progressBar.visibility = View.GONE
             }
         }
     }
 
+    // 스크린 설정
     private fun initScreen() {
         this.setStatusBarTransparent()
         window.decorView.systemUiVisibility = (
@@ -158,7 +147,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
-                    observeRoomID()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, CozyHomeMainFragment()).commit()
                     true
@@ -194,7 +182,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeError() {
-
         homeViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
                 val errorDialog =

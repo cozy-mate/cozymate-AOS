@@ -15,7 +15,6 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.message.MessageActivity
-import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.university_certification.UniversityViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -68,6 +67,7 @@ class CozyHomeMainFragment : Fragment() {
         }
     }
 
+    // 사용자의 방없음/방장/초대요청보냄/방참여 상태에 따른 컴포넌트 띄우기
     private fun initView() {
         with(binding) {
             when (state) {
@@ -105,10 +105,12 @@ class CozyHomeMainFragment : Fragment() {
                 val popup: DialogFragment = MakingRoomDialogFragment()
                 popup.show(childFragmentManager, "팝업")
             }
+            // 학교 버튼
             btnSchoolCertificate.setOnClickListener {
                 startActivity(Intent(activity, UniversityCertificationActivity::class.java))
             }
-            if (state == UserRoomState.NO_ROOM || state == UserRoomState.REQUEST_SENT) {
+            // 방장/방참여 사용자는 버튼 비활성화
+            if (state == UserRoomState.HAS_ROOM|| state == UserRoomState.CREATED_ROOM) {
                 btnMakeRoom.isEnabled = false
                 btnEnterRoom.isEnabled = false
                 btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))

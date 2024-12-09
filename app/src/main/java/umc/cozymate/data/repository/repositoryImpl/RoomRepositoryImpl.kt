@@ -4,6 +4,8 @@ import retrofit2.Response
 import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
@@ -13,6 +15,8 @@ import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
+import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
 
@@ -81,6 +85,32 @@ class RoomRepositoryImpl @Inject constructor(
         roomInfo: CreatePublicRoomRequest
     ): Response<CreatePublicRoomResponse> {
         return api.createPublicRoom(accessToken, roomInfo)
+    }
+
+    override suspend fun updateRoomInfo(
+        accessToken: String,
+        roomId: Int,
+        roomInfoRequest: UpdateRoomInfoRequest
+    ): Response<UpdateRoomInfoResponse> {
+        return api.updateRoomInfo(accessToken, roomId, roomInfoRequest)
+    }
+
+    override suspend fun changeToPublicRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<ChangeRoomStatusResult> {
+        return api.changeToPublicRoom(accessToken, roomId)
+    }
+
+    override suspend fun changeToPrivateRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<ChangeRoomStatusResult> {
+        return api.changeToPrivateRoom(accessToken, roomId)
+    }
+
+    override suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse> {
+        return api.quitRoom(accessToken, roomId)
     }
 
 }

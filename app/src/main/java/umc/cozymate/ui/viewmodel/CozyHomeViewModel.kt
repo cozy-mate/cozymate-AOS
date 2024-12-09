@@ -94,12 +94,11 @@ class CozyHomeViewModel @Inject constructor(
         return sharedPreferences.getInt("room_id", 0) // 0은 기본값으로, 저장된 값이 없으면 0이 반환됨
     }
 
-    fun fetchRoomIdIfNeeded() {
-        Log.d(TAG, "spf 방 아이디 : ${_roomId.value}")
-
+    fun fetchRoomIdIfNeeded(): Int? {
         if (_roomId.value == null) {
             getRoomId()
         }
+        return roomId.value
     }
 
     // 방 아이디 조회

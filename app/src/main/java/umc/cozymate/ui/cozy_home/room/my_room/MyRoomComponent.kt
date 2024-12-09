@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.my_room
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentMyRoomComponentBinding
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -17,6 +19,7 @@ class MyRoomComponent : Fragment() {
     private var _binding: FragmentMyRoomComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
+    private var roomId: Int? = 0
     companion object {
         fun newInstance() = MyRoomComponent()
     }
@@ -27,17 +30,31 @@ class MyRoomComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyRoomComponentBinding.inflate(inflater, Main, false)
-        viewModel.fetchRoomIdIfNeeded()
-        initData()
+        roomId = viewModel.fetchRoomIdIfNeeded()
+        initMyRoomData()
+        setListener()
         return binding.root
     }
 
-    private fun initData() {
-        viewModel.fetchRoomIdIfNeeded()
-        val roomId = viewModel.getSavedRoomId()
+    private fun setListener() {
+        with(binding) {
+            clMyRoom.isEnabled = true
+            clMyRoom.setOnClickListener {
+                // roomId 값을 넘겨주면서 방 상세 화면으로 이동
+                val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
+                intent.putExtra("room_id", roomId)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun initMyRoomData() {
+        if (roomId == null || roomId == 0) {
+            roomId = viewModel.getSavedRoomId()
+        }
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val nickname =  spf.getString("user_nickname", "No user found").toString()
-        viewModel.getRoomInfoById(roomId).observe(viewLifecycleOwner, Observer { roomInfo ->
+        val nickname =  spf.getString("user_nickname", "").toString()
+        viewModel.getRoomInfoById(roomId!!).observe(viewLifecycleOwner, Observer { roomInfo ->
             with(binding) {
                 tvMyNickname.text = nickname + "님이"
                 tvRoomName.text = roomInfo?.name

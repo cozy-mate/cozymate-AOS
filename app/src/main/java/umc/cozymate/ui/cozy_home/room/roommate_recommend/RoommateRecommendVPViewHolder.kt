@@ -74,7 +74,7 @@ class RoommateRecommendVPViewHolder(
             }
 
             // 선호항목 4번
-            val pref4 = Preference.entries.find { it.pref == item.preferenceStats[0].stat }
+            val pref4 = Preference.entries.find { it.pref == item.preferenceStats[3].stat }
             if (pref4 != null) {
                 tvCriteria4.text = pref4.displayName
                 tvCriteriaContent4.text = formatAnswer(pref4.pref, item.preferenceStats[3].value.toString())

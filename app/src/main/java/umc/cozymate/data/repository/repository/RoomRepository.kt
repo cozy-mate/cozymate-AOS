@@ -3,6 +3,8 @@ package umc.cozymate.data.repository.repository
 import retrofit2.Response
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
@@ -12,6 +14,8 @@ import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
+import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 
 interface RoomRepository {
 
@@ -33,5 +37,12 @@ interface RoomRepository {
 
     suspend fun createPublicRoom(accessToken: String, roomInfo: CreatePublicRoomRequest): Response<CreatePublicRoomResponse>
 
+    suspend fun updateRoomInfo(accessToken: String, roomId: Int, roomInfoRequest: UpdateRoomInfoRequest): Response<UpdateRoomInfoResponse>
+
+    suspend fun changeToPublicRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
+
+    suspend fun changeToPrivateRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
+
+    suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
 }
 

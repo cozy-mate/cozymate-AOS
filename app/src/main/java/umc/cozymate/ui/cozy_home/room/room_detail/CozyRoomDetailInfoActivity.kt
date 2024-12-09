@@ -17,13 +17,13 @@ import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 방삭제버튼 기능만 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
+// 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: MakingRoomViewModel by viewModels()
     private var roomId: Int? = 0
-    // 방 id는  Bundle을 통해 불러옵니다
+    // 방 id는  Intent를 통해 불러옵니다
     companion object {
         const val ARG_ROOM_ID = "room_id"
     }
@@ -45,7 +45,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             Log.d(TAG, "Received room ID: $roomId")
         }
         // 방 삭제하기 (방 생성 완료했을 때 뜸!!) TODO: 상태 처리 필요함. 어케함..?
-        setDeleteRoom(roomId!!)
+        //setDeleteRoom(roomId!!)
     }
     fun setDeleteRoom(roomId: Int) {
         with(binding) {

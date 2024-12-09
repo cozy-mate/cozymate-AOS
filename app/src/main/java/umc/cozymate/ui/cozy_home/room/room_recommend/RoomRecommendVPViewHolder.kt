@@ -45,7 +45,7 @@ class RoomRecommendVPViewHolder(
             }
 
             // 선호항목 1
-            val pref1 = Preference.entries.find { it.pref == myPrefList[0] }
+            val pref1 = Preference.entries.find { it.pref == item.equalMemberStatNum.entries.toList()[0].key }
             if (pref1 != null) {
                 tvCriteria1.text = pref1.displayName
                 when (item.equalMemberStatNum[pref1.pref]) {
