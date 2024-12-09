@@ -67,7 +67,7 @@ class MakingRoomViewModel @Inject constructor(
     }
     // spf에 방 캐릭터 저장
     fun saveRoomCharacterId(id: Int) {
-        sharedPreferences.edit().putInt("my_room_persona", id).commit()
+        sharedPreferences.edit().putInt("room_persona", id).commit()
     }
     // spf에 초대코드 저장
     fun saveInviteCode(inviteCode: String) {

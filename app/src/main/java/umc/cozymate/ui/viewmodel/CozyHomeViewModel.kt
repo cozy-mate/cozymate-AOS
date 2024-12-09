@@ -102,17 +102,6 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-    init {
-        // 방 ID를 SharedPreferences에서 가져와서 설정
-        val savedRoomId = getSavedRoomId()
-        if (savedRoomId != 0) {
-            _roomId.value = savedRoomId
-        } else {
-            // 방 ID가 없으면 새로 가져오기
-            getRoomId()
-        }
-    }
-
     // 방 아이디 조회
     fun getRoomId() {
         // 이미 api 호출한 적이 있으면 api 호출하지 않기

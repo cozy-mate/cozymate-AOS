@@ -30,21 +30,15 @@ import java.util.UUID
 // 메인화면 진입 시 방존재 여부, 선호 항목을 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityMainBinding
-
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
-
     var isRoomExist = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigationView()
-        window.navigationBarColor = getResources().getColor(R.color.white)
         initScreen()
         observeLoading()
 
@@ -139,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
-        window.setNavigationBarColor(android.graphics.Color.WHITE)
+        window.navigationBarColor = android.graphics.Color.WHITE
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
