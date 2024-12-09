@@ -105,8 +105,11 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     // 방 아이디 조회
+    private var hasCalledApi = false
     fun getRoomId() {
         // 이미 api 호출한 적이 있으면 api 호출하지 않기
+        if (hasCalledApi) return
+        hasCalledApi = true
         if (_roomId.value != null) return
         _isLoading.value = true // 로딩 시작
         val token = getToken()
@@ -135,6 +138,9 @@ class CozyHomeViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "방존재여부 조회 api 요청 실패: ${e}")
+            } finally {
+                _isLoading.value= false
+                hasCalledApi = false
             }
         }
     }

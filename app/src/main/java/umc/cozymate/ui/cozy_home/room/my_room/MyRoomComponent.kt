@@ -60,6 +60,12 @@ class MyRoomComponent : Fragment() {
                 tvEquality.text = roomInfo?.equality.toString() + "%"
 
                 when (roomInfo?.hashtagList?.size) {
+                    null -> {
+                        tvHashtag1.visibility = View.GONE
+                        tvHashtag2.visibility = View.GONE
+                        tvHashtag3.visibility = View.GONE
+                    }
+
                     0 -> {
                         tvHashtag1.visibility = View.GONE
                         tvHashtag2.visibility = View.GONE

@@ -25,8 +25,6 @@ class RoomRecommendComponent : Fragment() {
             }
             fragment.startActivity(intent)
         }
-
-        // private const val EXTRA_DATA = "EXTRA_DATA"
     }
 
     private val TAG = this.javaClass.simpleName

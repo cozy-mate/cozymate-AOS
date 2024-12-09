@@ -21,7 +21,6 @@ class RoommateRecommendComponent : Fragment() {
     private val viewModel: RoommateRecommendViewModel by viewModels()
     private var nickname: String = ""
     private var prefList: List<String> = mutableListOf()
-    private var isLifestyleExist: Boolean = false
     companion object {
         fun newInstance() = RoommateRecommendComponent
     }
