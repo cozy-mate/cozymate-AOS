@@ -1,6 +1,5 @@
 package umc.cozymate.ui.cozy_home.room.my_room
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -52,8 +51,7 @@ class MyRoomComponent : Fragment() {
         if (roomId == null || roomId == 0) {
             roomId = viewModel.getSavedRoomId()
         }
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val nickname =  spf.getString("user_nickname", "").toString()
+        val nickname = viewModel.getNickname().toString()
         viewModel.getRoomInfoById(roomId!!).observe(viewLifecycleOwner, Observer { roomInfo ->
             with(binding) {
                 tvMyNickname.text = nickname + "님이"

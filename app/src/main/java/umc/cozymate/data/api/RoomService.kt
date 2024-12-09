@@ -112,7 +112,7 @@ interface RoomService {
     ) : Response<ChangeRoomStatusResult>
 
     // 방 나가기
-    @PATCH("/rooms/{roomId|/quit")
+    @PATCH("/rooms/{roomId}/quit")
     suspend fun quitRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int

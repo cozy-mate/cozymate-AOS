@@ -56,6 +56,9 @@ class CozyHomeViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+    fun getNickname(): String? {
+        return sharedPreferences.getString("user_nickname", "")
+    }
     fun setRoomId(roomId: Int) {
         _roomId.value = roomId
     }
@@ -228,6 +231,7 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
+    // 로컬db에 저장된 방정보 불러오기
     fun getRoomInfoById(roomId: Int): LiveData<RoomInfoEntity?> {
         val roomInfo = MutableLiveData<RoomInfoEntity?>()
         viewModelScope.launch {
