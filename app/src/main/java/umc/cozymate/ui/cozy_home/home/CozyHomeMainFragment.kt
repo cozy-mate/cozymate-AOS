@@ -63,6 +63,11 @@ class CozyHomeMainFragment : Fragment() {
             // 전달된 값을 기반으로 UI 업데이트
             if (!isRoomExist) {
                 initState()
+            } else if (isRoomExist == true) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.getRoomId()
+                    initState()
+                }
             }
         }
     }

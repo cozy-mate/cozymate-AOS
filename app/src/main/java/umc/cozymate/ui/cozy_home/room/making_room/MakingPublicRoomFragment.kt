@@ -270,7 +270,8 @@ class MakingPublicRoomFragment : Fragment() {
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            (activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
+            //(activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
+            (activity as? MakingPublicRoomActivity)?.loadMainActivity()
         }
 
         // 팝업을 띄워서 에러 응답 처리

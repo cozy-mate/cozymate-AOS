@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import umc.cozymate.data.domain.SortType
@@ -58,6 +56,7 @@ class CozyHomeViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+
     fun getSavedRoomId(): Int {
         return sharedPreferences.getInt("room_id", -1) // 0은 기본 값으로, 저장된 값이 없으면 0이 반환됨
     }
@@ -94,21 +93,24 @@ class CozyHomeViewModel @Inject constructor(
         //Log.d(TAG, "spf 선호도 정보 : $pref_1")
     }
 
+    private var hasCalledApi = false
     suspend fun fetchRoomIdIfNeeded(): Int {
-        if (getSavedRoomId() == 0 || getSavedRoomId() == -1) {
+        val roomId = getSavedRoomId()
+        if (roomId == 0 || roomId == -1) {
+            hasCalledApi = false
             getRoomId()
         }
+        Log.d(TAG, "fetchRoomIdIfNeeded 방 아이디 : ${getSavedRoomId()}")
         return getSavedRoomId()
     }
 
 
     // 방 아이디 조회
-    private var hasCalledApi = false
     private val mutex = Mutex()
     suspend fun getRoomId() {
         // 이미 api 호출한 적이 있으면 api 호출하지 않기
         if (hasCalledApi) return
-        if (getSavedRoomId() != 0 ) return
+        if (getSavedRoomId() != 0) return
         if (_roomId.value != null) return
         mutex.withLock {
             if (hasCalledApi) return // 중복 호출 방지
@@ -122,7 +124,8 @@ class CozyHomeViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "방존재여부 조회 성공: ${response.body()!!.result}")
                     _roomId.value = response.body()!!.result?.roomId
-                    sharedPreferences.edit().putInt("room_id", _roomId.value ?: -1).commit()
+                    sharedPreferences.edit()
+                        .putInt("room_id", response.body()!!.result?.roomId ?: -1).commit()
                     if (response.body()!!.result?.roomId != 0) {
                         _roomId.value?.let { fetchRoomInfo() }
                     } else {
@@ -143,7 +146,6 @@ class CozyHomeViewModel @Inject constructor(
         } finally {
             _isLoading.value = false
         }
-
     }
 
     // 방 정보 조회(방 있을 때)
@@ -239,10 +241,14 @@ class CozyHomeViewModel @Inject constructor(
     // 로컬db에 저장된 방정보 불러오기
     suspend fun getRoomInfoById(): LiveData<RoomInfoEntity?> {
         val roomId = getSavedRoomId()
+        Log.d(TAG, "getRoomInfoById 방 아이디: $roomId")
         val roomInfo = MutableLiveData<RoomInfoEntity?>()
-        viewModelScope.launch {
+        roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+        if (roomInfo.value == null) {
+            fetchRoomInfo()
             roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
         }
+        Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
         return roomInfo
     }
 

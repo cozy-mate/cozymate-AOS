@@ -10,6 +10,8 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.cozymate.data.local.RoomInfoDao
+import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.response.ErrorResponse
@@ -23,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MakingRoomViewModel @Inject constructor(
     private val roomRepository: RoomRepository,
+    private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -228,6 +231,8 @@ class MakingRoomViewModel @Inject constructor(
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "방나가기 성공: ${response.body()!!.result}")
                         _roomQuitResult.value = response.body()!!
+                        // db 방 삭제
+                        deleteRoom(roomId)
                         // spf에 저장된 방 정보 삭제
                         sharedPreferences.edit().apply {
                             remove("invite_code")
@@ -245,6 +250,20 @@ class MakingRoomViewModel @Inject constructor(
                 }
             }
         }
+    }
+    // 로컬db 방 삭제
+    suspend fun deleteRoom(roomId: Int): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
+        val roomInfo = MutableLiveData<RoomInfoEntity?>()
+        viewModelScope.launch {
+            try {
+                roomInfoDao.deleteRoomInfo(roomId)
+                result.postValue(true)
+            } catch (e: Exception) {
+                result.postValue(false)
+            }
+        }
+        return result
     }
     // 에러 처리
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
