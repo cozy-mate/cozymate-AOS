@@ -121,7 +121,7 @@ class MyPageFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", -1)
         if (roomId != 0 && roomId != -1) roomFlag = true
-        persona = spf.getInt("uesr_persona", 0)
+        persona = spf.getInt("user_persona", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
         roomname = spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
     }

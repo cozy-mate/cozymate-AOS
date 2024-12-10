@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -42,7 +44,9 @@ class RoomRecommendComponent : Fragment() {
 
         getPreference()
         binding.tvName.text = "${nickname}님과"
-        viewModel.fetchRecommendedRoomList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchRecommendedRoomList()
+        }
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             val dotsIndicator = binding.dotsIndicator
             val viewPager = binding.vpRoom

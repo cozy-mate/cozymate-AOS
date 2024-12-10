@@ -25,50 +25,57 @@ class UniversityViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+    fun getSavedUniversity(): String? {
+        return sharedPreferences.getString("university_name", null)
+    }
+    suspend fun fetchMyUniversityIfNeeded(): String? {
+        if (getSavedUniversity() == null) {
+            fetchMyUniversity()
+        }
+        return getSavedUniversity()
+    }
 
     // 대학교 메일 인증 여부
     private val _isVerified = MutableLiveData(false)
     val isVerified: LiveData<Boolean> get() = _isVerified
-    fun isMailVerified() {
+    suspend fun isMailVerified() {
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = memberRepo.getMailVerify(token!!)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
-                        if (response.body()!!.result == "") {
-                            _isVerified.value = false
-                            _university.value = "학교 인증을 해주세요"
-                        } else _isVerified.value = true
-                    }
+        try {
+            val response = memberRepo.getMailVerify(token!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
+                    if (response.body()!!.result == "") {
+                        _isVerified.value = false
+                        _university.value = "학교 인증을 해주세요"
+                    } else _isVerified.value = true
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "학교 메일 인증 여부 조회 api 요청 실패: $e")
-                _university.value = "학교 인증을 해주세요"
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "학교 메일 인증 여부 조회 api 요청 실패: $e")
+            _university.value = "학교 인증을 해주세요"
         }
+
     }
 
     // 대학교 이름 조회 (인증 완료되었을 때)
     private val _university = MutableLiveData<String>()
     val university: LiveData<String> get() = _university
-    fun fetchMyUniversity() {
+    suspend fun fetchMyUniversity() {
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = memberRepo.myUniversity(token!!)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
-                        _university.value = response.body()!!.result.name
-                    }
+        try {
+            val response = memberRepo.myUniversity(token!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
+                    _university.value = response.body()!!.result.name
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "사용자 대학교 조회 api 요청 실패: $e")
-                _university.value = "학교 인증을 해주세요"
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "사용자 대학교 조회 api 요청 실패: $e")
+            _university.value = "학교 인증을 해주세요"
         }
+
     }
 
     // 대학교 정보 조회
@@ -78,23 +85,24 @@ class UniversityViewModel @Inject constructor(
     val universityId: LiveData<Int> get() = _universityId
     private val _major = MutableLiveData<String>()
     val major: LiveData<String> get() = _major
-    fun fetchUniversityInfo() {
+    suspend fun fetchUniversityInfo() {
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = memberRepo.getUniversityInfo(token!!, id = universityId.value ?: 0)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
-                        _universityInfo.value = response.body()!!.result
-                    }
+        try {
+            val response = memberRepo.getUniversityInfo(token!!, id = universityId.value ?: 0)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
+                    sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
+                    _universityInfo.value = response.body()!!.result
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "대학교 정보 조회 api 요청 실패: $e")
-                _university.value = "학교 인증을 해주세요"
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "대학교 정보 조회 api 요청 실패: $e")
+            _university.value = "학교 인증을 해주세요"
         }
+
     }
+
     fun setUniversityId(university: String) {
         when (university) {
             "인하대학교" -> {
@@ -114,6 +122,7 @@ class UniversityViewModel @Inject constructor(
             }
         }
     }
+
     fun setMajor(majorName: String) {
         _major.value = majorName
     }

@@ -10,6 +10,8 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.local.RoomInfoEntity
@@ -56,20 +58,19 @@ class CozyHomeViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+    fun getSavedRoomId(): Int {
+        return sharedPreferences.getInt("room_id", -1) // 0은 기본 값으로, 저장된 값이 없으면 0이 반환됨
+    }
+
     fun getNickname(): String? {
         return sharedPreferences.getString("user_nickname", "")
     }
-    fun setRoomId(roomId: Int) {
-        _roomId.value = roomId
-    }
-    fun saveRoomId() {
-        Log.d(TAG, "spf 방 아이디 : ${_roomId.value}")
-        sharedPreferences.edit().putInt("room_id", _roomId.value ?: 0).apply()
-    }
+
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
     }
+
     fun saveRoomName() {
         Log.d(TAG, "spf 방 이름 : ${_roomName.value}")
         sharedPreferences.edit().putString("room_name", _roomName.value).apply()
@@ -93,152 +94,151 @@ class CozyHomeViewModel @Inject constructor(
         //Log.d(TAG, "spf 선호도 정보 : $pref_1")
     }
 
-    fun getSavedRoomId(): Int {
-        return sharedPreferences.getInt("room_id", 0) // 0은 기본값으로, 저장된 값이 없으면 0이 반환됨
-    }
-
-    fun fetchRoomIdIfNeeded(): Int? {
-        if (_roomId.value == null) {
+    suspend fun fetchRoomIdIfNeeded(): Int {
+        if (getSavedRoomId() == 0 || getSavedRoomId() == -1) {
             getRoomId()
         }
-        return roomId.value
+        return getSavedRoomId()
     }
+
 
     // 방 아이디 조회
     private var hasCalledApi = false
-    fun getRoomId() {
+    private val mutex = Mutex()
+    suspend fun getRoomId() {
         // 이미 api 호출한 적이 있으면 api 호출하지 않기
         if (hasCalledApi) return
-        hasCalledApi = true
+        if (getSavedRoomId() != 0 ) return
         if (_roomId.value != null) return
+        mutex.withLock {
+            if (hasCalledApi) return // 중복 호출 방지
+            hasCalledApi = true
+        }
         _isLoading.value = true // 로딩 시작
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = repository.isRoomExist(accessToken = token!!)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "방존재여부 조회 성공: ${response.body()!!.result}")
-                        _roomId.value = response.body()!!.result?.roomId
-                        saveRoomId()
-                        if (response.body()!!.result?.roomId != 0) {
-                            _roomId.value?.let { fetchRoomInfo() }
-                        }
-                        else {
-                            _isLoading.value = false
-                        }
-                    } else Log.d(TAG, "방존재여부 조회 에러 메시지: ${response}")
-                } else {
-                    _roomId.value = 0 // api 응답 실패하면 방 없는 걸로 간주
-                    _isLoading.value = false
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
-                    else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                    Log.d(TAG, "방존재여부 api 응답 실패: ${errorBody}")
-                }
-            } catch (e: Exception) {
-                Log.d(TAG, "방존재여부 조회 api 요청 실패: ${e}")
-            } finally {
-                _isLoading.value= false
-                hasCalledApi = false
+        try {
+            val response = repository.isRoomExist(accessToken = token!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "방존재여부 조회 성공: ${response.body()!!.result}")
+                    _roomId.value = response.body()!!.result?.roomId
+                    sharedPreferences.edit().putInt("room_id", _roomId.value ?: -1).commit()
+                    if (response.body()!!.result?.roomId != 0) {
+                        _roomId.value?.let { fetchRoomInfo() }
+                    } else {
+                        _isLoading.value = false
+                    }
+                } else Log.d(TAG, "방존재여부 조회 에러 메시지: ${response}")
+            } else {
+                _roomId.value = 0 // api 응답 실패하면 방 없는 걸로 간주
+                sharedPreferences.edit().putInt("room_id", _roomId.value ?: -1).commit()
+                _isLoading.value = false
+                val errorBody = response.errorBody()?.string()
+                if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
+                else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                Log.d(TAG, "방존재여부 api 응답 실패: ${errorBody}")
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "방존재여부 조회 api 요청 실패: ${e}")
+        } finally {
+            _isLoading.value = false
         }
+
     }
 
     // 방 정보 조회(방 있을 때)
-    fun fetchRoomInfo() {
+    suspend fun fetchRoomInfo() {
         val token = getToken()
         val roomId = getSavedRoomId()
-        Log.d(TAG, "방 아이디 : ${roomId}")
+        Log.d(TAG, "방 정보 조회 방 아이디 : ${roomId}")
         if (roomId != 0) {
-            viewModelScope.launch {
-                try {
-                    val response = repository.getRoomInfo(token!!, roomId)
-                    if (response.isSuccessful) {
-                        if (response.body()?.isSuccess == true) {
-                            _roomName.value = response.body()?.result?.name
-                            _inviteCode.value = response.body()?.result?.inviteCode
-                            //_profileImage.value = response.body()!!.result.profileImage
-                            _mateList.value = response.body()?.result?.mateDetailList
-                            saveRoomInfo("mate_list", _mateList.value!!)
-                            saveRoomName()
-                            saveRoomPersona(response.body()?.result!!.persona)
+            try {
+                val response = repository.getRoomInfo(token!!, roomId)
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
+                        _roomName.value = response.body()?.result?.name
+                        _inviteCode.value = response.body()?.result?.inviteCode
+                        //_profileImage.value = response.body()!!.result.profileImage
+                        _mateList.value = response.body()?.result?.mateDetailList
+                        saveRoomInfo("mate_list", _mateList.value!!)
+                        saveRoomName()
+                        saveRoomPersona(response.body()?.result!!.persona)
 
-                            val roomInfoEntity = RoomInfoEntity(
-                                roomId = response.body()?.result!!.roomId,
-                                name = response.body()?.result!!.name,
-                                inviteCode = response.body()?.result!!.inviteCode,
-                                persona = response.body()?.result!!.persona,
-                                managerMemberId = response.body()?.result!!.managerMemberId,
-                                managerNickname = response.body()?.result!!.managerNickname,
-                                isRoomManager = response.body()?.result!!.isRoomManager,
-                                favoriteId = response.body()?.result!!.favoriteId,
-                                maxMateNum = response.body()?.result!!.maxMateNum,
-                                arrivalMateNum = response.body()?.result!!.arrivalMateNum,
-                                dormitoryName = response.body()?.result!!.dormitoryName,
-                                roomType = response.body()?.result!!.roomType,
-                                equality = response.body()?.result!!.equality,
-                                hashtagList = response.body()?.result!!.hashtagList,
-                                difference = response.body()?.result!!.difference
-                            )
-                            roomInfoDao.insertRoomInfo(roomInfoEntity)
-                            Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
-                        } else {
-                            Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
-                        }
+                        val roomInfoEntity = RoomInfoEntity(
+                            roomId = response.body()?.result!!.roomId,
+                            name = response.body()?.result!!.name,
+                            inviteCode = response.body()?.result!!.inviteCode,
+                            persona = response.body()?.result!!.persona,
+                            managerMemberId = response.body()?.result!!.managerMemberId,
+                            managerNickname = response.body()?.result!!.managerNickname,
+                            isRoomManager = response.body()?.result!!.isRoomManager,
+                            favoriteId = response.body()?.result!!.favoriteId,
+                            maxMateNum = response.body()?.result!!.maxMateNum,
+                            arrivalMateNum = response.body()?.result!!.arrivalMateNum,
+                            dormitoryName = response.body()?.result!!.dormitoryName,
+                            roomType = response.body()?.result!!.roomType,
+                            equality = response.body()?.result!!.equality,
+                            hashtagList = response.body()?.result!!.hashtagList,
+                            difference = response.body()?.result!!.difference
+                        )
+                        roomInfoDao.insertRoomInfo(roomInfoEntity)
+                        Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
                     } else {
-                        val errorBody = response.errorBody()?.string()
-                        if (errorBody != null) {
-                            _errorResponse.value = parseErrorResponse(errorBody)
-                        } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                        }
-                        Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
+                        Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
                     }
-                } catch (e: Exception) {
-                    Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
-                } finally {
-                    _isLoading.value = false
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
+            } finally {
+                _isLoading.value = false
             }
+
         }
     }
 
     // 방추천
     val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
     val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
-    fun fetchRecommendedRoomList() {
+    suspend fun fetchRecommendedRoomList() {
         _isLoading.value = true
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = repository.getRecommendedRoomList(
-                    accessToken = token!!,
-                    size = 5,
-                    page = 0,
-                    sortType = SortType.LATEST.value
-                ) // 최신순
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
-                        _roomList.value = response.body()!!.result?.result
-                    } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
-                    else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                    Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${errorBody}")
-                }
-            } catch (e: Exception) {
-                Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
-            } finally {
-                _isLoading.value = false
+        try {
+            val response = repository.getRecommendedRoomList(
+                accessToken = token!!,
+                size = 5,
+                page = 0,
+                sortType = SortType.LATEST.value
+            ) // 최신순
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
+                    _roomList.value = response.body()!!.result?.result
+                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
+                else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${errorBody}")
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+        } finally {
+            _isLoading.value = false
         }
+
     }
 
     // 로컬db에 저장된 방정보 불러오기
-    fun getRoomInfoById(roomId: Int): LiveData<RoomInfoEntity?> {
+    suspend fun getRoomInfoById(): LiveData<RoomInfoEntity?> {
+        val roomId = getSavedRoomId()
         val roomInfo = MutableLiveData<RoomInfoEntity?>()
         viewModelScope.launch {
             roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
@@ -250,50 +250,50 @@ class CozyHomeViewModel @Inject constructor(
     private var currentPage = 0
     private val pageSize = 10
     private var isLastPage = false
-    fun loadAchievements(isNextPage: Boolean = false) {
+    suspend fun loadAchievements(isNextPage: Boolean = false) {
         if (isLoading.value == true || isLastPage) return
         _isLoading.value = true
         val token = getToken()
-        val roomId = _roomId.value ?: getSavedRoomId()
+        val roomId = getSavedRoomId()
         if (roomId != 0) {
-            viewModelScope.launch {
-                try {
-                    val response = logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
-                    if (response.isSuccessful) {
-                        if (response.body()!!.isSuccess) {
-                            _roomLogResponse.value = response.body()!!
-                            val newItems = response.body()!!.result.result.map { roomLog ->
-                                mapRoomLogResponseToItem(roomLog)
-                            }
-                            // 기존 데이터에 새 데이터 추가
-                            val updatedList = if (isNextPage) {
-                                _achievements.value.orEmpty() + newItems
-                            } else {
-                                newItems
-                            }
-                            _achievements.value = updatedList
-                            // 마지막 페이지 여부 체크
-                            isLastPage = newItems.size < pageSize
-                            if (!isLastPage) {
-                                currentPage++
-                            }
-                            Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
-                        } else {
-                            Log.d(TAG, "룸로그 에러 메시지: ${response}")
+            try {
+                val response =
+                    logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
+                if (response.isSuccessful) {
+                    if (response.body()!!.isSuccess) {
+                        _roomLogResponse.value = response.body()!!
+                        val newItems = response.body()!!.result.result.map { roomLog ->
+                            mapRoomLogResponseToItem(roomLog)
                         }
+                        // 기존 데이터에 새 데이터 추가
+                        val updatedList = if (isNextPage) {
+                            _achievements.value.orEmpty() + newItems
+                        } else {
+                            newItems
+                        }
+                        _achievements.value = updatedList
+                        // 마지막 페이지 여부 체크
+                        isLastPage = newItems.size < pageSize
+                        if (!isLastPage) {
+                            currentPage++
+                        }
+                        Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
                     } else {
-                        val errorBody = response.errorBody()?.string()
-                        if (errorBody != null) {
-                            _errorResponse.value = parseErrorResponse(errorBody)
-                        } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                        }
-                        Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
+                        Log.d(TAG, "룸로그 에러 메시지: ${response}")
                     }
-                } catch (e: Exception) {
-                    Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
             }
+
         }
     }
 
@@ -318,43 +318,42 @@ class CozyHomeViewModel @Inject constructor(
     // 선호항목 조회
     private val _myPreference = MutableLiveData<List<String>>()
     val myPreference: LiveData<List<String>> get() = _myPreference
-    fun fetchMyPreference() {
+    suspend fun fetchMyPreference() {
         _isLoading.value = true
         val token = getToken()
-        viewModelScope.launch {
-            try {
-                val response = prefRepository.getMyPreference(token!!)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        Log.d(TAG, "선호 항목 조회 성공: ${response.body()!!.result} ")
-                        _myPreference.value = response.body()!!.result?.preferenceList
-                        //saveMyPreference(_myPreference.value!!)
-                        sharedPreferences.edit().putString(
-                            "pref_1",
-                            response.body()!!.result?.preferenceList?.get(0)
-                        ).commit()
-                        sharedPreferences.edit().putString(
-                            "pref_2",
-                            response.body()!!.result?.preferenceList?.get(1)
-                        ).commit()
-                        sharedPreferences.edit().putString(
-                            "pref_3",
-                            response.body()!!.result?.preferenceList?.get(2)
-                        ).commit()
-                        sharedPreferences.edit().putString(
-                            "pref_4",
-                            response.body()!!.result?.preferenceList?.get(3)
-                        ).commit()
-                    } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
-                } else {
-                    _isLoading.value = false
-                    Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
-                }
-            } catch (e: Exception) {
-                Log.d(TAG, "선호 항목 조회 api 요청 실패: $e ")
-            } finally {
+        try {
+            val response = prefRepository.getMyPreference(token!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "선호 항목 조회 성공: ${response.body()!!.result} ")
+                    _myPreference.value = response.body()!!.result?.preferenceList
+                    //saveMyPreference(_myPreference.value!!)
+                    sharedPreferences.edit().putString(
+                        "pref_1",
+                        response.body()!!.result?.preferenceList?.get(0)
+                    ).commit()
+                    sharedPreferences.edit().putString(
+                        "pref_2",
+                        response.body()!!.result?.preferenceList?.get(1)
+                    ).commit()
+                    sharedPreferences.edit().putString(
+                        "pref_3",
+                        response.body()!!.result?.preferenceList?.get(2)
+                    ).commit()
+                    sharedPreferences.edit().putString(
+                        "pref_4",
+                        response.body()!!.result?.preferenceList?.get(3)
+                    ).commit()
+                } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
+            } else {
                 _isLoading.value = false
+                Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
             }
+        } catch (e: Exception) {
+            Log.d(TAG, "선호 항목 조회 api 요청 실패: $e ")
+        } finally {
+            _isLoading.value = false
         }
+
     }
 }

@@ -209,7 +209,9 @@ class UniversityCertificationFragment : Fragment() {
                     universityName = selectedUniversity
                     tvUniversityName.visibility = View.GONE
                     viewModel.setUniversityId(universityName)
-                    viewModel.fetchUniversityInfo()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.fetchUniversityInfo()
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}

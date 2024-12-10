@@ -19,9 +19,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
 import umc.cozymate.ui.message.MessageActivity
@@ -148,12 +150,16 @@ class CozyBotFragment : Fragment() {
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 // 마지막 항목 근처에 도달하면 다음 페이지 로드
                 if (!viewModel.isLoading.value!! && lastVisibleItemPosition + 2 >= totalItemCount) {
-                    viewModel.loadAchievements(isNextPage = true)
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.loadAchievements(isNextPage = true)
+                    }
                 }
             }
         })
-        // 룸로그 로드
-        viewModel.loadAchievements()
+        // 초기 룸로그 로드
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loadAchievements(isNextPage = true)
+        }
     }
 
     private fun openMessage() {
