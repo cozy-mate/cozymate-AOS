@@ -1,9 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_recommend
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,7 @@ class RoomRecommendComponent : Fragment() {
         // 방 더보기 페이지로 이동
         fun startActivityFromFragment(fragment: Fragment, roomId: String) {
             val intent = Intent(fragment.requireContext(), RoomDetailActivity::class.java).apply {
-                putExtra("ROOM_ID", "Sample room id")
+                putExtra("ROOM_ID", roomId)
             }
             fragment.startActivity(intent)
         }
@@ -41,8 +39,12 @@ class RoomRecommendComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        getPreference()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        nickname = viewModel.getNickname().toString()
         binding.tvName.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
@@ -57,20 +59,16 @@ class RoomRecommendComponent : Fragment() {
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }
-
-        return binding.root
     }
 
     // sharedpreference에서 데이터 받아오기
     private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("user_nickname", "No user found").toString()
-        prefList = arrayListOf(
+        /*prefList = arrayListOf(
             spf.getString("pref_1", "No pref found").toString(),
             spf.getString("pref_2", "No pref found").toString(),
             spf.getString("pref_3", "No pref found").toString(),
             spf.getString("pref_4", "No pref found").toString(),
         )
-        Log.d(TAG, "prefList: $prefList")
+        Log.d(TAG, "prefList: $prefList")*/
     }
 }

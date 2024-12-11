@@ -51,7 +51,9 @@ class MyRoomComponent : Fragment() {
     }
 
     private suspend fun initMyRoomData() {
-        val nickname = viewModel.getNickname().toString()
+        val nickname = viewModel.getNickname()
+        viewModel.
+        toString()
         viewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
             with(binding) {
                 tvMyNickname.text = nickname + "님이"

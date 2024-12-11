@@ -61,6 +61,6 @@ class RoommateRecommendComponent : Fragment() {
             spf.getString("pref_3", "").toString(),
             spf.getString("pref_4", "").toString(),
         )
-        Log.d(TAG, "prefList: $prefList")
+        Log.d(TAG, "nickname: $nickname")
     }
 }
