@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.util.CharacterUtil
 
 @AndroidEntryPoint
 class MakingPublicRoomFragment : Fragment() {
@@ -222,7 +223,7 @@ class MakingPublicRoomFragment : Fragment() {
                         // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
                         debounceJob?.cancel()
                         debounceJob = viewModel.viewModelScope.launch {
-                            delay(500L) // 500ms 대기
+                            delay(1000L) // 1000ms 대기
                             viewModel.setNickname(input)
                             viewModel.roomNameCheck() // API 호출
                             observeRoomNameValid()
@@ -269,7 +270,8 @@ class MakingPublicRoomFragment : Fragment() {
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            (activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
+            //(activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
+            (activity as? MakingPublicRoomActivity)?.loadMainActivity()
         }
 
         // 팝업을 띄워서 에러 응답 처리
@@ -294,31 +296,9 @@ class MakingPublicRoomFragment : Fragment() {
             val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            setCharacterImage(selectedCharacterId)
+            CharacterUtil.setImg(selectedCharacterId, binding.ivCharacter)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
-        }
-    }
-
-    private fun setCharacterImage(persona: Int) {
-        when (persona) {
-            1 -> binding.ivCharacter.setImageResource(R.drawable.character_id_1)
-            2 -> binding.ivCharacter.setImageResource(R.drawable.character_id_2)
-            3 -> binding.ivCharacter.setImageResource(R.drawable.character_id_3)
-            4 -> binding.ivCharacter.setImageResource(R.drawable.character_id_4)
-            5 -> binding.ivCharacter.setImageResource(R.drawable.character_id_5)
-            6 -> binding.ivCharacter.setImageResource(R.drawable.character_id_6)
-            7 -> binding.ivCharacter.setImageResource(R.drawable.character_id_7)
-            8 -> binding.ivCharacter.setImageResource(R.drawable.character_id_8)
-            9 -> binding.ivCharacter.setImageResource(R.drawable.character_id_9)
-            10 -> binding.ivCharacter.setImageResource(R.drawable.character_id_10)
-            11 -> binding.ivCharacter.setImageResource(R.drawable.character_id_11)
-            12 -> binding.ivCharacter.setImageResource(R.drawable.character_id_12)
-            13 -> binding.ivCharacter.setImageResource(R.drawable.character_id_13)
-            14 -> binding.ivCharacter.setImageResource(R.drawable.character_id_14)
-            15 -> binding.ivCharacter.setImageResource(R.drawable.character_id_15)
-            16 -> binding.ivCharacter.setImageResource(R.drawable.character_id_16)
-            else -> binding.ivCharacter.setImageResource(R.drawable.character_id_1) // 기본 이미지 설정
         }
     }
 }

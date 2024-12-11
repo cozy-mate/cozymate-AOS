@@ -51,7 +51,7 @@ class MakingPublicRoomActivity : AppCompatActivity() {
     // 두번째 [자기 방 상세 페이지] 로드
     fun loadMyRoomDetailActivity(roomId: Int) {
         val intent = Intent(baseContext, CozyRoomDetailInfoActivity::class.java)
-        intent.putExtra("roomId", roomId)
+        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         intent.putExtra("isMyRoom", true)
         startActivity(intent)
         this.finish()

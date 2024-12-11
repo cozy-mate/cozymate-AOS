@@ -30,7 +30,11 @@ class RoommateRecommendComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoommateRecommendComponentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getPreference()
         binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoommateList()
@@ -45,20 +49,18 @@ class RoommateRecommendComponent : Fragment() {
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }
-
-        return binding.root
     }
 
     // sharedpreference에서 데이터 받아오기
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("user_nickname", "No user found").toString()
+        nickname = spf.getString("user_nickname", "").toString()
         prefList = arrayListOf(
-            spf.getString("pref_1", "No pref found").toString(),
-            spf.getString("pref_2", "No pref found").toString(),
-            spf.getString("pref_3", "No pref found").toString(),
-            spf.getString("pref_4", "No pref found").toString(),
+            spf.getString("pref_1", "").toString(),
+            spf.getString("pref_2", "").toString(),
+            spf.getString("pref_3", "").toString(),
+            spf.getString("pref_4", "").toString(),
         )
-        Log.d(TAG, "prefList: $prefList")
+        Log.d(TAG, "nickname: $nickname")
     }
 }

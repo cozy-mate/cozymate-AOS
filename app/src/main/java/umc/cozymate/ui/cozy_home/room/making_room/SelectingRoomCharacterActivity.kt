@@ -102,7 +102,7 @@ class SelectingRoomCharacterActivity : AppCompatActivity(), CharacterItemClickLi
                 12 -> 10
                 13 -> 13
                 14 -> 9
-                15 -> 15
+                15 -> 16
                 else -> 0
             }
         saveUserPreference(selectedCharacterId ?: 0)
