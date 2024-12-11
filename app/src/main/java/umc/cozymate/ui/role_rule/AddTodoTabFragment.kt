@@ -42,7 +42,6 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
     private var roomId : Int = 0
     private var todoId : Int = 0
     private var today = CalendarDay.today()
-    private var dummy : List<Mate> = emptyList()
 
 
     private val viewModel: TodoViewModel by viewModels()
@@ -58,15 +57,9 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        dummy = listOf(
-//            Mate(memberId=7, nickname="눈꽃", mateId=1),
-//            Mate(memberId=8, nickname="용용", mateId=3),
-//            Mate(memberId=3, nickname="말즈", mateId=6),
-//            Mate(memberId=12, nickname="델로롱", mateId=11),
-//            Mate(memberId=13, nickname="리원", mateId=12)
-//        )
+
         getPreference()
-        //initMember(dummy)
+        initMember(emptyList())
         initdata()
         setTodoinput()
         setupCalendar()
@@ -75,13 +68,14 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         return binding.root
     }
 
+
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
         val mateListJson = spf.getString("mate_list", null)
         if (mateListJson != null) {
             val mateList = getListFromPrefs(mateListJson)!!
             initMember(mateList)
-            Log.d(TAG, "Mates list: $ mateList")
+            Log.d(TAG, "Mates list: ${mateList}")
         } else {
             Log.d(TAG, "No mate list found")
         }
@@ -89,13 +83,14 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
     fun getListFromPrefs(json: String): List<MateDetail>? {
         return try {
             val gson = Gson()
-            val type = object : TypeToken<List<Mate>>() {}.type
+            val type = object : TypeToken<List<MateDetail>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse mates list JSON", e)
             null
         }
     }
+
 
     private fun initdata(){
         if(isEditable){
@@ -113,7 +108,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             }catch (e: JsonParseException){ e.printStackTrace() }
             spf.edit().remove("todo_mate_list")
             for(mate in mateBox ){
-                if(selectedMateIds.contains(mate.info.mateId))mate.box.isChecked = true
+                if(selectedMateIds.contains(mate.mateId))mate.box.isChecked = true
                 Log.d(TAG,"init test ${mate.getMateInfo()} : ${selectedMateIds}")
             }
             spf.edit().apply()
@@ -183,14 +178,13 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
     }
 
     private fun initMember(list : List<MateDetail>){
-        for (l in list) {
-            val mate = Mate(l)
-            val m = MemberBox(mate,CheckBox(context))
+        for (mate in list) {
+            val m = MemberBox(mate.mateId, mate.nickname,CheckBox(context))
             m.box.setOnCheckedChangeListener { box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 box.setTextColor(ContextCompat.getColor(requireContext(),color))
-                if (isChecked && !selectedMateIds.contains(m.info.mateId)) selectedMateIds.add(m.info.mateId)
-                if(!isChecked) selectedMateIds.remove(m.info.mateId)
+                if (isChecked && !selectedMateIds.contains(m.mateId)) selectedMateIds.add(m.mateId)
+                if(!isChecked) selectedMateIds.remove(m.mateId)
                 checkAll()
                 checkInput()
             }
@@ -211,15 +205,15 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             Log.d(TAG,"입력 데이터 ${todoRequest}")
             if (isEditable) viewModel.editTodo(roomId,todoId,todoRequest)
             else viewModel.createTodo(roomId, todoRequest)
-
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", 0)
-            spf.edit().apply()
-
+            val editor = spf.edit()
+            editor.putInt("tab_idx", 0 )
+            editor.apply()
+            Log.d(TAG,"addTodo tab_idx ${spf.getInt("tab_idx",101)}")
             (requireActivity() as AddTodoActivity).finish()
 
         }
     }
+
 
     private fun checkAll() {
         val isAll = mateBox.all { it.box.isChecked } // 모든 체크박스가 체크되었는지 확인

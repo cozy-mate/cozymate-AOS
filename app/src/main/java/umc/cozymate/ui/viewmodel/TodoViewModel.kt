@@ -85,6 +85,7 @@ class TodoViewModel @Inject constructor(
             val token = getToken()
             try {
                 val response = repository.createTodo( token!! ,roomId, request)
+                Log.d(TAG,"Create todo request ${request}")
                 if(!response.isSuccessful) Log.d(TAG, "createTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"createTodo api 요청 실패:  ${e}")

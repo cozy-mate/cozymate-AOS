@@ -16,6 +16,7 @@ import umc.cozymate.data.model.response.member.ReissueResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
 import umc.cozymate.data.model.response.member.VerifyMailResponse
+import umc.cozymate.data.model.response.member.WithdrawResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -25,6 +26,10 @@ class MemberRepositoryImpl @Inject constructor(
 
     override suspend fun reissue(refreshToken: String): Response<ReissueResponse> {
         return api.reissue(refreshToken)
+    }
+
+    override suspend fun withdraw(accessToken: String): Response<WithdrawResponse> {
+        return api.withdraw(accessToken)
     }
 
     override suspend fun signOut(accessToken: String): Response<Unit> {

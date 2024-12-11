@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityAddTodoBinding
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class AddTodoActivity():AppCompatActivity() {
@@ -20,6 +21,7 @@ class AddTodoActivity():AppCompatActivity() {
     private var tabText : List<String> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setStatusBarTransparent()
         binding = ActivityAddTodoBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         type = intent.getIntExtra("type",3)
@@ -51,12 +53,6 @@ class AddTodoActivity():AppCompatActivity() {
             if(fragment != null && fragment.isAdded && fragment is ItemClick) {
                     fragment.deleteClickFunction()
             }
-            else Log.d(TAG, "fragment ${fragment}/ pos : ${type} / isAdded ${fragment?.isAdded}")
-            val idx = if (type == 0) 0 else 1
-            Log.d(TAG, "idx text : ${idx}")
-            // 돌아갈 룰앤롤탭 순서 지정
-            spf.edit().putInt("tab_idx", idx )
-            spf.edit().apply()
             finish()
         }
     }
