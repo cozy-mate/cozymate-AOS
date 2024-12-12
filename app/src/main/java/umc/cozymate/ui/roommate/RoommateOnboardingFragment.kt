@@ -50,7 +50,7 @@ class RoommateOnboardingFragment : Fragment() {
 //            (context as MainActivity).supportFragmentManager.beginTransaction()
 //                .replace(R.id.main_container, RoommateMakeCrewableFragment())
 //                .commitAllowingStateLoss()
-            val nextFragment = RoommateMakeCrewableFragment()  // 이동할 프래그먼트 생성
+            val nextFragment = RoommateFragment()  // 이동할 프래그먼트 생성
 
 // 프래그먼트 매니저를 사용하여 트랜잭션 시작
             parentFragmentManager.beginTransaction()

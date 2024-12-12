@@ -68,7 +68,6 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                 navigateToRoommateMakeCrewableFragment()
                 val userInfo = spfHelper.loadUserInfo()
                 viewModel.sendUserInfo(
-                    accessToken,
                     userInfo.toRequest()
                 )
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
