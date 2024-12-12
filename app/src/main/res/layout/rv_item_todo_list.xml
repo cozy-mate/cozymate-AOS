@@ -13,19 +13,19 @@
     android:minHeight="92dp">
 
     <LinearLayout
-        android:id="@+id/layout_TodoMember"
+        android:id="@+id/layout_todo_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <ImageView
-            android:id="@+id/iv_TodoMemberIcon"
+            android:id="@+id/iv_todo_member_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_basic_character"
 />
         <TextView
-            android:id="@+id/tv_TodoMemberName"
+            android:id="@+id/tv_todo_member_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="name"
@@ -37,20 +37,20 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_Empty"
+        android:id="@+id/tv_empty"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="오늘 등록된 할 일이 없어요"
+        android:text="오늘 등록된 할 일이 없어요!"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
         android:textColor="@color/unuse_font"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/layout_TodoMember"
+        app:layout_constraintTop_toBottomOf="@id/layout_todo_member"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_List"
+        android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
@@ -58,7 +58,7 @@
         android:layout_marginTop="4dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_TodoMember"
+        app:layout_constraintTop_toBottomOf="@id/layout_todo_member"
         app:layout_constraintStart_toStartOf="parent"
         />
 

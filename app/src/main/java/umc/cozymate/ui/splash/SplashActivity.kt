@@ -58,10 +58,13 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
         window.navigationBarColor = Color.WHITE
+        // gif 뷰페이저 설정
+        val adapter = GIFAdapter(this)
+        binding.vpGif.adapter = adapter
+        binding.dotsIndicator.attachTo(binding.vpGif)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
-
         binding.progressBar.visibility = View.VISIBLE
 
         // 뷰모델 옵저빙
@@ -78,12 +81,12 @@ class SplashActivity : AppCompatActivity() {
         }
 
         // 애플 로그인 버튼 >> 코지홈 비활성화
-        binding.btnAppleLogin.setOnClickListener {
+        /*binding.btnAppleLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
             }
             startActivity(intent)
-        }
+        }*/
 
         // 회원가입 버튼 >> 테스트 로그인 >> 온보딩
         binding.btnSignIn.setOnClickListener {

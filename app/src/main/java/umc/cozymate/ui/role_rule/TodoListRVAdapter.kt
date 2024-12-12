@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.TodoMateData
+import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.databinding.RvItemTodoListBinding
 
 
 class TodoListRVAdapter(
-    private val  member:  Map<String, TodoMateData>,
-    private val updateTodo: (TodoMateData) -> Unit
+    private val  member:  Map<String, TodoData>,
+    private val updateTodo: (TodoData) -> Unit
 ) : RecyclerView.Adapter<TodoListRVAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvItemTodoListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int) {
@@ -21,7 +21,7 @@ class TodoListRVAdapter(
             binding.tvTodoMemberName.text = member.keys.elementAt(pos)
             binding.ivTodoMemberIcon.setImageResource(initCharactor(pos))
             val todoMateData = member.values.elementAt(pos)
-            if (todoMateData.mateTodoList.isEmpty()) {
+            if (todoMateData.todoList.isNullOrEmpty()) {
                 Log.d("MemberTodo", "empty")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
@@ -29,13 +29,7 @@ class TodoListRVAdapter(
                 binding.rvList.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 binding.rvList.apply {
-                    adapter = TodoRVAdapter(todoMateData.mateTodoList, false) { todoItem ->
-                        // 이 콜백에서 변경된 todoItem을 TodoMateData 전체로 반영하여 updateTodo를 호출합니다.
-                        val updatedTodoList = todoMateData.mateTodoList.map {
-                            if (it.id == todoItem.id) todoItem else it
-                        }
-                        updateTodo(todoMateData.copy(mateTodoList = updatedTodoList))
-                    }
+                    adapter = TodoRVAdapter(todoMateData.todoList, false)
                     layoutManager = LinearLayoutManager(context)
                 }
             }
@@ -44,25 +38,26 @@ class TodoListRVAdapter(
 
 
     private fun initCharactor(pos: Int) : Int{
-        val persona = member.values.elementAt(pos).persona
+        //val persona = member.values.elementAt(pos).persona
+        val persona = 1
         return when (persona) {
-            1 -> R.drawable.character_1
-            2 -> R.drawable.character_2
-            3 -> R.drawable.character_3
-            4 -> R.drawable.character_4
-            5 -> R.drawable.character_5
-            6 -> R.drawable.character_6
-            7 -> R.drawable.character_7
-            8 -> R.drawable.character_8
-            9 -> R.drawable.character_9
-            10 -> R.drawable.character_10
-            11 -> R.drawable.character_11
-            12 -> R.drawable.character_12
-            13 -> R.drawable.character_13
-            14 -> R.drawable.character_14
-            15 -> R.drawable.character_15
-            16 -> R.drawable.character_16
-            else -> R.drawable.character_1 // 기본 이미지 설정
+            1 -> R.drawable.character_id_1
+            2 -> R.drawable.character_id_2
+            3 -> R.drawable.character_id_3
+            4 -> R.drawable.character_id_4
+            5 -> R.drawable.character_id_5
+            6 -> R.drawable.character_id_6
+            7 -> R.drawable.character_id_7
+            8 -> R.drawable.character_id_8
+            9 -> R.drawable.character_id_9
+            10 -> R.drawable.character_id_10
+            11 -> R.drawable.character_id_11
+            12 -> R.drawable.character_id_12
+            13 -> R.drawable.character_id_13
+            14 -> R.drawable.character_id_14
+            15 -> R.drawable.character_id_15
+            16 -> R.drawable.character_id_16
+            else -> R.drawable.character_id_1 // 기본 이미지 설정
         }
     }
 
