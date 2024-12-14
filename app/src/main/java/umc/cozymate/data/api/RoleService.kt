@@ -6,40 +6,31 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 
 interface RoleService {
-    @POST("/rooms/{roomId}/roles")
+    @POST("/role/{roomId}")
     suspend fun createRole(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
         @Body request : RoleRequest
-    ):  Response<CreateResponse>
+    ): Response<DefaultResponse>
 
-    @GET("/rooms/{roomId}/roles")
+    @GET("/role/{roomId}")
     suspend fun getRole(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
     ): Response<RoleResponse>
 
-    @DELETE("/rooms/{roomId}/roles/{roleId}")
+    @DELETE("/role/{roomId}")
     suspend fun deleteRole(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
-        @Path("roleId") roleId : Int
-    ): Response<DefaultResponse>
-
-    @PUT("/rooms/{roomId}/roles/{roleId}")
-    suspend fun editRole(
-        @Header("Authorization") accessToken: String,
-        @Path("roomId") roomId : Int,
-        @Path("roleId") roleId : Int,
-        @Body request: RoleRequest
+        @Query("roleId") roleId : Int
     ): Response<DefaultResponse>
 
 }

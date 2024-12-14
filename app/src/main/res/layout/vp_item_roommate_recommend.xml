@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
-            android:text=""
+            android:text="델로"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="@color/basic_font"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,12 +82,9 @@
 
             <TextView
                 android:id="@+id/tv_criteria_content_1"
-                android:layout_width="54dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLength="6"
-                android:maxLines="1"
+                android:text="AM 11:00"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +95,7 @@
         <!-- 룸메 선택 기준2 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_2"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -129,12 +126,9 @@
 
             <TextView
                 android:id="@+id/tv_criteria_content_2"
-                android:layout_width="54dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLength="6"
-                android:maxLines="1"
+                android:text="AM 11:00"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +139,7 @@
         <!-- 룸메 선택 기준3 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_3"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -176,12 +170,9 @@
 
             <TextView
                 android:id="@+id/tv_criteria_content_3"
-                android:layout_width="54dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLength="6"
-                android:maxLines="1"
+                android:text="AM 11:00"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -193,7 +184,7 @@
         <!-- 룸메 선택 기준4 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_4"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="20dp"
@@ -225,12 +216,9 @@
 
             <TextView
                 android:id="@+id/tv_criteria_content_4"
-                android:layout_width="54dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLength="6"
-                android:maxLines="1"
+                android:text="AM 11:00"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintEnd_toEndOf="parent"

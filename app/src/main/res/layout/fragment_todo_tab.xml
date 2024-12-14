@@ -11,12 +11,13 @@
         android:layout_height="wrap_content"
         android:minHeight="700dp"
         android:paddingTop="34dp"
-        android:paddingHorizontal="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="@drawable/background_todo_tab">
 
 
         <TextView
-            android:id="@+id/tv_selected_date"
+            android:id="@+id/tv_TodoDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7/2(화), "
@@ -26,14 +27,14 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_user_name"
+            android:id="@+id/tv_TodoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="델로"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_selected_date" />
+            app:layout_constraintStart_toEndOf="@id/tv_TodoDate" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,54 +43,48 @@
             android:textColor="@color/basic_font"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_user_name"/>
+            app:layout_constraintStart_toEndOf="@id/tv_TodoName"/>
 
         <TextView
-            android:id="@+id/tv_text1"
+            android:id="@+id/tv_Text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="해야할 일들을 알려드릴게요!"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
-            app:layout_constraintTop_toBottomOf="@id/tv_selected_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_TodoDate"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/calendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_text1"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="12dp"
-            app:mcv_firstDayOfWeek="monday"
-            app:mcv_selectionColor="@color/sub_blue"
-            app:mcv_selectionMode="single"
-            app:mcv_showOtherDates="all"
-            app:mcv_weekDayTextAppearance="@style/TextAppearance.App.14sp.SemiBold"
-            android:background="@drawable/background_calendar"
-            />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_option"
+            android:paddingHorizontal="11dp"
+            android:paddingVertical="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <FrameLayout
-            android:id="@+id/layout_my_todo"
+            android:id="@+id/layout_MyTodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calendar_view"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_checklist">
+            app:layout_constraintTop_toBottomOf="@id/tv_Text1"
+            android:background="@drawable/background_checklist"
+            android:layout_marginTop="16dp">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_my_todo"
+                android:id="@+id/rv_MyTodoList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingVertical="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:paddingEnd="8dp"
                 tools:listitem="@layout/rv_item_todo"/>
 
             <TextView
-                android:id="@+id/tv_empty_todo"
+                android:id="@+id/tv_Empty"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"
                 android:text="오늘 등록된 할 일이 없어요"
@@ -107,38 +102,31 @@
             android:text="다른 메이트들은\n오늘 어떤 일들을 할까요?"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
             android:textColor="@color/basic_font"
-            android:layout_marginTop="48dp"
-            app:layout_constraintTop_toBottomOf="@id/layout_my_todo"
+            android:layout_marginTop="56dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_MyTodo"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <FrameLayout
-            android:id="@+id/layout_member"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_MemberTodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
             app:layout_constraintTop_toBottomOf="@id/tv_text2"
             app:layout_constraintBottom_toTopOf="@id/cl_bottom"
-            app:layout_constraintStart_toStartOf="parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_member_todo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:id="@+id/tv_empty_member"
-                android:layout_width="match_parent"
-                android:layout_height="144dp"
-                android:layout_marginTop="16dp"
-                android:text="아직 등록된 코지메이트가 없어요"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/unuse_font"
-                android:gravity="center"
-                android:background="@drawable/background_checklist"
-                android:visibility="gone"/>
-        </FrameLayout>
-
-
-
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/tv_NoMate"
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:text="아직 등록된 코지메이트가 없어요"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:gravity="center"
+            android:background="@drawable/background_checklist"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_text2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"/>
 
         <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
         <androidx.constraintlayout.widget.ConstraintLayout

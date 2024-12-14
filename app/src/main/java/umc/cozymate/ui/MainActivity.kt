@@ -10,16 +10,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.home.CozyHomeMainFragment
+import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
+import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -30,39 +29,52 @@ import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
 
-// 메인화면 진입 시 방존재 여부를 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
+
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
+
     var isRoomExist = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigationView()
+        window.navigationBarColor = getResources().getColor(R.color.white)
         initScreen()
-        observeLoading()
-        observeRoomID()
-        lifecycleScope.launch {
-            homeViewModel.fetchRoomIdIfNeeded()
+
+        // 시연용 : 네이버 로그인 버튼 클릭 > 코지홈 비활성화 화면으로
+        val showCozyDefault = intent.getBooleanExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", false)
+        if (showCozyDefault) {
+            isRoomExist = false
         }
+
+        homeViewModel.getRoomId()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
         }
+
         if (savedInstanceState == null) {
             val navigateTo = intent.getStringExtra("navigate_to")
             Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
+
             when (navigateTo) {
                 "RoommateOnboarding" -> {
                     // RoommateOnboardingFragment로 이동
                     switchToRoommateOnboardingFragment()
                 }
+
                 "RoommateMakeCrewable" -> {
                     // RoommateMakeCrewableFragment로 이동
                     switchToRoommateMakeCrewableFragment()
                 }
+
                 else -> {
                     // 기본 홈 화면 설정
                     binding.bottomNavigationView.selectedItemId = R.id.fragment_home
@@ -89,46 +101,29 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
 
-    // 로딩중 옵저빙
-    private fun observeLoading() {
-        homeViewModel.isLoading.observe(this) { isLoading ->
-            try {
-                if (isLoading) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.main.visibility = View.GONE
-                } else {
-                    binding.progressBar.visibility = View.GONE
-                    binding.main.visibility = View.VISIBLE
-                }
-            } catch (e: Exception) {
-                val errorDialog = ServerErrorPopUp.newInstance("", e.message ?: "")
-                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
-            }
-        }
-    }
-
-    // 참여한 방이 있는지를 확인
     fun observeRoomID() {
+        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
         binding.progressBar.visibility = View.VISIBLE
         homeViewModel.roomId.observe(this) { roomId ->
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
+                //loadDefaultFragment()
                 binding.progressBar.visibility = View.GONE
             } else {
                 isRoomExist = true
+                //loadActiveFragment()
                 binding.progressBar.visibility = View.GONE
             }
         }
     }
 
-    // 스크린 설정
     private fun initScreen() {
         this.setStatusBarTransparent()
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
-        window.navigationBarColor = android.graphics.Color.WHITE
+        window.setNavigationBarColor(android.graphics.Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
@@ -148,15 +143,27 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
-    // 바텀 네비게이션(홈, 롤앤룰, 코지봇, 마이페이지) 설정
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
+                    observeRoomID()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, CozyHomeMainFragment()).commit()
                     true
                 }
+
+                R.id.fragment_feed -> {
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false // 선택을 막음
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, FeedFragment()).commit()
+                    }
+                    true
+                }
+
                 R.id.fragment_role_and_rule -> {
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
@@ -167,6 +174,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.fragment_cozybot -> {
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
@@ -177,17 +185,20 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.fragment_mypage -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MyPageFragment()).commit()
                     true
                 }
+
                 else -> false
             }
         }
     }
 
     private fun observeError() {
+
         homeViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
                 val errorDialog =

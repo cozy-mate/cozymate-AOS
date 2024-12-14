@@ -29,8 +29,8 @@ data class GetRoomInfoResponse(
         val hashtagList: List<String>,
         @SerialName("inviteCode")
         val inviteCode: String,
-        @SerialName("favoriteId")
-        val favoriteId: Int,
+        @SerialName("isFavorited")
+        val isFavorited: Boolean,
         @SerialName("isRoomManager")
         val isRoomManager: Boolean,
         @SerialName("managerMemberId")

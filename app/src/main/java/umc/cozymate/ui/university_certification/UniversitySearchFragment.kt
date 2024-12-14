@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
@@ -14,7 +15,7 @@ import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
 
 class UniversitySearchFragment : Fragment() {
 
-    private val viewModel: UniversityViewModel by viewModels()
+    private val viewModel: SchoolSearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,11 @@ class UniversitySearchFragment : Fragment() {
 
         binding.rvSchools.adapter = adapter
         binding.rvSchools.layoutManager = LinearLayoutManager(requireContext())
+
+        // 필터링된 학교 목록을 관찰하여 어댑터 업데이트
+        viewModel.filteredSchoolList.observe(viewLifecycleOwner, Observer { filteredList ->
+            adapter.submitList(filteredList)
+        })
 
         return binding.root
     }

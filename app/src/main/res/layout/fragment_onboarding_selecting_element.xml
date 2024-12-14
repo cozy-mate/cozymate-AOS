@@ -21,7 +21,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="56dp"
             android:text="룸메이트를 선택할 때,"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/highlight_font"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="2dp"
             android:text="가장 중요한 요소 "
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/highlight_font"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="4가지"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/main_blue"
             app:layout_constraintStart_toEndOf="@id/tv_onboarding3_title2"
             app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="를 선택해주세요"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textAppearance="@style/TextAppearance.App.20sp.SemiBold"
             android:textColor="@color/highlight_font"
             app:layout_constraintStart_toEndOf="@id/tv_onboarding3_title3"
             app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />

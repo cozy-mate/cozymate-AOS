@@ -33,7 +33,7 @@ class ChatViewModel @Inject constructor(
     val postChatResponse :  LiveData<Response<WriteChatResponse>> get() = _postChatResponse
 
     private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
-    //val deleteResponse : LiveData<Response<DefaultResponse>> get() = _deleteResponse
+    val deleteResponse : LiveData<Response<DefaultResponse>> get() = _deleteResponse
 
     private val _getChatRoomsResponse = MutableLiveData<Response<ChatRoomResponse>>()
     val getChatRoomsResponse : LiveData<Response<ChatRoomResponse>> get() = _getChatRoomsResponse
@@ -66,7 +66,7 @@ class ChatViewModel @Inject constructor(
                 Log.d(TAG,"데이터 확인 ${recipientId} , ${request}")
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    //_postChatResponse.postValue(response)
+                    _postChatResponse.postValue(response)
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){

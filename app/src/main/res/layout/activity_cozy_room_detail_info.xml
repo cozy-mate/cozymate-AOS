@@ -53,7 +53,7 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/character_id_3"
+                android:src="@drawable/character_3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
@@ -247,17 +247,16 @@
                         android:text=""
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_dormitory_room_num_title"
                         app:layout_constraintStart_toEndOf="@+id/tv_dormitory_room_num_title"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_dormitory_room_num_title"
                         tools:text="4인실" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_room_num" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_room_num"
+                        app:layout_constraintStart_toStartOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <TextView
                     android:id="@+id/tv_lifestyle_title"
                     android:layout_width="match_parent"
@@ -273,13 +272,14 @@
                     android:id="@+id/chips1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:orientation="horizontal"
                     app:alignItems="flex_start"
                     app:flexWrap="wrap"
                     app:justifyContent="flex_start"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_lifestyle_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_lifestyle_title">
+                    android:layout_marginTop="12dp"
+                    >
 
                     <TextView
                         android:id="@+id/select_birth"
@@ -528,17 +528,18 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/fab_request_enter_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/fab_request_enter_room"
+            android:gravity="center"
+            android:background="@drawable/btn_room_detail_request"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/btn_room_detail_request"
-            android:gravity="center"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:visibility="visible"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_school_white"
+                    android:id="@+id/iv_school"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_school_white"
@@ -38,30 +38,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_school_blue"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_school_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <TextView
                     android:id="@+id/tv_school_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="6dp"
                     android:text="학교 인증을 해주세요"
                     android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                     android:textColor="@color/unuse_font"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_school"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -169,12 +158,12 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 참여한 방 컴포넌트 (조건 : 방 있음) -->
+        <!-- 참여방 컴포넌트 (조건 : 방 있음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/my_room_container"
-            android:name="umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -187,6 +176,7 @@
             android:id="@+id/roommate_request_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,13 +187,13 @@
         <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/roommate_recommend_container"
-            android:name="umc.cozymate.ui.cozy_home.room.roommate_recommend.RoommateRecommendComponent"
+            android:name="umc.cozymate.ui.cozy_home.roommate_recommend.RoommateRecommendComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roommate_request_container"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
             app:layout_goneMarginTop="0dp" />
 
         <TextView
@@ -220,7 +210,7 @@
         <!-- 방 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/room_recommend_container"
-            android:name="umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent"
+            android:name="umc.cozymate.ui.cozy_home.room_recommend.RoomRecommendComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

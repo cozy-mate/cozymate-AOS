@@ -6,7 +6,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="199dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/custom_rectangle_12_unuse"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +54,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_hashtag_1"
             app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/v_divider">
 
             <ImageView
-                android:id="@+id/iv_criteria_icon_1"
+                android:id="@+id/iv_crieteria_icon_1"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_wake_up_time_blue"
@@ -77,7 +78,7 @@
                 android:textColor="@color/unuse_font"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_1" />
+                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_1" />
 
             <TextView
                 android:id="@+id/tv_criteria_content_1"
@@ -94,7 +95,7 @@
         <!-- 방 선택 기준2 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_2"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
             app:layout_constraintEnd_toStartOf="@id/cl_criteria_3"
@@ -137,7 +138,7 @@
         <!-- 방 선택 기준3 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_3"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
             app:layout_constraintEnd_toStartOf="@id/cl_criteria_4"
@@ -181,7 +182,7 @@
         <!-- 방 선택 기준4 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_criteria_4"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
@@ -229,13 +230,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="18dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="8dp"
             android:background="@drawable/custom_rectangle_4_white"
             android:backgroundTint="@color/color_box"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
             android:text="#히로아카"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -244,43 +245,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="8dp"
             android:background="@drawable/custom_rectangle_4_white"
             android:backgroundTint="@color/color_box"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
             android:text="#바쿠고"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_1"
             app:layout_constraintStart_toEndOf="@id/tv_hashtag_1" />
 
-        <TextView
-            android:id="@+id/tv_hashtag_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="@drawable/custom_rectangle_4_white"
-            android:backgroundTint="@color/color_box"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
-            android:text="#바쿠고"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/color_font"
-            app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_2"
-            app:layout_constraintStart_toEndOf="@id/tv_hashtag_2" />
-
         <!-- 방 인원수 -->
         <TextView
-            android:id="@+id/tv_member_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="18dp"
             android:text="2 / 3명"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_hashtag_1"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
