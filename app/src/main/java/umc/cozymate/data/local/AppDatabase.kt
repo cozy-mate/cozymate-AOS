@@ -1,7 +1,6 @@
 package umc.cozymate.data.local
 
 import android.content.Context
-import androidx.databinding.adapters.Converters
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -11,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import umc.cozymate.data.model.entity.Converters
 import javax.inject.Singleton
 
 @Database(entities = [RoomInfoEntity::class], version = 1)

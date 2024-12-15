@@ -11,15 +11,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.kakao.sdk.common.util.Utility
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.cozy_home.CozyHomeMainFragment
-import umc.cozymate.ui.feed.FeedFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -30,21 +30,18 @@ import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
 
+// 메인화면 진입 시 방존재 여부를 불러옵니다.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityMainBinding
-
     private val homeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
     private lateinit var menu: Menu
     lateinit var roleAndRuleItem: MenuItem
     lateinit var cozybotItem: MenuItem
     var isRoomExist = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         menu = binding.bottomNavigationView.menu
         roleAndRuleItem = menu.findItem(R.id.fragment_role_and_rule)
@@ -60,11 +57,9 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission()
         }
-
         if (savedInstanceState == null) {
             val navigateTo = intent.getStringExtra("navigate_to")
             Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
-
             when (navigateTo) {
                 "RoommateOnboarding" -> {
                     // RoommateOnboardingFragment로 이동
@@ -82,8 +77,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        var keyHash = Utility.getKeyHash(this)
-        Log.d("Main_keyHasH", keyHash)
 
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
@@ -102,20 +95,36 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
 
+    // 로딩중 옵저빙
+    private fun observeLoading() {
+        homeViewModel.isLoading.observe(this) { isLoading ->
+            try {
+                if (isLoading) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.main.visibility = View.GONE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                    binding.main.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                val errorDialog = ServerErrorPopUp.newInstance("", e.message ?: "")
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
+            }
+        }
+    }
+
+    // 참여한 방이 있는지를 확인
     fun observeRoomID() {
-        // 현재 참여 중인 방이 있다면, CozyHomeActiveFragment로 이동
         binding.progressBar.visibility = View.VISIBLE
         homeViewModel.roomId.observe(this) { roomId ->
             // 방이 없을 때는 롤앤룰, 코지봇 비활성화
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
-                //loadDefaultFragment()
                 binding.progressBar.visibility = View.GONE
                 roleAndRuleItem.isEnabled = false
                 cozybotItem.isEnabled = false
             } else {
                 isRoomExist = true
-                //loadActiveFragment()
                 binding.progressBar.visibility = View.GONE
                 roleAndRuleItem.isEnabled = true
                 roleAndRuleItem.isEnabled = true
@@ -123,13 +132,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 스크린 설정
     private fun initScreen() {
         this.setStatusBarTransparent()
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
-        window.setNavigationBarColor(android.graphics.Color.WHITE)
+        window.navigationBarColor = android.graphics.Color.WHITE
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
     }
 
@@ -152,6 +162,7 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+    // 바텀 네비게이션(홈, 롤앤룰, 코지봇, 마이페이지) 설정
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -187,7 +198,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeError() {
-
         homeViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
                 val errorDialog =
