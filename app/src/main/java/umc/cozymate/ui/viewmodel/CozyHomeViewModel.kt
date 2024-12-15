@@ -90,14 +90,15 @@ class CozyHomeViewModel @Inject constructor(
     init {
         loadAchievements()
 
-        // 방 ID를 SharedPreferences에서 가져와서 설정
-        val savedRoomId = getSavedRoomId()
-        if (savedRoomId != 0) {
-            _roomId.value = savedRoomId
-            getRoomInfo()
-        } else {
-            // 방 ID가 없으면 새로 가져오기
-            getRoomId()
+    // 방 아이디 조회
+    private val mutex = Mutex()
+    suspend fun getRoomId() {
+        // 이미 api 호출한 적이 있으면 api 호출하지 않기
+        if (hasCalledApi) return
+        if (_roomId.value != null) return
+        mutex.withLock {
+            if (hasCalledApi) return // 중복 호출 방지
+            hasCalledApi = true
         }
     }
 
