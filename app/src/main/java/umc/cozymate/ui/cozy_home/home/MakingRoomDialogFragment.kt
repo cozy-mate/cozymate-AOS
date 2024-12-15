@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home
+package umc.cozymate.ui.cozy_home.home
 
 import android.app.AlertDialog
 import android.app.Dialog
