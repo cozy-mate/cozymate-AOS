@@ -417,46 +417,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3c50aee-37ca-4c3e-abe4-22c7e786e8be" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/domain/Preference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/domain/SortType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/domain/UserRoomState.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/local/AppDatabase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/local/RoomInfoDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/local/RoomInfoEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/request/CreatePrivateRoomRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/room/CheckRoomNameResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/room/GetRecommendedRoomListResponse.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/merger.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/merger.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/manifest_merge_blame_file/debug/processDebugMainManifest/manifest-merger-blame-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/manifest_merge_blame_file/debug/processDebugMainManifest/manifest-merger-blame-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/runtime_symbol_list/debug/processDebugResources/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/runtime_symbol_list/debug/processDebugResources/R.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/stable_resource_ids_file/debug/processDebugResources/stableIds.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/stable_resource_ids_file/debug/processDebugResources/stableIds.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/symbol_list_with_package_name/debug/processDebugResources/package-aware-r.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/symbol_list_with_package_name/debug/processDebugResources/package-aware-r.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/api/FriendService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/favorites/Result.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/favorites/Result.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/Member.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/MemberX.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/MemberX.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/PreferenceStats.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/PreferenceStats.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/PreferenceStatsX.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate/PreferenceStatsX.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/CozyHomeMainFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/CozyHomeMainFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendComponent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendComponent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendVPAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendVPAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendVPViewHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/roommate_recommend/RoommateRecommendVPViewHolder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateInputInfoActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateMakeCrewableFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateMakeCrewableFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/roommate/RoommateOnboardingFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/viewmodel/RoommateViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/viewmodel/RoommateViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/constants.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/constants.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/room/GetRoomInfoResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/room/GetRoomInfoResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/repository/repository/RoomRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/repository/repository/RoomRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/viewmodel/CozyHomeViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/viewmodel/CozyHomeViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,8 +479,8 @@
         <option value="resourceFile" />
         <option value="CMakeLists.txt" />
         <option value="layoutResourceFile" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
       </list>
     </option>
@@ -573,36 +550,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ApkExportedModule&quot;: &quot;Cozymate.app&quot;,
-    &quot;Gradle.cozymate-AOS [signingReport].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.cozymate-AOS [signingRepot].executor&quot;: &quot;Run&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;LAYOUT&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ScreenRecorder.SavePath&quot;: &quot;/Users/doyoung&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;COZY-399-방-룸메-상세페이지-구현&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/doyoung/GitHub/cozymate-AOS/app&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "ApkExportedModule": "Cozymate.app",
+    "Gradle.cozymate-AOS [signingReport].executor": "Run",
+    "Gradle.cozymate-AOS [signingRepot].executor": "Run",
+    "ResourceManagerPrefKey.ResourceType": "LAYOUT",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ScreenRecorder.SavePath": "/Users/doyoung",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "COZY-399-방-룸메-상세페이지-구현",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/doyoung/GitHub/cozymate-AOS/app",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Program Files\\Android\\Android Studio\\jbr&quot;,
-      &quot;C:\\Users\\도영\\.gradle&quot;
+  "keyToStringList": {
+    "kotlin-gradle-user-dirs": [
+      "C:\\Program Files\\Android\\Android Studio\\jbr",
+      "C:\\Users\\도영\\.gradle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app" />

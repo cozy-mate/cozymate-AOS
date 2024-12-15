@@ -132,10 +132,14 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
 //    implementation(libs.androidx.room.common)
 
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
     implementation("com.google.android.material:material:1.0.0-beta01")
 
     //달력
-    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.0")
 
     // 맴버에 수에 따라 맴버리스트 2줄로 내릴때 사용
     implementation(libs.flexbox)
@@ -145,12 +149,19 @@ dependencies {
     // 인디케이터 https://github.com/tommybuonomo/dotsindicator
     implementation("com.tbuonomo:dotsindicator:5.0")
 
-    //
     // Ktor HTTP client
     implementation("io.ktor:ktor-client-core:2.2.4")
     implementation("io.ktor:ktor-client-android:2.2.4")
     implementation("io.ktor:ktor-client-json:2.2.4")
     implementation("io.ktor:ktor-client-serialization:2.2.4")
+
+    // roomDB
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // lottie
+//    implementation(libs.lottie)
 }
 kapt {
     correctErrorTypes = true

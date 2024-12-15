@@ -2,18 +2,33 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.api.RoomService
+import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
+import umc.cozymate.data.model.response.room.CheckRoomNameResponse
+import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
+import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
+import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
 
 class RoomRepositoryImpl @Inject constructor(
     private val api: RoomService
 ) : RoomRepository {
+    override suspend fun deleteRoom(
+        accessToken: String,
+        roomID: Int
+    ): Response<DeleteRoomResponse> {
+        return api.deleteRoom(accessToken, roomID)
+    }
 
     override suspend fun getRoomInfo(
         accessToken: String,
@@ -27,6 +42,29 @@ class RoomRepositoryImpl @Inject constructor(
         inviteCode: String
     ): Response<GetRoomInfoByInviteCodeResponse> {
         return api.getRoomInfoByInviteCode(accessToken, inviteCode)
+    }
+
+    override suspend fun getRecommendedRoomList(
+        accessToken: String,
+        size: Int,
+        page: Int,
+        sortType: String?
+    ): Response<GetRecommendedRoomListResponse> {
+        return api.getRecommendedRoomList(accessToken, size, page, sortType)
+    }
+
+    override suspend fun checkRoomName(
+        accessToken: String,
+        roomName: String
+    ): Response<CheckRoomNameResponse> {
+        return api.checkRoomName(accessToken, roomName)
+    }
+
+    override suspend fun createPrivateRoom(
+        accessToken: String,
+        roomInfo: CreatePrivateRoomRequest
+    ): Response<CreatePrivateRoomResponse> {
+        return api.createPrivateRoom(accessToken, roomInfo)
     }
 
     override suspend fun joinRoom(
@@ -49,11 +87,30 @@ class RoomRepositoryImpl @Inject constructor(
         return api.createPublicRoom(accessToken, roomInfo)
     }
 
-    /*override suspend fun createRoom(
+    override suspend fun updateRoomInfo(
         accessToken: String,
-        roomInfo: CreateRoomRequest
-    ): Response<CreateRoomResponse> {
-        return api.createRoom(accessToken, roomInfo)
-    }*/
+        roomId: Int,
+        roomInfoRequest: UpdateRoomInfoRequest
+    ): Response<UpdateRoomInfoResponse> {
+        return api.updateRoomInfo(accessToken, roomId, roomInfoRequest)
+    }
+
+    override suspend fun changeToPublicRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<ChangeRoomStatusResult> {
+        return api.changeToPublicRoom(accessToken, roomId)
+    }
+
+    override suspend fun changeToPrivateRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<ChangeRoomStatusResult> {
+        return api.changeToPrivateRoom(accessToken, roomId)
+    }
+
+    override suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse> {
+        return api.quitRoom(accessToken, roomId)
+    }
 
 }

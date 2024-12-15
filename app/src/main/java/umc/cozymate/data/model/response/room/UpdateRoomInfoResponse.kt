@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetRoomInfoResponse(
+data class UpdateRoomInfoResponse(
     @SerialName("code")
     val code: String,
     @SerialName("isSuccess")
@@ -25,12 +25,12 @@ data class GetRoomInfoResponse(
         val dormitoryName: String,
         @SerialName("equality")
         val equality: Int,
-        @SerialName("hashtagList")
-        val hashtagList: List<String>,
-        @SerialName("inviteCode")
-        val inviteCode: String,
         @SerialName("favoriteId")
         val favoriteId: Int,
+        @SerialName("hashtagList")
+        val hashtagList: List<String>?,
+        @SerialName("inviteCode")
+        val inviteCode: String,
         @SerialName("isRoomManager")
         val isRoomManager: Boolean,
         @SerialName("managerMemberId")
