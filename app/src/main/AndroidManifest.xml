@@ -73,7 +73,7 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.room.entering_room.CozyHomeEnteringInviteCodeActivity"
+            android:name=".ui.cozy_home.room.entering_room.JoinRoomActivity"
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.room.making_room.MakingPrivateRoomActivity"

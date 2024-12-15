@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
+import umc.cozymate.ui.cozy_home.room.entering_room.JoinRoomActivity
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.university_certification.UniversityViewModel
@@ -125,6 +126,10 @@ class CozyHomeMainFragment : Fragment() {
             btnMakeRoom.setOnClickListener {
                 val popup: DialogFragment = MakingRoomDialogFragment()
                 popup.show(childFragmentManager, "팝업")
+            }
+            // 방 참여 버튼
+            btnEnterRoom.setOnClickListener {
+                startActivity(Intent(activity, JoinRoomActivity::class.java))
             }
             // 학교 버튼
             btnSchoolCertificate.setOnClickListener {

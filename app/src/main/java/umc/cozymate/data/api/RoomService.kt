@@ -118,7 +118,7 @@ interface RoomService {
         @Path("roomId") roomId: Int
     ) : Response<QuitRoomResponse>
 
-    // 방 참여
+    // 방 입장
     @POST("/rooms/{roomId}/join")
     suspend fun joinRoom(
         @Header("Authorization") accessToken: String,
