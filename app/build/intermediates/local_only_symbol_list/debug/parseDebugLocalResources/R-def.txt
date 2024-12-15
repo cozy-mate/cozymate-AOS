@@ -348,7 +348,6 @@ id btn_school_certificate
 id btn_school_email
 id btn_send_verify_code
 id btn_sign_in
-id btn_test_roommate
 id calendar_view
 id call_frequently
 id call_hurry

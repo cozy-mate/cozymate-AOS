@@ -196,17 +196,6 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_top"
             app:layout_goneMarginTop="0dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_test_roommate"
-            app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_container"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="룸메이트 목록"
-            android:layout_marginStart="20dp"
-            android:textColor="@color/red"
-            android:textAppearance="@style/TextAppearance.App.18sp.Bold"/>
-
         <!-- 방 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/room_recommend_container"

@@ -3257,7 +3257,6 @@ int id btn_school_certificate 0x7f09009b
 int id btn_school_email 0x7f09009c
 int id btn_send_verify_code 0x7f09009d
 int id btn_sign_in 0x7f09009e
-int id btn_test_roommate 0x7f09009f
 int id buttonPanel 0x7f0900a0
 int id cache_measures 0x7f0900a1
 int id calendar_view 0x7f0900a2
