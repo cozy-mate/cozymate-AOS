@@ -44,7 +44,7 @@ class SearchRoomActivity : AppCompatActivity() {
         observeSearchResult()
         // 취소 버튼
         binding.btnCancle.setOnClickListener {
-
+            this.onBackPressed()
         }
     }
 
@@ -61,12 +61,7 @@ class SearchRoomActivity : AppCompatActivity() {
                         rvRoomList.visibility = View.GONE
                         etSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     } else {
-                        etSearch.setCompoundDrawablesWithIntrinsicBounds(
-                            0,
-                            0,
-                            R.drawable.ic_close,
-                            0
-                        )
+                        etSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0)
                     }
                     // Debounce 구현: 이전 작업 취소 후 0.5초 대기
                     debounceJob?.cancel()

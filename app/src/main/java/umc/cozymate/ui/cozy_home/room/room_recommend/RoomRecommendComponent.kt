@@ -48,6 +48,7 @@ class RoomRecommendComponent : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
         }
+        // 추천 방 옵저빙
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
@@ -60,6 +61,7 @@ class RoomRecommendComponent : Fragment() {
                 dotsIndicator.attachTo(viewPager)
             }
         }
+        // 더보기 버튼
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }

@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
-import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent.Companion.startActivityFromFragment
+import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -40,6 +41,7 @@ class RoommateRecommendComponent : Fragment() {
         binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoommateList()
         viewModel.fetchRoommateListByEquality()
+        // 추천 룸메이트 옵저빙
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
@@ -55,8 +57,10 @@ class RoommateRecommendComponent : Fragment() {
                 binding.dotsIndicator.attachTo(binding.vpRoommate)
             }
         }
+        // 룸메이트 더보기
         binding.llMore.setOnClickListener {
-            startActivityFromFragment(this, "Sample Room Id")
+            val intent = Intent(requireContext(), SearchRoommateActivity::class.java)
+            startActivity(intent)
         }
     }
 
