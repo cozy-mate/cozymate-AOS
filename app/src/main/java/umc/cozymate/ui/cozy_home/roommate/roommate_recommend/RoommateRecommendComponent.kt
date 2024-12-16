@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.roommate_recommend
+package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 
 import android.content.Context
 import android.os.Bundle
