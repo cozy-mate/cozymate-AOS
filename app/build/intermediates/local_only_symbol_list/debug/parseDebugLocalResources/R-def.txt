@@ -560,14 +560,16 @@ id iv_line
 id iv_male
 id iv_message_member_character
 id iv_message_move_detail
+id iv_next
 id iv_notice
 id iv_other_user_profile
 id iv_robot
 id iv_room_character
 id iv_room_member_character
 id iv_room_member_more_info
-id iv_school
+id iv_school_blue
 id iv_school_logo
+id iv_school_white
 id iv_search
 id iv_table_user_profile
 id iv_tem
@@ -1190,6 +1192,7 @@ layout activity_cozy_home_inviting_roommate
 layout activity_cozy_home_roommate_detail
 layout activity_cozy_home_selecting_character
 layout activity_cozy_room_detail_info
+layout activity_join_room
 layout activity_login_fail
 layout activity_main
 layout activity_making_private_room
@@ -1219,6 +1222,7 @@ layout fragment_cozy_home_main
 layout fragment_cozy_home_selecting_roommate
 layout fragment_cozy_home_waiting
 layout fragment_cozyhome_default
+layout fragment_enter_invite_code
 layout fragment_essential_info
 layout fragment_feed
 layout fragment_making_private_room
