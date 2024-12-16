@@ -67,7 +67,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_ment" />
-
     <!--인디케이터 -->
     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
         android:id="@+id/dots_indicator"
@@ -84,7 +83,19 @@
         app:layout_constraintTop_toBottomOf="@id/vp_roommate"
         app:progressMode="false"
         app:selectedDotColor="@color/main_blue" />
-
+    <!-- 추천 룸메이트가 없을 때 -->
+    <TextView
+        android:id="@+id/tv_empty_roommate"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:text="등록된 룸메이트가 없어요"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ment"
+        android:gravity="center"
+        android:visibility="gone"/>
     <!--하단 구분 뷰 -->
     <View
         android:layout_width="match_parent"

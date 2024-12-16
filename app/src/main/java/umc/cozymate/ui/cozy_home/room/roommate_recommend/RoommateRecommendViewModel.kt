@@ -37,6 +37,9 @@ class RoommateRecommendViewModel @Inject constructor(
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
                         _roommateList.value = response.body()!!.result.memberList
                     } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                } else {
+                    _roommateList.value = emptyList()
+                    Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "추천 룸메이트 리스트 조회 api 요청 실패: ${e}")
@@ -52,7 +55,10 @@ class RoommateRecommendViewModel @Inject constructor(
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
                         _roommateList.value = response.body()!!.result.memberList
-                    } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                    } else {
+                        _roommateList.value = emptyList()
+                        Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                    }
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "추천 룸메이트 리스트 조회 api 요청 실패: ${e}")

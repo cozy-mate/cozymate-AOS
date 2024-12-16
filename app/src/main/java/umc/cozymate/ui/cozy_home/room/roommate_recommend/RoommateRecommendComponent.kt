@@ -16,11 +16,12 @@ import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent.Comp
 class RoommateRecommendComponent : Fragment() {
 
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentRoommateRecommendComponentBinding?= null
+    private var _binding: FragmentRoommateRecommendComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoommateRecommendViewModel by viewModels()
     private var nickname: String = ""
     private var prefList: List<String> = mutableListOf()
+
     companion object {
         fun newInstance() = RoommateRecommendComponent
     }
@@ -40,11 +41,16 @@ class RoommateRecommendComponent : Fragment() {
         viewModel.fetchRecommendedRoommateList()
         viewModel.fetchRoommateListByEquality()
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
-            val dotsIndicator = binding.dotsIndicator
-            val viewPager = binding.vpRoommate
-            val adapter = RoommateRecommendVPAdapter(rmList, prefList)
-            viewPager.adapter = adapter
-            dotsIndicator.attachTo(viewPager)
+            if (rmList.isNullOrEmpty()) {
+                binding.vpRoommate.visibility = View.GONE
+                binding.tvEmptyRoommate.visibility = View.VISIBLE
+            } else {
+                val dotsIndicator = binding.dotsIndicator
+                val viewPager = binding.vpRoommate
+                val adapter = RoommateRecommendVPAdapter(rmList, prefList)
+                viewPager.adapter = adapter
+                dotsIndicator.attachTo(viewPager)
+            }
         }
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")

@@ -26,7 +26,6 @@ class RoomRecommendComponent : Fragment() {
             fragment.startActivity(intent)
         }
     }
-
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentRoomRecommendComponentBinding? = null
     private val binding get() = _binding!!
@@ -50,11 +49,16 @@ class RoomRecommendComponent : Fragment() {
             viewModel.fetchRecommendedRoomList()
         }
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
-            val dotsIndicator = binding.dotsIndicator
-            val viewPager = binding.vpRoom
-            val adapter = RoomRecommendVPAdapter(roomList, prefList)
-            viewPager.adapter = adapter
-            dotsIndicator.attachTo(viewPager)
+            if (roomList.isNullOrEmpty()) {
+                binding.vpRoom.visibility = View.GONE
+                binding.tvEmptyRoom.visibility = View.VISIBLE
+            } else {
+                val dotsIndicator = binding.dotsIndicator
+                val viewPager = binding.vpRoom
+                val adapter = RoomRecommendVPAdapter(roomList, prefList)
+                viewPager.adapter = adapter
+                dotsIndicator.attachTo(viewPager)
+            }
         }
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")

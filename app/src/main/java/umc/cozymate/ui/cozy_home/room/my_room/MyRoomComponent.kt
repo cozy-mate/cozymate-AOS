@@ -51,44 +51,40 @@ class MyRoomComponent : Fragment() {
     }
 
     private suspend fun initMyRoomData() {
-        val nickname = viewModel.getNickname()
-        viewModel.
-        toString()
+        val nickname = viewModel.getNickname().toString()
+        binding.tvMyNickname.text = "${nickname}님이"
         viewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
             with(binding) {
-                tvMyNickname.text = nickname + "님이"
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
                 tvEquality.text = roomInfo?.equality.toString() + "%"
-
+                tvHashtag1.visibility = View.GONE
+                tvHashtag1.text = ""
+                tvHashtag2.visibility = View.GONE
+                tvHashtag2.text = ""
+                tvHashtag3.visibility = View.GONE
+                tvHashtag3.text = ""
                 when (roomInfo?.hashtagList?.size) {
-                    null -> {
-                        tvHashtag1.visibility = View.GONE
-                        tvHashtag2.visibility = View.GONE
-                        tvHashtag3.visibility = View.GONE
-                    }
-
-                    0 -> {
-                        tvHashtag1.visibility = View.GONE
-                        tvHashtag2.visibility = View.GONE
-                        tvHashtag3.visibility = View.GONE
-                    }
-
+                    null -> {}
+                    0 -> {}
                     1 -> {
-                        tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
-                        tvHashtag2.visibility = View.GONE
-                        tvHashtag3.visibility = View.GONE
+                        if (roomInfo.hashtagList[0] != "") {
+                            tvHashtag1.visibility = View.VISIBLE
+                            tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        }
                     }
-
                     2 -> {
+                        tvHashtag1.visibility = View.VISIBLE
                         tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        tvHashtag2.visibility = View.VISIBLE
                         tvHashtag2.text = "#${roomInfo?.hashtagList?.get(1)}"
-                        tvHashtag3.visibility = View.GONE
                     }
-
                     3 -> {
+                        tvHashtag1.visibility = View.VISIBLE
                         tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
+                        tvHashtag2.visibility = View.VISIBLE
                         tvHashtag2.text = "#${roomInfo?.hashtagList?.get(1)}"
+                        tvHashtag3.visibility = View.VISIBLE
                         tvHashtag3.text = "#${roomInfo?.hashtagList?.get(2)}"
                     }
                 }

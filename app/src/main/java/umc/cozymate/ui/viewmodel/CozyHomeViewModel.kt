@@ -65,6 +65,10 @@ class CozyHomeViewModel @Inject constructor(
         return sharedPreferences.getString("user_nickname", "")
     }
 
+    fun getRoomName(): String? {
+        return sharedPreferences.getString("room_name", "")
+    }
+
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
@@ -224,10 +228,8 @@ class CozyHomeViewModel @Inject constructor(
                     _roomList.value = response.body()!!.result?.result
                 } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
             } else {
-                val errorBody = response.errorBody()?.string()
-                if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
-                else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
-                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${errorBody}")
+                _roomList.value = emptyList()
+                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
             Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
