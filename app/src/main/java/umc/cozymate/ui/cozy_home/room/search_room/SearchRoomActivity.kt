@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -50,12 +51,14 @@ class SearchRoomActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setSearchView() {
         with(binding) {
+            tvEmptyRoom.visibility = View.GONE
             etSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     val keyword = s.toString().trim()
                     // 글자가 입력되었을 때 X 버튼 표시, 아니면 숨기기
                     if (s.isNullOrEmpty()) {
+                        rvRoomList.visibility = View.GONE
                         etSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     } else {
                         etSearch.setCompoundDrawablesWithIntrinsicBounds(
@@ -65,10 +68,10 @@ class SearchRoomActivity : AppCompatActivity() {
                             0
                         )
                     }
-                    // Debounce 구현: 이전 작업 취소 후 1초 대기
+                    // Debounce 구현: 이전 작업 취소 후 0.5초 대기
                     debounceJob?.cancel()
                     debounceJob = lifecycleScope.launch {
-                        delay(1000) // 1초 기다림
+                        delay(500) // 0.5초 기다림
                         if (keyword.isNotEmpty()) {
                             viewModel.getSearchRoomList(keyword)
                         }
@@ -91,6 +94,7 @@ class SearchRoomActivity : AppCompatActivity() {
     }
 
     private fun observeSearchResult() {
+        // 클릭 시 방 상세 페이지로 이동하도록 어댑터 설정
         val adapter = SearchedRoomsAdapter { roomId ->
             val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
                 putExtra("ROOM_ID", roomId)
@@ -99,11 +103,20 @@ class SearchRoomActivity : AppCompatActivity() {
         }
         binding.rvRoomList.adapter = adapter
         binding.rvRoomList.layoutManager = LinearLayoutManager(this@SearchRoomActivity)
+        // 방검색 api 응답 옵저빙
         viewModel.searchRoomResponse.observe(this) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.tvEmptyRoom.visibility = View.GONE
+                binding.rvRoomList.visibility = View.VISIBLE
                 adapter.submitList(roomList)
+            } else {
+                binding.tvEmptyRoom.visibility = View.VISIBLE
             }
+        }
+        // 로딩중 옵저빙
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 }

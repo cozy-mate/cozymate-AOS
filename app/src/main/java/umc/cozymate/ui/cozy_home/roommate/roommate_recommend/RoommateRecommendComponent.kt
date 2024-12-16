@@ -43,13 +43,16 @@ class RoommateRecommendComponent : Fragment() {
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
+                binding.dotsIndicator.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
-                val dotsIndicator = binding.dotsIndicator
-                val viewPager = binding.vpRoommate
+                binding.vpRoommate.visibility = View.VISIBLE
+                binding.dotsIndicator.visibility = View.VISIBLE
+                binding.tvEmptyRoommate.visibility = View.GONE
+                // 룸메이트 추천 뷰페이저 어댑터 설정
                 val adapter = RoommateRecommendVPAdapter(rmList, prefList)
-                viewPager.adapter = adapter
-                dotsIndicator.attachTo(viewPager)
+                binding.vpRoommate.adapter = adapter
+                binding.dotsIndicator.attachTo(binding.vpRoommate)
             }
         }
         binding.llMore.setOnClickListener {
