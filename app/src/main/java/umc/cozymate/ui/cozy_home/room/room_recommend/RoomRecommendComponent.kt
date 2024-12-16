@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
+import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class RoomRecommendComponent : Fragment() {
     companion object {
         // 방 더보기 페이지로 이동
         fun startActivityFromFragment(fragment: Fragment, roomId: String) {
-            val intent = Intent(fragment.requireContext(), RoomDetailActivity::class.java).apply {
+            val intent = Intent(fragment.requireContext(), SearchRoomActivity::class.java).apply {
                 putExtra("ROOM_ID", roomId)
             }
             fragment.startActivity(intent)
