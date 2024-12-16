@@ -34,13 +34,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
+                android:id="@+id/et_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="16dp"
                 android:background="@color/transparent"
                 android:cursorVisible="false"
-                android:hint="학교를 입력해주세요"
+                android:hint="방 이름을 입력해주세요"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
