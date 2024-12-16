@@ -21,7 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.cozy_home.roommate.search_roommate.SearchRoommateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.room.search_room.SearchRoomActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />
@@ -92,12 +97,9 @@
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true" />
-
-        <!-- 쪽지 -->
+            android:exported="true" /> <!-- 쪽지 -->
         <activity android:name=".ui.message.MessageActivity" />
         <activity android:name=".ui.message.WriteMessageActivity" />
-
         <activity android:name=".ui.my_page.WithDrawActivity" />
         <activity
             android:name=".ui.role_rule.AddTodoActivity"
