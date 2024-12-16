@@ -38,23 +38,20 @@ class MyPageFragment : Fragment() {
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
+        binding.layoutCozyroom.setOnClickListener {
+            if (roomId != 0 && roomId != -1) {
+                goToUpdateCozyRoomDetailInfoActivity()
+            }
+        }
+        binding.tvSchool.setOnClickListener {
+            loadSchool()
+        }
         binding.tvSignout.setOnClickListener {
-            binding.layoutCozyroom.setOnClickListener {
-                if (roomId != 0 && roomId != -1) {
-                    goToUpdateCozyRoomDetailInfoActivity()
-                }
-            }
-            binding.tvSignout.setOnClickListener {
-                performLogout()
-            }
-            binding.tvSchool.setOnClickListener {
-                loadSchool()
-            }
-
-            binding.tvWithdraw.setOnClickListener {
-                val intent: Intent = Intent(activity, WithDrawActivity::class.java)
-                startActivity(intent)
-            }
+            performLogout()
+        }
+        binding.tvWithdraw.setOnClickListener {
+            val intent: Intent = Intent(activity, WithDrawActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
     }
