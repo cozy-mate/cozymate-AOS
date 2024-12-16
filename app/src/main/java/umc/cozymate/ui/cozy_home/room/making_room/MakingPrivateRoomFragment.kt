@@ -13,7 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -29,7 +29,7 @@ class MakingPrivateRoomFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentMakingPrivateRoomBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MakingRoomViewModel
+    private val viewModel: MakingRoomViewModel by viewModels()
     private var numPeopleOption: TextView? = null
     private var numPeople: Int = 0
     private var charId: Int? = 1
@@ -41,7 +41,6 @@ class MakingPrivateRoomFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMakingPrivateRoomBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
         return binding.root
     }
 
@@ -97,7 +96,7 @@ class MakingPrivateRoomFragment : Fragment() {
             val isEnabled = isCharacterSelected && isRoomNameEntered && isPeopleNumSelected
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                //viewModel.createPrivateRoom() // 방 정보 POST
+                viewModel.checkAndSubmitCreatePrivateRoom() // 방 정보 POST
                 Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
             }
         }
@@ -187,13 +186,11 @@ class MakingPrivateRoomFragment : Fragment() {
                 (activity as? MakingPrivateRoomActivity)?.showProgressBar(false)
             }
         }
-
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.privateRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            (activity as? MakingPrivateRoomActivity)?.loadGiviingInviteCodeFragment()
+            (activity as? MakingPrivateRoomActivity)?.loadGivingInviteCodeFragment(result.result.persona, result.result.inviteCode)
         }
-
-        // 에러 응답도 추가로 처리할 수 있음
+        // 에러 응답도 추가로 처리할 수 있음 >> TODO : 팝업 띄우기
         viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
             if (error != null) {
                 Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()

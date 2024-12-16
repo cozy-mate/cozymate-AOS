@@ -5,13 +5,16 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
+import umc.cozymate.data.model.request.UpdateRoomInfoRequest
 import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
+import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
@@ -21,16 +24,18 @@ import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
+import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 
-// (10/29) 구현
+// (15/29) 구현
 interface RoomService {
 
     // 방 삭제 (방장 권한)
+    // deprecated
     @DELETE("rooms/{roomId}")
     suspend fun deleteRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
-        @Query("memberId") memberId: Int? = null
     ): Response<DeleteRoomResponse>
 
     // 사용자 -> 방 참여 요청 취소
@@ -84,7 +89,36 @@ interface RoomService {
         @Query("roomName") roomName: String
     ) : Response<CheckRoomNameResponse>
 
-    // 방 참여
+    // 방 정보 수정
+    @PATCH("/rooms/{roomId}")
+    suspend fun updateRoomInfo(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+        @Body roomInfo: UpdateRoomInfoRequest
+    ) : Response<UpdateRoomInfoResponse>
+
+    // 공개방으로 전환
+    @PATCH("/rooms/{roomId}/to-public")
+    suspend fun changeToPublicRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ) : Response<ChangeRoomStatusResult>
+
+    // 비공개방으로 전환
+    @PATCH("/rooms/{roomId}/to-private")
+    suspend fun changeToPrivateRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ) : Response<ChangeRoomStatusResult>
+
+    // 방 나가기
+    @PATCH("/rooms/{roomId}/quit")
+    suspend fun quitRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ) : Response<QuitRoomResponse>
+
+    // 방 입장
     @POST("/rooms/{roomId}/join")
     suspend fun joinRoom(
         @Header("Authorization") accessToken: String,

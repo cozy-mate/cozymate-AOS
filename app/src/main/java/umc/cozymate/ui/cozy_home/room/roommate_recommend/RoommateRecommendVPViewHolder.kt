@@ -17,10 +17,10 @@ class RoommateRecommendVPViewHolder(
             tvMatchRate.text = "${item.equality}%"
 
             // 색깔: 선호도가 나와 일치할때(파랑), 다를때(빨강), 라이프스타일 입력전에(흰색)
-            // 텍스트: prefstat (내정보는 spf, 다른사람정보는 livedata)
+            // 텍스트: prefstat
 
             // 선호항목 1번
-            val pref1 = Preference.entries.find { it.pref == prefList[0] }
+            val pref1 = Preference.entries.find { it.pref == item.preferenceStats[0].stat }
             if (pref1 != null) {
                 tvCriteria1.text = pref1.displayName
                 tvCriteriaContent1.text = formatAnswer(pref1.pref, item.preferenceStats[0].value.toString())
@@ -38,7 +38,7 @@ class RoommateRecommendVPViewHolder(
             }
 
             // 선호항목 2번
-            val pref2 = Preference.entries.find { it.pref == prefList[1] }
+            val pref2 = Preference.entries.find { it.pref == item.preferenceStats[1].stat }
             if (pref2 != null) {
                 tvCriteria2.text = pref2.displayName
                 tvCriteriaContent2.text = formatAnswer(pref2.pref, item.preferenceStats[1].value.toString())
@@ -56,7 +56,7 @@ class RoommateRecommendVPViewHolder(
             }
 
             // 선호항목 3번
-            val pref3 = Preference.entries.find { it.pref == prefList[2] }
+            val pref3 = Preference.entries.find { it.pref == item.preferenceStats[2].stat }
             if (pref3 != null) {
                 tvCriteria3.text = pref3.displayName
                 tvCriteriaContent3.text = formatAnswer(pref3.pref, item.preferenceStats[2].value.toString())
@@ -74,7 +74,7 @@ class RoommateRecommendVPViewHolder(
             }
 
             // 선호항목 4번
-            val pref4 = Preference.entries.find { it.pref == prefList[3] }
+            val pref4 = Preference.entries.find { it.pref == item.preferenceStats[3].stat }
             if (pref4 != null) {
                 tvCriteria4.text = pref4.displayName
                 tvCriteriaContent4.text = formatAnswer(pref4.pref, item.preferenceStats[3].value.toString())

@@ -10,10 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
+import umc.cozymate.ui.cozy_home.room.entering_room.JoinRoomActivity
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.university_certification.UniversityViewModel
@@ -35,20 +38,39 @@ class CozyHomeMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
-
-        viewModel.fetchRoomIdIfNeeded()
-        initState()
-        initView()
-        initListener()
-        openMessage()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initState()
+        initView()
+        initListener()
+        openMessage()
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (univViewModel.isVerified.value == false) {
+                univViewModel.isMailVerified()
+            }
+        }
         observeViewModel()
-        univViewModel.isMailVerified()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.intent?.let { intent ->
+            val isRoomExist = intent.getBooleanExtra("isRoomExist", true)
+            val isRoomManager = intent.getBooleanExtra("isRoomManager", true)
+
+            // 전달된 값을 기반으로 UI 업데이트
+            if (!isRoomExist) {
+                initState()
+            } else if (isRoomExist == true) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.getRoomId()
+                    initState()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -67,6 +89,7 @@ class CozyHomeMainFragment : Fragment() {
         }
     }
 
+    // 사용자의 방없음/방장/초대요청보냄/방참여 상태에 따른 컴포넌트 띄우기
     private fun initView() {
         with(binding) {
             when (state) {
@@ -104,10 +127,16 @@ class CozyHomeMainFragment : Fragment() {
                 val popup: DialogFragment = MakingRoomDialogFragment()
                 popup.show(childFragmentManager, "팝업")
             }
+            // 방 참여 버튼
+            btnEnterRoom.setOnClickListener {
+                startActivity(Intent(activity, JoinRoomActivity::class.java))
+            }
+            // 학교 버튼
             btnSchoolCertificate.setOnClickListener {
                 startActivity(Intent(activity, UniversityCertificationActivity::class.java))
             }
-            if (state == UserRoomState.NO_ROOM || state == UserRoomState.REQUEST_SENT) {
+            // 방장/방참여 사용자는 버튼 비활성화
+            if (state == UserRoomState.HAS_ROOM|| state == UserRoomState.CREATED_ROOM) {
                 btnMakeRoom.isEnabled = false
                 btnEnterRoom.isEnabled = false
                 btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
@@ -124,11 +153,6 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true && univViewModel.university.value == null) {
-                univViewModel.fetchMyUniversity()
-            }
-        }
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
@@ -143,6 +167,13 @@ class CozyHomeMainFragment : Fragment() {
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                     btnSchoolCertificate.isEnabled = false
                 // btnSchoolCertificate.setOnClickListener(null)
+                }
+            }
+        }
+        univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            if (isVerified == true && univViewModel.university.value == null) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    univViewModel.fetchMyUniversityIfNeeded()
                 }
             }
         }

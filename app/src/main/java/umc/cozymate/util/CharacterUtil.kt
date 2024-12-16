@@ -22,7 +22,7 @@ object CharacterUtil {
             14 -> iv.setImageResource(R.drawable.character_id_14)
             15 -> iv.setImageResource(R.drawable.character_id_15)
             16 -> iv.setImageResource(R.drawable.character_id_16)
-            else -> iv.setImageResource(R.drawable.character_id_1) // 기본 이미지 설정
+            else -> iv.setImageResource(R.drawable.background_circle) // 기본 이미지 설정
         }
     }
 }
