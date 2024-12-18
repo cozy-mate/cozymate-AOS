@@ -21,79 +21,61 @@ import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.entering_room.CozyHomeEnteringViewModel
+import umc.cozymate.ui.cozy_home.room.entering_room.JoinRoomViewModel
 
 @AndroidEntryPoint
 class InviteCodeSuccessPopUp : DialogFragment() {
 
     private val TAG = this.javaClass.simpleName
-
     private var _binding: PopupInviteCodeSuccessBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var spf: SharedPreferences
     private var roomName: String = "[피그말리온]"
     private var roomDetail: String = ""
     private var roomId: Int = 0
 
-    private lateinit var viewModel: CozyHomeEnteringViewModel
-
+    private lateinit var viewModel: JoinRoomViewModel
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = PopupInviteCodeSuccessBinding.inflate(layoutInflater)
-
-        viewModel = ViewModelProvider(requireActivity())[CozyHomeEnteringViewModel::class.java]
-
-        // SharedPreferences 초기화
+        viewModel = ViewModelProvider(requireActivity())[JoinRoomViewModel::class.java]
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)  // roomId 초기화
-
         initRoomInfo()
-
         // 확인 버튼 > 방 조회 > 코지홈
         binding.btnOk.setOnClickListener {
             viewModel.joinRoom(roomId)
         }
-
         // 취소 버튼 > 팝업 닫기
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
-
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
-
         val dialog = builder.create()
-
         // 배경 투명 + 밝기 조절 (0.7)
         dialog.window?.let { window ->
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
             val layoutParams = window.attributes
             layoutParams.dimAmount = 0.7f
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.attributes = layoutParams
         }
 
-
-
         return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeViewModel()
         observeError()
     }
 
     private fun initRoomInfo() {
-        val roomManagerName = spf.getString("room_manager_name", "default_manager")
+        val roomManagerName = spf.getString("room_manager_name", "")
         val roomMaxMateNum = spf.getInt("room_max_mate_num", 0)
-
-        roomName = "[" + spf.getString("room_name", "default_name") + "]"
+        roomName = "[" + spf.getString("room_name", "") + "]"
         roomDetail = "방장 : [" + roomManagerName + "] | " + roomMaxMateNum + "인실"
-
         binding.tvRoomname.text = roomName
         binding.tvRoomInfo.text = roomDetail
     }
@@ -103,8 +85,6 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         viewModel.roomJoinSuccess.observe(viewLifecycleOwner, Observer { success ->
             if (success) {
                 dismiss()
-
-                // Fragment 전환을 UI 스레드에서 안전하게 수행
                 view?.post {
                     parentFragmentManager.commit {
                         replace(R.id.main_container, CozyBotFragment())
@@ -123,12 +103,10 @@ class InviteCodeSuccessPopUp : DialogFragment() {
                     "존재하지 않는 방입니다." -> {
                         //popup = InviteCodeFailPopUp()
                     }
-
                     "이미 참가한 방입니다." -> {
                         val intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
                     }
-
                     else -> {
                         val intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)

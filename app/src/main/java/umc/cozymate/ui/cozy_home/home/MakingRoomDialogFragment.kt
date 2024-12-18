@@ -15,8 +15,8 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingRoomDialogBinding
-import umc.cozymate.ui.cozy_home.making_room.MakingPrivateRoomActivity
-import umc.cozymate.ui.cozy_home.making_room.MakingPublicRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPrivateRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 
 class MakingRoomDialogFragment : DialogFragment() {
     private var _binding: FragmentMakingRoomDialogBinding? = null

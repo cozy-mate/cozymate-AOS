@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        tools:context=".ui.cozy_home.room_detail.RoomDetailActivity">
+        tools:context=".ui.cozy_home.room.room_detail.RoomDetailActivity">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -83,26 +83,26 @@
 
         </LinearLayout>
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/btn_room_search_list"-->
-<!--            android:layout_width="20dp"-->
-<!--            android:layout_height="20dp"-->
-<!--            android:layout_marginTop="40dp"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:rotation="90"-->
-<!--            android:src="@drawable/ic_down_2"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/ly_room_search" />-->
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/btn_room_search_list"-->
+        <!--            android:layout_width="20dp"-->
+        <!--            android:layout_height="20dp"-->
+        <!--            android:layout_marginTop="40dp"-->
+        <!--            android:backgroundTint="@color/white"-->
+        <!--            android:rotation="90"-->
+        <!--            android:src="@drawable/ic_down_2"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/ly_room_search" />-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_room_search"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="최신순"-->
-<!--            android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
-<!--            android:textColor="@color/basic_font"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/btn_room_search_list"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/btn_room_search_list" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_room_search"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="최신순"-->
+        <!--            android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
+        <!--            android:textColor="@color/basic_font"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/btn_room_search_list"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/btn_room_search_list" />-->
 
         <Spinner
             android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                 android:id="@+id/rv_room_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/rv_item_room_detail" />
+                tools:listitem="@layout/vp_item_room_recommend" />
 
         </androidx.core.widget.NestedScrollView>
 

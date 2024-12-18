@@ -24,4 +24,3 @@ data class ReissueResponse(
         val refreshToken: String
     )
 }
-

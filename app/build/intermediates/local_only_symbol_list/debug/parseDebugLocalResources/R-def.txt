@@ -50,6 +50,7 @@ drawable background_crewable_scroll
 drawable background_finding_roommate
 drawable background_finding_roommate_png
 drawable background_morebox
+drawable background_my_room
 drawable background_mypage
 drawable background_mypage1
 drawable background_mypage2
@@ -406,7 +407,6 @@ id cl_criteria_2
 id cl_criteria_3
 id cl_criteria_4
 id cl_dormitory
-id cl_dormitory_info_list
 id cl_drink
 id cl_eating
 id cl_friendly
@@ -420,7 +420,7 @@ id cl_list_dormitory_info
 id cl_list_essential_info
 id cl_living
 id cl_mbti
-id cl_mid
+id cl_my_room
 id cl_noise
 id cl_notice
 id cl_onboarding_name
@@ -432,7 +432,6 @@ id cl_public_room
 id cl_rectangle
 id cl_report
 id cl_room_info
-id cl_roommate_info_list
 id cl_search
 id cl_share
 id cl_sleep_habit
@@ -486,6 +485,7 @@ id et_selection_info
 id fab_request_enter_room
 id fragment_container
 id fragment_container_giving
+id fragment_container_making
 id fragment_cozybot
 id fragment_feed
 id fragment_home
@@ -535,7 +535,6 @@ id iv_char
 id iv_char_back
 id iv_character
 id iv_character_edit
-id iv_chat
 id iv_check
 id iv_check_verify_code
 id iv_chk
@@ -546,6 +545,7 @@ id iv_crieteria_icon_1
 id iv_crieteria_icon_2
 id iv_crieteria_icon_3
 id iv_crieteria_icon_4
+id iv_criteria_icon_1
 id iv_edit_back
 id iv_edit_back2
 id iv_feed_title
@@ -555,7 +555,6 @@ id iv_home_name
 id iv_home_people_num
 id iv_ic_school
 id iv_light
-id iv_like
 id iv_line
 id iv_male
 id iv_message_member_character
@@ -564,7 +563,6 @@ id iv_next
 id iv_notice
 id iv_other_user_profile
 id iv_robot
-id iv_room_character
 id iv_room_member_character
 id iv_room_member_more_info
 id iv_school_blue
@@ -738,7 +736,6 @@ id rv_list
 id rv_message
 id rv_message_detail
 id rv_room_detail
-id rv_room_member_list
 id rv_roommate
 id rv_roommate_detail_info
 id rv_schools
@@ -835,6 +832,7 @@ id tv_alert
 id tv_alert_code
 id tv_alert_detail
 id tv_alert_message
+id tv_alert_name
 id tv_alert_nickname
 id tv_birth
 id tv_box
@@ -858,16 +856,16 @@ id tv_criteria_content_1
 id tv_criteria_content_2
 id tv_criteria_content_3
 id tv_criteria_content_4
+id tv_cur_member_count
 id tv_detail_list_rule
 id tv_dialog_request_other_name
 id tv_dormitory
-id tv_dormitory_name
-id tv_dormitory_name_title
-id tv_dormitory_room_num
-id tv_dormitory_room_num_title
 id tv_drink
 id tv_eating_check
 id tv_ect
+id tv_empty_room
+id tv_empty_roommate
+id tv_equality
 id tv_feed_room_detail
 id tv_feed_room_name
 id tv_female
@@ -879,8 +877,12 @@ id tv_guide2
 id tv_guide3
 id tv_guide4
 id tv_guide5
+id tv_hashtag1
+id tv_hashtag2
+id tv_hashtag3
 id tv_hashtag_1
 id tv_hashtag_2
+id tv_hashtag_3
 id tv_heater_check
 id tv_home_name
 id tv_home_people_num
@@ -893,7 +895,6 @@ id tv_label_room_name
 id tv_label_room_people_number
 id tv_label_university
 id tv_lifestyle_guide
-id tv_lifestyle_title
 id tv_light_off_1
 id tv_light_off_10
 id tv_light_off_11
@@ -974,6 +975,7 @@ id tv_major_guide
 id tv_male
 id tv_match_rate
 id tv_mbti
+id tv_member_number
 id tv_ment
 id tv_message_delete
 id tv_message_member_name
@@ -982,6 +984,7 @@ id tv_message_name
 id tv_message_report
 id tv_message_text
 id tv_message_time
+id tv_my_nickname
 id tv_name
 id tv_name1
 id tv_name2
@@ -1020,11 +1023,7 @@ id tv_room_detail_people
 id tv_room_detail_sleep_match
 id tv_room_detail_tag_name
 id tv_room_detail_wake_match
-id tv_room_dormitory_title
 id tv_room_info
-id tv_room_info_current_num
-id tv_room_info_title
-id tv_room_info_total_num
 id tv_room_match
 id tv_room_mate_match
 id tv_room_mate_name
@@ -1032,7 +1031,6 @@ id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
 id tv_room_name
-id tv_room_tag
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3
@@ -1203,6 +1201,7 @@ layout activity_room_detail
 layout activity_roommate_detail
 layout activity_roommate_input_info
 layout activity_roommate_onboarding
+layout activity_selecting_room_character
 layout activity_splash
 layout activity_university_certification
 layout activity_write_message
@@ -1225,11 +1224,13 @@ layout fragment_cozyhome_default
 layout fragment_enter_invite_code
 layout fragment_essential_info
 layout fragment_feed
+layout fragment_giving_invite_code
 layout fragment_making_private_room
 layout fragment_making_public_room
 layout fragment_making_room_dialog
 layout fragment_message_detail
 layout fragment_message_member
+layout fragment_my_room_component
 layout fragment_mypage
 layout fragment_onboarding_selecting_character
 layout fragment_onboarding_selecting_element
@@ -1238,8 +1239,10 @@ layout fragment_onboarding_user_info
 layout fragment_publish_private_room_code
 layout fragment_role_and_rule
 layout fragment_role_and_rule_tab
+layout fragment_room_recommend_component
 layout fragment_roommate_make_crewable
 layout fragment_roommate_onboarding
+layout fragment_roommate_recommend_component
 layout fragment_selection_info
 layout fragment_todo_tab
 layout fragment_university_certification
