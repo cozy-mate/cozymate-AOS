@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.request.TodoRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
 import javax.inject.Inject
@@ -31,20 +30,16 @@ class TodoViewModel @Inject constructor(
     private val _content = MutableLiveData<String>()
     val content : LiveData<String> get() = _content
 
-    private val _complited = MutableLiveData<Boolean>()
-    val complited : LiveData<Boolean> get() = _complited
+//    private val _complited = MutableLiveData<Boolean>()
+//    val complited : LiveData<Boolean> get() = _complited
 
     private val _todoResponse = MutableLiveData<Response<TodoResponse>>()
     val todoResponse: LiveData<Response<TodoResponse>> get() = _todoResponse
 
-//    private val _updateResponse = MutableLiveData<Response<DefaultResponse>>()
-//    val updateResponse: LiveData<Response<DefaultResponse>> get() = _updateResponse
 
-    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
-    val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
-
-//    private val _editResponse = MutableLiveData<Response<DefaultResponse>>()
-//    val editResponse: LiveData<Response<DefaultResponse>> get() = _editResponse
+//    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
+//    val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
+//
 
 
     fun getToken(): String? {

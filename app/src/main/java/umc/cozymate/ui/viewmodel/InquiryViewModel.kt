@@ -22,26 +22,38 @@ class InquiryViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
     private val _getInquiryResponse = MutableLiveData<Response<InquiryResponse>>()
     val getInquiryResponse : LiveData<Response<InquiryResponse>> get() = _getInquiryResponse
+
     private val _existance  =  MutableLiveData<Boolean>()
     val existance : LiveData<Boolean> get() = _existance
+
+
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun createInquiry(content : String, email: String){
+    fun createInquiry(content: String, email : String){
         viewModelScope.launch {
             val token = getToken()
+            Log.d(TAG,"postinuiry input : ${content} / ${email}")
             try {
                 val request = InquiryRequest(content, email)
                 val response = repository.postInquiry(token!!, request)
-                if (!response.isSuccessful) Log.d(TAG,"postInquiry 응답실패 : ${response.body()} ")
+                if (response.isSuccessful) {
+                    Log.d(TAG,"postInquiry 응답성공 : ${response.body()} ")
+                    getInquiry()
+                }
+                else
+                    Log.d(TAG,"postInquiry 응답실패 : ${response.body()} ")
             }catch (e: Exception){
                 Log.d(TAG, "postInquiry api 요청 실패: ${e}")
             }
         }
     }
+
 
     fun getInquiry(){
         viewModelScope.launch {

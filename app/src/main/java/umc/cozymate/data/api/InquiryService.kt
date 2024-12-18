@@ -13,12 +13,12 @@ import umc.cozymate.data.model.request.InquiryRequest
 import umc.cozymate.data.model.response.InquiryResponse
 
 interface InquiryService {
-    @GET("/inquires")
+    @GET("/inquiries")
     suspend fun getInquiry(
         @Header("Authorization") accessToken : String
     ): Response<InquiryResponse>
 
-    @GET("/inquires/exist")
+    @GET("/inquiries/exist")
     suspend fun getInquiryExistence(
         @Header("Authorization") accessToken : String
     ): Response<ResponseBody<Boolean>>

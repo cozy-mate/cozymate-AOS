@@ -13,17 +13,18 @@
         android:layout_marginStart="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layout_container"/>
+        app:layout_constraintBottom_toTopOf="@id/rv_inquiry"/>
 
 
-    <FrameLayout
-        android:id="@+id/layout_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_inquiry"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        tools:listitem="@layout/rv_item_inquiry"
+        android:paddingBottom="100dp"
         app:layout_constraintTop_toBottomOf="@id/iv_back"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_input_button"

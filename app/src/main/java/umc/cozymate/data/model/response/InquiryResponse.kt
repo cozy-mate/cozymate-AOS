@@ -1,6 +1,7 @@
 package umc.cozymate.data.model.response
 
 import com.google.gson.annotations.SerializedName
+import umc.cozymate.data.model.entity.InquiryData
 
 data class InquiryResponse(
     @SerializedName("isSuccess")
@@ -14,20 +15,5 @@ data class InquiryResponse(
 
     @SerializedName("result")
     val result: List<InquiryData>
-){
-    data class InquiryData(
-        @SerializedName("inquiryId")
-        val inquiryId : Int,
-        @SerializedName("persona")
-        val persona : Int,
-        @SerializedName("nickname")
-        val nickname : String,
-        @SerializedName("content")
-        val content : String,
-        @SerializedName("datetime")
-        val datetime : String,
-        @SerializedName("status")
-        val status : String
-    )
-}
+)
 
