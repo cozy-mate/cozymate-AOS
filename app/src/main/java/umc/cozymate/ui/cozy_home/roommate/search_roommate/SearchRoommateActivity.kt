@@ -20,7 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySearchRoommateBinding
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.roommate.RoommateDetailActivity
 
 @AndroidEntryPoint
 class SearchRoommateActivity : AppCompatActivity() {
@@ -89,9 +89,9 @@ class SearchRoommateActivity : AppCompatActivity() {
     }
 
     private fun observeSearchResult() {
-        // 클릭 시 룸메이트 상세 페이지로 이동하도록 어댑터 설정
+        // 클릭 시 룸메이트 상세정보 페이지로 이동하도록 어댑터 설정
         val adapter = SearchedRoommatesAdapter { memberId ->
-            val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
+            val intent = Intent(this, RoommateDetailActivity::class.java).apply {
                 putExtra("ROOMMATE_ID", memberId)
             }
             startActivity(intent)
