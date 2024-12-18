@@ -42,11 +42,11 @@ class CozyHomeSelectingRoommateFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
+        /*with(binding) {
             btnNext.setOnClickListener {
                 (activity as? CozyHomeInvitingRoommateActivity)?.loadFragment3()
             }
-        }
+        }*/
 
         initRV()
     }

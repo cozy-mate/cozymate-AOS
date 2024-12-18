@@ -1,34 +1,38 @@
 package umc.cozymate.ui.cozy_home.room.making_room
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.databinding.ActivityCozyHomeSelectingCharacterBinding
+import umc.cozymate.databinding.ActivitySelectingRoomCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
 import umc.cozymate.util.GridSpacingItemDecoration
+import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.fromDpToPx
+import umc.cozymate.util.setStatusBarTransparent
 
-// 플로우1 : 방정보 입력창 캐릭터 수정 버튼 클릭
+// 방정보 입력창 캐릭터 수정 버튼 클릭
 @AndroidEntryPoint
-class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemClickListener {
+class SelectingRoomCharacterActivity : AppCompatActivity(), CharacterItemClickListener {
 
     private val TAG = this.javaClass.simpleName
-
-    lateinit var binding: ActivityCozyHomeSelectingCharacterBinding
+    lateinit var binding: ActivitySelectingRoomCharacterBinding
     private var selectedCharacterId: Int? = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCozyHomeSelectingCharacterBinding.inflate(layoutInflater)
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        binding = ActivitySelectingRoomCharacterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         with(binding) {
             btnNext.setOnClickListener {
                 val intent = Intent()
@@ -38,10 +42,7 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
                 }
                 finish() // 현재 Activity를 종료하고 이전 화면으로 돌아감
             }
-
-
         }
-
         initCharacterList()
 
     }
@@ -71,13 +72,40 @@ class CozyHomeSelectingCharacterActivity : AppCompatActivity(), CharacterItemCli
         binding.rvList.run {
             layoutManager = GridLayoutManager(context, 4)
             addItemDecoration(
-                GridSpacingItemDecoration(spanCount =4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
+                GridSpacingItemDecoration(spanCount = 4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
             )
         }
     }
 
+    private fun saveUserPreference(persona: Int) {
+        val sharedPreferences = this.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("room_persona", persona)
+        editor.commit()
+    }
+
     override fun onItemClick(character: CharacterItem, position: Int) {
-        selectedCharacterId = position + 1 // 1부터 시작
+        selectedCharacterId =
+            when (position) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 5
+                4 -> 6
+                5 -> 4
+                6 -> 15
+                7 -> 14
+                8 -> 8
+                9 -> 7
+                10 -> 11
+                11 -> 12
+                12 -> 10
+                13 -> 13
+                14 -> 9
+                15 -> 16
+                else -> 0
+            }
+        saveUserPreference(selectedCharacterId ?: 0)
         Log.d(TAG, "Selected item position: $position")
     }
 }

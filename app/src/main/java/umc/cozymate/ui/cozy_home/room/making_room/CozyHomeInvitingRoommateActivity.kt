@@ -11,7 +11,6 @@ import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeInvitingRoommateBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeEnteringFragment
-import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeWaitingFragment
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -57,13 +56,13 @@ class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
             .commit()
     }
 
-    // 세번째 [룸메이트 대기창] 로드
+    /*// 세번째 [룸메이트 대기창] 로드
     fun loadFragment3() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, CozyHomeWaitingFragment())
             .addToBackStack(null)
             .commit()
-    }
+    }*/
 
     // 네번째 [코지홈 입장창] 로드
     fun loadFragment4() {

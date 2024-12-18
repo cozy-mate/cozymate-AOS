@@ -17,64 +17,51 @@ import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
 
+// TODO: 방이름, 방장 닉네임, 최대인원수 정보 필요
 @HiltViewModel
-class CozyHomeEnteringViewModel @Inject constructor(
+class JoinRoomViewModel @Inject constructor(
     private val repository: RoomRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
-
     private val _inviteCode = MutableLiveData<String>()
     val inviteCode: LiveData<String> get() = _inviteCode
-
     private val _roomInfo = MutableLiveData<RoomInfo?>()
     val roomInfo: LiveData<RoomInfo?> get() = _roomInfo
-
     private val _response = MutableLiveData<Response<GetRoomInfoByInviteCodeResponse>>()
     val response: LiveData<Response<GetRoomInfoByInviteCodeResponse>> get() = _response
-
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-
     private val _roomJoinSuccess = MutableLiveData<Boolean>()
     val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
-
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
-    }
-
-    fun saveRoomInfo() {
-        Log.d(TAG, "방 정보: ${_roomInfo.value.toString()}")
-        sharedPreferences.edit().putString("room_name", _roomInfo.value!!.name).apply()
-        sharedPreferences.edit().putInt("room_id", _roomInfo.value!!.roomId).apply()
-        sharedPreferences.edit().putString("room_manager_name", _roomInfo.value!!.managerName)
-            .apply()
-        sharedPreferences.edit().putInt("room_max_mate_num", _roomInfo.value!!.maxMateNum).apply()
     }
 
     fun setInviteCode(code: String) {
         _inviteCode.value = code
     }
 
-    fun getRoom() {
+    suspend fun getRoomInfo() {
         val token = getToken()
         Log.d(TAG, "초대 코드: ${_inviteCode.value}")
-        Log.d(TAG, "토큰: $token")
 
-        viewModelScope.launch {
+        if (token != null && inviteCode.value != null) {
             try {
-                val response = repository.getRoomInfoByInviteCode(
-                    accessToken = token!!,
-                    inviteCode = inviteCode.value ?: "default"
-                )
+                val response = repository.getRoomInfoByInviteCode(token, inviteCode.value!!)
                 if (response.isSuccessful) {
-                    Log.d(TAG, "초대코드로 방 정보 조회 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "초대코드로 방 정보 조회 성공: ${response.body()!!.result}")
-                        _roomInfo.value = response.body()!!.result
-                        saveRoomInfo()
+                        _roomInfo.value = RoomInfo(
+                            response.body()!!.result.managerNickname,
+                            response.body()!!.result.maxMateNum,
+                            response.body()!!.result.name,
+                            response.body()!!.result.roomId
+                        )
+                        // 코지봇 화면으로 넘어갔을 때 띄우기 위한 정보
+                        sharedPreferences.edit().putString("room_name", _roomInfo.value!!.name).apply()
+                        sharedPreferences.edit().putInt("room_id", _roomInfo.value!!.roomId).apply()
                     } else {
                         Log.d(TAG, "초대코드로 방 정보 조회 에러 메시지: ${response}")
                     }
@@ -93,19 +80,14 @@ class CozyHomeEnteringViewModel @Inject constructor(
                 Log.d(TAG, "초대코드로 방 정보 조회 api 요청 실패: ${e}")
             }
         }
-
     }
 
     fun joinRoom(id: Int) {
         val token = getToken()
-        Log.d(TAG, "방 아이디: $id")
-        Log.d(TAG, "토큰: $token")
-
         viewModelScope.launch {
             try {
                 val response = repository.joinRoom(token!!, id)
                 if (response.isSuccessful) {
-                    Log.d(TAG, "방 참여 api 응답 성공: ${response}")
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "방 참여 성공: ${response.body()!!.result}")
                         _roomJoinSuccess.value = true

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
+import umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.MyPageViewModel
@@ -19,11 +20,12 @@ class MyPageFragment : Fragment() {
     private lateinit var viewModel: MyPageViewModel
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
-    private var persona : Int = 0
-    private var nickname : String = ""
-    private var roomname : String = ""
-    private var schoolFlag : Boolean = true
-    private var roomFlag : Boolean = false
+    private var persona: Int = 0
+    private var nickname: String = ""
+    private var roomname: String = ""
+    private var roomId: Int = 0
+    private var schoolFlag: Boolean = true
+    private var roomFlag: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,18 +35,22 @@ class MyPageFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MyPageViewModel::class.java)
         getPreference()
         updateTextStyle()
-        binding.tvMypageUserName.text =nickname
+        binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
-        binding.tvSignout.setOnClickListener {
-            performLogout()
+        binding.layoutCozyroom.setOnClickListener {
+            if (roomId != 0 && roomId != -1) {
+                goToUpdateCozyRoomDetailInfoActivity()
+            }
         }
         binding.tvSchool.setOnClickListener {
             loadSchool()
         }
-
+        binding.tvSignout.setOnClickListener {
+            performLogout()
+        }
         binding.tvWithdraw.setOnClickListener {
-            val intent : Intent = Intent(activity, WithDrawActivity::class.java)
+            val intent: Intent = Intent(activity, WithDrawActivity::class.java)
             startActivity(intent)
         }
         binding.btnInquiry.setOnClickListener {
@@ -89,42 +95,47 @@ class MyPageFragment : Fragment() {
 
     private fun performLogout() {
         viewModel.logOut()
-
-        // 로딩 표시
         binding.progressBar.visibility = View.VISIBLE
-
         // 로그아웃 상태를 관찰
         viewModel.isLogOutSuccess.observe(viewLifecycleOwner) { isLogoutSuccess ->
             if (isLogoutSuccess) {
-                binding.progressBar.visibility = View.GONE  // 로딩중 UI 숨기기
+                binding.progressBar.visibility = View.GONE
                 goToSplashActivity()
             }
         }
-
         // 에러 상태를 관찰
         viewModel.errorResponse.observe(viewLifecycleOwner) { errorResponse ->
             if (errorResponse != null) {
-                binding.progressBar.visibility = View.GONE  // 로딩중 UI 숨기기
-                // 에러 메시지 보여주기
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(requireContext(), "로그아웃 실패", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    // 로그아웃 후 스플래시 화면으로 전환
     private fun goToSplashActivity() {
         val intent = Intent(requireContext(), SplashActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        persona = spf.getInt("uesr_persona", 0)
-        nickname =  spf.getString("user_nickname", "No user found").toString()
-        roomname =spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
+    // 방정보 수정페이지로 전환
+    private fun goToUpdateCozyRoomDetailInfoActivity() {
+        val intent = Intent(requireContext(), UpdateCozyRoomDetailInfoActivity::class.java)
+        intent.putExtra(UpdateCozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+        startActivity(intent)
     }
 
-    private fun initCharactor() : Int{
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", -1)
+        if (roomId != 0 && roomId != -1) roomFlag = true
+        persona = spf.getInt("user_persona", 0)
+        nickname = spf.getString("user_nickname", "No user found").toString()
+        roomname = spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
+    }
+
+    private fun initCharactor(): Int {
         return when (persona) {
             1 -> R.drawable.character_id_1
             2 -> R.drawable.character_id_2

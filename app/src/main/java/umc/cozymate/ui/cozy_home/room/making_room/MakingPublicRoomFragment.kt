@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,109 +16,124 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
-import umc.cozymate.util.setupTextInputWithMaxLength
+import umc.cozymate.util.CharacterUtil
 
 @AndroidEntryPoint
 class MakingPublicRoomFragment : Fragment() {
-
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentMakingPublicRoomBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MakingRoomViewModel
+    private val viewModel: MakingRoomViewModel by viewModels()
+    private var roomName: String = ""
     private var numPeopleOption: TextView? = null
-    private var numPeople: String? = null
-    private var charId: Int? = 1
+    private var numPeople: Int? = 0
+    private var charId: Int? = 0 // 0은 선택 안 되었다는 의미
     private val hashtags = mutableListOf<String>()
+    private var debounceJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMakingPublicRoomBinding.inflate(inflater, container, false)
-
-        viewModel = ViewModelProvider(requireActivity())[MakingRoomViewModel::class.java]
-        setupObservers()
-
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.setImg(charId ?: 1)
+        viewModel.setPersona(charId ?: 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            setupHashtagInput()
-
+            // 뒤로가기
             ivBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
-            btnNext.setOnClickListener {
-                val roomName = etRoomName.text.toString()
-                val maxNum = numPeople?.filter { it.isDigit() }?.toInt() ?: 6 // 인원 수 숫자만 추출
-
-                if (roomName.isNotEmpty() && charId != null && maxNum > 0 && hashtags.size > 0) {
-                    viewModel.setNickname(roomName)
-                    viewModel.setMaxNum(maxNum)
-                    viewModel.setImg(charId ?: 1)
-                    viewModel.setHashtags(hashtags)
-
-                    // 방 생성 요청
-                    viewModel.createPublicRoom()
-                } else {
-                    if (hashtags.size == 0) "방 해시태그를 한 개 이상 입력해주세요"
-                    else Toast.makeText(context, "방 이름과 인원 수를 확인해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            var isSelected = false
+            // 캐릭터 선택
             ivCharacter.setOnClickListener {
-                val intent = Intent(context, CozyHomeSelectingCharacterActivity::class.java)
+                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
                 characterResultLauncher.launch(intent)
-                isSelected = true
             }
-            if (isSelected) ivCharacter.setImageResource(R.drawable.character_id_1)
+            // 방 이름 유효성 체크
+            checkValidRoomName()
 
+            // 최대인원수 체크
             val numPeopleTexts = listOf(
-                binding.chip1 to "2명",
-                binding.chip2 to "3명",
-                binding.chip3 to "4명",
-                binding.chip4 to "5명",
-                binding.chip5 to "6명",
+                binding.chip1 to 2,
+                binding.chip2 to 3,
+                binding.chip3 to 4,
+                binding.chip4 to 5,
+                binding.chip5 to 6,
             )
             for ((textView, value) in numPeopleTexts) {
                 textView.setOnClickListener { numPeopleSelected(it, value) }
             }
+            // 해시태그 설정
+            setupHashtagInput()
+
+            // 캐릭터, 이름, 최대인원수, 해시태그 선택되어 있어야 다음 버튼 활성화
+            updateNextButtonState()
         }
-        checkValidInfo()
+
+        // 방 생성 옵저빙
+        setupObservers()
     }
 
+    // 다음 버튼 비활성/활성
+    fun updateNextButtonState() {
+        with(binding) {
+            val isCharacterSelected = charId != 0
+            val isRoomNameEntered = etRoomName.text?.isNotEmpty() == true
+            val isPeopleNumSelected = numPeople != 0
+            val isHashtagEntered = hashtags.isNotEmpty()
+            val isEnabled =
+                isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
+            btnNext.isEnabled = isEnabled
+            btnNext.setOnClickListener {
+                viewModel.checkAndSubmitCreatePublicRoom() // 방 정보 POST
+                if (hashtags.size == 0) {
+                    Toast.makeText(context, "방 해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // 해시태그 설정
     private fun setupHashtagInput() {
         with(binding) {
+            hashtag1.visibility = View.GONE
+            hashtag2.visibility = View.GONE
+            hashtag3.visibility = View.GONE
+            // 삭제 버튼 설정
             setupHashtag(hashtag1)
             setupHashtag(hashtag2)
             setupHashtag(hashtag3)
+            // 해시태그 입력값을 반영하기
             etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                     val hashtagText = etRoomHashtag.text.toString().trim()
-
                     if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                        // 해시태그 추가 및 edittext 텍스트 삭제
                         hashtags.add(hashtagText)
                         updateHashtagChips()
                         etRoomHashtag.text?.clear()
+                        viewModel.setHashtags(hashtags)
                     } else if (hashtags.size >= 3) {
                         Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
                             .show()
                     }
-
                     true
                 } else {
                     false
@@ -128,8 +144,9 @@ class MakingPublicRoomFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     fun setupHashtag(tv: TextView) {
+        tv.isEnabled = true
+        tv.isClickable = true
         tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0) // 닫기 버튼 설정
-        tv.visibility = View.GONE
         tv.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 removeHashtag(tv) ///
@@ -153,11 +170,12 @@ class MakingPublicRoomFragment : Fragment() {
     fun removeHashtag(tv: TextView) {
         tv.visibility = View.GONE
         hashtags.remove(tv.text)
+        updateNextButtonState()
+        viewModel.setHashtags(hashtags)
     }
 
     private fun updateHashtagChips() {
         val chipViews = listOf(binding.hashtag1, binding.hashtag2, binding.hashtag3)
-
         for (i in chipViews.indices) {
             if (i < hashtags.size) {
                 chipViews[i].text = hashtags[i]
@@ -166,10 +184,11 @@ class MakingPublicRoomFragment : Fragment() {
                 chipViews[i].visibility = View.GONE
             }
         }
+        updateNextButtonState()
     }
 
     // 인원수 옵션 클릭
-    private fun numPeopleSelected(view: View, value: String) {
+    private fun numPeopleSelected(view: View, value: Int) {
         numPeopleOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
             background =
@@ -181,52 +200,83 @@ class MakingPublicRoomFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
         }
         numPeople = value
-        saveNumPeople(value)
-        // updateNextButtonState()
-    }
-
-    private fun saveNumPeople(value: String) {
-        /*with(spf.edit()) {
-            putString("num_people", value)
-            apply()
-        }*/
-        Log.d("Basic Info", "Num People: $value")
+        viewModel.setMaxNum(numPeople!!)
+        updateNextButtonState()
     }
 
     // 방 이름 유효한지 체크
-    private fun checkValidInfo() {
+    private fun checkValidRoomName() {
         with(binding) {
-            setupTextInputWithMaxLength(
-                textInputLayout = tilRoomName,
-                textInputEditText = etRoomName,
-                maxLength = 12,
-                errorMessage = "방이름은 최대 12글자만 가능해요!"
-            )
+            // 방 글자수
+            etRoomName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val input = s.toString()
+                    if (input.length > 12) {
+                        tvAlertName.visibility = View.VISIBLE
+                        tvAlertName.text = "방이름은 최대 12글자만 가능해요!"
+                    } else {
+                        tvAlertName.visibility = View.GONE
+                        roomName = etRoomName.text.toString()
+                        viewModel.setNickname(roomName)
+                        // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                        debounceJob?.cancel()
+                        debounceJob = viewModel.viewModelScope.launch {
+                            delay(1000L) // 1000ms 대기
+                            viewModel.setNickname(input)
+                            viewModel.roomNameCheck() // API 호출
+                            observeRoomNameValid()
+                        }
+                        // 다음 버튼 상태 확인
+                        updateNextButtonState()
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            // 해시태그 중복
+        }
+    }
+
+    // 방이름 중복체크 옵저빙
+    fun observeRoomNameValid() {
+        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+            with(binding) {
+                if (!isValid) {
+                    tvAlertName.visibility = View.VISIBLE
+                    tvAlertName.text = "이미 사용중인 방이름이에요!"
+                    tilRoomName.isErrorEnabled = true
+                } else {
+                    tvAlertName.visibility = View.GONE
+                    roomName = etRoomName.text.toString()
+                    tilRoomName.isErrorEnabled = false
+                    viewModel.setNickname(roomName)
+                }
+            }
         }
     }
 
     private fun setupObservers() {
-        // 로딩 상태를 관찰하여 ProgressBar를 제어
+        // 로딩 상태를 관찰하여 ProgressBar를 표시 / 숨기기
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                // 로딩 중일 때 ProgressBar를 표시
-                (activity as? MakingPrivateRoomActivity)?.showProgressBar(true)
+                (activity as? MakingPublicRoomActivity)?.showProgressBar(true)
             } else {
-                // 로딩이 끝났을 때 ProgressBar를 숨김
-                (activity as? MakingPrivateRoomActivity)?.showProgressBar(false)
+                (activity as? MakingPublicRoomActivity)?.showProgressBar(false)
             }
         }
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
-        viewModel.roomCreationResult.observe(viewLifecycleOwner) { result ->
-            // 방 생성 성공 시 다음 화면으로 이동
-            (activity as? MakingPrivateRoomActivity)?.loadFragment2()
+        viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
+            //(activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
+            (activity as? MakingPublicRoomActivity)?.loadMainActivity()
         }
 
-        // 에러 응답도 추가로 처리할 수 있음
+        // 팝업을 띄워서 에러 응답 처리
         viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
             if (error != null) {
-                // 에러 처리 (예: 토스트 메시지로 에러 표시)
                 Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
@@ -237,40 +287,18 @@ class MakingPublicRoomFragment : Fragment() {
         _binding = null
     }
 
-    // 캐릭터 아이디 받아오기
+    // SelectingRoomCharacterActivity에서 캐릭터 아이디 받아오기
     private val characterResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             // 결과가 정상적으로 반환되었는지 확인
-            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 1
-            // 이미지 리소스를 반영
+            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
+            // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            setCharacterImage(selectedCharacterId)
-            // ViewModel에 선택된 이미지 ID 저장
-            viewModel.setImg(selectedCharacterId)
-        }
-    }
-
-    private fun setCharacterImage(persona: Int) {
-        when (persona) {
-            1 -> binding.ivCharacter.setImageResource(R.drawable.character_id_1)
-            2 -> binding.ivCharacter.setImageResource(R.drawable.character_id_2)
-            3 -> binding.ivCharacter.setImageResource(R.drawable.character_id_3)
-            4 -> binding.ivCharacter.setImageResource(R.drawable.character_id_5)
-            5 -> binding.ivCharacter.setImageResource(R.drawable.character_id_6)
-            6 -> binding.ivCharacter.setImageResource(R.drawable.character_id_4)
-            7 -> binding.ivCharacter.setImageResource(R.drawable.character_id_15)
-            8 -> binding.ivCharacter.setImageResource(R.drawable.character_id_14)
-            9 -> binding.ivCharacter.setImageResource(R.drawable.character_id_8)
-            10 -> binding.ivCharacter.setImageResource(R.drawable.character_id_7)
-            11 -> binding.ivCharacter.setImageResource(R.drawable.character_id_11)
-            12 -> binding.ivCharacter.setImageResource(R.drawable.character_id_12)
-            13 -> binding.ivCharacter.setImageResource(R.drawable.character_id_10)
-            14 -> binding.ivCharacter.setImageResource(R.drawable.character_id_13)
-            15 -> binding.ivCharacter.setImageResource(R.drawable.character_id_9)
-            16 -> binding.ivCharacter.setImageResource(R.drawable.character_id_16)
-            else -> binding.ivCharacter.setImageResource(R.drawable.character_id_1) // 기본 이미지 설정
+            CharacterUtil.setImg(selectedCharacterId, binding.ivCharacter)
+            viewModel.setPersona(selectedCharacterId)
+            updateNextButtonState()
         }
     }
 }

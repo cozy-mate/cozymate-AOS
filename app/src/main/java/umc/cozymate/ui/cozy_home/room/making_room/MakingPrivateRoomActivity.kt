@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,21 +11,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMakingPrivateRoomBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeEnteringFragment
-import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeWaitingFragment
-import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 플로우2 : 방정보 입력창(1) > 초대코드 발급창(2) > 룸메이트 대기창(3) > 코지홈 입장창(4) > 코지홈 활성화창
+// 방정보 입력 > 초대코드 발급 > 코지홈 (방장)
 @AndroidEntryPoint
 class MakingPrivateRoomActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
-    private val viewModel: MakingRoomViewModel by viewModels()
     private lateinit var binding: ActivityMakingPrivateRoomBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMakingPrivateRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
@@ -35,48 +27,31 @@ class MakingPrivateRoomActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        // 첫번째로 [방정보 입력창]을 로드
+        // 첫번째로 [방정보 입력 페이지] 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_giving, MakingPrivateRoomFragment())
                 .commit()
         }
-
     }
-
+    // 로딩중일 때 프로그레스바를 띄웁니다
     fun showProgressBar(show: Boolean) {
         binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
-
-    // 두번째 [초대코드 발급창] 로드
-    fun loadFragment2() {
+    // 두번째 [초대코드 발급 페이지] 로드
+    // 방 캐릭터 아이디와 초대코드를 넘겨줍니다
+    fun loadGivingInviteCodeFragment(roomCharId: Int, code: String) {
+        val fragment = GivingInviteCodeFragment.newInstance(roomCharId, code)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_giving, CozyHomeGivingInviteCodeFragment())
+            .replace(R.id.fragment_container_giving, fragment)
             .addToBackStack(null)
             .commit()
     }
-
-    // 세번째 [룸메이트 대기창] 로드
-    fun loadFragment3() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_giving, CozyHomeWaitingFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // 네번째 [코지홈 입장창] 로드
-    fun loadFragment4() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_giving, CozyHomeEnteringFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // 다섯번째 [코지홈_코지홈 활성화]로 화면 전환
-    fun loadFragment5() {
+    // 세번째 [코지홈_방장]으로 화면 전환
+    fun loadMainActivity() {
         val intent = Intent(baseContext, MainActivity::class.java)
-        intent.putExtra("isActive", "true")
+        intent.putExtra("isRoomExist", true)
+        intent.putExtra("isRoomManager", true)
         startActivity(intent)
         this.finish()
     }

@@ -1,10 +1,11 @@
 package umc.cozymate.data.model.response.room
 
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetRoomInfoByInviteCodeResponse(
+data class UpdateRoomInfoResponse(
     @SerialName("code")
     val code: String,
     @SerialName("isSuccess")
@@ -27,7 +28,7 @@ data class GetRoomInfoByInviteCodeResponse(
         @SerialName("favoriteId")
         val favoriteId: Int,
         @SerialName("hashtagList")
-        val hashtagList: List<String>,
+        val hashtagList: List<String>?,
         @SerialName("inviteCode")
         val inviteCode: String,
         @SerialName("isRoomManager")
