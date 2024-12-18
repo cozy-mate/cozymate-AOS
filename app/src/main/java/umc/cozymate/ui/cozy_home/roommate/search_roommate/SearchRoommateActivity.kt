@@ -107,6 +107,7 @@ class SearchRoommateActivity : AppCompatActivity() {
                 adapter.submitList(roommateList)
             } else {
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
+                binding.rvRoommateList.visibility = View.GONE
             }
         }
         // 로딩중 옵저빙

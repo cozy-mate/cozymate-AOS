@@ -107,6 +107,7 @@ class SearchRoomActivity : AppCompatActivity() {
                 adapter.submitList(roomList)
             } else {
                 binding.tvEmptyRoom.visibility = View.VISIBLE
+                binding.rvRoomList.visibility = View.GONE
             }
         }
         // 로딩중 옵저빙
