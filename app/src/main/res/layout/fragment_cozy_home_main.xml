@@ -197,7 +197,7 @@
         <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/roommate_recommend_container"
-            android:name="umc.cozymate.ui.cozy_home.room.roommate_recommend.RoommateRecommendComponent"
+            android:name="umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"

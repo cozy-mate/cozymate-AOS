@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
 import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 class UniversitySearchFragment : Fragment() {
 

@@ -15,6 +15,7 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.SearchRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 
 interface RoomRepository {
@@ -44,5 +45,7 @@ interface RoomRepository {
     suspend fun changeToPrivateRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
 
     suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
+
+    suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
 }
 

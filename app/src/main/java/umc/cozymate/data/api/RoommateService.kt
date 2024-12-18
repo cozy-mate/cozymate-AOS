@@ -11,6 +11,7 @@ import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
+import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
 
 interface RoommateService {
     @POST("/members/stat")
@@ -32,4 +33,9 @@ interface RoommateService {
         @Body request: FcmInfoRequest
     ) : Response<ResponseBody<DefaultResponse>>
 
+    @GET("/members/stat/search")
+    suspend fun searchRoommate(
+        @Header("Authorization") accessToken: String,
+        @Query("keyword") keyword: String,
+    ) : Response<SearchRoommateResponse>
 }

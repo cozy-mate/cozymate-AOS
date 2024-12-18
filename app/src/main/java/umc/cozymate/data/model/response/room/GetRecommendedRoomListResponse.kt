@@ -26,8 +26,8 @@ data class GetRecommendedRoomListResponse(
     ) {
         @Serializable
         data class Result(
-            @SerialName("equalMemberStatNum")
-            val equalMemberStatNum: Map<String, Int>,
+            @SerialName("preferenceMatchCountLis")
+            val preferenceMatchCountList: List<preferenceCount>,
             @SerialName("equality")
             val equality: Int,
             @SerialName("hashtags")
@@ -40,6 +40,14 @@ data class GetRecommendedRoomListResponse(
             val numOfArrival: Int,
             @SerialName("roomId")
             val roomId: Int
-        )
+        ) {
+            @Serializable
+            data class preferenceCount (
+                @SerialName("preferenceName")
+                val preferenceName: String,
+                @SerialName("count")
+                val count: Int
+            )
+        }
     }
 }

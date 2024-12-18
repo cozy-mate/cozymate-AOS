@@ -16,6 +16,7 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.SearchRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
@@ -111,6 +112,13 @@ class RoomRepositoryImpl @Inject constructor(
 
     override suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse> {
         return api.quitRoom(accessToken, roomId)
+    }
+
+    override suspend fun searchRoom(
+        accessToken: String,
+        keyword: String
+    ): Response<SearchRoomResponse> {
+        return api.searchRoom(accessToken, keyword)
     }
 
 }

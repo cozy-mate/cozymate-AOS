@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cozy_home.room.roommate_recommend.RoommateRecommendComponent">
+    tools:context=".ui.cozy_home.roommate.roommate_recommend.RoommateRecommendComponent">
 
     <!--제목 -->
     <TextView
@@ -83,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/vp_roommate"
         app:progressMode="false"
         app:selectedDotColor="@color/main_blue" />
+
     <!-- 추천 룸메이트가 없을 때 -->
     <TextView
         android:id="@+id/tv_empty_roommate"
@@ -94,10 +95,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_ment"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         android:gravity="center"
-        android:visibility="gone"/>
+        />
     <!--하단 구분 뷰 -->
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_marginTop="210dp"

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.entering_room
+package umc.cozymate.ui.cozy_home.room.join_room
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,14 +16,11 @@ import umc.cozymate.ui.viewmodel.OnboardingViewModel
 // 플로우3 : 초대코드 입력창(1) > 룸메이트 대기창(2) > 코지홈 입장창(3) > 코지홈 활성화창
 @AndroidEntryPoint
 class JoinRoomActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
     private val viewModel: OnboardingViewModel by viewModels()
     lateinit var binding: ActivityJoinRoomBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityJoinRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()

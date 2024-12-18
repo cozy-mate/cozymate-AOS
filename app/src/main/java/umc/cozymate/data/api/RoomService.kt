@@ -25,9 +25,10 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.SearchRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 
-// (15/29) 구현
+// (16/29) 구현
 interface RoomService {
 
     // 방 삭제 (방장 권한)
@@ -59,6 +60,13 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
     ): Response<GetRoomInfoResponse>
+
+    // 방(공개방) 검색
+    @GET("/rooms/search")
+    suspend fun searchRoom(
+        @Header("Authorization") accessToken: String,
+        @Query("keyword") keyword: String,
+    ): Response<SearchRoomResponse>
 
     // 참여자가 초대코드로 방 정보 조회
     @GET("/rooms/join")
