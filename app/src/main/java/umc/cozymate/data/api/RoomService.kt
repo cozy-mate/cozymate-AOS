@@ -19,7 +19,9 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
+import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
@@ -67,6 +69,18 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Query("keyword") keyword: String,
     ): Response<SearchRoomResponse>
+
+    // 사용자가 참여요청을 보낸 방 목록 조회
+    @GET("/rooms/requested")
+    suspend fun getRequestedRoomList(
+        @Header("Authorization") accessToken: String,
+    ) : Response<GetRequestedRoomListResponse>
+
+    // 방장이 받은 방 참여요청 목록 조회
+    @GET("/rooms/pending-members")
+    suspend fun getPendingMemberList(
+        @Header("Authorization") accessToken: String,
+    ): Response<GetPendingMemberListResponse>
 
     // 참여자가 초대코드로 방 정보 조회
     @GET("/rooms/join")

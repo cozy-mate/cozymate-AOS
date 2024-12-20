@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.cozy_home.room.my_room.MyRoomComponent">
+
+    <TextView
+        android:id="@+id/tv_my_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:text="닉네임님이"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="참여요청한 방 목록이에요"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="@id/tv_my_nickname"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_nickname" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_my_sent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:listitem="@layout/rv_item_my_sent_request" />
+
+    <!-- 요청한 방이 없을 때 -->
+    <TextView
+        android:id="@+id/tv_empty_room"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:gravity="center"
+        android:text="참여 요청한 방이 없어요"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/unuse_font"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
