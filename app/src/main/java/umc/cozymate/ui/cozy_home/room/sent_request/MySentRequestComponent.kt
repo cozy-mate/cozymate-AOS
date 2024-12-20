@@ -19,7 +19,6 @@ class MySentRequestComponent : Fragment() {
     private var _binding: FragmentMySentRequestComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoomRequestViewModel by viewModels()
-    private var roomId: Int? = 0
     companion object {
         fun newInstance() = MySentRequestComponent()
     }
@@ -31,6 +30,8 @@ class MySentRequestComponent : Fragment() {
     ): View {
         _binding = FragmentMySentRequestComponentBinding.inflate(inflater, Main, false)
         observeRoomList()
+        val nickname = viewModel.getNickname().toString()
+        binding.tvMyNickname.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getRequestedRoomList()
         }

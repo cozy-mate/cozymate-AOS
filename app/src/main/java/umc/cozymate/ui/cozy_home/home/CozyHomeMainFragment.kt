@@ -95,15 +95,16 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             when (state) {
                 UserRoomState.NO_ROOM -> {
+                    requestedRoomContainer.visibility = View.VISIBLE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
 
                 UserRoomState.CREATED_ROOM -> {
                     myRoomContainer.visibility = View.VISIBLE
+                    roommateRequestContainer.visibility = View.VISIBLE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
-                    roommateRequestContainer.visibility = View.VISIBLE
                 }
 
                 UserRoomState.REQUEST_SENT -> {
@@ -167,7 +168,7 @@ class CozyHomeMainFragment : Fragment() {
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                     btnSchoolCertificate.isEnabled = false
-                // btnSchoolCertificate.setOnClickListener(null)
+                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }
