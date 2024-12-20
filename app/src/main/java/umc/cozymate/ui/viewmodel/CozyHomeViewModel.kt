@@ -234,7 +234,23 @@ class CozyHomeViewModel @Inject constructor(
         } finally {
             _isLoading.value = false
         }
+    }
 
+    val _allRoomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
+    val allRoomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _allRoomList
+    suspend fun fetchAllRecommendedRoomList() {
+        _isLoading.value = true
+        val token = getToken()
+        try {
+            val response = repository.getRecommendedRoomList(
+                accessToken = token!!,
+                size = 5,
+                page = 0,
+                sortType = SortType.LATEST.value
+            )
+        } catch (e: Exception) {
+            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+        }
     }
 
     // 로컬db에 저장된 방정보 불러오기

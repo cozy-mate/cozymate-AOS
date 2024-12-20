@@ -8,7 +8,8 @@ import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
 class RoomRecommendListRVA(
     private var items: List<GetRecommendedRoomListResponse.Result.Result>,
-    private val prefs: List<String>
+    private val prefs: List<String>,
+    private val onItemClicked: (GetRecommendedRoomListResponse.Result.Result) -> Unit
 ) : RecyclerView.Adapter<RoomRecommendListRVAViewHolder>() {
     fun updateData(newItems: List<GetRecommendedRoomListResponse.Result.Result>) {
         items = newItems
@@ -31,6 +32,10 @@ class RoomRecommendListRVA(
     override fun onBindViewHolder(holder: RoomRecommendListRVAViewHolder, position: Int) {
         val item = items[position]
         holder.bind(items[position])
+
+        holder.itemView.setOnClickListener {
+            onItemClicked(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size

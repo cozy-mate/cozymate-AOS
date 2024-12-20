@@ -3335,6 +3335,7 @@ id cl_criteria_2
 id cl_criteria_3
 id cl_criteria_4
 id cl_dormitory
+id cl_dormitory_info_list
 id cl_drink
 id cl_eating
 id cl_friendly
@@ -3348,6 +3349,7 @@ id cl_list_dormitory_info
 id cl_list_essential_info
 id cl_living
 id cl_mbti
+id cl_mid
 id cl_my_room
 id cl_noise
 id cl_notice
@@ -3360,6 +3362,7 @@ id cl_public_room
 id cl_rectangle
 id cl_report
 id cl_room_info
+id cl_roommate_info_list
 id cl_search
 id cl_share
 id cl_sleep_habit
@@ -3595,6 +3598,7 @@ id iv_char
 id iv_char_back
 id iv_character
 id iv_character_edit
+id iv_chat
 id iv_check
 id iv_check_verify_code
 id iv_chk
@@ -3615,6 +3619,7 @@ id iv_home_name
 id iv_home_people_num
 id iv_ic_school
 id iv_light
+id iv_like
 id iv_line
 id iv_male
 id iv_message_member_character
@@ -3623,6 +3628,7 @@ id iv_next
 id iv_notice
 id iv_other_user_profile
 id iv_robot
+id iv_room_character
 id iv_room_member_character
 id iv_room_member_more_info
 id iv_school_blue
@@ -3939,6 +3945,7 @@ id rv_list
 id rv_message
 id rv_message_detail
 id rv_room_detail
+id rv_room_member_list
 id rv_roommate
 id rv_roommate_detail_info
 id rv_schools
@@ -4183,6 +4190,10 @@ id tv_cur_member_count
 id tv_detail_list_rule
 id tv_dialog_request_other_name
 id tv_dormitory
+id tv_dormitory_name
+id tv_dormitory_name_title
+id tv_dormitory_room_num
+id tv_dormitory_room_num_title
 id tv_drink
 id tv_eating_check
 id tv_ect
@@ -4218,6 +4229,7 @@ id tv_label_room_name
 id tv_label_room_people_number
 id tv_label_university
 id tv_lifestyle_guide
+id tv_lifestyle_title
 id tv_light_off_1
 id tv_light_off_10
 id tv_light_off_11
@@ -4346,7 +4358,11 @@ id tv_room_detail_people
 id tv_room_detail_sleep_match
 id tv_room_detail_tag_name
 id tv_room_detail_wake_match
+id tv_room_dormitory_title
 id tv_room_info
+id tv_room_info_current_num
+id tv_room_info_title
+id tv_room_info_total_num
 id tv_room_match
 id tv_room_mate_match
 id tv_room_mate_name
@@ -4354,6 +4370,7 @@ id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
 id tv_room_name
+id tv_room_tag
 id tv_roommate1
 id tv_roommate2
 id tv_roommate3

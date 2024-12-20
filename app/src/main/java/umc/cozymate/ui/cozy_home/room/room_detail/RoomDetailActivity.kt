@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -35,7 +37,12 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         // 어댑터 초기화
-        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList)
+        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
+            val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
+                putExtra("roomDetailInfo", selectedRoom)
+            }
+            startActivity(intent)
+        }
 
         // 아이템 간 간격 추가
         binding.rvRoomDetail.addItemDecoration(
@@ -49,20 +56,6 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    //    private fun fetchData() {
-//        lifecycleScope.launch {
-//            viewModel.fetchRecommendedRoomList()
-//        }
-//        viewModel.roomList.observe(this) { roomList ->
-//            if (roomList.isNullOrEmpty()) {
-//                binding.rvRoomDetail.visibility = View.GONE
-//                binding.tvEmptyRoom.visibility = View.VISIBLE
-//            } else {
-////                val adapter = RoomRecommendListRVA(roomList, prefList)
-//                binding.rvRoomDetail.adapter = roomRecommendListRVA
-//            }
-//        }
-//    }
     private fun fetchData() {
         lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()

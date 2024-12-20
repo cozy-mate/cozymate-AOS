@@ -1088,10 +1088,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_roommate_onboarding.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-97:/layout_activity_room_detail.xml.flat",
-        "source": "umc.cozymate.app-main-99:/layout/activity_room_detail.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_5.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/character_id_5.xml"
     },
@@ -1242,6 +1238,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_search.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-97:/layout_activity_cozy_room_detail_info.xml.flat",
+        "source": "umc.cozymate.app-main-99:/layout/activity_cozy_room_detail_info.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_rectangle_12_unuse.xml.flat",
@@ -1420,12 +1420,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_cozyhome.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_close.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_close.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_activity_cozy_room_detail_info.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/activity_cozy_room_detail_info.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_close.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_close.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_select_chip_default.xml.flat",
