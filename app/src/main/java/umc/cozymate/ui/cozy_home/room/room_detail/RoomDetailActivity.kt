@@ -26,6 +26,9 @@ class RoomDetailActivity : AppCompatActivity() {
         binding = ActivityRoomDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
         // 닉네임 설정
         binding.tvUserName.text = viewModel.getNickname().toString()
 
@@ -39,7 +42,7 @@ class RoomDetailActivity : AppCompatActivity() {
         // 어댑터 초기화
         roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
             val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
-                putExtra("roomDetailInfo", selectedRoom)
+                putExtra("roomDetailInfo", selectedRoom.roomId)
             }
             startActivity(intent)
         }
