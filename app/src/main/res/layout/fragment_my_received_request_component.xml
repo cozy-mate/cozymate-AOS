@@ -7,7 +7,7 @@
     tools:context=".ui.cozy_home.room.my_room.MyRoomComponent">
 
     <TextView
-        android:id="@+id/tv_my_nickname"
+        android:id="@+id/tv_request_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -26,11 +26,11 @@
         android:text="룸메이트 요청이 도착했어요"
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
-        app:layout_constraintStart_toStartOf="@id/tv_my_nickname"
-        app:layout_constraintTop_toBottomOf="@id/tv_my_nickname" />
+        app:layout_constraintStart_toStartOf="@id/tv_request_num"
+        app:layout_constraintTop_toBottomOf="@id/tv_request_num" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_my_sent"
+        android:id="@+id/rv_my_received"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -42,7 +42,7 @@
 
     <!-- 요청한 멤버가 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_empty_room"
+        android:id="@+id/cl_empty_roommate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <TextView
-            android:id="@+id/tv_empty_room1"
+            android:id="@+id/tv_empty_roommate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_empty_room1" />
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_roommate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--하단 구분 뷰 -->

@@ -61,7 +61,7 @@ class MySentRequestComponent : Fragment() {
             }
         }
         // 로딩중 옵저빙
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel.isLoading1.observe(viewLifecycleOwner) { isLoading ->
             //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
