@@ -52,10 +52,12 @@ class MyReceivedRequestComponent : Fragment() {
         viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
+                binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.VISIBLE
                 binding.clEmptyRoommate.isEnabled = true
                 binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동
@@ -63,6 +65,12 @@ class MyReceivedRequestComponent : Fragment() {
                     startActivity(intent)
                 }
                 binding.rvMyReceived.visibility = View.GONE
+            }
+        }
+        // 방장이 아닌 경우에는 constraintlayout이 보이지 않도록 합니다.
+        viewModel.errorResponse.observe(viewLifecycleOwner) { response ->
+            if (response.message == "방장이 아닙니다") {
+                binding.clComponent.visibility = View.GONE
             }
         }
         // 로딩중 옵저빙

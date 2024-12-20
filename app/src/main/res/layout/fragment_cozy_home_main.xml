@@ -186,7 +186,8 @@
 
         <!-- 참여요청 받은 룸메이트 목록 (조건 : 공개방 방장)-->
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/roommate_request_container"
+            android:id="@+id/requested_roommate_container"
+            android:name="umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -206,7 +207,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roommate_request_container"
+            app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
             app:layout_goneMarginTop="0dp"
             tool:layout="@layout/fragment_my_sent_request_component"/>
 

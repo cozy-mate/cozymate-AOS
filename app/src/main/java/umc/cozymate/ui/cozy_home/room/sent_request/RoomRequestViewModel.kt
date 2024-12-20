@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -57,6 +59,8 @@ class RoomRequestViewModel @Inject constructor(
     val PendingMemberResponse: LiveData<GetPendingMemberListResponse> get() = _pendingMemberResponse
     private val _isLoading2 = MutableLiveData<Boolean>()
     val isLoading2: LiveData<Boolean> = _isLoading2
+    private val _errorResponse = MutableLiveData<ErrorResponse>()
+    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
     suspend fun getPendingMemberList() {
         val token = getToken()
         _isLoading2.value = true
@@ -67,6 +71,10 @@ class RoomRequestViewModel @Inject constructor(
                     _pendingMemberResponse.value = response.body()
                     Log.d(TAG, "참여요청한 멤버 목록 조회 성공: ${response.body()!!.result}")
                 } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    }
                     Log.d(TAG, "참여요청한 멤버 목록 에러 메시지: ${response}")
                 }
             } catch (e: Exception) {
@@ -74,6 +82,16 @@ class RoomRequestViewModel @Inject constructor(
             } finally {
                 _isLoading2.value = false
             }
+        }
+    }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
         }
     }
 }
