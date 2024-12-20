@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
-import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent.Companion.startActivityFromFragment
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -53,7 +52,7 @@ class RoommateRecommendComponent : Fragment() {
             }
         }
         binding.llMore.setOnClickListener {
-            startActivityFromFragment(this, "Sample Room Id")
+//            startActivityFromFragment(this, "Sample Room Id")
         }
     }
 

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityRoomDetailBinding
-import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendVPAdapter
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -17,8 +16,8 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRoomDetailBinding
     private val viewModel: CozyHomeViewModel by viewModels() // ViewModel 사용
-    private lateinit var adapter: RoomRecommendVPAdapter
     private var prefList: List<String> = emptyList()
+    private lateinit var roomRecommendListRVA: RoomRecommendListRVA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +27,6 @@ class RoomDetailActivity : AppCompatActivity() {
         // 닉네임 설정
         binding.tvUserName.text = viewModel.getNickname().toString()
 
-        // RecyclerView 초기화
         setupRecyclerView()
 
         // 데이터 가져오기
@@ -36,35 +34,50 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        // RecyclerView에 어댑터 설정
-        adapter = RoomRecommendVPAdapter(emptyList(), prefList)
-        binding.rvRoomDetail.adapter = adapter
+        // 어댑터 초기화
+        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList)
 
-        // 세로 리스트 형태로 설정
-        binding.rvRoomDetail.layoutManager = LinearLayoutManager(this)
+        // 아이템 간 간격 추가
+        binding.rvRoomDetail.addItemDecoration(
+            VerticalSpaceItemDecoration(32)
+        )
 
-        // 아이템 간 간격 추가 (선택적)
-        binding.rvRoomDetail.addItemDecoration(VerticalSpaceItemDecoration(-90))
-
-        binding.rvRoomDetail.visibility = View.VISIBLE
+        // RecyclerView 설정
+        binding.rvRoomDetail.apply {
+            adapter = roomRecommendListRVA
+            layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+        }
     }
 
+    //    private fun fetchData() {
+//        lifecycleScope.launch {
+//            viewModel.fetchRecommendedRoomList()
+//        }
+//        viewModel.roomList.observe(this) { roomList ->
+//            if (roomList.isNullOrEmpty()) {
+//                binding.rvRoomDetail.visibility = View.GONE
+//                binding.tvEmptyRoom.visibility = View.VISIBLE
+//            } else {
+////                val adapter = RoomRecommendListRVA(roomList, prefList)
+//                binding.rvRoomDetail.adapter = roomRecommendListRVA
+//            }
+//        }
+//    }
     private fun fetchData() {
-        // ViewModel에서 데이터 가져오기
-        viewModel.roomList.observe(this) { roomList ->
-            if (roomList.isNullOrEmpty()) {
-                // 데이터가 없을 때 처리
-                binding.rvRoomDetail.visibility = View.GONE
-            } else {
-                // 데이터가 있을 때 어댑터에 데이터 전달
-                adapter.updateData(roomList)
-                binding.rvRoomDetail.visibility = View.VISIBLE
-            }
-        }
-
-        // 데이터 요청
         lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
         }
+
+        viewModel.roomList.observe(this) { roomList ->
+            if (roomList.isNullOrEmpty()) {
+                binding.rvRoomDetail.visibility = View.GONE
+                binding.tvEmptyRoom.visibility = View.VISIBLE
+            } else {
+                binding.rvRoomDetail.visibility = View.VISIBLE
+                binding.tvEmptyRoom.visibility = View.GONE
+                roomRecommendListRVA.updateData(roomList) // 데이터 갱신
+            }
+        }
     }
+
 }

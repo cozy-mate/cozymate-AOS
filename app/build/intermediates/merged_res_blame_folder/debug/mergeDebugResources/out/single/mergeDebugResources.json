@@ -708,10 +708,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_studying_blue.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-97:/layout_vp_item_room_recommend.xml.flat",
-        "source": "umc.cozymate.app-main-99:/layout/vp_item_room_recommend.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_detail_table.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_detail_table.xml"
     },
