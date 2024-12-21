@@ -16,11 +16,12 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
-import umc.cozymate.ui.cozy_home.room.entering_room.JoinRoomActivity
+import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
-import umc.cozymate.ui.university_certification.UniversityViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 @AndroidEntryPoint
 class CozyHomeMainFragment : Fragment() {

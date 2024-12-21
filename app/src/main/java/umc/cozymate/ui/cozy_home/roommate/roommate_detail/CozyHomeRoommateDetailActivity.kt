@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate_detail
+package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

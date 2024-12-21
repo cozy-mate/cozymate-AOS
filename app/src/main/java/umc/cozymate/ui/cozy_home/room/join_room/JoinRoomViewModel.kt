@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.entering_room
+package umc.cozymate.ui.cozy_home.room.join_room
 
 import android.content.Context
 import android.util.Log

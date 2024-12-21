@@ -1,6 +1,5 @@
 package umc.cozymate.ui.cozy_home.room.making_room
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeInvitingRoommateBinding
-import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room.waiting.CozyHomeEnteringFragment
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -56,27 +53,4 @@ class CozyHomeInvitingRoommateActivity : AppCompatActivity() {
             .commit()
     }
 
-    /*// 세번째 [룸메이트 대기창] 로드
-    fun loadFragment3() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CozyHomeWaitingFragment())
-            .addToBackStack(null)
-            .commit()
-    }*/
-
-    // 네번째 [코지홈 입장창] 로드
-    fun loadFragment4() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CozyHomeEnteringFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // 다섯번째 [코지홈_코지홈 활성화]로 화면 전환
-    fun loadFragment5() {
-        val intent = Intent(baseContext, MainActivity::class.java)
-        intent.putExtra("isActive", "true")
-        startActivity(intent)
-        this.finish()
-    }
 }
