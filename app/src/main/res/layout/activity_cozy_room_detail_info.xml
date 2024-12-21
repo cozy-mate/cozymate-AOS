@@ -568,7 +568,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/fab_request_enter_room"
             android:gravity="center"
-            android:text="입장 요청하기"
+            android:text="방 참여요청"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="@color/white"
             android:backgroundTint="@color/main_blue"

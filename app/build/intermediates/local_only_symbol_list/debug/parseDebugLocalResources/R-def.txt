@@ -13,6 +13,7 @@ color color_box
 color color_font
 color custom_option_text_color
 color detail_gray
+color gray
 color highlight_font
 color main_blue
 color red

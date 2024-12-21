@@ -15,6 +15,7 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 @AndroidEntryPoint
@@ -22,6 +23,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels()
+    private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private var roomId: Int? = 0
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -36,8 +38,10 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
 
         getRoomDetailInfo()
 
+        updateFloatingButton()
 
         setupBackButton()
+
     }
     private fun getRoomId() {
         // 방 id 불러오기
@@ -209,7 +213,37 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         whiteViews.forEach { flexboxLayout.addView(it) }
     }
 
+    private fun updateFloatingButton() {
+        val savedRoomId = cozyHomeViewModel.getSavedRoomId()
 
+        with(binding.fabRequestEnterRoom) {
+            if (savedRoomId == -1) {
+                // 기본값인 경우 = 방이 없는 경우
+                text = "방 참여요청"
+                backgroundTintList = getColorStateList(R.color.main_blue)
+                setTextColor(getColor(R.color.white))
+            } else {
+                // 방이 있는 경우
+                text = "방 참여요청"
+                backgroundTintList = getColorStateList(R.color.gray)
+                setTextColor(getColor(R.color.white))
+            }
+
+            setOnClickListener {
+                if (savedRoomId == -1) {
+                    // 방이 없는 경우, 방 신청
+                    applyForRoom()
+                } else {
+                    // 방이 있는 경우
+                }
+            }
+        }
+    }
+
+    private fun applyForRoom() {
+        // 방 신청 로직
+        Log.d(TAG, " 방 신청 버튼 누름")
+    }
 
     private fun setupBackButton() {
         binding.ivBack.setOnClickListener {

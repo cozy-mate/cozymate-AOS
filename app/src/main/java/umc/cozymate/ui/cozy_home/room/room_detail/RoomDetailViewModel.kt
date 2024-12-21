@@ -71,28 +71,8 @@ class RoomDetailViewModel @Inject constructor(
         if (response.isSuccessful) {
             if (response.body()?.isSuccess == true) {
                 _roomName.value = response.body()?.result?.name
-//                _inviteCode.value = response.body()?.result?.inviteCode
-                //_profileImage.value = response.body()!!.result.profileImage
                 _mateList.value = response.body()?.result?.mateDetailList
 
-//                val roomInfoEntity = RoomInfoEntity(
-//                    roomId = response.body()?.result!!.roomId,
-//                    name = response.body()?.result!!.name,
-//                    inviteCode = response.body()?.result!!.inviteCode,
-//                    persona = response.body()?.result!!.persona,
-//                    managerMemberId = response.body()?.result!!.managerMemberId,
-//                    managerNickname = response.body()?.result!!.managerNickname,
-//                    isRoomManager = response.body()?.result!!.isRoomManager,
-//                    favoriteId = response.body()?.result!!.favoriteId,
-//                    maxMateNum = response.body()?.result!!.maxMateNum,
-//                    arrivalMateNum = response.body()?.result!!.arrivalMateNum,
-//                    dormitoryName = response.body()?.result!!.dormitoryName,
-//                    roomType = response.body()?.result!!.roomType,
-//                    equality = response.body()?.result!!.equality,
-//                    hashtagList = response.body()?.result!!.hashtagList,
-//                    difference = response.body()?.result!!.difference
-//                )
-//                roomInfoDao.insertRoomInfo(roomInfoEntity)
                 val body = response.body()
                 if (body != null) {
                     _otherRoomDetailInfo.emit(body.result)

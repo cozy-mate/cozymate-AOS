@@ -1483,6 +1483,7 @@ int color error_color_material_dark 0x7f050070
 int color error_color_material_light 0x7f050071
 int color foreground_material_dark 0x7f050072
 int color foreground_material_light 0x7f050073
+int color gray 0x7f050288
 int color highlight_font 0x7f050074
 int color highlighted_text_material_dark 0x7f050075
 int color highlighted_text_material_light 0x7f050076
