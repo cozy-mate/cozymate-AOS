@@ -1317,6 +1317,7 @@ string project_id
 style AppTheme.NumberPicker
 style Base.Theme.Cozymate
 style CustomChip_12
+style CustomFab
 style CustomTextInputLayout
 style OptionBox
 style RoomHashtagChip

@@ -145,6 +145,10 @@
         <item name="android:background">@drawable/custom_select_chip_background</item>
     </style>
 
+    <style name="CustomFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="background">@drawable/btn_room_detail_request</item>
+    </style>
+
     <style name="RoommateElementChip">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 @AndroidEntryPoint
@@ -72,6 +74,12 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
+
+            // 리사이클러 뷰 연결
+            rvRoomMemberList.apply{
+                layoutManager = LinearLayoutManager(this@CozyRoomDetailInfoActivity)
+                adapter = RoomMemberListRVA(roomInfo.mateDetailList, roomInfo.managerNickname)
+            }
         }
     }
     // 해시태그 업데이트
