@@ -45,7 +45,11 @@ interface RoomRepository {
     suspend fun changeToPrivateRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
 
     suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
+<<<<<<< HEAD
+}
+=======
 
     suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
 }
 
+>>>>>>> parent of 9912f699 (Merge branch 'COZY-399-방-룸메-상세페이지-구현')
