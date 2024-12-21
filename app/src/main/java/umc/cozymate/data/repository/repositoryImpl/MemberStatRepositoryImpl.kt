@@ -2,6 +2,7 @@ package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
 import umc.cozymate.data.api.MemberStatService
+import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.model.response.member.stat.GetMemberSearchListResponse
 import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
 import umc.cozymate.data.model.response.member.stat.GetRoommateListByEqualityResponse
@@ -30,6 +31,13 @@ class MemberStatRepositoryImpl @Inject constructor(
         page: Int
     ): Response<GetRoommateListByEqualityResponse> {
         return api.getRoommateListByEquality(accessToken, page)
+    }
+
+    override suspend fun getMemberDetailInfo(
+        accessToken: String,
+        memberId: Int
+    ): Response<GetMemberDetailInfoResponse> {
+        return api.getMemberDetailInfo(accessToken, memberId)
     }
 
 }

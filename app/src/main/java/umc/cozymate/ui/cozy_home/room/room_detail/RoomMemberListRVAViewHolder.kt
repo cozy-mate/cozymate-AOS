@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.RvItemHomeRoomCurrentMemberBinding
-import umc.cozymate.ui.roommate.RoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
 class RoomMemberListRVAViewHolder(
     private val binding: RvItemHomeRoomCurrentMemberBinding

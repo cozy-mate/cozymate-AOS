@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentRoommateMakeCrewableBinding
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoListRVA
 import umc.cozymate.ui.roommate.adapter.RoommateMakeCrewableInfoTableRVA
 import umc.cozymate.ui.viewmodel.RoommateViewModel

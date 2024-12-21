@@ -1,4 +1,4 @@
-package umc.cozymate.ui.roommate
+package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
+import umc.cozymate.ui.roommate.UserInfoSPFHelper
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 
@@ -34,13 +35,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         val selectedInfo = intent.getParcelableExtra<Info>("selectInfo")
         val selectedDetail = intent.getParcelableExtra<Detail>("selectDetail")
 
-//        viewModel.roommateRequestStatus.observe(this) { isSuccess ->
-//            if (isSuccess) {
-//                toggleRoommateRequestButton()
-//            } else {
-//                Toast.makeText(this, "코지메이트 요청 실패", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+
         spfHelper = UserInfoSPFHelper(this)
 
         // SharedPreferences에서 유저 정보 로드

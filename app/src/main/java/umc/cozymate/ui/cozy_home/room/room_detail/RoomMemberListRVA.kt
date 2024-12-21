@@ -8,7 +8,8 @@ import umc.cozymate.databinding.RvItemHomeRoomCurrentMemberBinding
 
 class RoomMemberListRVA(
     private val mateList: List<GetRoomInfoResponse.Result.MateDetail>,
-    private val managerNickname: String
+    private val managerNickname: String,
+    private val onItemClicked: (memberId: Int) -> Unit
 ) : RecyclerView.Adapter<RoomMemberListRVAViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomMemberListRVAViewHolder {
@@ -21,7 +22,12 @@ class RoomMemberListRVA(
     }
 
     override fun onBindViewHolder(holder: RoomMemberListRVAViewHolder, position: Int) {
+        val item = mateList[position]
         holder.bind(mateList[position], managerNickname)
+
+        holder.itemView.setOnClickListener {
+            onItemClicked(item.memberId)
+        }
     }
 
     override fun getItemCount(): Int = mateList.size

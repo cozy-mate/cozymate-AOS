@@ -5,8 +5,10 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.model.request.MemberStatRequest
+import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.model.response.member.stat.GetMemberSearchListResponse
 import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
 import umc.cozymate.data.model.response.member.stat.GetRoommateListByEqualityResponse
@@ -40,5 +42,12 @@ interface MemberStatService {
         @Query("page") page: Int,
         @Body additionalPropList: MemberStatRequest
     )
+
+    // 사용자 상세 정보 조회
+    @GET("/members/stat/{memberId}")
+    suspend fun getMemberDetailInfo(
+        @Header("Authorization") accessToken: String,
+        @Path("memberId") memberId: Int
+    ) : Response<GetMemberDetailInfoResponse>
 
 }
