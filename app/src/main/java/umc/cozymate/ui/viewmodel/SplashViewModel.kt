@@ -224,4 +224,20 @@ class SplashViewModel @Inject constructor(
             null
         }
     }
+
+    fun deleteMember(reason: String){
+        viewModelScope.launch {
+            val token = getToken()
+            try {
+                val response = repository.withdraw(token!!)
+                if(response.isSuccessful) {
+                    Log.d(TAG, "회원 탈퇴 성공 ${response.body()}")
+
+                }
+                else Log.d(TAG,"withdraw 응답 실패 : ${response.body()}")
+            }catch (e:Exception){
+                Log.d(TAG,"withdraw api 요청 실패 ${e}")
+            }
+        }
+    }
 }

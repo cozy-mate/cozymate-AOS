@@ -84,7 +84,7 @@ class MessageMemberFragment : Fragment() {
                     // 데이터를 arguments로 전달
                     val args = Bundle()
                     args.putInt("chatRoomId", item.chatRoomId)
-                    args.putString("nickName",item.nickName)
+                    args.putString("nickname",item.nickname)
                     fragment.arguments = args
 
                     // FragmentManager를 통해 Fragment 전환

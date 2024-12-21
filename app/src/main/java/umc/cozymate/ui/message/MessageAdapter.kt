@@ -20,7 +20,7 @@ class MessageAdapter(
         fun bind(pos : Int) {
             val item = items[pos]
             binding.ivMessageMemberCharacter.setImageResource(initCharactor(pos))
-            binding.tvMessageMemberName.text = item.nickName
+            binding.tvMessageMemberName.text = item.nickname
             binding.tvMessageMemberText.text = item.lastContent
             if(pos == items.size-1) binding.ivLine.visibility = View.GONE
             binding.layout.setOnClickListener {

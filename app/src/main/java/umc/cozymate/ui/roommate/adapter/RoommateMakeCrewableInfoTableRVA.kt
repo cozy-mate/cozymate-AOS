@@ -8,7 +8,7 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.OtherUserInfo
 import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.databinding.RvItemRoommateCrewableTableResultBinding
-import umc.cozymate.ui.cozy_home.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.roommate.RoommateDetailActivity
 
 class RoommateMakeCrewableInfoTableRVA(
     private var infoList: List<OtherUserInfo>,
@@ -40,7 +40,7 @@ class RoommateMakeCrewableInfoTableRVA(
         holder.binding.tvTableAgeRoom.text = "${userInfo.info.memberAge}살 | ${userInfo.info.numOfRoommate}인실"
         holder.binding.tvTableUserMatchPercent.text = "${userInfo.info.equality}%"
 
-        val profileImageResId = when (userInfo.info.memberPersona) {
+        val profileImageResId = when (userInfo.info.memberPersona) {1 -> R.drawable.character_id_1
             1 -> R.drawable.character_id_1
             2 -> R.drawable.character_id_2
             3 -> R.drawable.character_id_3
@@ -57,7 +57,7 @@ class RoommateMakeCrewableInfoTableRVA(
             14 -> R.drawable.character_id_14
             15 -> R.drawable.character_id_15
             16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_16  // 기본 이미지 (해당 숫자가 없을 경우)
+            else -> R.drawable.character_id_1// 기본 이미지 (해당 숫자가 없을 경우)
         }
 
         // ImageView에 리소스 설정

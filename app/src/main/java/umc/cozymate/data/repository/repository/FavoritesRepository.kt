@@ -13,6 +13,4 @@ interface FavoritesRepository {
     suspend fun getFavoritesRooms(accessToken: String) : Response<GetFavoritesRoomsResponse>
 
     suspend fun getFavoritesMembers(accessToken: String) : Response<GetFavoritesMembersResponse>
-
-    suspend fun deleteFavoriteId(accessToken: String, favoriteId: Int) : Response<SendFavoritesResponse>
 }

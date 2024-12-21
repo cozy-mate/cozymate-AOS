@@ -7,6 +7,6 @@ data class ChatContentData(
     val nickname : String,
     @SerializedName("content")
     val content : String,
-    @SerializedName("dateTime")
-    val dateTime : String
+    @SerializedName("datetime")
+    val datetime : String
 )

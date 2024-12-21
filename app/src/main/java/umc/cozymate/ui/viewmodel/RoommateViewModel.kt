@@ -1,23 +1,20 @@
 package umc.cozymate.ui.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import umc.cozymate.data.domain.OtherUserInfo
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
-import umc.cozymate.data.model.response.roommate.Member
-import umc.cozymate.data.model.response.roommate.MemberX
-import umc.cozymate.data.model.response.roommate.OtherMemberDetailInfoResponse
+import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repositoryImpl.RoommateRepositoryImpl
 import umc.cozymate.util.onError
@@ -28,40 +25,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RoommateViewModel @Inject constructor(
-//    application: Application,
-        @ApplicationContext private val context: Context,
     private val repository: RoommateRepositoryImpl
 ) : ViewModel() {
-//) : AndroidViewModel(application) {
 
-    private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//    private val spf = getApplication<Application>().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     private val _tempOtherUserInfo = MutableStateFlow<List<OtherUserInfoResponse>>(emptyList())
 
-    private val _otherUserInfo = MutableSharedFlow<List<MemberX>>()
+    private val _otherUserInfo = MutableSharedFlow<List<OtherUserInfo>>()
     val otherUserInfo = _otherUserInfo.asSharedFlow()
 
-    private val _unfilteredUserInfo = MutableSharedFlow<List<MemberX>>()
+    private val _unfilteredUserInfo = MutableSharedFlow<List<OtherUserInfo>>() // 필터가 없는 상태의 데이터를 저장
     val unfilteredUserInfo = _unfilteredUserInfo.asSharedFlow()
+
+    private val _selectedDetail = MutableLiveData<Detail>()
+    val selectedDetail: LiveData<Detail> get() = _selectedDetail
 
     // 필터 리스트를 관리하는 MutableLiveData
     private val _filterList = MutableLiveData<List<String>>(mutableListOf())
     val filterList: LiveData<List<String>> get() = _filterList
 
-    private val _randomMemberList = MutableSharedFlow<List<Member>>()
-    val randomMemberList = _randomMemberList.asSharedFlow()
 
-    private val _memberDetailInfo = MutableSharedFlow<OtherMemberDetailInfoResponse>()
-    val memberDetailInfo = _memberDetailInfo.asSharedFlow()
-
-    private fun getToken(): String? {
-        return spf.getString("access_token", null)
-    }
-    private val token = getToken()!!
-
-    fun sendUserInfo(request: UserInfoRequest) {
+    fun sendUserInfo(accessToken: String, request: UserInfoRequest) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.sendUserInfo(token, request).onSuccess {
+            repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
             }.onError {
                 Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
@@ -73,32 +58,39 @@ class RoommateViewModel @Inject constructor(
         }
     }
 
-    fun getAllOtherUserInfo() {
+    fun getAllOtherUserInfo(accessToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val allUserInfo = mutableListOf<MemberX>()
+            val allUserInfo = mutableListOf<OtherUserInfo>() // 모든 사용자 정보를 저장할 리스트
             var page = 0
-            var hasMoreData = true
+            var hasMoreData = true // 더 가져올 데이터가 있는지 여부를 나타내는 플래그
 
             while (hasMoreData) {
-                repository.getOtherUserInfo(token, page, emptyList())
+                repository.getOtherUserInfo(accessToken, page, emptyList()) // 필터가 없으므로 빈 리스트 전달
                     .onSuccess { response ->
-                        val otherUserInfoDomain = response.memberList.map { preferenceState ->
-                            preferenceState.copy(
-                                preferenceStats = preferenceState.preferenceStats.map { it }
-                            )
+                        val otherUserInfoDomain = response.result.map { otherUserInfo ->
+                            otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
                         }
-                        allUserInfo.addAll(otherUserInfoDomain)
-                        Log.d("RoommateViewModel", "page: $page, list : $otherUserInfoDomain")
 
-                        if (response.memberList.isEmpty()) {
+                        // 페이지 데이터를 로그로 출력
+                        Log.d("RoommateViewModel", "Fetched page $page: $otherUserInfoDomain")
+
+                        // 받아온 데이터를 리스트에 추가
+                        allUserInfo.addAll(otherUserInfoDomain)
+
+                        // 페이지 결과가 비어 있으면 더 이상 가져올 데이터가 없다는 의미
+                        if (response.result.isEmpty()) {
                             hasMoreData = false
-                            Log.d("RoommateViewModel", "No More Data")
+                            Log.d("RoommateViewModel", "No more unfiltered data to fetch.")
                         } else {
+                            // 다음 페이지로 이동
                             page++
                         }
-                    }.onError {
+                    }
+                    .onError {
                         Log.d("GetAllOtherUserInfo", "error: $it")
-                    }.onException {
+                        hasMoreData = false // 오류 발생 시 반복 종료
+                    }
+                    .onException {
                         Log.d("GetAllOtherUserInfo", "exception: $it")
                         hasMoreData = false // 예외 발생 시 반복 종료
                     }
@@ -107,41 +99,50 @@ class RoommateViewModel @Inject constructor(
                         hasMoreData = false // 실패 시 반복 종료
                     }
             }
-            _unfilteredUserInfo.emit(allUserInfo)
+
+            // 모든 페이지에서 데이터를 받아온 후 리스트를 emit
+            _unfilteredUserInfo.emit(allUserInfo) // 필터가 없는 데이터를 _unfilteredUserInfo로 emit
         }
     }
 
-    fun getAllFilteredUserInfo() {
+    fun getAllFilteredUserInfo(accessToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val allFilteredUserInfo = mutableListOf<MemberX>()
+            val allFilteredUserInfo = mutableListOf<OtherUserInfo>() // 모든 필터링된 사용자 정보를 저장할 리스트
             var page = 0
-            var hasMoreData = true
+            var hasMoreData = true // 더 가져올 데이터가 있는지 여부를 나타내는 플래그
 
+            // 필터 리스트가 비어 있으면 빈 데이터를 반환
             val filters = _filterList.value ?: emptyList()
             if (filters.isEmpty()) {
-                Log.d("RoommateViewModel", "No filters. Empty List")
-                _otherUserInfo.emit(emptyList())
+                Log.d("RoommateViewModel", "No filters applied. Returning empty list.")
+                _otherUserInfo.emit(emptyList()) // 필터가 없으면 빈 리스트 emit
                 return@launch
             }
 
+            // 필터가 있을 때만 데이터를 요청
             while (hasMoreData) {
-                repository.getOtherUserInfo(token, page, filters)
+                repository.getOtherUserInfo(accessToken, page, filters) // 필터 적용
                     .onSuccess { response ->
-                        val otherUserInfoDomain = response.memberList.map { preferenceState ->
-                            preferenceState.copy(
-                                preferenceStats = preferenceState.preferenceStats.map { it }
-                            )
+                        val otherUserInfoDomain = response.result.map { otherUserInfo ->
+                            otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
                         }
-                        Log.d("RoommvateViewModel", "Page: $page, List: $otherUserInfoDomain")
+
+                        // 페이지 데이터를 로그로 출력
+                        Log.d("RoommateViewModel", "Fetched filtered page $page: $otherUserInfoDomain")
+
+                        // 받아온 데이터를 리스트에 추가
                         allFilteredUserInfo.addAll(otherUserInfoDomain)
 
-                        if (response.memberList.isEmpty()) {
+                        // 페이지 결과가 비어 있으면 더 이상 가져올 데이터가 없다는 의미
+                        if (response.result.isEmpty()) {
                             hasMoreData = false
-                            Log.d("RoommateViewModel", "No More Data")
+                            Log.d("RoommateViewModel", "No more filtered data to fetch.")
                         } else {
+                            // 다음 페이지로 이동
                             page++
                         }
-                    }.onError {
+                    }
+                    .onError {
                         Log.d("GetAllFilteredUserInfo", "error: $it")
                         hasMoreData = false // 오류 발생 시 반복 종료
                     }
@@ -154,33 +155,65 @@ class RoommateViewModel @Inject constructor(
                         hasMoreData = false // 실패 시 반복 종료
                     }
             }
-            _otherUserInfo.emit(allFilteredUserInfo)
+
+            // 모든 페이지에서 데이터를 받아온 후 리스트를 emit
+            _otherUserInfo.emit(allFilteredUserInfo) // 필터가 적용된 데이터를 _otherUserInfo로 emit
         }
     }
 
-    fun getFirstPageUsersInfo() {
-        // 필터 없는 첫 페이지 사용자 정보 가져오기
+fun getFilteredUserInfo(accessToken: String, page: Int) {
+    val filters = _filterList.value ?: emptyList()
+
+    // 필터가 비어 있으면 API 호출을 하지 않음
+    if (filters.isEmpty()) {
+        // 데이터를 비워주고 리턴
+        viewModelScope.launch {
+            _otherUserInfo.emit(emptyList()) // 데이터를 비우고 UI에서 처리하게끔 전달
+        }
+        return
+    }
+
+    // 필터가 있을 때만 API 호출
+    viewModelScope.launch(Dispatchers.IO) {
+        repository.getOtherUserInfo(accessToken, page, filters).onSuccess { response ->
+            val otherUserInfoDomain = response.result.map { otherUserInfo ->
+                otherUserInfo.toModel(otherUserInfo.info, otherUserInfo.detail)
+            }
+            Log.d("RoommateViewModel", otherUserInfoDomain.toString())
+
+            _otherUserInfo.emit(otherUserInfoDomain)
+        }.onError {
+            Log.d("GetOtherUserInfo", "error: $it")
+            _otherUserInfo.emit(emptyList()) // 오류 발생 시 빈 리스트 반환
+        }.onException {
+            Log.d("GetOtherUserInfo", "exception: $it")
+            _otherUserInfo.emit(emptyList()) // 예외 발생 시 빈 리스트 반환
+        }.onFail {
+            Log.d("GetOtherUserInfo", "fail: $it")
+            _otherUserInfo.emit(emptyList()) // 실패 시 빈 리스트 반환
+        }
+    }
+}
+
+
+    fun getOtherUserInfo(accessToken: String, page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getOtherUserInfo(token, 0, emptyList()).onSuccess { response ->
-                val firstUsersInfoDomain = response.memberList.map { preferenceStats ->
-                    preferenceStats.copy(
-                        preferenceStats = preferenceStats.preferenceStats.map { it }
-                    )
-                }
-                _unfilteredUserInfo.emit(firstUsersInfoDomain)
+            repository.getOtherUserInfo(accessToken, page, emptyList()).onSuccess { response ->
+                val otherUserInfoDomain = response.result.map { it.toModel(it.info, it.detail) }
+                _unfilteredUserInfo.emit(otherUserInfoDomain) // 필터가 없는 데이터를 유지
             }.onError {
-                Log.d("FirstPageUserInfo", "error: ${it.message}")
+                Log.d("GetInitialUserInfo", "error: ${it.message}")
             }.onException {
-                Log.d("FirstPageUserInfo", "exception: ${it.message}")
+                Log.d("GetInitialUserInfo", "exception: ${it.message}")
             }.onFail {
-                Log.d("FirstPageUserInfo", "fail: $it")
+                Log.d("GetInitialUserInfo", "fail: $it")
             }
         }
     }
 
-    fun sendFcmInfo(request: FcmInfoRequest) {
+    fun sendFcmInfo(accessToken: String, request: FcmInfoRequest){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.sendFcmInfo(token, request).onSuccess {
+            repository.sendFcmInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendFCMInfo: ${it.result}")
             }.onError {
                 Log.d("RoommateViewModel", "sendFCMInfo Error: ${it}")
@@ -213,38 +246,7 @@ class RoommateViewModel @Inject constructor(
         Log.d("RoommateViewModel", "All filters cleared")
     }
 
-    fun getRandomMember() {
-        viewModelScope.launch {
-            repository.getRandomMember(token).onSuccess {
-                val RandomMemberListDomain = it.memberList.map { preferenceStats ->
-                    preferenceStats.copy(
-                        preferenceStats = preferenceStats.preferenceStats.map { it }
-                    )
-                }
-                _randomMemberList.emit(RandomMemberListDomain)
-                Log.d("RoommateViewModel", "getRandomMember : $RandomMemberListDomain")
-            }.onError {
-                Log.d("RoommateViewModel", "getRandomMember Error:")
-            }.onException {
-                Log.d("RoommateViewModel", "getRandomMember Exception:")
-            }.onFail {
-                Log.d("RoommateViewModel", "getRandomMember Fail:")
-            }
-        }
-    }
-
-    fun getMemberDetailInfo(memberId: Int){
-        viewModelScope.launch {
-            repository.getOtherUserDetailInfo(token, memberId).onSuccess { response ->
-                _memberDetailInfo.emit(response)
-                Log.d("RoommateViewModel", "getMemberDetailInfo : $response")
-            }.onError {
-                Log.d("RoommateViewModel", "getMemberDetailInfo Error:")
-            }.onException {
-                Log.d("RoommateViewModel", "getMemberDetailInfo Exception:")
-            }.onFail {
-                Log.d("RoommateViewModel", "getMemberDetailInfo Fail:")
-            }
-        }
+    fun selectDetail(detail: Detail) {
+        _selectedDetail.value = detail
     }
 }

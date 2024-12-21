@@ -30,7 +30,7 @@ class MessageDetailFragment : Fragment() {
     private val reportViewModel : ReportViewModel by viewModels()
     private var contents : List<ChatContentData> = emptyList()
     private var chatRoomId : Int = 0
-    private var recipientId : Int = 0
+    private var memberId : Int = 0
     private var nickname :String = ""
     private var moreFlag : Boolean = false
 
@@ -45,7 +45,7 @@ class MessageDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chatRoomId = arguments?.getInt("chatRoomId") ?: 0
-        nickname = arguments?.getString("nickName")!!
+        nickname = arguments?.getString("nickname") ?: ""
         setupObservers()
         updateData()
         //updateContents()
@@ -66,8 +66,8 @@ class MessageDetailFragment : Fragment() {
             if (response.isSuccessful) {
                 val contentsResponse = response.body()
                 contentsResponse?.let {
-                    contents = it.result.chatContents
-                    recipientId = it.result.recipientId
+                    contents = it.result.content
+                    memberId = it.result.memberId
                     updateContents()
                 }
             }
@@ -80,14 +80,14 @@ class MessageDetailFragment : Fragment() {
     }
 
     private fun updateContents() {
-        messageDetailAdapter = MessageDetailAdapter(contents.reversed())
-        if(contents.size == 0){
+        if(contents.isNullOrEmpty()){
             val text = "["+nickname+"]님과\n아직 주고 받은 쪽지가 없어요!"
             binding.tvEmpty.text = text
             binding.rvMessageDetail.visibility = View.GONE
             binding.tvEmpty.visibility = View.VISIBLE
         }
         else{
+            messageDetailAdapter = MessageDetailAdapter(contents.reversed())
             binding.rvMessageDetail.visibility = View.VISIBLE
             binding.tvEmpty.visibility = View.GONE
 
@@ -119,7 +119,7 @@ class MessageDetailFragment : Fragment() {
         }
         binding.btnWriteMessage.setOnClickListener {
             val intent : Intent = Intent(activity, WriteMessageActivity::class.java)
-            intent.putExtra("recipientId",recipientId)
+            intent.putExtra("recipientId",memberId)
             startActivity(intent)
         }
 
@@ -135,7 +135,7 @@ class MessageDetailFragment : Fragment() {
     private fun reportPopup(){
         val dialog = ReportPopup(object : PopupClick {
             override fun reportFunction(reason: Int, content : String) {
-                reportViewModel.postReport(recipientId, 1, reason, content)
+                reportViewModel.postReport(memberId, 1, reason, content)
             }
         })
         dialog.show(activity?.supportFragmentManager!!, "reportPopup")

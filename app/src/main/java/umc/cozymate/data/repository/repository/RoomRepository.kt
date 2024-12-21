@@ -48,3 +48,4 @@ interface RoomRepository {
 
     suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
 }
+
