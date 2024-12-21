@@ -8,7 +8,7 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.OtherUserInfo
 import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.databinding.RvItemRoommateCrewableTableResultBinding
-import umc.cozymate.ui.roommate.RoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate_detail.RoommateDetailActivity
 
 class RoommateMakeCrewableInfoTableRVA(
     private var infoList: List<OtherUserInfo>,

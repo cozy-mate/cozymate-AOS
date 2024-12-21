@@ -85,7 +85,7 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.roommate.RoommateDetailActivity"
+            android:name=".ui.cozy_home.roommate_detail.RoommateDetailActivity"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"

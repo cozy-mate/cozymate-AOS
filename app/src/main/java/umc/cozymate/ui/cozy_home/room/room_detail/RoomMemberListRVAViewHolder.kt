@@ -1,10 +1,12 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.RvItemHomeRoomCurrentMemberBinding
+import umc.cozymate.ui.cozy_home.roommate_detail.RoommateDetailActivity
 
 class RoomMemberListRVAViewHolder(
     private val binding: RvItemHomeRoomCurrentMemberBinding
@@ -39,6 +41,14 @@ class RoomMemberListRVAViewHolder(
                 tvRoomMemberMaster.visibility = View.VISIBLE
             } else {
                 tvRoomMemberMaster.visibility = View.GONE
+            }
+
+            binding.root.setOnClickListener {
+                val context = binding.root.context
+                val intent = Intent(context, RoommateDetailActivity::class.java).apply {
+                    putExtra("mateId", item.mateId)
+                }
+                context.startActivity(intent)
             }
         }
     }

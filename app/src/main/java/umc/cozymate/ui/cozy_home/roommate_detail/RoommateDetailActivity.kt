@@ -1,7 +1,8 @@
-package umc.cozymate.ui.roommate
+package umc.cozymate.ui.cozy_home.roommate_detail
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.activity.viewModels
@@ -14,11 +15,13 @@ import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
+import umc.cozymate.ui.roommate.UserInfoSPFHelper
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 
 class RoommateDetailActivity : AppCompatActivity() {
 
+    private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityRoommateDetailBinding
     private val viewModel: RoommateViewModel by viewModels()
     private lateinit var spfHelper: UserInfoSPFHelper
@@ -30,67 +33,64 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Info와 Detail 데이터를 받아오기
-        val selectedInfo = intent.getParcelableExtra<Info>("selectInfo")
-        val selectedDetail = intent.getParcelableExtra<Detail>("selectDetail")
+//        // Info와 Detail 데이터를 받아오기
+//        val selectedInfo = intent.getParcelableExtra<Info>("selectInfo")
+//        val selectedDetail = intent.getParcelableExtra<Detail>("selectDetail")
+//
+//        spfHelper = UserInfoSPFHelper(this)
+//
+//        // SharedPreferences에서 유저 정보 로드
+//        val userInfo = spfHelper.loadUserInfo()
+//
+//        selectedInfo?.let { info ->
+//            setUserProfileImage(info.memberPersona)  // 프로필 이미지 설정
+//            binding.tvOtherUserName.text = info.memberName  // 사용자 이름 설정
+//            binding.tvUserMatchPercent.text = "${info.equality}"
+//        }
 
-//        viewModel.roommateRequestStatus.observe(this) { isSuccess ->
-//            if (isSuccess) {
-//                toggleRoommateRequestButton()
-//            } else {
-//                Toast.makeText(this, "코지메이트 요청 실패", Toast.LENGTH_SHORT).show()
+//        // 처음 실행 시 리스트 뷰를 기본 선택
+//        selectListView(selectedInfo, selectedDetail)
+//
+//        // ListView 클릭 시
+//        binding.llListView.setOnClickListener {
+//            selectListView(selectedInfo, selectedDetail)
+//        }
+//
+//        // TableView 클릭 시
+//        binding.llTableView.setOnClickListener {
+//            selectTableView(selectedInfo, selectedDetail, userInfo)
+//        }
+//
+//        // 뒤로가기 버튼
+//        binding.btnBack.setOnClickListener {
+//            finish()
+//        }
+        // mateId 받기
+        val mateId = intent.getIntExtra("mateId", -1)
+        if (mateId != -1) {
+            Log.d(TAG, "Received mateId: $mateId")
+            // 해당 mateId 정보 업데이트
+//            fetchMateDetail(mateId)
+        } else{
+            Log.d(TAG, "Invalid mateId received")
+        }
+    }
+
+//    private fun toggleRoommateRequestButton() {
+//        isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
+//
+//        if (isRoommateRequested) {
+//            binding.fabRequestEnterRoom.apply {
+//                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.yellow))
+//                text = "요청 취소"
+//            }
+//        } else {
+//            binding.fabRequestEnterRoom.apply {
+//                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+//                text = "코지메이트 요청"
 //            }
 //        }
-        spfHelper = UserInfoSPFHelper(this)
-
-        // SharedPreferences에서 유저 정보 로드
-        val userInfo = spfHelper.loadUserInfo()
-
-        selectedInfo?.let { info ->
-            setUserProfileImage(info.memberPersona)  // 프로필 이미지 설정
-            binding.tvOtherUserName.text = info.memberName  // 사용자 이름 설정
-            binding.tvUserMatchPercent.text = "${info.equality}"
-        }
-
-        // 처음 실행 시 리스트 뷰를 기본 선택
-        selectListView(selectedInfo, selectedDetail)
-
-        // ListView 클릭 시
-        binding.llListView.setOnClickListener {
-            selectListView(selectedInfo, selectedDetail)
-        }
-
-        // TableView 클릭 시
-        binding.llTableView.setOnClickListener {
-            selectTableView(selectedInfo, selectedDetail, userInfo)
-        }
-
-        // 뒤로가기 버튼
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
-
-//        binding.btnRequestRoommate.setOnClickListener {
-//            sendRoommateRequest()
-//        }
-
-    }
-
-    private fun toggleRoommateRequestButton() {
-        isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
-
-        if (isRoommateRequested) {
-            binding.fabRequestEnterRoom.apply {
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.yellow))
-                text = "요청 취소"
-            }
-        } else {
-            binding.fabRequestEnterRoom.apply {
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                text = "코지메이트 요청"
-            }
-        }
-    }
+//    }
 //    private fun sendRoommateRequest() {
 //        val accessToken = "Bearer ${getString(R.string.access_token_1)}"  // 액세스 토큰
 //        val request = RoommateRequest(/* 요청에 필요한 데이터를 설정 */)
@@ -256,9 +256,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableUserCleanFrequency.text = trimText(userInfo.cleaningFrequency)
         tableBinding.tvTableUserPersonality.text = userInfo.personality.joinToString(", ")
         tableBinding.tvTableUserMbti.text = userInfo.mbti
-
-
-
 
         tableBinding.tvTableOtherName.text = info?.memberName
         tableBinding.tvTableOtherBirth.text = "${detail?.birthYear}년"
