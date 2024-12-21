@@ -14,10 +14,10 @@
         android:id="@+id/fragment_cozybot"
         android:title="코지봇"
         android:icon="@drawable/ic_cozybot"/>
-    <!--<item
+    <item
         android:id="@+id/fragment_feed"
         android:title="피드"
-        android:icon="@drawable/ic_feed"/>-->
+        android:icon="@drawable/ic_feed"/>
     <item
         android:id="@+id/fragment_mypage"
         android:title="마이페이지"

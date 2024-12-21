@@ -1,0 +1,32 @@
+package umc.cozymate.data.model.response.roommate
+
+data class MemberStatDetail(
+    val acceptance: String,
+    val admissionYear: String,
+    val airConditioningIntensity: Int,
+    val canShare: String,
+    val cleanSensitivity: Int,
+    val cleaningFrequency: String,
+    val dormitoryName: String,
+    val drinkingFrequency: String,
+    val heatingIntensity: Int,
+    val intake: String,
+    val intimacy: String,
+    val isPhoneCall: String,
+    val isPlayGame: String,
+    val lifePattern: String,
+    val mbti: String,
+    val noiseSensitivity: Int,
+    val numOfRoommate: Int,
+    val personality: List<String>,
+    val selfIntroduction: String,
+    val sleepingHabit: List<String>,
+    val sleepingMeridian: String,
+    val sleepingTime: Int,
+    val smoking: String,
+    val studying: String,
+    val turnOffMeridian: String,
+    val turnOffTime: Int,
+    val wakeUpMeridian: String,
+    val wakeUpTime: Int
+)

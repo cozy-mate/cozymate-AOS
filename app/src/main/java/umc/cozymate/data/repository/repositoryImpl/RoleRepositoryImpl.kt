@@ -4,7 +4,6 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.RoleService
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 import umc.cozymate.data.repository.repository.RoleRepository
 import javax.inject.Inject
@@ -16,7 +15,7 @@ class RoleRepositoryImpl @Inject constructor(
         accessToken: String,
         roomId: Int,
         request: RoleRequest
-    ):  Response<CreateResponse> {
+    ): Response<DefaultResponse> {
         return api.createRole(accessToken, roomId, request)
     }
 
@@ -33,15 +32,6 @@ class RoleRepositoryImpl @Inject constructor(
         roleId: Int
     ): Response<DefaultResponse> {
         return api.deleteRole(accessToken, roomId, roleId)
-    }
-
-    override suspend fun editRole(
-        accessToken: String,
-        roomId: Int,
-        roleId: Int,
-        request: RoleRequest
-    ): Response<DefaultResponse> {
-        return api.editRole(accessToken, roomId, roleId, request)
     }
 
 }

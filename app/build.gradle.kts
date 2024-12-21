@@ -161,7 +161,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
 
     // lottie
-    implementation(libs.lottie)
+//    implementation(libs.lottie)
 }
 kapt {
     correctErrorTypes = true

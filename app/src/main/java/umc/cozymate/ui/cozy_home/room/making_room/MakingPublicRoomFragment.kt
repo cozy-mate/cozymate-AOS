@@ -302,4 +302,3 @@ class MakingPublicRoomFragment : Fragment() {
         }
     }
 }
-

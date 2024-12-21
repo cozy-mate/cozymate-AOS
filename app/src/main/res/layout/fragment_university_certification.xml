@@ -4,16 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tv_roommate1"
         android:layout_width="wrap_content"
@@ -48,7 +38,7 @@
 
     <!-- 학교-->
     <ImageView
-        android:id="@+id/btn_university"
+        android:id="@+id/btn_school"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
@@ -58,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_roommate1" />
 
     <TextView
-        android:id="@+id/tv_university_guide"
+        android:id="@+id/tv_school_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -66,35 +56,20 @@
         android:text="학교"
         android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
         android:textColor="@color/color_font"
-        app:layout_constraintStart_toStartOf="@id/btn_university"
-        app:layout_constraintTop_toTopOf="@+id/btn_university" />
+        app:layout_constraintStart_toStartOf="@id/btn_school"
+        app:layout_constraintTop_toTopOf="@+id/btn_school" />
 
     <TextView
-        android:id="@+id/tv_university_name"
+        android:id="@+id/tv_school_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="학교를 선택해주세요"
+        android:text="이름을 입력해주세요"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
         android:textColor="@color/unuse_font"
-        app:layout_constraintStart_toStartOf="@id/btn_university"
-        app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
-
-    <Spinner
-        android:id="@+id/spinner_university"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/spinner_bg"
-        android:dropDownWidth="match_parent"
-        android:overlapAnchor="false"
-        android:popupBackground="@drawable/spinner_background"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="@id/btn_university"
-        app:layout_constraintStart_toStartOf="@id/btn_university"
-        app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
+        app:layout_constraintStart_toStartOf="@id/btn_school"
+        app:layout_constraintTop_toTopOf="@id/tv_school_guide" />
 
     <!-- 학과-->
     <ImageView
@@ -102,10 +77,10 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/custom_rectangle_12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_university" />
+        app:layout_constraintTop_toBottomOf="@id/btn_school" />
 
     <TextView
         android:id="@+id/tv_major_guide"
@@ -119,8 +94,8 @@
         app:layout_constraintStart_toStartOf="@id/btn_major"
         app:layout_constraintTop_toTopOf="@+id/btn_major" />
 
-    <TextView
-        android:id="@+id/tv_major"
+    <EditText
+        android:id="@+id/et_major_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -134,34 +109,19 @@
         app:layout_constraintStart_toStartOf="@id/btn_major"
         app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
 
-    <Spinner
-        android:id="@+id/spinner_major"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/spinner_bg"
-        android:dropDownWidth="match_parent"
-        android:overlapAnchor="false"
-        android:popupBackground="@drawable/spinner_background"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="@id/btn_university"
-        app:layout_constraintStart_toStartOf="@id/btn_university"
-        app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
-
     <!-- 학교 이메일-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_email_input"
+        android:id="@+id/cl_onboarding_name"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_major">
 
         <ImageView
-            android:id="@+id/btn_university_email"
+            android:id="@+id/btn_school_email"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:src="@drawable/custom_rectangle_12"
@@ -169,7 +129,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_university_email"
+            android:id="@+id/tv_school_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -181,7 +141,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/et_university_email"
+            android:id="@+id/et_school_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -193,39 +153,24 @@
             android:textColor="@color/basic_font"
             android:textColorHint="@color/unuse_font"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_university_email" />
+            app:layout_constraintTop_toTopOf="@id/tv_school_email" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send_verify_code"
+            android:layout_width="96dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_rectangle_26"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="인증번호 전송"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/main_blue"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_send_verify_code"
-        android:layout_width="96dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_rectangle_26"
-        android:elevation="0dp"
-        android:outlineProvider="none"
-        android:text="인증번호 전송"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/main_blue"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/cl_email_input"
-        app:layout_constraintEnd_toEndOf="@id/cl_email_input"
-        app:layout_constraintTop_toTopOf="@id/cl_email_input" />
-
-    <TextView
-        android:id="@+id/tv_alert_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="이메일을 다시 확인해주세요!"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:textSize="10dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/cl_email_input"
-        app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
 
     <!--인증번호 확인-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -233,10 +178,10 @@
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_email_input">
+        app:layout_constraintTop_toBottomOf="@id/cl_onboarding_name">
 
         <ImageView
             android:id="@+id/iv_check_verify_code"
@@ -273,37 +218,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_check_verify_code" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_check_verify_code"
+            android:layout_width="96dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_rectangle_26"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="인증번호 확인"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/main_blue"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_check_verify_code"
-        android:layout_width="96dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_rectangle_26"
-        android:elevation="0dp"
-        android:outlineProvider="none"
-        android:text="인증번호 확인"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/main_blue"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/cl_check_verify_code"
-        app:layout_constraintEnd_toEndOf="@id/cl_check_verify_code"
-        app:layout_constraintTop_toTopOf="@id/cl_check_verify_code" />
-
-    <TextView
-        android:id="@+id/tv_alert_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="인증번호를 다시 확인해주세요!"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:textSize="10dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/cl_check_verify_code"
-        app:layout_constraintTop_toBottomOf="@id/cl_check_verify_code" />
 
     <!-- 바텀뷰만큼 -->
     <androidx.constraintlayout.widget.ConstraintLayout

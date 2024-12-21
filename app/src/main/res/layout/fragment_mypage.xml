@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_mypage"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
@@ -20,43 +19,43 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_mypage_character"
+        android:id="@+id/iv_MypageCharacter"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/ic_basic_character"
-        android:layout_marginTop="99dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     
     <TextView
-        android:id="@+id/tv_mypage_user_name"
+        android:id="@+id/tv_MypageUserName"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:text="델로"
          android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_mypage_character"
+        app:layout_constraintTop_toBottomOf="@id/iv_MypageCharacter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <LinearLayout
-        android:id="@+id/layout_mypage_data"
+        android:id="@+id/layout_MypageData1"
         android:layout_width="332dp"
         android:layout_height="222dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="45dp"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingVertical="4dp"
         android:background="@drawable/background_stroke_12"
-        app:layout_constraintTop_toBottomOf="@id/tv_mypage_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_MypageUserName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:id="@+id/layout_myinfo"
+            android:id="@+id/layout_MyPageRoom"
             android:layout_width="match_parent"
             android:layout_height="18dp"
             android:orientation="horizontal"
@@ -64,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="내정보"
+                android:text="나의 코지 룸"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font"/>
             <View
@@ -73,43 +72,14 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/btn_myinfo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_next"/>
-
-        </LinearLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/line_mypage"/>
-
-        <LinearLayout
-            android:id="@+id/layout_cozyroom"
-            android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:orientation="horizontal"
-            android:layout_marginVertical="12dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="나의 코지룸"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/highlight_font"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:id="@+id/iv_cozyroom"
+                android:id="@+id/iv_MypageRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_home_color"
                 android:layout_marginEnd="2.5dp"/>
 
             <TextView
-                android:id="@+id/tv_cozyroom"
+                android:id="@+id/tv_MypageRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="피그말리온"
@@ -118,7 +88,7 @@
                 android:layout_marginEnd="10.5dp"/>
 
             <ImageView
-                android:id="@+id/btn_cozyroom"
+                android:id="@+id/btn_MypageRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_next"/>
@@ -131,7 +101,7 @@
             android:src="@drawable/line_mypage"/>
 
         <LinearLayout
-            android:id="@+id/layout_school"
+            android:id="@+id/layout_MypageSchool"
             android:layout_width="match_parent"
             android:layout_height="18dp"
             android:orientation="horizontal"
@@ -148,14 +118,14 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/iv_school_verified_mark"
+                android:id="@+id/iv_MypageSchoolVerifiedMark"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_verifiedmark"
                 android:layout_marginEnd="2.5dp"/>
 
             <TextView
-                android:id="@+id/tv_school"
+                android:id="@+id/tv_MypageSchool"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="인하대학교"
@@ -164,7 +134,7 @@
                 android:layout_marginEnd="10.5dp"/>
 
             <ImageView
-                android:id="@+id/btn_school"
+                android:id="@+id/btn_MypageSchool"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_next"/>
@@ -175,7 +145,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/line_mypage"/>
         <LinearLayout
-            android:id="@+id/layout_lifestyle"
+            android:id="@+id/layout_MypageLifestyle"
             android:layout_width="match_parent"
             android:layout_height="18dp"
             android:orientation="horizontal"
@@ -183,7 +153,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="나의 라이프스타일"
+                android:text="나의 라이프스타일 편집"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font"/>
             <View
@@ -191,7 +161,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <ImageView
-                android:id="@+id/btn_lifestyle"
+                android:id="@+id/btn_MypageLifestyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_next"/>
@@ -203,15 +173,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/line_mypage"/>
 
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/line_mypage"/>
-
         <LinearLayout
-            android:id="@+id/layout_mate"
+            android:id="@+id/layout_MypageApplication"
             android:layout_width="match_parent"
             android:layout_height="18dp"
             android:orientation="horizontal"
@@ -219,7 +182,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="내가 찜한 룸메이트"
+                android:text="코지메이트 신청 및 수락 내역"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/btn_MypageApplication"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_mypage"/>
+
+        <LinearLayout
+            android:id="@+id/layout_MypageCozymate"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+            android:layout_marginVertical="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="내가 찜한 코지메이트"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font"/>
             <View
@@ -229,7 +222,7 @@
 
 
             <ImageView
-                android:id="@+id/btn_mate"
+                android:id="@+id/btn_MypageCozymate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_next"/>
@@ -237,48 +230,84 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <LinearLayout
-        android:id="@+id/layout_inquiry"
+        android:id="@+id/layout_MypageData2"
         android:layout_width="332dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_height="93dp"
+        android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingVertical="4dp"
         android:background="@drawable/background_stroke_12"
-        app:layout_constraintTop_toBottomOf="@id/layout_mypage_data"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_MypageData1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="문의하기"
-            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/highlight_font"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <ImageView
-            android:id="@+id/btn_inquiry"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_next"/>
 
+        <LinearLayout
+            android:id="@+id/layout_MypageQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+            android:layout_marginVertical="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="문의사항"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <ImageView
+                android:id="@+id/btn_MypageQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_mypage"/>
+
+        <LinearLayout
+            android:id="@+id/layout_MypageReport"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+            android:layout_marginVertical="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="신고하기"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/btn_MypageReport"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="41dp"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_inquiry"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_MypageData2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
-            android:id="@+id/tv_signout"
+            android:id="@+id/tv_MypageSignout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="로그아웃"
@@ -295,7 +324,7 @@
             android:layout_marginHorizontal="20dp"/>
 
         <TextView
-            android:id="@+id/tv_withdraw"
+            android:id="@+id/tv_MyPageDeleteId"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="회원탈퇴"

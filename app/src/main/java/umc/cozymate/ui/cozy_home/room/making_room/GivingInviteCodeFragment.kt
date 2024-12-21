@@ -63,7 +63,7 @@ class GivingInviteCodeFragment : Fragment() {
             }
             // 메인화면 (방장)으로 화면 전환
             btnNext.setOnClickListener {
-               (activity as? MakingPrivateRoomActivity)?.loadMainActivity()
+                (activity as? MakingPrivateRoomActivity)?.loadMainActivity()
             }
         }
     }

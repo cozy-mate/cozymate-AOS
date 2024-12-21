@@ -1,53 +1,33 @@
 package umc.cozymate.ui.role_rule
 
-import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.TodoData
+import umc.cozymate.data.model.entity.TodoMateData
 import umc.cozymate.databinding.RvItemTodoBinding
 
-class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
+class TodoRVAdapter(private val todoItems: List<TodoMateData.TodoItem>,
                     private val isEditable: Boolean,
-                    private val isCheckable : Boolean = false)
+                    private val updateTodo: (TodoMateData.TodoItem) -> Unit )
     : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>()
 
 {
-    private lateinit var myListener: itemClickListener
+
     inner class ViewHolder(val binding: RvItemTodoBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(todoItem: TodoData.TodoItem) {
+        fun bind(todoItem: TodoMateData.TodoItem) {
             binding.tvTodoItem.text = todoItem.content
             binding.cbCheck.isChecked = todoItem.completed
-            binding.cbCheck.isEnabled = isCheckable
-            if(!isEditable){
-                binding.ivTodoType.visibility = View.GONE
-                binding.ivMore.visibility = View.GONE
-            }
-            else{
-                when(todoItem.todoType){
-                    "self" -> binding.ivTodoType.visibility = View.GONE
-                    "role" -> binding.ivTodoType.setColorFilter(Color.parseColor("#ACE246"))
-                    "other" -> binding.ivTodoType.setColorFilter(Color.parseColor("#FFCE3D"))
-                }
 
-            }
+            binding.cbCheck.isEnabled = isEditable
             binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
                 todoItem.completed = isChecked
-                myListener.checkboxClickFunction(todoItem)
+                updateTodo(todoItem) // 서버로 상태 업데이트 요청
                 updateTextStyle(isChecked)
             }
             updateTextStyle(todoItem.completed)
-
-            binding.ivMore.setOnClickListener {
-                //myListener.deleteClickFunction(todoItem.todoId)
-                myListener.editClickFunction(todoItem)
-            }
         }
-
-
         // 완료 상태에 따라 텍스트 스타일을 업데이트하는 함수
         private fun updateTextStyle(isCompleted: Boolean) {
             if (isCompleted) {
@@ -64,6 +44,7 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
         }
     }
 
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding: RvItemTodoBinding
         binding = RvItemTodoBinding.inflate(LayoutInflater.from(viewGroup.context),viewGroup,false)
@@ -72,26 +53,9 @@ class TodoRVAdapter(private var todoItems: List<TodoData.TodoItem>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        todoItems = todoItems.sortedWith(Comparator<TodoData.TodoItem>{a,b->
-            val preority : Map<String,Int> = mapOf("self" to 0, "group" to 1, "other" to 2, "role" to 3)
-            when{
-                preority.get(a.todoType)!! > preority.get(b.todoType)!! -> 1
-                preority.get(a.todoType)!! < preority.get(b.todoType)!! -> -1
-                else -> 0
-            }
-        })
         holder.bind(todoItems[position])
     }
 
     override fun getItemCount(): Int  =  todoItems.size
-
-    fun setItemClickListener(listener : itemClickListener){
-            myListener = listener
-    }
-    interface itemClickListener : ItemClick{
-        fun checkboxClickFunction(todo: TodoData.TodoItem){}
-    }
-
-
 
 }

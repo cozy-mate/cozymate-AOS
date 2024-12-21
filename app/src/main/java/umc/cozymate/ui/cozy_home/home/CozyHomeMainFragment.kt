@@ -167,7 +167,7 @@ class CozyHomeMainFragment : Fragment() {
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                     btnSchoolCertificate.isEnabled = false
-                // btnSchoolCertificate.setOnClickListener(null)
+                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }

@@ -4,7 +4,6 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.RuleService
 import umc.cozymate.data.model.request.RuleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RuleResponse
 import umc.cozymate.data.repository.repository.RuleRepository
 import javax.inject.Inject
@@ -16,7 +15,7 @@ class RuleRepositoryImpl @Inject constructor(
         accessToken: String,
         roomId: Int,
         request: RuleRequest
-    ): Response<CreateResponse> {
+    ): Response<DefaultResponse> {
         return api.createRule(accessToken, roomId, request)
     }
 
@@ -33,15 +32,6 @@ class RuleRepositoryImpl @Inject constructor(
         ruleId: Int
     ): Response<DefaultResponse> {
         return api.deleteRule(accessToken, roomId, ruleId)
-    }
-
-    override suspend fun editRule(
-        accessToken: String,
-        roomId: Int,
-        ruleId: Int,
-        request: RuleRequest
-    ): Response<DefaultResponse> {
-        return api.editRule(accessToken, roomId, ruleId, request)
     }
 
 }

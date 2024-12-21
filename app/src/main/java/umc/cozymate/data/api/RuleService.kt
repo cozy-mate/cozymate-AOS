@@ -7,39 +7,30 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RuleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RuleResponse
 
 interface RuleService {
-    @POST("/rooms/{roomId}/rules")
+    @POST("/rule/{roomId}")
     suspend fun createRule(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
         @Body request : RuleRequest
-    ): Response<CreateResponse>
+    ): Response<DefaultResponse>
 
-    @GET("/rooms/{roomId}/rules")
+    @GET("/rule/{roomId}")
     suspend fun getRule(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
     ): Response<RuleResponse>
 
-    @DELETE("/rooms/{roomId}/rules/{ruleId}")
+    @DELETE("/rule/{roomId}")
     suspend fun deleteRule(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int,
-        @Path("ruleId") ruleId : Int
-    ): Response<DefaultResponse>
-
-    @PUT("/rooms/{roomId}/rules/{ruleId}")
-    suspend fun editRule(
-        @Header("Authorization") accessToken: String,
-        @Path("roomId") roomId : Int,
-        @Path("ruleId") ruleId : Int,
-        @Body request: RuleRequest
+        @Query("ruleId") ruleId : Int
     ): Response<DefaultResponse>
 }

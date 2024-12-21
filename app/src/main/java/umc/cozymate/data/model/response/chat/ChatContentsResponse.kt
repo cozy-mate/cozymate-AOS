@@ -17,9 +17,9 @@ data class ChatContentsResponse(
     val result: Result
 ){
     data class Result(
-        @SerializedName("memberId")
-        val memberId : Int,
-        @SerializedName("content")
-        var content : List<ChatContentData>
+        @SerializedName("recipientId")
+        val recipientId : Int,
+        @SerializedName("chatContents")
+        var chatContents : List<ChatContentData>
     )
 }

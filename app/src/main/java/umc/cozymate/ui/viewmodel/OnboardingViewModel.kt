@@ -224,6 +224,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun nicknameCheck() {
         val accessToken = getToken()
+        Log.d(TAG, "닉네임 유효성 체크 토큰 확인: $accessToken")
 
         if (accessToken != null) {
             viewModelScope.launch {

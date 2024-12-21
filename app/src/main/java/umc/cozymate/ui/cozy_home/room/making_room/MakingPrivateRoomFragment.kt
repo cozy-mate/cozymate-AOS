@@ -213,4 +213,3 @@ class MakingPrivateRoomFragment : Fragment() {
         }
     }
 }
-

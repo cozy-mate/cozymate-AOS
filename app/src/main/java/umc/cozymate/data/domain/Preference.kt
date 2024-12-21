@@ -36,4 +36,3 @@ enum class Preference(
     PERSONALITY(23, "personality", "성격", "", R.drawable.ic_personality_blue, R.drawable.ic_personality_red, R.drawable.ic_personality_gray),
     MBTI(24, "mbti", "MBTI", "", R.drawable.ic_mbti_blue, R.drawable.ic_mbti_red, R.drawable.ic_mbti_gray)
 }
-

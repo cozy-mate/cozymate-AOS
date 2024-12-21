@@ -16,4 +16,15 @@ data class ChatRoomResponse(
     @SerializedName("result")
     val result: List<ChatRoomData>
 )
-
+//{
+//    data class Result(
+//        @SerializedName("persona")
+//        val persona : Int,
+//        @SerializedName("nickName")
+//        val nickName: String,
+//        @SerializedName("lastContent")
+//        val lastContent : String,
+//        @SerializedName("chatRoomId")
+//        val chatRoomId : Int
+//    )
+//}

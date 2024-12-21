@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--<data>
+
+        <variable
+            name="viewModel"
+            type="umc.cozymate.ui.viewmodel.CozyHomeViewModel" />
+    </data>-->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -140,12 +147,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="24dp"
-                android:layout_weight="1"
                 tools:listitem="@layout/item_cozyhome_achievement" />
-
         </androidx.core.widget.NestedScrollView>
 
-        <!-- 바텀뷰만큼 띄우기위한 코드 -->
+        <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bottom"
             android:layout_width="match_parent"
