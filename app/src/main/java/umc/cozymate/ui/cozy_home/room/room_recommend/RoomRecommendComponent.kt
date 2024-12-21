@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -55,7 +56,12 @@ class RoomRecommendComponent : Fragment() {
             } else {
                 val dotsIndicator = binding.dotsIndicator
                 val viewPager = binding.vpRoom
-                val adapter = RoomRecommendVPAdapter(roomList, prefList)
+                val adapter = RoomRecommendVPAdapter(roomList, prefList) { roomId ->
+                    val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java).apply {
+                        putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                    }
+                    startActivity(intent)
+                }
                 viewPager.adapter = adapter
                 dotsIndicator.attachTo(viewPager)
             }

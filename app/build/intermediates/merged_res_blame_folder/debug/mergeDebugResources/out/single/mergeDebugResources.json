@@ -4,12 +4,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/font/pretendard_bold.ttf"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_todo.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_todo.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_basic_character.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_basic_character.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_todo.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_todo.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_selection_info.xml.flat",
@@ -44,12 +44,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_alarm.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_school.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_school.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_verifiedmark.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_verifiedmark.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_school.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_school.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_birth_year_red.xml.flat",
@@ -72,20 +72,20 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_school_white.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_mypage.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_mypage.xml"
-    },
-    {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_component_roommate_recommend.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/component_roommate_recommend.xml"
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_bottom_nav.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_bottom_nav.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_banner.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_banner.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_bottom_nav.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_bottom_nav.xml"
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_component_roommate_recommend.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/component_roommate_recommend.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_mypage.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_mypage.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_basic_character2.xml.flat",
@@ -108,12 +108,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_wake_up_time_red.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_item_roommate_select_box.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/item_roommate_select_box.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_check_unuse.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_check_unuse.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_item_roommate_select_box.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/item_roommate_select_box.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_cozyhome_character.xml.flat",
@@ -128,12 +128,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_feed.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_send.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_send.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/color_bottom_nav_item_color.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/color/bottom_nav_item_color.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_send.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_send.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_background_roommate_detail_12.xml.flat",
@@ -150,6 +150,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_intake_blue.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_intake_blue.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-97:/drawable_custom_select_chip_blue.xml.flat",
+        "source": "umc.cozymate.app-main-99:/drawable/custom_select_chip_blue.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_btn_rectangle_cozyhome_state.xml.flat",
@@ -190,6 +194,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background_stroke_12.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_stroke_12.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-97:/drawable_custom_select_chip_red.xml.flat",
+        "source": "umc.cozymate.app-main-99:/drawable/custom_select_chip_red.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/anim_vertical_enter.xml.flat",
@@ -320,12 +328,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/spinner_background.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_onboarding_summary.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_onboarding_summary.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_smoking_gray.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_smoking_gray.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_onboarding_summary.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_onboarding_summary.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_onboarding_user_info.xml.flat",
@@ -348,20 +356,20 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/background_morebox.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/font_pretendard_semi_bold.ttf.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/font/pretendard_semi_bold.ttf"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_cozy_bot.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_cozy_bot.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_filter.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_filter.xml"
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/font_pretendard_semi_bold.ttf.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/font/pretendard_semi_bold.ttf"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_circular_background.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/custom_circular_background.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_filter.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_filter.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_login_apple.xml.flat",
@@ -464,12 +472,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/custom_dialog_btn_background_8.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_is_phone_call_blue.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_is_phone_call_blue.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_room_recommend_component.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_room_recommend_component.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_is_phone_call_blue.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_is_phone_call_blue.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_activity_splash.xml.flat",
@@ -544,12 +552,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/btn_rectangle_8.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_clean_sensitivity_gray.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_clean_sensitivity_gray.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_cozy_home_selecting_roommate.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_cozy_home_selecting_roommate.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_clean_sensitivity_gray.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_clean_sensitivity_gray.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_11.xml.flat",
@@ -648,40 +656,40 @@
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/spinner_item_txt.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_sleeping_habit_blue.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_sleeping_habit_blue.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/xml_backup_rules.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_sleeping_habit_blue.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_sleeping_habit_blue.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_feed__temporarily2.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/feed__temporarily2.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_wake_up_time_gray.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_wake_up_time_gray.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_item_character.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/item_character.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_wake_up_time_gray.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_wake_up_time_gray.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_10.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/character_id_10.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_radiobutton.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/custom_radiobutton.xml"
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_2.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/character_id_2.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_ic_drinking_frequency_blue.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/ic_drinking_frequency_blue.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_2.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/character_id_2.xml"
+        "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_custom_radiobutton.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/drawable/custom_radiobutton.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_background.xml.flat",
@@ -1086,10 +1094,6 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/layout_fragment_roommate_onboarding.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-main-99:/layout/fragment_roommate_onboarding.xml"
-    },
-    {
-        "merged": "umc.cozymate.app-debug-97:/layout_activity_room_detail.xml.flat",
-        "source": "umc.cozymate.app-main-99:/layout/activity_room_detail.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.11.1/umc.cozymate.app-debug-97:/drawable_character_id_5.xml.flat",

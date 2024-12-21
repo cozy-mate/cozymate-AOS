@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +43,8 @@ class RoomDetailActivity : AppCompatActivity() {
         // 어댑터 초기화
         roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
             val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
-                putExtra("roomDetailInfo", selectedRoom.roomId)
+                putExtra("room_id", selectedRoom.roomId)
+                Log.d("RoomDetailActivity", "리사이클러 뷰 클릭 ${selectedRoom.roomId}")
             }
             startActivity(intent)
         }

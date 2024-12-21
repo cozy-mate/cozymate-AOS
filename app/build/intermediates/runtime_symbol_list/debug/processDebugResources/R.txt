@@ -2819,7 +2819,9 @@ int drawable custom_room_search_background 0x7f0700f6
 int drawable custom_roommate_onboarding 0x7f0700f7
 int drawable custom_roommate_onboarding_background 0x7f0700f8
 int drawable custom_select_chip_background 0x7f0700f9
+int drawable custom_select_chip_blue 0x7f07020d
 int drawable custom_select_chip_default 0x7f0700fa
+int drawable custom_select_chip_red 0x7f07020e
 int drawable custom_select_chip_selected 0x7f0700fb
 int drawable custom_selection_info_text 0x7f0700fc
 int drawable custom_tv_background 0x7f0700fd
@@ -4361,7 +4363,6 @@ int id tv_room_dormitory_title 0x7f0904ea
 int id tv_room_info 0x7f0904eb
 int id tv_room_info_current_num 0x7f0904ec
 int id tv_room_info_title 0x7f0904ed
-int id tv_room_info_total_num 0x7f0904ee
 int id tv_room_match 0x7f0904ef
 int id tv_room_mate_match 0x7f0904f0
 int id tv_room_mate_name 0x7f0904f1
@@ -4369,7 +4370,6 @@ int id tv_room_member_master 0x7f0904f2
 int id tv_room_member_match 0x7f0904f3
 int id tv_room_member_name 0x7f0904f4
 int id tv_room_name 0x7f0904f5
-int id tv_room_tag 0x7f0904f6
 int id tv_roommate1 0x7f0904f7
 int id tv_roommate2 0x7f0904f8
 int id tv_roommate3 0x7f0904f9
