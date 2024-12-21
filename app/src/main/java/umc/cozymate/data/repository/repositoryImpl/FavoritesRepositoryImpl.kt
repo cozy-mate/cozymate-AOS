@@ -33,8 +33,4 @@ class FavoritesRepositoryImpl @Inject constructor(
     override suspend fun getFavoritesMembers(accessToken: String): Response<GetFavoritesMembersResponse> {
         return api.getFavoritesMembers(accessToken)
     }
-
-    override suspend fun deleteFavoriteId(accessToken: String, favoriteId: Int): Response<SendFavoritesResponse> {
-        return api.deleteFavoriteId(accessToken, favoriteId)
-    }
 }

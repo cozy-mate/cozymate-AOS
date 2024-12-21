@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="umc.cozymate">
     <!-- 인터넷 및 FCM 사용권한 설정 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -26,28 +25,16 @@
             android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room.making_room.SelectingRoomCharacterActivity"
+            android:name=".ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room.making_room.MakingPublicRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room.making_room.MakingPrivateRoomActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.cozy_home.room.making_room.CozyHomeInvitingRoommateActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.cozy_home.room.entering_room.JoinRoomActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.cozy_home.roommate_detail.CozyHomeRoommateDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.university_certification.UniversityCertificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"
@@ -86,6 +73,21 @@
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.roommate_detail.RoommateDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cozy_home.room.making_room.MakingPrivateRoomActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cozy_home.room.making_room.MakingPublicRoomActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cozy_home.room.making_room.SelectingRoomCharacterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cozy_home.room.making_room.CozyHomeInvitingRoommateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.roommate.RoommateDetailActivity"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"

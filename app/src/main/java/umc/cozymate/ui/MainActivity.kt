@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             deviceId = _deviceId,
             token = fcmToken ?: ""  // fcmToken이 null일 경우 빈 문자열로 처리
         )
-        roommateViewModel.sendFcmInfo(fcmInfoRequest)
+        roommateViewModel.sendFcmInfo(accessToken!!, fcmInfoRequest)
         Log.d("MainActivity device ID", "$_deviceId")
         Log.d("MainActivity FCM API", "${fcmInfoRequest.token}")
     }
