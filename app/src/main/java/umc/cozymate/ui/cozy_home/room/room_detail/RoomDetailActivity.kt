@@ -1,35 +1,85 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import umc.cozymate.R
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
+@AndroidEntryPoint
 class RoomDetailActivity : AppCompatActivity() {
-    private val TAG = this.javaClass.simpleName
-    // 방 id는 Intent를 통해 불러옵니다
-    private var roomId: Int? = 0
+
+    private lateinit var binding: ActivityRoomDetailBinding
+    private val viewModel: CozyHomeViewModel by viewModels() // ViewModel 사용
+    private var prefList: List<String> = emptyList()
+    private lateinit var roomRecommendListRVA: RoomRecommendListRVA
+
     companion object {
         const val ARG_ROOM_ID = "room_id"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_room_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityRoomDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.ivBack.setOnClickListener {
+            finish()
         }
-        // 방 id 불러오기
-        roomId = intent.getIntExtra(ARG_ROOM_ID, -1)
-        if (roomId == -1) {
-            Log.e(TAG, "Invalid room ID received!")
-        } else {
-            Log.d(TAG, "Received room ID: $roomId")
+        // 닉네임 설정
+        binding.tvUserName.text = viewModel.getNickname().toString()
+
+        setupRecyclerView()
+
+        // 데이터 가져오기
+        fetchData()
+    }
+
+    private fun setupRecyclerView() {
+        // 어댑터 초기화
+        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
+            val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
+                putExtra("room_id", selectedRoom.roomId)
+                Log.d("RoomDetailActivity", "리사이클러 뷰 클릭 ${selectedRoom.roomId}")
+            }
+            startActivity(intent)
+        }
+
+        // 아이템 간 간격 추가
+        binding.rvRoomDetail.addItemDecoration(
+            VerticalSpaceItemDecoration(32)
+        )
+
+        // RecyclerView 설정
+        binding.rvRoomDetail.apply {
+            adapter = roomRecommendListRVA
+            layoutManager = LinearLayoutManager(this@RoomDetailActivity)
         }
     }
+
+    private fun fetchData() {
+        lifecycleScope.launch {
+            viewModel.fetchRecommendedRoomList()
+        }
+
+        viewModel.roomList.observe(this) { roomList ->
+            if (roomList.isNullOrEmpty()) {
+                binding.rvRoomDetail.visibility = View.GONE
+                binding.tvEmptyRoom.visibility = View.VISIBLE
+            } else {
+                binding.rvRoomDetail.visibility = View.VISIBLE
+                binding.tvEmptyRoom.visibility = View.GONE
+                roomRecommendListRVA.updateData(roomList) // 데이터 갱신
+            }
+        }
+    }
+
 }

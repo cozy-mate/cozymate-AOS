@@ -2840,7 +2840,9 @@ int drawable custom_room_search_background 0x7f0700f6
 int drawable custom_roommate_onboarding 0x7f0700f7
 int drawable custom_roommate_onboarding_background 0x7f0700f8
 int drawable custom_select_chip_background 0x7f0700f9
+int drawable custom_select_chip_blue 0x7f070211
 int drawable custom_select_chip_default 0x7f0700fa
+int drawable custom_select_chip_red 0x7f070212
 int drawable custom_select_chip_selected 0x7f0700fb
 int drawable custom_selection_info_text 0x7f0700fc
 int drawable custom_tv_background 0x7f0700fd

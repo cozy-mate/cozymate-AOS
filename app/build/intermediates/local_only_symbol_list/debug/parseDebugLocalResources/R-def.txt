@@ -118,7 +118,9 @@ drawable custom_room_search_background
 drawable custom_roommate_onboarding
 drawable custom_roommate_onboarding_background
 drawable custom_select_chip_background
+drawable custom_select_chip_blue
 drawable custom_select_chip_default
+drawable custom_select_chip_red
 drawable custom_select_chip_selected
 drawable custom_selection_info_text
 drawable custom_tv_background
