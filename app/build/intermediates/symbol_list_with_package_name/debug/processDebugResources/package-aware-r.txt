@@ -3522,6 +3522,7 @@ id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fab_request_enter_room
+id fab_request_roommate
 id fade
 id fill
 id fill_horizontal

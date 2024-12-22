@@ -495,6 +495,7 @@ id et_search
 id et_selection_info
 id et_university_email
 id fab_request_enter_room
+id fab_request_roommate
 id fragment_container
 id fragment_container_giving
 id fragment_container_making

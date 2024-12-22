@@ -60,9 +60,6 @@ class RoomDetailViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    suspend fun getOtherRoomInfo2(roomId: Int) {
-        Log.d(TAG, "조회하는 방 아이디 : ${roomId}")
-    }
     suspend fun getOtherRoomInfo(roomId: Int) {
         Log.d(TAG, "조회하는 방 아이디 : ${roomId}")
 

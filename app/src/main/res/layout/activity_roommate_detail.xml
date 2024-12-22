@@ -11,6 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- ProgressBar for loading state -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
         <!-- 메인 UI 요소들 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
@@ -143,7 +152,7 @@
                             android:contentDescription="리스트로 보기"
                             android:src="@drawable/ic_detail_list" />
 
-                        <TextView
+                        ㅋ <TextView
                             android:id="@+id/tvListView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -206,9 +215,11 @@
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fab_request_enter_room"
+                android:id="@+id/fab_request_roommate"
                 android:gravity="center"
-                android:background="@drawable/btn_room_detail_request"
+                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/main_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="20dp"
