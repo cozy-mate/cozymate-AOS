@@ -95,27 +95,22 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             when (state) {
                 UserRoomState.NO_ROOM -> {
+                    myRoomContainer.visibility = View.GONE
+                    requestedRoommateContainer.visibility = View.GONE
+                    requestedRoomContainer.visibility = View.VISIBLE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
-
-                UserRoomState.CREATED_ROOM -> {
-                    myRoomContainer.visibility = View.VISIBLE
-                    roomRecommendContainer.visibility = View.VISIBLE
-                    roommateRecommendContainer.visibility = View.VISIBLE
-                    roommateRequestContainer.visibility = View.VISIBLE
-                }
-
-                UserRoomState.REQUEST_SENT -> {
-                    roomRecommendContainer.visibility = View.VISIBLE
-                    roommateRecommendContainer.visibility = View.VISIBLE
-                }
-
                 UserRoomState.HAS_ROOM -> {
                     myRoomContainer.visibility = View.VISIBLE
+                    requestedRoommateContainer.visibility = View.VISIBLE
+                    requestedRoomContainer.visibility = View.GONE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
+
+                UserRoomState.REQUEST_SENT -> {}
+                UserRoomState.CREATED_ROOM -> {}
             }
         }
 
@@ -167,7 +162,7 @@ class CozyHomeMainFragment : Fragment() {
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                     btnSchoolCertificate.isEnabled = false
-                // btnSchoolCertificate.setOnClickListener(null)
+                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }
