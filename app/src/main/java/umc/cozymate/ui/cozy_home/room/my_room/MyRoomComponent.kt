@@ -43,8 +43,9 @@ class MyRoomComponent : Fragment() {
             clMyRoom.isEnabled = true
             clMyRoom.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-                val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
-                intent.putExtra("room_id", roomId)
+                val intent = Intent(requireActivity(), CozyRoomDetailInfoActivity::class.java).apply {
+                    putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                }
                 startActivity(intent)
             }
         }
@@ -54,6 +55,7 @@ class MyRoomComponent : Fragment() {
         val nickname = viewModel.getNickname().toString()
         binding.tvMyNickname.text = "${nickname}님이"
         viewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
+            roomId = roomInfo?.roomId
             with(binding) {
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"

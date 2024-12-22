@@ -23,6 +23,7 @@ import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint

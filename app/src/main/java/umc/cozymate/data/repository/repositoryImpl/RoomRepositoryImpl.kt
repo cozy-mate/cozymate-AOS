@@ -10,12 +10,15 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
+import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.SearchRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
@@ -111,6 +114,21 @@ class RoomRepositoryImpl @Inject constructor(
 
     override suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse> {
         return api.quitRoom(accessToken, roomId)
+    }
+
+    override suspend fun searchRoom(
+        accessToken: String,
+        keyword: String
+    ): Response<SearchRoomResponse> {
+        return api.searchRoom(accessToken, keyword)
+    }
+
+    override suspend fun getRequestedRoomList(accessToken: String): Response<GetRequestedRoomListResponse> {
+        return api.getRequestedRoomList(accessToken)
+    }
+
+    override suspend fun getPendingMemberLiat(accessToken: String): Response<GetPendingMemberListResponse> {
+        return api.getPendingMemberList(accessToken)
     }
 
 }

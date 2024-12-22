@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_hashtag1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/custom_rectangle_4_white"
+        android:backgroundTint="@color/color_box"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:text="#해시태그1"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/color_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hashtag2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/custom_rectangle_4_white"
+        android:backgroundTint="@color/color_box"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:text="#해시태그2"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/color_font"
+        app:layout_constraintStart_toEndOf="@id/tv_hashtag1"
+        app:layout_constraintTop_toTopOf="@id/tv_hashtag1" />
+
+    <TextView
+        android:id="@+id/tv_hashtag3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/custom_rectangle_4_white"
+        android:backgroundTint="@color/color_box"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:text="#해시태그3"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/color_font"
+        app:layout_constraintStart_toEndOf="@id/tv_hashtag2"
+        app:layout_constraintTop_toTopOf="@id/tv_hashtag1" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="8dp"
+        android:text="방 이름"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hashtag1" />
+
+    <TextView
+        android:id="@+id/tv_arrival_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="4명"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/main_blue"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="의 룸메이트가 있어요"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintStart_toEndOf="@id/tv_arrival_num"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_equality"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="%"
+        android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+        android:textColor="@color/main_blue"
+        app:layout_constraintBottom_toBottomOf="@id/tv_arrival_num"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/color_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_equality" />
+</androidx.constraintlayout.widget.ConstraintLayout>

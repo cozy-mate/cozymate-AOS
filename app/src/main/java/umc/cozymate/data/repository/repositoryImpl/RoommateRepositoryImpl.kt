@@ -1,12 +1,13 @@
 package umc.cozymate.data.repository.repositoryImpl
 
+import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
-import umc.cozymate.data.model.request.UserInfoRequest2
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
+import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.util.NetworkResult
 import umc.cozymate.util.handleApi
@@ -29,5 +30,12 @@ class RoommateRepositoryImpl @Inject constructor(
         request: FcmInfoRequest
     ): NetworkResult<DefaultResponse> {
         return handleApi({ api.sendFcmInfo(accessToken, request) }) {response: ResponseBody<DefaultResponse> -> response.result}
+    }
+
+    override suspend fun searchRoommate(
+        accessToken: String,
+        keyword: String
+    ): Response<SearchRoommateResponse> {
+        return api.searchRoommate(accessToken, keyword)
     }
 }

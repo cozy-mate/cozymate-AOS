@@ -9,12 +9,15 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
+import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
+import umc.cozymate.data.model.response.room.SearchRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 
 interface RoomRepository {
@@ -44,5 +47,11 @@ interface RoomRepository {
     suspend fun changeToPrivateRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
 
     suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
+
+    suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
+
+    suspend fun getRequestedRoomList(accessToken: String): Response<GetRequestedRoomListResponse>
+
+    suspend fun getPendingMemberLiat(accessToken: String): Response<GetPendingMemberListResponse>
 }
 

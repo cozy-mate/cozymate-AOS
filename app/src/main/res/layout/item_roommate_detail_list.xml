@@ -143,7 +143,9 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_school"
-                    app:layout_constraintStart_toEndOf="@+id/tv_list_school" />
+                    app:layout_constraintStart_toEndOf="@+id/tv_list_school"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -876,6 +878,35 @@
                     android:layout_marginTop="15dp"
                     android:background="@color/detail_gray"
                     app:layout_constraintTop_toBottomOf="@id/tv_list_clean_frequency_title" />
+                <TextView
+                    android:id="@+id/tv_list_drink_frequency_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="음주빈도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_frequency_title" />
+
+                <TextView
+                    android:id="@+id/tv_list_drink_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_list_drink_frequency_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_list_drink_frequency_title"
+                    tools:text="일주일에 3~4번은 하는 거 같아요!" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_drink_frequency_title" />
 
                 <TextView
                     android:id="@+id/tv_list_personality_check_title"
@@ -886,7 +917,7 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_list_clean_frequency_title" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_list_drink_frequency_title" />
 
                 <TextView
                     android:id="@+id/tv_list_personality_check"
@@ -970,7 +1001,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_background_roommate_detail_12"
                 app:layout_constraintTop_toBottomOf="@id/tv_report_title"
-                android:id="@+id/cl_report"
+                android:id="@+id/cl_self_introduction"
                 android:padding="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="12dp"
@@ -979,7 +1010,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_report"
+                    android:id="@+id/tv_self_introduction"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
@@ -990,8 +1021,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_self_introduction" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

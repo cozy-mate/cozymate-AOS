@@ -1112,6 +1112,48 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_table_clean_frequency" />
 
                 <TextView
+                    android:id="@+id/tv_table_drink_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="음주빈도"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean_frequency" />
+
+                <TextView
+                    android:id="@+id/tv_table_user_drink_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_table_drink_frequency"
+                    app:layout_constraintEnd_toEndOf="@id/guide_user"
+                    app:layout_constraintStart_toStartOf="@id/guide_user"
+                    tools:text="일주일에 3~4번은 하는거 같아요" />
+
+                <TextView
+                    android:id="@+id/tv_table_other_drink_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_table_drink_frequency"
+                    app:layout_constraintEnd_toEndOf="@+id/guide_other"
+                    app:layout_constraintStart_toStartOf="@+id/guide_other"
+                    tools:text="매일매일 해요" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/detail_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_drink_frequency" />
+
+                <TextView
                     android:id="@+id/tv_table_personality"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1120,7 +1162,7 @@
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/color_font"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_table_clean_frequency" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_table_drink_frequency" />
 
                 <TextView
                     android:id="@+id/tv_table_user_personality"

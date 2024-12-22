@@ -1,6 +1,7 @@
 package umc.cozymate.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,7 @@ import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 import java.util.UUID
@@ -135,6 +137,7 @@ class MainActivity : AppCompatActivity() {
     // 스크린 설정
     private fun initScreen() {
         this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
