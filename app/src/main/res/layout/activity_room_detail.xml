@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="20dp"
         tools:context=".ui.cozy_home.room.room_detail.RoomDetailActivity">
 
@@ -118,11 +118,12 @@
             android:id="@+id/rv_room_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:focusable="true"
+            android:clipChildren="false"
             android:focusableInTouchMode="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_room_search_list"
             android:layout_marginTop="12dp"
+            android:overScrollMode="never"
             tools:listitem="@layout/vp_item_room_recommend" />
 
         <View

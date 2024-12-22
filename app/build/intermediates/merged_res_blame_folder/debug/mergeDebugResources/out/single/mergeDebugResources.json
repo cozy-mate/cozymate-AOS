@@ -112,6 +112,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/item_roommate_select_box.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_vp_item_room_recommend.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/vp_item_room_recommend.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_character_id_7.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/character_id_7.xml"
     },
@@ -608,10 +612,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/background.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_roommate_detail.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_roommate_detail.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_character_id_15.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/character_id_15.xml"
     },
@@ -956,12 +956,12 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/rv_item_search_room.xml"
     },
     {
-        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_activity_roommate_detail.xml.flat",
-        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/activity_roommate_detail.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_item_cozyhome_achievement.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/item_cozyhome_achievement.xml"
+    },
+    {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_activity_roommate_detail.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/activity_roommate_detail.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_activity_making_public_room.xml.flat",

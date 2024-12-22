@@ -1105,6 +1105,7 @@ id tv_table_call
 id tv_table_clean
 id tv_table_clean_frequency
 id tv_table_dormitory_num
+id tv_table_drink_frequency
 id tv_table_friendly
 id tv_table_game
 id tv_table_heater
@@ -1123,6 +1124,7 @@ id tv_table_other_call
 id tv_table_other_clean
 id tv_table_other_clean_frequency
 id tv_table_other_dormitory_num
+id tv_table_other_drink_frequency
 id tv_table_other_friendly
 id tv_table_other_game
 id tv_table_other_heater
@@ -1160,6 +1162,7 @@ id tv_table_user_call
 id tv_table_user_clean
 id tv_table_user_clean_frequency
 id tv_table_user_dormitory_num
+id tv_table_user_drink_frequency
 id tv_table_user_friendly
 id tv_table_user_game
 id tv_table_user_heater
