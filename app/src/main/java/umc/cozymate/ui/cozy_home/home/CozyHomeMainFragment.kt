@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,9 @@ import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class CozyHomeMainFragment : Fragment() {
@@ -29,6 +32,7 @@ class CozyHomeMainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
     private val univViewModel: UniversityViewModel by viewModels()
+    private val splashViewmodel: SplashViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
     private var isCertificated: Boolean = false
@@ -39,6 +43,7 @@ class CozyHomeMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
+        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         return binding.root
     }
 
@@ -48,6 +53,7 @@ class CozyHomeMainFragment : Fragment() {
         initView()
         initListener()
         openMessage()
+        splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         viewLifecycleOwner.lifecycleScope.launch {
             if (univViewModel.isVerified.value == false) {
                 univViewModel.isMailVerified()
@@ -95,27 +101,22 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             when (state) {
                 UserRoomState.NO_ROOM -> {
+                    myRoomContainer.visibility = View.GONE
+                    requestedRoommateContainer.visibility = View.GONE
+                    requestedRoomContainer.visibility = View.VISIBLE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
-
-                UserRoomState.CREATED_ROOM -> {
-                    myRoomContainer.visibility = View.VISIBLE
-                    roomRecommendContainer.visibility = View.VISIBLE
-                    roommateRecommendContainer.visibility = View.VISIBLE
-                    roommateRequestContainer.visibility = View.VISIBLE
-                }
-
-                UserRoomState.REQUEST_SENT -> {
-                    roomRecommendContainer.visibility = View.VISIBLE
-                    roommateRecommendContainer.visibility = View.VISIBLE
-                }
-
                 UserRoomState.HAS_ROOM -> {
                     myRoomContainer.visibility = View.VISIBLE
+                    requestedRoommateContainer.visibility = View.VISIBLE
+                    requestedRoomContainer.visibility = View.GONE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
+
+                UserRoomState.REQUEST_SENT -> {}
+                UserRoomState.CREATED_ROOM -> {}
             }
         }
 
@@ -150,7 +151,6 @@ class CozyHomeMainFragment : Fragment() {
         binding.btnMessage.setOnClickListener {
             startActivity(Intent(activity, MessageActivity::class.java))
         }
-
     }
 
     private fun observeViewModel() {
@@ -167,7 +167,7 @@ class CozyHomeMainFragment : Fragment() {
                     ivNext.visibility = View.GONE
                     tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                     btnSchoolCertificate.isEnabled = false
-                // btnSchoolCertificate.setOnClickListener(null)
+                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }
