@@ -19,6 +19,7 @@ import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
+import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -49,6 +50,12 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         updateFloatingButton()
 
         setupBackButton()
+
+        binding.ivChat.setOnClickListener {
+            val intent : Intent = Intent(this, WriteMessageActivity::class.java)
+            intent.putExtra("recipientId",managerMemberId)
+            startActivity(intent)
+        }
     }
     private fun getRoomId() {
         // 방 id 불러오기
