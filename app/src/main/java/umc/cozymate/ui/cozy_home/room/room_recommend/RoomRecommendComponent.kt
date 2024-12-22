@@ -11,7 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
-import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -20,7 +21,7 @@ class RoomRecommendComponent : Fragment() {
     companion object {
         // 방 더보기 페이지로 이동
         fun startActivityFromFragment(fragment: Fragment, roomId: String) {
-            val intent = Intent(fragment.requireContext(), SearchRoomActivity::class.java).apply {
+            val intent = Intent(fragment.requireContext(), RoomDetailActivity::class.java).apply {
                 putExtra("ROOM_ID", roomId)
             }
             fragment.startActivity(intent)
@@ -48,7 +49,6 @@ class RoomRecommendComponent : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
         }
-        // 추천 방 옵저빙
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
@@ -56,12 +56,16 @@ class RoomRecommendComponent : Fragment() {
             } else {
                 val dotsIndicator = binding.dotsIndicator
                 val viewPager = binding.vpRoom
-                val adapter = RoomRecommendVPAdapter(roomList, prefList)
+                val adapter = RoomRecommendVPAdapter(roomList, prefList) { roomId ->
+                    val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java).apply {
+                        putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                    }
+                    startActivity(intent)
+                }
                 viewPager.adapter = adapter
                 dotsIndicator.attachTo(viewPager)
             }
         }
-        // 더보기 버튼
         binding.llMore.setOnClickListener {
             startActivityFromFragment(this, "Sample Room Id")
         }

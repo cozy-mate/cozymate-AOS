@@ -54,6 +54,7 @@ class MyRoomComponent : Fragment() {
         val nickname = viewModel.getNickname().toString()
         binding.tvMyNickname.text = "${nickname}님이"
         viewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
+            roomId = roomInfo?.roomId
             with(binding) {
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
