@@ -19,6 +19,7 @@ import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
+import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -31,6 +32,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var roomId: Int? = 0
+    private var managerMemberId: Int? = 0
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
         const val ARG_ROOM_ID = "room_id"
@@ -48,6 +50,12 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         updateFloatingButton()
 
         setupBackButton()
+
+        binding.ivChat.setOnClickListener {
+            val intent : Intent = Intent(this, WriteMessageActivity::class.java)
+            intent.putExtra("recipientId",managerMemberId)
+            startActivity(intent)
+        }
     }
     private fun getRoomId() {
         // 방 id 불러오기
@@ -84,6 +92,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
+            managerMemberId = roomInfo.managerMemberId
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply{

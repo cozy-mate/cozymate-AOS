@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
+import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.roommate.UserInfoSPFHelper
 import umc.cozymate.ui.roommate.data_class.UserInfo
 
@@ -87,6 +89,12 @@ class RoommateDetailActivity : AppCompatActivity() {
         // 플로팅 버튼 처리
         binding.fabRequestRoommate.setOnClickListener {
             toggleRoommateRequestButton()
+        }
+        binding.btnChat.setOnClickListener {
+            val memberId =  otherUserDetail!!.memberDetail.memberId
+            val intent : Intent = Intent(this, WriteMessageActivity::class.java)
+            intent.putExtra("recipientId",memberId)
+            startActivity(intent)
         }
     }
 
