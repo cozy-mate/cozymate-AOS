@@ -31,6 +31,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var roomId: Int? = 0
+    private var managerMemberId: Int? = 0
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
         const val ARG_ROOM_ID = "room_id"
@@ -84,6 +85,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
+            managerMemberId = roomInfo.managerMemberId
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply{
