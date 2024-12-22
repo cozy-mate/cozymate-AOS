@@ -1,5 +1,6 @@
 package umc.cozymate.ui.message
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.databinding.ActivityWriteMessageBinding
 import umc.cozymate.ui.viewmodel.ChatViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class WriteMessageActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class WriteMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityWriteMessageBinding.inflate(layoutInflater)
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
         checkInput()
         setTextinput()

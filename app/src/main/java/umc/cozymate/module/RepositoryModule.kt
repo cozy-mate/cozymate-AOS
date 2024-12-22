@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.cozymate.data.api.ChatService
+import umc.cozymate.data.api.InquiryService
 import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.api.MemberStatPreferenceService
 import umc.cozymate.data.api.MemberStatService
@@ -17,6 +18,7 @@ import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.api.RuleService
 import umc.cozymate.data.api.TodoService
 import umc.cozymate.data.repository.repository.ChatRepository
+import umc.cozymate.data.repository.repository.InquiryRepository
 import umc.cozymate.data.repository.repository.MemberRepository
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import umc.cozymate.data.repository.repository.MemberStatRepository
@@ -28,6 +30,7 @@ import umc.cozymate.data.repository.repository.RoommateRepository
 import umc.cozymate.data.repository.repository.RuleRepository
 import umc.cozymate.data.repository.repository.TodoRepository
 import umc.cozymate.data.repository.repositoryImpl.ChatRepositoryImpl
+import umc.cozymate.data.repository.repositoryImpl.InquiryRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.MemberRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.MemberStatPreferenceRepositoryImpl
 import umc.cozymate.data.repository.repositoryImpl.MemberStatRepositoryImpl
@@ -108,4 +111,10 @@ object RepositoryModule {
     fun providesReportRepository(
         reportService: ReportService
     ): ReportRepository = ReportRepositoryImpl(reportService)
+
+    @ViewModelScoped
+    @Provides
+    fun providesInquiryRepository(
+        inquiryService: InquiryService
+    ): InquiryRepository = InquiryRepositoryImpl(inquiryService)
 }

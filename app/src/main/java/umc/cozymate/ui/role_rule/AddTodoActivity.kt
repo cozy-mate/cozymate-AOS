@@ -2,6 +2,7 @@ package umc.cozymate.ui.role_rule
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityAddTodoBinding
-import umc.cozymate.util.setStatusBarTransparent
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class AddTodoActivity():AppCompatActivity() {
@@ -21,7 +22,7 @@ class AddTodoActivity():AppCompatActivity() {
     private var tabText : List<String> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         binding = ActivityAddTodoBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         type = intent.getIntExtra("type",3)

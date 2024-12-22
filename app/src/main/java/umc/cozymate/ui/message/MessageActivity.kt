@@ -17,6 +17,7 @@ class MessageActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         StatusBarUtil.updateStatusBarColor(this@MessageActivity, Color.WHITE)
         binding = ActivityMessageBinding.inflate(layoutInflater)
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
         initFragment()
 

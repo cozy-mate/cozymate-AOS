@@ -14,10 +14,12 @@ import umc.cozymate.databinding.FragmentMypageBinding
 import umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
+import umc.cozymate.ui.viewmodel.InquiryViewModel
 import umc.cozymate.ui.viewmodel.MyPageViewModel
 
 class MyPageFragment : Fragment() {
     private lateinit var viewModel: MyPageViewModel
+    private lateinit var  inquiryViewModel : InquiryViewModel
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
     private var persona: Int = 0
@@ -26,6 +28,7 @@ class MyPageFragment : Fragment() {
     private var roomId: Int = 0
     private var schoolFlag: Boolean = true
     private var roomFlag: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,8 +36,10 @@ class MyPageFragment : Fragment() {
     ): View {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MyPageViewModel::class.java)
+        inquiryViewModel = ViewModelProvider(requireActivity()).get(InquiryViewModel::class.java)
         getPreference()
         updateTextStyle()
+        inquiryViewModel.checkInquryExistance()
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
@@ -51,6 +56,14 @@ class MyPageFragment : Fragment() {
         }
         binding.tvWithdraw.setOnClickListener {
             val intent: Intent = Intent(activity, WithDrawActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnInquiry.setOnClickListener {
+            val intent : Intent =
+                if(inquiryViewModel.existance.value == true)
+                    Intent(activity, InquiryActivity::class.java)
+                else
+                    Intent(activity, WriteInquiryActivity::class.java)
             startActivity(intent)
         }
         return binding.root
