@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +15,7 @@ import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class RoomDetailActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class RoomDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoomDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
 
         binding.ivBack.setOnClickListener {
             finish()

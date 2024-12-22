@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class CozyHomeMainFragment : Fragment() {
@@ -41,6 +43,7 @@ class CozyHomeMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
+        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         return binding.root
     }
 
