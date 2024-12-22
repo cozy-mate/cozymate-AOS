@@ -187,6 +187,14 @@ class RoommateDetailActivity : AppCompatActivity() {
         // TableView의 Info와 Detail 데이터를 연결
         val tableBinding = ItemRoommateDetailTableBinding.bind(tableView)  // ViewBinding 연결
 
+        fun trimText(text: String?): String {
+            return if (text != null && text.length > 6) {
+                text.substring(0, 7) + ".."
+            } else {
+                text ?: ""
+            }
+        }
+        // ------------------------____________@_@_@_@_@_@_@_@_@_@_@_@_@_@__@_@_@_@
         tableBinding.tvTableOtherName.text = other.memberDetail.nickname
         tableBinding.tvTableUserName.text = user.memberDetail.nickname
 
@@ -493,82 +501,6 @@ class RoommateDetailActivity : AppCompatActivity() {
             else -> R.drawable.character_id_1
         }
         binding.ivOtherUserProfile.setImageResource(profileImageResId)
-    }
-
-    // 리스트 뷰를 선택했을 때 처리
-    private fun selectListView(info: Info?, detail: Detail?) {
-        // ListView 텍스트와 아이콘 색상 변경
-        binding.tvListView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
-        binding.ivListViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.main_blue))
-
-        // TableView 텍스트와 아이콘을 원래 색상으로
-        binding.tvTableView.setTextColor(ContextCompat.getColor(this, R.color.unuse_font))
-        binding.ivTableViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.unuse_font))
-
-        // list_table_layout에 itemRoommateDetailList 레이아웃을 동적으로 추가
-        val listView = LayoutInflater.from(this).inflate(R.layout.item_roommate_detail_list, null)
-        binding.listTableLayout.removeAllViews()
-        binding.listTableLayout.addView(listView)
-
-        // ListView의 Info와 Detail 데이터를 연결
-        val listBinding = ItemRoommateDetailListBinding.bind(listView)  // ViewBinding 연결
-
-        listBinding.tvListName.text = info?.memberName
-        listBinding.tvListBirth.text = "${detail?.birthYear}"
-        listBinding.tvListSchool.text = "인하대학교"
-        listBinding.tvListSchoolNumber.text = detail?.admissionYear.toString()
-        listBinding.tvListMajor.text = detail?.major
-        listBinding.tvListDormitoryNum.text = "${info?.numOfRoommate}인 1실"
-        listBinding.tvListAcceptance.text = detail?.acceptance
-        listBinding.tvListWakeUpAmpm.text = detail?.wakeUpMeridian
-        listBinding.tvListWakeUpTime.text = detail?.wakeUpTime.toString()
-        listBinding.tvListSleepAmpm.text = detail?.sleepingMeridian
-        listBinding.tvListSleepTime.text = detail?.sleepingTime.toString()
-        listBinding.tvListLightOffAmpm.text = detail?.turnOffMeridian
-        listBinding.tvListLightOffTime.text = detail?.turnOffTime.toString()
-        listBinding.tvListSmokeCheck.text = detail?.smokingState
-        listBinding.tvListSleepHabbit.text = detail?.sleepingHabit
-        listBinding.tvListAc.text = when (detail?.airConditioningIntensity) {
-            0 -> "안 틀어요"
-            1 -> "약하게 틀어요"
-            2 -> "적당하게 틀어요"
-            3 -> "세게 틀어요"
-            else -> "적당하게 틀어요"
-        }
-        listBinding.tvListAcHeater.text = when (detail?.airConditioningIntensity) {
-            0 -> "안 틀어요"
-            1 -> "약하게 틀어요"
-            2 -> "적당하게 틀어요"
-            3 -> "세게 틀어요"
-            else -> "적당하게 틀어요"
-        }
-        listBinding.tvListLivingPattern.text = detail?.lifePattern
-        listBinding.tvListFriendly.text = detail?.intimacy
-        listBinding.tvListShare.text = detail?.canShare
-        listBinding.tvListStudy.text = detail?.studying
-        listBinding.tvListGameCheck.text = detail?.isPlayGame
-        listBinding.tvListCallCheck.text = detail?.isPhoneCall
-        listBinding.tvListIntake.text = detail?.intake
-        listBinding.tvListCleanCheck.text = when (detail?.cleanSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
-            3 -> "보통이에요"
-            4 -> "예민해요"
-            5 -> "매우 예민해요"
-            else -> "보통이에요"
-        }
-        listBinding.tvListNoiseCheck.text = when (detail?.noiseSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
-            3 -> "보통이에요"
-            4 -> "예민해요"
-            5 -> "매우 예민해요"
-            else -> "보통이에요"
-        }
-        listBinding.tvListCleanFrequency.text = detail?.cleaningFrequency
-        listBinding.tvListPersonalityCheck.text = detail?.personality
-        listBinding.tvListMbti.text = detail?.mbti
-
     }
 
     // 테이블 뷰를 선택했을 때

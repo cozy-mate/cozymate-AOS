@@ -19,21 +19,21 @@ class RoomRecommendVPViewHolder(
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}"
             when (item.hashtags.size) {
                 0 -> {
-                    tvHashtag1.visibility = View.GONE
-                    tvHashtag2.visibility = View.GONE
-                    tvHashtag3.visibility = View.GONE
+                    tvHashtag1.visibility = View.INVISIBLE
+                    tvHashtag2.visibility = View.INVISIBLE
+                    tvHashtag3.visibility = View.INVISIBLE
                 }
 
                 1 -> {
                     tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.visibility = View.GONE
-                    tvHashtag3.visibility = View.GONE
+                    tvHashtag2.visibility = View.INVISIBLE
+                    tvHashtag3.visibility = View.INVISIBLE
                 }
 
                 2 -> {
                     tvHashtag1.text = "#${item.hashtags[0]}"
                     tvHashtag2.text = "#${item.hashtags[1]}"
-                    tvHashtag3.visibility = View.GONE
+                    tvHashtag3.visibility = View.INVISIBLE
                 }
 
                 3 -> {

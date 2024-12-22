@@ -12,13 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
-import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class RoomDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRoomDetailBinding
-    private val viewModel: CozyHomeViewModel by viewModels() // ViewModel 사용
+    private val viewModel: RoomDetailViewModel by viewModels() // ViewModel 사용
     private var prefList: List<String> = emptyList()
     private lateinit var roomRecommendListRVA: RoomRecommendListRVA
 
@@ -57,7 +56,6 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.rvRoomDetail.addItemDecoration(
             VerticalSpaceItemDecoration(32)
         )
-
         // RecyclerView 설정
         binding.rvRoomDetail.apply {
             adapter = roomRecommendListRVA

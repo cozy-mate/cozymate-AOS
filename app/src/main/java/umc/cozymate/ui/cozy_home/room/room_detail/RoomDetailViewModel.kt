@@ -9,8 +9,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
@@ -60,6 +62,10 @@ class RoomDetailViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
+    fun getNickname(): String? {
+        return sharedPreferences.getString("user_nickname", "")
+    }
+
     suspend fun getOtherRoomInfo(roomId: Int) {
         Log.d(TAG, "조회하는 방 아이디 : ${roomId}")
 
@@ -86,5 +92,35 @@ class RoomDetailViewModel @Inject constructor(
 
             Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
         }
+    }
+
+    // 방추천
+    val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
+    val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
+    suspend fun fetchRecommendedRoomList() {
+        _isLoading.value = true
+        val token = getToken()
+        try {
+            val response = repository.getRecommendedRoomList(
+                accessToken = token!!,
+                size = 10,
+                page = 0,
+                sortType = SortType.LATEST.value
+            ) // 최신순
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
+                    _roomList.value = response.body()!!.result?.result
+                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
+            } else {
+                _roomList.value = emptyList()
+                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+        } finally {
+            _isLoading.value = false
+        }
+
     }
 }
