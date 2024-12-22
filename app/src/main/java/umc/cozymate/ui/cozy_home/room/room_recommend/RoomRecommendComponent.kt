@@ -17,16 +17,6 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class RoomRecommendComponent : Fragment() {
-
-    companion object {
-        // 방 더보기 페이지로 이동
-        fun startActivityFromFragment(fragment: Fragment, roomId: String) {
-            val intent = Intent(fragment.requireContext(), RoomDetailActivity::class.java).apply {
-                putExtra("ROOM_ID", roomId)
-            }
-            fragment.startActivity(intent)
-        }
-    }
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentRoomRecommendComponentBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +46,7 @@ class RoomRecommendComponent : Fragment() {
             } else {
                 val dotsIndicator = binding.dotsIndicator
                 val viewPager = binding.vpRoom
+                // 클릭 시 방 상세 페이지로 room id 넘겨줌
                 val adapter = RoomRecommendVPAdapter(roomList, prefList) { roomId ->
                     val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java).apply {
                         putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
@@ -66,8 +57,10 @@ class RoomRecommendComponent : Fragment() {
                 dotsIndicator.attachTo(viewPager)
             }
         }
+        // 방 더보기 페이지로 이동
         binding.llMore.setOnClickListener {
-            startActivityFromFragment(this, "Sample Room Id")
+            val intent = Intent(requireContext(), RoomDetailActivity::class.java)
+            startActivity(intent)
         }
     }
 

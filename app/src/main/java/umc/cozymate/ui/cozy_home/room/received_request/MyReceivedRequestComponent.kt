@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyReceivedRequestComponentBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.room.sent_request.RoomRequestViewModel
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 
 @AndroidEntryPoint
@@ -31,18 +31,18 @@ class MyReceivedRequestComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyReceivedRequestComponentBinding.inflate(inflater, Main, false)
-        observeMemberList()
+        observeRoomList()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPendingMemberList()
         }
         return binding.root
     }
 
-    private fun observeMemberList() {
+    private fun observeRoomList() {
         // 클릭 시 방 상세정보 페이지로 이동하도록 어댑터 설정
         val adapter = ReceivedRequestAdapter { roomId ->
-            val intent = Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java).apply {
-                putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
+            val intent = Intent(requireActivity(), CozyRoomDetailInfoActivity::class.java).apply {
+                putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
             }
             startActivity(intent)
         }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
@@ -33,6 +34,11 @@ class RoomDetailActivity : AppCompatActivity() {
 
         binding.ivBack.setOnClickListener {
             finish()
+        }
+        // 방검색으로 이동
+        binding.lyRoomSearch.setOnClickListener {
+            val intent = Intent(this, SearchRoomActivity::class.java)
+            startActivity(intent)
         }
         // 닉네임 설정
         binding.tvUserName.text = viewModel.getNickname().toString()
