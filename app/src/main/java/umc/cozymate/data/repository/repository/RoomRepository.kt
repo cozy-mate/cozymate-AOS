@@ -9,7 +9,9 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
+import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
@@ -47,5 +49,9 @@ interface RoomRepository {
     suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
 
     suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
+
+    suspend fun getRequestedRoomList(accessToken: String): Response<GetRequestedRoomListResponse>
+
+    suspend fun getPendingMemberLiat(accessToken: String): Response<GetPendingMemberListResponse>
 }
 

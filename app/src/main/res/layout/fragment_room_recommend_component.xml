@@ -95,7 +95,7 @@
             android:id="@+id/tv_empty_room"
             android:layout_width="match_parent"
             android:layout_height="156dp"
-            android:text="추천 방이 없어요"
+            android:text="아직 등록된 방이 없어요"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/unuse_font"
             app:layout_constraintEnd_toEndOf="parent"

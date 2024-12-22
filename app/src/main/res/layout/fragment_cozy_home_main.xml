@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
@@ -43,9 +44,9 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_school_color"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -180,11 +181,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_top"
             app:layout_goneMarginBottom="0dp"
-            app:layout_goneMarginTop="0dp" />
+            app:layout_goneMarginTop="0dp"
+            tool:layout="@layout/fragment_my_room_component"/>
 
-        <!-- 룸메이트 요청 컴포넌트 (조건 : 공개방 방장)-->
+        <!-- 참여요청 받은 룸메이트 목록 (조건 : 공개방 방장)-->
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/roommate_request_container"
+            android:id="@+id/requested_roommate_container"
+            android:name="umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -192,7 +195,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_room_container"
             app:layout_goneMarginBottom="0dp"
-            app:layout_goneMarginTop="0dp" />
+            app:layout_goneMarginTop="0dp"
+            />
+
+        <!-- 참여요청한 방 목록 (조건 : 참여요청 보냄) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/requested_room_container"
+            android:name="umc.cozymate.ui.cozy_home.room.sent_request.MySentRequestComponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
+            app:layout_goneMarginTop="0dp"
+            tool:layout="@layout/fragment_my_sent_request_component"/>
 
         <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
@@ -203,8 +220,9 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roommate_request_container"
-            app:layout_goneMarginTop="0dp" />
+            app:layout_constraintTop_toBottomOf="@+id/requested_room_container"
+            app:layout_goneMarginTop="0dp"
+            />
 
         <!-- 방 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView

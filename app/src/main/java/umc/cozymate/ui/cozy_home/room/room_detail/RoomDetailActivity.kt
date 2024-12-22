@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,7 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class RoomDetailActivity : AppCompatActivity() {
@@ -29,9 +33,15 @@ class RoomDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoomDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
 
         binding.ivBack.setOnClickListener {
             finish()
+        }
+        // 방검색으로 이동
+        binding.lyRoomSearch.setOnClickListener {
+            val intent = Intent(this, SearchRoomActivity::class.java)
+            startActivity(intent)
         }
         // 닉네임 설정
         binding.tvUserName.text = viewModel.getNickname().toString()
