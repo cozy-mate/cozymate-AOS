@@ -96,11 +96,14 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             roommateDetailViewModel.getOtherUserDetailInfo(memberId)
             roommateDetailViewModel.getUserDetailInfo()
-            roommateDetailViewModel.otherUserDetailInfo.collectLatest { userDetail ->
-                val intent = Intent(this@CozyRoomDetailInfoActivity, RoommateDetailActivity::class.java).apply {
-                    putExtra("user_detail", userDetail)
+            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+                roommateDetailViewModel.userDetailInfo.collectLatest { userDetail ->
+                    val intent = Intent(this@CozyRoomDetailInfoActivity, RoommateDetailActivity::class.java).apply {
+                        putExtra("other_user_detail", otherUserDetail)
+                        putExtra("user_detail", userDetail)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
             }
         }
 //        val intent = Intent(this, RoommateDetailActivity::class.java)

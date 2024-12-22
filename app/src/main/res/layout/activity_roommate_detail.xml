@@ -217,6 +217,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/fab_request_roommate"
                 android:gravity="center"
+                android:text="내 방으로 초대하기"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/main_blue"

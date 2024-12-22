@@ -444,6 +444,7 @@ id cl_report
 id cl_room_info
 id cl_roommate_info_list
 id cl_search
+id cl_self_introduction
 id cl_share
 id cl_sleep_habit
 id cl_sleep_time
@@ -944,6 +945,8 @@ id tv_list_clean_frequency_title
 id tv_list_dormitory_info_title
 id tv_list_dormitory_num
 id tv_list_dormitory_num_title
+id tv_list_drink_frequency
+id tv_list_drink_frequency_title
 id tv_list_essential_info_title
 id tv_list_friendly
 id tv_list_friendly_title
@@ -1071,6 +1074,7 @@ id tv_select_date
 id tv_select_weekday
 id tv_selected_date
 id tv_selection_title
+id tv_self_introduction
 id tv_share_check
 id tv_signout
 id tv_sleep_1

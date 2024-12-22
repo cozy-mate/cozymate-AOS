@@ -30,6 +30,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     private lateinit var behavior: BottomSheetBehavior<LinearLayout>
     private var memberId: Int = -1
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
+    private var userDetail: GetMemberDetailInfoResponse.Result? = null
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,8 @@ class RoommateDetailActivity : AppCompatActivity() {
 //        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")
 
         // intent로 사용자 정보 전달
-        otherUserDetail = intent.getParcelableExtra("user_detail")
+        otherUserDetail = intent.getParcelableExtra("other_user_detail")
+        userDetail = intent.getParcelableExtra("user_detail")
 
         Log.d(TAG, "Received user detail: $otherUserDetail")
         updateUI(otherUserDetail!!)
@@ -50,36 +52,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         setUpListeners()
     }
 
-//    private fun observeViewModel() {
-//        // 로딩 상태 관찰
-//        lifecycleScope.launch {
-//            viewModel.isLoading.collectLatest { isLoading ->
-//                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//                binding.main.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
-//            }
-//        }
-//        // 사용자 데이터 관찰
-//        lifecycleScope.launch {
-//            viewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-//                Log.d(TAG, "조회할 사용자 정보 : $otherUserDetail")
-//                updateUI(otherUserDetail)
-//
-//                selectListView(otherUserDetail)
-//            }
-//        }
-//    }
-//
-//    private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
-//        with(binding) {
-//            Log.d(TAG, "updateUI 실행")
-//            // 프로필 이미지 업데이트
-//            setUserProfileImage(otherUserDetail.memberDetail.persona)
-//
-//            // 이름 및 일치율
-//            tvOtherUserName.text = otherUserDetail.memberDetail.nickname
-//            tvUserMatchPercent.text = otherUserDetail.equality.toString()
-//        }
-//    }
     private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
         with(binding) {
             Log.d(TAG, "updateUI 실행")
@@ -104,9 +76,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         // 테이블 뷰 클릭 시
         binding.llTableView.setOnClickListener {
             Log.d(TAG, "테이블 뷰 클릭")
-            otherUserDetail?.let { detail ->
-                selectTableView(detail)
-            }
+            selectTableView(otherUserDetail!!, userDetail!!)
         }
 
         // 뒤로가기
@@ -136,12 +106,71 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val listBinding = ItemRoommateDetailListBinding.bind(listView)
 
-
-        listBinding.tvListName.text = it.memberDetail.nickname
+        with(listBinding) {
+            tvListName.text = it.memberDetail.nickname
+            tvListBirth.text = it.memberDetail.birthday.substring(0, 4)  // 앞에 4자리만 받음
+            tvListSchool.text = it.memberDetail.universityName
+            tvListSchoolNumber.text = it.memberStatDetail.admissionYear
+            tvListMajor.text = it.memberDetail.majorName
+            tvListDormitoryNum.text = "${it.memberStatDetail.numOfRoommate}인 1실"
+            tvListAcceptance.text = it.memberStatDetail.acceptance
+            tvListWakeUpAmpm.text = it.memberStatDetail.wakeUpMeridian
+            tvListWakeUpTime.text = it.memberStatDetail.wakeUpTime.toString()
+            tvListSleepAmpm.text = it.memberStatDetail.sleepingMeridian
+            tvListSleepTime.text = it.memberStatDetail.sleepingTime.toString()
+            tvListLightOffAmpm.text = it.memberStatDetail.turnOffMeridian
+            tvListLightOffTime.text = it.memberStatDetail.turnOffTime.toString()
+            tvListSmokeCheck.text = it.memberStatDetail.smoking
+            tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
+            tvListAc.text = when (it.memberStatDetail.airConditioningIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListAcHeater.text = when (it.memberStatDetail.heatingIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListLivingPattern.text = it.memberStatDetail.lifePattern
+            tvListFriendly.text = it.memberStatDetail.intimacy
+            tvListShare.text = it.memberStatDetail.canShare
+            tvListStudy.text = it.memberStatDetail.studying
+            tvListIntake.text = it.memberStatDetail.intake
+            tvListGameCheck.text = it.memberStatDetail.isPlayGame
+            tvListCallCheck.text = it.memberStatDetail.isPhoneCall
+            tvListCleanCheck.text = when (it.memberStatDetail.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListNoiseCheck.text = when (it.memberStatDetail.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
+            tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
+            tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
+            tvListMbti.text = it.memberStatDetail.mbti
+            tvSelfIntroduction.text = it.memberStatDetail.selfIntroduction
+        }
 
     }
 
-    private fun selectTableView(it: GetMemberDetailInfoResponse.Result) {
+    private fun selectTableView(other: GetMemberDetailInfoResponse.Result, user: GetMemberDetailInfoResponse.Result) {
         // TableView 텍스트와 아이콘 색상 변경
         binding.tvTableView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
         binding.ivTableViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.main_blue))
@@ -158,7 +187,8 @@ class RoommateDetailActivity : AppCompatActivity() {
         // TableView의 Info와 Detail 데이터를 연결
         val tableBinding = ItemRoommateDetailTableBinding.bind(tableView)  // ViewBinding 연결
 
-        tableBinding.tvTableOtherName.text = it.memberDetail.nickname
+        tableBinding.tvTableOtherName.text = other.memberDetail.nickname
+        tableBinding.tvTableUserName.text = user.memberDetail.nickname
 
 
         if (tableBinding.tvTableUserWakeUpAmpm.text.toString() != tableBinding.tvTableOtherWakeUpAmpm.text.toString() ||
@@ -432,25 +462,12 @@ class RoommateDetailActivity : AppCompatActivity() {
     private fun toggleRoommateRequestButton() {
         isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
 
-        if (isRoommateRequested) {
-            binding.fabRequestRoommate.apply {
-                setBackgroundColor(
-                    ContextCompat.getColor(
-                        this@RoommateDetailActivity,
-                        R.color.yellow
-                    )
-                )
-                text = "요청 취소"
-            }
-        } else {
-            binding.fabRequestRoommate.apply {
-                setBackgroundColor(
-                    ContextCompat.getColor(
-                        this@RoommateDetailActivity,
-                        R.color.main_blue
-                    )
-                )
-                text = "내 방으로 초대하기"
+        with(binding.fabRequestRoommate) {
+            if (isRoommateRequested) {
+                // 기본값 = true
+                backgroundTintList = getColorStateList(R.color.main_blue)
+            } else {
+                backgroundTintList = getColorStateList(R.color.gray)
             }
         }
     }
@@ -682,6 +699,5 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherCleanFrequency.text = trimText(detail?.cleaningFrequency)
         tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
         tableBinding.tvTableOtherMbti.text = detail?.mbti
-
     }
 }
