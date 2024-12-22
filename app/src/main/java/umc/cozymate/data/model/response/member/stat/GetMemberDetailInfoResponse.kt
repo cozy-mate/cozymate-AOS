@@ -1,8 +1,11 @@
 package umc.cozymate.data.model.response.member.stat
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
 data class GetMemberDetailInfoResponse(
     @SerialName("code")
@@ -13,7 +16,8 @@ data class GetMemberDetailInfoResponse(
     val message: String,
     @SerialName("result")
     val result: Result
-) {
+) : Parcelable {
+    @Parcelize
     @Serializable
     data class Result(
         val memberDetail: MemberDetail,
@@ -22,7 +26,8 @@ data class GetMemberDetailInfoResponse(
         val roomId: Int,
         val hasRequestedRoomEntry: Boolean,
         val favoriteId: Int
-    ) {
+    ) : Parcelable {
+        @Parcelize
         @Serializable
         data class MemberDetail(
             val memberId: Int,
@@ -33,7 +38,8 @@ data class GetMemberDetailInfoResponse(
             val universityId: Int,
             val majorName: String,
             val persona: Int
-        )
+        ) : Parcelable
+        @Parcelize
         @Serializable
         data class MemberStatDetail(
             val admissionYear: String,
@@ -64,6 +70,6 @@ data class GetMemberDetailInfoResponse(
             val personality: List<String>,
             val mbti: String,
             val selfIntroduction: String
-        )
+        ) : Parcelable
     }
 }

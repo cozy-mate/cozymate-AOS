@@ -2,13 +2,16 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
@@ -16,14 +19,18 @@ import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.roommate.UserInfoSPFHelper
 import umc.cozymate.ui.roommate.data_class.UserInfo
-import umc.cozymate.ui.viewmodel.RoommateViewModel
 
+@AndroidEntryPoint
 class RoommateDetailActivity : AppCompatActivity() {
 
+    private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityRoommateDetailBinding
-    private val viewModel: RoommateViewModel by viewModels()
+    private val viewModel: RoommateDetailViewModel by viewModels()
     private lateinit var spfHelper: UserInfoSPFHelper
     private lateinit var behavior: BottomSheetBehavior<LinearLayout>
+    private var memberId: Int = -1
+    private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
+    private var userDetail: GetMemberDetailInfoResponse.Result? = null
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,66 +38,440 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Info와 Detail 데이터를 받아오기
-        val selectedInfo = intent.getParcelableExtra<Info>("selectInfo")
-        val selectedDetail = intent.getParcelableExtra<Detail>("selectDetail")
+//        memberId = intent.getIntExtra("member_id", -1)
+//        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")
 
+        // intent로 사용자 정보 전달
+        otherUserDetail = intent.getParcelableExtra("other_user_detail")
+        userDetail = intent.getParcelableExtra("user_detail")
 
-        spfHelper = UserInfoSPFHelper(this)
+        Log.d(TAG, "Received user detail: $otherUserDetail")
+        updateUI(otherUserDetail!!)
+        selectListView(otherUserDetail!!)
 
-        // SharedPreferences에서 유저 정보 로드
-        val userInfo = spfHelper.loadUserInfo()
+        setUpListeners()
+    }
 
-        selectedInfo?.let { info ->
-            setUserProfileImage(info.memberPersona)  // 프로필 이미지 설정
-            binding.tvOtherUserName.text = info.memberName  // 사용자 이름 설정
-            binding.tvUserMatchPercent.text = "${info.equality}"
+    private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
+        with(binding) {
+            Log.d(TAG, "updateUI 실행")
+            // 프로필 이미지 업데이트
+            setUserProfileImage(otherUserDetail.memberDetail.persona)
+
+            // 이름 및 일치율
+            tvOtherUserName.text = otherUserDetail.memberDetail.nickname
+            tvUserMatchPercent.text = otherUserDetail.equality.toString()
         }
+    }
 
-        // 처음 실행 시 리스트 뷰를 기본 선택
-        selectListView(selectedInfo, selectedDetail)
-
-        // ListView 클릭 시
+    private fun setUpListeners() {
+        // 리스트 뷰 클릭 시
         binding.llListView.setOnClickListener {
-            selectListView(selectedInfo, selectedDetail)
+            Log.d(TAG, "리스트 뷰 클릭")
+            otherUserDetail?.let { detail ->
+                selectListView(detail)
+            }
         }
 
-        // TableView 클릭 시
+        // 테이블 뷰 클릭 시
         binding.llTableView.setOnClickListener {
-            selectTableView(selectedInfo, selectedDetail, userInfo)
+            Log.d(TAG, "테이블 뷰 클릭")
+            selectTableView(otherUserDetail!!, userDetail!!)
         }
 
-        // 뒤로가기 버튼
+        // 뒤로가기
         binding.btnBack.setOnClickListener {
             finish()
         }
 
-//        binding.btnRequestRoommate.setOnClickListener {
-//            sendRoommateRequest()
-//        }
+        // 플로팅 버튼 처리
+        binding.fabRequestRoommate.setOnClickListener {
+            toggleRoommateRequestButton()
+        }
+    }
 
+    private fun selectListView(it: GetMemberDetailInfoResponse.Result) {
+        // 리스트로 보기 선택 시 텍스트와 아이콘 활성화
+        binding.tvListView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
+        binding.ivListViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.main_blue))
+
+        // 표로 보기 텍스트와 아이콘 비활성화
+        binding.tvTableView.setTextColor(ContextCompat.getColor(this, R.color.unuse_font))
+        binding.ivTableViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.unuse_font))
+
+        // 리스트 레이아웃 초기화 후 동적 뷰 추가
+        val listView = LayoutInflater.from(this).inflate(R.layout.item_roommate_detail_list, null)
+        binding.listTableLayout.removeAllViews()
+        binding.listTableLayout.addView(listView)
+
+        val listBinding = ItemRoommateDetailListBinding.bind(listView)
+
+        with(listBinding) {
+            tvListName.text = it.memberDetail.nickname
+            tvListBirth.text = it.memberDetail.birthday.substring(0, 4)  // 앞에 4자리만 받음
+            tvListSchool.text = it.memberDetail.universityName
+            tvListSchoolNumber.text = it.memberStatDetail.admissionYear
+            tvListMajor.text = it.memberDetail.majorName
+            tvListDormitoryNum.text = "${it.memberStatDetail.numOfRoommate}인 1실"
+            tvListAcceptance.text = it.memberStatDetail.acceptance
+            tvListWakeUpAmpm.text = it.memberStatDetail.wakeUpMeridian
+            tvListWakeUpTime.text = it.memberStatDetail.wakeUpTime.toString()
+            tvListSleepAmpm.text = it.memberStatDetail.sleepingMeridian
+            tvListSleepTime.text = it.memberStatDetail.sleepingTime.toString()
+            tvListLightOffAmpm.text = it.memberStatDetail.turnOffMeridian
+            tvListLightOffTime.text = it.memberStatDetail.turnOffTime.toString()
+            tvListSmokeCheck.text = it.memberStatDetail.smoking
+            tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
+            tvListAc.text = when (it.memberStatDetail.airConditioningIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListAcHeater.text = when (it.memberStatDetail.heatingIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListLivingPattern.text = it.memberStatDetail.lifePattern
+            tvListFriendly.text = it.memberStatDetail.intimacy
+            tvListShare.text = it.memberStatDetail.canShare
+            tvListStudy.text = it.memberStatDetail.studying
+            tvListIntake.text = it.memberStatDetail.intake
+            tvListGameCheck.text = it.memberStatDetail.isPlayGame
+            tvListCallCheck.text = it.memberStatDetail.isPhoneCall
+            tvListCleanCheck.text = when (it.memberStatDetail.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListNoiseCheck.text = when (it.memberStatDetail.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
+            tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
+            tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
+            tvListMbti.text = it.memberStatDetail.mbti
+            tvSelfIntroduction.text = it.memberStatDetail.selfIntroduction
+        }
+
+    }
+
+    private fun selectTableView(other: GetMemberDetailInfoResponse.Result, user: GetMemberDetailInfoResponse.Result) {
+        // TableView 텍스트와 아이콘 색상 변경
+        binding.tvTableView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
+        binding.ivTableViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.main_blue))
+
+        // ListView 텍스트와 아이콘을 원래 색상으로
+        binding.tvListView.setTextColor(ContextCompat.getColor(this, R.color.unuse_font))
+        binding.ivListViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.unuse_font))
+
+        // list_table_layout에 itemRoommateDetailTable 레이아웃을 동적으로 추가
+        val tableView = LayoutInflater.from(this).inflate(R.layout.item_roommate_detail_table, null)
+        binding.listTableLayout.removeAllViews()
+        binding.listTableLayout.addView(tableView)
+
+        // TableView의 Info와 Detail 데이터를 연결
+        val tableBinding = ItemRoommateDetailTableBinding.bind(tableView)  // ViewBinding 연결
+
+        tableBinding.tvTableOtherName.text = other.memberDetail.nickname
+        tableBinding.tvTableUserName.text = user.memberDetail.nickname
+
+
+        if (tableBinding.tvTableUserWakeUpAmpm.text.toString() != tableBinding.tvTableOtherWakeUpAmpm.text.toString() ||
+            tableBinding.tvTableUserWakeUpTime.text.toString() != tableBinding.tvTableOtherWakeUpTime.text.toString()
+        ) {
+            tableBinding.tvTableUserWakeUpAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherWakeUpAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableUserWakeUpTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherWakeUpTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserBirth.text != tableBinding.tvTableOtherBirth.text) {
+            tableBinding.tvTableUserBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserSchoolNum.text != tableBinding.tvTableOtherSchoolNum.text) {
+            tableBinding.tvTableUserSchoolNum.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherSchoolNum.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserMajor.text != tableBinding.tvTableOtherMajor.text) {
+            tableBinding.tvTableUserMajor.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherMajor.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserDormitoryNum.text != tableBinding.tvTableOtherDormitoryNum.text) {
+            tableBinding.tvTableUserDormitoryNum.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherDormitoryNum.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserAcceptance.text != tableBinding.tvTableOtherAcceptance.text) {
+            tableBinding.tvTableUserAcceptance.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherAcceptance.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserSleepAmpm.text != tableBinding.tvTableOtherSleepAmpm.text ||
+            tableBinding.tvTableUserSleepTime.text != tableBinding.tvTableOtherSleepTime.text
+        ) {
+            tableBinding.tvTableUserSleepAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherSleepAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableUserSleepTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherSleepTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserLightOffAmpm.text != tableBinding.tvTableOtherLightOffAmpm.text ||
+            tableBinding.tvTableUserLightOffTime.text != tableBinding.tvTableOtherLightOffTime.text
+        ) {
+            tableBinding.tvTableUserLightOffAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherLightOffAmpm.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableUserLightOffTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherLightOffTime.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserSmoke.text != tableBinding.tvTableOtherSmoke.text) {
+            tableBinding.tvTableUserSmoke.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherSmoke.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserSleepHabbit.text != tableBinding.tvTableOtherSleepHabbit.text) {
+            tableBinding.tvTableUserSleepHabbit.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherSleepHabbit.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserAc.text != tableBinding.tvTableOtherAc.text) {
+            tableBinding.tvTableUserAc.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherAc.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserHeater.text != tableBinding.tvTableOtherHeater.text) {
+            tableBinding.tvTableUserHeater.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherHeater.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserLivingPattern.text != tableBinding.tvTableOtherLivingPattern.text) {
+            tableBinding.tvTableUserLivingPattern.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherLivingPattern.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserFriendly.text != tableBinding.tvTableOtherFriendly.text) {
+            tableBinding.tvTableUserFriendly.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherFriendly.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserShare.text != tableBinding.tvTableOtherShare.text) {
+            tableBinding.tvTableUserShare.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherShare.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserStudy.text != tableBinding.tvTableOtherStudy.text) {
+            tableBinding.tvTableUserStudy.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherStudy.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserIntake.text != tableBinding.tvTableOtherIntake.text) {
+            tableBinding.tvTableUserIntake.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherIntake.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserGame.text != tableBinding.tvTableOtherGame.text) {
+            tableBinding.tvTableUserGame.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherGame.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserCall.text != tableBinding.tvTableOtherCall.text) {
+            tableBinding.tvTableUserCall.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherCall.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserClean.text != tableBinding.tvTableOtherClean.text) {
+            tableBinding.tvTableUserClean.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherClean.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserNoise.text != tableBinding.tvTableOtherNoise.text) {
+            tableBinding.tvTableUserNoise.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherNoise.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+
+        if (tableBinding.tvTableUserCleanFrequency.text != tableBinding.tvTableOtherCleanFrequency.text) {
+            tableBinding.tvTableUserCleanFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherCleanFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserPersonality.text != tableBinding.tvTableOtherPersonality.text) {
+            tableBinding.tvTableUserPersonality.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherPersonality.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserMbti.text != tableBinding.tvTableOtherMbti.text) {
+            tableBinding.tvTableUserMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
     }
 
     private fun toggleRoommateRequestButton() {
         isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
 
-        if (isRoommateRequested) {
-            binding.fabRequestEnterRoom.apply {
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.yellow))
-                text = "요청 취소"
-            }
-        } else {
-            binding.fabRequestEnterRoom.apply {
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                text = "코지메이트 요청"
+        with(binding.fabRequestRoommate) {
+            if (isRoommateRequested) {
+                // 기본값 = true
+                backgroundTintList = getColorStateList(R.color.main_blue)
+            } else {
+                backgroundTintList = getColorStateList(R.color.gray)
             }
         }
     }
-//    private fun sendRoommateRequest() {
-//        val accessToken = "Bearer ${getString(R.string.access_token_1)}"  // 액세스 토큰
-//        val request = RoommateRequest(/* 요청에 필요한 데이터를 설정 */)
-//        viewModel.sendRoommateRequest(accessToken, request)  // API 요청
-//    }
+
     private fun setUserProfileImage(persona: Int) {
         val profileImageResId = when (persona) {
             1 -> R.drawable.character_id_1
@@ -270,20 +651,24 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherLightOffTime.text = " ${detail?.turnOffTime}시"
         tableBinding.tvTableOtherSmoke.text = detail?.smokingState
         tableBinding.tvTableOtherSleepHabbit.text = trimText(detail?.sleepingHabit)
-        tableBinding.tvTableOtherAc.text = trimText(when (detail?.airConditioningIntensity) {
-            0 -> "안 틀어요"
-            1 -> "약하게 틀어요"
-            2 -> "적당하게 틀어요"
-            3 -> "세게 틀어요"
-            else -> "적당하게 틀어요"
-        })
-        tableBinding.tvTableOtherHeater.text = trimText(when (detail?.heatingIntensity) {
-            0 -> "안 틀어요"
-            1 -> "약하게 틀어요"
-            2 -> "적당하게 틀어요"
-            3 -> "세게 틀어요"
-            else -> "적당하게 틀어요"
-        })
+        tableBinding.tvTableOtherAc.text = trimText(
+            when (detail?.airConditioningIntensity) {
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어요"
+            }
+        )
+        tableBinding.tvTableOtherHeater.text = trimText(
+            when (detail?.heatingIntensity) {
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어요"
+            }
+        )
         tableBinding.tvTableOtherLivingPattern.text = detail?.lifePattern
         tableBinding.tvTableOtherFriendly.text = trimText(detail?.intimacy)
         tableBinding.tvTableOtherShare.text = detail?.canShare
@@ -291,157 +676,28 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherIntake.text = trimText(detail?.intake)
         tableBinding.tvTableOtherGame.text = detail?.isPlayGame
         tableBinding.tvTableOtherCall.text = detail?.isPhoneCall
-        tableBinding.tvTableOtherClean.text = trimText(when (detail?.cleanSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
-            3 -> "보통이에요"
-            4 -> "예민해요"
-            5 -> "매우 예민해요"
-            else -> "보통이에요"
-        })
-        tableBinding.tvTableOtherNoise.text = trimText(when (detail?.noiseSensitivity) {
-            1 -> "매우 예민하지 않아요"
-            2 -> "예민하지 않아요"
-            3 -> "보통이에요"
-            4 -> "예민해요"
-            5 -> "매우 예민해요"
-            else -> "보통이에요"
-        })
+        tableBinding.tvTableOtherClean.text = trimText(
+            when (detail?.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+        )
+        tableBinding.tvTableOtherNoise.text = trimText(
+            when (detail?.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+        )
         tableBinding.tvTableOtherCleanFrequency.text = trimText(detail?.cleaningFrequency)
         tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
         tableBinding.tvTableOtherMbti.text = detail?.mbti
-
-
-        if (tableBinding.tvTableUserWakeUpAmpm.text.toString() != tableBinding.tvTableOtherWakeUpAmpm.text.toString() ||
-            tableBinding.tvTableUserWakeUpTime.text.toString() != tableBinding.tvTableOtherWakeUpTime.text.toString()) {
-            tableBinding.tvTableUserWakeUpAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherWakeUpAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableUserWakeUpTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherWakeUpTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserBirth.text != tableBinding.tvTableOtherBirth.text) {
-            tableBinding.tvTableUserBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherBirth.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserSchoolNum.text != tableBinding.tvTableOtherSchoolNum.text) {
-            tableBinding.tvTableUserSchoolNum.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherSchoolNum.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserMajor.text != tableBinding.tvTableOtherMajor.text) {
-            tableBinding.tvTableUserMajor.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherMajor.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserDormitoryNum.text != tableBinding.tvTableOtherDormitoryNum.text) {
-            tableBinding.tvTableUserDormitoryNum.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherDormitoryNum.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserAcceptance.text != tableBinding.tvTableOtherAcceptance.text) {
-            tableBinding.tvTableUserAcceptance.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherAcceptance.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserSleepAmpm.text != tableBinding.tvTableOtherSleepAmpm.text ||
-            tableBinding.tvTableUserSleepTime.text != tableBinding.tvTableOtherSleepTime.text) {
-            tableBinding.tvTableUserSleepAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherSleepAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableUserSleepTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherSleepTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserLightOffAmpm.text != tableBinding.tvTableOtherLightOffAmpm.text ||
-            tableBinding.tvTableUserLightOffTime.text != tableBinding.tvTableOtherLightOffTime.text) {
-            tableBinding.tvTableUserLightOffAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherLightOffAmpm.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableUserLightOffTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherLightOffTime.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserSmoke.text != tableBinding.tvTableOtherSmoke.text) {
-            tableBinding.tvTableUserSmoke.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherSmoke.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserSleepHabbit.text != tableBinding.tvTableOtherSleepHabbit.text) {
-            tableBinding.tvTableUserSleepHabbit.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherSleepHabbit.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserAc.text != tableBinding.tvTableOtherAc.text) {
-            tableBinding.tvTableUserAc.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherAc.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserHeater.text != tableBinding.tvTableOtherHeater.text) {
-            tableBinding.tvTableUserHeater.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherHeater.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserLivingPattern.text != tableBinding.tvTableOtherLivingPattern.text) {
-            tableBinding.tvTableUserLivingPattern.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherLivingPattern.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserFriendly.text != tableBinding.tvTableOtherFriendly.text) {
-            tableBinding.tvTableUserFriendly.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherFriendly.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserShare.text != tableBinding.tvTableOtherShare.text) {
-            tableBinding.tvTableUserShare.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherShare.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserStudy.text != tableBinding.tvTableOtherStudy.text) {
-            tableBinding.tvTableUserStudy.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherStudy.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserIntake.text != tableBinding.tvTableOtherIntake.text) {
-            tableBinding.tvTableUserIntake.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherIntake.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserGame.text != tableBinding.tvTableOtherGame.text) {
-            tableBinding.tvTableUserGame.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherGame.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserCall.text != tableBinding.tvTableOtherCall.text) {
-            tableBinding.tvTableUserCall.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherCall.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserClean.text != tableBinding.tvTableOtherClean.text) {
-            tableBinding.tvTableUserClean.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherClean.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserNoise.text != tableBinding.tvTableOtherNoise.text) {
-            tableBinding.tvTableUserNoise.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherNoise.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserCleanFrequency.text != tableBinding.tvTableOtherCleanFrequency.text) {
-            tableBinding.tvTableUserCleanFrequency.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherCleanFrequency.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserPersonality.text != tableBinding.tvTableOtherPersonality.text) {
-            tableBinding.tvTableUserPersonality.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherPersonality.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-
-        if (tableBinding.tvTableUserMbti.text != tableBinding.tvTableOtherMbti.text) {
-            tableBinding.tvTableUserMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
-            tableBinding.tvTableOtherMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-        // SharedPreferences에서 불러온 값 적용
-
-        // 추가로 필요한 값이 있다면 동일하게 설정
     }
 }

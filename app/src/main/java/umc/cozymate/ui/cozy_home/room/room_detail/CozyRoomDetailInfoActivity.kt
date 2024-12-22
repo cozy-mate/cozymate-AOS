@@ -18,6 +18,7 @@ import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -28,6 +29,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels()
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
+    private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var roomId: Int? = 0
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -46,7 +48,6 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         updateFloatingButton()
 
         setupBackButton()
-
     }
     private fun getRoomId() {
         // 방 id 불러오기
@@ -95,9 +96,22 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
-        val intent = Intent(this, RoommateDetailActivity::class.java)
-        intent.putExtra("member_id", memberId)
-        startActivity(intent)
+        lifecycleScope.launch {
+            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
+            roommateDetailViewModel.getUserDetailInfo()
+            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+                roommateDetailViewModel.userDetailInfo.collectLatest { userDetail ->
+                    val intent = Intent(this@CozyRoomDetailInfoActivity, RoommateDetailActivity::class.java).apply {
+                        putExtra("other_user_detail", otherUserDetail)
+                        putExtra("user_detail", userDetail)
+                    }
+                    startActivity(intent)
+                }
+            }
+        }
+//        val intent = Intent(this, RoommateDetailActivity::class.java)
+//        intent.putExtra("member_id", memberId)
+//        startActivity(intent)
     }
     // 해시태그 업데이트
     private fun updateHashtags(hashtags: List<String>){
