@@ -21,6 +21,7 @@ import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 @AndroidEntryPoint
@@ -29,6 +30,7 @@ class CozyHomeMainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
     private val univViewModel: UniversityViewModel by viewModels()
+    private val splashViewmodel: SplashViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
     private var isCertificated: Boolean = false
@@ -48,6 +50,7 @@ class CozyHomeMainFragment : Fragment() {
         initView()
         initListener()
         openMessage()
+        splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         viewLifecycleOwner.lifecycleScope.launch {
             if (univViewModel.isVerified.value == false) {
                 univViewModel.isMailVerified()
@@ -145,7 +148,6 @@ class CozyHomeMainFragment : Fragment() {
         binding.btnMessage.setOnClickListener {
             startActivity(Intent(activity, MessageActivity::class.java))
         }
-
     }
 
     private fun observeViewModel() {
