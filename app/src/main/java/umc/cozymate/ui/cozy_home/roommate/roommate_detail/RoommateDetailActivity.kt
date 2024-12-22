@@ -194,9 +194,154 @@ class RoommateDetailActivity : AppCompatActivity() {
                 text ?: ""
             }
         }
-        // ------------------------____________@_@_@_@_@_@_@_@_@_@_@_@_@_@__@_@_@_@
-        tableBinding.tvTableOtherName.text = other.memberDetail.nickname
-        tableBinding.tvTableUserName.text = user.memberDetail.nickname
+
+        with(tableBinding) {
+            tvTableUserName.text = user.memberDetail.nickname
+            tvTableOtherName.text = other.memberDetail.nickname
+
+            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
+            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
+
+            tvTableUserSchoolNum.text = "${user.memberStatDetail.admissionYear}학번"
+            tvTableOtherSchoolNum.text = "${other.memberStatDetail.admissionYear}학번"
+
+            tvTableUserSchool.text = trimText(user.memberDetail.universityName)
+            tvTableOtherSchool.text = trimText(other.memberDetail.universityName)
+
+            tvTableUserMajor.text = trimText(user.memberDetail.majorName)
+            tvTableOtherMajor.text = trimText(other.memberDetail.majorName)
+
+            tvTableUserDormitoryNum.text = "${user.memberStatDetail.numOfRoommate}인1실"
+            tvTableOtherDormitoryNum.text = "${other.memberStatDetail.numOfRoommate}인1실"
+
+            tvTableUserAcceptance.text = user.memberStatDetail.acceptance
+            tvTableOtherAcceptance.text = other.memberStatDetail.acceptance
+
+            tvTableUserWakeUpAmpm.text = user.memberStatDetail.wakeUpMeridian
+            tvTableOtherWakeUpAmpm.text = other.memberStatDetail.wakeUpMeridian
+
+            tvTableUserSleepAmpm.text = user.memberStatDetail.sleepingMeridian
+            tvTableOtherSleepAmpm.text = other.memberStatDetail.sleepingMeridian
+
+            tvTableUserSleepTime.text = user.memberStatDetail.sleepingTime.toString()
+            tvTableOtherSleepTime.text = other.memberStatDetail.sleepingTime.toString()
+
+            tvTableUserLightOffAmpm.text = user.memberStatDetail.turnOffMeridian
+            tvTableOtherLightOffAmpm.text = other.memberStatDetail.turnOffMeridian
+
+            tvTableUserLightOffTime.text = user.memberStatDetail.turnOffTime.toString()
+            tvTableOtherLightOffTime.text = other.memberStatDetail.turnOffTime.toString()
+
+            tvTableUserSmoke.text = trimText(user.memberStatDetail.smoking)
+            tvTableOtherSmoke.text = trimText(other.memberStatDetail.smoking)
+
+            tvTableUserSleepHabbit.text = trimText(user.memberStatDetail.sleepingHabit.joinToString(", "))
+            tvTableOtherSleepHabbit.text = trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
+
+            tvTableUserAc.text = trimText(when (user.memberStatDetail.airConditioningIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+            tvTableOtherAc.text = trimText(when (other.memberStatDetail.airConditioningIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+
+            tvTableUserHeater.text = trimText(when (user.memberStatDetail.heatingIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+            tvTableOtherHeater.text = trimText(when (other.memberStatDetail.heatingIntensity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+
+            tvTableUserLivingPattern.text = trimText(user.memberStatDetail.lifePattern)
+            tvTableOtherLivingPattern.text = trimText(other.memberStatDetail.lifePattern)
+
+            tvTableUserFriendly.text = trimText(user.memberStatDetail.intimacy)
+            tvTableOtherFriendly.text = trimText(other.memberStatDetail.intimacy)
+
+            tvTableUserShare.text = trimText(user.memberStatDetail.canShare)
+            tvTableOtherShare.text = trimText(other.memberStatDetail.canShare)
+
+            tvTableUserStudy.text = trimText(user.memberStatDetail.studying)
+            tvTableOtherStudy.text = trimText(other.memberStatDetail.studying)
+
+            tvTableUserIntake.text = trimText(user.memberStatDetail.intake)
+            tvTableOtherIntake.text = trimText(other.memberStatDetail.intake)
+
+            tvTableUserGame.text = trimText(user.memberStatDetail.isPlayGame)
+            tvTableOtherGame.text = trimText(other.memberStatDetail.isPlayGame)
+
+            tvTableUserCall.text = trimText(user.memberStatDetail.isPhoneCall)
+            tvTableOtherCall.text = trimText(other.memberStatDetail.isPhoneCall)
+
+            tvTableUserClean.text = trimText(when (user.memberStatDetail.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+            tvTableOtherClean.text = trimText(when (other.memberStatDetail.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+
+            tvTableUserNoise.text = trimText(when (user.memberStatDetail.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+            tvTableOtherNoise.text = trimText(when (other.memberStatDetail.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            })
+
+            tvTableUserCleanFrequency.text = trimText(user.memberStatDetail.cleaningFrequency)
+            tvTableOtherCleanFrequency.text = trimText(other.memberStatDetail.cleaningFrequency)
+
+            tvTableUserDrinkFrequency.text = trimText(user.memberStatDetail.drinkingFrequency)
+            tvTableOtherDrinkFrequency.text = trimText(other.memberStatDetail.drinkingFrequency)
+
+            tvTableUserPersonality.text = trimText(user.memberStatDetail.personality.joinToString(", "))
+            tvTableOtherPersonality.text = trimText(other.memberStatDetail.personality.joinToString(", "))
+
+            tvTableUserMbti.text = user.memberStatDetail.mbti
+            tvTableOtherMbti.text = other.memberStatDetail.mbti
+
+            tvSelfIntroduction.text = other.memberStatDetail.selfIntroduction
+        }
+
 
 
         if (tableBinding.tvTableUserWakeUpAmpm.text.toString() != tableBinding.tvTableOtherWakeUpAmpm.text.toString() ||

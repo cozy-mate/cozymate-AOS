@@ -440,7 +440,6 @@ id cl_personality
 id cl_private_room
 id cl_public_room
 id cl_rectangle
-id cl_report
 id cl_room_info
 id cl_roommate_info_list
 id cl_search
@@ -1041,7 +1040,6 @@ id tv_private_room_title2
 id tv_public_room_title1
 id tv_public_room_title2
 id tv_quit
-id tv_report
 id tv_report_title
 id tv_role
 id tv_room_detail_clean_match

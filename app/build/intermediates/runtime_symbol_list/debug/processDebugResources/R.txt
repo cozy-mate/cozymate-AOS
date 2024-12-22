@@ -3389,7 +3389,6 @@ int id cl_personality 0x7f090102
 int id cl_private_room 0x7f090103
 int id cl_public_room 0x7f090104
 int id cl_rectangle 0x7f090105
-int id cl_report 0x7f090106
 int id cl_room_info 0x7f090107
 int id cl_roommate_info_list 0x7f090108
 int id cl_search 0x7f090109
@@ -4392,7 +4391,6 @@ int id tv_private_room_title2 0x7f0904ed
 int id tv_public_room_title1 0x7f0904ee
 int id tv_public_room_title2 0x7f0904ef
 int id tv_quit 0x7f0904f0
-int id tv_report 0x7f0904f1
 int id tv_report_title 0x7f0904f2
 int id tv_role 0x7f0904f3
 int id tv_room_detail_clean_match 0x7f0904f4

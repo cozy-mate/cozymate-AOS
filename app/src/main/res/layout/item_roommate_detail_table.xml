@@ -1270,7 +1270,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_background_roommate_detail_12"
                 app:layout_constraintTop_toBottomOf="@id/tv_report_title"
-                android:id="@+id/cl_report"
+                android:id="@+id/cl_self_introduction"
                 android:padding="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="12dp"
@@ -1279,7 +1279,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_report"
+                    android:id="@+id/tv_self_introduction"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                     android:textColor="@color/basic_font"
@@ -1289,6 +1289,12 @@
                     android:padding="8dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_self_introduction" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

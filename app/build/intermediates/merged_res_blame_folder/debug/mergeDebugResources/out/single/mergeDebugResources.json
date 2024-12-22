@@ -4,6 +4,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/rv_item_role.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_item_roommate_detail_table.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/item_roommate_detail_table.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_character_id_5.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/character_id_5.xml"
     },
@@ -110,10 +114,6 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_item_roommate_select_box.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/item_roommate_select_box.xml"
-    },
-    {
-        "merged": "umc.cozymate.app-debug-98:/layout_vp_item_room_recommend.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/vp_item_room_recommend.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_character_id_7.xml.flat",
