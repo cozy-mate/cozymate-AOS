@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.my_page.MyLikeActivity">
+    tools:context=".ui.my_page.MyFavoriteActivity">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_like_roommate"
+        android:id="@+id/tv_favorite_roommate"
         style="@style/CustomChip_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <TextView
-        android:id="@+id/tv_like_room"
+        android:id="@+id/tv_favorite_room"
         style="@style/CustomChip_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,12 +38,12 @@
         android:layout_marginTop="16dp"
         android:text="내가 찜한 방"
         android:textIsSelectable="true"
-        app:layout_constraintStart_toEndOf="@id/tv_like_roommate"
+        app:layout_constraintStart_toEndOf="@id/tv_favorite_roommate"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <FrameLayout
-        android:id="@+id/fragment_like"
-        android:name="umc.cozymate.ui.onboarding.OnboardingUserInfoFragment"
+        android:id="@+id/fragment_favorite"
+        android:name="umc.cozymate.ui.my_page.MyFavoriteRoommateFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
