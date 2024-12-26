@@ -145,6 +145,17 @@
         <item name="android:background">@drawable/custom_select_chip_background</item>
     </style>
 
+    <style name="CustomChip_8">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:textColor">@color/custom_option_text_color</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:background">@drawable/custom_chip_8_background</item>
+    </style>
+
     <style name="RoommateElementChip">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
