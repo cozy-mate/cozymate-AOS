@@ -8,10 +8,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.response.favorites.GetFavoritesMembersResponse
-import umc.cozymate.data.model.response.favorites.GetFavoritesRoomsResponse
 import umc.cozymate.databinding.ActivityMyFavoriteBinding
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.util.StatusBarUtil
@@ -19,10 +18,10 @@ import umc.cozymate.util.StatusBarUtil
 @AndroidEntryPoint
 class MyFavoriteActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
-    private lateinit var binding : ActivityMyFavoriteBinding
-    private val viewModel : FavoriteViewModel by viewModels()
-    private var roomList : List<GetFavoritesRoomsResponse> = emptyList()
-    private var memberList : List<GetFavoritesMembersResponse> = emptyList()
+    private lateinit var binding: ActivityMyFavoriteBinding
+    private val viewModel: FavoriteViewModel by viewModels()
+    private lateinit var roomsAdapter: FavoriteRoomRVAdapter
+    private lateinit var membersAdapter: FavoriteRoommateRVAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,23 +29,51 @@ class MyFavoriteActivity : AppCompatActivity() {
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         binding.tvFavoriteRoommate.isSelected = true
+        setupRVAdapter()
         setupObservers()
         lifecycleScope.launch {
             viewModel.getFavoriteRoommateList()
         }
         setClickListener()
     }
+
+    fun setupRVAdapter() {
+        membersAdapter = FavoriteRoommateRVAdapter(emptyList())
+        binding.rvFavoriteRoommate.adapter = membersAdapter
+        binding.rvFavoriteRoommate.layoutManager = LinearLayoutManager(this)
+        roomsAdapter = FavoriteRoomRVAdapter(emptyList())
+        binding.rvFavoriteRoom.adapter = roomsAdapter
+        binding.rvFavoriteRoom.layoutManager = LinearLayoutManager(this)
+    }
+
     fun setupObservers() {
-        viewModel.getFavoritesMembersResponse.observe(this, Observer {response ->
+        viewModel.getFavoritesMembersResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
-            if (response.isSuccess == true){
-                //memberList = response
+            if (response.result.isNotEmpty()) {
+                binding.rvFavoriteRoom.visibility = View.GONE
+                binding.tvEmptyList.visibility = View.GONE
+                binding.rvFavoriteRoommate.visibility = View.VISIBLE
+                membersAdapter.submitList(response.result)
+            } else {
+                binding.rvFavoriteRoom.visibility = View.GONE
+                binding.tvEmptyList.visibility = View.VISIBLE
+                binding.rvFavoriteRoommate.visibility = View.GONE
+                binding.tvEmptyList.text = "아직 찜한 룸메이트가 없어요"
             }
         })
-        viewModel.getFavoritesRoomsResponse.observe(this, Observer {response ->
+        viewModel.getFavoritesRoomsResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
-            if (response.isSuccess == true){
-                //roomList = response
+            if (response.result.isNotEmpty()) {
+                binding.rvFavoriteRoom.visibility = View.VISIBLE
+                binding.tvEmptyList.visibility = View.GONE
+                binding.rvFavoriteRoommate.visibility = View.GONE
+                roomsAdapter.submitList(response.result)
+            } else {
+                binding.rvFavoriteRoom.visibility = View.GONE
+                binding.tvEmptyList.visibility = View.VISIBLE
+                binding.rvFavoriteRoommate.visibility = View.GONE
+                binding.tvEmptyList.text = "아직 찜한 방이 없어요"
+
             }
         })
         // 로딩중
@@ -57,6 +84,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             setProgressbar(it)
         })
     }
+
     fun setClickListener() {
         binding.tvFavoriteRoommate.setOnClickListener {
             lifecycleScope.launch {
@@ -64,12 +92,12 @@ class MyFavoriteActivity : AppCompatActivity() {
             }
         }
         binding.tvFavoriteRoom.setOnClickListener {
-            //binding.tvFavoriteRoom.isSelected = true
             lifecycleScope.launch {
                 viewModel.getFavoriteRoomList()
             }
         }
     }
+
     fun setProgressbar(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE

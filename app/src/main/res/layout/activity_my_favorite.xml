@@ -64,7 +64,7 @@
 
     <!-- 찜한 방/룸메 없을 때 -->
     <TextView
-        android:id="@+id/tv_empty_room"
+        android:id="@+id/tv_empty_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
