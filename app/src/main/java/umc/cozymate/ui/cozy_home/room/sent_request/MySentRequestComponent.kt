@@ -31,7 +31,7 @@ class MySentRequestComponent : Fragment() {
         _binding = FragmentMySentRequestComponentBinding.inflate(inflater, Main, false)
         observeRoomList()
         val nickname = viewModel.getNickname().toString()
-        binding.tvMyNickname.text = "${nickname}님과"
+        binding.tvMyNickname.text = "${nickname}님이"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getRequestedRoomList()
         }
