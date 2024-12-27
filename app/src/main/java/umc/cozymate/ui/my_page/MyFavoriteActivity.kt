@@ -3,7 +3,7 @@ package umc.cozymate.ui.my_page
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -24,7 +24,6 @@ class MyFavoriteActivity : AppCompatActivity() {
     private lateinit var membersAdapter: FavoriteRoommateRVAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMyFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
@@ -86,14 +85,27 @@ class MyFavoriteActivity : AppCompatActivity() {
     }
 
     fun setClickListener() {
-        binding.tvFavoriteRoommate.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.getFavoriteRoommateList()
+        with(binding) {
+            val toggleSelection: (selectedView: TextView, unselectedView: TextView) -> Unit = { selectedView, unselectedView ->
+                selectedView.isSelected = true
+                unselectedView.isSelected = false
             }
-        }
-        binding.tvFavoriteRoom.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.getFavoriteRoomList()
+
+            tvFavoriteRoommate.setOnClickListener {
+                toggleSelection(tvFavoriteRoommate, tvFavoriteRoom)
+                lifecycleScope.launch {
+                    viewModel.getFavoriteRoommateList()
+                }
+            }
+
+            tvFavoriteRoom.setOnClickListener {
+                toggleSelection(tvFavoriteRoom, tvFavoriteRoommate)
+                lifecycleScope.launch {
+                    viewModel.getFavoriteRoomList()
+                }
+            }
+            ivBack.setOnClickListener {
+                finish()
             }
         }
     }
