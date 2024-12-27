@@ -25,7 +25,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:text="내가 찜한 룸메이트"
-        android:textIsSelectable="true"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
@@ -37,7 +37,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="내가 찜한 방"
-        android:textIsSelectable="true"
+        android:clickable="true"
         app:layout_constraintStart_toEndOf="@id/tv_favorite_roommate"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
