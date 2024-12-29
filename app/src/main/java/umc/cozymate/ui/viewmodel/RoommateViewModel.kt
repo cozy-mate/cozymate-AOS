@@ -1,11 +1,13 @@
 package umc.cozymate.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,7 @@ import umc.cozymate.data.domain.OtherUserInfo
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.Detail
+import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repositoryImpl.RoommateRepositoryImpl
 import umc.cozymate.util.onError
@@ -25,8 +28,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RoommateViewModel @Inject constructor(
-    private val repository: RoommateRepositoryImpl
+    private val repository: RoommateRepositoryImpl,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+    private val TAG = this.javaClass.simpleName
 
     private val _tempOtherUserInfo = MutableStateFlow<List<OtherUserInfoResponse>>(emptyList())
 
@@ -43,6 +48,14 @@ class RoommateViewModel @Inject constructor(
     private val _filterList = MutableLiveData<List<String>>(mutableListOf())
     val filterList: LiveData<List<String>> get() = _filterList
 
+    private val _memberLifestyleInfo = MutableLiveData<GetUserInfoResponse.Result>()
+    val memberLifestyleInfo: LiveData<GetUserInfoResponse.Result> get() = _memberLifestyleInfo
+
+    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
 
     fun sendUserInfo(accessToken: String, request: UserInfoRequest) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -248,5 +261,64 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
 
     fun selectDetail(detail: Detail) {
         _selectedDetail.value = detail
+    }
+
+    fun getUserInfo(){
+        val accessToken = getToken()!!
+
+        viewModelScope.launch {
+            try {
+                val response = repository.getUserInfo(accessToken)
+                if (response.isSuccessful) {
+                    Log.d(TAG, "사용자 라이프스타일 api 응답 성공 : ${response}")
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "사용자 라이프스타일 정보 조회 성공 : ${response.body()!!.result}")
+                        _memberLifestyleInfo.value = response.body()!!.result
+                        saveUserLifestyleInfo()
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.d(TAG, "사용자 라이프스타일 조회 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "사용자 라이프스타일 api 요청 실패 : $e")
+            }
+        }
+    }
+
+    fun saveUserLifestyleInfo() {
+        Log.d(TAG, "사용자 라이프스타일 정보: ${_memberLifestyleInfo.value!!}")
+        val editor = sharedPreferences.edit()
+
+        editor.putString("user_admissionYear", _memberLifestyleInfo.value!!.memberStatDetail.admissionYear)
+        editor.putInt("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)
+        editor.putString("user_dormitoryName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
+        editor.putString("user_acceptance", _memberLifestyleInfo.value!!.memberStatDetail.acceptance)
+        editor.putString("user_wakeUpMeridian", _memberLifestyleInfo.value!!.memberStatDetail.wakeUpMeridian)
+        editor.putInt("user_wakeUpTime", _memberLifestyleInfo.value!!.memberStatDetail.wakeUpTime)
+        editor.putString("user_sleepingMeridian", _memberLifestyleInfo.value!!.memberStatDetail.sleepingMeridian)
+        editor.putInt("user_sleepingTime", _memberLifestyleInfo.value!!.memberStatDetail.sleepingTime)
+        editor.putString("user_turnOffMeridian", _memberLifestyleInfo.value!!.memberStatDetail.turnOffMeridian)
+        editor.putInt("user_turnOffTime", _memberLifestyleInfo.value!!.memberStatDetail.turnOfTime)
+        editor.putString("user_smoking", _memberLifestyleInfo.value!!.memberStatDetail.smoking)
+        editor.putStringSet("user_sleepingHabit", _memberLifestyleInfo.value!!.memberStatDetail.sleepingHabit.toSet())
+        editor.putInt("user_airConditioningIntensity", _memberLifestyleInfo.value!!.memberStatDetail.airConditioningIntensity)
+        editor.putInt("user_heatingIntensity", _memberLifestyleInfo.value!!.memberStatDetail.heatingIntensity)
+        editor.putString("user_lifePattern", _memberLifestyleInfo.value!!.memberStatDetail.lifePattern)
+        editor.putString("user_intimacy", _memberLifestyleInfo.value!!.memberStatDetail.intimacy)
+        editor.putString("user_canShare", _memberLifestyleInfo.value!!.memberStatDetail.canShare)
+        editor.putString("user_isPlayGame", _memberLifestyleInfo.value!!.memberStatDetail.isPlayGame)
+        editor.putString("user_isPhoneCall", _memberLifestyleInfo.value!!.memberStatDetail.isPhoneCall)
+        editor.putString("user_studying", _memberLifestyleInfo.value!!.memberStatDetail.studying)
+        editor.putString("user_intake", _memberLifestyleInfo.value!!.memberStatDetail.intake)
+        editor.putInt("user_cleanSensitivity", _memberLifestyleInfo.value!!.memberStatDetail.cleanSensitivity)
+        editor.putInt("user_noiseSensitivity", _memberLifestyleInfo.value!!.memberStatDetail.noiseSensitivity)
+        editor.putString("user_cleaningFrequency", _memberLifestyleInfo.value!!.memberStatDetail.cleaningFrequency)
+        editor.putString("user_drinkingFrequency", _memberLifestyleInfo.value!!.memberStatDetail.drinkingFrequency)
+        editor.putStringSet("user_personality", _memberLifestyleInfo.value!!.memberStatDetail.personality.toSet())
+        editor.putString("user_mbti", _memberLifestyleInfo.value!!.memberStatDetail.mbti)
+        editor.putString("user_selfIntroduction", _memberLifestyleInfo.value!!.memberStatDetail.selfIntroduction)
+
+        editor.commit() // 모든 변경 사항 저장
     }
 }
