@@ -25,7 +25,7 @@ class RoomDetailViewModel @Inject constructor(
     private val prefRepository: MemberStatPreferenceRepository,
     private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
-): ViewModel() {
+) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
 
@@ -97,30 +97,76 @@ class RoomDetailViewModel @Inject constructor(
     // 방추천
     val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
     val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
+
+    //    suspend fun fetchRecommendedRoomList() {
+//        _isLoading.value = true
+//        val token = getToken()
+//        try {
+//            val response = repository.getRecommendedRoomList(
+//                accessToken = token!!,
+//                size = 10,
+//                page = 0,
+//                sortType = SortType.LATEST.value
+//            ) // 최신순
+//            if (response.isSuccessful) {
+//                if (response.body()?.isSuccess == true) {
+//                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
+//                    _roomList.value = response.body()!!.result?.result
+//                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
+//            } else {
+//                _roomList.value = emptyList()
+//                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
+//            }
+//        } catch (e: Exception) {
+//            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+//        } finally {
+//            _isLoading.value = false
+//        }
+//    }
     suspend fun fetchRecommendedRoomList() {
         _isLoading.value = true
         val token = getToken()
+        val allRooms = mutableListOf<GetRecommendedRoomListResponse.Result.Result>() // 전체 방 리스트 저장
+        var currentPage = 0 // 초기 페이지
+        val pageSize = 10 // 한 번에 가져올 방 개수
+        var hasNext: Boolean
+
         try {
-            val response = repository.getRecommendedRoomList(
-                accessToken = token!!,
-                size = 10,
-                page = 0,
-                sortType = SortType.LATEST.value
-            ) // 최신순
-            if (response.isSuccessful) {
-                if (response.body()?.isSuccess == true) {
-                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
-                    _roomList.value = response.body()!!.result?.result
-                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
-            } else {
-                _roomList.value = emptyList()
-                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
-            }
+            do {
+                // API 요청
+                val response = repository.getRecommendedRoomList(
+                    accessToken = token!!,
+                    size = pageSize,
+                    page = currentPage,
+                    sortType = SortType.LATEST.value
+                )
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()!!.result
+                    if (result != null) {
+                        allRooms.addAll(result.result) // 방 리스트 추가
+                        hasNext = result.hasNext // 다음 페이지가 있는지 여부
+                        currentPage++ // 다음 페이지 요청 준비
+                    } else {
+                        Log.d(TAG, "응답 결과가 비어 있습니다.")
+                        hasNext = false
+                    }
+                } else {
+                    Log.d(TAG, "추천 방 리스트 조회 실패: ${response.errorBody()?.string()}")
+                    hasNext = false
+                }
+            } while (hasNext) // hasNext가 true일 때만 계속 요청
+
+            // 최종 리스트 업데이트
+            _roomList.value = allRooms
+            Log.d(TAG, "모든 방 리스트 조회 성공: $allRooms")
+
         } catch (e: Exception) {
-            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+            Log.d(TAG, "추천 방 리스트 조회 중 오류 발생: $e")
+            _roomList.value = emptyList()
         } finally {
             _isLoading.value = false
         }
-
     }
+
 }
