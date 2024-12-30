@@ -1,5 +1,6 @@
 package umc.cozymate.ui.my_page
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -12,6 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityMyFavoriteBinding
+import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.pop_up.OneButtonPopup
+import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -37,10 +43,28 @@ class MyFavoriteActivity : AppCompatActivity() {
     }
 
     fun setupRVAdapter() {
-        membersAdapter = FavoriteRoommateRVAdapter(emptyList())
+        membersAdapter = FavoriteRoommateRVAdapter(emptyList()) { memberId ->
+            val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
+                putExtra("member_id", memberId) // 멤버 아이디 전달
+            }
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                showNoMemberPopup()
+            }
+        }
         binding.rvFavoriteRoommate.adapter = membersAdapter
         binding.rvFavoriteRoommate.layoutManager = LinearLayoutManager(this)
-        roomsAdapter = FavoriteRoomRVAdapter(emptyList())
+        roomsAdapter = FavoriteRoomRVAdapter(emptyList()) { roomId ->
+            val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
+                putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId) // 방 아이디 전달
+            }
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                showNoRooomPopup()
+            }
+        }
         binding.rvFavoriteRoom.adapter = roomsAdapter
         binding.rvFavoriteRoom.layoutManager = LinearLayoutManager(this)
     }
@@ -116,5 +140,35 @@ class MyFavoriteActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    fun showNoRooomPopup() {
+        val text = listOf("존재하지 않는 방이에요", "", "확인")
+        // 팝업 객체 생성
+        val dialog = OneButtonPopup(text, object : PopupClick {
+            override fun clickFunction() {
+                val intent = Intent(baseContext, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }, false)
+
+        // 팝업 띄우기
+        dialog.show(supportFragmentManager, "NoRoomPopup")
+    }
+
+    fun showNoMemberPopup() {
+        val text = listOf("존재하지 않는 사용자에요", "", "확인")
+        // 팝업 객체 생성
+        val dialog = OneButtonPopup(text, object : PopupClick {
+            override fun clickFunction() {
+                val intent = Intent(baseContext, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }, false)
+
+        // 팝업 띄우기
+        dialog.show(supportFragmentManager, "NoMemberPopup")
     }
 }

@@ -8,7 +8,8 @@ import umc.cozymate.data.model.response.favorites.GetFavoritesMembersResponse
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 
 class FavoriteRoommateRVAdapter(
-    private var items: List<GetFavoritesMembersResponse.Result>
+    private var items: List<GetFavoritesMembersResponse.Result>,
+    private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<FavoriteRoommateRVAdapter.RoommateViewHolder>() {
 
     class RoommateViewHolder(private val binding: VpItemRoommateRecommendBinding) :
@@ -150,6 +151,10 @@ class FavoriteRoommateRVAdapter(
 
     override fun onBindViewHolder(holder: RoommateViewHolder, position: Int) {
         holder.bind(items[position])
+        // 아이템 클릭 시 roomId를 콜백으로 전달
+        holder.itemView.setOnClickListener {
+            onItemClick(items[position].favoriteId)
+        }
     }
 
     fun submitList(list: List<GetFavoritesMembersResponse.Result>) {
