@@ -46,8 +46,6 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         return binding.root
     }
 
-
-
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
     }

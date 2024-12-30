@@ -27,7 +27,6 @@ class RoleViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     private val _createResponse = MutableLiveData< Response<CreateResponse>>()
-    val  createResponse : LiveData< Response<CreateResponse>> get() =  _createResponse
 
     private val _getResponse = MutableLiveData<Response<RoleResponse>>()
     val  getResponse : LiveData<Response<RoleResponse>> get() =  _getResponse

@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.InquiryRequest
 import umc.cozymate.data.model.response.InquiryResponse
 import umc.cozymate.data.repository.repository.InquiryRepository
@@ -25,6 +26,9 @@ class InquiryViewModel @Inject constructor(
 
     private val _getInquiryResponse = MutableLiveData<Response<InquiryResponse>>()
     val getInquiryResponse : LiveData<Response<InquiryResponse>> get() = _getInquiryResponse
+
+    private val _createInquiryResponse = MutableLiveData<Response<DefaultResponse>>()
+    val createInquiryResponse : LiveData<Response<DefaultResponse>> get() = _createInquiryResponse
 
     private val _existance  =  MutableLiveData<Boolean>()
     val existance : LiveData<Boolean> get() = _existance
@@ -44,7 +48,7 @@ class InquiryViewModel @Inject constructor(
                 val response = repository.postInquiry(token!!, request)
                 if (response.isSuccessful) {
                     Log.d(TAG,"postInquiry 응답성공 : ${response.body()} ")
-                    getInquiry()
+                    _createInquiryResponse.postValue(response)
                 }
                 else
                     Log.d(TAG,"postInquiry 응답실패 : ${response.body()} ")

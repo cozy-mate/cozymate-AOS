@@ -35,6 +35,7 @@ interface MemberService {
     @DELETE("/members/withdraw")
     suspend fun withdraw(
         @Header("Authorization") accessToken: String,
+        @Query("withdrawReason") reason : String
     ): Response<WithdrawResponse>
 
     // 로그아웃
