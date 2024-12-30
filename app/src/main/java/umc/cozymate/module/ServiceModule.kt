@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import umc.cozymate.data.api.ChatService
+import umc.cozymate.data.api.FavoritesService
 import umc.cozymate.data.api.InquiryService
 import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.api.MemberStatPreferenceService
@@ -25,6 +26,12 @@ object ServiceModule {
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): FavoritesService {
+        return retrofit.buildService()
     }
 
     @Provides

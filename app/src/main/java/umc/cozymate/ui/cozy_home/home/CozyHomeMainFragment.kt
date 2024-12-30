@@ -102,7 +102,7 @@ class CozyHomeMainFragment : Fragment() {
             when (state) {
                 UserRoomState.NO_ROOM -> {
                     myRoomContainer.visibility = View.GONE
-                    requestedRoommateContainer.visibility = View.GONE
+                    //requestedRoommateContainer.visibility = View.GONE <- 요청 있을 때만
                     requestedRoomContainer.visibility = View.VISIBLE
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE

@@ -22,6 +22,7 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewMode
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.setStatusBarTransparent
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 @AndroidEntryPoint
@@ -41,6 +42,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCozyRoomDetailInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@CozyRoomDetailInfoActivity, Color.WHITE)
 
         getRoomId()
