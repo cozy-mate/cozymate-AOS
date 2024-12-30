@@ -25,7 +25,7 @@
             android:name=".ui.my_page.MyFavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.my_page.UpdateUserInfoActivity"
+            android:name=".ui.my_page.UpdateMyInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.search_roommate.SearchRoommateActivity"
@@ -37,7 +37,7 @@
             android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity"
+            android:name=".ui.cozy_home.room_detail.UpdateMyRoomInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity"

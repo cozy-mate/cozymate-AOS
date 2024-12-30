@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
-import umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.pop_up.OneButtonPopup
+import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.InquiryViewModel
@@ -42,6 +44,10 @@ class MyPageFragment : Fragment() {
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
+        binding.layoutMyinfo.setOnClickListener {
+            val intent = Intent(activity, UpdateMyInfoActivity::class.java)
+            startActivity(intent)
+        }
         binding.layoutCozyroom.setOnClickListener {
             if (roomId != 0 && roomId != -1) {
                 goToUpdateCozyRoomDetailInfoActivity()
@@ -51,7 +57,13 @@ class MyPageFragment : Fragment() {
             loadSchool()
         }
         binding.tvSignout.setOnClickListener {
-            performLogout()
+            val text = listOf("로그아웃 하시겠어요?", "취소", "확인")
+            val dialog = OneButtonPopup(text, object : PopupClick {
+                override fun clickFunction() {
+                    performLogout()
+                }
+            }, false)
+            dialog.show(parentFragmentManager, "LogoutPopup")
         }
         binding.tvWithdraw.setOnClickListener {
             val intent: Intent = Intent(activity, WithDrawActivity::class.java)
@@ -138,8 +150,8 @@ class MyPageFragment : Fragment() {
 
     // 방정보 수정페이지로 전환
     private fun goToUpdateCozyRoomDetailInfoActivity() {
-        val intent = Intent(requireContext(), UpdateCozyRoomDetailInfoActivity::class.java)
-        intent.putExtra(UpdateCozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+        val intent = Intent(requireContext(), UpdateMyRoomInfoActivity::class.java)
+        intent.putExtra(UpdateMyRoomInfoActivity.ARG_ROOM_ID, roomId)
         startActivity(intent)
     }
 
