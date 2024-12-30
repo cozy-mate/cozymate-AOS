@@ -6,12 +6,11 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.CompoundButtonCompat
+import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityWithdrawBinding
@@ -37,8 +36,21 @@ class WithDrawActivity : AppCompatActivity() {
         setTextContent()
         setColor()
         getPreference()
+        setUpObserber()
         setClickListener()
     }
+
+    private fun setUpObserber() {
+        viewModel.withdrawResponse.observe(this, Observer { response->
+            if (response == null) return@Observer
+            if(response.isSuccessful){
+                spf.edit().clear().commit() // 데이터 삭제
+                Log.d(TAG,spf.getString("access_token", "삭제되었습니다.").toString())
+                startActivity(Intent(this, SplashActivity::class.java)) // 스플래시 화면으로 복귀
+            }
+        })
+    }
+
     private fun getPreference() {
         memberId =  spf.getInt("user_member_id", 0)
         nickname =  spf.getString("user_nickname", "No user found").toString()
@@ -58,12 +70,6 @@ class WithDrawActivity : AppCompatActivity() {
             reason = binding.etInputReasons.text.toString()
             Log.d(TAG,"reason ${reason}")
             viewModel.deleteMember(reason)
-            spf.edit().clear().commit() // 데이터 삭제
-            Log.d(TAG,spf.getString("access_token", "삭제되었습ㄴ다.").toString())
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(Intent(this, SplashActivity::class.java)) // 스플래시 화면으로 복귀
-            }, 200)
-
         }
         binding.ivBack.setOnClickListener {
             finish()

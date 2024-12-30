@@ -16,6 +16,7 @@ import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SignInRequest
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.SignInResponse
+import umc.cozymate.data.model.response.member.WithdrawResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -54,6 +55,9 @@ class SplashViewModel @Inject constructor(
 
     private val _isMember = MutableLiveData<Boolean>(false)
     val isMember: LiveData<Boolean> get() = _isMember
+
+    private val _withdrawResponse = MutableLiveData<Response<WithdrawResponse>>()
+    val withdrawResponse : LiveData<Response<WithdrawResponse>> get() = _withdrawResponse
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -229,10 +233,10 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try {
-                val response = repository.withdraw(token!!)
+                val response = repository.withdraw(token!!,reason)
                 if(response.isSuccessful) {
+                    _withdrawResponse.postValue(response)
                     Log.d(TAG, "회원 탈퇴 성공 ${response.body()}")
-
                 }
                 else Log.d(TAG,"withdraw 응답 실패 : ${response.body()}")
             }catch (e:Exception){

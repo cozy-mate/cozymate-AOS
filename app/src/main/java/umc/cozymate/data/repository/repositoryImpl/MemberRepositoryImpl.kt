@@ -28,8 +28,8 @@ class MemberRepositoryImpl @Inject constructor(
         return api.reissue(refreshToken)
     }
 
-    override suspend fun withdraw(accessToken: String): Response<WithdrawResponse> {
-        return api.withdraw(accessToken)
+    override suspend fun withdraw(accessToken: String, reason: String): Response<WithdrawResponse> {
+        return api.withdraw(accessToken, reason)
     }
 
     override suspend fun signOut(accessToken: String): Response<Unit> {

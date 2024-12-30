@@ -21,7 +21,7 @@ interface MemberRepository {
 
     suspend fun reissue(refreshToken: String): Response<ReissueResponse>
 
-    suspend fun withdraw(accessToken: String) : Response<WithdrawResponse>
+    suspend fun withdraw(accessToken: String, reason: String) : Response<WithdrawResponse>
 
     suspend fun signOut(accessToken: String): Response<Unit>
 
