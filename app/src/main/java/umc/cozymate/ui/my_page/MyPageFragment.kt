@@ -48,7 +48,7 @@ class MyPageFragment : Fragment() {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
         }
-        binding.tvSchool.setOnClickListener {
+        binding.layoutSchool.setOnClickListener {
             loadSchool()
         }
         binding.tvSignout.setOnClickListener {
@@ -58,7 +58,7 @@ class MyPageFragment : Fragment() {
             val intent: Intent = Intent(activity, WithDrawActivity::class.java)
             startActivity(intent)
         }
-        binding.btnInquiry.setOnClickListener {
+        binding.layoutInquiry.setOnClickListener {
             val intent : Intent =
                 if(inquiryViewModel.existance.value == true)
                     Intent(activity, InquiryActivity::class.java)
