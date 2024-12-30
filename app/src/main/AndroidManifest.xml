@@ -34,7 +34,7 @@
             android:name=".ui.cozy_home.room.search_room.SearchRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
+            android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity"
@@ -46,7 +46,7 @@
             android:name=".ui.university_certification.UniversityCertificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
+            android:name=".ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"

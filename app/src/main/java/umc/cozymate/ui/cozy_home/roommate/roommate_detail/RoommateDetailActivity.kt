@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -19,7 +17,6 @@ import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
-import umc.cozymate.ui.roommate.UserInfoSPFHelper
 import umc.cozymate.ui.roommate.data_class.UserInfo
 
 @AndroidEntryPoint
@@ -28,8 +25,6 @@ class RoommateDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityRoommateDetailBinding
     private val viewModel: RoommateDetailViewModel by viewModels()
-    private lateinit var spfHelper: UserInfoSPFHelper
-    private lateinit var behavior: BottomSheetBehavior<LinearLayout>
     private var memberId: Int = -1
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
     private var userDetail: GetMemberDetailInfoResponse.Result? = null
@@ -45,7 +40,6 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         // intent로 사용자 정보 전달
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
-        userDetail = intent.getParcelableExtra("user_detail")
 
         Log.d(TAG, "Received user detail: $otherUserDetail")
         updateUI(otherUserDetail!!)

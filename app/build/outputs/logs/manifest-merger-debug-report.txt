@@ -392,12 +392,12 @@ ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:3
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:13-37
 	android:name
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:34:13-77
-activity#umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+activity#umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:9-38:40
 	android:exported
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:13-80
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:13-72
 activity#umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
 ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:39:9-41:40
 	android:exported
@@ -416,12 +416,12 @@ ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:4
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:13-37
 	android:name
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:46:13-88
-activity#umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
+activity#umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:9-50:40
 	android:exported
 		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:50:13-37
 	android:name
-		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-77
+		ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-85
 activity#umc.cozymate.ui.roommate.RoommateOnboardingActivity
 ADDED from /Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:51:9-53:40
 	android:exported
