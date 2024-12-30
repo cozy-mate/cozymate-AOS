@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:indeterminateTint="@color/main_blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 캐릭터 수정 -->
+    <ImageView
+        android:id="@+id/iv_character"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="99dp"
+        android:src="@drawable/ic_basic_character"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_user_info"
+        android:layout_width="332dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="53dp"
+        android:background="@drawable/background_stroke_12"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_character">
+
+        <LinearLayout
+            android:id="@+id/ll_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginVertical="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="닉네임"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/btn_myinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_mypage" />
+
+        <LinearLayout
+            android:id="@+id/ll_major"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginVertical="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="학과"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_cozyroom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10.5dp"
+                android:text="학과명"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/main_blue" />
+
+            <ImageView
+                android:id="@+id/btn_major"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_mypage" />
+
+        <LinearLayout
+            android:id="@+id/ll_birth"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginVertical="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="생년월일"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/highlight_font" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_school"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10.5dp"
+                android:text="yyyy년 mm월 dd일"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/main_blue" />
+
+            <ImageView
+                android:id="@+id/btn_birth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_inquiry"
+        android:layout_width="332dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_stroke_12"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_user_info">
+
+        <TextView
+            android:id="@+id/tv_signout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="수정하기"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
