@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityWriteInquiryBinding
 import umc.cozymate.ui.viewmodel.InquiryViewModel
@@ -30,16 +31,25 @@ class WriteInquiryActivity: AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         setTextListener()
-        viewModel.checkInquryExistance()
+        setObserver()
+        //viewModel.checkInquryExistance()
         binding.btnInputButton.setOnClickListener {
-            val content = binding.etInputContent.text.toString()
-            val email = binding.etInputEmail.text.toString()
+            content = binding.etInputContent.text.toString()
+            email = binding.etInputEmail.text.toString()
             viewModel.createInquiry(content, email)
-            val intent : Intent = Intent(this, InquiryActivity::class.java)
-            startActivity(intent)
-            finish()
         }
         binding.ivBack.setOnClickListener { finish() }
+    }
+
+    private fun setObserver(){
+        viewModel.createInquiryResponse.observe(this, Observer { response ->
+            if(response == null) return@Observer
+            if(response.isSuccessful){
+                val intent : Intent = Intent(this, InquiryActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
     }
 
 

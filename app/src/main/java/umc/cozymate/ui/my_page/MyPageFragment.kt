@@ -39,7 +39,6 @@ class MyPageFragment : Fragment() {
         inquiryViewModel = ViewModelProvider(requireActivity()).get(InquiryViewModel::class.java)
         getPreference()
         updateTextStyle()
-        inquiryViewModel.checkInquryExistance()
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
@@ -67,6 +66,11 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        inquiryViewModel.checkInquryExistance()
     }
 
     private fun loadSchool() {
