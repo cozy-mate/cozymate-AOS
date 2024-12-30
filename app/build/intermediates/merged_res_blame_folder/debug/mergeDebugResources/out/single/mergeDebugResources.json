@@ -4,6 +4,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/rv_item_role.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_item_roommate_detail_table.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/item_roommate_detail_table.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_character_id_5.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/character_id_5.xml"
     },
@@ -384,10 +388,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_bell.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_room_detail.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_room_detail.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_item_mypage.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/item_mypage.xml"
     },
@@ -766,10 +766,6 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_ic_admission_year_red.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_admission_year_red.xml"
-    },
-    {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_update_cozy_room_detail_info.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_update_cozy_room_detail_info.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_custom_rectangle_6.xml.flat",
@@ -1338,10 +1334,6 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_activity_search_roommate.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/activity_search_roommate.xml"
-    },
-    {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_cozy_room_detail_info.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_cozy_room_detail_info.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_btn_rectangle_8.xml.flat",

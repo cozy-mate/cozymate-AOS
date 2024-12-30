@@ -452,6 +452,7 @@ id cl_sleep_time
 id cl_smoke
 id cl_study
 id cl_table_basic_info
+id cl_table_detail_info
 id cl_top
 id clean1
 id clean2
@@ -520,8 +521,10 @@ id gl_room_detail
 id gl_room_mate_detail
 id guide_bottom
 id guide_other
+id guide_other_basic
 id guide_rv_crewable_list
 id guide_user
+id guide_user_basic
 id guide_view
 id hashtag1
 id hashtag2

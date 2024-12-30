@@ -3401,6 +3401,7 @@ int id cl_sleep_time 0x7f09010e
 int id cl_smoke 0x7f09010f
 int id cl_study 0x7f090110
 int id cl_table_basic_info 0x7f090111
+int id cl_table_detail_info 0x7f0905dc
 int id cl_top 0x7f090112
 int id clean1 0x7f090113
 int id clean2 0x7f090114
@@ -3575,8 +3576,10 @@ int id grouping 0x7f0901bc
 int id groups 0x7f0901bd
 int id guide_bottom 0x7f0901be
 int id guide_other 0x7f0901bf
+int id guide_other_basic 0x7f0905dd
 int id guide_rv_crewable_list 0x7f0901c0
 int id guide_user 0x7f0901c1
+int id guide_user_basic 0x7f0905de
 int id guide_view 0x7f0901c2
 int id guideline 0x7f0901c3
 int id hardware 0x7f0901c4
