@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityAddTodoBinding
+import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -52,9 +54,17 @@ class AddTodoActivity():AppCompatActivity() {
         binding.tvDelete.setOnClickListener {
             val fragment = VPAdapter.getFragment(type)
             if(fragment != null && fragment.isAdded && fragment is ItemClick) {
-                    fragment.deleteClickFunction()
+                val t = listOf("투두를","롤을","룰을")
+                val text = listOf("해당 "+t[type]+" 삭제하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
+                val dialog = TwoButtonPopup(text,object : PopupClick {
+                    override fun rightClickFunction() {
+                        fragment.deleteClickFunction()
+                        finish()
+                    }
+                })
+                dialog.show(this.supportFragmentManager!!, "testPopup")
             }
-            finish()
+
         }
     }
 

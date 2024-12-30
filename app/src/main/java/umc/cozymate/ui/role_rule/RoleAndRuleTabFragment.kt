@@ -41,6 +41,7 @@ class RoleAndRuleTabFragment: Fragment() {
     ): View? {
         binding = FragmentRoleAndRuleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        setMinHight()
         getPreference()
         updateInfo()
         return binding.root
@@ -57,7 +58,11 @@ class RoleAndRuleTabFragment: Fragment() {
         initData()       // 초기 데이터 로드
     }
 
-
+    private fun setMinHight() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val density = resources.displayMetrics.density
+        binding.frameBackground.minHeight = screenHeight -Math.round(88 * density)
+    }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)

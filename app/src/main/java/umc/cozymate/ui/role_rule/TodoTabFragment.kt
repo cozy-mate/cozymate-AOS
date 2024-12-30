@@ -54,6 +54,7 @@ class TodoTabFragment : Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
+        setMinHight()
         getPreference()
         updateInfo()
         return binding.root
@@ -74,6 +75,12 @@ class TodoTabFragment : Fragment() {
         updateRecyclerView(mytodo,memberList)
         setupCalendar()
     }
+    private fun setMinHight() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val density = resources.displayMetrics.density
+        binding.frameBackground.minHeight = screenHeight -Math.round(88 * density)
+    }
+
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", 0)

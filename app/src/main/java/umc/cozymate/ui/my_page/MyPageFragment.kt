@@ -39,7 +39,6 @@ class MyPageFragment : Fragment() {
         inquiryViewModel = ViewModelProvider(requireActivity()).get(InquiryViewModel::class.java)
         getPreference()
         updateTextStyle()
-        inquiryViewModel.checkInquryExistance()
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
@@ -48,7 +47,7 @@ class MyPageFragment : Fragment() {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
         }
-        binding.tvSchool.setOnClickListener {
+        binding.layoutSchool.setOnClickListener {
             loadSchool()
         }
         binding.tvSignout.setOnClickListener {
@@ -58,7 +57,7 @@ class MyPageFragment : Fragment() {
             val intent: Intent = Intent(activity, WithDrawActivity::class.java)
             startActivity(intent)
         }
-        binding.btnInquiry.setOnClickListener {
+        binding.layoutInquiry.setOnClickListener {
             val intent : Intent =
                 if(inquiryViewModel.existance.value == true)
                     Intent(activity, InquiryActivity::class.java)
@@ -71,6 +70,11 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        inquiryViewModel.checkInquryExistance()
     }
 
     private fun loadSchool() {
