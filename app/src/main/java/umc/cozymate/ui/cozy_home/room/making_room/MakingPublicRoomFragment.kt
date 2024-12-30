@@ -230,7 +230,9 @@ class MakingPublicRoomFragment : Fragment() {
 
                         !pattern.matches(input) -> {
                             tvAlertName.visibility = View.VISIBLE
-                            tvAlertName.text = "방이름은 최대 12글자로 한글, 영어, 숫자 및 공백만 입력해주세요!"
+                            tvAlertName.text = "방이름은 최대 12글자로 한글, 영어, 숫자 및 공백만 입력해주세요!\n" +
+                                    "단 공백은 처음이나 끝에 올 수 없습니다."
+                            tilRoomName.isErrorEnabled = true
                         }
 
                         else -> {
