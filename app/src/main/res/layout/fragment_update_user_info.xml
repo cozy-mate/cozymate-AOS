@@ -126,7 +126,7 @@
                 android:textColor="@color/unuse_font" />
 
             <TextView
-                android:id="@+id/tv_cozyroom"
+                android:id="@+id/tv_major"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -167,7 +167,7 @@
                 android:textColor="@color/unuse_font" />
 
             <TextView
-                android:id="@+id/tv_school"
+                android:id="@+id/tv_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -190,9 +190,8 @@
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:id="@+id/layout_preference"
+        android:id="@+id/ll_preference"
         android:layout_width="332dp"
         android:layout_height="115dp"
         android:layout_marginTop="16dp"
