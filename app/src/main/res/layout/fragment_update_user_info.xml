@@ -37,6 +37,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/iv_update_character"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="99dp"
+        android:src="@drawable/ic_update_char"
+        app:layout_constraintBottom_toBottomOf="@id/iv_character"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="수정"
+        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/iv_update_character"
+        app:layout_constraintStart_toStartOf="@id/iv_update_character"
+        app:layout_constraintTop_toTopOf="@id/iv_update_character" />
+
     <LinearLayout
         android:id="@+id/ll_user_info"
         android:layout_width="332dp"
@@ -61,6 +82,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="닉네임"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font" />
 
@@ -94,21 +123,21 @@
                 android:layout_height="match_parent"
                 android:text="학과"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font" />
+
+            <TextView
+                android:id="@+id/tv_cozyroom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tv_cozyroom"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10.5dp"
-                android:text="학과명"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/main_blue" />
 
             <ImageView
                 android:id="@+id/btn_major"
@@ -135,21 +164,21 @@
                 android:layout_height="match_parent"
                 android:text="생년월일"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font" />
+
+            <TextView
+                android:id="@+id/tv_school"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tv_school"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10.5dp"
-                android:text="yyyy년 mm월 dd일"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/main_blue" />
 
             <ImageView
                 android:id="@+id/btn_birth"
@@ -163,26 +192,166 @@
 
 
     <LinearLayout
-        android:id="@+id/layout_inquiry"
+        android:id="@+id/layout_preference"
         android:layout_width="332dp"
-        android:layout_height="50dp"
+        android:layout_height="115dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/background_stroke_12"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingVertical="4dp"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_user_info">
 
-        <TextView
-            android:id="@+id/tv_signout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="수정하기"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/unuse_font" />
+        <!-- 선호 기준1 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_1"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+            <ImageView
+                android:id="@+id/iv_criteria_icon_1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wake_up_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 선호 기준2 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_2"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+            <ImageView
+                android:id="@+id/iv_criteria_icon_2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wake_up_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 선호 기준3 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_3"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+            <ImageView
+                android:id="@+id/iv_criteria_icon_3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wake_up_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 선호 기준4 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_criteria_4"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+            <ImageView
+                android:id="@+id/iv_criteria_icon_4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wake_up_time_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_criteria_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="기상시간"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_update_preference"
+        android:layout_width="203dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="수정하기"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintBottom_toBottomOf="@id/layout_preference"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
