@@ -2815,6 +2815,7 @@ drawable common_google_signin_btn_text_light
 drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
+drawable custom_background_go_lifestyle_12
 drawable custom_background_room_match
 drawable custom_background_roommate_detail_12
 drawable custom_background_roommate_detail_bottomsheet
@@ -3575,6 +3576,8 @@ id graph_wrap
 id group_divider
 id grouping
 id groups
+id guide_1
+id guide_2
 id guide_bottom
 id guide_other
 id guide_other_basic
@@ -3749,6 +3752,7 @@ id ly_eating_check2
 id ly_friendly
 id ly_game_check
 id ly_game_check2
+id ly_go_lifestyle
 id ly_guide
 id ly_heater_check
 id ly_heater_check2
@@ -4252,6 +4256,8 @@ id tv_feed_room_name
 id tv_female
 id tv_friendly
 id tv_game_check
+id tv_go_lifestyle
+id tv_go_lifestyle_guide
 id tv_goto
 id tv_guide
 id tv_guide1

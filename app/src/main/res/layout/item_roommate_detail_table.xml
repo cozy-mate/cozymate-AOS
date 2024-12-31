@@ -1259,6 +1259,78 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.24" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.57" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_go_lifecstyle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/custom_background_go_lifestyle_12"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/cl_table_detail_info"
+                app:layout_constraintEnd_toStartOf="@+id/guide_2"
+                app:layout_constraintStart_toStartOf="@+id/guide_1"
+                app:layout_constraintTop_toTopOf="@+id/cl_table_basic_info">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_go_lifestyle_guide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="라이프스타일\n입력시,\n비교할 수 있어요"
+                        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:gravity="center"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/ly_go_lifestyle"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_go_lifestyle_guide"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_go_lifestyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="라이프스타일\n입력하러가기"
+                            android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                            android:textColor="@color/main_blue"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=">"
+                            android:textColor="@color/main_blue"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="6dp"/>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextView
                 android:id="@+id/tv_ect"
                 android:layout_width="wrap_content"

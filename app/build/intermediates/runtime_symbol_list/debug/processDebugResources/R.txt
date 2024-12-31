@@ -2814,6 +2814,7 @@ int drawable common_google_signin_btn_text_light 0x7f0700db
 int drawable common_google_signin_btn_text_light_focused 0x7f0700dc
 int drawable common_google_signin_btn_text_light_normal 0x7f0700dd
 int drawable common_google_signin_btn_text_light_normal_background 0x7f0700de
+int drawable custom_background_go_lifestyle_12 0x7f070213
 int drawable custom_background_room_match 0x7f0700df
 int drawable custom_background_roommate_detail_12 0x7f0700e0
 int drawable custom_background_roommate_detail_bottomsheet 0x7f0700e1
@@ -3574,6 +3575,8 @@ int id graph_wrap 0x7f0901ba
 int id group_divider 0x7f0901bb
 int id grouping 0x7f0901bc
 int id groups 0x7f0901bd
+int id guide_1 0x7f0905df
+int id guide_2 0x7f0905e0
 int id guide_bottom 0x7f0901be
 int id guide_other 0x7f0901bf
 int id guide_other_basic 0x7f0905dd
@@ -3748,6 +3751,7 @@ int id ly_eating_check2 0x7f090266
 int id ly_friendly 0x7f090267
 int id ly_game_check 0x7f090268
 int id ly_game_check2 0x7f090269
+int id ly_go_lifestyle 0x7f0905e1
 int id ly_guide 0x7f09026a
 int id ly_heater_check 0x7f09026b
 int id ly_heater_check2 0x7f09026c
@@ -4251,6 +4255,8 @@ int id tv_feed_room_name 0x7f09045d
 int id tv_female 0x7f09045e
 int id tv_friendly 0x7f09045f
 int id tv_game_check 0x7f090460
+int id tv_go_lifestyle 0x7f0905e2
+int id tv_go_lifestyle_guide 0x7f0905e3
 int id tv_goto 0x7f090461
 int id tv_guide 0x7f090462
 int id tv_guide1 0x7f090463

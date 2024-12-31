@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 
 @AndroidEntryPoint
@@ -42,7 +44,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
         Log.d(TAG, "Received user detail: $otherUserDetail")
 
-        val userDetail = getUserDetailFromProferences()
+        val userDetail = getUserDetailFromPreferences()
 
         updateUI(otherUserDetail!!)
         selectListView(otherUserDetail!!)
@@ -50,7 +52,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         setUpListeners(userDetail!!)
     }
 
-    private fun getUserDetailFromProferences() : GetMemberDetailInfoResponse.Result? {
+    private fun getUserDetailFromPreferences() : GetMemberDetailInfoResponse.Result? {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return try {
             val nickname = spf.getString("user_nickname", "")
@@ -253,6 +255,17 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         // TableView의 Info와 Detail 데이터를 연결
         val tableBinding = ItemRoommateDetailTableBinding.bind(tableView)  // ViewBinding 연결
+
+        if (user == null) {
+            tableBinding.clGoLifecstyle.visibility = View.VISIBLE
+        } else {
+            tableBinding.clGoLifecstyle.visibility = View.GONE
+        }
+
+        tableBinding.lyGoLifestyle.setOnClickListener {
+            val intent = Intent(this, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
+        }
 
         fun trimText(text: String?): String {
             return if (text != null && text.length > 6) {
