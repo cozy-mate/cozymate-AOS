@@ -35,7 +35,7 @@ class RoomRecommendComponent : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         nickname = viewModel.getNickname().toString()
-        binding.tvName.text = "${nickname}님이"
+        binding.tvName.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
         }

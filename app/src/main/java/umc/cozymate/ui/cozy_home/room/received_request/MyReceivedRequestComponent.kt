@@ -52,11 +52,13 @@ class MyReceivedRequestComponent : Fragment() {
         viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.tvRequestNum.text = "${roomList.size}개의"
                 binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
+                binding.tvRequestNum.text = "0개의"
                 binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.VISIBLE
                 binding.clEmptyRoommate.isEnabled = true

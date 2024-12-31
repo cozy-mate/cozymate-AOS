@@ -16,6 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- 캐릭터 수정 -->
     <ImageView
         android:id="@+id/iv_character"
@@ -30,7 +40,7 @@
     <LinearLayout
         android:id="@+id/ll_user_info"
         android:layout_width="332dp"
-        android:layout_height="222dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="53dp"
         android:background="@drawable/background_stroke_12"
         android:orientation="vertical"
