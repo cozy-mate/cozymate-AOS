@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
 import umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.InquiryViewModel
@@ -47,6 +48,11 @@ class MyPageFragment : Fragment() {
             if (roomId != 0 && roomId != -1) {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
+        }
+        binding.layoutLifestyle.setOnClickListener {
+            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
+
         }
         binding.tvSchool.setOnClickListener {
             loadSchool()
