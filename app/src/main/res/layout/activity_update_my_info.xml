@@ -7,14 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.my_page.UpdateMyInfoActivity">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_back"
+    <FrameLayout
+        android:id="@+id/fragment_update_my_info"
+        android:name="umc.cozymate.ui.onboarding.OnboardingUserInfoFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

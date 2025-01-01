@@ -63,8 +63,8 @@
         android:overlapAnchor="false"
         android:popupBackground="@drawable/spinner_background"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="@id/btn_university"
-        app:layout_constraintStart_toStartOf="@id/btn_university"
+        app:layout_constraintEnd_toEndOf="@id/btn_major"
+        app:layout_constraintStart_toStartOf="@id/btn_major"
         app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
 
     <!--수정 버튼-->
