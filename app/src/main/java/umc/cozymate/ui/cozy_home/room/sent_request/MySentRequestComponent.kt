@@ -56,6 +56,7 @@ class MySentRequestComponent : Fragment() {
                 binding.rvMySent.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
+                binding.clComponent.visibility = View.GONE
                 binding.tvEmptyRoom.visibility = View.VISIBLE
                 binding.rvMySent.visibility = View.GONE
             }

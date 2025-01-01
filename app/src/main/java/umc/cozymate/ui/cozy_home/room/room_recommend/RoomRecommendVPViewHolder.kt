@@ -16,7 +16,7 @@ class RoomRecommendVPViewHolder(
         with(binding) {
             tvRoomName.text = item.name
             tvMatchRate.text = "${item.equality}%"
-            tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}"
+            tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
             when (item.hashtags.size) {
                 0 -> {
                     tvHashtag1.visibility = View.INVISIBLE
