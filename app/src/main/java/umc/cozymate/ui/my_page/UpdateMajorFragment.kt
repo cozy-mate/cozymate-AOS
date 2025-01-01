@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentUpdateMajorBinding
 
+@AndroidEntryPoint
 class UpdateMajorFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUpdateMajorBinding? = null
@@ -27,7 +29,7 @@ class UpdateMajorFragment: Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
-                requireActivity().finish()
+                requireActivity().onBackPressed()
             }
 
             // 학과 수정

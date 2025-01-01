@@ -5,10 +5,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityUpdateMyInfoBinding
 import umc.cozymate.util.StatusBarUtil
 
+@AndroidEntryPoint
 class UpdateMyInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityUpdateMyInfoBinding
 
