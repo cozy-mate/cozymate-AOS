@@ -5,30 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_onboarding2_title1"
+    <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="56dp"
-        android:text="cozymate와 함께할"
-        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-        android:textColor="@color/highlight_font"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/tv_onboarding2_title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:text="캐릭터를 선택해주세요!"
-        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-        android:textColor="@color/highlight_font"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_onboarding2_title1"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
@@ -39,7 +24,7 @@
         app:layoutManager="GridLayoutManager"
         app:spanCount="4"
         tools:listitem="@layout/item_character"
-        app:layout_constraintTop_toTopOf="@id/tv_onboarding2_title1"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
     </androidx.recyclerview.widget.RecyclerView>
@@ -52,7 +37,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/btn_rectangle_next_state"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        android:text="다음"
+        android:text="수정"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

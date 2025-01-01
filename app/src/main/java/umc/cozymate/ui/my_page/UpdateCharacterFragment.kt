@@ -26,10 +26,13 @@ class UpdateCharacterFragment: Fragment() {
 
         with(binding) {
             // 뒤로가기
-            /*ivBack.setOnClickListener {
+            ivBack.setOnClickListener {
                 requireActivity().finish()
-            }*/
+            }
             // 캐릭터 수정
+            btnNext.setOnClickListener {
+
+            }
 
         }
     }
