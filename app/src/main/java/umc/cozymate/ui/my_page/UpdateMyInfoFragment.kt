@@ -21,6 +21,10 @@ class UpdateMyInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,14 +34,29 @@ class UpdateMyInfoFragment : Fragment() {
                 requireActivity().finish()
             }
             // 캐릭터 수정
+            ivUpdateCharacter.setOnClickListener {
+                (requireActivity() as UpdateMyInfoActivity).loadUpdateCharacterFragment()
+            }
 
             // 닉네임 수정
+            llNickname.setOnClickListener {
+                (requireActivity() as UpdateMyInfoActivity).loadUpdateNicknameFragment()
+            }
 
             // 학과 수정
+            llMajor.setOnClickListener {
+                (requireActivity() as UpdateMyInfoActivity).loadUpdateMajorFragment()
+            }
 
             // 생년월일 수정
+            llBirth.setOnClickListener {
+                (requireActivity() as UpdateMyInfoActivity).loadUpdateBirthFragment()
+            }
 
             // 선호 칩 수정
+            llPreference.setOnClickListener {
+                (requireActivity() as UpdateMyInfoActivity).loadUpdatePreferenceFragment()
+            }
         }
     }
 }

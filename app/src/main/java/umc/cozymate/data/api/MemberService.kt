@@ -20,6 +20,7 @@ import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.ReissueResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
+import umc.cozymate.data.model.response.member.UpdateInfoCommonResponse
 import umc.cozymate.data.model.response.member.VerifyMailResponse
 import umc.cozymate.data.model.response.member.WithdrawResponse
 
@@ -109,4 +110,32 @@ interface MemberService {
         @Body request: VerifyMailRequest
     ): Response<VerifyMailResponse>
 
+    // 사용자 프로필 이미지 수정
+    @POST("/members/update-persona")
+    suspend fun updatePersona(
+        @Header("Authorization") accessToken: String,
+        @Query("persona") persona: Int
+    ): Response<UpdateInfoCommonResponse>
+
+    // 사용자 닉네임 수정
+    @POST("/members/update-nickname")
+    suspend fun updateNickname(
+        @Header("Authorization") accessToken: String,
+        @Query("nickname") nickname: String
+    ): Response<UpdateInfoCommonResponse>
+
+    // 사용자 프로필 이미지 수정
+    @POST("/members/update-majorName")
+    suspend fun updateMajorName(
+        @Header("Authorization") accessToken: String,
+        @Query("majorName") majorName: String
+    ): Response<UpdateInfoCommonResponse>
+
+    // 사용자 생일 수정
+    // yyyy-MM-dd 형식
+    @POST("/members/update-birthday")
+    suspend fun updateBirthday(
+        @Header("Authorization") accessToken: String,
+        @Query("localDate") localDate: String
+    ): Response<UpdateInfoCommonResponse>
 }
