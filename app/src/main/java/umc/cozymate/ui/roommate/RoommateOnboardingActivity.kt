@@ -1,8 +1,10 @@
 package umc.cozymate.ui.roommate
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import umc.cozymate.R
@@ -32,11 +34,13 @@ class RoommateOnboardingActivity : AppCompatActivity() {
             // 기존 함수로, 34이하 버전에서 사용
 
 
-//        binding.btnGoLifestyle.setOnClickListener {
-//            Log.d("RoommateOnboardingActivity", "btnGoLifestyle Clicked")
-//            val intent = Intent(this, RoommateInputInfoActivity::class.java)
-//            startActivity(intent)
-//        }
+        binding.btnGoLifestyle.setOnClickListener {
+            Log.d("RoommateOnboardingActivity", "btnGoLifestyle Clicked")
+            val intent = Intent(this, RoommateInputInfoActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
 
             splashViewModel.memberCheck()
             splashViewModel.membmerInfo.observe(this) { info: MemberDetailInfo? ->

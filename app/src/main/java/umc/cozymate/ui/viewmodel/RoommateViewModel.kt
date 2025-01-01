@@ -57,7 +57,8 @@ class RoommateViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun sendUserInfo(accessToken: String, request: UserInfoRequest) {
+    fun sendUserInfo(request: UserInfoRequest) {
+        val accessToken = getToken()!!
         viewModelScope.launch(Dispatchers.IO) {
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")

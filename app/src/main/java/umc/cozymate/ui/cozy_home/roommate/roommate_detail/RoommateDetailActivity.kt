@@ -192,24 +192,21 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListSmokeCheck.text = it.memberStatDetail.smoking
             tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
             tvListAc.text = when (it.memberStatDetail.airConditioningIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어요"
             }
             tvListAcHeater.text = when (it.memberStatDetail.heatingIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어"
             }
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
-            tvListShare.text = it.memberStatDetail.canShare
             tvListStudy.text = it.memberStatDetail.studying
             tvListIntake.text = it.memberStatDetail.intake
             tvListGameCheck.text = it.memberStatDetail.isPlayGame

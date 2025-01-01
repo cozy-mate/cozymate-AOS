@@ -1,7 +1,8 @@
 package umc.cozymate.ui.roommate
 
 import android.animation.ObjectAnimator
-import android.content.Intent
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,8 +15,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
-import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
@@ -26,7 +27,7 @@ import umc.cozymate.ui.viewmodel.RoommateViewModel
 class RoommateInputInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRoommateInputInfoBinding
-    private lateinit var spfHelper: UserInfoSPFHelper
+    private lateinit var spf: SharedPreferences
 
     private lateinit var viewPager: ViewPager2
     private lateinit var progressBar: ProgressBar
@@ -42,6 +43,8 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         binding = ActivityRoommateInputInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
         viewPager = binding.vpInputInfo
         progressBar = binding.pbBasic
         btnNext = binding.btnNext
@@ -53,24 +56,16 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         progressBar.progress = 0  // 초기에는 0으로 설정
         tvTitle.text = "기본정보"
 
-        spfHelper = UserInfoSPFHelper(this)
-
-        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val accessToken = spf.getString("access_token", "")!!
-        Log.d("RoommateInputInfoActivity", "token: ${accessToken}")
-
         btnNext.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag("f${viewPager.currentItem}")
 
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
-                navigateToRoommateMakeCrewableFragment()
-                val userInfo = spfHelper.loadUserInfo()
-                viewModel.sendUserInfo(
-                    accessToken,
-                    userInfo.toRequest()
-                )
+//                viewModel.sendUserInfo(
+//                    userInfo.toRequest()
+//                )
+                sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
             }
         }
@@ -118,6 +113,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
     private fun resetProgressBar() {
         progressBar.progress = 0  // ProgressBar를 0으로 초기화
     }
+
     private fun setProgressBarToFull() {
         binding.pbBasic.progress = 100  // ProgressBar를 100으로 설정
     }
@@ -125,25 +121,13 @@ class RoommateInputInfoActivity : AppCompatActivity() {
     private fun handleBackButton() {
         when (viewPager.currentItem) {
             0 -> {
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra("navigate_to", "RoommateOnboarding")
-                }
-                startActivity(intent)
                 finish()
             }
+
             else -> {
                 viewPager.currentItem -= 1
             }
         }
-    }
-
-    private fun navigateToRoommateMakeCrewableFragment() {
-        val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
-            putExtra("navigate_to", "RoommateMakeCrewable")
-        }
-        Log.d("RoommateInputInfoActivity", "navigate_to = RoommateMakeCrewable")
-        startActivity(mainActivityIntent)
-        finish()
     }
 
     private fun updateFragmentTitle(position: Int) {
@@ -159,7 +143,12 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         val progressPercentage = (progress * 100).toInt()
 
         // ObjectAnimator를 사용하여 ProgressBar의 진행도를 부드럽게 변경
-        ObjectAnimator.ofInt(binding.pbBasic, "progress", binding.pbBasic.progress, progressPercentage).apply {
+        ObjectAnimator.ofInt(
+            binding.pbBasic,
+            "progress",
+            binding.pbBasic.progress,
+            progressPercentage
+        ).apply {
             duration = 500  // 애니메이션 지속 시간 (500ms)
             start()
         }
@@ -169,7 +158,40 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         btnNext.visibility = View.VISIBLE
     }
 
-    fun getUserInfoSPFHelper(): UserInfoSPFHelper {
-        return UserInfoSPFHelper(this)
+    // 정보 저장 로직인데 수정 필요
+    fun sendUserDataToViewModel() {
+        val userInfo = UserInfoRequest(
+            admissionYear = spf.getString("user_admissionYear", "") ?: "",
+            numOfRoommate = spf.getInt("user_numOfRoommate", -1),
+            dormitoryName = spf.getString("user_dormitoryName", "") ?: "",
+            acceptance = spf.getString("user_acceptance", "") ?: "",
+            wakeUpMeridian = spf.getString("user_wakeUpMeridian", "") ?: "",
+            wakeUpTime = spf.getInt("user_wakeUpTime", -1),
+            sleepingMeridian = spf.getString("user_sleepMeridian", "") ?: "",
+            sleepingTime = spf.getInt("user_sleepTime", -1),
+            turnOffMeridian = spf.getString("user_lightOffMeridian", "") ?: "",
+            turnOffTime = spf.getInt("user_lightOffTime", -1),
+            smokingState = spf.getString("user_smokingState", "") ?: "",
+            sleepingHabit = spf.getStringSet("user_sleepHabits", emptySet())?.toList()
+                ?: emptyList(),
+            airConditioningIntensity = spf.getInt("user_airConditioningIntensity", -1),
+            heatingIntensity = spf.getInt("user_heatingIntensity", -1),
+            lifePattern = spf.getString("user_lifePattern", "") ?: "",
+            intimacy = spf.getString("user_intimacy", "") ?: "",
+            canShare = spf.getString("user_canShare", "") ?: "",
+            isPlayGame = spf.getString("user_isPlayGame", "") ?: "",
+            isPhoneCall = spf.getString("user_isPhoneCall", "") ?: "",
+            studying = spf.getString("user_studying", "") ?: "",
+            intake = spf.getString("user_intake", "") ?: "",
+            cleanSensitivity = spf.getInt("user_cleanSensitivity", -1),
+            noiseSensitivity = spf.getInt("user_noiseSensitivity", -1),
+            cleaningFrequency = spf.getString("user_cleaningFrequency", "") ?: "",
+            drinkingFrequency = spf.getString("user_drinkingFrequency", "") ?: "",
+            personality = spf.getStringSet("user_personality", emptySet())?.toList() ?: emptyList(),
+            mbti = spf.getString("user_mbti", "") ?: "",
+            selfIntroduction = spf.getString("user_selfIntroduction", "") ?: ""
+        )
+        viewModel.sendUserInfo(userInfo)
+        finish()
     }
 }
