@@ -271,6 +271,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/layout_inquiry"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
@@ -299,4 +300,13 @@
             android:textColor="@color/unuse_font"
             android:gravity="center_vertical"/>
     </LinearLayout>
+
+    <!-- 바텀뷰만큼 띄우기위한 코드-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_inquiry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
