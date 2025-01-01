@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
-import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -59,7 +59,7 @@ class RoommateRecommendComponent : Fragment() {
         }
         // 룸메이트 더보기
         binding.llMore.setOnClickListener {
-            val intent = Intent(requireContext(), SearchRoommateActivity::class.java)
+            val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
             startActivity(intent)
         }
     }

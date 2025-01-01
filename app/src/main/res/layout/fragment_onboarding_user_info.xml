@@ -294,8 +294,7 @@
                 android:textColor="@color/unuse_font"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_university"
@@ -303,19 +302,27 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:overlapAnchor="false"
                 android:background="@drawable/spinner_bg"
+                android:dropDownWidth="match_parent"
+                android:overlapAnchor="false"
                 android:popupBackground="@drawable/spinner_background"
                 android:spinnerMode="dropdown"
-                android:dropDownWidth="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_label_university"
-                />
+                app:layout_constraintTop_toTopOf="@id/tv_label_university" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- 띄우기위한 코드-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toBottomOf="@id/mcv_university"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!--다음 버튼-->
     <androidx.appcompat.widget.AppCompatButton

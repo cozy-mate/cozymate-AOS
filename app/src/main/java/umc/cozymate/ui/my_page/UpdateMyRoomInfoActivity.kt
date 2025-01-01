@@ -18,7 +18,7 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
 // TODO: 방 수정, 방 나가기, 방 전환(공개방/비공개방)
 @AndroidEntryPoint
-class UpdateCozyRoomDetailInfoActivity : AppCompatActivity() {
+class UpdateMyRoomInfoActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityUpdateCozyRoomDetailInfoBinding
     private val viewModel: MakingRoomViewModel by viewModels()
@@ -70,7 +70,7 @@ class UpdateCozyRoomDetailInfoActivity : AppCompatActivity() {
     }
     // 코지홈으로 화면 전환
     fun loadMainActivity() {
-        val intent = Intent(this@UpdateCozyRoomDetailInfoActivity, MainActivity::class.java)
+        val intent = Intent(this@UpdateMyRoomInfoActivity, MainActivity::class.java)
         // 방 나가기 후에 상태변수를 설정해줍니다.
         intent.putExtra("isRoomExist", false)
         intent.putExtra("isRoomManager", false)

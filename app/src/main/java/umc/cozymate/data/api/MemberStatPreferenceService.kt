@@ -9,6 +9,7 @@ import retrofit2.http.PUT
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.response.member.stat.GetMyPreferenceResponse
 import umc.cozymate.data.model.response.member.stat.PostMyPreferenceResponse
+import umc.cozymate.data.model.response.member.stat.UpdatePreferenceResponse
 
 interface MemberStatPreferenceService {
 
@@ -30,6 +31,6 @@ interface MemberStatPreferenceService {
     suspend fun updateMyPreference(
         @Header("Authorization") accessToken: String,
         @Body preferenceList: PreferenceList
-    ) : Response<PostMyPreferenceResponse>
+    ) : Response<UpdatePreferenceResponse>
 
 }

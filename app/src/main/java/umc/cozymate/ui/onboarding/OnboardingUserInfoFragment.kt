@@ -126,7 +126,7 @@ class OnboardingUserInfoFragment : Fragment() {
                     containsSeparatedHangul -> {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
-                        binding.tvAlertNickname.text = "닉네임은 분리된 한글(초성, 중성)이 포함되면 안됩니다!"
+                        binding.tvAlertNickname.text = "닉네임은 분리된 한글(모음, 자음)이 포함되면 안됩니다!"
                         binding.tilOnboardingNickname.isErrorEnabled = true
                         binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
                     }

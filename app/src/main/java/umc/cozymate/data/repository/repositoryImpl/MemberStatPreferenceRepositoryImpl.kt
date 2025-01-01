@@ -5,6 +5,7 @@ import umc.cozymate.data.api.MemberStatPreferenceService
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.response.member.stat.GetMyPreferenceResponse
 import umc.cozymate.data.model.response.member.stat.PostMyPreferenceResponse
+import umc.cozymate.data.model.response.member.stat.UpdatePreferenceResponse
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class MemberStatPreferenceRepositoryImpl @Inject constructor(
     override suspend fun updateMyPreference(
         accessToken: String,
         preferenceList: PreferenceList
-    ): Response<PostMyPreferenceResponse> {
+    ): Response<UpdatePreferenceResponse> {
         return api.updateMyPreference(accessToken, preferenceList)
     }
 }

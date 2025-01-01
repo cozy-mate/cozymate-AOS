@@ -14,6 +14,7 @@ import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.ReissueResponse
 import umc.cozymate.data.model.response.member.SignInResponse
 import umc.cozymate.data.model.response.member.SignUpResponse
+import umc.cozymate.data.model.response.member.UpdateInfoCommonResponse
 import umc.cozymate.data.model.response.member.VerifyMailResponse
 import umc.cozymate.data.model.response.member.WithdrawResponse
 
@@ -45,4 +46,11 @@ interface MemberRepository {
 
     suspend fun verifyMail(accessToken: String, request: VerifyMailRequest): Response<VerifyMailResponse>
 
+    suspend fun updatePersona(accessToken: String, persona: Int): Response<UpdateInfoCommonResponse>
+
+    suspend fun updateNickname(accessToken: String, nickname: String): Response<UpdateInfoCommonResponse>
+
+    suspend fun updateMajorName(accessToken: String, majorName: String): Response<UpdateInfoCommonResponse>
+
+    suspend fun updateBirthday(accessToken: String, localDate: String): Response<UpdateInfoCommonResponse>
 }

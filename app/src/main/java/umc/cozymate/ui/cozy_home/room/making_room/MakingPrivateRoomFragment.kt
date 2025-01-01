@@ -117,25 +117,38 @@ class MakingPrivateRoomFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val input = s.toString()
-                    if (input.length > 12) {
-                        tvAlertName.visibility = View.VISIBLE
-                        tvAlertName.text = "방이름은 최대 12글자만 가능해요!"
-                        tilRoomName.isErrorEnabled = true
-                    } else {
-                        tvAlertName.visibility = View.GONE
-                        roomName = etRoomName.text.toString()
-                        tilRoomName.isErrorEnabled = false
-                        viewModel.setNickname(roomName)
-                        // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
-                        debounceJob?.cancel()
-                        debounceJob = viewModel.viewModelScope.launch {
-                            delay(500L) // 500ms 대기
-                            viewModel.setNickname(input)
-                            viewModel.roomNameCheck() // API 호출
-                            observeRoomNameValid()
+                    val pattern = "^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9 ]{1,12}(?<! )$".toRegex()
+                    val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
+                    when {
+                        containsSeparatedHangul -> {
+                            tvAlertName.visibility = View.VISIBLE
+                            tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안됩니다!"
+                            tilRoomName.isErrorEnabled = true
                         }
-                        // 다음 버튼 상태 확인
-                        updateNextButtonState()
+
+                        !pattern.matches(input) -> {
+                            tvAlertName.visibility = View.VISIBLE
+                            tvAlertName.text = "방이름은 최대 12글자로 한글, 영어, 숫자 및 공백만 입력해주세요!\n" +
+                                    "단 공백은 처음이나 끝에 올 수 없습니다."
+                            tilRoomName.isErrorEnabled = true
+                        }
+
+                        else -> {
+                            tvAlertName.visibility = View.GONE
+                            roomName = etRoomName.text.toString()
+                            tilRoomName.isErrorEnabled = false
+                            viewModel.setNickname(roomName)
+                            // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
+                            debounceJob?.cancel()
+                            debounceJob = viewModel.viewModelScope.launch {
+                                delay(500L) // 500ms 대기
+                                viewModel.setNickname(input)
+                                viewModel.roomNameCheck() // API 호출
+                                observeRoomNameValid()
+                            }
+                            // 다음 버튼 상태 확인
+                            updateNextButtonState()
+                        }
                     }
                 }
 
@@ -188,7 +201,10 @@ class MakingPrivateRoomFragment : Fragment() {
         }
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.privateRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            (activity as? MakingPrivateRoomActivity)?.loadGivingInviteCodeFragment(result.result.persona, result.result.inviteCode)
+            (activity as? MakingPrivateRoomActivity)?.loadGivingInviteCodeFragment(
+                result.result.persona,
+                result.result.inviteCode
+            )
         }
         // 에러 응답도 추가로 처리할 수 있음 >> TODO : 팝업 띄우기
         viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
