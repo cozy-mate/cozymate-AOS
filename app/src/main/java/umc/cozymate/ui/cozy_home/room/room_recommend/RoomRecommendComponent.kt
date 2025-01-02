@@ -55,7 +55,7 @@ class RoomRecommendComponent : Fragment() {
                 val viewPager = binding.vpRoom
                 // 클릭 시 방 상세 페이지로 room id 넘겨줌
                 val adapter = RoomRecommendVPAdapter(roomList, isLifestyleExist) { roomId ->
-                    val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java).apply {
+                    val intent = Intent(requireContext(), RoomDetailActivity::class.java).apply {
                         putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
                     }
                     startActivity(intent)
@@ -66,7 +66,7 @@ class RoomRecommendComponent : Fragment() {
         }
         // 방 더보기 페이지로 이동
         binding.llMore.setOnClickListener {
-            val intent = Intent(requireContext(), RoomDetailActivity::class.java)
+            val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
             startActivity(intent)
         }
     }
