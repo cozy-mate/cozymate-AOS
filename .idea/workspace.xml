@@ -30,6 +30,11 @@
           <theme>@style/Theme.Cozymate</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_join_room.xml">
+        <config>
+          <theme>@style/Theme.Cozymate</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login_fail.xml">
         <config>
           <theme>@style/Theme.Cozymate</theme>
@@ -76,6 +81,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml">
+        <config>
+          <theme>@style/Theme.Cozymate</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_update_cozy_room_detail_info.xml">
         <config>
           <theme>@style/Theme.Cozymate</theme>
         </config>
@@ -377,6 +387,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3c50aee-37ca-4c3e-abe4-22c7e786e8be" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fetch_lifestyle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fetch_lifestyle.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
