@@ -14,7 +14,6 @@ import umc.cozymate.databinding.FragmentMypageBinding
 import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
-import umc.cozymate.ui.cozy_home.room_detail.UpdateCozyRoomDetailInfoActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
@@ -56,38 +55,39 @@ class MyPageFragment : Fragment() {
             }
         }
         binding.layoutSchool.setOnClickListener {
-        binding.layoutLifestyle.setOnClickListener {
-            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-            startActivity(intent)
+            binding.layoutLifestyle.setOnClickListener {
+                val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+                startActivity(intent)
 
-        }
-        binding.tvSchool.setOnClickListener {
-            loadSchool()
-        }
-        binding.tvSignout.setOnClickListener {
-            val text = listOf("로그아웃 하시겠어요?", "취소", "확인")
-            val dialog = OneButtonPopup(text, object : PopupClick {
-                override fun clickFunction() {
-                    performLogout()
-                }
-            }, false)
-            dialog.show(parentFragmentManager, "LogoutPopup")
-        }
-        binding.tvWithdraw.setOnClickListener {
-            val intent: Intent = Intent(activity, WithDrawActivity::class.java)
-            startActivity(intent)
-        }
-        binding.layoutInquiry.setOnClickListener {
-            val intent : Intent =
-                if(inquiryViewModel.existance.value == true)
-                    Intent(activity, InquiryActivity::class.java)
-                else
-                    Intent(activity, WriteInquiryActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnMate.setOnClickListener {
-            val intent = Intent(activity, MyFavoriteActivity::class.java)
-            startActivity(intent)
+            }
+            binding.tvSchool.setOnClickListener {
+                loadSchool()
+            }
+            binding.tvSignout.setOnClickListener {
+                val text = listOf("로그아웃 하시겠어요?", "취소", "확인")
+                val dialog = OneButtonPopup(text, object : PopupClick {
+                    override fun clickFunction() {
+                        performLogout()
+                    }
+                }, false)
+                dialog.show(parentFragmentManager, "LogoutPopup")
+            }
+            binding.tvWithdraw.setOnClickListener {
+                val intent: Intent = Intent(activity, WithDrawActivity::class.java)
+                startActivity(intent)
+            }
+            binding.layoutInquiry.setOnClickListener {
+                val intent: Intent =
+                    if (inquiryViewModel.existance.value == true)
+                        Intent(activity, InquiryActivity::class.java)
+                    else
+                        Intent(activity, WriteInquiryActivity::class.java)
+                startActivity(intent)
+            }
+            binding.btnMate.setOnClickListener {
+                val intent = Intent(activity, MyFavoriteActivity::class.java)
+                startActivity(intent)
+            }
         }
         return binding.root
     }
