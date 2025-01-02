@@ -507,6 +507,7 @@ id et_room_name
 id et_search
 id et_selection_info
 id et_university_email
+id fab_go_top
 id fab_request_enter_room
 id fab_request_roommate
 id flexbox
@@ -931,6 +932,7 @@ id tv_friendly
 id tv_game_check
 id tv_go_lifestyle
 id tv_go_lifestyle_guide
+id tv_go_lifestyle_test
 id tv_goto
 id tv_guide
 id tv_guide1

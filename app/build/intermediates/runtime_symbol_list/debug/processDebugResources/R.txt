@@ -3533,6 +3533,7 @@ int id et_university_email 0x7f09018d
 int id exitUntilCollapsed 0x7f09018e
 int id expand_activities_button 0x7f09018f
 int id expanded_menu 0x7f090190
+int id fab_go_top 0x7f0905fa
 int id fab_request_enter_room 0x7f090191
 int id fab_request_roommate 0x7f090192
 int id fade 0x7f090193
@@ -4282,6 +4283,7 @@ int id tv_friendly 0x7f09047a
 int id tv_game_check 0x7f09047b
 int id tv_go_lifestyle 0x7f09047c
 int id tv_go_lifestyle_guide 0x7f09047d
+int id tv_go_lifestyle_test 0x7f0905fb
 int id tv_goto 0x7f09047e
 int id tv_guide 0x7f09047f
 int id tv_guide1 0x7f090480
