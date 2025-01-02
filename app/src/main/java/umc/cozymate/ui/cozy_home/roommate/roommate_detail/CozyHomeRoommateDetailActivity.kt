@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
+import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 
 @AndroidEntryPoint
 class CozyHomeRoommateDetailActivity : AppCompatActivity() {
