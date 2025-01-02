@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMakingPublicRoomBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
 // 방정보 입력 > 방상세 (자기방) > 코지홈 (방장)
@@ -50,8 +50,8 @@ class MakingPublicRoomActivity : AppCompatActivity() {
 
     // 두번째 [자기 방 상세 페이지] 로드
     fun loadMyRoomDetailActivity(roomId: Int) {
-        val intent = Intent(baseContext, RoomDetailActivity::class.java)
-        intent.putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
+        val intent = Intent(baseContext, CozyRoomDetailInfoActivity::class.java)
+        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         intent.putExtra("isMyRoom", true)
         startActivity(intent)
         this.finish()

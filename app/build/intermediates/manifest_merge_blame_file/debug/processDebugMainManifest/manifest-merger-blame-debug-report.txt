@@ -140,8 +140,8 @@
 71-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:35:13-37
 72        <activity
 72-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:36:9-38:40
-73            android:name="umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
-73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:13-80
+73            android:name="umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity"
+73-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:37:13-72
 74            android:exported="false" />
 74-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:38:13-37
 75        <activity
@@ -164,8 +164,8 @@
 83-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:47:13-37
 84        <activity
 84-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:48:9-50:40
-85            android:name="umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailActivity"
-85-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-77
+85            android:name="umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity"
+85-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:49:13-85
 86            android:exported="false" />
 86-->/Users/doyoung/GitHub/cozymate-AOS/app/src/main/AndroidManifest.xml:50:13-37
 87        <activity
