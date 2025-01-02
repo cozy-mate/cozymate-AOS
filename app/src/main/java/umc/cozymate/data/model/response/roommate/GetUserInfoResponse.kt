@@ -31,7 +31,7 @@ data class GetUserInfoResponse(
             val sleepingMeridian: String,
             val sleepingTime: Int,
             val turnOffMeridian: String,
-            val turnOfTime: Int,
+            val turnOffTime: Int,
             val smoking: String,
             val sleepingHabit: List<String>,
             val airConditioningIntensity: Int,

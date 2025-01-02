@@ -5,11 +5,13 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.response.member.stat.FetchUserInfoResponse
 import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
@@ -25,6 +27,12 @@ interface RoommateService {
     suspend fun getUserInfo(
         @Header("Authorization") accessToken: String,
     ): Response<GetUserInfoResponse>
+
+    @PUT("/members/stat")
+    suspend fun fetchUserInfo(
+        @Header("Authorization") accessToken: String,
+        @Body request: UserInfoRequest
+    ) : Response<FetchUserInfoResponse>
 
     @GET("/members/stat/filter")
     suspend fun getOtherUserInfo(

@@ -72,6 +72,35 @@ class RoommateViewModel @Inject constructor(
         }
     }
 
+    fun fetchUserInfo(
+        request: UserInfoRequest,
+        onSuccess: (Int) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val accessToken = getToken()!!
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // API 호출 및 응답 처리
+                val response = repository.fetchUserInfo(accessToken, request)
+
+                // 성공적인 응답 처리
+                if (response.isSuccessful) {
+                    Log.d("RoommateViewModel", "fetchUserInfo: ${response}")
+//                    onSuccess(response.result) // 전달받은 result 값을 성공 콜백으로 전달
+                    getUserInfo()
+                } else {
+                    // 서버에서 실패 응답일 경우
+                    Log.d("RoommateViewModel", "fetchUserInfo Error: ${response.message()}")
+//                    onFailure(response.message)
+                }
+            } catch (e: Exception) {
+                // 예외 처리
+                Log.d("RoommateViewModel", "fetchUserInfo Exception: $e")
+                onFailure("Exception occurred: ${e.message}")
+            }
+        }
+    }
+
     fun getAllOtherUserInfo(accessToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val allUserInfo = mutableListOf<OtherUserInfo>() // 모든 사용자 정보를 저장할 리스트
@@ -300,7 +329,7 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
         editor.putString("user_sleepingMeridian", _memberLifestyleInfo.value!!.memberStatDetail.sleepingMeridian)
         editor.putInt("user_sleepingTime", _memberLifestyleInfo.value!!.memberStatDetail.sleepingTime)
         editor.putString("user_turnOffMeridian", _memberLifestyleInfo.value!!.memberStatDetail.turnOffMeridian)
-        editor.putInt("user_turnOffTime", _memberLifestyleInfo.value!!.memberStatDetail.turnOfTime)
+        editor.putInt("user_turnOffTime", _memberLifestyleInfo.value!!.memberStatDetail.turnOffTime)
         editor.putString("user_smoking", _memberLifestyleInfo.value!!.memberStatDetail.smoking)
         editor.putStringSet("user_sleepingHabit", _memberLifestyleInfo.value!!.memberStatDetail.sleepingHabit.toSet())
         editor.putInt("user_airConditioningIntensity", _memberLifestyleInfo.value!!.memberStatDetail.airConditioningIntensity)

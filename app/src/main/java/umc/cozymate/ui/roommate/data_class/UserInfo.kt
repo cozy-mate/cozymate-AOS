@@ -56,7 +56,7 @@ data class UserInfo(
             sleepingTime = sleepTime,
             turnOffMeridian = lightOffAmPm,
             turnOffTime = lightOffTime,
-            smokingState = smokingState,
+            smoking = smokingState,
             sleepingHabit = sleepingHabit,
             airConditioningIntensity = convertACToInt(airConditioningIntensity),
             heatingIntensity = convertHeaterToInt(heatingIntensity),
