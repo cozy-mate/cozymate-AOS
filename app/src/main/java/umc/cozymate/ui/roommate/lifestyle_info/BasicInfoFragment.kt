@@ -48,7 +48,7 @@ class BasicInfoFragment : Fragment() {
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
-        binding.etBirth.filters = arrayOf(InputFilter.LengthFilter(4))  // 최대 2자리 입력
+        binding.etBirth.filters = arrayOf(InputFilter.LengthFilter(4))  // 최대 4자리 입력
         binding.etBirth.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
         initTextChangeListener()
@@ -74,17 +74,27 @@ class BasicInfoFragment : Fragment() {
     private fun initTextChangeListener() {
         binding.etNumber.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                saveToSharedPreferences("user_admissionYear", s.toString())
-                showBirthLayout()
+                val inputText = s.toString()
+                if (inputText.length == 2) {
+                    saveToSharedPreferences("user_admissionYear", s.toString())
+                    showBirthLayout()
+                } else {
+                    binding.etNumber.error = "2자리 숫자를 입력해주세요."
+                }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
         })
         binding.etBirth.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                saveToSharedPreferences("user_birthday", s.toString())
-                updateNextButtonState()
-                showPeopleNumberLayout()
+                val inputText = s.toString()
+                if (inputText.length == 4) {
+                    saveToSharedPreferences("user_birthday", s.toString())
+                    updateNextButtonState()
+                    showPeopleNumberLayout()
+                } else {
+                    binding.etBirth.error = "4자리 숫자를 입력해주세요."
+                }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -124,7 +134,7 @@ class BasicInfoFragment : Fragment() {
         for ((textView, value) in numPeopleTexts) {
             textView.setOnClickListener {
 //                numPeopleSelected(it, value)
-                updateSelectedOption(it, "user_numOfRoommate", value.toString())
+                updateSelectedOption(it, "user_numOfRoommate", value)
             }
         }
     }
@@ -184,7 +194,7 @@ class BasicInfoFragment : Fragment() {
                 }
                 numPeopleOption = selectedTextView
                 saveToSPFInt(key, value as Int)
-                showDormitoryLayout()
+                resetDebounceTimer { showDormitoryLayout() }
                 updateNextButtonState()
             }
         }
@@ -287,20 +297,23 @@ class BasicInfoFragment : Fragment() {
         hideKeyboard()
     }
 
-    fun View.showWithSlideDownAnimation(duration: Long = 900) {
-        this.apply {
-            val slideDown = TranslateAnimation(0f, 0f, -this.height.toFloat(), 0f).apply {
-                this.duration = duration
-            }
-            val fadeIn = AlphaAnimation(0f, 1f).apply {
-                this.duration = duration
-            }
-            val animationSet = AnimationSet(true).apply {
-                addAnimation(slideDown)
-                addAnimation(fadeIn)
-            }
-            visibility = View.VISIBLE
-            startAnimation(animationSet)
+    private fun View.showWithSlideDownAnimation(duration: Long = 1300) {
+        if (this.visibility == View.VISIBLE) return
+
+        // 애니메이션 설정
+        val slideDown = TranslateAnimation(0f, 0f, -this.height.toFloat(), 0f).apply {
+            this.duration = duration
         }
+
+        val fadeIn = AlphaAnimation(0f, 1f).apply {
+            this.duration = duration
+        }
+
+        val animationSet = AnimationSet(true).apply {
+            addAnimation(slideDown)
+            addAnimation(fadeIn)
+        }
+        this.startAnimation(animationSet)
+        this.visibility = View.VISIBLE
     }
 }
