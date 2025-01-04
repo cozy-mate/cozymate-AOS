@@ -17,14 +17,16 @@ import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
 import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
-class UpdatePreferenceFragment: BottomSheetDialogFragment() {
-    private val TAG = this.javaClass.simpleName
+class UpdatePreferenceFragment : BottomSheetDialogFragment() {
+    val TAG = this.javaClass.simpleName
     private var _binding: FragmentUpdatePreferenceBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UpdateInfoViewModel by viewModels()
+
     companion object {
         const val TAG = "UpdatePreferenceBottomSheet"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,7 +70,7 @@ class UpdatePreferenceFragment: BottomSheetDialogFragment() {
         )
         val selectedChips = mutableListOf<TextView>()
         binding.btnNext.isEnabled = false
-        // 칩을 4개이상 선택하도록 하는 조건
+        // 칩을 4개 선택하도록 하는 조건
         textViews.forEach { textView ->
             textView.setOnClickListener {
                 textView.isSelected = !textView.isSelected
@@ -78,23 +80,26 @@ class UpdatePreferenceFragment: BottomSheetDialogFragment() {
                     selectedChips.remove(textView)
                 }
                 if (selectedChips.size > 4) {
-                    Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
                     binding.btnNext.isEnabled = false
                 }
-                viewModel. updateSelectedElementCount(textView.isSelected)
+                viewModel.updateSelectedElementCount(textView.isSelected)
             }
+        }
+        viewModel.isButtonEnabled.observe(viewLifecycleOwner) { it ->
+            binding.btnNext.isEnabled = it
         }
         // 선호항목 업데이트
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
-                val preferences = PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                val preferences =
+                    PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.setPreferences(preferences)
                     viewModel.updateMyPreference()
                 }
-            }
-            else {
-                Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
             }
         }
     }

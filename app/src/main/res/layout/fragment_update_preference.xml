@@ -1,227 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/flexbox"
+    <data>
+        <variable
+            name="viewModel"
+            type="umc.cozymate.ui.viewmodel.UpdateInfoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="12dp"
-        app:flexWrap="wrap"
-        app:justifyContent="flex_start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/chip_birth_year"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexbox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="출생년도" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/chip_admission_year"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="학번" />
+            <TextView
+                android:id="@+id/chip_birth_year"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="출생년도" />
 
-        <TextView
-            android:id="@+id/chip_major"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="학과" />
+            <TextView
+                android:id="@+id/chip_admission_year"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="학번" />
 
-        <TextView
-            android:id="@+id/chip_acceptance"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="합격여부" />
+            <TextView
+                android:id="@+id/chip_major"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="학과" />
 
-        <TextView
-            android:id="@+id/chip_wakeup_time"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="기상시간" />
+            <TextView
+                android:id="@+id/chip_acceptance"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="합격여부" />
 
-        <TextView
-            android:id="@+id/chip_sleeping_time"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="취침시간" />
+            <TextView
+                android:id="@+id/chip_wakeup_time"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="기상시간" />
 
-        <TextView
-            android:id="@+id/chip_turn_off_time"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="소등시간" />
+            <TextView
+                android:id="@+id/chip_sleeping_time"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="취침시간" />
 
-        <TextView
-            android:id="@+id/chip_smoking"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="흡연여부" />
+            <TextView
+                android:id="@+id/chip_turn_off_time"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="소등시간" />
 
-        <TextView
-            android:id="@+id/chip_sleeping_habit"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="잠버릇" />
+            <TextView
+                android:id="@+id/chip_smoking"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="흡연여부" />
 
-        <TextView
-            android:id="@+id/chip_air_conditioning_intensity"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="에어컨" />
+            <TextView
+                android:id="@+id/chip_sleeping_habit"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="잠버릇" />
 
-        <TextView
-            android:id="@+id/chip_heating_intensity"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="히터" />
+            <TextView
+                android:id="@+id/chip_air_conditioning_intensity"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="에어컨" />
 
-        <TextView
-            android:id="@+id/chip_life_pattern"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="생활패턴" />
+            <TextView
+                android:id="@+id/chip_heating_intensity"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="히터" />
 
-        <TextView
-            android:id="@+id/chip_intimacy"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="친밀도" />
+            <TextView
+                android:id="@+id/chip_life_pattern"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="생활패턴" />
 
-        <TextView
-            android:id="@+id/chip_can_share"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="물건공유" />
+            <TextView
+                android:id="@+id/chip_intimacy"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="친밀도" />
 
-        <TextView
-            android:id="@+id/chip_is_play_game"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="게임여부" />
+            <TextView
+                android:id="@+id/chip_can_share"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="물건공유" />
 
-        <TextView
-            android:id="@+id/chip_is_phone_call"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="전화여부" />
+            <TextView
+                android:id="@+id/chip_is_play_game"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="게임여부" />
 
-        <TextView
-            android:id="@+id/chip_studying"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="공부여부" />
+            <TextView
+                android:id="@+id/chip_is_phone_call"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="전화여부" />
 
-        <TextView
-            android:id="@+id/chip_intake"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="섭취여부" />
+            <TextView
+                android:id="@+id/chip_studying"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="공부여부" />
 
-        <TextView
-            android:id="@+id/chip_clean_sensitivity"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="청결예민도" />
+            <TextView
+                android:id="@+id/chip_intake"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="섭취여부" />
 
-        <TextView
-            android:id="@+id/chip_noise_sensitivity"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="소음예민도" />
+            <TextView
+                android:id="@+id/chip_clean_sensitivity"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="청결예민도" />
 
-        <TextView
-            android:id="@+id/chip_cleaning_frequency"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="청소빈도" />
+            <TextView
+                android:id="@+id/chip_noise_sensitivity"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="소음예민도" />
 
-        <TextView
-            android:id="@+id/chip_drinking_frequency"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="음주빈도" />
+            <TextView
+                android:id="@+id/chip_cleaning_frequency"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="청소빈도" />
 
-        <TextView
-            android:id="@+id/chip_personality"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="성격" />
+            <TextView
+                android:id="@+id/chip_drinking_frequency"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="음주빈도" />
 
-        <TextView
-            android:id="@+id/chip_mbti"
-            style="@style/RoommateElementChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="MBTI" />
-    </com.google.android.flexbox.FlexboxLayout>
+            <TextView
+                android:id="@+id/chip_personality"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="성격" />
 
-    <!--수정 버튼-->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginHorizontal="22dp"
-        android:layout_marginVertical="8dp"
-        android:background="@drawable/btn_rectangle_next_state"
-        android:text="수정"
-        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/flexbox"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/chip_mbti"
+                style="@style/RoommateElementChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="MBTI" />
+        </com.google.android.flexbox.FlexboxLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--수정 버튼-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/btn_rectangle_next_state"
+            android:enabled="@{viewModel.isButtonEnabled}"
+            android:text="수정"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flexbox" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
