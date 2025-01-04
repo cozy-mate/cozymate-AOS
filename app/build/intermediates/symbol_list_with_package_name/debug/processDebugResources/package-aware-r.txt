@@ -3285,7 +3285,6 @@ id btn_myinfo
 id btn_next
 id btn_ok
 id btn_right
-id btn_room_search_list
 id btn_roommate_invite
 id btn_save
 id btn_school
@@ -3589,7 +3588,9 @@ id grouping
 id groups
 id guide_1
 id guide_2
+id guide_average
 id guide_bottom
+id guide_latest
 id guide_other
 id guide_other_basic
 id guide_rv_crewable_list
@@ -3641,6 +3642,7 @@ id iv_Back
 id iv_Close
 id iv_More
 id iv_add_todo
+id iv_average_rate
 id iv_back
 id iv_bg
 id iv_char
@@ -3652,6 +3654,7 @@ id iv_check
 id iv_check_verify_code
 id iv_chk
 id iv_close
+id iv_closing
 id iv_cozy
 id iv_cozy_title
 id iv_cozyroom
@@ -3671,6 +3674,7 @@ id iv_filter
 id iv_home_name
 id iv_home_people_num
 id iv_ic_school
+id iv_latest
 id iv_light
 id iv_like
 id iv_line
@@ -3708,6 +3712,8 @@ id labeled
 id layout
 id layout_Rule
 id layout_TopButtons
+id layout_average_rate
+id layout_closing
 id layout_container
 id layout_contents
 id layout_cozyroom
@@ -3716,6 +3722,7 @@ id layout_info1
 id layout_info2
 id layout_input
 id layout_inquiry
+id layout_latest
 id layout_lifestyle
 id layout_mate
 id layout_member
@@ -3726,6 +3733,7 @@ id layout_myinfo
 id layout_mypage_data
 id layout_role
 id layout_school
+id layout_search_filter
 id layout_todo_member
 id layout_weekdays
 id left
@@ -4225,6 +4233,7 @@ id tv_alert_message
 id tv_alert_name
 id tv_alert_nickname
 id tv_arrival_num
+id tv_average_rate
 id tv_birth
 id tv_box
 id tv_call_check
@@ -4232,6 +4241,7 @@ id tv_change
 id tv_check_verify_code
 id tv_clean_check
 id tv_clean_frequency
+id tv_closing
 id tv_content
 id tv_cozy_char_title
 id tv_cozy_description
@@ -4309,6 +4319,7 @@ id tv_label_room_hashtag
 id tv_label_room_name
 id tv_label_room_people_number
 id tv_label_university
+id tv_latest
 id tv_lifestyle_guide
 id tv_lifestyle_title
 id tv_light_off_1
@@ -4460,6 +4471,7 @@ id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
 id tv_room_name
+id tv_room_search_filter
 id tv_room_tag
 id tv_roommate1
 id tv_roommate2
@@ -4818,6 +4830,7 @@ layout activity_update_my_info
 layout activity_withdraw
 layout activity_write_inquiry
 layout activity_write_message
+layout bottom_sheet_search_filter
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout calendar_view

@@ -51,6 +51,8 @@ class RoomDetailActivity : AppCompatActivity() {
 
         setupBackButton()
 
+
+
         binding.ivChat.setOnClickListener {
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",managerMemberId)

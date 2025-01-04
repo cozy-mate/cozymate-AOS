@@ -56,6 +56,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
+    private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
+    val sortType: LiveData<String> get() = _sortType
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun getToken(): String? {
@@ -125,6 +128,7 @@ class RoomDetailViewModel @Inject constructor(
 //    }
     suspend fun fetchRecommendedRoomList() {
         _isLoading.value = true
+        val sortType = getSortType() // 현재 정렬 값 사용
         val token = getToken()
         val allRooms = mutableListOf<GetRecommendedRoomListResponse.Result.Result>() // 전체 방 리스트 저장
         var currentPage = 0 // 초기 페이지
@@ -133,12 +137,12 @@ class RoomDetailViewModel @Inject constructor(
 
         try {
             do {
-                // API 요청
+                val currentSortType = _sortType.value ?: SortType.AVERAGE_RATE.value // 현재 정렬 타입
                 val response = repository.getRecommendedRoomList(
                     accessToken = token!!,
                     size = pageSize,
                     page = currentPage,
-                    sortType = SortType.LATEST.value
+                    sortType = currentSortType
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -168,5 +172,12 @@ class RoomDetailViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+    // 정렬 타입 변경
+    fun updateSortType(newSortType: String) {
+        _sortType.value = newSortType
+    }
 
+    fun getSortType(): String {
+        return _sortType.value ?: SortType.LATEST.value
+    }
 }
