@@ -3694,6 +3694,7 @@ int id iv_school_logo 0x7f09022a
 int id iv_school_verified_mark 0x7f09022b
 int id iv_school_white 0x7f09022c
 int id iv_search 0x7f09022d
+int id iv_setting 0x7f090609
 int id iv_table_user_profile 0x7f09022e
 int id iv_tem 0x7f09022f
 int id iv_temp1 0x7f090230
@@ -4471,6 +4472,7 @@ int id tv_room_member_match 0x7f09052c
 int id tv_room_member_name 0x7f09052d
 int id tv_room_name 0x7f09052e
 int id tv_room_search_filter 0x7f090608
+int id tv_room_status 0x7f09060a
 int id tv_room_tag 0x7f09052f
 int id tv_roommate1 0x7f090530
 int id tv_roommate2 0x7f090531

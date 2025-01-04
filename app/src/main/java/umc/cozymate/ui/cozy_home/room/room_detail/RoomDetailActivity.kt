@@ -45,13 +45,18 @@ class RoomDetailActivity : AppCompatActivity() {
 
         getRoomId()
 
-        getRoomDetailInfo()
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val savedRoomId = spf.getInt("room_id", -2)
+
+        if (savedRoomId == roomId) {
+            updateUserRoomInfo()
+        } else {
+            getRoomDetailInfo()
+        }
 
         updateFloatingButton()
 
         setupBackButton()
-
-
 
         binding.ivChat.setOnClickListener {
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
@@ -69,6 +74,38 @@ class RoomDetailActivity : AppCompatActivity() {
                 viewModel.getOtherRoomInfo(roomId!!)
             }
             Log.d(TAG, "Received room ID: $roomId")
+        }
+    }
+
+    private fun updateUserRoomInfo() {
+        lifecycleScope.launch {
+            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
+                with(binding) {
+                    tvRoomName.text = roomInfo.name
+                    updateProfileImage(roomInfo.persona)
+                    updateRoomStatus(roomInfo.roomType)
+                    tvRoomMatch.text = "방 평균 일치율 - %"
+                    ivChat.visibility = View.GONE
+                    ivLike.visibility = View.GONE
+                    tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+                    tvDormitoryName.text = roomInfo.dormitoryName
+                    tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
+                    updateDifference(roomInfo.difference)
+                    managerMemberId = roomInfo.managerMemberId
+                    fabRequestEnterRoom.visibility = View.GONE
+
+                    // 리사이클러 뷰 연결
+                    rvRoomMemberList.apply{
+                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                        adapter = RoomMemberListRVA(roomInfo.mateDetailList, roomInfo.managerNickname) { memberId ->
+                            navigatorToRoommateDetail(memberId)
+                        }
+                    }
+
+
+                    ivSetting.visibility = View.GONE // 기능 구현 후 visible로 수정
+                }
+            }
         }
     }
 
@@ -96,6 +133,7 @@ class RoomDetailActivity : AppCompatActivity() {
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
 
+            fabRequestEnterRoom.visibility = View.GONE
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply{
                 layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -169,6 +207,16 @@ class RoomDetailActivity : AppCompatActivity() {
             else -> R.drawable.character_id_1
         }
         binding.ivRoomCharacter.setImageResource(profileImageResId)
+    }
+
+    private fun updateRoomStatus(type: String) {
+        val roomStatusText = if (type == "PUBLIC"){
+            "공개방이에요"
+        } else {
+            "비공개방이에요"
+        }
+        binding.tvRoomStatus.visibility = View.VISIBLE
+        binding.tvRoomStatus.text = roomStatusText
     }
 
     // difference 업데이트

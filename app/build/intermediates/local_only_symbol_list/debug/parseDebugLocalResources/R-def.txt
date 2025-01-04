@@ -610,6 +610,7 @@ id iv_school_logo
 id iv_school_verified_mark
 id iv_school_white
 id iv_search
+id iv_setting
 id iv_table_user_profile
 id iv_tem
 id iv_temp1
@@ -1120,6 +1121,7 @@ id tv_room_member_match
 id tv_room_member_name
 id tv_room_name
 id tv_room_search_filter
+id tv_room_status
 id tv_room_tag
 id tv_roommate1
 id tv_roommate2
