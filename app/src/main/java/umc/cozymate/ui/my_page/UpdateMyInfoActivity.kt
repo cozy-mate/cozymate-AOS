@@ -67,9 +67,6 @@ class UpdateMyInfoActivity : AppCompatActivity() {
     // [선호 칩 수정 페이지] 로드
     fun loadUpdatePreferenceFragment() {
         val fragment = UpdatePreferenceFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_update_my_info, fragment)
-            .addToBackStack(null)
-            .commit()
+        fragment.show(supportFragmentManager, fragment.TAG)
     }
 }

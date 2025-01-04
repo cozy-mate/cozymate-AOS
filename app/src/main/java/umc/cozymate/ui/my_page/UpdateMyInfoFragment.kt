@@ -39,6 +39,7 @@ class UpdateMyInfoFragment : Fragment() {
         super.onResume()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchMemberInfo()
+            viewModel.fetchMyPreference()
         }
     }
 
