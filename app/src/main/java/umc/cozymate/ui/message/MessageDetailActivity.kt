@@ -1,19 +1,19 @@
 package umc.cozymate.ui.message
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.ChatContentData
-import umc.cozymate.databinding.FragmentMessageDetailBinding
+import umc.cozymate.databinding.ActivityMessageDetailBinding
 import umc.cozymate.ui.MessageDetail.MessageDetailAdapter
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
@@ -21,11 +21,13 @@ import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.ChatViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
-class MessageDetailFragment : Fragment() {
-    private lateinit var binding: FragmentMessageDetailBinding
+class MessageDetailActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMessageDetailBinding
     private lateinit var messageDetailAdapter: MessageDetailAdapter
+    private val TAG = this.javaClass.simpleName
     private val viewModel : ChatViewModel by viewModels()
     private val reportViewModel : ReportViewModel by viewModels()
     private var contents : List<ChatContentData> = emptyList()
@@ -33,35 +35,25 @@ class MessageDetailFragment : Fragment() {
     private var memberId : Int = 0
     private var nickname :String = ""
     private var moreFlag : Boolean = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMessageDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        chatRoomId = arguments?.getInt("chatRoomId") ?: 0
-        nickname = arguments?.getString("nickname") ?: ""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMessageDetailBinding.inflate(layoutInflater)
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        setContentView(binding.root)
+        memberId = intent.getIntExtra("userId",0)
+        nickname = intent.getStringExtra("nickname").toString()
+        chatRoomId = intent.getIntExtra("chatRoomId",0)
         setupObservers()
-        updateData()
-        //updateContents()
         initOnClickListener()
     }
 
     override fun onResume() {
         // 단순 시간 딜레이
         super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            updateData()
-        }, 1000)
-
+        viewModel.getChatContents(chatRoomId)
     }
     private fun setupObservers() {
-        viewModel.getChatContentsResponse.observe(viewLifecycleOwner, Observer{response ->
+        viewModel.getChatContentsResponse.observe(this, Observer{response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
                 val contentsResponse = response.body()
@@ -74,12 +66,8 @@ class MessageDetailFragment : Fragment() {
         })
     }
 
-    private fun updateData() {
-        if (view == null) return
-        viewModel.getChatContents(chatRoomId)
-    }
-
     private fun updateContents() {
+        Log.d(TAG,"뷰 생성 : ${contents}")
         if(contents.isNullOrEmpty()){
             val text = "["+nickname+"]님과\n아직 주고 받은 쪽지가 없어요!"
             binding.tvEmpty.text = text
@@ -94,7 +82,7 @@ class MessageDetailFragment : Fragment() {
         // RecyclerView에 어댑터 설정
         binding.rvMessageDetail.apply {
             adapter = messageDetailAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
         }
         }
     }
@@ -102,7 +90,7 @@ class MessageDetailFragment : Fragment() {
 
     private fun  initOnClickListener(){
         binding.ivBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+           finish()
         }
         binding.ivMore.setOnClickListener {
             if(!moreFlag) {
@@ -118,11 +106,11 @@ class MessageDetailFragment : Fragment() {
             }
         }
         binding.btnWriteMessage.setOnClickListener {
-            val intent : Intent = Intent(activity, WriteMessageActivity::class.java)
+            val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",memberId)
             startActivity(intent)
+            finish()
         }
-
 
         binding.tvMessageDelete.setOnClickListener {
             deletePopup()
@@ -138,7 +126,7 @@ class MessageDetailFragment : Fragment() {
                 reportViewModel.postReport(memberId, 1, reason, content)
             }
         })
-        dialog.show(activity?.supportFragmentManager!!, "reportPopup")
+        dialog.show(this.supportFragmentManager!!, "reportPopup")
     }
 
     private fun deletePopup() {
@@ -148,16 +136,16 @@ class MessageDetailFragment : Fragment() {
                 popup()
                 viewModel.deleteChatRooms(chatRoomId)
                 Handler(Looper.getMainLooper()).postDelayed({
-                    updateData()
+                    viewModel.getChatContents(chatRoomId)
                 }, 500)
             }
         })
-        dialog.show(activity?.supportFragmentManager!!, "MessageDeletePopup")
+        dialog.show(this.supportFragmentManager!!, "MessageDeletePopup")
     }
 
     private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
         val dialog = OneButtonPopup(text,object : PopupClick{},false)
-        dialog.show(activity?.supportFragmentManager!!, "messagePopup")
+        dialog.show(this.supportFragmentManager!!, "messagePopup")
     }
 }

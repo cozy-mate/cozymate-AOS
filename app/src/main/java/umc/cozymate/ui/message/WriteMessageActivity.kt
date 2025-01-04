@@ -1,10 +1,10 @@
 package umc.cozymate.ui.message
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,10 +19,9 @@ class WriteMessageActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private val viewModel: ChatViewModel by viewModels()
     private var recipientId : Int = 0
-    private var message : String = ""
+    private var nickname : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityWriteMessageBinding.inflate(layoutInflater)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
@@ -30,6 +29,16 @@ class WriteMessageActivity : AppCompatActivity() {
         setTextinput()
         setOnClickListener()
         recipientId = intent.getIntExtra("recipientId",0)
+        nickname = intent.getStringExtra("nickname").toString()
+        viewModel.postChatResponse.observe(this){response ->
+            if (response.isSuccessful) {
+                val intent = Intent(this, MessageDetailActivity::class.java)
+                intent.putExtra("chatRoomId", response.body()!!.result.chatRoomId)
+                intent.putExtra("nickname",nickname)
+                startActivity(intent)
+                finish()
+            }
+        }
 
     }
 
@@ -60,15 +69,8 @@ class WriteMessageActivity : AppCompatActivity() {
         binding.btnInputButton.setOnClickListener {
             val request = ChatRequest( binding.etInputMessage.text.toString())
             viewModel.postChat(recipientId,  request)
-            viewModel.postChatResponse.observe(this){response ->
-                if (response.isSuccessful) {
-                    Log.d(TAG,"연결 성공 ${ request}")
-                    //tabViewModel.setSelectedTab(1)
-                } else {
-                    Log.d(TAG,"연결 실패")
-                }
-            }
-            finish()
+
+
         }
     }
 

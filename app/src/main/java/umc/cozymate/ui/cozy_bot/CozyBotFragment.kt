@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.message.MessageActivity
+import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.CharacterUtil
 
@@ -165,7 +165,7 @@ class CozyBotFragment : Fragment() {
 
     private fun openMessage() {
         binding.btnMessage.setOnClickListener {
-            startActivity(Intent(activity, MessageActivity::class.java))
+            startActivity(Intent(activity, MessageMemberActivity::class.java))
         }
     }
 }

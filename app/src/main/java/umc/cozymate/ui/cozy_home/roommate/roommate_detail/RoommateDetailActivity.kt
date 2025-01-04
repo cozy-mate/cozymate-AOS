@@ -153,8 +153,10 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
         binding.btnChat.setOnClickListener {
             val memberId =  otherUserDetail!!.memberDetail.memberId
+            val memberName = otherUserDetail!!.memberDetail.nickname
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",memberId)
+            intent.putExtra("nickname",memberName)
             startActivity(intent)
         }
     }

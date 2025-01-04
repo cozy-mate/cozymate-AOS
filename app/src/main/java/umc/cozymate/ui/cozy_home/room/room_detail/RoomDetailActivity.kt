@@ -33,6 +33,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
+    private var managerNickname :String = ""
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
         const val ARG_ROOM_ID = "room_id"
@@ -54,6 +55,7 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.ivChat.setOnClickListener {
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",managerMemberId)
+            intent.putExtra("nickname",managerNickname)
             startActivity(intent)
         }
     }
@@ -93,6 +95,7 @@ class RoomDetailActivity : AppCompatActivity() {
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
+            managerNickname = roomInfo.managerNickname
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply{
