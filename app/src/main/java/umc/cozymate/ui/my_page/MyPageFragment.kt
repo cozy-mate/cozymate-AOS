@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
 import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
-import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
@@ -23,7 +23,7 @@ import umc.cozymate.ui.viewmodel.MyPageViewModel
 
 class MyPageFragment : Fragment() {
     private lateinit var viewModel: MyPageViewModel
-    private lateinit var  inquiryViewModel : InquiryViewModel
+    private lateinit var inquiryViewModel: InquiryViewModel
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
     private var persona: Int = 0
@@ -55,40 +55,38 @@ class MyPageFragment : Fragment() {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
         }
-        binding.layoutSchool.setOnClickListener {
-            binding.layoutLifestyle.setOnClickListener {
-                val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-                startActivity(intent)
+        binding.layoutLifestyle.setOnClickListener {
+            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
 
-            }
-            binding.tvSchool.setOnClickListener {
-                loadSchool()
-            }
-            binding.tvSignout.setOnClickListener {
-                val text = listOf("로그아웃 하시겠어요?", "취소", "확인")
-                val dialog = OneButtonPopup(text, object : PopupClick {
-                    override fun clickFunction() {
-                        performLogout()
-                    }
-                }, false)
-                dialog.show(parentFragmentManager, "LogoutPopup")
-            }
-            binding.tvWithdraw.setOnClickListener {
-                val intent: Intent = Intent(activity, WithDrawActivity::class.java)
-                startActivity(intent)
-            }
-            binding.layoutInquiry.setOnClickListener {
-                val intent: Intent =
-                    if (inquiryViewModel.existance.value == true)
-                        Intent(activity, InquiryActivity::class.java)
-                    else
-                        Intent(activity, WriteInquiryActivity::class.java)
-                startActivity(intent)
-            }
-            binding.btnMate.setOnClickListener {
-                val intent = Intent(activity, MyFavoriteActivity::class.java)
-                startActivity(intent)
-            }
+        }
+        binding.layoutSchool.setOnClickListener {
+            loadSchool()
+        }
+        binding.tvSignout.setOnClickListener {
+            val text = listOf("로그아웃 하시겠어요?", "", "취소", "확인")
+            val dialog = TwoButtonPopup(text, object : PopupClick {
+                override fun rightClickFunction() {
+                    performLogout()
+                }
+            }, true) // 확인, 취소 버튼 동작
+            dialog.show(parentFragmentManager, "LogoutPopup")
+        }
+        binding.tvWithdraw.setOnClickListener {
+            val intent: Intent = Intent(activity, WithDrawActivity::class.java)
+            startActivity(intent)
+        }
+        binding.layoutInquiry.setOnClickListener {
+            val intent: Intent =
+                if (inquiryViewModel.existance.value == true)
+                    Intent(activity, InquiryActivity::class.java)
+                else
+                    Intent(activity, WriteInquiryActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnMate.setOnClickListener {
+            val intent = Intent(activity, MyFavoriteActivity::class.java)
+            startActivity(intent)
         }
 
         binding.layoutLifestyle.setOnClickListener {
@@ -121,21 +119,19 @@ class MyPageFragment : Fragment() {
 
     private fun updateTextStyle() {
         // 나의 코지룸
-        if(roomFlag){
+        if (roomFlag) {
             binding.ivCozyroom.visibility = View.VISIBLE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.main_blue))
-        }
-        else {
+        } else {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
         }
 
         // 학교 인증
-        if(schoolFlag){
+        if (schoolFlag) {
             binding.ivSchoolVerifiedMark.visibility = View.VISIBLE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
-        }
-        else {
+        } else {
             binding.ivSchoolVerifiedMark.visibility = View.GONE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
             binding.tvSchool.text = "아직 학교인증이 되어있지 않아요"
