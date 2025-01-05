@@ -3466,6 +3466,7 @@ int id design_menu_item_action_area_stub 0x7f09014b
 int id design_menu_item_text 0x7f09014c
 int id design_navigation_view 0x7f09014d
 int id dialog_button 0x7f09014e
+int id dialog_content_layout 0x7f09060e
 int id dimensions 0x7f09014f
 int id direct 0x7f090150
 int id disableHome 0x7f090151
@@ -4018,6 +4019,7 @@ int id rv_favorite_room 0x7f090369
 int id rv_favorite_roommate 0x7f09036a
 int id rv_inquiry 0x7f09036b
 int id rv_list 0x7f09036c
+int id rv_member_stat 0x7f09060b
 int id rv_member_todo 0x7f09036d
 int id rv_message 0x7f09036e
 int id rv_message_detail 0x7f09036f
@@ -4241,6 +4243,7 @@ int id tv_change 0x7f090447
 int id tv_check_verify_code 0x7f090448
 int id tv_clean_check 0x7f090449
 int id tv_clean_frequency 0x7f09044a
+int id tv_close 0x7f09060c
 int id tv_closing 0x7f090606
 int id tv_content 0x7f09044b
 int id tv_cozy_char_title 0x7f09044c
@@ -4507,6 +4510,7 @@ int id tv_sleep_time 0x7f09054d
 int id tv_smoke_check 0x7f09054e
 int id tv_spinner 0x7f09054f
 int id tv_split_text 0x7f090550
+int id tv_stat_title 0x7f09060d
 int id tv_status 0x7f090551
 int id tv_study_check 0x7f090552
 int id tv_table_ac 0x7f090553
@@ -4853,6 +4857,7 @@ int layout design_navigation_menu 0x7f0c004a
 int layout design_navigation_menu_item 0x7f0c004b
 int layout design_text_input_end_icon 0x7f0c004c
 int layout design_text_input_start_icon 0x7f0c004d
+int layout dialog_member_stat 0x7f0c00ee
 int layout dialog_roommate_detail_cozymate_request 0x7f0c004e
 int layout dot_layout 0x7f0c004f
 int layout fragment_add_role_tab 0x7f0c0050
@@ -4993,6 +4998,7 @@ int layout rv_item_role 0x7f0c00d6
 int layout rv_item_room_detail 0x7f0c00d7
 int layout rv_item_room_detail_tag_list 0x7f0c00d8
 int layout rv_item_room_mate_detail 0x7f0c00d9
+int layout rv_item_room_member_stat 0x7f0c00ef
 int layout rv_item_roommate_crewable_list_result 0x7f0c00da
 int layout rv_item_roommate_crewable_table_result 0x7f0c00db
 int layout rv_item_roommate_detail_rule_cando_never 0x7f0c00dc

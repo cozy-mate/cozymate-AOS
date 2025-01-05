@@ -3467,6 +3467,7 @@ id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
 id dialog_button
+id dialog_content_layout
 id dimensions
 id direct
 id disableHome
@@ -4019,6 +4020,7 @@ id rv_favorite_room
 id rv_favorite_roommate
 id rv_inquiry
 id rv_list
+id rv_member_stat
 id rv_member_todo
 id rv_message
 id rv_message_detail
@@ -4242,6 +4244,7 @@ id tv_change
 id tv_check_verify_code
 id tv_clean_check
 id tv_clean_frequency
+id tv_close
 id tv_closing
 id tv_content
 id tv_cozy_char_title
@@ -4508,6 +4511,7 @@ id tv_sleep_time
 id tv_smoke_check
 id tv_spinner
 id tv_split_text
+id tv_stat_title
 id tv_status
 id tv_study_check
 id tv_table_ac
@@ -4854,6 +4858,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_member_stat
 layout dialog_roommate_detail_cozymate_request
 layout dot_layout
 layout fragment_add_role_tab
@@ -4994,6 +4999,7 @@ layout rv_item_role
 layout rv_item_room_detail
 layout rv_item_room_detail_tag_list
 layout rv_item_room_mate_detail
+layout rv_item_room_member_stat
 layout rv_item_roommate_crewable_list_result
 layout rv_item_roommate_crewable_table_result
 layout rv_item_roommate_detail_rule_cando_never

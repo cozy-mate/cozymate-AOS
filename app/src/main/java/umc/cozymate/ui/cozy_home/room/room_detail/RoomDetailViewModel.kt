@@ -5,15 +5,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
+import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -58,6 +61,13 @@ class RoomDetailViewModel @Inject constructor(
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
     val sortType: LiveData<String> get() = _sortType
+
+    private val _roomMemberStats = MutableLiveData<List<GetRoomMemberStatResponse.Result.Member>>()
+    val roomMemberStats: LiveData<List<GetRoomMemberStatResponse.Result.Member>> get() = _roomMemberStats
+
+    private val _roomMemberStatsColor = MutableLiveData<String>()
+    val roomMemberStatsColor: LiveData<String> get() = _roomMemberStatsColor
+
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -156,5 +166,29 @@ class RoomDetailViewModel @Inject constructor(
         return _sortType.value ?: SortType.LATEST.value
     }
 
+    fun getRoomMemberStats(roomId: Int, memberStatKey: String) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val token = getToken()
+                val response = repository.getRoomMemberStat(
+                    accessToken = token!!,
+                    roomId = roomId,
+                    memberStatKey = memberStatKey
+                )
 
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _roomMemberStats.postValue(response.body()?.result?.memberList)
+                    _roomMemberStatsColor.postValue(response.body()?.result?.color)
+                    Log.d(TAG, "getRoomMemberStat 호출 성공 : ${memberStatKey}, ${response.body()!!.result.memberList}")
+                } else {
+                    Log.e(TAG, "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching Room Member Stats: $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 }
