@@ -104,33 +104,50 @@
         <!--            app:layout_constraintEnd_toStartOf="@+id/btn_room_search_list"-->
         <!--            app:layout_constraintTop_toTopOf="@+id/btn_room_search_list" />-->
 
-        <Spinner
-            android:id="@+id/btn_room_search_list"
+        <LinearLayout
+            android:id="@+id/layout_search_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingEnd="8dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ly_room_search" />
+            app:layout_constraintTop_toBottomOf="@+id/ly_room_search">
+
+            <TextView
+                android:id="@+id/tv_room_search_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="평균일치율순"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_down_2" />
+
+        </LinearLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_room_detail"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:clipChildren="false"
-            android:focusableInTouchMode="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_room_search_list"
-            android:layout_marginTop="12dp"
-            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/layout_search_filter"
             tools:listitem="@layout/vp_item_room_recommend" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            app:layout_constraintTop_toBottomOf="@+id/rv_room_detail"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_room_detail" />
 
 
         <TextView
@@ -144,7 +161,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_room_search_list" />
+            app:layout_constraintTop_toBottomOf="@id/layout_search_filter" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

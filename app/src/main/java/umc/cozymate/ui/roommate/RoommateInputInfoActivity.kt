@@ -167,12 +167,12 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             acceptance = spf.getString("user_acceptance", "") ?: "",
             wakeUpMeridian = spf.getString("user_wakeUpMeridian", "") ?: "",
             wakeUpTime = spf.getInt("user_wakeUpTime", -1),
-            sleepingMeridian = spf.getString("user_sleepMeridian", "") ?: "",
-            sleepingTime = spf.getInt("user_sleepTime", -1),
-            turnOffMeridian = spf.getString("user_lightOffMeridian", "") ?: "",
-            turnOffTime = spf.getInt("user_lightOffTime", -1),
-            smokingState = spf.getString("user_smokingState", "") ?: "",
-            sleepingHabit = spf.getStringSet("user_sleepHabits", emptySet())?.toList()
+            sleepingMeridian = spf.getString("user_sleepingMeridian", "") ?: "",
+            sleepingTime = spf.getInt("user_sleepingTime", -1),
+            turnOffMeridian = spf.getString("user_turnOffMeridian", "") ?: "",
+            turnOffTime = spf.getInt("user_turnOffTime", -1),
+            smoking = spf.getString("user_smoking", "") ?: "",
+            sleepingHabit = spf.getStringSet("user_sleepingHabit", emptySet())?.toList()
                 ?: emptyList(),
             airConditioningIntensity = spf.getInt("user_airConditioningIntensity", -1),
             heatingIntensity = spf.getInt("user_heatingIntensity", -1),

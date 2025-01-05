@@ -353,7 +353,6 @@ id btn_myinfo
 id btn_next
 id btn_ok
 id btn_right
-id btn_room_search_list
 id btn_roommate_invite
 id btn_save
 id btn_school
@@ -476,6 +475,7 @@ id container
 id cy_light_off_ampm
 id cy_sleep_ampm
 id cy_wake_ampm
+id dialog_content_layout
 id divider
 id dormitory_number
 id dormitory_pass
@@ -507,6 +507,7 @@ id et_room_name
 id et_search
 id et_selection_info
 id et_university_email
+id fab_go_top
 id fab_request_enter_room
 id fab_request_roommate
 id flexbox
@@ -532,7 +533,9 @@ id gl_room_detail
 id gl_room_mate_detail
 id guide_1
 id guide_2
+id guide_average
 id guide_bottom
+id guide_latest
 id guide_other
 id guide_other_basic
 id guide_rv_crewable_list
@@ -555,6 +558,7 @@ id iv_Back
 id iv_Close
 id iv_More
 id iv_add_todo
+id iv_average_rate
 id iv_back
 id iv_bg
 id iv_char
@@ -566,6 +570,7 @@ id iv_check
 id iv_check_verify_code
 id iv_chk
 id iv_close
+id iv_closing
 id iv_cozy
 id iv_cozy_title
 id iv_cozyroom
@@ -585,6 +590,7 @@ id iv_filter
 id iv_home_name
 id iv_home_people_num
 id iv_ic_school
+id iv_latest
 id iv_light
 id iv_like
 id iv_line
@@ -605,6 +611,7 @@ id iv_school_logo
 id iv_school_verified_mark
 id iv_school_white
 id iv_search
+id iv_setting
 id iv_table_user_profile
 id iv_tem
 id iv_temp1
@@ -619,6 +626,8 @@ id iv_x
 id layout
 id layout_Rule
 id layout_TopButtons
+id layout_average_rate
+id layout_closing
 id layout_container
 id layout_contents
 id layout_cozyroom
@@ -627,6 +636,7 @@ id layout_info1
 id layout_info2
 id layout_input
 id layout_inquiry
+id layout_latest
 id layout_lifestyle
 id layout_mate
 id layout_member
@@ -637,6 +647,7 @@ id layout_myinfo
 id layout_mypage_data
 id layout_role
 id layout_school
+id layout_search_filter
 id layout_todo_member
 id layout_weekdays
 id light_off_guide_line
@@ -778,6 +789,7 @@ id rv_favorite_room
 id rv_favorite_roommate
 id rv_inquiry
 id rv_list
+id rv_member_stat
 id rv_member_todo
 id rv_message
 id rv_message_detail
@@ -872,6 +884,7 @@ id tv_alert_message
 id tv_alert_name
 id tv_alert_nickname
 id tv_arrival_num
+id tv_average_rate
 id tv_birth
 id tv_box
 id tv_call_check
@@ -879,6 +892,8 @@ id tv_change
 id tv_check_verify_code
 id tv_clean_check
 id tv_clean_frequency
+id tv_close
+id tv_closing
 id tv_content
 id tv_cozy_char_title
 id tv_cozy_description
@@ -931,6 +946,7 @@ id tv_friendly
 id tv_game_check
 id tv_go_lifestyle
 id tv_go_lifestyle_guide
+id tv_go_lifestyle_test
 id tv_goto
 id tv_guide
 id tv_guide1
@@ -955,6 +971,7 @@ id tv_label_room_hashtag
 id tv_label_room_name
 id tv_label_room_people_number
 id tv_label_university
+id tv_latest
 id tv_lifestyle_guide
 id tv_lifestyle_title
 id tv_light_off_1
@@ -1106,6 +1123,8 @@ id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
 id tv_room_name
+id tv_room_search_filter
+id tv_room_status
 id tv_room_tag
 id tv_roommate1
 id tv_roommate2
@@ -1140,6 +1159,7 @@ id tv_sleep_time
 id tv_smoke_check
 id tv_spinner
 id tv_split_text
+id tv_stat_title
 id tv_status
 id tv_study_check
 id tv_table_ac
@@ -1309,8 +1329,10 @@ layout activity_update_my_info
 layout activity_withdraw
 layout activity_write_inquiry
 layout activity_write_message
+layout bottom_sheet_search_filter
 layout custom_datepicker
 layout custom_spinner_list
+layout dialog_member_stat
 layout dialog_roommate_detail_cozymate_request
 layout fragment_add_role_tab
 layout fragment_add_rule_tab
@@ -1385,6 +1407,7 @@ layout rv_item_role
 layout rv_item_room_detail
 layout rv_item_room_detail_tag_list
 layout rv_item_room_mate_detail
+layout rv_item_room_member_stat
 layout rv_item_roommate_crewable_list_result
 layout rv_item_roommate_crewable_table_result
 layout rv_item_roommate_detail_rule_cando_never

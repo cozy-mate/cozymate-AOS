@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.favorites.GetFavoritesMembersResponse
 import umc.cozymate.data.model.response.favorites.GetFavoritesRoomsResponse
 import umc.cozymate.data.repository.repository.FavoritesRepository
@@ -26,7 +28,7 @@ class FavoriteViewModel @Inject constructor(
 
     // 내가 찜한 방 목록
     private val _isLoading1 = MutableLiveData(false)
-    val isLoading1: LiveData<Boolean> get()= _isLoading1
+    val isLoading1: LiveData<Boolean> get() = _isLoading1
     private val _getFavoritesRoomsResponse = MutableLiveData<GetFavoritesRoomsResponse>()
     val getFavoritesRoomsResponse: LiveData<GetFavoritesRoomsResponse> get() = _getFavoritesRoomsResponse
     suspend fun getFavoriteRoomList() {
@@ -49,7 +51,7 @@ class FavoriteViewModel @Inject constructor(
 
     // 내가 찜한 룸메이트 목록
     private val _isLoading2 = MutableLiveData(false)
-    val isLoading2: LiveData<Boolean> get()= _isLoading2
+    val isLoading2: LiveData<Boolean> get() = _isLoading2
     private val _getFavoritesMembersResponse = MutableLiveData<GetFavoritesMembersResponse>()
     val getFavoritesMembersResponse: LiveData<GetFavoritesMembersResponse> get() = _getFavoritesMembersResponse
     suspend fun getFavoriteRoommateList() {
@@ -67,6 +69,45 @@ class FavoriteViewModel @Inject constructor(
             Log.d(TAG, "getFavoritesRooms api 요청 실패: ${e}")
         } finally {
             _isLoading2.value = false
+        }
+    }
+
+    fun sendFavoriteRoom(roomId: Int) {
+        val token = getToken()!!
+        Log.d(TAG, "방 찜하기 : ${roomId}")
+        viewModelScope.launch {
+            val response = repo.sendFavoritesRooms(token, roomId)
+            if (response.body()!!.isSuccess) {
+                Log.d(TAG, "방 찜하기 성공 : ${response.body()!!.result}")
+            } else {
+                Log.d(TAG, "방 짬하기 실패 : ${response.body()}")
+            }
+        }
+    }
+
+    fun sendFavoriteMember(memberId: Int) {
+        val token = getToken()!!
+        Log.d(TAG, "맴버 찜하기 : ${memberId}")
+        viewModelScope.launch {
+            val response = repo.sendFavoritesMember(token, memberId)
+            if (response.body()!!.isSuccess) {
+                Log.d(TAG, "멤버 찜하기 성공 : ${response.body()!!.result}")
+            } else {
+                Log.d(TAG, "멤버 찜하기 실패 : ${response.body()!!.result}")
+            }
+        }
+    }
+
+    fun deleteFavoriteRoomMember(id: Int) {
+        val token = getToken()!!
+        Log.d(TAG, "찜하기 취소 : ${id}")
+        viewModelScope.launch {
+            val response = repo.deleteFavoritesRoomMember(token, id)
+            if(response.body()!!.isSuccess) {
+                Log.d(TAG, "찜하기 취소 성공 : ${response.body()!!.result}")
+            } else {
+                Log.d(TAG, "찜하기 취소 실패 : ${response.body()!!.result}")
+            }
         }
     }
 }

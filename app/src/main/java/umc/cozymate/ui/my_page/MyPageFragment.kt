@@ -3,6 +3,7 @@ package umc.cozymate.ui.my_page
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,6 +89,17 @@ class MyPageFragment : Fragment() {
                 val intent = Intent(activity, MyFavoriteActivity::class.java)
                 startActivity(intent)
             }
+        }
+
+        binding.layoutLifestyle.setOnClickListener {
+            val intent = Intent(activity, FetchLifestyleActivity::class.java)
+            startActivity(intent)
+            Log.d("MyPageFragment", "라이프스타일 수정 클릭")
+        }
+
+        binding.tvGoLifestyleTest.setOnClickListener {
+            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
     }

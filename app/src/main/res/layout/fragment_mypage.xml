@@ -188,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="나의 라이프스타일"
+                android:id="@+id/tv_go_lifestyle"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/highlight_font"/>
             <View
@@ -303,6 +304,17 @@
             android:textColor="@color/unuse_font"
             android:gravity="center_vertical"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="라이프스타일 테스트"
+        android:id="@+id/tv_go_lifestyle_test"
+        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="20dp"/>
 
     <!-- 바텀뷰만큼 띄우기위한 코드-->
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
