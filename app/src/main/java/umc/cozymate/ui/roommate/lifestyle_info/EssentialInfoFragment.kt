@@ -20,7 +20,8 @@ import umc.cozymate.ui.roommate.RoommateInputInfoActivity
 class EssentialInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentEssentialInfoBinding
-//    private lateinit var spfHelper: UserInfoSPFHelper
+
+    //    private lateinit var spfHelper: UserInfoSPFHelper
 //    private var userInfo = UserInfo()
     private lateinit var spf: SharedPreferences
 
@@ -42,10 +43,7 @@ class EssentialInfoFragment : Fragment() {
     private var smokeOption: TextView? = null
     private var smokeCheck: String? = null
 
-//    private var sleepHabitOption: TextView? = null
-
-    //    private var sleepHabitCheck: String? = null
-//    private var selectedSleepHabits: List<String> = emptyList()
+    //    private var selectedSleepHabits: List<String> = emptyList()
     private var selectedSleepHabits: MutableList<String> = mutableListOf()
 
     private var acOption: TextView? = null
@@ -87,14 +85,30 @@ class EssentialInfoFragment : Fragment() {
     private var drinkingFrequencyOption: TextView? = null
     private var drinkingFrequencyCheck: String? = null
 
-//    private var personalityOption: TextView? = null
-
-    //    private var personalityCheck: String? = null
-//    private var selectedPerosonalitys: List<String> = emptyList()
     private var selectedPersonalitys: MutableList<String> = mutableListOf()
 
     private var mbtiOption: TextView? = null
     private var mbtiCheck: String? = null
+
+//    private var isSleepingLayoutShown = false
+//    private var isLightOffLayoutShown = false
+//    private var isSmokingLayoutShown = false
+//    private var isSleepHabitLayoutShown = false
+//    private var isAcLayoutShown = false
+//    private var isHeaterLayoutShown = false
+//    private var isLifePatternLayoutShown = false
+//    private var isFriendlyLayoutShown = false
+//    private var isShareLayoutShown = false
+//    private var isGameLayoutShown = false
+//    private var isCallLayoutShown = false
+//    private var isStudyLayoutShown = false
+//    private var isEatLayoutShown = false
+//    private var isCleanSenLayoutShown = false
+//    private var isNoiseSenLayoutShown = false
+//    private var isCleanFreLayoutShown = false
+//    private var isDrinkFreLayoutShown = false
+//    private var isPersonalityLayoutShown = false
+//    private var isMbtiLayoutShown = false
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
@@ -119,6 +133,7 @@ class EssentialInfoFragment : Fragment() {
     private fun saveToSPF(key: String, value: String) {
         spf.edit().putString(key, value).apply()
     }
+
     private fun saveToSPFList(key: String, value: List<String>) {
         spf.edit().putStringSet(key, value.toSet()).apply()
     }
@@ -135,13 +150,15 @@ class EssentialInfoFragment : Fragment() {
     ) {
         currentOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
 
         val selectedTextView = view as TextView
         selectedTextView.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
 
         saveToSPF(key, value)
@@ -179,13 +196,15 @@ class EssentialInfoFragment : Fragment() {
     ) {
         currentOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
         }
 
         val selectedTextView = view as TextView
         selectedTextView.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
 
         saveToSPFInt(key, value)
@@ -231,9 +250,18 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in wakeAmpmTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_wakeUpMeridian", value, wakeAmpmOption)
+
+                wakeAmpmOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                }
+                wakeAmpm = value
+                wakeAmpmOption = textView.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                }
+                saveToSPF("user_wakeUpMeridian", value)
+                updateNextButtonState()
                 wakeAmpmOption = it as TextView
-                showSleepLayout()
+                resetDebounceTimer { showSleepLayout() }
             }
         }
     }
@@ -250,14 +278,14 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_wakeUpTime", value, wakeTimeOption)
                 wakeTimeOption = it as TextView
-                showSleepLayout()
+                resetDebounceTimer { showSleepLayout() }
             }
         }
         showSleepLayout()
     }
 
     private fun showSleepLayout() {
-        if (wakeAmpm != null && wakeTime != null && wakeAmpmOption != null && wakeTimeOption != null) {
+        if (wakeAmpmOption != null && wakeTimeOption != null) {
             binding.clSleepTime.showWithSlideDownAnimation()
         }
     }
@@ -269,9 +297,16 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in sleepAmpmTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_sleepingMeridian", value, sleepAmpmOption)
+                sleepAmpmOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                }
+                sleepAmpm = value
+                wakeAmpmOption = textView.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                }
+                saveToSPF("user_sleepingMeridian", value)
                 sleepAmpmOption = it as TextView
-                showLightOffLayout()
+                resetDebounceTimer { showLightOffLayout() }
             }
         }
     }
@@ -288,7 +323,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_sleepingTime", value, sleepTimeOption)
                 sleepTimeOption = it as TextView
-                showLightOffLayout()
+                resetDebounceTimer { showLightOffLayout() }
             }
         }
     }
@@ -306,9 +341,16 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in lightOffAmpmTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_turnOffMeridian", value, lightOffAmpmOption)
-                lightOffAmpmOption = it as TextView
-                showSmokeLayout()
+                lightOffAmpmOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                }
+                lightOffAmpm = value
+                lightOffAmpmOption = textView.apply {
+                    setTextColor(resources.getColor(R.color.main_blue))
+                }
+                saveToSPF("user_turnOffMeridian", value)
+                updateNextButtonState()
+                resetDebounceTimer { showSmokeLayout() }
             }
         }
     }
@@ -325,7 +367,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_turnOffTime", value, lightOffTimeOption)
                 lightOffTimeOption = it as TextView
-                showSmokeLayout()
+                resetDebounceTimer { showSmokeLayout() }
             }
         }
     }
@@ -347,7 +389,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_smoking", value, smokeOption)
                 smokeOption = it as TextView
-                showSleepHabitLayout()
+                resetDebounceTimer { showSleepHabitLayout() }
             }
         }
     }
@@ -368,7 +410,7 @@ class EssentialInfoFragment : Fragment() {
         for ((textView, value) in sleepHabitTexts) {
             textView.setOnClickListener {
                 toggleMultiSelection(it, "user_sleepingHabit", value, selectedSleepHabits)
-                showAcLayout()
+                resetDebounceTimer { showAcLayout() }
             }
         }
     }
@@ -388,7 +430,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_airConditioningIntensity", value, acOption)
                 acOption = it as TextView
-                showHeaterLayout()
+                resetDebounceTimer { showHeaterLayout() }
             }
         }
     }
@@ -408,7 +450,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_heatingIntensity", value, heaterOption)
                 heaterOption = it as TextView
-                showLivingPatternLayout()
+                resetDebounceTimer { showLivingPatternLayout() }
             }
         }
     }
@@ -426,7 +468,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_lifePattern", value, livingPatternOption)
                 livingPatternOption = it as TextView
-                showFriendlyLayout()
+                resetDebounceTimer { showFriendlyLayout() }
             }
         }
     }
@@ -445,7 +487,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_intimacy", value, friendlyOption)
                 friendlyOption = it as TextView
-                showShareLayout()
+                resetDebounceTimer { showShareLayout() }
             }
         }
     }
@@ -465,7 +507,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_canShare", value, shareOption)
                 shareOption = it as TextView
-                showGameLayout()
+                resetDebounceTimer { showGameLayout() }
             }
         }
     }
@@ -485,7 +527,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_isPlayGame", value, gameOption)
                 gameOption = it as TextView
-                showCallLayout()
+                resetDebounceTimer { showCallLayout() }
             }
         }
     }
@@ -504,7 +546,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_isPhoneCall", value, callOption)
                 callOption = it as TextView
-                showStudyLayout()
+                resetDebounceTimer { showStudyLayout() }
             }
         }
     }
@@ -523,7 +565,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_studying", value, studyOption)
                 studyOption = it as TextView
-                showEatingLayout()
+                resetDebounceTimer { showEatingLayout() }
             }
         }
     }
@@ -543,7 +585,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_intake", value, eatingOption)
                 eatingOption = it as TextView
-                showCleanLayout()
+                resetDebounceTimer { showCleanLayout() }
             }
         }
     }
@@ -564,7 +606,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_cleanSensitivity", value, cleanOption)
                 cleanOption = it as TextView
-                showNoiseLayout()
+                resetDebounceTimer { showNoiseLayout() }
             }
         }
     }
@@ -585,7 +627,7 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedIntOption(it, "user_noiseSensitivity", value, noiseOption)
                 noiseOption = it as TextView
-                showCleanFrequencyLayout()
+                resetDebounceTimer { showCleanFrequencyLayout() }
             }
         }
     }
@@ -604,9 +646,14 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in cleanFrequencyTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_cleaningFrequency", value, cleanFrequencyOption)
+                updateSelectedStringOption(
+                    it,
+                    "user_cleaningFrequency",
+                    value,
+                    cleanFrequencyOption
+                )
                 cleanFrequencyOption = it as TextView
-                showDrinkingFrequencyLayout()
+                resetDebounceTimer { showDrinkingFrequencyLayout() }
             }
         }
     }
@@ -625,9 +672,14 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in drinkingFrequencyTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_drinkingFrequency", value, drinkingFrequencyOption)
+                updateSelectedStringOption(
+                    it,
+                    "user_drinkingFrequency",
+                    value,
+                    drinkingFrequencyOption
+                )
                 drinkingFrequencyOption = it as TextView
-                showPersonalityLayout()
+                resetDebounceTimer { showPersonalityLayout() }
             }
         }
     }
@@ -654,7 +706,7 @@ class EssentialInfoFragment : Fragment() {
         for ((textView, value) in personalityTexts) {
             textView.setOnClickListener {
                 toggleMultiSelection(it, "user_personality", value, selectedPersonalitys)
-                showMbtiLayout()
+                resetDebounceTimer { showMbtiLayout() }
             }
         }
     }
@@ -693,40 +745,26 @@ class EssentialInfoFragment : Fragment() {
         }
     }
 
-    fun View.showWithSlideDownAnimation(duration: Long = 1300) {
-        this.apply {
-            // 애니메이션 설정
-            val slideDown = TranslateAnimation(0f, 0f, -this.height.toFloat(), 0f).apply {
-                this.duration = duration
-            }
+    private fun View.showWithSlideDownAnimation(duration: Long = 1300) {
+        if (this.visibility == View.VISIBLE) return
 
-            val fadeIn = AlphaAnimation(0f, 1f).apply {
-                this.duration = duration
-            }
-
-            val animationSet = AnimationSet(true).apply {
-                addAnimation(slideDown)
-                addAnimation(fadeIn)
-            }
-
-            // visibility를 VISIBLE로 설정
-            visibility = View.VISIBLE
-
-            // 애니메이션 시작
-            startAnimation(animationSet)
+        // 애니메이션 설정
+        val slideDown = TranslateAnimation(0f, 0f, -this.height.toFloat(), 0f).apply {
+            this.duration = duration
         }
+
+        val fadeIn = AlphaAnimation(0f, 1f).apply {
+            this.duration = duration
+        }
+
+        val animationSet = AnimationSet(true).apply {
+            addAnimation(slideDown)
+            addAnimation(fadeIn)
+        }
+        this.startAnimation(animationSet)
+        this.visibility = View.VISIBLE
     }
 
-
-    //    fun updateNextButtonState() {
-//        val isNextButtonEnabled = wakeAmpm != null &&
-//                mbtiCheck != null &&
-//                mbtiOption != null
-//
-//        if (isNextButtonEnabled) {
-//            (activity as? RoommateInputInfoActivity)?.showNextButton()
-//        }
-//    }
     fun updateNextButtonState() {
         // 각 항목이 입력되었는지 확인
         val isWakeSelected = wakeAmpmOption != null && wakeTimeOption != null

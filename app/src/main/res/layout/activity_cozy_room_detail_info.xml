@@ -32,12 +32,32 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_setting"
+                android:src="@drawable/ic_seemore"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
                 android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_heart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"/>
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/iv_like_full"-->
+<!--                android:src="@drawable/ic_heartfull"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/iv_like"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/iv_like"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/iv_like"-->
+<!--                android:visibility="gone"/>-->
 
             <ImageView
                 android:id="@+id/iv_chat"
@@ -70,23 +90,28 @@
                 app:layout_constraintTop_toTopOf="@+id/iv_room_character"
                 tools:text="피그말리온" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/tv_room_tag"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text=""-->
-            <!--                android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
-            <!--                android:textColor="@color/basic_font"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/tv_room_name"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_room_name"-->
-            <!--                tools:text="#UMC #같이애니보실? #피그마짱" />-->
-            <!-- 해시태그 리스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_room_status"
+                android:text=""
+                android:paddingVertical="2dp"
+                tools:text="비공개방입니다"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintTop_toBottomOf="@id/tv_room_name"
+                app:layout_constraintStart_toStartOf="@id/tv_room_name"/>
+
             <TextView
                 android:id="@+id/tv_hashtag_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/color_box"
                 android:paddingVertical="2dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:text="#히로아카"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
@@ -102,6 +127,8 @@
                 android:paddingHorizontal="2dp"
                 android:paddingVertical="2dp"
                 android:text="#바쿠고"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_1"
@@ -116,6 +143,8 @@
                 android:paddingHorizontal="2dp"
                 android:paddingVertical="2dp"
                 android:text="#바쿠고"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_2"

@@ -5,9 +5,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.response.member.MemberInfoResponse
+import umc.cozymate.data.model.response.member.UpdateInfoCommonResponse
+import umc.cozymate.data.model.response.member.stat.UpdatePreferenceResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import javax.inject.Inject
@@ -44,8 +48,10 @@ class UpdateInfoViewModel @Inject constructor(
     // 선호항목 조회
     private val _myPreference = MutableLiveData<List<String>>()
     val myPreference: LiveData<List<String>> get() = _myPreference
+    private val _loading2 = MutableLiveData<Boolean>()
+    val loading2: LiveData<Boolean> get() = _loading2
     suspend fun fetchMyPreference() {
-        _loading.value = true
+        _loading2.value = true
         val token = getToken()
         try {
             val response = prefRepo.getMyPreference(token!!)
@@ -55,14 +61,80 @@ class UpdateInfoViewModel @Inject constructor(
                     _myPreference.value = response.body()!!.result?.preferenceList
                 } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
             } else {
-                _loading.value = false
+                _loading2.value = false
                 Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
             Log.d(TAG, "선호 항목 조회 api 요청 실패: $e ")
         } finally {
-            _loading.value = false
+            _loading2.value = false
         }
-
     }
+
+    // 선호항목 수정
+    private val _preferences = MutableLiveData<PreferenceList>()
+    val preferences: LiveData<PreferenceList> get() = _preferences
+    fun setPreferences(preferences: PreferenceList){
+        _preferences.value = preferences
+    }
+    private val _updatePreferenceResponse = MutableLiveData<UpdatePreferenceResponse>()
+    val updatePreferenceResponse: LiveData<UpdatePreferenceResponse> get() = _updatePreferenceResponse
+    private val _loading3 = MutableLiveData<Boolean>()
+    val loading3: LiveData<Boolean> get() = _loading3
+    suspend fun updateMyPreference() {
+        _loading3.value = true
+        val token = getToken()
+        try {
+            val response = prefRepo.updateMyPreference(token!!, preferences.value!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "선호 항목 수정 성공: ${response.body()!!.result} ")
+                    _updatePreferenceResponse.value = response.body()!!
+                } else Log.d(TAG, "선호 항목 수정 에러 메시지: ${response}")
+            } else {
+                _loading3.value = false
+                Log.d(TAG, "선호 항목 수정 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "선호 항목 수정 api 요청 실패: $e ")
+        } finally {
+            _loading3.value = false
+        }
+    }
+
+    // 선호 항목 선택 개수
+    private val _selectedElementCount = MutableLiveData(0)
+    val selectedElementCount: LiveData<Int> get() = _selectedElementCount
+    fun updateSelectedElementCount(isSelected: Boolean) {
+        _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
+    }
+    val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
+        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
+    }
+
+    // 닉네임 수정
+    private val _nickname = MutableLiveData<String>()
+    val nickname: LiveData<String> get() = _nickname
+    fun setNickname(nickname: String){
+        _nickname.value = nickname
+    }
+    private val _updateNicknameResponse = MutableLiveData<UpdateInfoCommonResponse>()
+    val updateNicknameResponse: LiveData<UpdateInfoCommonResponse> get() = _updateNicknameResponse
+    suspend fun updateNickname(){
+        val token = getToken()
+        try {
+            val response = repo.updateNickname(token!!, nickname.value!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "닉네임 수정 성공: ${response.body()!!.result} ")
+                    _updateNicknameResponse.value = response.body()!!
+                } else Log.d(TAG, "닉네임 수정 에러 메시지: ${response}")
+            } else {
+                Log.d(TAG, "닉네임 수정 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "닉네임 수정 api 요청 실패: $e ")
+        }
+    }
+
 }

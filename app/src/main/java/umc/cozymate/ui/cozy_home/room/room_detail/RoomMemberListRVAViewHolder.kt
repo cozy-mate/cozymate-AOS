@@ -39,6 +39,7 @@ class RoomMemberListRVAViewHolder(
             ivRoomMemberCharacter.setImageResource(personaResId)
             if (item.nickname == managerNickname) {
                 tvRoomMemberMaster.visibility = View.VISIBLE
+                tvRoomMemberMatch.visibility = View.GONE
             } else {
                 tvRoomMemberMaster.visibility = View.GONE
             }

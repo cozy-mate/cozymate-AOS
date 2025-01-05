@@ -52,7 +52,7 @@ class RoomRecommendVPViewHolder(
                         tvCriteriaContent1.text = "0명 일치"
                         ivCriteriaIcon1.setImageResource(pref1.redDrawable)
                         if (isLifestyleExist == false) {
-                            tvCriteriaContent1.text = "???"
+                            tvCriteriaContent1.text = "??"
                             ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
                         }
                     }
@@ -78,7 +78,7 @@ class RoomRecommendVPViewHolder(
                         tvCriteriaContent2.text = "0명 일치"
                         ivCrieteriaIcon2.setImageResource(pref2.redDrawable)
                         if (isLifestyleExist == false) {
-                            tvCriteriaContent2.text = "???"
+                            tvCriteriaContent2.text = "??"
                             ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
                         }
                     }
@@ -104,7 +104,7 @@ class RoomRecommendVPViewHolder(
                         tvCriteriaContent3.text = "0명 일치"
                         ivCrieteriaIcon3.setImageResource(pref3.redDrawable)
                         if (isLifestyleExist == false) {
-                            tvCriteriaContent3.text = "???"
+                            tvCriteriaContent3.text = "??"
                             ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
                         }
                     }
@@ -131,7 +131,7 @@ class RoomRecommendVPViewHolder(
                         tvCriteriaContent4.text = "0명 일치"
                         ivCrieteriaIcon4.setImageResource(pref4.redDrawable)
                         if (isLifestyleExist == false) {
-                            tvCriteriaContent4.text = "???"
+                            tvCriteriaContent4.text = "??"
                             ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
                         }
                     }

@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.data.domain.SortType
 import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.ui.cozy_home.home.FilterBottomSheetDialog
 import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.util.StatusBarUtil
@@ -47,12 +49,40 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         // 닉네임 설정
         binding.tvUserName.text = viewModel.getNickname().toString()
 
+        binding.layoutSearchFilter.setOnClickListener {
+            val sortBottomSheet = FilterBottomSheetDialog(
+                onSortSelected = { selectedSortType ->
+                    // 한국어로 변환 후 텍스트 업데이트
+                    binding.tvRoomSearchFilter.text = getSortTypeInKorean(selectedSortType)
+
+                    // ViewModel의 sortType 업데이트
+                    viewModel.updateSortType(selectedSortType)
+
+                    // 데이터 다시 로드
+                    lifecycleScope.launch {
+                        viewModel.fetchRecommendedRoomList()
+                    }
+                },
+                currentSortType = viewModel.getSortType() // 현재 선택된 정렬 값 전달
+            )
+
+            sortBottomSheet.show(supportFragmentManager, "SortBottomSheetDialog")
+        }
+
         setupRecyclerView()
 
         // 데이터 가져오기
         fetchData()
     }
 
+    private fun getSortTypeInKorean(sortType: String): String {
+        return when (sortType) {
+            SortType.LATEST.value -> "최신순"
+            SortType.AVERAGE_RATE.value -> "평균일치율순"
+            SortType.CLOSING_SOON.value -> "마감임박순"
+            else -> "최신순"
+        }
+    }
     private fun setupRecyclerView() {
         // 어댑터 초기화
         roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->

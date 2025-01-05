@@ -5,15 +5,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
+import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -55,6 +58,16 @@ class RoomDetailViewModel @Inject constructor(
 
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
+
+    private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
+    val sortType: LiveData<String> get() = _sortType
+
+    private val _roomMemberStats = MutableLiveData<List<GetRoomMemberStatResponse.Result.Member>>()
+    val roomMemberStats: LiveData<List<GetRoomMemberStatResponse.Result.Member>> get() = _roomMemberStats
+
+    private val _roomMemberStatsColor = MutableLiveData<String>()
+    val roomMemberStatsColor: LiveData<String> get() = _roomMemberStatsColor
+
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -98,33 +111,9 @@ class RoomDetailViewModel @Inject constructor(
     val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
     val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
 
-    //    suspend fun fetchRecommendedRoomList() {
-//        _isLoading.value = true
-//        val token = getToken()
-//        try {
-//            val response = repository.getRecommendedRoomList(
-//                accessToken = token!!,
-//                size = 10,
-//                page = 0,
-//                sortType = SortType.LATEST.value
-//            ) // 최신순
-//            if (response.isSuccessful) {
-//                if (response.body()?.isSuccess == true) {
-//                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
-//                    _roomList.value = response.body()!!.result?.result
-//                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
-//            } else {
-//                _roomList.value = emptyList()
-//                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
-//            }
-//        } catch (e: Exception) {
-//            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
-//        } finally {
-//            _isLoading.value = false
-//        }
-//    }
     suspend fun fetchRecommendedRoomList() {
         _isLoading.value = true
+        val sortType = getSortType() // 현재 정렬 값 사용
         val token = getToken()
         val allRooms = mutableListOf<GetRecommendedRoomListResponse.Result.Result>() // 전체 방 리스트 저장
         var currentPage = 0 // 초기 페이지
@@ -133,12 +122,12 @@ class RoomDetailViewModel @Inject constructor(
 
         try {
             do {
-                // API 요청
+                val currentSortType = _sortType.value ?: SortType.AVERAGE_RATE.value // 현재 정렬 타입
                 val response = repository.getRecommendedRoomList(
                     accessToken = token!!,
                     size = pageSize,
                     page = currentPage,
-                    sortType = SortType.LATEST.value
+                    sortType = currentSortType
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -168,5 +157,38 @@ class RoomDetailViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+    // 정렬 타입 변경
+    fun updateSortType(newSortType: String) {
+        _sortType.value = newSortType
+    }
 
+    fun getSortType(): String {
+        return _sortType.value ?: SortType.LATEST.value
+    }
+
+    fun getRoomMemberStats(roomId: Int, memberStatKey: String) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val token = getToken()
+                val response = repository.getRoomMemberStat(
+                    accessToken = token!!,
+                    roomId = roomId,
+                    memberStatKey = memberStatKey
+                )
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _roomMemberStats.postValue(response.body()?.result?.memberList)
+                    _roomMemberStatsColor.postValue(response.body()?.result?.color)
+                    Log.d(TAG, "getRoomMemberStat 호출 성공 : ${memberStatKey}, ${response.body()!!.result.memberList}")
+                } else {
+                    Log.e(TAG, "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching Room Member Stats: $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 }
