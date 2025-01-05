@@ -101,31 +101,6 @@ class RoomDetailViewModel @Inject constructor(
     val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
     val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
 
-    //    suspend fun fetchRecommendedRoomList() {
-//        _isLoading.value = true
-//        val token = getToken()
-//        try {
-//            val response = repository.getRecommendedRoomList(
-//                accessToken = token!!,
-//                size = 10,
-//                page = 0,
-//                sortType = SortType.LATEST.value
-//            ) // 최신순
-//            if (response.isSuccessful) {
-//                if (response.body()?.isSuccess == true) {
-//                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
-//                    _roomList.value = response.body()!!.result?.result
-//                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
-//            } else {
-//                _roomList.value = emptyList()
-//                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
-//            }
-//        } catch (e: Exception) {
-//            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
-//        } finally {
-//            _isLoading.value = false
-//        }
-//    }
     suspend fun fetchRecommendedRoomList() {
         _isLoading.value = true
         val sortType = getSortType() // 현재 정렬 값 사용
@@ -180,4 +155,6 @@ class RoomDetailViewModel @Inject constructor(
     fun getSortType(): String {
         return _sortType.value ?: SortType.LATEST.value
     }
+
+
 }
