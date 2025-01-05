@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentUpdateBirthBinding
+import umc.cozymate.ui.onboarding.DatePickerBottomSheetFragment
 
 @AndroidEntryPoint
 class UpdateBirthFragment: Fragment() {
@@ -35,6 +36,20 @@ class UpdateBirthFragment: Fragment() {
             // 생년월일 수정
             btnNext.setOnClickListener {
 
+            }
+
+            mcvBirth.setOnClickListener {
+
+                // 바텀시트 띄우기
+                val fragment = DatePickerBottomSheetFragment()
+                fragment.setOnDateSelectedListener(object :
+                    DatePickerBottomSheetFragment.AlertPickerDialogInterface {
+
+                    override fun onClickDoneButton(date: String) {
+                        binding.tvBirth.text = date
+                    }
+                })
+                fragment.show(childFragmentManager, "FragmentTag")
             }
         }
     }
