@@ -107,7 +107,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" /> <!-- 쪽지 -->
-        <activity android:name=".ui.message.MessageActivity" />
+        <activity android:name=".ui.message.MessageDetailActivity" />
+        <activity android:name=".ui.message.MessageMemberActivity" />
         <activity android:name=".ui.message.WriteMessageActivity" />
         <activity android:name=".ui.my_page.WithDrawActivity" />
         <activity android:name=".ui.my_page.InquiryActivity" />

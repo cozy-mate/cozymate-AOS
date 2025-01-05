@@ -19,7 +19,7 @@ import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
-import umc.cozymate.ui.message.MessageActivity
+import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
@@ -149,7 +149,7 @@ class CozyHomeMainFragment : Fragment() {
 
     private fun openMessage() {
         binding.btnMessage.setOnClickListener {
-            startActivity(Intent(activity, MessageActivity::class.java))
+            startActivity(Intent(activity, MessageMemberActivity::class.java))
         }
     }
 
