@@ -102,11 +102,15 @@ class FavoriteViewModel @Inject constructor(
         val token = getToken()!!
         Log.d(TAG, "찜하기 취소 : ${id}")
         viewModelScope.launch {
-            val response = repo.deleteFavoritesRoomMember(token, id)
-            if(response.body()!!.isSuccess) {
-                Log.d(TAG, "찜하기 취소 성공 : ${response.body()!!.result}")
-            } else {
-                Log.d(TAG, "찜하기 취소 실패 : ${response.body()!!.result}")
+            try {
+                val response = repo.deleteFavoritesRoomMember(token, id)
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "찜하기 취소 성공 : ${response.body()?.result}")
+                } else {
+                    Log.e(TAG, "API 응답 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "API 호출 중 예외 발생: $e")
             }
         }
     }

@@ -84,31 +84,39 @@ class RoomMemberStatRVA (
         private fun mapIntStatValue(key: String, value: Int): String {
             return when (key) {
                 "airConditioningIntensity" -> when (value) {
-                    1 -> "약한 강도"
-                    2 -> "보통 강도"
-                    3 -> "강한 강도"
-                    else -> "알 수 없음"
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "세게 틀어요"
+                    else -> "적당하게 틀어요"
                 }
                 "heatingIntensity" -> when (value) {
-                    1 -> "약한 난방"
-                    2 -> "보통 난방"
-                    3 -> "강한 난방"
-                    else -> "알 수 없음"
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "세게 틀어요"
+                    else -> "적당하게 틀어요"
                 }
                 "cleanSensitivity" -> when (value) {
-                    1 -> "깔끔한 편"
-                    2 -> "보통"
-                    3 -> "지저분한 편"
-                    else -> "알 수 없음"
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
                 }
                 "noiseSensitivity" -> when (value) {
-                    1 -> "소음 둔감"
-                    2 -> "보통"
-                    3 -> "소음 민감"
-                    else -> "알 수 없음"
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
                 }
-                "birthYear", "admissionYear", "wakeUpTime", "sleepingTime", "turnOffTime" -> "$value"
-                else -> "Int로 들어오는중"
+                "birthYear" -> "${value}년"
+                "admissionYear" -> "${value}학번"
+                "wakeUpTime", "sleepingTime", "turnOffTime" -> "${value}시"
+                else -> "알수없음"
             }
         }
     }

@@ -18,6 +18,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
+import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
@@ -477,7 +478,17 @@ private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) 
                             memberStatKey = memberStatKey,
                             color = chipColor
                         )
+                        // 디바이더 추가
+                        addItemDecoration(
+                            CustomDividerItemDecoration(
+                                context = this@RoomDetailActivity,
+                                heightDp = 0.6f,       // 디바이더 높이 (1dp)
+                                marginStartDp = 16f, // 좌측 여백 (16dp)
+                                marginEndDp = 16f    // 우측 여백 (16dp)
+                            )
+                        )
                     }
+
 
                     dialogBinding.tvClose.setOnClickListener {
                         dialog.dismiss()
@@ -501,15 +512,30 @@ private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) 
 
     private fun translateMemberStatKey(key: String): String {
         return when (key) {
-            "airConditioningIntensity" -> "에어컨 강도"
-            "heatingIntensity" -> "난방 강도"
-            "cleanSensitivity" -> "청결 예민도"
-            "noiseSensitivity" -> "소음 민감도"
-            "birthYear" -> "출생 연도"
-            "admissionYear" -> "입학 연도"
-            "wakeUpTime" -> "기상 시간"
-            "sleepingTime" -> "취침 시간"
-            "turnOffTime" -> "소등 시간"
+            "airConditioningIntensity" -> "에어컨"
+            "isPhoneCall" -> "전화여부"
+            "sleepingTime" -> "취침시간"
+            "noiseSensitivity" -> "소음예민도"
+            "wakeUpTime" -> "기상시간"
+            "turnOffTime" -> "소등시간"
+            "admissionYear" -> "학번"
+            "mbti" -> "MBTI"
+            "heatingIntensity" -> "히터"
+            "drinkingFrequency" -> "음주빈도"
+            "studying" -> "공부여부"
+            "canShare" -> "물건공유"
+            "sleepingHabit" -> "잠버릇"
+            "intimacy" -> "친밀도"
+            "lifePattern" -> "생활패턴"
+            "acceptance" -> "합격여부"
+            "cleanSensitivity" -> "청결예민도"
+            "personality" -> "성격"
+            "birthYear" -> "출생년도"
+            "cleaningFrequency" -> "청소빈도"
+            "smoking" -> "흡연여부"
+            "majorName" -> "학과"
+            "isPlayGame" -> "게임여부"
+            "intake" -> "섭취여부"
             else -> "알 수 없음"
         }
     }
