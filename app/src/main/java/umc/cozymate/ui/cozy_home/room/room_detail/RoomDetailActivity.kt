@@ -21,6 +21,7 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.util.StatusBarUtil
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
@@ -31,6 +32,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private val viewModel: RoomDetailViewModel by viewModels()
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
     // 방 id는  Intent를 통해 불러옵니다
@@ -84,16 +86,17 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvRoomName.text = roomInfo.name
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
+                    updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
                     ivChat.visibility = View.GONE
                     ivLike.visibility = View.GONE
                     tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
+
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
                     fabRequestEnterRoom.visibility = View.GONE
-
                     // 리사이클러 뷰 연결
                     rvRoomMemberList.apply{
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -101,8 +104,6 @@ class RoomDetailActivity : AppCompatActivity() {
                             navigatorToRoommateDetail(memberId)
                         }
                     }
-
-
                     ivSetting.visibility = View.GONE // 기능 구현 후 visible로 수정
                 }
             }
@@ -110,17 +111,16 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun getRoomDetailInfo() {
-        viewModel.roomName.observe(this) {name ->
+        viewModel.roomName.observe(this) { name ->
             binding.tvRoomName.text = name
         }
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
                 updateUI(roomInfo)
             }
         }
     }
-
     private fun updateUI(roomInfo: GetRoomInfoResponse.Result) {
         with(binding) {
             tvRoomName.text = roomInfo.name
@@ -132,6 +132,16 @@ class RoomDetailActivity : AppCompatActivity() {
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
+
+            if (roomInfo.favoriteId == 0) {
+                ivLike.setImageResource(R.drawable.ic_heart)
+            } else {
+                ivLike.setImageResource(R.drawable.ic_heartfull)
+            }
+
+            ivLike.setOnClickListener {
+                handleLikeClick(roomInfo)
+            }
 
             fabRequestEnterRoom.visibility = View.GONE
             // 리사이클러 뷰 연결
@@ -217,6 +227,31 @@ class RoomDetailActivity : AppCompatActivity() {
         }
         binding.tvRoomStatus.visibility = View.VISIBLE
         binding.tvRoomStatus.text = roomStatusText
+    }
+
+    private fun updateRoomManager(isRoomManager: Boolean) {
+        if (isRoomManager) {
+            binding.ivSetting.visibility = View.VISIBLE
+        } else {
+            binding.ivSetting.visibility = View.GONE
+        }
+    }
+
+    private fun handleLikeClick(roomInfo: GetRoomInfoResponse.Result) {
+        if (roomInfo.favoriteId == 0) {
+            binding.ivLike.setImageResource(R.drawable.ic_heartfull)
+            lifecycleScope.launch {
+                favoriteViewModel.sendFavoriteRoom(roomInfo.roomId)
+                Log.d(TAG, "방 찜하기 요청, 방번호 : ${roomInfo.roomId}")
+            }
+        }
+        else {
+            binding.ivLike.setImageResource(R.drawable.ic_heart)
+            lifecycleScope.launch {
+                favoriteViewModel.deleteFavoriteRoomMember(roomInfo.roomId)
+                Log.d(TAG, "방 찜하기 삭제, 방번호 : ${roomInfo.roomId}")
+            }
+        }
     }
 
     // difference 업데이트
