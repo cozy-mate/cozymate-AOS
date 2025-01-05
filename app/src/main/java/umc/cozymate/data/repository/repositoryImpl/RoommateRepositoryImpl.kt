@@ -6,6 +6,7 @@ import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.api.RoommateService
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
 import umc.cozymate.data.repository.repository.RoommateRepository
@@ -18,6 +19,10 @@ class RoommateRepositoryImpl @Inject constructor(
 ) : RoommateRepository {
     override suspend fun sendUserInfo(accessToken: String, request: UserInfoRequest): NetworkResult<DefaultResponse> {
         return handleApi({ api.sendUserInfo(accessToken, request) }) { response: ResponseBody<DefaultResponse> -> response.result }
+    }
+
+    override suspend fun getUserInfo(accessToken: String): Response<GetUserInfoResponse> {
+        return api.getUserInfo(accessToken)
     }
 
     override suspend fun getOtherUserInfo(accessToken: String, page: Int, filterList: List<String>): NetworkResult<OtherUserInfoResponse> {

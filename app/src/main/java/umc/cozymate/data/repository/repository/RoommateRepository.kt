@@ -4,12 +4,15 @@ import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
 import umc.cozymate.util.NetworkResult
 
 interface RoommateRepository {
     suspend fun sendUserInfo(accessToken: String, request: UserInfoRequest): NetworkResult<DefaultResponse>
+
+    suspend fun getUserInfo(accessToken: String): Response<GetUserInfoResponse>
 
     suspend fun getOtherUserInfo(accessToken: String, page: Int, filterList: List<String>): NetworkResult<OtherUserInfoResponse>
 

@@ -22,6 +22,9 @@
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
         <activity
+            android:name=".ui.my_page.FetchLifestyleActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.my_page.MyFavoriteActivity"
             android:exported="false" />
         <activity
@@ -34,7 +37,7 @@
             android:name=".ui.cozy_home.room.search_room.SearchRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room_detail.CozyRoomDetailInfoActivity"
+            android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.UpdateMyRoomInfoActivity"
@@ -46,7 +49,7 @@
             android:name=".ui.university_certification.UniversityCertificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cozy_home.room.room_detail.RoomDetailActivity"
+            android:name=".ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateOnboardingActivity"
@@ -104,7 +107,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" /> <!-- 쪽지 -->
-        <activity android:name=".ui.message.MessageActivity" />
+        <activity android:name=".ui.message.MessageDetailActivity" />
+        <activity android:name=".ui.message.MessageMemberActivity" />
         <activity android:name=".ui.message.WriteMessageActivity" />
         <activity android:name=".ui.my_page.WithDrawActivity" />
         <activity android:name=".ui.my_page.InquiryActivity" />

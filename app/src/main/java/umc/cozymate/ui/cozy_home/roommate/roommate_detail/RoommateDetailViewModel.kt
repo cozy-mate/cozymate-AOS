@@ -23,9 +23,6 @@ class RoommateDetailViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    private val _userDetailInfo = MutableSharedFlow<GetMemberDetailInfoResponse.Result>()
-    val userDetailInfo = _userDetailInfo.asSharedFlow()
-
     private val _otherUserDetailInfo = MutableSharedFlow<GetMemberDetailInfoResponse.Result>()
     val otherUserDetailInfo = _otherUserDetailInfo.asSharedFlow()
 
@@ -70,33 +67,6 @@ class RoommateDetailViewModel @Inject constructor(
         } finally {
             // 로딩 종료
             _isLoading.value = false
-        }
-    }
-
-    suspend fun getUserDetailInfo() {
-        val token = getToken()
-        val userId = getUserMemberId()
-        Log.d(TAG, "사용자 아이디 : ${userId}")
-
-        val response = repository.getMemberDetailInfo(token!!, userId!!)
-
-        if (response.isSuccessful) {
-            if (response.body()?.isSuccess == true) {
-                val body = response.body()
-
-                if (body != null) {
-                    _userDetailInfo.emit(body.result)
-                    Log.d(TAG, "userDetailInfo : ${body.result}")
-                } else {
-                    Log.d(TAG, "userDetailInfo Response body : NULL")
-                }
-                Log.d(TAG, "사용자 정보 조회 성공 : ${response.body()!!.result}")
-            } else {
-                Log.d(TAG, "사용자 조회 오류 메시지 : ${response}")
-            }
-        } else {
-            val errorBody = response.errorBody()?.string()
-            Log.d(TAG, "사용자 조회 api 응답 실패 : ${errorBody}")
         }
     }
 }

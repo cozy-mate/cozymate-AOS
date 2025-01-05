@@ -10,6 +10,7 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.ResponseBody
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
+import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.model.response.roommate.SearchRoommateResponse
 
@@ -19,6 +20,11 @@ interface RoommateService {
         @Header("Authorization") accessToken: String,
         @Body request: UserInfoRequest
     ): Response<ResponseBody<DefaultResponse>>
+
+    @GET("/members/stat")
+    suspend fun getUserInfo(
+        @Header("Authorization") accessToken: String,
+    ): Response<GetUserInfoResponse>
 
     @GET("/members/stat/filter")
     suspend fun getOtherUserInfo(

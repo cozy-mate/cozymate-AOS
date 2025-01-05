@@ -5,11 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.LinearLayout
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -19,7 +18,7 @@ import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
-import umc.cozymate.ui.roommate.UserInfoSPFHelper
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 
 @AndroidEntryPoint
@@ -28,11 +27,9 @@ class RoommateDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityRoommateDetailBinding
     private val viewModel: RoommateDetailViewModel by viewModels()
-    private lateinit var spfHelper: UserInfoSPFHelper
-    private lateinit var behavior: BottomSheetBehavior<LinearLayout>
     private var memberId: Int = -1
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
-    private var userDetail: GetMemberDetailInfoResponse.Result? = null
+//    private var userDetail: GetMemberDetailInfoResponse.Result? = null
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,13 +42,77 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         // intent로 사용자 정보 전달
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
-        userDetail = intent.getParcelableExtra("user_detail")
-
         Log.d(TAG, "Received user detail: $otherUserDetail")
+
+        val userDetail = getUserDetailFromPreferences()
+
         updateUI(otherUserDetail!!)
         selectListView(otherUserDetail!!)
 
-        setUpListeners()
+        setUpListeners(userDetail!!)
+    }
+
+    private fun getUserDetailFromPreferences() : GetMemberDetailInfoResponse.Result? {
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return try {
+            val nickname = spf.getString("user_nickname", "")
+            val birthday = spf.getString("user_birthday", "")
+            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty()) {
+                null
+            } else {
+                GetMemberDetailInfoResponse.Result(
+                    memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
+                        nickname = nickname,
+                        birthday = birthday,
+                        universityName = spf.getString("user_university_name", "") ?: "",
+                        majorName = spf.getString("user_major_name", "") ?: "",
+                        gender = spf.getString("user_gender", "") ?: "",
+                        memberId = spf.getInt("user_member_id", 0),
+                        universityId = 0,
+                        persona = 0
+                    ),
+                    memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
+                        admissionYear = spf.getString("user_admissionYear", "") ?: "",
+                        numOfRoommate = spf.getInt("user_numOfRoommate", 0),
+                        dormitoryName = spf.getString("user_dormitoryName", "") ?: "",
+                        acceptance = spf.getString("user_acceptance", "") ?: "",
+                        wakeUpMeridian = spf.getString("user_wakeUpMeridian", "") ?: "",
+                        wakeUpTime = spf.getInt("user_wakeUpTime", 0),
+                        sleepingMeridian = spf.getString("user_sleepingMeridian", "") ?: "",
+                        sleepingTime = spf.getInt("user_sleepingTime", 0),
+                        turnOffMeridian = spf.getString("user_turnOffMeridian", "") ?: "",
+                        turnOffTime = spf.getInt("user_turnOffTime", 0),
+                        smoking = spf.getString("user_smoking", "") ?: "",
+                        sleepingHabit = spf.getStringSet("user_sleepingHabit", emptySet())?.toList()
+                            ?: emptyList(),
+                        airConditioningIntensity = spf.getInt("user_airConditioningIntensity", 3),
+                        heatingIntensity = spf.getInt("user_heatingIntensity", 3),
+                        lifePattern = spf.getString("user_lifePattern", "") ?: "",
+                        intimacy = spf.getString("user_intimacy", "") ?: "",
+                        canShare = spf.getString("user_canShare", "") ?: "",
+                        isPlayGame = spf.getString("user_isPlayGame", "") ?: "",
+                        isPhoneCall = spf.getString("user_isPhoneCall", "") ?: "",
+                        studying = spf.getString("user_studying", "") ?: "",
+                        intake = spf.getString("user_intake", "") ?: "",
+                        cleanSensitivity = spf.getInt("user_cleanSensitivity", 3),
+                        noiseSensitivity = spf.getInt("user_noiseSensitivity", 3),
+                        cleaningFrequency = spf.getString("user_cleaningFrequency", "") ?: "",
+                        drinkingFrequency = spf.getString("user_drinkingFrequency", "") ?: "",
+                        personality = spf.getStringSet("user_personality", emptySet())?.toList()
+                            ?: emptyList(),
+                        mbti = spf.getString("user_mbti", "") ?: "",
+                        selfIntroduction = spf.getString("user_selfIntroduction", "") ?: "",
+                    ),
+                    equality = 0,
+                    roomId = 0,
+                    favoriteId = 0,
+                    hasRequestedRoomEntry = false
+                )
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "사용자 라이프스타일 정보 불러오는 중 오류 발생 ${e.message}")
+            null
+        }
     }
 
     private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
@@ -66,7 +127,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpListeners() {
+    private fun setUpListeners(userDetail: GetMemberDetailInfoResponse.Result) {
         // 리스트 뷰 클릭 시
         binding.llListView.setOnClickListener {
             Log.d(TAG, "리스트 뷰 클릭")
@@ -92,8 +153,10 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
         binding.btnChat.setOnClickListener {
             val memberId =  otherUserDetail!!.memberDetail.memberId
+            val memberName = otherUserDetail!!.memberDetail.nickname
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",memberId)
+            intent.putExtra("nickname",memberName)
             startActivity(intent)
         }
     }
@@ -131,24 +194,21 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListSmokeCheck.text = it.memberStatDetail.smoking
             tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
             tvListAc.text = when (it.memberStatDetail.airConditioningIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어요"
             }
             tvListAcHeater.text = when (it.memberStatDetail.heatingIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어"
             }
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
-            tvListShare.text = it.memberStatDetail.canShare
             tvListStudy.text = it.memberStatDetail.studying
             tvListIntake.text = it.memberStatDetail.intake
             tvListGameCheck.text = it.memberStatDetail.isPlayGame
@@ -195,6 +255,17 @@ class RoommateDetailActivity : AppCompatActivity() {
         // TableView의 Info와 Detail 데이터를 연결
         val tableBinding = ItemRoommateDetailTableBinding.bind(tableView)  // ViewBinding 연결
 
+        if (user == null) {
+            tableBinding.clGoLifecstyle.visibility = View.VISIBLE
+        } else {
+            tableBinding.clGoLifecstyle.visibility = View.GONE
+        }
+
+        tableBinding.lyGoLifestyle.setOnClickListener {
+            val intent = Intent(this, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
+        }
+
         fun trimText(text: String?): String {
             return if (text != null && text.length > 6) {
                 text.substring(0, 7) + ".."
@@ -228,17 +299,20 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserWakeUpAmpm.text = user.memberStatDetail.wakeUpMeridian
             tvTableOtherWakeUpAmpm.text = other.memberStatDetail.wakeUpMeridian
 
+            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
+            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
+
             tvTableUserSleepAmpm.text = user.memberStatDetail.sleepingMeridian
             tvTableOtherSleepAmpm.text = other.memberStatDetail.sleepingMeridian
 
-            tvTableUserSleepTime.text = user.memberStatDetail.sleepingTime.toString()
-            tvTableOtherSleepTime.text = other.memberStatDetail.sleepingTime.toString()
+            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
+            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
 
             tvTableUserLightOffAmpm.text = user.memberStatDetail.turnOffMeridian
             tvTableOtherLightOffAmpm.text = other.memberStatDetail.turnOffMeridian
 
-            tvTableUserLightOffTime.text = user.memberStatDetail.turnOffTime.toString()
-            tvTableOtherLightOffTime.text = other.memberStatDetail.turnOffTime.toString()
+            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
+            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
 
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smoking)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smoking)
@@ -399,6 +473,11 @@ class RoommateDetailActivity : AppCompatActivity() {
                     R.color.red
                 )
             )
+        }
+
+        if (tableBinding.tvTableUserSchool.text != tableBinding.tvTableOtherSchool.text) {
+            tableBinding.tvTableUserSchool.setTextColor(ContextCompat.getColor(this, R.color.red))
+            tableBinding.tvTableOtherSchool.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
 
         if (tableBinding.tvTableUserMajor.text != tableBinding.tvTableOtherMajor.text) {

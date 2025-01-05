@@ -79,7 +79,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        HandleFCM()
 
+        GetMemberLifestyleInfo()
+    }
+
+    private fun GetMemberLifestyleInfo(){
+        roommateViewModel.getUserInfo()
+    }
+    private fun HandleFCM() {
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyRoomComponentBinding
-import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
@@ -43,8 +43,8 @@ class MyRoomComponent : Fragment() {
             clMyRoom.isEnabled = true
             clMyRoom.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-                val intent = Intent(requireActivity(), CozyRoomDetailInfoActivity::class.java).apply {
-                    putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                val intent = Intent(requireActivity(), RoomDetailActivity::class.java).apply {
+                    putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
                 }
                 startActivity(intent)
             }

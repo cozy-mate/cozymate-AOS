@@ -332,6 +332,10 @@
         "source": "umc.cozymate.app-main-100:/layout/rv_item_roommate_crewable_table_result.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_activity_update_my_info.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/activity_update_my_info.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/layout_fragment_onboarding_user_info.xml.flat",
         "source": "umc.cozymate.app-main-100:/layout/fragment_onboarding_user_info.xml"
     },
@@ -452,8 +456,16 @@
         "source": "umc.cozymate.app-main-100:/drawable/custom_tv_selected_background.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_nickname.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_nickname.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/layout_fragment_role_and_rule_tab.xml.flat",
         "source": "umc.cozymate.app-main-100:/layout/fragment_role_and_rule_tab.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/layout_activity_my_favorite.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/activity_my_favorite.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_custom_roommate_onboarding.xml.flat",
@@ -470,6 +482,10 @@
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_reload.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/ic_reload.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/drawable_custom_chip_8_background.xml.flat",
+        "source": "umc.cozymate.app-main-100:/drawable/custom_chip_8_background.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_background_checklist.xml.flat",
@@ -668,6 +684,10 @@
         "source": "umc.cozymate.app-main-100:/layout/activity_main.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_character.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_character.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_button.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/ic_button.xml"
     },
@@ -682,6 +702,10 @@
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_major_gray.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/ic_major_gray.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/drawable_custom_chip_8_default.xml.flat",
+        "source": "umc.cozymate.app-main-100:/drawable/custom_chip_8_default.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_checkbox_checked.xml.flat",
@@ -852,6 +876,10 @@
         "source": "umc.cozymate.app-main-100:/drawable/ic_roommate.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_major.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_major.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_todo_type.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/ic_todo_type.xml"
     },
@@ -866,6 +894,10 @@
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_background_check.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/background_check.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/drawable_custom_chip_8_selected.xml.flat",
+        "source": "umc.cozymate.app-main-100:/drawable/custom_chip_8_selected.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/layout_rv_item_todo.xml.flat",
@@ -920,8 +952,8 @@
         "source": "umc.cozymate.app-main-100:/anim/horizon_exit.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_update_user_info.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_update_user_info.xml"
+        "merged": "umc.cozymate.app-debug-98:/layout_activity_fetch_lifestyle.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/activity_fetch_lifestyle.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/layout_popup_loading.xml.flat",
@@ -1012,6 +1044,10 @@
         "source": "umc.cozymate.app-main-100:/drawable/ic_tab_indicator.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_birth.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_birth.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/layout_item_cozyhome_achievement.xml.flat",
         "source": "umc.cozymate.app-main-100:/layout/item_cozyhome_achievement.xml"
     },
@@ -1074,6 +1110,10 @@
     {
         "merged": "umc.cozymate.app-debug-98:/layout_fragment_making_public_room.xml.flat",
         "source": "umc.cozymate.app-main-100:/layout/fragment_making_public_room.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/drawable_ic_update_char.xml.flat",
+        "source": "umc.cozymate.app-main-100:/drawable/ic_update_char.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_btn_room_request_cancle.xml.flat",
@@ -1232,10 +1272,6 @@
         "source": "umc.cozymate.app-main-100:/drawable/background_cozyhome_active_png.png"
     },
     {
-        "merged": "umc.cozymate.app-debug-98:/layout_activity_my_like.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/activity_my_like.xml"
-    },
-    {
         "merged": "umc.cozymate.app-debug-98:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "umc.cozymate.app-main-100:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
@@ -1254,6 +1290,10 @@
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_btn_rectangle_39.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/btn_rectangle_39.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/drawable_custom_background_go_lifestyle_12.xml.flat",
+        "source": "umc.cozymate.app-main-100:/drawable/custom_background_go_lifestyle_12.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_img_private_room.xml.flat",
@@ -1492,8 +1532,16 @@
         "source": "umc.cozymate.app-main-100:/layout/item_waiting_roommate.xml"
     },
     {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_my_info.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_my_info.xml"
+    },
+    {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_cleaning_frequency_gray.xml.flat",
         "source": "umc.cozymate.app-main-100:/drawable/ic_cleaning_frequency_gray.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/layout_fragment_update_preference.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/fragment_update_preference.xml"
     },
     {
         "merged": "umc.cozymate.app-debug-98:/drawable_ic_detail_list.xml.flat",

@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityMyFavoriteBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
@@ -56,8 +56,8 @@ class MyFavoriteActivity : AppCompatActivity() {
         binding.rvFavoriteRoommate.adapter = membersAdapter
         binding.rvFavoriteRoommate.layoutManager = LinearLayoutManager(this)
         roomsAdapter = FavoriteRoomRVAdapter(emptyList()) { roomId ->
-            val intent = Intent(this, CozyRoomDetailInfoActivity::class.java).apply {
-                putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId) // 방 아이디 전달
+            val intent = Intent(this, RoomDetailActivity::class.java).apply {
+                putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId) // 방 아이디 전달
             }
             try {
                 startActivity(intent)

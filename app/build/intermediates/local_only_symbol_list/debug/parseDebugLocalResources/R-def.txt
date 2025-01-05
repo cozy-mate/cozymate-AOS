@@ -92,10 +92,14 @@ drawable character_id_6
 drawable character_id_7
 drawable character_id_8
 drawable character_id_9
+drawable custom_background_go_lifestyle_12
 drawable custom_background_room_match
 drawable custom_background_roommate_detail_12
 drawable custom_background_roommate_detail_bottomsheet
 drawable custom_checkbox
+drawable custom_chip_8_background
+drawable custom_chip_8_default
+drawable custom_chip_8_selected
 drawable custom_circular_background
 drawable custom_circule_basic_font
 drawable custom_dialog_btn_background_8
@@ -279,6 +283,7 @@ drawable ic_todo_type
 drawable ic_turn_off_time_blue
 drawable ic_turn_off_time_gray
 drawable ic_turn_off_time_red
+drawable ic_update_char
 drawable ic_verifiedmark
 drawable ic_wake_up_time_blue
 drawable ic_wake_up_time_gray
@@ -316,6 +321,7 @@ id btn_WriteMessage
 id btn_agree
 id btn_back
 id btn_bell
+id btn_birth
 id btn_cancel
 id btn_cancle
 id btn_chat
@@ -436,6 +442,7 @@ id cl_mid
 id cl_my_room
 id cl_noise
 id cl_notice
+id cl_number
 id cl_onboarding_nickname
 id cl_people_number
 id cl_personality
@@ -452,7 +459,9 @@ id cl_sleep_time
 id cl_smoke
 id cl_study
 id cl_table_basic_info
+id cl_table_detail_info
 id cl_top
+id cl_wake_time
 id clean1
 id clean2
 id clean3
@@ -500,6 +509,7 @@ id et_selection_info
 id et_university_email
 id fab_request_enter_room
 id fab_request_roommate
+id flexbox
 id fragment_container
 id fragment_container_giving
 id fragment_container_making
@@ -509,6 +519,8 @@ id fragment_mypage
 id fragment_onboarding
 id fragment_role_and_rule
 id fragment_university_cert
+id fragment_update_my_info
+id frame_background
 id friendly_enough
 id friendly_no
 id friendly_yes
@@ -518,10 +530,14 @@ id game_voice
 id gl
 id gl_room_detail
 id gl_room_mate_detail
+id guide_1
+id guide_2
 id guide_bottom
 id guide_other
+id guide_other_basic
 id guide_rv_crewable_list
 id guide_user
+id guide_user_basic
 id guide_view
 id hashtag1
 id hashtag2
@@ -558,6 +574,9 @@ id iv_crieteria_icon_2
 id iv_crieteria_icon_3
 id iv_crieteria_icon_4
 id iv_criteria_icon_1
+id iv_criteria_icon_2
+id iv_criteria_icon_3
+id iv_criteria_icon_4
 id iv_edit_back
 id iv_edit_back2
 id iv_feed_title
@@ -594,6 +613,7 @@ id iv_temp22
 id iv_temp3
 id iv_todo_member_icon
 id iv_todo_type
+id iv_update_character
 id iv_wake
 id iv_x
 id layout
@@ -625,9 +645,14 @@ id living_dawn
 id living_morning
 id llListView
 id llTableView
+id ll_birth
 id ll_detail_dialog_btn
+id ll_major
 id ll_more
 id ll_name
+id ll_nickname
+id ll_preference
+id ll_user_info
 id lottieAnimation
 id ly_ac_check
 id ly_ac_check2
@@ -646,6 +671,7 @@ id ly_eating_check2
 id ly_friendly
 id ly_game_check
 id ly_game_check2
+id ly_go_lifestyle
 id ly_guide
 id ly_heater_check
 id ly_heater_check2
@@ -748,6 +774,8 @@ id roommate_recommend_container
 id rv_acheivement
 id rv_crewable_result_list
 id rv_crewable_result_table
+id rv_favorite_room
+id rv_favorite_roommate
 id rv_inquiry
 id rv_list
 id rv_member_todo
@@ -871,6 +899,7 @@ id tv_criteria_content_2
 id tv_criteria_content_3
 id tv_criteria_content_4
 id tv_cur_member_count
+id tv_current_et
 id tv_date
 id tv_delete
 id tv_detail_list_rule
@@ -885,6 +914,7 @@ id tv_eating_check
 id tv_ect
 id tv_edit
 id tv_empty
+id tv_empty_list
 id tv_empty_member
 id tv_empty_role
 id tv_empty_room
@@ -892,11 +922,15 @@ id tv_empty_roommate
 id tv_empty_rule
 id tv_empty_todo
 id tv_equality
+id tv_favorite_room
+id tv_favorite_roommate
 id tv_feed_room_detail
 id tv_feed_room_name
 id tv_female
 id tv_friendly
 id tv_game_check
+id tv_go_lifestyle
+id tv_go_lifestyle_guide
 id tv_goto
 id tv_guide
 id tv_guide1
@@ -1210,6 +1244,7 @@ id tv_university_email
 id tv_university_guide
 id tv_university_name
 id tv_update_info
+id tv_update_preference
 id tv_user_match_percent
 id tv_user_name
 id tv_user_name_guide
@@ -1250,6 +1285,7 @@ layout activity_add_todo
 layout activity_cozy_home_inviting_roommate
 layout activity_cozy_home_roommate_detail
 layout activity_cozy_room_detail_info
+layout activity_fetch_lifestyle
 layout activity_inquiry
 layout activity_join_room
 layout activity_login_fail
@@ -1257,7 +1293,7 @@ layout activity_main
 layout activity_making_private_room
 layout activity_making_public_room
 layout activity_message
-layout activity_my_like
+layout activity_my_favorite
 layout activity_onboarding
 layout activity_room_detail
 layout activity_roommate_detail
@@ -1269,7 +1305,7 @@ layout activity_selecting_room_character
 layout activity_splash
 layout activity_university_certification
 layout activity_update_cozy_room_detail_info
-layout activity_update_user_info
+layout activity_update_my_info
 layout activity_withdraw
 layout activity_write_inquiry
 layout activity_write_message
@@ -1315,6 +1351,12 @@ layout fragment_todo_tab
 layout fragment_university_certification
 layout fragment_university_certification_info
 layout fragment_university_search
+layout fragment_update_birth
+layout fragment_update_character
+layout fragment_update_major
+layout fragment_update_my_info
+layout fragment_update_nickname
+layout fragment_update_preference
 layout fragment_write_inquiry
 layout item_character
 layout item_cozyhome_achievement
@@ -1379,6 +1421,7 @@ string project_id
 style AppTheme.NumberPicker
 style Base.Theme.Cozymate
 style CustomChip_12
+style CustomChip_8
 style CustomTextInputLayout
 style OptionBox
 style RoomHashtagChip

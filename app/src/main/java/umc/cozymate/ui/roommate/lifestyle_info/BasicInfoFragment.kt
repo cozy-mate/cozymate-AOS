@@ -20,15 +20,13 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentBasicInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
-import umc.cozymate.ui.roommate.UserInfoSPFHelper
-import umc.cozymate.ui.roommate.data_class.UserInfo
 
 class BasicInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentBasicInfoBinding
-    private lateinit var spfHelper: UserInfoSPFHelper
+//    private lateinit var spfHelper: UserInfoSPFHelper
 
-    private var userInfo = UserInfo()
+//    private var userInfo = UserInfo()
     private var onLivingOption: TextView? = null
     private var numPeopleOption: TextView? = null
     private var numPeople: Int? = 2
@@ -44,8 +42,8 @@ class BasicInfoFragment : Fragment() {
     ): View {
         binding = FragmentBasicInfoBinding.inflate(inflater, container, false)
 
-        spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
-        userInfo = spfHelper.loadUserInfo()
+//        spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
+//        userInfo = spfHelper.loadUserInfo()
 
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
@@ -59,6 +57,7 @@ class BasicInfoFragment : Fragment() {
 
         binding.nestedScrollView.setOnTouchListener { _, _ ->
             removeEditTextFocus()
+
             false
         }
 
@@ -67,9 +66,29 @@ class BasicInfoFragment : Fragment() {
         return binding.root
     }
 
+//    private fun initTextChangeListener() {
+//        binding.etNumber.addTextChangedListener(createTextWatcher())
+//        binding.etBirth.addTextChangedListener(createBirthTextWatcher())
+//    }
+
     private fun initTextChangeListener() {
-        binding.etNumber.addTextChangedListener(createTextWatcher())
-        binding.etBirth.addTextChangedListener(createBirthTextWatcher())
+        binding.etNumber.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                saveToSharedPreferences("user_admissionYear", s.toString())
+                showBirthLayout()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+        })
+        binding.etBirth.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                saveToSharedPreferences("user_birthday", s.toString())
+                updateNextButtonState()
+                showPeopleNumberLayout()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     // 텍스트 변경 시 딜레이 후 레이아웃 표시를 위한 타이머 재설정 함수
@@ -86,7 +105,10 @@ class BasicInfoFragment : Fragment() {
             binding.dormitoryNumber to "예비번호를 받았어요!"
         )
         for ((textView, value) in onLivingTexts) {
-            textView.setOnClickListener { onLivingOptionSelected(it, value) }
+            textView.setOnClickListener {
+//                onLivingOptionSelected(it, value)
+                    updateSelectedOption(it, "user_acceptance", value)
+            }
         }
     }
 
@@ -101,44 +123,86 @@ class BasicInfoFragment : Fragment() {
         )
         for ((textView, value) in numPeopleTexts) {
             textView.setOnClickListener {
-                numPeopleSelected(it, value)
+//                numPeopleSelected(it, value)
+                updateSelectedOption(it, "user_numOfRoommate", value.toString())
             }
         }
     }
 
-    private fun onLivingOptionSelected(view: View, value: String) {
-        onLivingOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//    private fun onLivingOptionSelected(view: View, value: String) {
+//        onLivingOption?.apply {
+//            setTextColor(resources.getColor(R.color.unuse_font, null))
+//            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//        }
+//        onLivingOption = view as TextView
+//        onLivingOption?.apply {
+//            setTextColor(resources.getColor(R.color.main_blue, null))
+//            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+//        }
+//        userInfo = userInfo.copy(acceptance = value)
+//        spfHelper.saveUserInfo(userInfo)
+//        updateNextButtonState()
+//    }
+
+//    private fun numPeopleSelected(view: View, value: Int) {
+//        numPeopleOption?.apply {
+//            setTextColor(resources.getColor(R.color.unuse_font, null))
+//            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+//        }
+//        numPeopleOption = view as TextView
+//        numPeopleOption?.apply {
+//            setTextColor(resources.getColor(R.color.main_blue, null))
+//            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+//        }
+//        numPeople = value
+//        userInfo = userInfo.copy(numOfRoommate = value)
+//        spfHelper.saveUserInfo(userInfo)
+//
+//        // numPeople 선택 후 dormitory 레이아웃 표시
+//        showDormitoryLayout()
+//
+//        updateNextButtonState()
+//    }
+
+    private fun updateSelectedOption(view: View, key: String, value: Any) {
+        val selectedTextView = view as TextView
+
+        when (key) {
+            "user_acceptance" -> {
+                onLivingOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                }
+                onLivingOption = selectedTextView
+                saveToSharedPreferences(key, value as String)
+                updateNextButtonState()
+            }
+            "user_numOfRoommate" -> {
+                numPeopleOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                }
+                numPeopleOption = selectedTextView
+                saveToSPFInt(key, value as Int)
+                showDormitoryLayout()
+                updateNextButtonState()
+            }
         }
-        onLivingOption = view as TextView
-        onLivingOption?.apply {
+
+        selectedTextView.apply {
             setTextColor(resources.getColor(R.color.main_blue, null))
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
-        userInfo = userInfo.copy(acceptance = value)
-        spfHelper.saveUserInfo(userInfo)
-        updateNextButtonState()
     }
 
-    private fun numPeopleSelected(view: View, value: Int) {
-        numPeopleOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-        }
-        numPeopleOption = view as TextView
-        numPeopleOption?.apply {
-            setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
-        }
-        numPeople = value
-        userInfo = userInfo.copy(numOfRoommate = value)
-        spfHelper.saveUserInfo(userInfo)
+    private fun saveToSharedPreferences(key: String, value: String) {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        spf.edit().putString(key, value).apply()
+    }
 
-        // numPeople 선택 후 dormitory 레이아웃 표시
-        showDormitoryLayout()
-
-        updateNextButtonState()
+    private fun saveToSPFInt(key: String, value: Int) {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        spf.edit().putInt(key, value).apply()
     }
 
     fun updateNextButtonState() {
@@ -158,35 +222,35 @@ class BasicInfoFragment : Fragment() {
         }
     }
 
-    private fun createTextWatcher(): TextWatcher {
-        return object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                userInfo = userInfo.copy(admissionYear = binding.etNumber.text.toString())
-                spfHelper.saveUserInfo(userInfo)
-                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
-                resetDebounceTimer { showBirthLayout() }
-                updateNextButtonState()
-            }
+//    private fun createTextWatcher(): TextWatcher {
+//        return object : TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                userInfo = userInfo.copy(admissionYear = binding.etNumber.text.toString())
+//                spfHelper.saveUserInfo(userInfo)
+//                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
+//                resetDebounceTimer { showBirthLayout() }
+//                updateNextButtonState()
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+//        }
+//    }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        }
-    }
-
-    private fun createBirthTextWatcher(): TextWatcher {
-        return object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                userInfo = userInfo.copy(birth = binding.etBirth.text.toString())
-                spfHelper.saveUserInfo(userInfo)
-                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
-                resetDebounceTimer { showPeopleNumberLayout() }
-                updateNextButtonState()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        }
-    }
+//    private fun createBirthTextWatcher(): TextWatcher {
+//        return object : TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                userInfo = userInfo.copy(birth = binding.etBirth.text.toString())
+//                spfHelper.saveUserInfo(userInfo)
+//                // 타이머를 재설정하여 입력이 일정 시간 없으면 다음 레이아웃 표시
+//                resetDebounceTimer { showPeopleNumberLayout() }
+//                updateNextButtonState()
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+//        }
+//    }
 
     private fun showBirthLayout() {
         if (binding.etNumber.text?.isNotEmpty() == true) {

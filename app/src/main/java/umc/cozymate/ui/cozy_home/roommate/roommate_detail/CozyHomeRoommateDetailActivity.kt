@@ -3,15 +3,22 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 
+@AndroidEntryPoint
 class CozyHomeRoommateDetailActivity : AppCompatActivity() {
+    private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityCozyHomeRoommateDetailBinding
+    private val viewModel: RoommateDetailViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

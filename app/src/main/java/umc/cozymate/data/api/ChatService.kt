@@ -39,5 +39,11 @@ interface ChatService {
         @Header("Authorization") accessToken: String
     ): Response<ChatRoomResponse>
 
+    @GET("/chats/members/{recipientId}")
+    suspend fun getChatRoomId(
+        @Header("Authorization") accessToken: String,
+        @Path("recipientId") recipientId: Int
+    ): Response<DefaultResponse>
+
 
 }
