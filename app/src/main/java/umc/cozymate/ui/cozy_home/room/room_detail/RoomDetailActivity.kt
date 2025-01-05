@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.R
@@ -38,6 +39,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
+    private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
 
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -269,8 +271,6 @@ class RoomDetailActivity : AppCompatActivity() {
             }
         }
     }
-
-    //    // difference 업데이트
 //    private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
 //        val viewMap = mapOf(
 //            "airConditioningIntensity" to binding.selectAc,
@@ -301,142 +301,216 @@ class RoomDetailActivity : AppCompatActivity() {
 //
 //        val flexboxLayout = binding.chips1
 //
-//        // Step 1: 모든 뷰 초기화 (기본 색상)
+//        // 모든 칩 초기화
 //        viewMap.values.forEach { view ->
 //            view.setBackgroundResource(R.drawable.custom_select_chip_default)
 //            view.setTextColor(getColor(R.color.unuse_font))
+//            view.setOnClickListener(null) // 기존 리스너 제거
 //        }
 //
-//        // Step 2: 파란색, 빨간색, 하얀색으로 재정렬
-//        val blueViews = mutableListOf<View>()
-//        val redViews = mutableListOf<View>()
-//        val whiteViews = mutableListOf<View>()
-//
+//        // 파란색 칩 업데이트 및 클릭 리스너
 //        difference.blue.forEach { key ->
 //            viewMap[key]?.let { view ->
 //                view.setBackgroundResource(R.drawable.custom_select_chip_blue)
 //                view.setTextColor(getColor(R.color.main_blue))
-//                blueViews.add(view)
+//                view.setOnClickListener {
+//                    showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
+//                }
 //            }
 //        }
 //
+//        // 빨간색 칩 업데이트 및 클릭 리스너
 //        difference.red.forEach { key ->
 //            viewMap[key]?.let { view ->
 //                view.setBackgroundResource(R.drawable.custom_select_chip_red)
 //                view.setTextColor(getColor(R.color.red))
-//                redViews.add(view)
+//                view.setOnClickListener {
+//                    showMemberStatDialog(roomId!!, key, getColor(R.color.red))
+//                }
 //            }
 //        }
-//
 //        difference.white.forEach { key ->
 //            viewMap[key]?.let { view ->
 //                view.setBackgroundResource(R.drawable.custom_select_chip_default)
 //                view.setTextColor(getColor(R.color.unuse_font))
-//                whiteViews.add(view)
+//                view.setOnClickListener {
+//                    showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
+//                }
 //            }
 //        }
-//
-//        // Step 3: FlexboxLayout에서 모든 뷰 제거 후 다시 추가
-//        flexboxLayout.removeAllViews()
-//        blueViews.forEach { flexboxLayout.addView(it) }
-//        redViews.forEach { flexboxLayout.addView(it) }
-//        whiteViews.forEach { flexboxLayout.addView(it) }
 //    }
+private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
+    val viewMap = mapOf(
+        "airConditioningIntensity" to binding.selectAc,
+        "isPhoneCall" to binding.selectCall,
+        "sleepingTime" to binding.selectSleep,
+        "noiseSensitivity" to binding.selectNoise,
+        "wakeUpTime" to binding.selectWake,
+        "turnOffTime" to binding.selectLightOff,
+        "admissionYear" to binding.selectNumber,
+        "mbti" to binding.selectMbti,
+        "heatingIntensity" to binding.selectHeater,
+        "drinkingFrequency" to binding.selectDrinkFrequency,
+        "studying" to binding.selectStudy,
+        "canShare" to binding.selectShare,
+        "sleepingHabit" to binding.selectSleepHabit,
+        "intimacy" to binding.selectFriendly,
+        "lifePattern" to binding.selectLivingPattern,
+        "acceptance" to binding.selectAcceptance,
+        "cleanSensitivity" to binding.selectClean,
+        "personality" to binding.selectPersonality,
+        "birthYear" to binding.selectBirth,
+        "cleaningFrequency" to binding.selectCleanFrequency,
+        "smoking" to binding.selectSmoke,
+        "majorName" to binding.selectMajor,
+        "isPlayGame" to binding.selectGame,
+        "intake" to binding.selectIntake
+    )
 
-    private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
-        val viewMap = mapOf(
-            "airConditioningIntensity" to binding.selectAc,
-            "isPhoneCall" to binding.selectCall,
-            "sleepingTime" to binding.selectSleep,
-            "noiseSensitivity" to binding.selectNoise,
-            "wakeUpTime" to binding.selectWake,
-            "turnOffTime" to binding.selectLightOff,
-            "admissionYear" to binding.selectNumber,
-            "mbti" to binding.selectMbti,
-            "heatingIntensity" to binding.selectHeater,
-            "drinkingFrequency" to binding.selectDrinkFrequency,
-            "studying" to binding.selectStudy,
-            "canShare" to binding.selectShare,
-            "sleepingHabit" to binding.selectSleepHabit,
-            "intimacy" to binding.selectFriendly,
-            "lifePattern" to binding.selectLivingPattern,
-            "acceptance" to binding.selectAcceptance,
-            "cleanSensitivity" to binding.selectClean,
-            "personality" to binding.selectPersonality,
-            "birthYear" to binding.selectBirth,
-            "cleaningFrequency" to binding.selectCleanFrequency,
-            "smoking" to binding.selectSmoke,
-            "majorName" to binding.selectMajor,
-            "isPlayGame" to binding.selectGame,
-            "intake" to binding.selectIntake
-        )
+    val flexboxLayout = binding.chips1
 
-        val flexboxLayout = binding.chips1
+    // 모든 칩 초기화
+    viewMap.values.forEach { view ->
+        view.setBackgroundResource(R.drawable.custom_select_chip_default)
+        view.setTextColor(getColor(R.color.unuse_font))
+        view.setOnClickListener(null) // 기존 리스너 제거
+    }
 
-        // 모든 칩 초기화
-        viewMap.values.forEach { view ->
+    // 칩 추가를 위한 리스트
+    val blueViews = mutableListOf<View>()
+    val redViews = mutableListOf<View>()
+    val whiteViews = mutableListOf<View>()
+
+    // 파란색 칩 업데이트 및 추가
+    difference.blue.forEach { key ->
+        viewMap[key]?.let { view ->
+            view.setBackgroundResource(R.drawable.custom_select_chip_blue)
+            view.setTextColor(getColor(R.color.main_blue))
+            view.setOnClickListener {
+                showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
+            }
+            blueViews.add(view)
+        }
+    }
+
+    // 빨간색 칩 업데이트 및 추가
+    difference.red.forEach { key ->
+        viewMap[key]?.let { view ->
+            view.setBackgroundResource(R.drawable.custom_select_chip_red)
+            view.setTextColor(getColor(R.color.red))
+            view.setOnClickListener {
+                showMemberStatDialog(roomId!!, key, getColor(R.color.red))
+            }
+            redViews.add(view)
+        }
+    }
+
+    // 하얀색 칩 업데이트 및 추가
+    difference.white.forEach { key ->
+        viewMap[key]?.let { view ->
             view.setBackgroundResource(R.drawable.custom_select_chip_default)
             view.setTextColor(getColor(R.color.unuse_font))
-        }
-
-        // 파란색 칩 업데이트 및 클릭 리스너
-        difference.blue.forEach { key ->
-            viewMap[key]?.let { view ->
-                view.setBackgroundResource(R.drawable.custom_select_chip_blue)
-                view.setTextColor(getColor(R.color.main_blue))
-                view.setOnClickListener {
-                    showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
-                }
+            view.setOnClickListener {
+                showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
             }
+            whiteViews.add(view)
         }
+    }
 
-        // 빨간색 칩 업데이트 및 클릭 리스너
-        difference.red.forEach { key ->
-            viewMap[key]?.let { view ->
-                view.setBackgroundResource(R.drawable.custom_select_chip_red)
-                view.setTextColor(getColor(R.color.red))
-                view.setOnClickListener {
-                    showMemberStatDialog(roomId!!, key, getColor(R.color.red))
+    // FlexboxLayout에서 모든 칩 제거
+    flexboxLayout.removeAllViews()
+
+    // 칩을 파란색, 빨간색, 하얀색 순으로 추가
+    blueViews.forEach { flexboxLayout.addView(it) }
+    redViews.forEach { flexboxLayout.addView(it) }
+    whiteViews.forEach { flexboxLayout.addView(it) }
+}
+
+    private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
+        // 기존 다이얼로그 닫기 및 초기화
+        activeDialog?.dismiss()
+        activeDialog = null
+        viewModel.roomMemberStats.removeObservers(this)
+        viewModel.isLoading.removeObservers(this)
+
+        // 로딩 로그
+        Log.d(TAG, "Loading data for key: $memberStatKey")
+
+        // 데이터 요청
+        viewModel.getRoomMemberStats(roomId, memberStatKey)
+
+        // 0.5초 딜레이 후 다이얼로그 표시
+        lifecycleScope.launch {
+            delay(50)
+
+            viewModel.isLoading.observe(this@RoomDetailActivity) { isLoading ->
+                if (isLoading) {
+                    Log.d(TAG, "Still loading for key: $memberStatKey")
+                    return@observe
+                }
+
+                // 로딩이 끝난 후 데이터 확인
+                val memberList = viewModel.roomMemberStats.value
+                if (memberList.isNullOrEmpty()) {
+                    Log.e(TAG, "No data available for key: $memberStatKey")
+                    viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
+                    viewModel.isLoading.removeObservers(this@RoomDetailActivity)
+                    return@observe
+                }
+
+                // 다이얼로그 생성
+                if (activeDialog == null) {
+                    Log.d(TAG, "Creating dialog for key: $memberStatKey")
+                    val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(this@RoomDetailActivity)
+                        .setView(dialogBinding.root)
+                        .create()
+
+                    dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
+                    dialogBinding.tvStatTitle.setTextColor(chipColor)
+
+                    dialogBinding.rvMemberStat.apply {
+                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                        adapter = RoomMemberStatRVA(
+                            context = this@RoomDetailActivity,
+                            members = memberList,
+                            memberStatKey = memberStatKey,
+                            color = chipColor
+                        )
+                    }
+
+                    dialogBinding.tvClose.setOnClickListener {
+                        dialog.dismiss()
+                        activeDialog = null
+                    }
+
+                    dialog.setOnDismissListener {
+                        // 다이얼로그 닫힐 때 관찰자 제거
+                        viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
+                        viewModel.isLoading.removeObservers(this@RoomDetailActivity)
+                        activeDialog = null
+                    }
+
+                    dialog.setCancelable(true)
+                    dialog.show()
+                    activeDialog = dialog
                 }
             }
         }
     }
 
-    private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
-        // ViewModel에서 데이터 호출
-        viewModel.getRoomMemberStats(roomId, memberStatKey)
-
-        // ViewModel 데이터 관찰
-        viewModel.roomMemberStats.observe(this) { memberList ->
-            if (memberList != null && memberList.isNotEmpty()) {
-                val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
-                val dialog = AlertDialog.Builder(this)
-                    .setView(dialogBinding.root)
-                    .create()
-
-                // 다이얼로그 제목 설정
-                dialogBinding.tvStatTitle.text = memberStatKey
-                dialogBinding.tvStatTitle.setTextColor(chipColor) // 칩 색상 그대로 반영
-
-                // RecyclerView 설정
-                dialogBinding.rvMemberStat.apply {
-                    layoutManager = LinearLayoutManager(this@RoomDetailActivity)
-                    adapter = RoomMemberStatRVA(
-                        context = this@RoomDetailActivity,
-                        members = memberList,
-                        color = chipColor
-                    )
-                }
-
-                // 닫기 버튼 설정
-                dialogBinding.tvClose.setOnClickListener { dialog.dismiss() }
-
-                // 다이얼로그 외부 터치로 닫기 가능
-                dialog.setCancelable(true)
-                dialog.show()
-            } else {
-                Log.e(TAG, "No data available for key: $memberStatKey")
-            }
+    private fun translateMemberStatKey(key: String): String {
+        return when (key) {
+            "airConditioningIntensity" -> "에어컨 강도"
+            "heatingIntensity" -> "난방 강도"
+            "cleanSensitivity" -> "청결 예민도"
+            "noiseSensitivity" -> "소음 민감도"
+            "birthYear" -> "출생 연도"
+            "admissionYear" -> "입학 연도"
+            "wakeUpTime" -> "기상 시간"
+            "sleepingTime" -> "취침 시간"
+            "turnOffTime" -> "소등 시간"
+            else -> "알 수 없음"
         }
     }
 

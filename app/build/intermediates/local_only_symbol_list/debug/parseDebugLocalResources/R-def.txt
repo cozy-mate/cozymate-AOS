@@ -1122,6 +1122,7 @@ id tv_room_mate_name
 id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
+id tv_room_member_stat
 id tv_room_name
 id tv_room_search_filter
 id tv_room_status

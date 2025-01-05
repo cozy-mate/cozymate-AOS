@@ -12,6 +12,7 @@ import umc.cozymate.databinding.RvItemRoomMemberStatBinding
 class RoomMemberStatRVA (
     private val context: Context,
     private val members: List<GetRoomMemberStatResponse.Result.Member>,
+    private val memberStatKey: String,
     private val color: Int
 ) : RecyclerView.Adapter<RoomMemberStatRVA.RoomMemberStatRVAHolder>(){
 
@@ -31,14 +32,13 @@ class RoomMemberStatRVA (
         holder: RoomMemberStatRVAHolder,
         position: Int
     ) {
-        val member = members[position]
-        holder.bind(member, color)
+        holder.bind(members[position])
     }
 
     override fun getItemCount(): Int = members.size
 
     inner class RoomMemberStatRVAHolder(private val binding:RvItemRoomMemberStatBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(member: GetRoomMemberStatResponse.Result.Member, color: Int) {
+        fun bind(member: GetRoomMemberStatResponse.Result.Member) {
             val personaResId = when (member.memberDetail.persona) {
                 1 -> R.drawable.character_id_1
                 2 -> R.drawable.character_id_2
@@ -67,6 +67,48 @@ class RoomMemberStatRVA (
                 binding.tvRoomMemberMaster.visibility = View.VISIBLE
             } else {
                 binding.tvRoomMemberMaster.visibility = View.GONE
+            }
+            // Stat 데이터 설정
+            val statValue = member.memberStat[memberStatKey]
+            binding.tvRoomMemberStat.text = formatStatValue(memberStatKey, statValue)
+        }
+
+        private fun formatStatValue(key: String, value: Any?): String {
+            return when (value) {
+                is Int -> mapIntStatValue(key, value)
+                is String -> value
+                else -> "알 수 없음"
+            }
+        }
+
+        private fun mapIntStatValue(key: String, value: Int): String {
+            return when (key) {
+                "airConditioningIntensity" -> when (value) {
+                    1 -> "약한 강도"
+                    2 -> "보통 강도"
+                    3 -> "강한 강도"
+                    else -> "알 수 없음"
+                }
+                "heatingIntensity" -> when (value) {
+                    1 -> "약한 난방"
+                    2 -> "보통 난방"
+                    3 -> "강한 난방"
+                    else -> "알 수 없음"
+                }
+                "cleanSensitivity" -> when (value) {
+                    1 -> "깔끔한 편"
+                    2 -> "보통"
+                    3 -> "지저분한 편"
+                    else -> "알 수 없음"
+                }
+                "noiseSensitivity" -> when (value) {
+                    1 -> "소음 둔감"
+                    2 -> "보통"
+                    3 -> "소음 민감"
+                    else -> "알 수 없음"
+                }
+                "birthYear", "admissionYear", "wakeUpTime", "sleepingTime", "turnOffTime" -> "$value"
+                else -> "Int로 들어오는중"
             }
         }
     }
