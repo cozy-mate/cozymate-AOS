@@ -134,6 +134,7 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun updateMyFabButton(roomId: Int) {
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         with(binding) {
             fabBnt.text = "방 나가기"
             fabBnt.setBackgroundTintList(
@@ -142,6 +143,7 @@ class RoomDetailActivity : AppCompatActivity() {
             fabBnt.setTextColor(getColor(R.color.white))
             fabBnt.setOnClickListener {
                 roomViewModel.quitRoom(roomId)
+                spf.edit().putInt("room_id", 0)
             }
             roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
                 if (result.isSuccess) {
