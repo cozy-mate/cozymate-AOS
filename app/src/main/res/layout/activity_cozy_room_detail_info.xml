@@ -91,20 +91,6 @@
                 tools:text="피그말리온" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_room_status"
-                android:text=""
-                android:paddingVertical="2dp"
-                tools:text="비공개방입니다"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintTop_toBottomOf="@id/tv_room_name"
-                app:layout_constraintStart_toStartOf="@id/tv_room_name"/>
-
-            <TextView
                 android:id="@+id/tv_hashtag_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,6 +135,19 @@
                 android:textColor="@color/color_font"
                 app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_2"
                 app:layout_constraintStart_toEndOf="@id/tv_hashtag_2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_room_status"
+                android:text=""
+                android:paddingVertical="2dp"
+                tools:text="비공개방입니다"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintTop_toBottomOf="@id/tv_room_name"
+                app:layout_constraintStart_toStartOf="@id/tv_room_name"/>
 
             <TextView
                 android:id="@+id/tv_room_match"
@@ -595,7 +594,7 @@
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fab_request_enter_room"
+            android:id="@+id/fab_bnt"
             android:gravity="center"
             android:text="방 참여요청"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"

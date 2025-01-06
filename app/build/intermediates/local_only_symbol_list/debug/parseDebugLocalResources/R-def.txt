@@ -512,8 +512,8 @@ id et_room_name
 id et_search
 id et_selection_info
 id et_university_email
+id fab_bnt
 id fab_go_top
-id fab_request_enter_room
 id fab_request_roommate
 id flexbox
 id fragment_container

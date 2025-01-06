@@ -108,7 +108,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
-                    fabRequestEnterRoom.visibility = View.GONE
+                    fabBnt.visibility = View.GONE
                     // 리사이클러 뷰 연결
                     rvRoomMemberList.apply {
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -138,10 +138,10 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun updateUI(roomInfo: GetRoomInfoResponse.Result) {
+        updateProfileImage(roomInfo.persona)
+        updateHashtags(roomInfo.hashtagList)
         with(binding) {
             tvRoomName.text = roomInfo.name
-            updateProfileImage(roomInfo.persona)
-            updateHashtags(roomInfo.hashtagList)
             tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
             tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
@@ -149,12 +149,7 @@ class RoomDetailActivity : AppCompatActivity() {
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
 
-//            if (roomInfo.favoriteId == 0) {
-//                ivLike.setImageResource(R.drawable.ic_heart)
-//            } else {
-//                ivLike.setImageResource(R.drawable.ic_heartfull)
-//            }
-//
+
             // 초기 찜 상태 설정
             isFavorite = roomInfo.favoriteId != 0
             updateFavoriteIcon(isFavorite)
@@ -234,6 +229,7 @@ class RoomDetailActivity : AppCompatActivity() {
     // 해시태그 업데이트
     private fun updateHashtags(hashtags: List<String>) {
         with(binding) {
+            Log.d(TAG, "해시태그 : $hashtags")
             when (hashtags.size) {
                 0 -> {
                     tvHashtag1.visibility = View.GONE
@@ -243,22 +239,31 @@ class RoomDetailActivity : AppCompatActivity() {
 
                 1 -> {
                     tvHashtag1.text = "#${hashtags[0]}"
+                    tvHashtag1.visibility = View.VISIBLE
                     tvHashtag2.visibility = View.GONE
                     tvHashtag3.visibility = View.GONE
                 }
 
                 2 -> {
                     tvHashtag1.text = "#${hashtags[0]}"
+                    tvHashtag1.visibility = View.VISIBLE
                     tvHashtag2.text = "#${hashtags[1]}"
+                    tvHashtag2.visibility = View.VISIBLE
                     tvHashtag3.visibility = View.GONE
                 }
 
                 3 -> {
                     tvHashtag1.text = "#${hashtags[0]}"
+                    tvHashtag1.visibility = View.VISIBLE
                     tvHashtag2.text = "#${hashtags[1]}"
+                    tvHashtag2.visibility = View.VISIBLE
                     tvHashtag3.text = "#${hashtags[2]}"
+                    tvHashtag3.visibility = View.VISIBLE
                 }
             }
+            Log.d(TAG, "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}")
+            Log.d(TAG, "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}")
+            Log.d(TAG, "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}")
         }
     }
 
@@ -506,7 +511,7 @@ private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: 
     private fun updateFloatingButton() {
         val savedRoomId = cozyHomeViewModel.getSavedRoomId()
 
-        with(binding.fabRequestEnterRoom) {
+        with(binding.fabBnt) {
             if (savedRoomId == -1) {
                 // 기본값인 경우 = 방이 없는 경우
                 text = "방 참여요청"
