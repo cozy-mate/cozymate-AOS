@@ -46,6 +46,10 @@ class MakingRoomViewModel @Inject constructor(
     val inviteCode: LiveData<String> get() = _inviteCode
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
+
+    private val _pendingRoom = MutableLiveData<Boolean>()
+    val pendingRoom: LiveData<Boolean> get() = _pendingRoom
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -273,6 +277,62 @@ class MakingRoomViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e(TAG, "Error parsing JSON: ${e.message}")
             null
+        }
+    }
+    fun getPendingRoom(roomId: Int) {
+        val token = getToken()
+        Log.d(TAG, "방 진입 상태 확인 요청: roomId = $roomId")
+        _loading.value = true // 로딩 시작
+
+        if (token != null && roomId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.getPendingRoom(token, roomId)
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 진입 상태 확인 성공: ${response.body()!!.result}")
+                        _pendingRoom.value = response.body()!!.result
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        }
+                        Log.d(TAG, "방 진입 상태 확인 응답 실패: $response")
+                    }
+                } catch (e: Exception) {
+                    _errorResponse.value?.message = e.message.toString()
+                    Log.d(TAG, "방 진입 상태 확인 요청 실패: $e")
+                } finally {
+                    _loading.value = false // 로딩 종료
+                }
+            }
+        } else {
+            Log.e(TAG, "Invalid token or roomId for getPendingRoom")
+        }
+    }
+
+    fun deleteRoomJoin(roomId: Int) {
+        val token = getToken()
+        Log.d(TAG, "방 참여 요청 취소: roomId = $roomId")
+
+        if (token !=null && roomId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.cancelJoinRequest(token, roomId)
+                    if(response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 참여 요청 취소 성공 : ${response.body()?.result}")
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = errorBody ?: response.message()
+                        Log.d(TAG, "방 참여요청 취소 실패: $errorMessage")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "방 참여 요청 취소 오류 : $e")
+                }
+            }
+        } else {
+            Log.d(TAG, "토큰 or roomId 에러")
         }
     }
 }
