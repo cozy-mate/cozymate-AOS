@@ -426,89 +426,89 @@ private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) 
     redViews.forEach { flexboxLayout.addView(it) }
     whiteViews.forEach { flexboxLayout.addView(it) }
 }
+private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
+    // 기존 다이얼로그 닫기 및 초기화
+    activeDialog?.dismiss()
+    activeDialog = null
+    viewModel.roomMemberStats.removeObservers(this)
+    viewModel.isLoading.removeObservers(this)
 
-    private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
-        // 기존 다이얼로그 닫기 및 초기화
-        activeDialog?.dismiss()
-        activeDialog = null
-        viewModel.roomMemberStats.removeObservers(this)
-        viewModel.isLoading.removeObservers(this)
+    // 로딩 로그
+    Log.d(TAG, "Loading data for key: $memberStatKey")
 
-        // 로딩 로그
-        Log.d(TAG, "Loading data for key: $memberStatKey")
+    // 데이터 요청
+    viewModel.getRoomMemberStats(roomId, memberStatKey)
 
-        // 데이터 요청
-        viewModel.getRoomMemberStats(roomId, memberStatKey)
+    // 0.5초 딜레이 후 다이얼로그 표시
+    lifecycleScope.launch {
+        delay(50)
 
-        // 0.5초 딜레이 후 다이얼로그 표시
-        lifecycleScope.launch {
-            delay(50)
+        viewModel.isLoading.observe(this@RoomDetailActivity) { isLoading ->
+            if (isLoading) {
+                Log.d(TAG, "Still loading for key: $memberStatKey")
+                return@observe
+            }
 
-            viewModel.isLoading.observe(this@RoomDetailActivity) { isLoading ->
-                if (isLoading) {
-                    Log.d(TAG, "Still loading for key: $memberStatKey")
-                    return@observe
+            // 로딩이 끝난 후 데이터 확인
+            val memberList = viewModel.roomMemberStats.value
+            if (memberList.isNullOrEmpty()) {
+                Log.e(TAG, "No data available for key: $memberStatKey")
+                viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
+                viewModel.isLoading.removeObservers(this@RoomDetailActivity)
+                return@observe
+            }
+
+            // 다이얼로그 생성
+            if (activeDialog == null) {
+                Log.d(TAG, "Creating dialog for key: $memberStatKey")
+                val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
+
+                // 다이얼로그 생성 시 스타일 적용 없이 기존 방식 유지
+                val dialog = AlertDialog.Builder(this@RoomDetailActivity)
+                    .setView(dialogBinding.root)
+                    .create()
+
+                dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
+                dialogBinding.tvStatTitle.setTextColor(chipColor)
+
+                dialogBinding.rvMemberStat.apply {
+                    layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                    adapter = RoomMemberStatRVA(
+                        context = this@RoomDetailActivity,
+                        members = memberList,
+                        memberStatKey = memberStatKey,
+                        color = chipColor
+                    )
+                    // 디바이더 추가
+                    addItemDecoration(
+                        CustomDividerItemDecoration(
+                            context = this@RoomDetailActivity,
+                            heightDp = 1f, // 1dp
+                            marginStartDp = 16f,
+                            marginEndDp = 16f
+                        )
+                    )
                 }
 
-                // 로딩이 끝난 후 데이터 확인
-                val memberList = viewModel.roomMemberStats.value
-                if (memberList.isNullOrEmpty()) {
-                    Log.e(TAG, "No data available for key: $memberStatKey")
+                dialogBinding.tvClose.setOnClickListener {
+                    dialog.dismiss()
+                    activeDialog = null
+                }
+
+                dialog.setOnDismissListener {
+                    // 다이얼로그 닫힐 때 관찰자 제거
                     viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
                     viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                    return@observe
+                    activeDialog = null
                 }
 
-                // 다이얼로그 생성
-                if (activeDialog == null) {
-                    Log.d(TAG, "Creating dialog for key: $memberStatKey")
-                    val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(this@RoomDetailActivity)
-                        .setView(dialogBinding.root)
-                        .create()
-
-                    dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
-                    dialogBinding.tvStatTitle.setTextColor(chipColor)
-
-                    dialogBinding.rvMemberStat.apply {
-                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
-                        adapter = RoomMemberStatRVA(
-                            context = this@RoomDetailActivity,
-                            members = memberList,
-                            memberStatKey = memberStatKey,
-                            color = chipColor
-                        )
-                        // 디바이더 추가
-                        addItemDecoration(
-                            CustomDividerItemDecoration(
-                                context = this@RoomDetailActivity,
-                                heightDp = 0.6f,       // 디바이더 높이 (1dp)
-                                marginStartDp = 16f, // 좌측 여백 (16dp)
-                                marginEndDp = 16f    // 우측 여백 (16dp)
-                            )
-                        )
-                    }
-
-
-                    dialogBinding.tvClose.setOnClickListener {
-                        dialog.dismiss()
-                        activeDialog = null
-                    }
-
-                    dialog.setOnDismissListener {
-                        // 다이얼로그 닫힐 때 관찰자 제거
-                        viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
-                        viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                        activeDialog = null
-                    }
-
-                    dialog.setCancelable(true)
-                    dialog.show()
-                    activeDialog = dialog
-                }
+                dialog.setCancelable(true)
+                dialog.show()
+                activeDialog = dialog
             }
         }
     }
+}
 
     private fun translateMemberStatKey(key: String): String {
         return when (key) {

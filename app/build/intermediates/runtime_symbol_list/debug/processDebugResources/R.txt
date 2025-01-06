@@ -2824,6 +2824,7 @@ int drawable custom_chip_8_default 0x7f0700e5
 int drawable custom_chip_8_selected 0x7f0700e6
 int drawable custom_circular_background 0x7f0700e7
 int drawable custom_circule_basic_font 0x7f0700e8
+int drawable custom_dialog_background 0x7f070219
 int drawable custom_dialog_btn_background_8 0x7f0700e9
 int drawable custom_edittext 0x7f0700ea
 int drawable custom_hashtag_chip 0x7f0700eb

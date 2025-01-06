@@ -324,6 +324,10 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_room_detail_noise.xml"
     },
     {
+        "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_custom_dialog_background.xml.flat",
+        "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/custom_dialog_background.xml"
+    },
+    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_ic_photoedit.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_photoedit.xml"
     },
@@ -1366,6 +1370,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_ic_is_phone_call_blue.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_is_phone_call_blue.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/layout_dialog_member_stat.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/dialog_member_stat.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_custom_edittext.xml.flat",

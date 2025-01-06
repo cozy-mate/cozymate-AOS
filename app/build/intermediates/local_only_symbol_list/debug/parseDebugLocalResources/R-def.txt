@@ -102,6 +102,7 @@ drawable custom_chip_8_default
 drawable custom_chip_8_selected
 drawable custom_circular_background
 drawable custom_circule_basic_font
+drawable custom_dialog_background
 drawable custom_dialog_btn_background_8
 drawable custom_edittext
 drawable custom_hashtag_chip

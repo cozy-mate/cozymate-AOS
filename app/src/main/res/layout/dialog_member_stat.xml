@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/custom_dialog_background"
     android:padding="16dp">
 
     <!-- 다이얼로그 컨텐츠 영역 -->
