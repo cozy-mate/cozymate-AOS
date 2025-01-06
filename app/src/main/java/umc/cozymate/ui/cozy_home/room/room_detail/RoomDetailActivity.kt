@@ -41,6 +41,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
     private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
+    private var isFavorite: Boolean = false // 찜 상태를 추적하는 변수 추가
 
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -54,6 +55,7 @@ class RoomDetailActivity : AppCompatActivity() {
         StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
 
         getRoomId()
+        observeFavoriteState()
 
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val savedRoomId = spf.getInt("room_id", -2)
@@ -147,17 +149,47 @@ class RoomDetailActivity : AppCompatActivity() {
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
 
-            if (roomInfo.favoriteId == 0) {
-                ivLike.setImageResource(R.drawable.ic_heart)
-            } else {
-                ivLike.setImageResource(R.drawable.ic_heartfull)
+//            if (roomInfo.favoriteId == 0) {
+//                ivLike.setImageResource(R.drawable.ic_heart)
+//            } else {
+//                ivLike.setImageResource(R.drawable.ic_heartfull)
+//            }
+//
+            // 초기 찜 상태 설정
+            isFavorite = roomInfo.favoriteId != 0
+            updateFavoriteIcon(isFavorite)
+
+            // 찜/찜 해제 버튼 클릭 리스너
+            binding.ivLike.setOnClickListener {
+                if (isFavorite) {
+                    // 찜 해제: UI 상태를 미리 업데이트
+                    isFavorite = false
+                    lifecycleScope.launch {
+                        val favoriteId = roomInfo.favoriteId
+                        favoriteViewModel.toggleRoomFavorite(favoriteId, true)
+
+                        viewModel.getOtherRoomInfo(roomId!!)
+                        delay(100)
+                    }
+                    updateFavoriteIcon(false)
+
+                } else {
+                    // 찜 요청: UI 상태를 미리 업데이트
+                    isFavorite = true
+                    lifecycleScope.launch {
+                        roomId?.let { roomId ->
+                            favoriteViewModel.toggleRoomFavorite(roomId, false)
+
+                            // ViewModel 상태 갱신
+                            viewModel.getOtherRoomInfo(roomId)
+                            delay(100)
+                        }
+                        updateFavoriteIcon(true)
+                    }
+
+                }
             }
 
-            ivLike.setOnClickListener {
-                handleLikeClick(roomInfo)
-            }
-
-            fabRequestEnterRoom.visibility = View.GONE
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
                 layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -169,6 +201,21 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun observeFavoriteState() {
+        favoriteViewModel.roomFavoriteState.observe(this) { favorite ->
+            if (favorite != isFavorite) {
+                isFavorite = favorite
+                updateFavoriteIcon(favorite)
+            }
+        }
+    }
+
+    private fun updateFavoriteIcon(favorite: Boolean) {
+        binding.ivLike.setImageResource(
+            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
+        )
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
@@ -256,90 +303,6 @@ class RoomDetailActivity : AppCompatActivity() {
             binding.ivSetting.visibility = View.GONE
         }
     }
-
-    private fun handleLikeClick(roomInfo: GetRoomInfoResponse.Result) {
-        if (roomInfo.favoriteId == 0) {
-            binding.ivLike.setImageResource(R.drawable.ic_heartfull)
-            lifecycleScope.launch {
-                favoriteViewModel.sendFavoriteRoom(roomInfo.roomId)
-                Log.d(TAG, "방 찜하기 요청, 방번호 : ${roomInfo.roomId}")
-            }
-        } else {
-            binding.ivLike.setImageResource(R.drawable.ic_heart)
-            lifecycleScope.launch {
-                favoriteViewModel.deleteFavoriteRoomMember(roomInfo.roomId)
-                Log.d(TAG, "방 찜하기 삭제, 방번호 : ${roomInfo.roomId}")
-            }
-        }
-    }
-//    private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
-//        val viewMap = mapOf(
-//            "airConditioningIntensity" to binding.selectAc,
-//            "isPhoneCall" to binding.selectCall,
-//            "sleepingTime" to binding.selectSleep,
-//            "noiseSensitivity" to binding.selectNoise,
-//            "wakeUpTime" to binding.selectWake,
-//            "turnOffTime" to binding.selectLightOff,
-//            "admissionYear" to binding.selectNumber,
-//            "mbti" to binding.selectMbti,
-//            "heatingIntensity" to binding.selectHeater,
-//            "drinkingFrequency" to binding.selectDrinkFrequency,
-//            "studying" to binding.selectStudy,
-//            "canShare" to binding.selectShare,
-//            "sleepingHabit" to binding.selectSleepHabit,
-//            "intimacy" to binding.selectFriendly,
-//            "lifePattern" to binding.selectLivingPattern,
-//            "acceptance" to binding.selectAcceptance,
-//            "cleanSensitivity" to binding.selectClean,
-//            "personality" to binding.selectPersonality,
-//            "birthYear" to binding.selectBirth,
-//            "cleaningFrequency" to binding.selectCleanFrequency,
-//            "smoking" to binding.selectSmoke,
-//            "majorName" to binding.selectMajor,
-//            "isPlayGame" to binding.selectGame,
-//            "intake" to binding.selectIntake
-//        )
-//
-//        val flexboxLayout = binding.chips1
-//
-//        // 모든 칩 초기화
-//        viewMap.values.forEach { view ->
-//            view.setBackgroundResource(R.drawable.custom_select_chip_default)
-//            view.setTextColor(getColor(R.color.unuse_font))
-//            view.setOnClickListener(null) // 기존 리스너 제거
-//        }
-//
-//        // 파란색 칩 업데이트 및 클릭 리스너
-//        difference.blue.forEach { key ->
-//            viewMap[key]?.let { view ->
-//                view.setBackgroundResource(R.drawable.custom_select_chip_blue)
-//                view.setTextColor(getColor(R.color.main_blue))
-//                view.setOnClickListener {
-//                    showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
-//                }
-//            }
-//        }
-//
-//        // 빨간색 칩 업데이트 및 클릭 리스너
-//        difference.red.forEach { key ->
-//            viewMap[key]?.let { view ->
-//                view.setBackgroundResource(R.drawable.custom_select_chip_red)
-//                view.setTextColor(getColor(R.color.red))
-//                view.setOnClickListener {
-//                    showMemberStatDialog(roomId!!, key, getColor(R.color.red))
-//                }
-//            }
-//        }
-//        difference.white.forEach { key ->
-//            viewMap[key]?.let { view ->
-//                view.setBackgroundResource(R.drawable.custom_select_chip_default)
-//                view.setTextColor(getColor(R.color.unuse_font))
-//                view.setOnClickListener {
-//                    showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
-//                }
-//            }
-//        }
-//    }
 private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
     val viewMap = mapOf(
         "airConditioningIntensity" to binding.selectAc,
