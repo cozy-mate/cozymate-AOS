@@ -180,12 +180,77 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_dormitory_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="55dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_people_number"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_dormitory_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="신청한 기숙사를 선택해주세요"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ly_dormitory_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_name">
+
+                    <TextView
+                        android:id="@+id/dormitory_name1"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="1기숙사" />
+
+                    <TextView
+                        android:id="@+id/dormitory_name2"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="2기숙사" />
+
+                    <TextView
+                        android:id="@+id/dormitory_name3"
+                        style="@style/OptionBox"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:text="3기숙사" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ly_dormitory_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_people_number"
+                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory_name"
                 tools:visibility="visible">
 
                 <TextView

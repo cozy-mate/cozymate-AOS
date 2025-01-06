@@ -321,6 +321,7 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
         val editor = sharedPreferences.edit()
 
         editor.putString("user_admissionYear", _memberLifestyleInfo.value!!.memberStatDetail.admissionYear)
+        editor.putString("user_dormitoryName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
         editor.putInt("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)
         editor.putString("user_dormitoryName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
         editor.putString("user_acceptance", _memberLifestyleInfo.value!!.memberStatDetail.acceptance)

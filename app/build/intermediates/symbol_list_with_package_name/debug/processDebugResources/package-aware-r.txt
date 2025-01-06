@@ -3373,6 +3373,7 @@ id cl_criteria_3
 id cl_criteria_4
 id cl_dormitory
 id cl_dormitory_info_list
+id cl_dormitory_name
 id cl_drink
 id cl_eating
 id cl_email_input
@@ -3478,6 +3479,9 @@ id disableScroll
 id disabled
 id disjoint
 id divider
+id dormitory_name1
+id dormitory_name2
+id dormitory_name3
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
@@ -3775,6 +3779,7 @@ id ly_clean_frequency1
 id ly_clean_frequency2
 id ly_clean_frequency3
 id ly_dormitory
+id ly_dormitory_name
 id ly_drink1
 id ly_drink2
 id ly_drink3

@@ -3372,6 +3372,7 @@ int id cl_criteria_3 0x7f0900eb
 int id cl_criteria_4 0x7f0900ec
 int id cl_dormitory 0x7f0900ed
 int id cl_dormitory_info_list 0x7f0900ee
+int id cl_dormitory_name 0x7f09060f
 int id cl_drink 0x7f0900ef
 int id cl_eating 0x7f0900f0
 int id cl_email_input 0x7f0900f1
@@ -3477,6 +3478,9 @@ int id disableScroll 0x7f090154
 int id disabled 0x7f090155
 int id disjoint 0x7f090156
 int id divider 0x7f090157
+int id dormitory_name1 0x7f090610
+int id dormitory_name2 0x7f090611
+int id dormitory_name3 0x7f090612
 int id dormitory_number 0x7f090158
 int id dormitory_pass 0x7f090159
 int id dormitory_waiting 0x7f09015a
@@ -3774,6 +3778,7 @@ int id ly_clean_frequency1 0x7f09027d
 int id ly_clean_frequency2 0x7f09027e
 int id ly_clean_frequency3 0x7f09027f
 int id ly_dormitory 0x7f090280
+int id ly_dormitory_name 0x7f090613
 int id ly_drink1 0x7f090281
 int id ly_drink2 0x7f090282
 int id ly_drink3 0x7f090283
