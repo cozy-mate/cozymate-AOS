@@ -104,9 +104,7 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
         }
         // 선호항목 수정 결과 옵저빙
         viewModel.updatePreferenceResponse.observe(viewLifecycleOwner) { res ->
-            if (res.result == 0) {
-                dismiss()
-            }
+            dismiss()
         }
     }
 }
