@@ -20,6 +20,7 @@ import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageMemberActivity
+import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
@@ -35,7 +36,7 @@ class CozyHomeMainFragment : Fragment() {
     private val splashViewmodel: SplashViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
-    private var isCertificated: Boolean = false
+    private var universityFlag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +54,7 @@ class CozyHomeMainFragment : Fragment() {
         initView()
         initListener()
         openMessage()
+        openNotification()
         splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         viewLifecycleOwner.lifecycleScope.launch {
             if (univViewModel.isVerified.value == false) {
@@ -153,15 +155,23 @@ class CozyHomeMainFragment : Fragment() {
         }
     }
 
+    private fun openNotification() {
+        binding.btnBell.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
+        }
+    }
+
     private fun observeViewModel() {
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
                 if (univ == "학교 인증을 해주세요") {
+                    universityFlag = false
                     ivSchoolWhite.visibility = View.VISIBLE
                     ivSchoolBlue.visibility = View.GONE
                     ivNext.visibility = View.VISIBLE
                 } else {
+                    universityFlag = true
                     ivSchoolWhite.visibility = View.GONE
                     ivSchoolBlue.visibility = View.VISIBLE
                     ivNext.visibility = View.GONE
@@ -171,6 +181,7 @@ class CozyHomeMainFragment : Fragment() {
                 }
             }
         }
+        // 메일인증 여부가 확인되면, 사용자 대학교를 조회한다.
         univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true && univViewModel.university.value == null) {
                 viewLifecycleOwner.lifecycleScope.launch {

@@ -10,10 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.databinding.FragmentUpdateMyInfoBinding
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
 import umc.cozymate.util.CharacterUtil
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class UpdateMyInfoFragment : Fragment() {
@@ -21,6 +24,7 @@ class UpdateMyInfoFragment : Fragment() {
     private var _binding: FragmentUpdateMyInfoBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UpdateInfoViewModel by viewModels()
+    private var universityFlag: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +67,9 @@ class UpdateMyInfoFragment : Fragment() {
 
             // 학과 수정
             llMajor.setOnClickListener {
-                (requireActivity() as UpdateMyInfoActivity).loadUpdateMajorFragment()
+                if (universityFlag == true) {
+                    (requireActivity() as UpdateMyInfoActivity).loadUpdateMajorFragment()
+                }
             }
 
             // 생년월일 수정
@@ -80,13 +86,36 @@ class UpdateMyInfoFragment : Fragment() {
         }
     }
 
+    // "yyyy-mm-dd"형식을 "yyyy년 mm월 dd일"로 바꾸는 함수
+    fun formatDate(inputDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+        try{
+            val date = inputFormat.parse(inputDate)
+            if (date != null) {
+                return outputFormat.format(date).toString()
+            }
+        } catch (e: Exception) {
+            return inputDate
+        }
+        return inputDate
+    }
+
     fun observeResponse() {
         with(binding) {
             viewModel.memberInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 if (response.result != null) {
                     tvNickname.text = response.result.nickname
-                    tvBirth.text = response.result.birthday
-                    tvMajor.text = response.result.majorName
+                    tvBirth.text = formatDate(response.result.birthday)
+                    if (response.result.majorName == "") {
+                        universityFlag = false
+                        tvMajor.text = "아직 학교인증이 되어있지 않아요"
+                        tvMajor.setTextColor(root.context.getColor(R.color.unuse_font))
+                    } else {
+                        universityFlag = true
+                        tvMajor.text = response.result.majorName
+                        tvMajor.setTextColor(root.context.getColor(R.color.highlight_font))
+                    }
                     CharacterUtil.setImg(response.result.persona, ivCharacter)
                 }
             })

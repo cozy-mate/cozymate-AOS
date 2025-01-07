@@ -102,6 +102,7 @@ drawable custom_chip_8_default
 drawable custom_chip_8_selected
 drawable custom_circular_background
 drawable custom_circule_basic_font
+drawable custom_dialog_background
 drawable custom_dialog_btn_background_8
 drawable custom_edittext
 drawable custom_hashtag_chip
@@ -422,6 +423,7 @@ id cl_criteria_3
 id cl_criteria_4
 id cl_dormitory
 id cl_dormitory_info_list
+id cl_dormitory_name
 id cl_drink
 id cl_eating
 id cl_email_input
@@ -477,6 +479,9 @@ id cy_sleep_ampm
 id cy_wake_ampm
 id dialog_content_layout
 id divider
+id dormitory_name1
+id dormitory_name2
+id dormitory_name3
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
@@ -507,8 +512,8 @@ id et_room_name
 id et_search
 id et_selection_info
 id et_university_email
+id fab_bnt
 id fab_go_top
-id fab_request_enter_room
 id fab_request_roommate
 id flexbox
 id fragment_container
@@ -674,6 +679,7 @@ id ly_clean_frequency1
 id ly_clean_frequency2
 id ly_clean_frequency3
 id ly_dormitory
+id ly_dormitory_name
 id ly_drink1
 id ly_drink2
 id ly_drink3
@@ -1122,6 +1128,7 @@ id tv_room_mate_name
 id tv_room_member_master
 id tv_room_member_match
 id tv_room_member_name
+id tv_room_member_stat
 id tv_room_name
 id tv_room_search_filter
 id tv_room_status

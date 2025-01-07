@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_character"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/background_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <ImageView
+        android:id="@+id/iv_edit_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:background="@drawable/background_circle"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/iv_character"
+        app:layout_constraintEnd_toEndOf="@id/iv_character" />
+
+    <ImageView
+        android:id="@+id/iv_edit_back2"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:background="@drawable/background_circle"
+        android:backgroundTint="#E7E7E7"
+        app:layout_constraintBottom_toBottomOf="@id/iv_edit_back"
+        app:layout_constraintEnd_toEndOf="@id/iv_edit_back"
+        app:layout_constraintStart_toStartOf="@id/iv_edit_back"
+        app:layout_constraintTop_toTopOf="@+id/iv_edit_back" />
+
+    <ImageView
+        android:id="@+id/iv_character_edit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@id/iv_edit_back"
+        app:layout_constraintEnd_toEndOf="@id/iv_edit_back"
+        app:layout_constraintStart_toStartOf="@id/iv_edit_back"
+        app:layout_constraintTop_toTopOf="@id/iv_edit_back" />
+
+    <!--방이름-->
+    <TextView
+        android:id="@+id/tv_label_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="42dp"
+        android:text="방이름을 입력해주세요"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_character" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cozy_room_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_rectangle_12"
+        android:backgroundTint="@color/color_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_room_name">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_room_name"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:errorTextColor="@color/red"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_room_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_edittext"
+                android:cursorVisible="false"
+                android:hint="방이름을 입력해주세요"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                android:textColorHint="@color/unuse_font" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_alert_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/cl_cozy_room_name"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_name" />
+
+
+    <!--인원-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cozy_room_people_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_name">
+
+        <TextView
+            android:id="@+id/tv_label_room_people_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="인원을 선택해주세요 (본인 포함)"
+            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+            android:textColor="@color/basic_font"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chip1"
+            style="@style/OptionBox"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:clickable="true"
+            android:text="2명"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            app:layout_constraintEnd_toStartOf="@id/chip2"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
+
+        <TextView
+            android:id="@+id/chip2"
+            style="@style/OptionBox"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:text="3명"
+            app:layout_constraintEnd_toStartOf="@id/chip3"
+            app:layout_constraintStart_toEndOf="@id/chip1"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
+
+        <TextView
+            android:id="@+id/chip3"
+            style="@style/OptionBox"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:text="4명"
+            app:layout_constraintEnd_toStartOf="@id/chip4"
+            app:layout_constraintStart_toEndOf="@id/chip2"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
+
+        <TextView
+            android:id="@+id/chip4"
+            style="@style/OptionBox"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:text="5명"
+            app:layout_constraintEnd_toStartOf="@id/chip5"
+            app:layout_constraintStart_toEndOf="@id/chip3"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
+
+        <TextView
+            android:id="@+id/chip5"
+            style="@style/OptionBox"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:text="6명"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chip4"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_room_people_number" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--방 해시태그-->
+    <TextView
+        android:id="@+id/tv_label_room_hashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="방을 나타낼 해시태그를 입력해주세요 (최대 3개)"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/basic_font"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_people_number" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cozy_room_hashtag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_rectangle_12"
+        android:backgroundTint="@color/color_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_room_hashtag">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_room_hashtag"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:errorTextColor="@color/red"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_room_hashtag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_edittext"
+                android:hint="해시태그를 입력해주세요"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/color_font"
+                android:textColorHint="@color/unuse_font"
+                android:textCursorDrawable="@android:color/transparent" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_hashtag">
+
+        <TextView
+            android:id="@+id/hashtag1"
+            style="@style/RoomHashtagChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/sub_color2"
+            android:drawableEnd="@drawable/ic_close"
+            android:drawablePadding="10dp"
+            android:text="#해시태그" />
+
+        <TextView
+            android:id="@+id/hashtag2"
+            style="@style/RoomHashtagChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/sub_color2"
+            android:drawableEnd="@drawable/ic_close"
+            android:drawablePadding="10dp"
+            android:text="#해시태그해시태그" />
+
+        <TextView
+            android:id="@+id/hashtag3"
+            style="@style/RoomHashtagChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/sub_color2"
+            android:drawableEnd="@drawable/ic_close"
+            android:drawablePadding="10dp"
+            android:text="#해시태그해시태그해시태그" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="22dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_rectangle_next_state"
+        android:text="수정"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

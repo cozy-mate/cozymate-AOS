@@ -1416,7 +1416,7 @@
                         android:layout_width="135dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="매우 예민하지않아요" />
+                        android:text="매우 예민하지 않아요" />
 
                     <TextView
                         android:id="@+id/clean2"
@@ -1504,7 +1504,7 @@
                         android:layout_width="135dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="매우 예민하지않아요" />
+                        android:text="매우 예민하지 않아요" />
 
                     <TextView
                         android:id="@+id/noise2"

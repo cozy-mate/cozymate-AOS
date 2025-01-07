@@ -59,7 +59,7 @@ class MyReceivedRequestComponent : Fragment() {
                 adapter.submitList(roomList)
             } else {
                 binding.tvRequestNum.text = "0개의"
-                binding.clComponent.visibility = View.VISIBLE
+                binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.VISIBLE
                 binding.clEmptyRoommate.isEnabled = true
                 binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동

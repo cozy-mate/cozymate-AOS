@@ -25,6 +25,7 @@ import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
+import umc.cozymate.data.model.response.room.GetRoomPendingMemberResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
@@ -82,6 +83,13 @@ interface RoomService {
     suspend fun getPendingMemberList(
         @Header("Authorization") accessToken: String,
     ): Response<GetPendingMemberListResponse>
+
+    // 사용자가 참여 요청한 방인지 조회
+    @GET("/rooms/{roomId}/pending-status")
+    suspend fun getPendingRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ): Response<GetRoomPendingMemberResponse>
 
     // 참여자가 초대코드로 방 정보 조회
     @GET("/rooms/join")

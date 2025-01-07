@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 
 interface RoomLogService {
@@ -17,4 +18,10 @@ interface RoomLogService {
         @Query("page") memberId: Int? = 0,
         @Query("size") size: Int? = 10,
     ) : Response<RoomLogResponse>
+
+    // 알림 조회
+    @GET("/notificationLogs")
+    suspend fun getNotificationLogs(
+        @Header("Authorization") accessToken: String,
+    ) : Response<NotificationLogResponse>
 }

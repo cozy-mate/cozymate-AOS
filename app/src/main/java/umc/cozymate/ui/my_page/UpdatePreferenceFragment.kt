@@ -102,5 +102,9 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
                 Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
             }
         }
+        // 선호항목 수정 결과 옵저빙
+        viewModel.updatePreferenceResponse.observe(viewLifecycleOwner) { res ->
+            dismiss()
+        }
     }
 }

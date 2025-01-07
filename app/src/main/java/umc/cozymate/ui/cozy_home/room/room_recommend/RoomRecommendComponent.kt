@@ -1,7 +1,9 @@
 package umc.cozymate.ui.cozy_home.room.room_recommend
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +33,7 @@ class RoomRecommendComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
+        getPreference()
         return binding.root
     }
 
@@ -39,13 +42,13 @@ class RoomRecommendComponent : Fragment() {
         nickname = viewModel.getNickname().toString()
         binding.tvName.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
-            roommateViewModel.fetchRoommateListByEquality()
+            //roommateViewModel.fetchRoommateListByEquality()
             viewModel.fetchRecommendedRoomList()
         }
-        roommateViewModel.roommateList.observe(viewLifecycleOwner) { list ->
+        /*roommateViewModel.roommateList.observe(viewLifecycleOwner) { list ->
             if (list.isNullOrEmpty()) isLifestyleExist = false
             else isLifestyleExist = true
-        }
+        }*/
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
@@ -69,5 +72,11 @@ class RoomRecommendComponent : Fragment() {
             val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
+        Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
     }
 }

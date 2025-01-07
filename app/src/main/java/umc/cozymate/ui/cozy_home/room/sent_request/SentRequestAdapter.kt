@@ -21,7 +21,11 @@ class SentRequestAdapter(
         private val equality: TextView = itemView.findViewById(R.id.tv_equality)
         val divider: View = itemView.findViewById(R.id.view_divider)
         fun bind(room: GetRequestedRoomListResponse.Result) {
-            hashtag1.text = room.hashtagList[1]
+            if(room.hashtagList.isNotEmpty()) {
+                hashtag1.text = room.hashtagList[1]
+            } else {
+                hashtag1.text = ""
+            }
 
             name.text = room.name
             arrivalNum.text = "${room.arrivalMateNum}명"

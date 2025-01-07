@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.onboarding.OnboardingActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <FrameLayout
         android:id="@+id/fragment_onboarding"
         android:name="umc.cozymate.ui.onboarding.OnboardingUserInfoFragment"
@@ -14,5 +20,7 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
