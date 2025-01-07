@@ -20,6 +20,7 @@ import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.message.MessageMemberActivity
+import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
@@ -53,6 +54,7 @@ class CozyHomeMainFragment : Fragment() {
         initView()
         initListener()
         openMessage()
+        openNotification()
         splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         viewLifecycleOwner.lifecycleScope.launch {
             if (univViewModel.isVerified.value == false) {
@@ -150,6 +152,12 @@ class CozyHomeMainFragment : Fragment() {
     private fun openMessage() {
         binding.btnMessage.setOnClickListener {
             startActivity(Intent(activity, MessageMemberActivity::class.java))
+        }
+    }
+
+    private fun openNotification() {
+        binding.btnBell.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
 

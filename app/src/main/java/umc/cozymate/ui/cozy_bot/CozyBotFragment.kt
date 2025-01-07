@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
 import umc.cozymate.ui.message.MessageMemberActivity
+import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.CharacterUtil
 
@@ -59,6 +60,8 @@ class CozyBotFragment : Fragment() {
         }
         // 쪽지
         openMessage()
+        // 알림
+        openNotification()
     }
     override fun onResume() {
         super.onResume()
@@ -166,6 +169,12 @@ class CozyBotFragment : Fragment() {
     private fun openMessage() {
         binding.btnMessage.setOnClickListener {
             startActivity(Intent(activity, MessageMemberActivity::class.java))
+        }
+    }
+
+    private fun openNotification() {
+        binding.btnBell.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
 }
