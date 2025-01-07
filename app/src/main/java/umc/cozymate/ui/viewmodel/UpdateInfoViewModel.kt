@@ -160,7 +160,32 @@ class UpdateInfoViewModel @Inject constructor(
                 Log.d(TAG, "학과 수정 api 응답 실패: ${response.errorBody()?.string()}")
             }
         } catch (e:Exception) {
-            Log.d(TAG, "닉네임 수정 api 요청 실패: $e")
+            Log.d(TAG, "학과 수정 api 요청 실패: $e")
+        }
+    }
+
+    // 생일 수정
+    private val _birthDate = MutableLiveData<String>()
+    val birthDate: LiveData<String> get() = _birthDate
+    fun setBirthDate(birthDate: String) {
+        _birthDate.value = birthDate
+    }
+    private val _updateBirthDateResponse = MutableLiveData<UpdateInfoCommonResponse>()
+    val updateBirthDateResponse: LiveData<UpdateInfoCommonResponse> get() = _updateBirthDateResponse
+    suspend fun updateBirthDate() {
+        val token = getToken()
+        try {
+            val response = repo.updateBirthday(token!!, birthDate.value!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "생일 수정 성공: ${response.body()!!.result}")
+                    _updateBirthDateResponse.value = response.body()!!
+                } else Log.d(TAG, "생일 수정 에러 메시지: ${response}")
+            } else {
+                Log.d(TAG, "생일 수정 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e:Exception) {
+            Log.d(TAG, "생일 수정 api 요청 실패: $e")
         }
     }
 }
