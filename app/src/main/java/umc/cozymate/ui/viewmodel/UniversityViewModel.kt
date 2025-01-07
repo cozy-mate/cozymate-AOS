@@ -74,6 +74,8 @@ class UniversityViewModel @Inject constructor(
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
+                    sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
+                    sharedPreferences.edit().putInt("university_id", response.body()!!.result.id).commit()
                     _university.value = response.body()!!.result.name
                 }
             }
@@ -84,7 +86,7 @@ class UniversityViewModel @Inject constructor(
 
     }
 
-    // 대학교 정보 조회
+    // 대학교 정보 조회(학교인증 전)
     private val _universityInfo = MutableLiveData<GetUniversityInfoResponse.Result>()
     val universityInfo: LiveData<GetUniversityInfoResponse.Result> get() = _universityInfo
     private val _universityId = MutableLiveData<Int>()
@@ -98,7 +100,6 @@ class UniversityViewModel @Inject constructor(
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
-                    sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
                     _universityInfo.value = response.body()!!.result
                 }
             }
