@@ -188,4 +188,29 @@ class UpdateInfoViewModel @Inject constructor(
             Log.d(TAG, "생일 수정 api 요청 실패: $e")
         }
     }
+
+    // 캐릭터 수정
+    private val _persona = MutableLiveData<Int>()
+    val persona: LiveData<Int> get() = _persona
+    fun setPersona(persona: Int) {
+        _persona.value = persona
+    }
+    private val _updatePersonaResponse = MutableLiveData<UpdateInfoCommonResponse>()
+    val updatePersonaResponse: LiveData<UpdateInfoCommonResponse> get() = _updatePersonaResponse
+    suspend fun updatePersonaDate() {
+        val token = getToken()
+        try {
+            val response = repo.updatePersona(token!!, persona.value!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "캐릭터 수정 성공: ${response.body()!!.result}")
+                    _updatePersonaResponse.value = response.body()!!
+                } else Log.d(TAG, "캐릭터 수정 에러 메시지: ${response}")
+            } else {
+                Log.d(TAG, "캐릭터 수정 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e:Exception) {
+            Log.d(TAG, "캐릭터 수정 api 요청 실패: $e")
+        }
+    }
 }
