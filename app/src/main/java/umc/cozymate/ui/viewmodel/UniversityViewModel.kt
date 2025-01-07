@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
+import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
@@ -67,6 +68,8 @@ class UniversityViewModel @Inject constructor(
     // 대학교 이름 조회 (인증 완료되었을 때)
     private val _university = MutableLiveData<String>()
     val university: LiveData<String> get() = _university
+    private val _getMyUniversityResponse = MutableLiveData<GetMyUniversityResponse>()
+    val getMyUniversityResponse: LiveData<GetMyUniversityResponse> get() = _getMyUniversityResponse
     suspend fun fetchMyUniversity() {
         val token = getToken()
         try {
@@ -77,6 +80,7 @@ class UniversityViewModel @Inject constructor(
                     sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
                     sharedPreferences.edit().putInt("university_id", response.body()!!.result.id).commit()
                     _university.value = response.body()!!.result.name
+                    _getMyUniversityResponse.value = response.body()
                 }
             }
         } catch (e: Exception) {
