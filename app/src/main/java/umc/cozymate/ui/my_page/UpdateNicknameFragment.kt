@@ -128,7 +128,7 @@ class UpdateNicknameFragment: Fragment() {
         }
         viewModel.updateNicknameResponse.observe(viewLifecycleOwner) { res ->
             if (res.result){
-                requireActivity().finish()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
