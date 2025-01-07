@@ -12,7 +12,7 @@ data class GetRoomMemberStatResponse(
     ) {
         data class Member(
             val memberDetail: MemberDetail,
-            val memberStat: Map<String, String>
+            val memberStat: Map<String, Any>
         ) {
             data class MemberDetail(
                 val memberId: Int,

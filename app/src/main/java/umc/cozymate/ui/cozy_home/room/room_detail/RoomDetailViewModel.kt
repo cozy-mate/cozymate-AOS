@@ -169,7 +169,10 @@ class RoomDetailViewModel @Inject constructor(
     fun getRoomMemberStats(roomId: Int, memberStatKey: String) {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
+                // 로딩 시작
+                _isLoading.postValue(true)
+                Log.d(TAG, "Loading started for memberStatKey: $memberStatKey")
+
                 val token = getToken()
                 val response = repository.getRoomMemberStat(
                     accessToken = token!!,
@@ -178,16 +181,25 @@ class RoomDetailViewModel @Inject constructor(
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    _roomMemberStats.postValue(response.body()?.result?.memberList)
-                    _roomMemberStatsColor.postValue(response.body()?.result?.color)
-                    Log.d(TAG, "getRoomMemberStat 호출 성공 : ${memberStatKey}, ${response.body()!!.result.memberList}")
+                    val result = response.body()?.result
+                    _roomMemberStats.postValue(result?.memberList)
+                    _roomMemberStatsColor.postValue(result?.color)
+                    Log.d(TAG, "getRoomMemberStat 호출 성공 : $memberStatKey, 데이터 크기: ${result?.memberList?.size}")
                 } else {
                     Log.e(TAG, "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}")
+                    // 에러가 발생했을 경우 빈 리스트 전달
+                    _roomMemberStats.postValue(emptyList())
+                    _roomMemberStatsColor.postValue("")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching Room Member Stats: $e")
+                // 예외 발생 시 빈 리스트 전달
+                _roomMemberStats.postValue(emptyList())
+                _roomMemberStatsColor.postValue("")
             } finally {
-                _isLoading.value = false
+                // 로딩 완료
+                _isLoading.postValue(false)
+                Log.d(TAG, "Loading finished for memberStatKey: $memberStatKey")
             }
         }
     }

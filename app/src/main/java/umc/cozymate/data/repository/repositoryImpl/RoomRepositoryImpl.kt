@@ -5,6 +5,7 @@ import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
@@ -16,6 +17,7 @@ import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
+import umc.cozymate.data.model.response.room.GetRoomPendingMemberResponse
 import umc.cozymate.data.model.response.room.IsRoomExistResponse
 import umc.cozymate.data.model.response.room.JoinRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
@@ -140,4 +142,17 @@ class RoomRepositoryImpl @Inject constructor(
         return api.getRoomMemberStat(accessToken, roomId, memberStatKey)
     }
 
+    override suspend fun getPendingRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetRoomPendingMemberResponse> {
+        return api.getPendingRoom(accessToken, roomId)
+    }
+
+    override suspend fun cancelJoinRequest(
+        accessToken: String,
+        roomId: Int
+    ): Response<CancelJoinRequestResponse> {
+        return api.cancelJoinRequest(accessToken, roomId)
+    }
 }

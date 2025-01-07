@@ -12,6 +12,7 @@ import umc.cozymate.databinding.RvItemRoomMemberStatBinding
 class RoomMemberStatRVA (
     private val context: Context,
     private val members: List<GetRoomMemberStatResponse.Result.Member>,
+    private val memberStatKey: String,
     private val color: Int
 ) : RecyclerView.Adapter<RoomMemberStatRVA.RoomMemberStatRVAHolder>(){
 
@@ -31,14 +32,13 @@ class RoomMemberStatRVA (
         holder: RoomMemberStatRVAHolder,
         position: Int
     ) {
-        val member = members[position]
-        holder.bind(member, color)
+        holder.bind(members[position])
     }
 
     override fun getItemCount(): Int = members.size
 
     inner class RoomMemberStatRVAHolder(private val binding:RvItemRoomMemberStatBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(member: GetRoomMemberStatResponse.Result.Member, color: Int) {
+        fun bind(member: GetRoomMemberStatResponse.Result.Member) {
             val personaResId = when (member.memberDetail.persona) {
                 1 -> R.drawable.character_id_1
                 2 -> R.drawable.character_id_2
@@ -67,6 +67,56 @@ class RoomMemberStatRVA (
                 binding.tvRoomMemberMaster.visibility = View.VISIBLE
             } else {
                 binding.tvRoomMemberMaster.visibility = View.GONE
+            }
+            // Stat 데이터 설정
+            val statValue = member.memberStat[memberStatKey]
+            binding.tvRoomMemberStat.text = formatStatValue(memberStatKey, statValue)
+        }
+
+        private fun formatStatValue(key: String, value: Any?): String {
+            return when (value) {
+                is Int -> mapIntStatValue(key, value)
+                is String -> value
+                else -> "알 수 없음"
+            }
+        }
+
+        private fun mapIntStatValue(key: String, value: Int): String {
+            return when (key) {
+                "airConditioningIntensity" -> when (value) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "세게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+                "heatingIntensity" -> when (value) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "세게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+                "cleanSensitivity" -> when (value) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+                "noiseSensitivity" -> when (value) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+                "birthYear" -> "${value}년"
+                "admissionYear" -> "${value}학번"
+                "wakeUpTime", "sleepingTime", "turnOffTime" -> "${value}시"
+                else -> "알수없음"
             }
         }
     }
