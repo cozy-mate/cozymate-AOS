@@ -335,4 +335,9 @@ class MakingRoomViewModel @Inject constructor(
             Log.d(TAG, "토큰 or roomId 에러")
         }
     }
+
+    // 방 정보 수정
+    fun updateRoomInfo() {
+        val token = getToken()
+    }
 }
