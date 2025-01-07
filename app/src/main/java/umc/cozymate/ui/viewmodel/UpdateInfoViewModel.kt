@@ -74,9 +74,10 @@ class UpdateInfoViewModel @Inject constructor(
     // 선호항목 수정
     private val _preferences = MutableLiveData<PreferenceList>()
     val preferences: LiveData<PreferenceList> get() = _preferences
-    fun setPreferences(preferences: PreferenceList){
+    fun setPreferences(preferences: PreferenceList) {
         _preferences.value = preferences
     }
+
     private val _updatePreferenceResponse = MutableLiveData<UpdatePreferenceResponse>()
     val updatePreferenceResponse: LiveData<UpdatePreferenceResponse> get() = _updatePreferenceResponse
     private val _loading3 = MutableLiveData<Boolean>()
@@ -108,6 +109,7 @@ class UpdateInfoViewModel @Inject constructor(
     fun updateSelectedElementCount(isSelected: Boolean) {
         _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
     }
+
     val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
         it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
     }
@@ -115,12 +117,12 @@ class UpdateInfoViewModel @Inject constructor(
     // 닉네임 수정
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
-    fun setNickname(nickname: String){
+    fun setNickname(nickname: String) {
         _nickname.value = nickname
     }
     private val _updateNicknameResponse = MutableLiveData<UpdateInfoCommonResponse>()
     val updateNicknameResponse: LiveData<UpdateInfoCommonResponse> get() = _updateNicknameResponse
-    suspend fun updateNickname(){
+    suspend fun updateNickname() {
         val token = getToken()
         try {
             val response = repo.updateNickname(token!!, nickname.value!!)
@@ -137,4 +139,28 @@ class UpdateInfoViewModel @Inject constructor(
         }
     }
 
+    // 학과 수정
+    private val _majorName = MutableLiveData<String>()
+    val majorName: LiveData<String> get() = _majorName
+    fun setMajorName(majorName: String) {
+        _majorName.value = majorName
+    }
+    private val _updateMajorNameResponse = MutableLiveData<UpdateInfoCommonResponse>()
+    val updateMajorNameResponse: LiveData<UpdateInfoCommonResponse> get() = _updateMajorNameResponse
+    suspend fun updateMajorName() {
+        val token = getToken()
+        try {
+            val response = repo.updateMajorName(token!!, majorName.value!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "학과 수정 성공: ${response.body()!!.result}")
+                    _updateMajorNameResponse.value = response.body()!!
+                } else Log.d(TAG, "학과 수정 에러 메시지: ${response}")
+            } else {
+                Log.d(TAG, "학과 수정 api 응답 실패: ${response.errorBody()?.string()}")
+            }
+        } catch (e:Exception) {
+            Log.d(TAG, "닉네임 수정 api 요청 실패: $e")
+        }
+    }
 }
