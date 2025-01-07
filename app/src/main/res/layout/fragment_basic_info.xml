@@ -215,7 +215,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        android:text="1기숙사" />
+                        android:text="제 1생활관" />
 
                     <TextView
                         android:id="@+id/dormitory_name2"
@@ -224,7 +224,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        android:text="2기숙사" />
+                        android:text="제 2생활관" />
 
                     <TextView
                         android:id="@+id/dormitory_name3"
@@ -233,7 +233,7 @@
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        android:text="3기숙사" />
+                        android:text="제 3생활관" />
 
                 </LinearLayout>
 

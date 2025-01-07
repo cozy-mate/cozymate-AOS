@@ -140,9 +140,9 @@ class BasicInfoFragment : Fragment() {
 
     private fun initDormitoryNameSelector() {
         val dormitoryNameTexts = listOf(
-            binding.dormitoryName1 to "1기숙사",
-            binding.dormitoryName2 to "2기숙사",
-            binding.dormitoryName3 to "3기숙사"
+            binding.dormitoryName1 to "제 1생활관",
+            binding.dormitoryName2 to "제 2생활관",
+            binding.dormitoryName3 to "제 3생활관"
         )
         for ((textView, value) in dormitoryNameTexts) {
             textView.setOnClickListener {
