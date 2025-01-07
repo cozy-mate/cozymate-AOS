@@ -36,6 +36,8 @@ class UniversityViewModel @Inject constructor(
     }
 
     // 대학교 메일 인증 여부
+    // 메일인증을 받은적이 없거나, 받았는데 인증 확인이 안된 경우 빈 문자열 반환
+    // 메일 인증을 받고, 인증 확인이 된 경우 인증된 메일 주소 반환
     private val _isVerified = MutableLiveData(false)
     val isVerified: LiveData<Boolean> get() = _isVerified
     suspend fun isMailVerified() {
@@ -46,13 +48,17 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
                     if (response.body()!!.result == "") {
+                        _isVerified.value = true
+                        fetchMyUniversity()
+                    } else {
                         _isVerified.value = false
-                        _university.value = "학교 인증을 해주세요"
-                    } else _isVerified.value = true
+                        fetchMyUniversity()
+                    }
                 }
             }
         } catch (e: Exception) {
             Log.d(TAG, "학교 메일 인증 여부 조회 api 요청 실패: $e")
+            _isVerified.value = false
             _university.value = "학교 인증을 해주세요"
         }
 

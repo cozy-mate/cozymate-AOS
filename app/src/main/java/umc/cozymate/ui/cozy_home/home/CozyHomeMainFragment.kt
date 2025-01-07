@@ -171,6 +171,7 @@ class CozyHomeMainFragment : Fragment() {
                 }
             }
         }
+        // 메일인증 여부가 확인되면, 사용자 대학교를 조회한다.
         univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true && univViewModel.university.value == null) {
                 viewLifecycleOwner.lifecycleScope.launch {
