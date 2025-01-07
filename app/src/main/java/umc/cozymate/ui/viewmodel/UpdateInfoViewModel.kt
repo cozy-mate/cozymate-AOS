@@ -197,7 +197,7 @@ class UpdateInfoViewModel @Inject constructor(
     }
     private val _updatePersonaResponse = MutableLiveData<UpdateInfoCommonResponse>()
     val updatePersonaResponse: LiveData<UpdateInfoCommonResponse> get() = _updatePersonaResponse
-    suspend fun updatePersonaDate() {
+    suspend fun updatePersona() {
         val token = getToken()
         try {
             val response = repo.updatePersona(token!!, persona.value!!)
