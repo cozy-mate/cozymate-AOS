@@ -48,6 +48,8 @@ class UniversityCertificationFragment : Fragment() {
         //binding.btnSendVerifyCode.visibility = View.GONE
         binding.btnCheckVerifyCode.isClickable = true
         binding.tvAlertCode.visibility = View.GONE
+        binding.clCheckVerifyCode.visibility = View.GONE
+
         checkIsValidMail()
         setMailBtnListener()
         setVerifyBtnListener()
@@ -75,6 +77,7 @@ class UniversityCertificationFragment : Fragment() {
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
             if (isSent) {
                 binding.btnSendVerifyCode.text = "인증번호 재전송"
+                binding.clCheckVerifyCode.visibility = View.VISIBLE
             } else {
                 Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
                     .show()

@@ -77,6 +77,7 @@ class UniversityViewModel @Inject constructor(
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
+                    sharedPreferences.edit().putBoolean("is_verified", true).commit()
                     sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
                     sharedPreferences.edit().putInt("university_id", response.body()!!.result.id).commit()
                     _university.value = response.body()!!.result.name

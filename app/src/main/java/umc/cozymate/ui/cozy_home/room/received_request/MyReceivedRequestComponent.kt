@@ -53,13 +53,13 @@ class MyReceivedRequestComponent : Fragment() {
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.tvRequestNum.text = "${roomList.size}개의"
-                binding.clComponent.visibility = View.GONE
+                binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
                 binding.tvRequestNum.text = "0개의"
-                binding.clComponent.visibility = View.VISIBLE
+                binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.VISIBLE
                 binding.clEmptyRoommate.isEnabled = true
                 binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동
