@@ -15,6 +15,8 @@ import umc.cozymate.data.domain.Preference
 import umc.cozymate.databinding.FragmentUpdateMyInfoBinding
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
 import umc.cozymate.util.CharacterUtil
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class UpdateMyInfoFragment : Fragment() {
@@ -84,12 +86,27 @@ class UpdateMyInfoFragment : Fragment() {
         }
     }
 
+    // "yyyy-mm-dd"형식을 "yyyy년 mm월 dd일"로 바꾸는 함수
+    fun formatDate(inputDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+        try{
+            val date = inputFormat.parse(inputDate)
+            if (date != null) {
+                return outputFormat.format(date).toString()
+            }
+        } catch (e: Exception) {
+            return inputDate
+        }
+        return inputDate
+    }
+
     fun observeResponse() {
         with(binding) {
             viewModel.memberInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 if (response.result != null) {
                     tvNickname.text = response.result.nickname
-                    tvBirth.text = response.result.birthday
+                    tvBirth.text = formatDate(response.result.birthday)
                     if (response.result.majorName == "") {
                         universityFlag = false
                         tvMajor.text = "아직 학교인증이 되어있지 않아요"
