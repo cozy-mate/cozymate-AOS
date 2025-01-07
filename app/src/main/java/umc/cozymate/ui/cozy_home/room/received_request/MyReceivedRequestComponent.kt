@@ -53,7 +53,7 @@ class MyReceivedRequestComponent : Fragment() {
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.tvRequestNum.text = "${roomList.size}개의"
-                binding.clComponent.visibility = View.VISIBLE
+                binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)

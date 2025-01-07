@@ -182,7 +182,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_top"
             app:layout_goneMarginBottom="0dp"
             app:layout_goneMarginTop="0dp"
-            tool:layout="@layout/fragment_my_room_component"/>
+            tool:layout="@layout/fragment_my_room_component" />
 
         <!-- 참여요청 받은 룸메이트 목록 (조건 : 공개방 방장)-->
         <androidx.fragment.app.FragmentContainerView
@@ -195,8 +195,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_room_container"
             app:layout_goneMarginBottom="0dp"
-            app:layout_goneMarginTop="0dp"
-            />
+            app:layout_goneMarginTop="0dp" />
 
         <!-- 참여요청한 방 목록 (조건 : 참여요청 보냄) -->
         <androidx.fragment.app.FragmentContainerView
@@ -209,7 +208,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
             app:layout_goneMarginTop="0dp"
-            tool:layout="@layout/fragment_my_sent_request_component"/>
+            tool:layout="@layout/fragment_my_sent_request_component" />
 
         <!-- 룸메이트 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
@@ -221,8 +220,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/requested_room_container"
-            app:layout_goneMarginTop="0dp"
-            />
+            app:layout_goneMarginTop="0dp" />
 
         <!-- 방 추천 (조건 : 방 없음) -->
         <androidx.fragment.app.FragmentContainerView
@@ -240,6 +238,7 @@
             android:id="@+id/banner_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/background_banner"

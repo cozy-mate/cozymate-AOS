@@ -319,7 +319,7 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
     fun saveUserLifestyleInfo() {
         Log.d(TAG, "사용자 라이프스타일 정보: ${_memberLifestyleInfo.value!!}")
         val editor = sharedPreferences.edit()
-
+        editor.putBoolean("is_lifestyle_exist", true)
         editor.putString("user_admissionYear", _memberLifestyleInfo.value!!.memberStatDetail.admissionYear)
         editor.putString("user_dormitoryName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
         editor.putInt("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)
