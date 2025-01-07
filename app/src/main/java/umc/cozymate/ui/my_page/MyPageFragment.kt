@@ -30,8 +30,10 @@ class MyPageFragment : Fragment() {
     private var nickname: String = ""
     private var roomname: String = ""
     private var roomId: Int = 0
-    private var schoolFlag: Boolean = true
+    private var universityId: Int = 0
+    private var universityName: String = ""
     private var roomFlag: Boolean = false
+    private var universityFlag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +48,7 @@ class MyPageFragment : Fragment() {
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
+        binding.tvSchool.text = universityName
         binding.layoutMyinfo.setOnClickListener {
             val intent = Intent(activity, UpdateMyInfoActivity::class.java)
             startActivity(intent)
@@ -128,7 +131,7 @@ class MyPageFragment : Fragment() {
         }
 
         // 학교 인증
-        if (schoolFlag) {
+        if (universityFlag) {
             binding.ivSchoolVerifiedMark.visibility = View.VISIBLE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
         } else {
@@ -175,6 +178,9 @@ class MyPageFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", -1)
         if (roomId != 0 && roomId != -1) roomFlag = true
+        universityId = spf.getInt("university_id", -1)
+        if (universityId !=0 && universityId != -1) universityFlag = true
+        universityName = spf.getString("university_name", "아직 학교인증이 되어있지 않아요").toString()
         persona = spf.getInt("user_persona", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
         roomname = spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
