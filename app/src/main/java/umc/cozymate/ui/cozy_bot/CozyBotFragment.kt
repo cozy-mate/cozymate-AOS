@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
+import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -50,6 +51,7 @@ class CozyBotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        getPreference()
         // 초대코드 클립보드 복사
         binding.btnCopyInviteCode.setOnClickListener {
             val clipboard =
@@ -62,6 +64,14 @@ class CozyBotFragment : Fragment() {
         openMessage()
         // 알림
         openNotification()
+        // 방 정보
+        binding.ivChar.setOnClickListener {
+            // roomId 값을 넘겨주면서 방 상세 화면으로 이동
+            val intent = Intent(requireActivity(), RoomDetailActivity::class.java).apply {
+                putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
+            }
+            startActivity(intent)
+        }
     }
     override fun onResume() {
         super.onResume()

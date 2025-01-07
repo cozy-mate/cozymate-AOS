@@ -36,7 +36,7 @@ class CozyHomeMainFragment : Fragment() {
     private val splashViewmodel: SplashViewModel by viewModels()
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
-    private var isCertificated: Boolean = false
+    private var universityFlag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -166,10 +166,12 @@ class CozyHomeMainFragment : Fragment() {
             with(binding) {
                 tvSchoolName.text = univ
                 if (univ == "학교 인증을 해주세요") {
+                    universityFlag = false
                     ivSchoolWhite.visibility = View.VISIBLE
                     ivSchoolBlue.visibility = View.GONE
                     ivNext.visibility = View.VISIBLE
                 } else {
+                    universityFlag = true
                     ivSchoolWhite.visibility = View.GONE
                     ivSchoolBlue.visibility = View.VISIBLE
                     ivNext.visibility = View.GONE
