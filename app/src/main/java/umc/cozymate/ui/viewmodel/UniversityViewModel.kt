@@ -98,6 +98,8 @@ class UniversityViewModel @Inject constructor(
     val universityId: LiveData<Int> get() = _universityId
     private val _major = MutableLiveData<String>()
     val major: LiveData<String> get() = _major
+    private val _dormitoryNames = MutableLiveData<List<String>>()
+    val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
         val token = getToken()
         try {
@@ -106,6 +108,7 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
                     _universityInfo.value = response.body()!!.result
+                    _dormitoryNames.value = response.body()!!.result.dormitoryNames
                 }
             }
         } catch (e: Exception) {
