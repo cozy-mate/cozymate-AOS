@@ -233,6 +233,7 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try {
+                _loading.value=true
                 val response = repository.withdraw(token!!,reason)
                 if(response.isSuccessful) {
                     _withdrawResponse.postValue(response)
@@ -241,6 +242,8 @@ class SplashViewModel @Inject constructor(
                 else Log.d(TAG,"withdraw 응답 실패 : ${response.body()}")
             }catch (e:Exception){
                 Log.d(TAG,"withdraw api 요청 실패 ${e}")
+            }finally {
+                _loading.value = false
             }
         }
     }

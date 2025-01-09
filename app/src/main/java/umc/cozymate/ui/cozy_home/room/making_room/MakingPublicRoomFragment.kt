@@ -87,8 +87,15 @@ class MakingPublicRoomFragment : Fragment() {
             updateNextButtonState()
         }
 
+        addProgerssBar()
+
         // 방 생성 옵저빙
         setupObservers()
+    }
+    private fun addProgerssBar(){
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
     }
 
     // 다음 버튼 비활성/활성
