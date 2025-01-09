@@ -87,6 +87,7 @@ class MakingPrivateRoomFragment : Fragment() {
         _binding = null
     }
 
+
     // 다음 버튼 비황성/활성
     fun updateNextButtonState() {
         with(binding) {

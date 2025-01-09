@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.CompoundButtonCompat
@@ -49,6 +50,10 @@ class WithDrawActivity : AppCompatActivity() {
                 startActivity(Intent(this, SplashActivity::class.java)) // 스플래시 화면으로 복귀
             }
         })
+
+        viewModel.loading.observe(this){
+            binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun getPreference() {
@@ -88,7 +93,6 @@ class WithDrawActivity : AppCompatActivity() {
         val originalText = "탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
         val splitText = "탈퇴하시면 모든 정보가 사라지며,모든 데이터는 복구가 \n불가능해요"
 
-        Log.d(TAG, "로그는 왜 안찍히니")
         // 화면의 가로 크기 확인
         val screenWidth = resources.displayMetrics.widthPixels
         val textWidth =  binding.tvSplitText.paint.measureText(originalText)

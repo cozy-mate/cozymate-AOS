@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.ChatRoomData
 import umc.cozymate.databinding.ActivityMessageMemberBinding
-import umc.cozymate.ui.viewmodel.ChatViewModel
+import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -19,7 +19,7 @@ class MessageMemberActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMessageMemberBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var messageAdapter: MessageAdapter
-    private val viewModel : ChatViewModel by viewModels()
+    private val viewModel : MessageViewModel by viewModels()
     private var chatRooms : List<ChatRoomData> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {

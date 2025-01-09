@@ -20,6 +20,7 @@
             android:visibility="gone"
             tools:visibility="visible"/>
 
+
         <!-- 메인 UI 요소들 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"

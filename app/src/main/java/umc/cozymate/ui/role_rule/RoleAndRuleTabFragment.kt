@@ -94,7 +94,7 @@ class RoleAndRuleTabFragment: Fragment() {
             if (response.isSuccessful) {
                 val roleResponse = response.body()
                 roleResponse?.let {
-                    roles = it.result.roleList
+                    roles = it.result
                     updateRole()
                 }
             } else {

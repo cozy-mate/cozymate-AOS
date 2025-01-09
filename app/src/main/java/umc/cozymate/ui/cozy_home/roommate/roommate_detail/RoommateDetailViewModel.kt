@@ -2,6 +2,8 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,8 +22,11 @@ class RoommateDetailViewModel @Inject constructor(
 ): ViewModel() {
     private val TAG = this.javaClass.simpleName
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> get() = _isLoading
+//    private val _isLoading = MutableStateFlow(false)
+//    val isLoading: StateFlow<Boolean> get() = _isLoading
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val _otherUserDetailInfo = MutableSharedFlow<GetMemberDetailInfoResponse.Result>()
     val otherUserDetailInfo = _otherUserDetailInfo.asSharedFlow()

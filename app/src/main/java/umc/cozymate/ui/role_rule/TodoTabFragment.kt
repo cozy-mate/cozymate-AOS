@@ -109,7 +109,7 @@ class TodoTabFragment : Fragment() {
         roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
-                val list =  response.body()!!.result.roleList
+                val list =  response.body()!!.result
                 if(!roleList.equals(list)){
                     roleList = list
                     setRoleTodo()
