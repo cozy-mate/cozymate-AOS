@@ -945,7 +945,6 @@ id tv_friendly
 id tv_game_check
 id tv_go_lifestyle
 id tv_go_lifestyle_guide
-id tv_go_lifestyle_test
 id tv_goto
 id tv_guide
 id tv_guide1

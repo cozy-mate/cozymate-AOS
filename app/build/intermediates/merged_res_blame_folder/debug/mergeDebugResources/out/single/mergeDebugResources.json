@@ -1044,10 +1044,6 @@
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/activity_making_public_room.xml"
     },
     {
-        "merged": "umc.cozymate.app-debug-98:/layout_fragment_basic_info.xml.flat",
-        "source": "umc.cozymate.app-main-100:/layout/fragment_basic_info.xml"
-    },
-    {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_ic_drinking_frequency_gray.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/drawable/ic_drinking_frequency_gray.xml"
     },
@@ -1390,6 +1386,10 @@
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/layout_activity_search_roommate.xml.flat",
         "source": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-main-100:/layout/activity_search_roommate.xml"
+    },
+    {
+        "merged": "umc.cozymate.app-debug-98:/layout_activity_cozy_room_detail_info.xml.flat",
+        "source": "umc.cozymate.app-main-100:/layout/activity_cozy_room_detail_info.xml"
     },
     {
         "merged": "/Users/doyoung/.gradle/daemon/8.7/umc.cozymate.app-debug-98:/drawable_btn_rectangle_8.xml.flat",

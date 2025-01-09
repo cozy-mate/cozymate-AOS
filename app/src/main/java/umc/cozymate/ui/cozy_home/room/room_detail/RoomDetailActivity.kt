@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
-import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
+import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
@@ -39,7 +39,7 @@ import umc.cozymate.util.StatusBarUtil
 @AndroidEntryPoint
 class RoomDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
-    private lateinit var binding: ActivityCozyRoomDetailInfoBinding
+    private lateinit var binding: ActivityRoomDetailBinding
     private val viewModel: RoomDetailViewModel by viewModels()
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
@@ -58,7 +58,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCozyRoomDetailInfoBinding.inflate(layoutInflater)
+        binding = ActivityRoomDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
 
@@ -247,7 +247,7 @@ class RoomDetailActivity : AppCompatActivity() {
         val savedRoomId = spf.getInt("room_id", -2)
         if (mbti!!.isNotEmpty()) {
             // 라이프스타일 입력을 한 경우
-            if (savedRoomId == -2) {
+            if (savedRoomId == 0 || savedRoomId == -2) {
                 // 내 방이 없는 경우
                 roomViewModel.getPendingRoom(roomId)
                 roomViewModel.pendingRoom.observe(this) { isPending ->
@@ -276,6 +276,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                     joinRoomViewModel.joinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
+                                    spf.edit().putInt("room_id", roomId)
                                 }
                             }
                         }

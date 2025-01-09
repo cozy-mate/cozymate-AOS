@@ -4296,7 +4296,6 @@ int id tv_friendly 0x7f09048a
 int id tv_game_check 0x7f09048b
 int id tv_go_lifestyle 0x7f09048c
 int id tv_go_lifestyle_guide 0x7f09048d
-int id tv_go_lifestyle_test 0x7f09048e
 int id tv_goto 0x7f09048f
 int id tv_guide 0x7f090490
 int id tv_guide1 0x7f090491
