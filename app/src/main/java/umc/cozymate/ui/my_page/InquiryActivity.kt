@@ -3,6 +3,7 @@ package umc.cozymate.ui.my_page
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -50,6 +51,10 @@ class InquiryActivity: AppCompatActivity() {
                 updateUI()
             }
         })
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun updateUI() {

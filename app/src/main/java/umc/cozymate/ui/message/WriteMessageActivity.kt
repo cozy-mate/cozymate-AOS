@@ -18,14 +18,14 @@ import androidx.core.view.GestureDetectorCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.databinding.ActivityWriteMessageBinding
-import umc.cozymate.ui.viewmodel.ChatViewModel
+import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class WriteMessageActivity : AppCompatActivity() {
     lateinit var binding : ActivityWriteMessageBinding
     private val TAG = this.javaClass.simpleName
-    private val viewModel: ChatViewModel by viewModels()
+    private val viewModel: MessageViewModel by viewModels()
     private var recipientId : Int = 0
     private var nickname : String = ""
     private var prev : View? = null

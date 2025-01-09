@@ -19,7 +19,7 @@ import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.pop_up.TwoButtonPopup
-import umc.cozymate.ui.viewmodel.ChatViewModel
+import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -28,7 +28,7 @@ class MessageDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMessageDetailBinding
     private lateinit var messageDetailAdapter: MessageDetailAdapter
     private val TAG = this.javaClass.simpleName
-    private val viewModel : ChatViewModel by viewModels()
+    private val viewModel : MessageViewModel by viewModels()
     private val reportViewModel : ReportViewModel by viewModels()
     private var contents : List<ChatContentData> = emptyList()
     private var chatRoomId : Int = 0
@@ -64,6 +64,9 @@ class MessageDetailActivity : AppCompatActivity() {
                 }
             }
         })
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun updateContents() {

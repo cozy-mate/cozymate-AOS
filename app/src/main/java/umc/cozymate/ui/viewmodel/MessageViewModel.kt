@@ -19,7 +19,7 @@ import umc.cozymate.data.repository.repository.ChatRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatViewModel @Inject constructor(
+class MessageViewModel @Inject constructor(
     private val repository: ChatRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
@@ -37,6 +37,9 @@ class ChatViewModel @Inject constructor(
     private val _getChatRoomsResponse = MutableLiveData<Response<ChatRoomResponse>>()
     val getChatRoomsResponse : LiveData<Response<ChatRoomResponse>> get() = _getChatRoomsResponse
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
@@ -45,7 +48,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
-                Log.d("ActivityMessageDetailBinding","메ㅑ 호출")
+                _isLoading.value = true
                 val response = repository.getChatContents(token!!, chatRoomId)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
@@ -54,6 +57,8 @@ class ChatViewModel @Inject constructor(
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }

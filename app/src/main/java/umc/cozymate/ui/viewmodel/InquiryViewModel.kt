@@ -24,6 +24,9 @@ class InquiryViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _getInquiryResponse = MutableLiveData<Response<InquiryResponse>>()
     val getInquiryResponse : LiveData<Response<InquiryResponse>> get() = _getInquiryResponse
 
@@ -63,6 +66,7 @@ class InquiryViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
+                _isLoading.value = true
                 val response = repository.getInquiry(token!!)
                 if(response.isSuccessful){
                     Log.d(TAG, "getInquiry 응답성공: ${response.body()!!.result}")
@@ -70,6 +74,8 @@ class InquiryViewModel @Inject constructor(
                 }
             }catch (e: Exception){
                 Log.d(TAG, "getInquiry api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
