@@ -674,6 +674,21 @@ class RoommateDetailActivity : AppCompatActivity() {
             )
         }
 
+        if (tableBinding.tvTableUserDrinkFrequency.text != tableBinding.tvTableOtherDrinkFrequency.text) {
+            tableBinding.tvTableUserDrinkFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherDrinkFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
         if (tableBinding.tvTableUserPersonality.text != tableBinding.tvTableOtherPersonality.text) {
             tableBinding.tvTableUserPersonality.setTextColor(
                 ContextCompat.getColor(
