@@ -182,9 +182,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun memberCheck() {
-        //val accessToken = "Bearer " + _tokenInfo.value!!.accessToken
         val accessToken = getToken()
-
         _loading.value = true // 로딩 시작
         if (accessToken != null) {
             viewModelScope.launch {

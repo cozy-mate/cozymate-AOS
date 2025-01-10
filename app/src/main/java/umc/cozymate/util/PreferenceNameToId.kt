@@ -4,7 +4,7 @@ fun PreferenceNameToId(name: String): String {
     return when (name) {
         "출생년도" -> "birthYear"
         "학번" -> "admissionYear"
-        "학과" -> "major"
+        "학과" -> "majorName"
         "합격여부" -> "acceptance"
         "기상시간" -> "wakeUpTime"
         "취침시간" -> "sleepingTime"
