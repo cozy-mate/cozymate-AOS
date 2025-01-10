@@ -136,24 +136,16 @@ class CozyHomeMainFragment : Fragment() {
             }
             // 학교 버튼
             btnSchoolCertificate.setOnClickListener {
-                startActivity(Intent(activity, UniversityCertificationActivity::class.java))
+                val intent = Intent(activity, UniversityCertificationActivity::class.java)
+                intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
+                startActivity(intent)
             }
             // 방장/방참여 사용자는 버튼 비활성화
             if (state == UserRoomState.HAS_ROOM || state == UserRoomState.CREATED_ROOM) {
                 btnMakeRoom.isEnabled = false
                 btnEnterRoom.isEnabled = false
-                btnMakeRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.unuse_font
-                    )
-                )
-                btnEnterRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.unuse_font
-                    )
-                )
+                btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
             }
         }
     }
@@ -190,8 +182,6 @@ class CozyHomeMainFragment : Fragment() {
                             R.color.main_blue
                         )
                     )
-                    btnSchoolCertificate.isEnabled = false
-                    // btnSchoolCertificate.setOnClickListener(null)
                 }
             }
         }

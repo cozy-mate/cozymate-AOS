@@ -13,6 +13,9 @@ import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class UniversityCertificationActivity : AppCompatActivity() {
+    companion object {
+        const val UNIVERSITY_FLAG = "university_flag"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,7 +27,30 @@ class UniversityCertificationActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val universityFlag = intent.getBooleanExtra(UNIVERSITY_FLAG, false)
+        if (universityFlag) {
+            loadUniversityCertificationInfoFragment()
+        } else {
+            loadUniversityCertificationFragment()
+        }
+    }
+
+    // [학교인증 확인 페이지] 로드
+    // 학교인증이 이미 되어있을 때 이 페이지를 로드합니다.
+    fun loadUniversityCertificationInfoFragment() {
+        val fragment = UniversityCertificationInfoFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_university_cert, UniversityCertificationFragment()).commit()
+            .replace(R.id.fragment_university_cert, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // [학교인증(재인증) 페이지] 로드
+    fun loadUniversityCertificationFragment() {
+        val fragment = UniversityCertificationFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_university_cert, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

@@ -64,11 +64,9 @@ class MyPageFragment : Fragment() {
 
         }
         binding.layoutSchool.setOnClickListener {
-            if (universityFlag) {
-
-            } else {
-                
-            }
+            val intent = Intent(activity, UniversityCertificationActivity::class.java)
+            intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
+            startActivity(intent)
         }
         binding.tvSignout.setOnClickListener {
             val text = listOf("로그아웃 하시겠어요?", "", "취소", "확인")
