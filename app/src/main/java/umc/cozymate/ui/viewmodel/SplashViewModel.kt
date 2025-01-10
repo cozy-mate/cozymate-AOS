@@ -51,7 +51,7 @@ class SplashViewModel @Inject constructor(
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
 
     private val _memberInfo = MutableLiveData<MemberDetailInfo?>()
-    val membmerInfo: LiveData<MemberDetailInfo?> get() = _memberInfo
+    val memberInfo: LiveData<MemberDetailInfo?> get() = _memberInfo
 
     private val _isMember = MutableLiveData<Boolean>(false)
     val isMember: LiveData<Boolean> get() = _isMember
@@ -100,7 +100,7 @@ class SplashViewModel @Inject constructor(
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
         sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
         sharedPreferences.edit().putString("user_university_name", _memberInfo.value!!.universityName).commit()
-        sharedPreferences.edit().putInt("user_university_id", _memberInfo.value!!.universityId ?: 0).commit()
+        sharedPreferences.edit().putInt("user_university_id", _memberInfo.value!!.universityId).commit()
         sharedPreferences.edit().putString("user_major_name", _memberInfo.value!!.majorName).commit()
     }
 
