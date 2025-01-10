@@ -45,11 +45,10 @@ class UniversityCertificationFragment : Fragment() {
         _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
 
-        //binding.btnSendVerifyCode.visibility = View.GONE
-        binding.btnCheckVerifyCode.isClickable = true
-        binding.tvAlertCode.visibility = View.INVISIBLE
+        binding.btnCheckVerifyCode.visibility = View.GONE
+        binding.tvAlertCode.visibility = View.GONE
+        binding.tvAlertEmail.visibility = View.GONE
         binding.clCheckVerifyCode.visibility = View.GONE
-        binding.ivCheckVerifyCode.visibility = View.GONE
 
         checkIsValidMail()
         setMailBtnListener()
@@ -81,6 +80,8 @@ class UniversityCertificationFragment : Fragment() {
                 binding.clCheckVerifyCode.visibility = View.VISIBLE
                 binding.ivCheckVerifyCode.visibility = View.VISIBLE
                 binding.tvAlertCode.visibility = View.INVISIBLE
+                binding.btnCheckVerifyCode.isClickable = true
+
             } else {
                 Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
                     .show()
@@ -99,7 +100,7 @@ class UniversityCertificationFragment : Fragment() {
             if (isVerified == true) { // 인증 완료 시 팝업 후 화면 이동
                 binding.tvAlertCode.visibility = View.GONE
                 showVerifyPopup()
-            } else {
+            } else if (isVerified == false) {
                 binding.tvAlertCode.visibility = View.VISIBLE
             }
         }
@@ -159,6 +160,7 @@ class UniversityCertificationFragment : Fragment() {
     }
 
     fun setVerifyCodeTextWatcher() {
+        // 인증번호
         binding.etCheckVerifyCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -172,7 +174,9 @@ class UniversityCertificationFragment : Fragment() {
                 debounceJob?.cancel()
                 debounceJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(500L) // 0.5초 대기
-                    code = binding.etCheckVerifyCode.text.toString()
+                    if (s.toString() != "") {
+                        code = binding.etCheckVerifyCode.text.toString()
+                    }
                 }
             }
 
@@ -268,7 +272,5 @@ class UniversityCertificationFragment : Fragment() {
                 }
             }
         }
-
     }
-
 }

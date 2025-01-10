@@ -39,7 +39,7 @@ class UniversityViewModel @Inject constructor(
     // 대학교 메일 인증 여부
     // 메일인증을 받은적이 없거나, 받았는데 인증 확인이 안된 경우 빈 문자열 반환
     // 메일 인증을 받고, 인증 확인이 된 경우 인증된 메일 주소 반환
-    private val _isVerified = MutableLiveData(false)
+    private val _isVerified = MutableLiveData<Boolean>(null)
     val isVerified: LiveData<Boolean> get() = _isVerified
     suspend fun isMailVerified() {
         val token = getToken()
