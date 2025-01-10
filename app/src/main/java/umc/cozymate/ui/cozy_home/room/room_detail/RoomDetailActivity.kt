@@ -262,6 +262,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                     roomViewModel.deleteRoomJoin(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
+                                    recreate()
                                 }
                             }
                         }
@@ -276,7 +277,8 @@ class RoomDetailActivity : AppCompatActivity() {
                                     joinRoomViewModel.joinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
-                                    spf.edit().putInt("room_id", roomId)
+                                    spf.edit().putInt("room_id", roomId).commit()
+                                    recreate()
                                 }
                             }
                         }
@@ -289,6 +291,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     fabBnt.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
                     fabBnt.setTextColor(getColor(R.color.white))
                     fabBnt.isEnabled = false
+                    recreate()
                 }
             }
         } else {
