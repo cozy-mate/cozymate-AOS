@@ -46,11 +46,11 @@ class RoommateRecommendViewModel @Inject constructor(
             }
         }
     }
-    fun fetchRoommateListByEquality() { // 라이프스타일 있을 때
+    fun fetchRoommateListByEquality(filter : List<String> = emptyList()) { // 라이프스타일 있을 때
         val token = getToken()
         viewModelScope.launch {
             try {
-                val response = repository.getRoommateListByEquality(accessToken = token!!, page=0)
+                val response = repository.getRoommateListByEquality(accessToken = token!!, page=0, filter)
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
@@ -62,6 +62,7 @@ class RoommateRecommendViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "추천 룸메이트 리스트 조회 api 요청 실패: ${e}")
+
             }
         }
     }
