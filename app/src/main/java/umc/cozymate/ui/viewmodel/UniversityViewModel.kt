@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
+import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.repository.repository.MemberRepository
@@ -41,6 +42,8 @@ class UniversityViewModel @Inject constructor(
     // 메일 인증을 받고, 인증 확인이 된 경우 인증된 메일 주소 반환
     private val _isVerified = MutableLiveData<Boolean>(null)
     val isVerified: LiveData<Boolean> get() = _isVerified
+    private val _getMailVerifyResponse = MutableLiveData<GetMailVerifyResponse>()
+    val getMailVerifyResponse: LiveData<GetMailVerifyResponse> get() = _getMailVerifyResponse
     suspend fun isMailVerified() {
         val token = getToken()
         try {
@@ -49,10 +52,10 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
                     if (response.body()!!.result == "") {
-                        _isVerified.value = true
-                        fetchMyUniversity()
+                        _isVerified.value = false
                     } else {
                         _isVerified.value = false
+                        _getMailVerifyResponse.value = response.body()
                         fetchMyUniversity()
                     }
                 }

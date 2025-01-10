@@ -57,9 +57,7 @@ class CozyHomeMainFragment : Fragment() {
         openNotification()
         splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         viewLifecycleOwner.lifecycleScope.launch {
-            if (univViewModel.isVerified.value == false) {
-                univViewModel.isMailVerified()
-            }
+            univViewModel.isMailVerified()
         }
         observeViewModel()
     }
@@ -109,6 +107,7 @@ class CozyHomeMainFragment : Fragment() {
                     roomRecommendContainer.visibility = View.VISIBLE
                     roommateRecommendContainer.visibility = View.VISIBLE
                 }
+
                 UserRoomState.HAS_ROOM -> {
                     myRoomContainer.visibility = View.VISIBLE
                     requestedRoommateContainer.visibility = View.VISIBLE
@@ -140,11 +139,21 @@ class CozyHomeMainFragment : Fragment() {
                 startActivity(Intent(activity, UniversityCertificationActivity::class.java))
             }
             // 방장/방참여 사용자는 버튼 비활성화
-            if (state == UserRoomState.HAS_ROOM|| state == UserRoomState.CREATED_ROOM) {
+            if (state == UserRoomState.HAS_ROOM || state == UserRoomState.CREATED_ROOM) {
                 btnMakeRoom.isEnabled = false
                 btnEnterRoom.isEnabled = false
-                btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                btnMakeRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
+                btnEnterRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
             }
         }
     }
@@ -175,7 +184,12 @@ class CozyHomeMainFragment : Fragment() {
                     ivSchoolWhite.visibility = View.GONE
                     ivSchoolBlue.visibility = View.VISIBLE
                     ivNext.visibility = View.GONE
-                    tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+                    tvSchoolName.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.main_blue
+                        )
+                    )
                     btnSchoolCertificate.isEnabled = false
                     // btnSchoolCertificate.setOnClickListener(null)
                 }
