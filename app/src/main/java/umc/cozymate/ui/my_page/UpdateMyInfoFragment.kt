@@ -1,5 +1,6 @@
 package umc.cozymate.ui.my_page
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class UpdateMyInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUpdateMyInfoBinding.inflate(inflater, container, false)
+        binding.tvUpdatePreference.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchMemberInfo()
             viewModel.fetchMyPreference()
