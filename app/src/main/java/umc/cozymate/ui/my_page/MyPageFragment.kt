@@ -17,7 +17,7 @@ import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.splash.SplashActivity
-import umc.cozymate.ui.university_certification.UniversityCertificationFragment
+import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.InquiryViewModel
 import umc.cozymate.ui.viewmodel.MyPageViewModel
 
@@ -64,7 +64,11 @@ class MyPageFragment : Fragment() {
 
         }
         binding.layoutSchool.setOnClickListener {
-            loadSchool()
+            if (universityFlag) {
+
+            } else {
+                
+            }
         }
         binding.tvSignout.setOnClickListener {
             val text = listOf("로그아웃 하시겠어요?", "", "취소", "확인")
@@ -111,13 +115,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun loadSchool() {
-        val fragment = UniversityCertificationFragment()
-
-        // 프래그먼트 트랜잭션을 통해 전환 수행
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.main_container, fragment) // fragment_container는 프래그먼트를 담을 컨테이너 ID
-            .addToBackStack(null) // 뒤로 가기 버튼을 눌렀을 때 이전 프래그먼트로 돌아가기 위함
-            .commit()
+        val intent = Intent(activity, UniversityCertificationActivity::class.java)
+        startActivity(intent)
     }
 
     private fun updateTextStyle() {
@@ -179,11 +178,11 @@ class MyPageFragment : Fragment() {
         roomId = spf.getInt("room_id", -1)
         if (roomId != 0 && roomId != -1) roomFlag = true
         universityId = spf.getInt("university_id", -1)
-        if (universityId !=0 && universityId != -1) universityFlag = true
+        if (universityId != 0 && universityId != -1) universityFlag = true
         universityName = spf.getString("university_name", "아직 학교인증이 되어있지 않아요").toString()
         persona = spf.getInt("user_persona", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
-        roomname = spf.getString("room_name", "아직 활성화된 방이 없어요").toString()
+        roomname = spf.getString("room_name", "아직 방이 존재하지 않아요").toString()
     }
 
     private fun initCharactor(): Int {
