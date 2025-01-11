@@ -209,7 +209,7 @@ class RoomDetailActivity : AppCompatActivity() {
                         favoriteViewModel.toggleRoomFavorite(favoriteId, true)
 
                         viewModel.getOtherRoomInfo(roomId!!)
-                        delay(100)
+                        recreate()
                     }
                     updateFavoriteIcon(false)
 
@@ -222,7 +222,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
                             // ViewModel 상태 갱신
                             viewModel.getOtherRoomInfo(roomId)
-                            delay(100)
+                            recreate()
                         }
                         updateFavoriteIcon(true)
                     }
