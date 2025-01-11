@@ -30,6 +30,9 @@ class UniversityViewModel @Inject constructor(
     fun getSavedUniversity(): String? {
         return sharedPreferences.getString("university_name", null)
     }
+    fun getSavedUniversityId(): Int {
+        return sharedPreferences.getInt("university_id", 0)
+    }
     suspend fun fetchMyUniversityIfNeeded(): String? {
         if (getSavedUniversity() == null) {
             fetchMyUniversity()
@@ -103,8 +106,9 @@ class UniversityViewModel @Inject constructor(
     val major: LiveData<String> get() = _major
     suspend fun fetchUniversityInfo() {
         val token = getToken()
+        val id = getSavedUniversityId()
         try {
-            val response = memberRepo.getUniversityInfo(token!!, id = universityId.value ?: 0)
+            val response = memberRepo.getUniversityInfo(token!!, id)
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")

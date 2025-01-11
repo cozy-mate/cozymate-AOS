@@ -92,8 +92,8 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_university", _memberInfo.value!!.universityName)
-            .commit() //
+        sharedPreferences.edit().putString("university_name", _memberInfo.value!!.universityName).commit()
+        sharedPreferences.edit().putInt("university_id", _memberInfo.value!!.universityId).commit()
         sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
         sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
