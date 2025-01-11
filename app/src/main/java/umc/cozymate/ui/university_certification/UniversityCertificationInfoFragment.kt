@@ -36,7 +36,7 @@ class UniversityCertificationInfoFragment : Fragment() {
         binding.tvUniversityName.text = universityName
         binding.tvUniversityCert.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
         binding.ivBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         binding.tvUniversityCert.setOnClickListener {
             (activity as? UniversityCertificationActivity)?.loadUniversityCertificationFragment()

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
+import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
@@ -30,6 +32,7 @@ import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class UniversityCertificationFragment : Fragment() {
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUniversityCertificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UniversityViewModel by viewModels()
@@ -37,6 +40,7 @@ class UniversityCertificationFragment : Fragment() {
     private var majorName: String = ""
     private var email: String = ""
     private var code: String = ""
+    var departments: List<String> = ArrayList()
     private var debounceJob: Job? = null
     private lateinit var countDownTimer: CountDownTimer
 
@@ -57,23 +61,38 @@ class UniversityCertificationFragment : Fragment() {
         setMailBtnListener()
         setVerifyBtnListener()
         setVerifyCodeTextWatcher()
-        initSpinner()
         binding.ivBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.spinnerMajor.isClickable = true
+        // 학과 불러오기
+        viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
+            Log.d(TAG, "Departments: ${univInfo.departments}")
+            viewModel.setMailPattern(univInfo.mailPattern)
+            initSpinner(univInfo)
+        }
+        // 학과 불러오기 (get-info)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchUniversityInfo()
+        }
+    }
+
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         universityName = spf.getString("university_name", "").toString()
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        countDownTimer.cancel() // 2분 타이머 정리
+        if (::countDownTimer.isInitialized) {
+            countDownTimer.cancel() // 2분 타이머
+        }
     }
 
     fun setMailBtnListener() {
@@ -104,6 +123,7 @@ class UniversityCertificationFragment : Fragment() {
                         binding.tvCounter.text = "0:00"
                     }
                 }
+                binding.tvCounter.visibility = View.VISIBLE
                 countDownTimer.start()
 
             } else {
@@ -207,54 +227,36 @@ class UniversityCertificationFragment : Fragment() {
         })
     }
 
-    fun initSpinner() {
-        // 학과 불러오기
-        viewModel.setUniversityId(universityName)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.fetchUniversityInfo()
-        }
-        // 학과 조회해서 뷰 설정하기
-        var departments: List<String>
-        viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
-            viewModel.setMailPattern(univInfo.mailPattern)
-            departments = univInfo?.departments ?: emptyList()
-            val adapter = object : ArrayAdapter<String>(
-                requireContext(),
-                R.layout.spinner_selected_item_txt,
-                departments
-            ) {
-                override fun getDropDownView(
-                    position: Int,
-                    convertView: View?,
-                    parent: ViewGroup
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    return view
-                }
+    fun initSpinner(univInfo: GetUniversityInfoResponse.Result?) {
+        // 학과 조회해서 스피너 설정하기
+        val departments = (univInfo?.departments ?: emptyList())
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.spinner_selected_item_txt,
+            departments
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
+        with(binding) {
+            spinnerMajor.adapter = adapter
+            // spinnerMajor.setSelection(0) // 기본값 설정
+            spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            btnMajor.setOnClickListener {
+                spinnerMajor.visibility = View.VISIBLE
             }
-            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
-            // 선택된 학과 반영하기
-            with(binding) {
-                spinnerMajor.adapter = adapter
-                spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-                btnMajor.setOnClickListener {
-                    spinnerMajor.visibility = View.VISIBLE
+            spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedMajor = departments[position]
+                    majorName = selectedMajor
+                    tvMajor.visibility = View.GONE
+                    viewModel.setMajor(majorName)
                 }
-                spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        val selectedMajor = departments[position]
-                        majorName = selectedMajor
-                        tvMajor.visibility = View.GONE
-                        viewModel.setMajor(majorName)
-                    }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }
