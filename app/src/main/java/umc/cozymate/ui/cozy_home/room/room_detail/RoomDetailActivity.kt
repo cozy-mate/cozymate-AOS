@@ -68,6 +68,12 @@ class RoomDetailActivity : AppCompatActivity() {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val savedRoomId = spf.getInt("room_id", -2)
 
+        lifecycleScope.launch {
+            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
+                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
+            }
+        }
+
         if (savedRoomId == roomId) {
             updateUserRoomInfo()
         } else {
@@ -182,6 +188,7 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateUI(roomInfo: GetRoomInfoResponse.Result) {
         updateProfileImage(roomInfo.persona)
         updateHashtags(roomInfo.hashtagList)
@@ -199,35 +206,35 @@ class RoomDetailActivity : AppCompatActivity() {
             isFavorite = roomInfo.favoriteId != 0
             updateFavoriteIcon(isFavorite)
 
-            // 찜/찜 해제 버튼 클릭 리스너
-            binding.ivLike.setOnClickListener {
-                if (isFavorite) {
-                    // 찜 해제: UI 상태를 미리 업데이트
-                    isFavorite = false
-                    lifecycleScope.launch {
-                        val favoriteId = roomInfo.favoriteId
-                        favoriteViewModel.toggleRoomFavorite(favoriteId, true)
-
-                        viewModel.getOtherRoomInfo(roomId!!)
-                        recreate()
-                    }
-                    updateFavoriteIcon(false)
-
-                } else {
-                    // 찜 요청: UI 상태를 미리 업데이트
-                    isFavorite = true
-                    lifecycleScope.launch {
-                        roomId?.let { roomId ->
-                            favoriteViewModel.toggleRoomFavorite(roomId, false)
-
-                            // ViewModel 상태 갱신
-                            viewModel.getOtherRoomInfo(roomId)
-                            recreate()
-                        }
-                        updateFavoriteIcon(true)
-                    }
-                }
-            }
+//            // 찜/찜 해제 버튼 클릭 리스너
+//            binding.ivLike.setOnClickListener {
+//                if (isFavorite) {
+//                    // 찜 해제: UI 상태를 미리 업데이트
+//                    isFavorite = false
+//                    lifecycleScope.launch {
+//                        val favoriteId = roomInfo.favoriteId
+//                        favoriteViewModel.toggleRoomFavorite(favoriteId, true)
+//
+//                        viewModel.getOtherRoomInfo(roomId!!)
+//                        recreate()
+//                    }
+//                    updateFavoriteIcon(false)
+//
+//                } else {
+//                    // 찜 요청: UI 상태를 미리 업데이트
+//                    isFavorite = true
+//                    lifecycleScope.launch {
+//                        roomId?.let { roomId ->
+//                            favoriteViewModel.toggleRoomFavorite(roomId, false)
+//
+//                            // ViewModel 상태 갱신
+//                            viewModel.getOtherRoomInfo(roomId)
+//                            recreate()
+//                        }
+//                        updateFavoriteIcon(true)
+//                    }
+//                }
+//            }
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
                 layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -241,6 +248,47 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
+        binding.ivLike.setOnClickListener {
+            lifecycleScope.launch {
+                if (favoriteId != 0) {
+                    favoriteViewModel.toggleRoomFavorite(favoriteId, true)
+                    Toast.makeText(
+                        this@RoomDetailActivity,
+                        "찜 목록에서 제거되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    favoriteViewModel.toggleRoomFavorite(roomId, false)
+                    Toast.makeText(
+                        this@RoomDetailActivity,
+                        "찜 목록에 추가되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                // 서버로부터 최신 데이터를 가져오고 UI 갱신
+                viewModel.getOtherRoomInfo(roomId)
+            }
+        }
+    }
+
+    private fun observeFavoriteState() {
+        lifecycleScope.launch {
+            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
+                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
+                updateFavoriteIcon(roomInfo.favoriteId != 0)
+            }
+        }
+    }
+    private fun updateFavoriteIcon(favorite: Boolean) {
+        binding.ivLike.setImageResource(
+            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
+        )
+        binding.ivLike.setColorFilter(
+            if (favorite) getColor(R.color.main_blue) else getColor(R.color.unuse_font)
+        )
+    }
     private fun updateOtherRoomFab(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val mbti = spf.getString("user_mbti", null)
@@ -312,21 +360,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-    }
-
-    private fun observeFavoriteState() {
-        favoriteViewModel.roomFavoriteState.observe(this) { favorite ->
-            if (favorite != isFavorite) {
-                isFavorite = favorite
-                updateFavoriteIcon(favorite)
-            }
-        }
-    }
-
-    private fun updateFavoriteIcon(favorite: Boolean) {
-        binding.ivLike.setImageResource(
-            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
-        )
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
