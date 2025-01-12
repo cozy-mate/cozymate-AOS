@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyReceivedRequestComponentBinding
-import umc.cozymate.ui.cozy_home.room.sent_request.RoomRequestViewModel
+import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 

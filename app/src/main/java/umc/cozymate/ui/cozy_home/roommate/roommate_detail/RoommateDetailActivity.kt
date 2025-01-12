@@ -20,6 +20,7 @@ import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class RoommateDetailActivity : AppCompatActivity() {

@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMySentRequestComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 
 @AndroidEntryPoint
 class MySentRequestComponent : Fragment() {

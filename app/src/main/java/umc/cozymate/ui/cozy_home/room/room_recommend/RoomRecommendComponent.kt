@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
-import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendViewModel
+import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint

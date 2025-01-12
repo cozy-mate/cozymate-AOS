@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate.roommate_detail
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.repository.repository.MemberStatRepository

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.sent_request
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log

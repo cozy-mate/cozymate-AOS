@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {

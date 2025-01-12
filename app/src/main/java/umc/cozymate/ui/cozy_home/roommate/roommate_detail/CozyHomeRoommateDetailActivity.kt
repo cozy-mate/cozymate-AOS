@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class CozyHomeRoommateDetailActivity : AppCompatActivity() {
