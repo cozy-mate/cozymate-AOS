@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
@@ -20,16 +21,48 @@ class SentRequestAdapter(
         private val arrivalNum: TextView = itemView.findViewById(R.id.tv_arrival_num)
         private val equality: TextView = itemView.findViewById(R.id.tv_equality)
         val divider: View = itemView.findViewById(R.id.view_divider)
-        fun bind(room: GetRequestedRoomListResponse.Result) {
-            if(room.hashtagList.isNotEmpty()) {
-                hashtag1.text = room.hashtagList[1]
-            } else {
-                hashtag1.text = ""
-            }
 
+        fun bind(room: GetRequestedRoomListResponse.Result) {
             name.text = room.name
             arrivalNum.text = "${room.arrivalMateNum}명"
-            equality.text = "${room.equality}%"
+            if (room.equality == 0){
+                equality.setTextColor(ContextCompat.getColor(equality.context, R.color.color_font))
+                equality.text = "%"
+            } else {
+                equality.text = "${room.equality}%"
+            }
+            hashtag1.visibility = View.GONE
+            hashtag1.text = ""
+            hashtag2.visibility = View.GONE
+            hashtag2.text = ""
+            hashtag3.visibility = View.GONE
+            hashtag3.text = ""
+            when (room.hashtagList.size) {
+                0 -> {
+                    hashtag1.visibility = View.VISIBLE
+                    hashtag1.text = "비공개방이에요"
+                }
+                1 -> {
+                    if (room.hashtagList[0] != "") {
+                        hashtag1.visibility = View.VISIBLE
+                        hashtag1.text = "#${room.hashtagList.get(0)}"
+                    }
+                }
+                2 -> {
+                    hashtag1.visibility = View.VISIBLE
+                    hashtag1.text = "#${room.hashtagList.get(0)}"
+                    hashtag2.visibility = View.VISIBLE
+                    hashtag2.text = "#${room.hashtagList.get(1)}"
+                }
+                3 -> {
+                    hashtag1.visibility = View.VISIBLE
+                    hashtag1.text = "#${room.hashtagList.get(0)}"
+                    hashtag2.visibility = View.VISIBLE
+                    hashtag2.text = "#${room.hashtagList.get(1)}"
+                    hashtag3.visibility = View.VISIBLE
+                    hashtag3.text = "#${room.hashtagList.get(2)}"
+                }
+            }
         }
     }
 

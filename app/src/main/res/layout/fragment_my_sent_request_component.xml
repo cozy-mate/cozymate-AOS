@@ -33,6 +33,7 @@
         android:id="@+id/rv_my_sent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingBottom="28dp"
         android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
