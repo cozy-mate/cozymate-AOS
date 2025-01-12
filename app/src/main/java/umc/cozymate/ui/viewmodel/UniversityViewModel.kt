@@ -28,10 +28,10 @@ class UniversityViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
     fun getSavedUniversity(): String? {
-        return sharedPreferences.getString("university_name", null)
+        return sharedPreferences.getString("user_university_name", null)
     }
     fun getSavedUniversityId(): Int {
-        return sharedPreferences.getInt("university_id", 0)
+        return sharedPreferences.getInt("user_university_id", 0)
     }
     suspend fun fetchMyUniversityIfNeeded(): String? {
         if (getSavedUniversity() == null) {
@@ -84,8 +84,8 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
                     sharedPreferences.edit().putBoolean("is_verified", true).commit()
-                    sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
-                    sharedPreferences.edit().putInt("university_id", response.body()!!.result.id).commit()
+                    sharedPreferences.edit().putString("user_university_name", response.body()!!.result.name).commit()
+                    sharedPreferences.edit().putInt("user_university_id", response.body()!!.result.id).commit()
                     _university.value = response.body()!!.result.name
                     _getMyUniversityResponse.value = response.body()
                 }

@@ -175,9 +175,9 @@ class MyPageFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         roomId = spf.getInt("room_id", -1)
         if (roomId != 0 && roomId != -1) roomFlag = true
-        universityId = spf.getInt("university_id", -1)
+        universityId = spf.getInt("user_university_id", -1)
         if (universityId != 0 && universityId != -1) universityFlag = true
-        universityName = spf.getString("university_name", "아직 학교인증이 되어있지 않아요").toString()
+        universityName = spf.getString("user_university_name", "아직 학교인증이 되어있지 않아요").toString()
         persona = spf.getInt("user_persona", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
         roomname = spf.getString("room_name", "아직 방이 존재하지 않아요").toString()
