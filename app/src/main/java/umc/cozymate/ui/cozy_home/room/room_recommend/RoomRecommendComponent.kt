@@ -76,6 +76,8 @@ class RoomRecommendComponent : Fragment() {
     }
 
     fun refreshData() {
+        getPreference()
+        nickname = viewModel.getNickname().toString()
         binding.tvName.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()

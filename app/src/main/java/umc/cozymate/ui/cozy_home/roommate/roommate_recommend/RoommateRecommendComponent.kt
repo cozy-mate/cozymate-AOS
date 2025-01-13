@@ -79,6 +79,7 @@ class RoommateRecommendComponent : Fragment() {
     }
 
     fun refreshData() {
+        getPreference()
         binding.tvName.text = "${nickname}님과"
         viewModel.fetchRecommendedRoommateList()
         viewModel.fetchRoommateListByEquality()
