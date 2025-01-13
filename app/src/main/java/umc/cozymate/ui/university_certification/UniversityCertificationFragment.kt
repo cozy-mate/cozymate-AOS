@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -69,7 +68,7 @@ class UniversityCertificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.spinnerMajor.isClickable = true
+        //binding.spinnerMajor.isClickable = true
         // 학과 불러오기
         viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
             Log.d(TAG, "Departments: ${univInfo.departments}")
@@ -229,21 +228,22 @@ class UniversityCertificationFragment : Fragment() {
 
     fun initSpinner(univInfo: GetUniversityInfoResponse.Result?) {
         // 학과 조회해서 스피너 설정하기
-        val departments = (univInfo?.departments ?: emptyList())
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_selected_item_txt,
-            departments
-        )
-        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
         with(binding) {
-            spinnerMajor.adapter = adapter
+            val departments = (univInfo?.departments ?: emptyList())
+            val adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_selected_item_txt,
+                departments
+            )
+            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
+            //spinnerMajor.adapter = adapter
+            tvMajor.setAdapter(adapter)
             // spinnerMajor.setSelection(0) // 기본값 설정
-            spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            //spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
             btnMajor.setOnClickListener {
-                spinnerMajor.visibility = View.VISIBLE
+                //spinnerMajor.visibility = View.VISIBLE
             }
-            spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            /*spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -257,7 +257,7 @@ class UniversityCertificationFragment : Fragment() {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
+            }*/
         }
     }
 }
