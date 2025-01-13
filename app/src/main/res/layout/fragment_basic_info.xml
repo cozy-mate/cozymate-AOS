@@ -208,33 +208,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_name">
 
-                    <TextView
-                        android:id="@+id/dormitory_name1"
-                        style="@style/OptionBox"
-                        android:layout_width="90dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:text="제 1생활관" />
-
-                    <TextView
-                        android:id="@+id/dormitory_name2"
-                        style="@style/OptionBox"
-                        android:layout_width="90dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:text="제 2생활관" />
-
-                    <TextView
-                        android:id="@+id/dormitory_name3"
-                        style="@style/OptionBox"
-                        android:layout_width="90dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:text="제 3생활관" />
-
                 </LinearLayout>
 
                 <View

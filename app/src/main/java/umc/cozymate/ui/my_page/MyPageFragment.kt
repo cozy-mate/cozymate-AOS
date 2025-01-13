@@ -98,10 +98,6 @@ class MyPageFragment : Fragment() {
             Log.d("MyPageFragment", "라이프스타일 수정 클릭")
         }
 
-        binding.tvGoLifestyleTest.setOnClickListener {
-            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-            startActivity(intent)
-        }
         return binding.root
     }
 

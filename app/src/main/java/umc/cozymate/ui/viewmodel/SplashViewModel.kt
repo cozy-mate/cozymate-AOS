@@ -100,6 +100,7 @@ class SplashViewModel @Inject constructor(
         sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
         sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
         sharedPreferences.edit().putString("user_university_name", _memberInfo.value!!.universityName).commit()
+        sharedPreferences.edit().putInt("user_university_id", _memberInfo.value!!.universityId ?: 0).commit()
         sharedPreferences.edit().putString("user_major_name", _memberInfo.value!!.majorName).commit()
     }
 
