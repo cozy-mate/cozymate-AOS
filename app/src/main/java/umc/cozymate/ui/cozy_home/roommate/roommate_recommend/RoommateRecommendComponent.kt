@@ -9,9 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -52,7 +56,9 @@ class RoommateRecommendComponent : Fragment() {
                 binding.dotsIndicator.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 // 룸메이트 추천 뷰페이저 어댑터 설정
-                val adapter = RoommateRecommendVPAdapter(rmList, prefList)
+                val adapter = RoommateRecommendVPAdapter(rmList){ memberId ->
+                    navigatorToRoommateDetail(memberId)
+                }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator.attachTo(binding.vpRoommate)
             }
@@ -60,7 +66,20 @@ class RoommateRecommendComponent : Fragment() {
         // 룸메이트 더보기
         binding.llMore.setOnClickListener {
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
+            //intent.putExtras()
             startActivity(intent)
+        }
+    }
+
+    private fun navigatorToRoommateDetail(memberId: Int) {
+        lifecycleScope.launch {
+            viewModel.getOtherUserDetailInfo(memberId)
+            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+
+                startActivity(intent)
+            }
         }
     }
 

@@ -1,14 +1,16 @@
-package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
+package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
+import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVPViewHolder
 
-class RoommateRecommendVPAdapter(
+class RoomateDetailRVAdapter(
     private val items: List<GetRecommendedRoommateResponse.Result.Member>,
-    private val onItemClicked: (memberId: Int) -> Unit) :
+    private val onItemClicked: (memberId: Int) -> Unit
+) :
     RecyclerView.Adapter<RoommateRecommendVPViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoommateRecommendVPViewHolder {
@@ -24,10 +26,9 @@ class RoommateRecommendVPAdapter(
     override fun onBindViewHolder(holder: RoommateRecommendVPViewHolder, position: Int) {
         val item = items[position]
         holder.bind(items[position])
-        holder.itemView.setOnClickListener {
-            onItemClicked(item.memberDetail.memberId)
-        }
+
     }
 
     override fun getItemCount(): Int = items.size
+
 }

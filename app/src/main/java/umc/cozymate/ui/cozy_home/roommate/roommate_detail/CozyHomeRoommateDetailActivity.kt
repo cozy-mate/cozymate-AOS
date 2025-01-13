@@ -48,7 +48,10 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        viewModel.fetchRecommendedRoommateList()
         initChip()
+        setupObserver()
+        getPreference()
         // 사용자 검색으로 이동
         binding.lyRoomMateSearch.setOnClickListener {
             val intent = Intent(this, SearchRoommateActivity::class.java)
@@ -75,6 +78,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
                 binding.tvEmpty.visibility = View.VISIBLE
             }
             else{
+                memberList = list
                 binding.rvRoommateDetailInfo.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
                 updateUI()
@@ -83,9 +87,11 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun updateUI(){
-        binding.tvUserName.text = nickname
-        binding.rvRoommateDetailInfo.adapter = RoommateRecommendVPAdapter(memberList, prefList)
+        Log.d(TAG,memberList.toString())
+        val adapter = RoommateRecommendVPAdapter(memberList)
+        binding.rvRoommateDetailInfo.adapter = adapter
         binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
     }
 
     private fun initChip(){
