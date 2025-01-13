@@ -283,7 +283,7 @@ class RoomDetailActivity : AppCompatActivity() {
             if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
         )
         binding.ivLike.setColorFilter(
-            if (favorite) getColor(R.color.unuse_font) else getColor(R.color.red)
+            if (favorite) getColor(R.color.red) else getColor(R.color.unuse_font)
         )
     }
     private fun updateOtherRoomFab(roomId: Int) {
