@@ -61,7 +61,7 @@ class UniversityCertificationFragment : Fragment() {
         setVerifyBtnListener()
         setVerifyCodeTextWatcher()
         binding.ivBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().finish()
         }
         return binding.root
     }
