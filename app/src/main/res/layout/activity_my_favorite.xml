@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:text="내가 찜한 룸메이트"
         android:clickable="true"
+        android:text="내가 찜한 룸메이트"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="내가 찜한 방"
         android:clickable="true"
+        android:text="내가 찜한 방"
         app:layout_constraintStart_toEndOf="@id/tv_favorite_roommate"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
+        android:clipChildren="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_favorite_roommate" />
@@ -57,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
+        android:clipChildren="false"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

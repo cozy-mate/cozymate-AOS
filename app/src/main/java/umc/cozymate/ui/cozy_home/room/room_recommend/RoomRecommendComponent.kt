@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
-import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendViewModel
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
+import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 
 @AndroidEntryPoint
 class RoomRecommendComponent : Fragment() {
@@ -42,13 +42,8 @@ class RoomRecommendComponent : Fragment() {
         nickname = viewModel.getNickname().toString()
         binding.tvName.text = "${nickname}님과"
         viewLifecycleOwner.lifecycleScope.launch {
-            //roommateViewModel.fetchRoommateListByEquality()
             viewModel.fetchRecommendedRoomList()
         }
-        /*roommateViewModel.roommateList.observe(viewLifecycleOwner) { list ->
-            if (list.isNullOrEmpty()) isLifestyleExist = false
-            else isLifestyleExist = true
-        }*/
         viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
@@ -78,5 +73,14 @@ class RoomRecommendComponent : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
         Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
+    }
+
+    fun refreshData() {
+        getPreference()
+        nickname = viewModel.getNickname().toString()
+        binding.tvName.text = "${nickname}님과"
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchRecommendedRoomList()
+        }
     }
 }

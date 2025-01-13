@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySearchRoommateBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.viewmodel.SearchRoommateViewModel
 
 @AndroidEntryPoint
 class SearchRoommateActivity : AppCompatActivity() {

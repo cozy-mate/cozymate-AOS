@@ -162,6 +162,9 @@ dependencies {
 
     // lottie
     implementation(libs.lottie)
+
+    // Swiperefreshlayout
+    implementation(libs.androidx.swiperefreshlayout)
 }
 kapt {
     correctErrorTypes = true

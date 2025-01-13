@@ -1,7 +1,9 @@
 package umc.cozymate.ui.cozy_home.room.room_recommend
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
@@ -15,7 +17,11 @@ class RoomRecommendVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            tvMatchRate.text = "${item.equality}%"
+            if (item.equality == 0){
+                tvMatchRate.text = "??%"
+            } else {
+                tvMatchRate.text = "${item.equality}%"
+            }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
             when (item.hashtags.size) {
                 0 -> {
@@ -51,10 +57,13 @@ class RoomRecommendVPViewHolder(
                 Preference.entries.find { it.pref == item.preferenceMatchCountList[2].preferenceName }
             val pref4 =
                 Preference.entries.find { it.pref == item.preferenceMatchCountList[3].preferenceName }
+            tvCriteria1.text = pref1!!.displayName
+            tvCriteria2.text = pref2!!.displayName
+            tvCriteria3.text = pref3!!.displayName
+            tvCriteria4.text = pref4!!.displayName
             if (isLifestyleExist == true) {
                 // 선호항목 1
                 if (pref1 != null) {
-                    tvCriteria1.text = pref1.displayName
                     when (item.preferenceMatchCountList[0].count) {
                         0 -> {
                             tvCriteriaContent1.text = "0명 일치"
@@ -75,7 +84,6 @@ class RoomRecommendVPViewHolder(
                 }
                 // 선호항목 2
                 if (pref2 != null) {
-                    tvCriteria2.text = pref2.displayName
                     when (item.preferenceMatchCountList[1].count) {
                         0 -> {
                             tvCriteriaContent2.text = "0명 일치"
@@ -117,7 +125,6 @@ class RoomRecommendVPViewHolder(
                 }
                 // 선호항목 4
                 if (pref4 != null) {
-                    tvCriteria4.text = pref4.displayName
                     when (item.preferenceMatchCountList[3].count) {
                         0 -> {
                             tvCriteriaContent4.text = "0명 일치"
@@ -146,9 +153,7 @@ class RoomRecommendVPViewHolder(
                 ivCrieteriaIcon3.setImageResource(pref3!!.grayDrawable)
                 tvCriteriaContent4.text = "??"
                 ivCrieteriaIcon4.setImageResource(pref4!!.grayDrawable)
-
             }
-
         }
     }
 }

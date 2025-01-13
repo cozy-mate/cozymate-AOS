@@ -75,14 +75,16 @@
             </intent-filter>
         </activity> <!-- 시작 화면 -->
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.splash.LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.splash.LoginFailActivity"
             android:exported="true" />
@@ -100,9 +102,6 @@
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.room.making_room.SelectingRoomCharacterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.cozy_home.room.making_room.CozyHomeInvitingRoommateActivity"
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity"

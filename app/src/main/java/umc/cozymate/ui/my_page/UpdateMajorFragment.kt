@@ -37,25 +37,22 @@ class UpdateMajorFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            // 학과 스피터
+            // 학과 스피너
             initSpinner()
-
             // 학과 조회(get-member-univ-info) 호출
             viewLifecycleOwner.lifecycleScope.launch {
                 univViewModel.fetchMyUniversity()
             }
             // 뒤로가기
             ivBack.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-
             // 학과 수정
             btnNext.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.updateMajorName()
                 }
             }
-
             // 학과 수정 결과 옵저빙
             setObserver()
         }

@@ -1,9 +1,10 @@
 package umc.cozymate.ui.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,13 +24,13 @@ import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
-@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
     lateinit var binding: ActivitySplashBinding
     private val splashViewModel: SplashViewModel by viewModels()
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -48,7 +49,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -62,6 +62,15 @@ class SplashActivity : AppCompatActivity() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
+        // 2.5초마다 페이지 전환
+        handler = Handler(Looper.getMainLooper())
+        runnable = Runnable {
+            val currentItem = binding.vpGif.currentItem
+            val nextItem = if (currentItem + 1 < adapter.itemCount) currentItem + 1 else 0
+            binding.vpGif.setCurrentItem(nextItem, true)
+            handler.postDelayed(runnable, 2500)
+        }
+        handler.postDelayed(runnable, 2500)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
@@ -95,13 +104,18 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable) // Activity 종료 시 Handler 리소스 해제
+    }
+
     private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
         binding.progressBar.visibility = View.VISIBLE
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
             splashViewModel.isMember.observe(this) { isMember ->
-                if (isMember) {
+                if (isMember == true) {
                     goCozyHome()
                 }
                 binding.progressBar.visibility = View.GONE
@@ -120,7 +134,8 @@ class SplashActivity : AppCompatActivity() {
     private fun observeError() {
         splashViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
-                val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                val errorDialog =
+                    ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
                 errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
             }
         }
@@ -135,7 +150,7 @@ class SplashActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
                     splashViewModel.isMember.observe(this) { isMember ->
-                        if (isMember) {
+                        if (isMember == true) {
                             goCozyHome()
                             finish()
                         } else {
@@ -161,9 +176,8 @@ class SplashActivity : AppCompatActivity() {
 
                         splashViewModel.memberCheck()
                         splashViewModel.isMember.observe(this) { isMember ->
-                            if (isMember) goCozyHome()
-                            else goOnboarding()
-                            finish()
+                            if (isMember == true) goCozyHome()
+                            else if (isMember == false) goOnboarding()
                         }
                     } catch (e: Exception) {
                         goLoginFail()

@@ -103,7 +103,7 @@ class MakingRoomDialogFragment : DialogFragment() {
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
-        isLifestyleExist = spf.getBoolean("is_verified", false)
+        universityFlag = spf.getBoolean("is_verified", false)
         Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
     }
 }
