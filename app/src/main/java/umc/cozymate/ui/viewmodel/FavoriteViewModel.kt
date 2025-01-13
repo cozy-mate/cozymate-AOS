@@ -82,33 +82,8 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
-    //    fun sendFavoriteRoom(roomId: Int) {
-//        val token = getToken()!!
-//        Log.d(TAG, "방 찜하기 : ${roomId}")
-//        viewModelScope.launch {
-//            val response = repo.sendFavoritesRooms(token, roomId)
-//            if (response.body()!!.isSuccess) {
-//                Log.d(TAG, "방 찜하기 성공 : ${response.body()!!.result}")
-//            } else {
-//                Log.d(TAG, "방 짬하기 실패 : ${response.body()}")
-//            }
-//        }
-//    }
-//
-//    fun sendFavoriteMember(memberId: Int) {
-//        val token = getToken()!!
-//        Log.d(TAG, "맴버 찜하기 : ${memberId}")
-//        viewModelScope.launch {
-//            val response = repo.sendFavoritesMember(token, memberId)
-//            if (response.body()!!.isSuccess) {
-//                Log.d(TAG, "멤버 찜하기 성공 : ${response.body()!!.result}")
-//            } else {
-//                Log.d(TAG, "멤버 찜하기 실패 : ${response.body()!!.result}")
-//            }
-//        }
-//    }
     // 방 찜하기
-    fun toggleRoomFavorite(roomId: Int, isFavorite: Boolean) {
+    fun toggleRoomFavorite(id: Int, isFavorite: Boolean) {
         val token = getToken()
         if (token.isNullOrEmpty()) {
             Log.e(TAG, "Token is null or empty")
@@ -118,27 +93,26 @@ class FavoriteViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (isFavorite) {
-                    // 찜 해제 요청
-                    val response = repo.deleteFavoritesRoomMember(token, roomId)
+                    // 찜 해제 요청: id는 favoriteId
+                    val response = repo.deleteFavoritesRoomMember(token, id)
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
-                        _roomFavoriteState.value = false // 찜 해제 상태
-
-                        Log.d(TAG, "방 찜 해제 성공: ${response.body()?.message}")
+                        _roomFavoriteState.postValue(false) // 찜 해제 상태 반영
+                        Log.d(TAG, "찜 해제 성공: ${response.body()?.message}")
                     } else {
-                        Log.e(TAG, "방 찜 해제 실패: ${response.errorBody()?.string()}")
+                        Log.e(TAG, "찜 해제 실패: ${response.errorBody()?.string()}")
                     }
                 } else {
-                    // 찜 요청
-                    val response = repo.sendFavoritesRooms(token, roomId)
+                    // 찜 요청: id는 roomId
+                    val response = repo.sendFavoritesRooms(token, id)
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
-                        _roomFavoriteState.value = true // 찜 상태
-                        Log.d(TAG, "방 찜 성공: ${response.body()?.message}")
+                        _roomFavoriteState.postValue(true) // 찜 상태 반영
+                        Log.d(TAG, "찜 요청 성공: ${response.body()?.message}")
                     } else {
-                        Log.e(TAG, "방 찜 실패: ${response.errorBody()?.string()}")
+                        Log.e(TAG, "찜 요청 실패: ${response.errorBody()?.string()}")
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "방 API 호출 중 예외 발생: $e")
+                Log.e(TAG, "API 호출 중 예외 발생: $e")
             }
         }
     }

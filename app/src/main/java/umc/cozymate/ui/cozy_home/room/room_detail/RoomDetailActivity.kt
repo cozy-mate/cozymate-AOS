@@ -251,36 +251,36 @@ class RoomDetailActivity : AppCompatActivity() {
     private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
         binding.ivLike.setOnClickListener {
             lifecycleScope.launch {
-                if (favoriteId != 0) {
-                    favoriteViewModel.toggleRoomFavorite(favoriteId, true)
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "찜 목록에서 제거되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                // 현재 찜 상태 확인
+                val isCurrentlyFavorite = favoriteId != 0
+
+                // 클릭 시 UI 상태를 먼저 변경
+                updateFavoriteIcon(!isCurrentlyFavorite)
+
+                if (isCurrentlyFavorite) {
+                    // 찜 해제 요청: favoriteId 사용
+                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
                 } else {
-                    favoriteViewModel.toggleRoomFavorite(roomId, false)
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "찜 목록에 추가되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // 찜 요청: roomId 사용
+                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
                 }
 
-                // 서버로부터 최신 데이터를 가져오고 UI 갱신
+                // UI 변경을 약간 늦추기 위해 딜레이 추가
+                delay(70)
+
+                // 방 정보를 새로고침하여 정확한 상태 반영
                 viewModel.getOtherRoomInfo(roomId)
+
             }
         }
     }
 
     private fun observeFavoriteState() {
-        lifecycleScope.launch {
-            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
-                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
-                updateFavoriteIcon(roomInfo.favoriteId != 0)
-            }
+        favoriteViewModel.roomFavoriteState.observe(this) { isFavorite ->
+            updateFavoriteIcon(isFavorite)
         }
     }
+
     private fun updateFavoriteIcon(favorite: Boolean) {
         binding.ivLike.setImageResource(
             if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
