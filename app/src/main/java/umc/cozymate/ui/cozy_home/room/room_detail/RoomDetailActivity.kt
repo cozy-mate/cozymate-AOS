@@ -206,35 +206,6 @@ class RoomDetailActivity : AppCompatActivity() {
             isFavorite = roomInfo.favoriteId != 0
             updateFavoriteIcon(isFavorite)
 
-//            // 찜/찜 해제 버튼 클릭 리스너
-//            binding.ivLike.setOnClickListener {
-//                if (isFavorite) {
-//                    // 찜 해제: UI 상태를 미리 업데이트
-//                    isFavorite = false
-//                    lifecycleScope.launch {
-//                        val favoriteId = roomInfo.favoriteId
-//                        favoriteViewModel.toggleRoomFavorite(favoriteId, true)
-//
-//                        viewModel.getOtherRoomInfo(roomId!!)
-//                        recreate()
-//                    }
-//                    updateFavoriteIcon(false)
-//
-//                } else {
-//                    // 찜 요청: UI 상태를 미리 업데이트
-//                    isFavorite = true
-//                    lifecycleScope.launch {
-//                        roomId?.let { roomId ->
-//                            favoriteViewModel.toggleRoomFavorite(roomId, false)
-//
-//                            // ViewModel 상태 갱신
-//                            viewModel.getOtherRoomInfo(roomId)
-//                            recreate()
-//                        }
-//                        updateFavoriteIcon(true)
-//                    }
-//                }
-//            }
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
                 layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -263,7 +234,7 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
 
                 // UI 변경을 약간 늦추기 위해 딜레이 추가
-                delay(120)
+                delay(200)
 
                 // 방 정보를 새로고침하여 정확한 상태 반영
                 viewModel.getOtherRoomInfo(roomId)
