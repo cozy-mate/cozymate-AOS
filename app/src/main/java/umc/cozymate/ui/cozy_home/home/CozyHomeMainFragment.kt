@@ -22,6 +22,8 @@ import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
 import umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent
 import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent
+import umc.cozymate.ui.cozy_home.room.sent_request.MySentRequestComponent
+import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendComponent
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
@@ -98,12 +100,17 @@ class CozyHomeMainFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 univViewModel.isMailVerified()
             }
-            val myRoomFragment = childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
-            val requestedRoommateFragment = childFragmentManager.findFragmentById(R.id.requested_roommate_container) as? MyReceivedRequestComponent
-            val roomRecommendFragment = childFragmentManager.findFragmentById(R.id.room_recommend_container) as? RoomRecommendComponent
-            myRoomFragment?.refreshData()
-            requestedRoommateFragment?.refreshData()
-            roomRecommendFragment?.refreshData()
+            // 각 컴포넌트 새로고침
+            val myRoomComponent = childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
+            val requestedRoommateComponent = childFragmentManager.findFragmentById(R.id.requested_roommate_container) as? MyReceivedRequestComponent
+            val requestedRoomComponent = childFragmentManager.findFragmentById(R.id.requested_room_container) as? MySentRequestComponent
+            val roommateRecommendComponent = childFragmentManager.findFragmentById(R.id.roommate_recommend_container) as? RoommateRecommendComponent
+            val roomRecommendComponent = childFragmentManager.findFragmentById(R.id.room_recommend_container) as? RoomRecommendComponent
+            myRoomComponent?.refreshData()
+            requestedRoommateComponent?.refreshData()
+            requestedRoomComponent?.refreshData()
+            roommateRecommendComponent?.refreshData()
+            roomRecommendComponent?.refreshData()
             // isRefreshing = false 인 경우 새로고침 완료시 새로고침 아이콘이 사라집니다
             binding.refreshLayout.isRefreshing = false
         }

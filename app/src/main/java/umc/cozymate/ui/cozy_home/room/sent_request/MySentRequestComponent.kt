@@ -67,4 +67,12 @@ class MySentRequestComponent : Fragment() {
             //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
+
+    fun refreshData() {
+        val nickname = viewModel.getNickname().toString()
+        binding.tvMyNickname.text = "${nickname}님이"
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getRequestedRoomList()
+        }
+    }
 }

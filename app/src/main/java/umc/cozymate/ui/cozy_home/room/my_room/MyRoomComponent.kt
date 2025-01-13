@@ -67,8 +67,14 @@ class MyRoomComponent : Fragment() {
                 tvHashtag3.visibility = View.GONE
                 tvHashtag3.text = ""
                 when (roomInfo?.hashtagList?.size) {
-                    null -> {}
-                    0 -> {}
+                    null -> {
+                        tvHashtag1.visibility = View.VISIBLE
+                        tvHashtag1.text = "비공개방이에요"
+                    }
+                    0 -> {
+                        tvHashtag1.visibility = View.VISIBLE
+                        tvHashtag1.text = "비공개방이에요"
+                    }
                     1 -> {
                         if (roomInfo.hashtagList[0] != "") {
                             tvHashtag1.visibility = View.VISIBLE

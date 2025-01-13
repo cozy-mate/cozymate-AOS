@@ -77,4 +77,10 @@ class RoommateRecommendComponent : Fragment() {
         )
         Log.d(TAG, "nickname: $nickname")
     }
+
+    fun refreshData() {
+        binding.tvName.text = "${nickname}님과"
+        viewModel.fetchRecommendedRoommateList()
+        viewModel.fetchRoommateListByEquality()
+    }
 }
