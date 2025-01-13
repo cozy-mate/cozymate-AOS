@@ -178,12 +178,13 @@ class UniversityViewModel @Inject constructor(
 
     fun sendVerifyCode(email: String) {
         val token = getToken()
+        val universityId = getSavedUniversityId()
         if (token != null) {
             viewModelScope.launch {
                 try {
                     val request = SendMailRequest(
                         mailAddress = email,
-                        universityId = universityId.value!!
+                        universityId = universityId
                     )
                     Log.d(TAG, "메일 request: ${request}")
                     val response = memberRepo.sendMail(token, request)

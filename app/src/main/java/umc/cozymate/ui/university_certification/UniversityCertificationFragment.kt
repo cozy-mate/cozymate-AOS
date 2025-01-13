@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -243,7 +244,8 @@ class UniversityCertificationFragment : Fragment() {
             btnMajor.setOnClickListener {
                 //spinnerMajor.visibility = View.VISIBLE
             }
-            /*spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            tvMajor.dropDownVerticalOffset = 30
+            tvMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -255,9 +257,8 @@ class UniversityCertificationFragment : Fragment() {
                     tvMajor.visibility = View.GONE
                     viewModel.setMajor(majorName)
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }*/
+            }
         }
     }
 }

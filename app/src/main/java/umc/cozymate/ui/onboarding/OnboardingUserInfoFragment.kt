@@ -83,6 +83,7 @@ class OnboardingUserInfoFragment : Fragment() {
         with(binding) {
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            spinnerUniversity.dropDownVerticalOffset = 30
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
