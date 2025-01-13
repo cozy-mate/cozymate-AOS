@@ -1,5 +1,6 @@
 package umc.cozymate.ui.splash
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -26,6 +27,19 @@ class GIFFragment : Fragment(R.layout.vp_item_gif) {
         binding.lottieAnimation.setAnimation(lottieResId ?: 0)
         binding.tvCozyDescription.text = description
         binding.tvCozyDescription2.text = subDescription
+
+        // Lottie 애니메이션 끝날 때 페이지 전환
+        binding.lottieAnimation.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                val currentItem = (activity as SplashActivity).binding.vpGif.currentItem
+                val nextItem = if (currentItem + 1 < (activity as SplashActivity).binding.vpGif.adapter!!.itemCount) currentItem + 1 else 0
+                (activity as SplashActivity).binding.vpGif.setCurrentItem(nextItem, true)
+            }
+            override fun onAnimationCancel(animation: Animator) {}
+
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
     }
 
     companion object {
