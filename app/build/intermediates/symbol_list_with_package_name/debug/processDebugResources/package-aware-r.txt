@@ -3250,7 +3250,6 @@ id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
 id btn_InputButton
-id btn_WriteMessage
 id btn_agree
 id btn_back
 id btn_bell
@@ -3294,6 +3293,7 @@ id btn_send_verify_code
 id btn_sign_in
 id btn_university
 id btn_university_email
+id btn_write_message
 id buttonPanel
 id cache_measures
 id calendar_view
@@ -3479,9 +3479,6 @@ id disableScroll
 id disabled
 id disjoint
 id divider
-id dormitory_name1
-id dormitory_name2
-id dormitory_name3
 id dormitory_number
 id dormitory_pass
 id dormitory_waiting
@@ -3644,9 +3641,6 @@ id ivListViewIcon
 id ivTableViewIcon
 id iv_1
 id iv_2
-id iv_Back
-id iv_Close
-id iv_More
 id iv_add_todo
 id iv_average_rate
 id iv_back
@@ -3718,10 +3712,8 @@ id jumpToStart
 id labeled
 id layout
 id layout_Rule
-id layout_TopButtons
 id layout_average_rate
 id layout_closing
-id layout_container
 id layout_contents
 id layout_cozyroom
 id layout_info
@@ -3742,6 +3734,7 @@ id layout_role
 id layout_school
 id layout_search_filter
 id layout_todo_member
+id layout_top_buttons
 id layout_weekdays
 id left
 id leftToRight
@@ -4033,6 +4026,7 @@ id rv_message_detail
 id rv_my_received
 id rv_my_sent
 id rv_my_todo
+id rv_notification_list
 id rv_role_list
 id rv_room_detail
 id rv_room_list
@@ -4222,7 +4216,6 @@ id tuesday
 id tv
 id tvListView
 id tvTableView
-id tv_Empty
 id tv_Memo
 id tv_Rule
 id tv_RuleNum
@@ -4304,7 +4297,6 @@ id tv_friendly
 id tv_game_check
 id tv_go_lifestyle
 id tv_go_lifestyle_guide
-id tv_go_lifestyle_test
 id tv_goto
 id tv_guide
 id tv_guide1
@@ -4825,8 +4817,10 @@ layout activity_login_fail
 layout activity_main
 layout activity_making_private_room
 layout activity_making_public_room
-layout activity_message
+layout activity_message_detail
+layout activity_message_member
 layout activity_my_favorite
+layout activity_notification
 layout activity_onboarding
 layout activity_room_detail
 layout activity_roommate_detail
@@ -4886,8 +4880,6 @@ layout fragment_inquiry
 layout fragment_making_private_room
 layout fragment_making_public_room
 layout fragment_making_room_dialog
-layout fragment_message_detail
-layout fragment_message_member
 layout fragment_my_received_request_component
 layout fragment_my_room_component
 layout fragment_my_sent_request_component
@@ -4913,6 +4905,8 @@ layout fragment_update_major
 layout fragment_update_my_info
 layout fragment_update_nickname
 layout fragment_update_preference
+layout fragment_update_private_room
+layout fragment_update_public_room
 layout fragment_write_inquiry
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity

@@ -305,17 +305,6 @@
             android:gravity="center_vertical"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="라이프스타일 테스트"
-        android:id="@+id/tv_go_lifestyle_test"
-        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="80dp"
-        android:layout_marginStart="20dp"/>
-
     <!-- 바텀뷰만큼 띄우기위한 코드-->
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:id="@+id/cl_bottom"-->
