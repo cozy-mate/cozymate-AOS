@@ -24,12 +24,14 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_gif"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="52dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_btn"/>
 
     <!--인디케이터 -->
     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
@@ -49,10 +51,12 @@
         app:selectedDotColor="@color/main_blue" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="67dp"
-        app:layout_constraintTop_toBottomOf="@id/dots_indicator"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
