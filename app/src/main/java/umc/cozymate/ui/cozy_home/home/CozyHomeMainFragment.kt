@@ -19,6 +19,9 @@ import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
+import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
+import umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent
+import umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
@@ -53,6 +56,7 @@ class CozyHomeMainFragment : Fragment() {
         initState()
         initView()
         initListener()
+        onRefresh()
         openMessage()
         openNotification()
         splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
@@ -83,6 +87,26 @@ class CozyHomeMainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onRefresh() {
+        // SwipeRefreshLayout OnRefreshListener를 등록합니다
+        binding.refreshLayout.setOnRefreshListener {
+            initState()
+            initView()
+            splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
+            viewLifecycleOwner.lifecycleScope.launch {
+                univViewModel.isMailVerified()
+            }
+            val myRoomFragment = childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
+            val requestedRoommateFragment = childFragmentManager.findFragmentById(R.id.requested_roommate_container) as? MyReceivedRequestComponent
+            val roomRecommendFragment = childFragmentManager.findFragmentById(R.id.room_recommend_container) as? RoomRecommendComponent
+            myRoomFragment?.refreshData()
+            requestedRoommateFragment?.refreshData()
+            roomRecommendFragment?.refreshData()
+            // isRefreshing = false 인 경우 새로고침 완료시 새로고침 아이콘이 사라집니다
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 
     private fun initState() {

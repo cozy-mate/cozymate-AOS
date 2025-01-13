@@ -93,4 +93,10 @@ class MyRoomComponent : Fragment() {
             }
         })
     }
+
+    fun refreshData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            initMyRoomData()
+        }
+    }
 }
