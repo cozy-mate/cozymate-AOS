@@ -254,9 +254,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 // 현재 찜 상태 확인
                 val isCurrentlyFavorite = favoriteId != 0
 
-                // 클릭 시 UI 상태를 먼저 변경
-                updateFavoriteIcon(!isCurrentlyFavorite)
-
                 if (isCurrentlyFavorite) {
                     // 찜 해제 요청: favoriteId 사용
                     favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
@@ -266,7 +263,7 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
 
                 // UI 변경을 약간 늦추기 위해 딜레이 추가
-                delay(70)
+                delay(120)
 
                 // 방 정보를 새로고침하여 정확한 상태 반영
                 viewModel.getOtherRoomInfo(roomId)
@@ -286,7 +283,7 @@ class RoomDetailActivity : AppCompatActivity() {
             if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
         )
         binding.ivLike.setColorFilter(
-            if (favorite) getColor(R.color.main_blue) else getColor(R.color.unuse_font)
+            if (favorite) getColor(R.color.unuse_font) else getColor(R.color.red)
         )
     }
     private fun updateOtherRoomFab(roomId: Int) {
