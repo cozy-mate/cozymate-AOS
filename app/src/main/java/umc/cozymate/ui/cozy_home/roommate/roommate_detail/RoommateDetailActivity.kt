@@ -327,37 +327,33 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherSleepHabbit.text = trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
 
             tvTableUserAc.text = trimText(when (user.memberStatDetail.airConditioningIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "강하게 틀어요"
+                else -> "적당하게 틀어요"
             })
             tvTableOtherAc.text = trimText(when (other.memberStatDetail.airConditioningIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "강하게 틀어요"
+                else -> "적당하게 틀어요"
             })
 
             tvTableUserHeater.text = trimText(when (user.memberStatDetail.heatingIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "강하게 틀어요"
+                else -> "적당하게 틀어요"
             })
             tvTableOtherHeater.text = trimText(when (other.memberStatDetail.heatingIntensity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "강하게 틀어요"
+                else -> "적당하게 틀어요"
             })
 
             tvTableUserLivingPattern.text = trimText(user.memberStatDetail.lifePattern)
@@ -677,6 +673,21 @@ class RoommateDetailActivity : AppCompatActivity() {
                 )
             )
             tableBinding.tvTableOtherCleanFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+        }
+
+        if (tableBinding.tvTableUserDrinkFrequency.text != tableBinding.tvTableOtherDrinkFrequency.text) {
+            tableBinding.tvTableUserDrinkFrequency.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.red
+                )
+            )
+            tableBinding.tvTableOtherDrinkFrequency.setTextColor(
                 ContextCompat.getColor(
                     this,
                     R.color.red

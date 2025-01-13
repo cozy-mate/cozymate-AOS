@@ -104,6 +104,8 @@ class UniversityViewModel @Inject constructor(
     val universityId: LiveData<Int> get() = _universityId
     private val _major = MutableLiveData<String>()
     val major: LiveData<String> get() = _major
+    private val _dormitoryNames = MutableLiveData<List<String>>()
+    val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
         val token = getToken()
         val id = getSavedUniversityId()
@@ -113,6 +115,8 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
                     _universityInfo.value = response.body()!!.result
+                    _dormitoryNames.value = response.body()!!.result.dormitoryNames
+                    Log.d(TAG, "대학교 기숙사 이름 조회 : ${dormitoryNames}")
                 }
             }
         } catch (e: Exception) {
@@ -120,6 +124,15 @@ class UniversityViewModel @Inject constructor(
             _university.value = "학교 인증을 해주세요"
         }
 
+    }
+
+    fun getDormitory(id: Int) {
+        val token = getToken()
+        viewModelScope.launch {
+            val response = memberRepo.getUniversityInfo(token!!, id)
+            _dormitoryNames.value = response.body()!!.result.dormitoryNames
+            Log.d(TAG, "getDormitory 성공 : ${dormitoryNames}")
+        }
     }
 
     fun setUniversityId(university: String) {

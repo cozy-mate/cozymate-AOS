@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.SortType
-import umc.cozymate.databinding.ActivityRoomDetailBinding
+import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.ui.cozy_home.home.FilterBottomSheetDialog
 import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
@@ -22,7 +22,7 @@ import umc.cozymate.util.setStatusBarTransparent
 @AndroidEntryPoint
 class CozyRoomDetailInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRoomDetailBinding
+    private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels() // ViewModel 사용
     private var prefList: List<String> = emptyList()
     private lateinit var roomRecommendListRVA: RoomRecommendListRVA
@@ -33,7 +33,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRoomDetailBinding.inflate(layoutInflater)
+        binding = ActivityCozyRoomDetailInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@CozyRoomDetailInfoActivity, Color.WHITE)

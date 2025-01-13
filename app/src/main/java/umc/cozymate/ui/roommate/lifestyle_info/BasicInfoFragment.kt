@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,18 +16,21 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentBasicInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 class BasicInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentBasicInfoBinding
-//    private lateinit var spfHelper: UserInfoSPFHelper
-
-    //    private var userInfo = UserInfo()
+    private val universityViewModel: UniversityViewModel by activityViewModels()
     private var onLivingOption: TextView? = null
     private var numPeopleOption: TextView? = null
     private var numPeople: Int? = 2
@@ -43,8 +47,8 @@ class BasicInfoFragment : Fragment() {
     ): View {
         binding = FragmentBasicInfoBinding.inflate(inflater, container, false)
 
-//        spfHelper = (activity as RoommateInputInfoActivity).getUserInfoSPFHelper()
-//        userInfo = spfHelper.loadUserInfo()
+        observeDormitoryNames()
+        fetchUniversityData()
 
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
@@ -55,7 +59,6 @@ class BasicInfoFragment : Fragment() {
         initTextChangeListener()
         initLivingSelector()
         initNumPeoPleSelector()
-        initDormitoryNameSelector()
 
         binding.nestedScrollView.setOnTouchListener { _, _ ->
             removeEditTextFocus()
@@ -66,6 +69,83 @@ class BasicInfoFragment : Fragment() {
         updateNextButtonState()
 
         return binding.root
+    }
+
+
+    private fun fetchUniversityData() {
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val universityId = sharedPreferences.getInt("university_id", -1)
+
+        if (universityId != -1) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    Log.d("BasicInfoFragment", "Fetching university info for ID: $universityId")
+                    universityViewModel.getDormitory(universityId)
+                } catch (e: Exception) {
+                    Log.e("BasicInfoFragment", "Error fetching university info: $e")
+                }
+            }
+        } else {
+            Log.e("BasicInfoFragment", "University ID not found in SharedPreferences")
+        }
+    }
+
+    // Observe the dormitory names from the ViewModel
+    private fun observeDormitoryNames() {
+        universityViewModel.dormitoryNames.observe(viewLifecycleOwner) { dormitoryNames ->
+            if (!dormitoryNames.isNullOrEmpty()) {
+                setupDormitoryOptions(dormitoryNames)
+            } else {
+                Log.e("BasicInfoFragment", "Dormitory names list is empty or null")
+            }
+        }
+    }
+
+    private fun setupDormitoryOptions(dormitoryNames: List<String>) {
+        binding.lyDormitoryName.removeAllViews() // 기존 선택지 제거
+
+        dormitoryNames.forEach { dormitoryName ->
+            val textView = TextView(requireContext()).apply {
+                text = dormitoryName
+                textSize = 12f
+                setPadding(48, 32, 48, 32)
+                height = dpToPx(40)
+                setTextColor(resources.getColor(R.color.unuse_font, null))
+                background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 10, 16, 0)
+                }
+                setOnClickListener {
+                    updateDormitorySelection(this, dormitoryName)
+                }
+            }
+            binding.lyDormitoryName.addView(textView)
+        }
+
+        // 확인 로그 추가
+        Log.d("setupDormitoryOptions", "Added dormitory options: $dormitoryNames")
+    }
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+
+    private fun updateDormitorySelection(selectedView: TextView, dormitoryName: String) {
+        dormitoryNameOption?.apply {
+            setTextColor(resources.getColor(R.color.unuse_font, null))
+            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+        }
+
+        dormitoryNameOption = selectedView
+        dormitoryNameOption?.apply {
+            setTextColor(resources.getColor(R.color.main_blue, null))
+            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+        }
+
+        saveToSharedPreferences("user_dormitoryName", dormitoryName)
+        resetDebounceTimer { showPeopleNumberLayout() }
     }
 
     private fun initTextChangeListener() {
@@ -137,54 +217,6 @@ class BasicInfoFragment : Fragment() {
             }
         }
     }
-
-    private fun initDormitoryNameSelector() {
-        val dormitoryNameTexts = listOf(
-            binding.dormitoryName1 to "제 1생활관",
-            binding.dormitoryName2 to "제 2생활관",
-            binding.dormitoryName3 to "제 3생활관"
-        )
-        for ((textView, value) in dormitoryNameTexts) {
-            textView.setOnClickListener {
-                updateSelectedOption(it, "user_dormitoryName", value)
-            }
-        }
-    }
-
-//    private fun onLivingOptionSelected(view: View, value: String) {
-//        onLivingOption?.apply {
-//            setTextColor(resources.getColor(R.color.unuse_font, null))
-//            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-//        }
-//        onLivingOption = view as TextView
-//        onLivingOption?.apply {
-//            setTextColor(resources.getColor(R.color.main_blue, null))
-//            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
-//        }
-//        userInfo = userInfo.copy(acceptance = value)
-//        spfHelper.saveUserInfo(userInfo)
-//        updateNextButtonState()
-//    }
-
-//    private fun numPeopleSelected(view: View, value: Int) {
-//        numPeopleOption?.apply {
-//            setTextColor(resources.getColor(R.color.unuse_font, null))
-//            background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-//        }
-//        numPeopleOption = view as TextView
-//        numPeopleOption?.apply {
-//            setTextColor(resources.getColor(R.color.main_blue, null))
-//            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
-//        }
-//        numPeople = value
-//        userInfo = userInfo.copy(numOfRoommate = value)
-//        spfHelper.saveUserInfo(userInfo)
-//
-//        // numPeople 선택 후 dormitory 레이아웃 표시
-//        showDormitoryLayout()
-//
-//        updateNextButtonState()
-//    }
 
     private fun updateSelectedOption(view: View, key: String, value: Any) {
         val selectedTextView = view as TextView
@@ -276,6 +308,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun showDormitoryNameLayout() {
         if (binding.etBirth.text?.isNotEmpty() == true) {
+            Log.d("BasicInfoFragment", "showDormitoryNameLayout called, dormitory names: ${universityViewModel.dormitoryNames.value}")
             binding.clDormitoryName.showWithSlideDownAnimation()
             scrollToTop()
         }

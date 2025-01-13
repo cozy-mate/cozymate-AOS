@@ -7,605 +7,162 @@
 
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.cozy_home.room_detail.RoomDetailActivity">
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        tools:context=".ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_top"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_finding_roommate"
-            android:padding="20dp"
+            android:src="@drawable/ic_back"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_back"
+            tools:text="델런" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="님과,"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_user_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_user_name" />
+
+        <TextView
+            android:id="@+id/tv_user_name_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="꼭 맞는 방을 추천해드릴게요"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintStart_toStartOf="@id/tv_user_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+        <LinearLayout
+            android:id="@+id/ly_room_search"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_room_search_background"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name_guide">
 
             <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/iv_setting"
-                android:src="@drawable/ic_seemore"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"
-                tools:visibility="visible"/>
-
-            <ImageView
-                android:id="@+id/iv_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_heart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="visible"/>
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/iv_like_full"-->
-<!--                android:src="@drawable/ic_heartfull"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/iv_like"-->
-<!--                app:layout_constraintEnd_toEndOf="@+id/iv_like"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/iv_like"-->
-<!--                android:visibility="gone"/>-->
-
-            <ImageView
-                android:id="@+id/iv_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_message"
-                app:layout_constraintEnd_toStartOf="@+id/iv_like"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_room_character"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/character_id_3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_back" />
-
-            <TextView
-                android:id="@+id/tv_room_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                android:textColor="@color/highlight_font"
-                app:layout_constraintStart_toEndOf="@+id/iv_room_character"
-                app:layout_constraintTop_toTopOf="@+id/iv_room_character"
-                tools:text="피그말리온" />
-
-            <TextView
-                android:id="@+id/tv_hashtag_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/color_box"
-                android:paddingVertical="2dp"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:text="#히로아카"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintTop_toBottomOf="@+id/tv_room_name"
-                app:layout_constraintStart_toStartOf="@+id/tv_room_name" />
-
-            <TextView
-                android:id="@+id/tv_hashtag_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:backgroundTint="@color/color_box"
-                android:paddingHorizontal="2dp"
-                android:paddingVertical="2dp"
-                android:text="#바쿠고"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_1"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag_1" />
-
-            <TextView
-                android:id="@+id/tv_hashtag_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:backgroundTint="@color/color_box"
-                android:paddingHorizontal="2dp"
-                android:paddingVertical="2dp"
-                android:text="#바쿠고"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintBottom_toBottomOf="@id/tv_hashtag_2"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag_2" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_room_status"
-                android:text=""
-                android:paddingVertical="2dp"
-                tools:text="비공개방입니다"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintTop_toBottomOf="@id/tv_room_name"
-                app:layout_constraintStart_toStartOf="@id/tv_room_name"/>
-
-            <TextView
-                android:id="@+id/tv_room_match"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_background_room_match"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text=""
-                android:textColor="@color/main_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_room_character"
-                tools:text="방 평균일치율 53%" />
-
-            <View
-                android:layout_width="match_parent"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="60dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_room_match" />
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_search" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:text="방 이름을 검색해보세요!"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="-80dp"
-            android:background="@color/white"
-            android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_top">
+        </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_mid"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/background_crewable_scroll"
-                android:padding="24dp">
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/btn_room_search_list"-->
+        <!--            android:layout_width="20dp"-->
+        <!--            android:layout_height="20dp"-->
+        <!--            android:layout_marginTop="40dp"-->
+        <!--            android:backgroundTint="@color/white"-->
+        <!--            android:rotation="90"-->
+        <!--            android:src="@drawable/ic_down_2"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/ly_room_search" />-->
 
-                <TextView
-                    android:id="@+id/tv_room_info_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="방 정보"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_room_search"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="최신순"-->
+        <!--            android:textAppearance="@style/TextAppearance.App.14sp.Medium"-->
+        <!--            android:textColor="@color/basic_font"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/btn_room_search_list"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/btn_room_search_list" />-->
 
-                <TextView
-                    android:id="@+id/tv_room_info_current_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                    android:textColor="@color/main_blue"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_room_info_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="2  /  4" />
+        <LinearLayout
+            android:id="@+id/layout_search_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingEnd="8dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ly_room_search">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_roommate_info_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/custom_background_roommate_detail_12"
-                    android:padding="6dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_room_info_title">
+            <TextView
+                android:id="@+id/tv_room_search_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="평균일치율순"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/basic_font" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_room_member_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/rv_item_home_room_current_member" />
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_down" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tv_room_dormitory_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:text="기숙사 정보"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_roommate_info_list" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_dormitory_info_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/custom_background_roommate_detail_12"
-                    android:padding="6dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_room_dormitory_title">
-
-                    <TextView
-                        android:id="@+id/tv_dormitory_name_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="분류"
-                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                        android:textColor="@color/color_font"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_dormitory_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text=""
-                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                        android:textColor="@color/basic_font"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_dormitory_name_title"
-                        app:layout_constraintStart_toEndOf="@+id/tv_dormitory_name_title"
-                        tools:text="제1생활관" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="10dp"
-                        android:background="#F1F2F4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_name_title" />
-
-                    <TextView
-                        android:id="@+id/tv_dormitory_room_num_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="24dp"
-                        android:text="인실"
-                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                        android:textColor="@color/color_font"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_name_title" />
-
-                    <TextView
-                        android:id="@+id/tv_dormitory_room_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text=""
-                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                        android:textColor="@color/basic_font"
-                        app:layout_constraintStart_toEndOf="@+id/tv_dormitory_room_num_title"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_dormitory_room_num_title"
-                        tools:text="4인실" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_room_num"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <TextView
-                    android:id="@+id/tv_lifestyle_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:text="룸메이트 라이프스타일 한 눈에 보기"
-                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                    android:textColor="@color/highlight_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_dormitory_info_list" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/chips1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:alignItems="flex_start"
-                    app:flexWrap="wrap"
-                    app:justifyContent="flex_start"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_lifestyle_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="12dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/select_birth"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="출생년도" />
-
-                    <TextView
-                        android:id="@+id/select_number"
-                        style="@style/SelectChip"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="학번" />
-
-                    <TextView
-                        android:id="@+id/select_major"
-                        style="@style/SelectChip"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="학과" />
-
-                    <TextView
-                        android:id="@+id/select_acceptance"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="합격여부" />
-
-                    <TextView
-                        android:id="@+id/select_wake"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="기상시간" />
-
-                    <TextView
-                        android:id="@+id/select_sleep"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="취침시간" />
-
-                    <TextView
-                        android:id="@+id/select_light_off"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="소등시간" />
-
-                    <TextView
-                        android:id="@+id/select_smoke"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="흡연여부" />
+        </LinearLayout>
 
 
-                    <TextView
-                        android:id="@+id/select_sleep_habit"
-                        style="@style/SelectChip"
-                        android:layout_width="60dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="잠버릇" />
-
-                    <TextView
-                        android:id="@+id/select_ac"
-                        style="@style/SelectChip"
-                        android:layout_width="60dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="에어컨" />
-
-                    <TextView
-                        android:id="@+id/select_heater"
-                        style="@style/SelectChip"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="히터" />
-
-                    <TextView
-                        android:id="@+id/select_living_pattern"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="생활패턴" />
-
-                    <TextView
-                        android:id="@+id/select_friendly"
-                        style="@style/SelectChip"
-                        android:layout_width="60dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="친밀도" />
-
-                    <TextView
-                        android:id="@+id/select_share"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="물건공유" />
-
-                    <TextView
-                        android:id="@+id/select_game"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="게임여부" />
-
-                    <TextView
-                        android:id="@+id/select_call"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="전화여부" />
-
-                    <TextView
-                        android:id="@+id/select_study"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="공부여부" />
-
-                    <TextView
-                        android:id="@+id/select_intake"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="섭취여부" />
-
-                    <TextView
-                        android:id="@+id/select_clean"
-                        style="@style/SelectChip"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="청결예민도" />
-
-                    <TextView
-                        android:id="@+id/select_noise"
-                        style="@style/SelectChip"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="소음예민도" />
-
-                    <TextView
-                        android:id="@+id/select_clean_frequency"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="청소빈도" />
-
-                    <TextView
-                        android:id="@+id/select_drink_frequency"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="음주빈도" />
-
-                    <TextView
-                        android:id="@+id/select_personality"
-                        style="@style/SelectChip"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="성격" />
-
-                    <TextView
-                        android:id="@+id/select_mbti"
-                        style="@style/SelectChip"
-                        android:layout_width="70dp"
-                        android:layout_height="34dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="false"
-                        android:text="MBTI" />
-                </com.google.android.flexbox.FlexboxLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    app:layout_constraintTop_toBottomOf="@+id/chips1"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_room_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fab_bnt"
-            android:gravity="center"
-            android:text="방 참여요청"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/main_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:clipChildren="false"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:visibility="visible"/>
+            app:layout_constraintTop_toBottomOf="@+id/layout_search_filter"
+            tools:listitem="@layout/vp_item_room_recommend" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_room_detail" />
+
+
+        <TextView
+            android:id="@+id/tv_empty_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="추천 방이 없어요"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_search_filter" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
