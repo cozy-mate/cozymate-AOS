@@ -29,6 +29,7 @@ class MyFavoriteActivity : AppCompatActivity() {
     private val viewModel: FavoriteViewModel by viewModels()
     private lateinit var roomsAdapter: FavoriteRoomRVAdapter
     private lateinit var membersAdapter: FavoriteRoommateRVAdapter
+    var isRoommateSelected: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFavoriteBinding.inflate(layoutInflater)
@@ -41,6 +42,19 @@ class MyFavoriteActivity : AppCompatActivity() {
             viewModel.getFavoriteRoommateList()
         }
         setClickListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isRoommateSelected){
+            lifecycleScope.launch {
+                viewModel.getFavoriteRoommateList()
+            }
+        } else {
+            lifecycleScope.launch {
+                viewModel.getFavoriteRoomList()
+            }
+        }
     }
 
     fun setupRVAdapter() {
@@ -125,6 +139,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             }
 
             tvFavoriteRoommate.setOnClickListener {
+                isRoommateSelected = true
                 toggleSelection(tvFavoriteRoommate, tvFavoriteRoom)
                 lifecycleScope.launch {
                     viewModel.getFavoriteRoommateList()
@@ -132,6 +147,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             }
 
             tvFavoriteRoom.setOnClickListener {
+                isRoommateSelected = false
                 toggleSelection(tvFavoriteRoom, tvFavoriteRoommate)
                 lifecycleScope.launch {
                     viewModel.getFavoriteRoomList()
