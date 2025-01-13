@@ -13,7 +13,7 @@ enum class Preference(
 ) {
     BIRTH_YEAR(1, "birthYear", "출생년도", "년", R.drawable.ic_birth_year_blue, R.drawable.ic_birth_year_red, R.drawable.ic_birth_year_gray),
     ADMISSION_YEAR(2, "admissionYear", "학번", "학번",  R.drawable.ic_admission_year_blue, R.drawable.ic_admission_year_red, R.drawable.ic_admission_year_gray),
-    MAJOR(3, "학과", "major", "학과", R.drawable.ic_major_blue, R.drawable.ic_major_red, R.drawable.ic_major_gray),
+    MAJOR(3, "majorName","학과",  "", R.drawable.ic_major_blue, R.drawable.ic_major_red, R.drawable.ic_major_gray),
     ACCEPTANCE(4, "acceptance", "합격여부", "", R.drawable.ic_acceptance_blue, R.drawable.ic_acceptance_red, R.drawable.ic_acceptance_gray),
     WAKE_UP_TIME(5, "wakeUpTime", "기상시간", ":00", R.drawable.ic_wake_up_time_blue, R.drawable.ic_wake_up_time_red, R.drawable.ic_wake_up_time_gray),
     SLEEPING_TIME(6, "sleepingTime", "취침시간", ":00", R.drawable.ic_sleeping_time_blue, R.drawable.ic_sleeping_time_red, R.drawable.ic_sleeping_time_gray),
