@@ -83,7 +83,7 @@ class UniversityCertificationFragment : Fragment() {
 
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        universityName = spf.getString("university_name", "").toString()
+        universityName = spf.getString("user_university_name", "").toString()
     }
 
     override fun onDestroyView() {

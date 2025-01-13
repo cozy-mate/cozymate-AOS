@@ -33,6 +33,9 @@ class UniversityViewModel @Inject constructor(
     fun getSavedUniversityId(): Int {
         return sharedPreferences.getInt("user_university_id", 0)
     }
+    fun getSavedEmail(): String? {
+        return sharedPreferences.getString("user_email", "")
+    }
     suspend fun fetchMyUniversityIfNeeded(): String? {
         if (getSavedUniversity() == null) {
             fetchMyUniversity()
@@ -61,6 +64,7 @@ class UniversityViewModel @Inject constructor(
                         _getMailVerifyResponse.value = response.body()
                         fetchMyUniversity()
                     }
+                    sharedPreferences.edit().putString("user_email", response.body()!!.result).commit()
                 }
             }
         } catch (e: Exception) {

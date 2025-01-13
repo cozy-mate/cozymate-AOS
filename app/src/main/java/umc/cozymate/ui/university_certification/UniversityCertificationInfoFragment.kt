@@ -36,7 +36,7 @@ class UniversityCertificationInfoFragment : Fragment() {
         binding.tvUniversityName.text = universityName
         binding.tvUniversityCert.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
         binding.ivBack.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            requireActivity().finish()
         }
         binding.tvUniversityCert.setOnClickListener {
             (activity as? UniversityCertificationActivity)?.loadUniversityCertificationFragment()
@@ -55,7 +55,7 @@ class UniversityCertificationInfoFragment : Fragment() {
 
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        universityName = spf.getString("university_name", "").toString()
+        universityName = spf.getString("user_university_name", "").toString()
     }
 
     fun setObserver() {

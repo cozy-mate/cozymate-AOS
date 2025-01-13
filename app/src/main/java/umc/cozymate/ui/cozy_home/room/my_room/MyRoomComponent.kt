@@ -59,7 +59,11 @@ class MyRoomComponent : Fragment() {
             with(binding) {
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
-                tvEquality.text = roomInfo?.equality.toString() + "%"
+                if (roomInfo?.equality == 0){
+                    tvEquality.text = "??%"
+                } else {
+                    tvEquality.text = roomInfo?.equality.toString() + "%"
+                }
                 tvHashtag1.visibility = View.GONE
                 tvHashtag1.text = ""
                 tvHashtag2.visibility = View.GONE

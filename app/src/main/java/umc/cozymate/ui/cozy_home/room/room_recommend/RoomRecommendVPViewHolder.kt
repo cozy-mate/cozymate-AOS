@@ -18,7 +18,6 @@ class RoomRecommendVPViewHolder(
         with(binding) {
             tvRoomName.text = item.name
             if (item.equality == 0){
-                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
                 tvMatchRate.text = "??%"
             } else {
                 tvMatchRate.text = "${item.equality}%"
