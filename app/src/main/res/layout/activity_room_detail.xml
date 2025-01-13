@@ -49,15 +49,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:visibility="visible"/>
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/iv_like_full"-->
-<!--                android:src="@drawable/ic_heartfull"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/iv_like"-->
-<!--                app:layout_constraintEnd_toEndOf="@+id/iv_like"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/iv_like"-->
-<!--                android:visibility="gone"/>-->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_exit"
+                android:src="drawable/d"
 
             <ImageView
                 android:id="@+id/iv_chat"

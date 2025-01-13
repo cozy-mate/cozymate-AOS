@@ -113,8 +113,8 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
-                    ivChat.visibility = View.GONE
                     ivLike.visibility = View.GONE
+                    iv
                     tvRoomInfoCurrentNum.text =
                         "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
