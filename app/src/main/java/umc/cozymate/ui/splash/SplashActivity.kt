@@ -1,6 +1,5 @@
 package umc.cozymate.ui.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -23,7 +22,6 @@ import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
-@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
@@ -48,7 +46,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -101,7 +98,7 @@ class SplashActivity : AppCompatActivity() {
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
             splashViewModel.isMember.observe(this) { isMember ->
-                if (isMember) {
+                if (isMember == true) {
                     goCozyHome()
                 }
                 binding.progressBar.visibility = View.GONE
@@ -120,7 +117,8 @@ class SplashActivity : AppCompatActivity() {
     private fun observeError() {
         splashViewModel.errorResponse.observe(this) { errorResponse ->
             errorResponse?.let {
-                val errorDialog = ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                val errorDialog =
+                    ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
                 errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
             }
         }
@@ -135,7 +133,7 @@ class SplashActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
                     splashViewModel.isMember.observe(this) { isMember ->
-                        if (isMember) {
+                        if (isMember == true) {
                             goCozyHome()
                             finish()
                         } else {
@@ -161,9 +159,8 @@ class SplashActivity : AppCompatActivity() {
 
                         splashViewModel.memberCheck()
                         splashViewModel.isMember.observe(this) { isMember ->
-                            if (isMember) goCozyHome()
-                            else goOnboarding()
-                            finish()
+                            if (isMember == true) goCozyHome()
+                            else if (isMember == false) goOnboarding()
                         }
                     } catch (e: Exception) {
                         goLoginFail()

@@ -53,7 +53,7 @@ class SplashViewModel @Inject constructor(
     private val _memberInfo = MutableLiveData<MemberDetailInfo?>()
     val memberInfo: LiveData<MemberDetailInfo?> get() = _memberInfo
 
-    private val _isMember = MutableLiveData<Boolean>(false)
+    private val _isMember = MutableLiveData<Boolean>(null)
     val isMember: LiveData<Boolean> get() = _isMember
 
     private val _withdrawResponse = MutableLiveData<Response<WithdrawResponse>>()
