@@ -22,18 +22,18 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityUpdateCozyRoomDetailInfoBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
-import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
+import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 
 // TODO: 방 수정, 방 나가기, 방 전환은 나중에(공개방/비공개방)
 @AndroidEntryPoint
@@ -63,6 +63,26 @@ class UpdateMyRoomInfoActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        // 더보기 버튼 설정
+        var moreFlag = false
+        binding.llMore.visibility = View.GONE
+        binding.ivMore.setOnClickListener{
+            if(!moreFlag) {
+                binding.llMore.visibility = View.VISIBLE
+                binding.llMore.bringToFront() // 우선순위 조정
+                binding.clMid.requestDisallowInterceptTouchEvent(true) // RecyclerView의 터치 차단
+                moreFlag = true
+            }
+            else{
+                binding.llMore.visibility = View.GONE
+                binding.clMid.requestDisallowInterceptTouchEvent(false)
+                moreFlag = false
+            }
+        }
+        // 뒤로가기 버튼
+        binding.ivBack.setOnClickListener {
+            finish()
         }
         // 방 id 불러오기
         roomId = intent.getIntExtra(ARG_ROOM_ID, -1)
