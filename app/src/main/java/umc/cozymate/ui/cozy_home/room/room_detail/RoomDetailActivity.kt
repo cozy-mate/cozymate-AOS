@@ -339,7 +339,6 @@ class RoomDetailActivity : AppCompatActivity() {
                     fabBnt.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
                     fabBnt.setTextColor(getColor(R.color.white))
                     fabBnt.isEnabled = false
-                    recreate()
                 }
             }
         } else {
