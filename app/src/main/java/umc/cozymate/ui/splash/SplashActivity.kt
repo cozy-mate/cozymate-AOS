@@ -3,6 +3,8 @@ package umc.cozymate.ui.splash
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -24,10 +26,11 @@ import umc.cozymate.ui.viewmodel.SplashViewModel
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
     lateinit var binding: ActivitySplashBinding
     private val splashViewModel: SplashViewModel by viewModels()
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -59,6 +62,15 @@ class SplashActivity : AppCompatActivity() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
+        // 2.5초마다 페이지 전환
+        handler = Handler(Looper.getMainLooper())
+        runnable = Runnable {
+            val currentItem = binding.vpGif.currentItem
+            val nextItem = if (currentItem + 1 < adapter.itemCount) currentItem + 1 else 0
+            binding.vpGif.setCurrentItem(nextItem, true)
+            handler.postDelayed(runnable, 2500)
+        }
+        handler.postDelayed(runnable, 2500)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
@@ -90,6 +102,11 @@ class SplashActivity : AppCompatActivity() {
             testSignIn()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable) // Activity 종료 시 Handler 리소스 해제
     }
 
     private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
