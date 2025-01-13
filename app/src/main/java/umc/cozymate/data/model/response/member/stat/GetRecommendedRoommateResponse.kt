@@ -41,7 +41,7 @@ data class GetRecommendedRoommateResponse(
                 @SerialName("stat")
                 val stat: String,
                 @SerialName("value")
-                val value: Int
+                val value: String
             )
         }
     }
