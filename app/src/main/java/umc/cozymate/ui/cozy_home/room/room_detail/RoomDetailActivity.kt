@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -142,10 +143,11 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun exitButton(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
         with(binding) {
             ivExit.setOnClickListener {
-                roomViewModel.quitRoom(roomId)
-                spf.edit().putInt("room_id", 0)
+                // 방 나가기 확인 다이얼로그 표시
+                showConfirmExitDialog(roomId, spf)
             }
 
             roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
@@ -162,7 +164,23 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    // 삭제 확인 팝업 띄우기
+    // 방 나가기 확인 다이얼로그
+    private fun showConfirmExitDialog(roomId: Int, spf: SharedPreferences) {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("방 나가기")
+            .setMessage("정말 방을 나가시겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                // 확인을 눌렀을 때 방 나가기 로직 실행
+                roomViewModel.quitRoom(roomId)
+                spf.edit().putInt("room_id", 0).apply()
+            }
+            .setNegativeButton("취소", null)
+            .create()
+
+        dialog.show()
+    }
+
+    // 방 나가기 완료 팝업
     private fun showQuitRoomPopup() {
         val text = listOf("방을 나갔어요", "", "확인")
         val dialog = OneButtonPopup(text, object : PopupClick {
