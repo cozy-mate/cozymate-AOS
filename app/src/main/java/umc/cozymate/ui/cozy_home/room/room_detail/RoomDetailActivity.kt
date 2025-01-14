@@ -114,7 +114,8 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
                     ivLike.visibility = View.GONE
-                    iv
+                    ivExit.visibility = View.VISIBLE
+                    fabBnt.visibility = View.GONE
                     tvRoomInfoCurrentNum.text =
                         "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
@@ -122,7 +123,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
-                    updateMyFabButton(roomInfo.roomId)
+                    exitButton(roomInfo.roomId)
                     // 리사이클러 뷰 연결
                     rvRoomMemberList.apply {
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -139,18 +140,14 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateMyFabButton(roomId: Int) {
+    private fun exitButton(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         with(binding) {
-            fabBnt.text = "방 나가기"
-            fabBnt.setBackgroundTintList(
-                getColorStateList(R.color.red)
-            )
-            fabBnt.setTextColor(getColor(R.color.white))
-            fabBnt.setOnClickListener {
+            ivExit.setOnClickListener {
                 roomViewModel.quitRoom(roomId)
                 spf.edit().putInt("room_id", 0)
             }
+
             roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
                 if (result.isSuccess) {
                     showQuitRoomPopup()
