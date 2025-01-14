@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.UserInfoRequest
@@ -1242,6 +1243,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
         binding.fabGoTop.setOnClickListener {
             binding.nestedScrollView.smoothScrollTo(0, 0)
         }
+        val fab = binding.fabGoTop
+        val drawable = fab.drawable.mutate() // 현재 아이콘 수정 가능하도록 mutate()
+        drawable.setTint(ContextCompat.getColor(this, R.color.main_blue)) // 색상 변경
+        fab.setImageDrawable(drawable) // 변경된 아이콘 설정
     }
 
     private fun sendFetchUserDataToViewModel() {

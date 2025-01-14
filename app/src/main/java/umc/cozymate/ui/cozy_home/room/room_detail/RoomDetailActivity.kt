@@ -114,7 +114,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
-                    ivLike.visibility = View.GONE
+                    ivLike.visibility = View.INVISIBLE
                     ivExit.visibility = View.VISIBLE
                     fabBnt.visibility = View.GONE
                     tvRoomInfoCurrentNum.text =
@@ -146,49 +146,36 @@ class RoomDetailActivity : AppCompatActivity() {
 
         with(binding) {
             ivExit.setOnClickListener {
-                // 방 나가기 확인 다이얼로그 표시
-                showConfirmExitDialog(roomId, spf)
+                // 기존 다이얼로그를 방 나가기 확인 용도로 사용
+                showQuitRoomPopup(roomId, spf)
             }
+        }
 
-            roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
-                if (result.isSuccess) {
-                    showQuitRoomPopup()
-                } else {
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "방 나가기를 실패했습니다. 다시 시도해주세요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
+            if (result.isSuccess) {
+                finish() // 방 나가기 성공 시 액티비티 종료
+            } else {
+                Toast.makeText(
+                    this@RoomDetailActivity,
+                    "방 나가기를 실패했습니다. 다시 시도해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
-    // 방 나가기 확인 다이얼로그
-    private fun showConfirmExitDialog(roomId: Int, spf: SharedPreferences) {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("방 나가기")
-            .setMessage("정말 방을 나가시겠습니까?")
-            .setPositiveButton("확인") { _, _ ->
-                // 확인을 눌렀을 때 방 나가기 로직 실행
+    // 방 나가기 확인 및 실행 다이얼로그
+    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
+        val text = listOf("방을 나가시겠습니까?", "", "확인", "취소")
+        val dialog = OneButtonPopup(text, object : PopupClick {
+            override fun clickFunction() {
+                // 확인 버튼을 눌렀을 때만 방 나가기 실행
                 roomViewModel.quitRoom(roomId)
                 spf.edit().putInt("room_id", 0).apply()
             }
-            .setNegativeButton("취소", null)
-            .create()
+        }, true) // 기존 다이얼로그가 재활용되도록 설정
 
-        dialog.show()
-    }
-
-    // 방 나가기 완료 팝업
-    private fun showQuitRoomPopup() {
-        val text = listOf("방을 나갔어요", "", "확인")
-        val dialog = OneButtonPopup(text, object : PopupClick {
-            override fun clickFunction() {
-                finish()
-            }
-        }, true)
-        dialog.show(supportFragmentManager, "roomDeletionPopup")
+        dialog.show(supportFragmentManager, "roomQuitConfirmationPopup")
     }
 
     private fun getRoomDetailInfo() {

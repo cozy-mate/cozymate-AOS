@@ -1454,6 +1454,7 @@ style RoomHashtagChip
 style RoommateElementChip
 style RvOtherUserInfoBox
 style SelectChip
+style ShapeAppearance.FloatingActionButton.Circular
 style SplashTheme
 style TextAppearance.App.10sp.Medium
 style TextAppearance.App.10sp.Regular
