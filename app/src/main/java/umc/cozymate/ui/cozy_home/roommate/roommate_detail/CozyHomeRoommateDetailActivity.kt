@@ -92,6 +92,9 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility  =  if (isLoading) View.VISIBLE else View.GONE
         }
+        detailViewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility  =  if (isLoading) View.VISIBLE else View.GONE
+        }
  }
 
     private fun updateUI(){
