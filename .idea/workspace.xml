@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidLayouts">
-    <shared>
-      <config />
-    </shared>
     <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_todo.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cozy_home_inviting_roommate.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cozy_home_roommate_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cozy_room_detail_info.xml">
         <config>
           <theme>@style/Theme.Cozymate</theme>
@@ -30,387 +12,7 @@
           <theme>@style/Theme.Cozymate</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_join_room.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login_fail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_message.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_favorite.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_onboarding.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_room_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_input_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_roommate_onboarding.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_search_roommate.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_update_cozy_room_detail_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_write_message.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/bottom_sheet_search_filter.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/custom_datepicker.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/custom_spinner_list.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_member_stat.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_roommate_detail_cozymate_request.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_add_role_tab.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_add_rule_tab.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_add_todo_tab.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_basic_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_entering.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_main.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_selecting_roommate.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_cozy_home_waiting.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_essential_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_feed.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_making_room_dialog.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_message_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_message_member.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_mypage.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_onboarding_selecting_character.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_onboarding_selecting_element.xml">
-        <config>
-          <theme>@android:style/Theme.Material.Light</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_onboarding_summary.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_onboarding_user_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_role_and_rule.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_role_and_rule_tab.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_roommate_make_crewable.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_roommate_onboarding.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_selection_info.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_todo_tab.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_character.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_cozyhome_achievement.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_roommate_detail_list.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_roommate_detail_table.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_roommate_select_box.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_select_roommate.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_waiting_roommate.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_invite_code_fail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_invite_code_success.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_loading.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_server_error.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_template_onebutton.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_template_report.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_template_twobuttons.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/roommate_detail_bottom_sheet.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_home_room_current_member.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_message.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_message_member.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_role.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_room_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_room_detail_tag_list.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_room_mate_detail.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_room_member_stat.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_roommate_crewable_list_result.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_roommate_crewable_table_result.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_roommate_detail_rule_cando_never.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_rule.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_todo.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rv_item_todo_list.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/spinner_item_txt.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/spinner_selected_item_txt.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/vp_item_gif.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/vp_item_room_recommend.xml">
-        <config>
-          <theme>@style/Theme.Cozymate</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/menu/bottom_nav.xml">
         <config>
           <theme>@style/Theme.Cozymate</theme>
         </config>
@@ -418,17 +20,14 @@
     </layouts>
   </component>
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="NONE" />
+    <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3c50aee-37ca-4c3e-abe4-22c7e786e8be" name="Changes" comment="">
+    <list default="true" id="035fc80d-b3c6-4408-8c9d-87f4c37af4f7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/room/room_detail/RoomDetailActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/room/room_detail/RoomDetailActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/room/room_detail/CozyRoomDetailInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/umc/cozymate/ui/cozy_home/room/room_detail/CozyRoomDetailInfoActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -438,10 +37,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/doyoung/.android/avd/Pixel_8_Pro_API_35.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CN80CXBCX]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -450,182 +46,23 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-        <task path="$PROJECT_DIR$/app">
-          <activation />
-        </task>
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view>
-          <tree_state>
-            <expand />
-            <select />
-          </tree_state>
-        </projects_view>
+        <projects_view />
       </state>
     </system>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="valueResourceFile" />
-        <option value="Kotlin Object" />
-        <option value="navigationResourceFile" />
-        <option value="CMakeLists.txt" />
-        <option value="Kotlin Interface" />
-        <option value="layoutResourceFile" />
-        <option value="Kotlin Class" />
-        <option value="resourceFile" />
-        <option value="Kotlin Data Class" />
-      </list>
-    </option>
-  </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="BUILD_TARGET_KEY" value="apk" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitToolBoxStore">
-    <option name="recentBranches">
-      <RecentBranches>
-        <option name="branchesForRepo">
-          <list>
-            <RecentBranchesForRepo>
-              <option name="branches">
-                <list>
-                  <RecentBranch>
-                    <option name="branchName" value="COZY-468-방관련로직수정" />
-                    <option name="lastUsedInstant" value="1736343958" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="COZY-458-룸메상세페이지구현" />
-                    <option name="lastUsedInstant" value="1735802453" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="COZY-457-방관련로직" />
-                    <option name="lastUsedInstant" value="1735467571" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="COZY-456-FCM개선" />
-                    <option name="lastUsedInstant" value="1735464470" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1732523331" />
-                  </RecentBranch>
-                </list>
-              </option>
-              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
-            </RecentBranchesForRepo>
-          </list>
-        </option>
-      </RecentBranches>
-    </option>
-  </component>
-  <component name="KotlinCodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
-  <component name="ProjectId" id="2jEC6aKy8GneGZuohcO6W7Qp14N" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ApkExportedModule&quot;: &quot;Cozymate.app&quot;,
-    &quot;Gradle.cozymate-AOS [signingReport].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.cozymate-AOS [signingRepot].executor&quot;: &quot;Run&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;LAYOUT&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ScreenRecorder.SavePath&quot;: &quot;/Users/doyoung&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;COZY-468-방관련로직수정&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/doyoung/GitHub/cozymate-AOS/app&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Program Files\\Android\\Android Studio\\jbr&quot;,
-      &quot;C:\\Users\\도영\\.gradle&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-      <recent name="E:\Github\cozymate-AOS\app\src\main\java\umc\cozymate\presentation" />
-      <recent name="C:\Users\USER\Documents\GitHub\cozymate-AOS\app\src\main\res\drawable" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response/roommate" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/animator" />
-      <recent name="$PROJECT_DIR$/app/src/main/java/umc/cozymate/data/model/response" />
-      <recent name="E:\Github\cozymate-AOS\app" />
-      <recent name="E:\Github\cozymate-AOS\app\src\main\res\drawable" />
-    </key>
-    <key name="android.template.-2105118916">
-      <recent name="umc.cozymate.ui.cozy_home.roommate_detail" />
-      <recent name="umc.cozymate.ui.cozy_home.room_detail" />
-      <recent name="umc.cozymate.ui.room_detail" />
-      <recent name="umc.cozymate.ui.roommate" />
-    </key>
-    <key name="android.template.2098042663">
-      <recent name="umc.cozymate.ui.roommate" />
-    </key>
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="umc.cozymate.ui.cozy_home.home" />
-      <recent name="umc.cozymate.ui.cozy_home.roommate.roommate_detail" />
-      <recent name="umc.cozymate.data.model.response.roommate" />
-      <recent name="umc.cozymate.ui.viewmodel" />
-      <recent name="umc.cozymate.module" />
-    </key>
-    <key name="android.template.1954813564">
-      <recent name="umc.cozymate.ui.my_page" />
-    </key>
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="umc.cozymate.firebase" />
-    </key>
-    <key name="android.template.-1237962195">
-      <recent name="umc.cozymate.ui.cozy_home.room_detail" />
-      <recent name="umc.cozymate.ui.cozy_home.roommate_detail" />
-    </key>
-  </component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="sha-1" />
-      <command value="gradle signingRepot" />
-      <command value="gradle signingReport" />
-    </option>
-  </component>
-  <component name="RunManager" selected="Android App.app">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="AndroidRunConfigurationType" factoryName="Android App" nameIsGenerated="true">
       <module name="Cozymate.app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -641,7 +78,7 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
@@ -692,96 +129,8 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cozymate-AOS [signingReport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="signingReport" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="cozymate-AOS [signingRepot]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="signingRepot" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Android App.app" />
-      <item itemvalue="Gradle.cozymate-AOS [signingReport]" />
-      <item itemvalue="Gradle.cozymate-AOS [signingRepot]" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Gradle.cozymate-AOS [signingRepot]" />
-        <item itemvalue="Gradle.cozymate-AOS [signingReport]" />
-        <item itemvalue="Gradle.cozymate-AOS [signingReport]" />
-        <item itemvalue="Gradle.cozymate-AOS [signingRepot]" />
-      </list>
-    </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="a3c50aee-37ca-4c3e-abe4-22c7e786e8be" name="Changes" comment="" />
-      <created>1720942675986</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1720942675986</updated>
-    </task>
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/테스트테스트" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>

@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,10 +75,13 @@ class RoomMemberStatRVA (
         }
 
         private fun formatStatValue(key: String, value: Any?): String {
+            Log.d("RoomMemberStatRVA", "Key: $key, Value: $value, Type: ${value?.javaClass?.name}")
+
             return when (value) {
                 is Int -> mapIntStatValue(key, value)
                 is String -> value
-                else -> "알 수 없음"
+                is Double -> mapIntStatValue(key, value.toInt())
+                else -> "알 수 없음, String Int 구분 불가"
             }
         }
 

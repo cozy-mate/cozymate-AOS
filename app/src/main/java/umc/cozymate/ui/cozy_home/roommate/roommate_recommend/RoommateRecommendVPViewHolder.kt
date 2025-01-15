@@ -1,19 +1,20 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 
+import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
-import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
 class RoommateRecommendVPViewHolder(
     private val binding: VpItemRoommateRecommendBinding,
-    private val prefList: List<String>
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: GetRecommendedRoommateResponse.Result.Member) {
+    fun bind(item: RecommendedMemberInfo) {
         with(binding) {
             tvNickname.text = item.memberDetail.nickname
             if (item.equality == 0){
@@ -97,9 +98,19 @@ class RoommateRecommendVPViewHolder(
                     }
                 }
             }
+            binding.root.setOnClickListener {
+                val context = binding.root.context
+                val intent = Intent(context, RoommateDetailActivity::class.java).apply {
+                    putExtra("mateId", item.memberDetail.memberId)
+                }
+                context.startActivity(intent)
+            }
 
         }
+
     }
+
+
 
     fun formatAnswer(option: String, answer: Any): String {
         return when (option) {

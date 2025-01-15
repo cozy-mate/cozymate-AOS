@@ -20,9 +20,6 @@ class RoommateDetailViewModel @Inject constructor(
 ): ViewModel() {
     private val TAG = this.javaClass.simpleName
 
-//    private val _isLoading = MutableStateFlow(false)
-//    val isLoading: StateFlow<Boolean> get() = _isLoading
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -34,6 +31,10 @@ class RoommateDetailViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+
+//    val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//    isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
+//    Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
 
     fun getUserMemberId(): Int? {
         return sharedPreferences.getInt("user_member_id", 0)

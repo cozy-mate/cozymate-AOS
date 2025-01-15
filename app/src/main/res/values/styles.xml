@@ -211,6 +211,10 @@
         <item name="android:backgroundTint">@color/main_blue</item>
     </style>
 
+    <style name="ShapeAppearance.FloatingActionButton.Circular" parent="">
+        <item name="cornerSize">50%</item> <!-- 50%로 설정하면 원형 -->
+    </style>
+
     <!-- Splash screen theme. -->
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
