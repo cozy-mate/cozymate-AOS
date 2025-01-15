@@ -1,4 +1,4 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.lifestyle
 
 import android.content.Context
 import android.content.SharedPreferences

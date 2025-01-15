@@ -1,4 +1,4 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.favorite
 
 import android.content.Intent
 import android.graphics.Color

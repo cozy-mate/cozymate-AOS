@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.update_room.UpdateMyRoomInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel

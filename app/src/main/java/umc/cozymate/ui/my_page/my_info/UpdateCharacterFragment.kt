@@ -1,4 +1,4 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.my_info
 
 import android.content.Context
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room_detail
+package umc.cozymate.ui.my_page.update_room
 
 import android.content.Intent
 import android.os.Bundle
@@ -48,6 +48,7 @@ class UpdateMyRoomInfoActivity : AppCompatActivity() {
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
+    private var roomType: String = ""
     private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
 
     // 방 id는  Intent를 통해 불러옵니다
@@ -78,6 +79,13 @@ class UpdateMyRoomInfoActivity : AppCompatActivity() {
                 binding.llMore.visibility = View.GONE
                 binding.clMid.requestDisallowInterceptTouchEvent(false)
                 moreFlag = false
+            }
+        }
+        binding.tvUpdateInfo.setOnClickListener {
+            if (roomType == "PUBLIC") {
+
+            } else if (roomType == "PRIVATE") {
+
             }
         }
         // 뒤로가기 버튼
@@ -280,10 +288,13 @@ class UpdateMyRoomInfoActivity : AppCompatActivity() {
     }
 
     private fun updateRoomStatus(type: String) {
-        val roomStatusText = if (type == "PUBLIC") {
-            "공개방이에요"
+        var roomStatusText = ""
+        if (type == "PUBLIC") {
+            roomStatusText = "공개방이에요"
+            roomType = "PUBLIC"
         } else {
-            "비공개방이에요"
+            roomStatusText = "비공개방이에요"
+            roomType = "PRIVATE"
         }
         //binding.tvRoomStatus.visibility = View.VISIBLE
         //binding.tvRoomStatus.text = roomStatusText

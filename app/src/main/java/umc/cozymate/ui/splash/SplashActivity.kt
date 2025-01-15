@@ -62,18 +62,19 @@ class SplashActivity : AppCompatActivity() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
-        // 2.5초마다 페이지 전환
+        // 2초마다 페이지 전환
         handler = Handler(Looper.getMainLooper())
         runnable = Runnable {
             val currentItem = binding.vpGif.currentItem
             val nextItem = if (currentItem + 1 < adapter.itemCount) currentItem + 1 else 0
             binding.vpGif.setCurrentItem(nextItem, true)
-            handler.postDelayed(runnable, 2500)
+            handler.postDelayed(runnable, 2000)
         }
-        handler.postDelayed(runnable, 2500)
+        handler.postDelayed(runnable, 2000)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
+        KakaoSdk.loggingEnabled = true
         binding.progressBar.visibility = View.VISIBLE
 
         // 뷰모델 옵저빙

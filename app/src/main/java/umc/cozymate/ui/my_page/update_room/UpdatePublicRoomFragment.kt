@@ -1,14 +1,17 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.update_room
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,34 +23,36 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
-import umc.cozymate.databinding.FragmentMakingPrivateRoomBinding
+import umc.cozymate.databinding.FragmentUpdatePublicRoomBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.making_room.SelectingRoomCharacterActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
 
 @AndroidEntryPoint
-class UpdatePrivateRoomFragment : Fragment() {
+class UpdatePublicRoomFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentMakingPrivateRoomBinding? = null
+    private var _binding: FragmentUpdatePublicRoomBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MakingRoomViewModel by viewModels()
-    private var numPeopleOption: TextView? = null
-    private var numPeople: Int = 0
-    private var charId: Int? = 1
     private var roomName: String = ""
+    private var numPeopleOption: TextView? = null
+    private var numPeople: Int? = 0
+    private var charId: Int? = 0 // 0은 선택 안 되었다는 의미
+    private val hashtags = mutableListOf<String>()
     private var debounceJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMakingPrivateRoomBinding.inflate(inflater, container, false)
+        _binding = FragmentUpdatePublicRoomBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.setPersona(charId ?: 1)
+        viewModel.setPersona(charId ?: 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,30 +82,128 @@ class UpdatePrivateRoomFragment : Fragment() {
             for ((textView, value) in numPeopleTexts) {
                 textView.setOnClickListener { numPeopleSelected(it, value) }
             }
-            // 캐릭터, 방이름, 최대인원 선택되어야 다음 버튼 활성화
+            // 해시태그 설정
+            setupHashtagInput()
+
+            // 캐릭터, 이름, 최대인원수, 해시태그 선택되어 있어야 다음 버튼 활성화
             updateNextButtonState()
         }
+
+        // 방 생성 옵저빙
         setupObservers()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    // 다음 버튼 비황성/활성
+    // 다음 버튼 비활성/활성
     fun updateNextButtonState() {
         with(binding) {
             val isCharacterSelected = charId != 0
             val isRoomNameEntered = etRoomName.text?.isNotEmpty() == true
             val isPeopleNumSelected = numPeople != 0
-            val isEnabled = isCharacterSelected && isRoomNameEntered && isPeopleNumSelected
+            val isHashtagEntered = hashtags.isNotEmpty()
+            val isEnabled =
+                isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewModel.checkAndSubmitCreatePrivateRoom() // 방 정보 POST
-                Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
+                viewModel.checkAndSubmitCreatePublicRoom() // 방 정보 POST
+                if (hashtags.size == 0) {
+                    Toast.makeText(context, "방 해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    // 해시태그 설정
+    private fun setupHashtagInput() {
+        with(binding) {
+            hashtag1.visibility = View.GONE
+            hashtag2.visibility = View.GONE
+            hashtag3.visibility = View.GONE
+            // 삭제 버튼 설정
+            setupHashtag(hashtag1)
+            setupHashtag(hashtag2)
+            setupHashtag(hashtag3)
+            // 해시태그 입력값을 반영하기
+            etRoomHashtag.setOnEditorActionListener { textView, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                    val hashtagText = etRoomHashtag.text.toString().trim()
+                    if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                        // 해시태그 추가 및 edittext 텍스트 삭제
+                        hashtags.add(hashtagText)
+                        updateHashtagChips()
+                        etRoomHashtag.text?.clear()
+                        viewModel.setHashtags(hashtags)
+                    } else if (hashtags.size >= 3) {
+                        Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun setupHashtag(tv: TextView) {
+        tv.isEnabled = true
+        tv.isClickable = true
+        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0) // 닫기 버튼 설정
+        tv.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                removeHashtag(tv) ///
+                val drawableEnd = tv.compoundDrawables[2]
+                drawableEnd?.let {
+                    val drawableWidth = it.bounds.width()
+                    val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
+                    if (event.x >= touchableAreaStart) {
+                        removeHashtag(tv) /// 왜 안 됨?
+                        true
+                    } else {
+                        false
+                    }
+                } ?: false
+            } else {
+                false
+            }
+        }
+    }
+
+    fun removeHashtag(tv: TextView) {
+        tv.visibility = View.GONE
+        hashtags.remove(tv.text)
+        updateNextButtonState()
+        viewModel.setHashtags(hashtags)
+    }
+
+    private fun updateHashtagChips() {
+        val chipViews = listOf(binding.hashtag1, binding.hashtag2, binding.hashtag3)
+        for (i in chipViews.indices) {
+            if (i < hashtags.size) {
+                chipViews[i].text = hashtags[i]
+                chipViews[i].visibility = View.VISIBLE
+            } else {
+                chipViews[i].visibility = View.GONE
+            }
+        }
+        updateNextButtonState()
+    }
+
+    // 인원수 옵션 클릭
+    private fun numPeopleSelected(view: View, value: Int) {
+        numPeopleOption?.apply {
+            setTextColor(resources.getColor(R.color.unuse_font, null))
+            background =
+                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+        }
+        numPeopleOption = view as TextView
+        numPeopleOption?.apply {
+            setTextColor(resources.getColor(R.color.main_blue, null))
+            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
+        }
+        numPeople = value
+        viewModel.setMaxNum(numPeople!!)
+        updateNextButtonState()
     }
 
     // 방 이름 유효한지 체크
@@ -137,12 +240,11 @@ class UpdatePrivateRoomFragment : Fragment() {
                         else -> {
                             tvAlertName.visibility = View.GONE
                             roomName = etRoomName.text.toString()
-                            tilRoomName.isErrorEnabled = false
                             viewModel.setNickname(roomName)
                             // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
                             debounceJob?.cancel()
                             debounceJob = viewModel.viewModelScope.launch {
-                                delay(500L) // 500ms 대기
+                                delay(1000L) // 1000ms 대기
                                 viewModel.setNickname(input)
                                 viewModel.roomNameCheck() // API 호출
                                 observeRoomNameValid()
@@ -155,6 +257,8 @@ class UpdatePrivateRoomFragment : Fragment() {
 
                 override fun afterTextChanged(s: Editable?) {}
             })
+
+            // 해시태그 중복
         }
     }
 
@@ -165,41 +269,26 @@ class UpdatePrivateRoomFragment : Fragment() {
                 if (!isValid) {
                     tvAlertName.visibility = View.VISIBLE
                     tvAlertName.text = "이미 사용중인 방이름이에요!"
+                    tilRoomName.isErrorEnabled = true
                 } else {
                     tvAlertName.visibility = View.GONE
                     roomName = etRoomName.text.toString()
+                    tilRoomName.isErrorEnabled = false
                     viewModel.setNickname(roomName)
                 }
             }
         }
     }
 
-    // 인원수 옵션 클릭
-    private fun numPeopleSelected(view: View, value: Int) {
-        numPeopleOption?.apply {
-            setTextColor(resources.getColor(R.color.unuse_font, null))
-            background =
-                resources.getDrawable(R.drawable.custom_option_box_background_default, null)
-        }
-        numPeopleOption = view as TextView
-        numPeopleOption?.apply {
-            setTextColor(resources.getColor(R.color.main_blue, null))
-            background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
-        }
-        numPeople = value
-        viewModel.setMaxNum(numPeople)
-        updateNextButtonState()
-    }
-
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
-        viewModel.privateRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            /*(activity as? MakingPrivateRoomActivity)?.loadGivingInviteCodeFragment(
-                result.result.persona,
-                result.result.inviteCode
-            )*/
+        viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
-        // 에러 응답도 추가로 처리할 수 있음 >> TODO : 팝업 띄우기
+
+        // 팝업을 띄워서 에러 응답 처리
         viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
             if (error != null) {
                 Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
@@ -207,16 +296,21 @@ class UpdatePrivateRoomFragment : Fragment() {
         }
     }
 
-    // 캐릭터 아이디 받아오기
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    // SelectingRoomCharacterActivity에서 캐릭터 아이디 받아오기
     private val characterResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             // 결과가 정상적으로 반환되었는지 확인
-            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 0) ?: 0
+            val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            CharacterUtil.setImg(charId, binding.ivCharacter)
+            CharacterUtil.setImg(selectedCharacterId, binding.ivCharacter)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
         }

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.my_info
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -44,7 +44,7 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        parentFragmentManager.setFragmentResult(UpdatePreferenceFragment.TAG, Bundle())
+        parentFragmentManager.setFragmentResult(Companion.TAG, Bundle())
     }
 
     private fun setupTextViews() {

@@ -95,6 +95,10 @@ class UniversityCertificationFragment : Fragment() {
         }
     }
 
+    fun setFocusColor() {
+
+    }
+
     fun setMailBtnListener() {
         // 인증번호 전송 버튼
         binding.btnSendVerifyCode.setOnClickListener {

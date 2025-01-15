@@ -12,22 +12,22 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.PreferenceList
-import umc.cozymate.databinding.FragmentOnboardingSelectingElementBinding
+import umc.cozymate.databinding.FragmentOnboardingSelectingPreferenceBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
-class OnboardingSelectingElementFragment : Fragment() {
+class OnboardingSelectingPreferenceFragment : Fragment() {
 
     private val TAG = this.javaClass.simpleName
-    private lateinit var binding: FragmentOnboardingSelectingElementBinding
+    private lateinit var binding: FragmentOnboardingSelectingPreferenceBinding
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_onboarding_selecting_element, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_onboarding_selecting_preference, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -79,7 +79,7 @@ class OnboardingSelectingElementFragment : Fragment() {
                 }
 
                 if (selectedChips.size > 4) {
-                    Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
                     binding.btnNext.isEnabled = false
                 }
 
@@ -100,7 +100,7 @@ class OnboardingSelectingElementFragment : Fragment() {
                     .commit()
             }
             else {
-                Toast.makeText(context, "요소를 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
             }
         }
     }

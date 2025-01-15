@@ -1,11 +1,9 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.favorite
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.favorites.GetFavoritesRoomsResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding

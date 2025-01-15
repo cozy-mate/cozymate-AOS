@@ -1,4 +1,4 @@
-package umc.cozymate.ui.my_page
+package umc.cozymate.ui.my_page.favorite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -12,7 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
-import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.favorite.MyFavoriteActivity
+import umc.cozymate.ui.my_page.inquiry.InquiryActivity
+import umc.cozymate.ui.my_page.inquiry.WriteInquiryActivity
+import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
+import umc.cozymate.ui.my_page.update_room.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.my_info.UpdateMyInfoActivity
+import umc.cozymate.ui.my_page.withdraw.WithDrawActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
