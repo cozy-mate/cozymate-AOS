@@ -191,6 +191,7 @@ drawable ic_drinking_frequency_gray
 drawable ic_drinking_frequency_red
 drawable ic_dropdown
 drawable ic_edit
+drawable ic_exit
 drawable ic_fcm
 drawable ic_feed
 drawable ic_filter
@@ -583,6 +584,7 @@ id iv_criteria_icon_3
 id iv_criteria_icon_4
 id iv_edit_back
 id iv_edit_back2
+id iv_exit
 id iv_feed_title
 id iv_female
 id iv_filter
@@ -1452,6 +1454,7 @@ style RoomHashtagChip
 style RoommateElementChip
 style RvOtherUserInfoBox
 style SelectChip
+style ShapeAppearance.FloatingActionButton.Circular
 style SplashTheme
 style TextAppearance.App.10sp.Medium
 style TextAppearance.App.10sp.Regular

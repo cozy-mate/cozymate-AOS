@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -113,8 +114,9 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
-                    ivChat.visibility = View.GONE
-                    ivLike.visibility = View.GONE
+                    ivLike.visibility = View.INVISIBLE
+                    ivExit.visibility = View.VISIBLE
+                    fabBnt.visibility = View.GONE
                     tvRoomInfoCurrentNum.text =
                         "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
@@ -122,7 +124,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
-                    updateMyFabButton(roomInfo.roomId)
+                    exitButton(roomInfo.roomId)
                     // 리사이클러 뷰 연결
                     rvRoomMemberList.apply {
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -139,41 +141,41 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateMyFabButton(roomId: Int) {
+    private fun exitButton(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
         with(binding) {
-            fabBnt.text = "방 나가기"
-            fabBnt.setBackgroundTintList(
-                getColorStateList(R.color.red)
-            )
-            fabBnt.setTextColor(getColor(R.color.white))
-            fabBnt.setOnClickListener {
-                roomViewModel.quitRoom(roomId)
-                spf.edit().putInt("room_id", 0)
+            ivExit.setOnClickListener {
+                // 기존 다이얼로그를 방 나가기 확인 용도로 사용
+                showQuitRoomPopup(roomId, spf)
             }
-            roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
-                if (result.isSuccess) {
-                    showQuitRoomPopup()
-                } else {
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "방 나가기를 실패했습니다. 다시 시도해주세요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        }
+
+        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
+            if (result.isSuccess) {
+                finish() // 방 나가기 성공 시 액티비티 종료
+            } else {
+                Toast.makeText(
+                    this@RoomDetailActivity,
+                    "방 나가기를 실패했습니다. 다시 시도해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
-    // 삭제 확인 팝업 띄우기
-    private fun showQuitRoomPopup() {
-        val text = listOf("방을 나갔어요", "", "확인")
+    // 방 나가기 확인 및 실행 다이얼로그
+    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
+        val text = listOf("방을 나가시겠습니까?", "", "확인", "취소")
         val dialog = OneButtonPopup(text, object : PopupClick {
             override fun clickFunction() {
-                finish()
+                // 확인 버튼을 눌렀을 때만 방 나가기 실행
+                roomViewModel.quitRoom(roomId)
+                spf.edit().putInt("room_id", 0).apply()
             }
-        }, true)
-        dialog.show(supportFragmentManager, "roomDeletionPopup")
+        }, true) // 기존 다이얼로그가 재활용되도록 설정
+
+        dialog.show(supportFragmentManager, "roomQuitConfirmationPopup")
     }
 
     private fun getRoomDetailInfo() {
@@ -206,35 +208,6 @@ class RoomDetailActivity : AppCompatActivity() {
             isFavorite = roomInfo.favoriteId != 0
             updateFavoriteIcon(isFavorite)
 
-//            // 찜/찜 해제 버튼 클릭 리스너
-//            binding.ivLike.setOnClickListener {
-//                if (isFavorite) {
-//                    // 찜 해제: UI 상태를 미리 업데이트
-//                    isFavorite = false
-//                    lifecycleScope.launch {
-//                        val favoriteId = roomInfo.favoriteId
-//                        favoriteViewModel.toggleRoomFavorite(favoriteId, true)
-//
-//                        viewModel.getOtherRoomInfo(roomId!!)
-//                        recreate()
-//                    }
-//                    updateFavoriteIcon(false)
-//
-//                } else {
-//                    // 찜 요청: UI 상태를 미리 업데이트
-//                    isFavorite = true
-//                    lifecycleScope.launch {
-//                        roomId?.let { roomId ->
-//                            favoriteViewModel.toggleRoomFavorite(roomId, false)
-//
-//                            // ViewModel 상태 갱신
-//                            viewModel.getOtherRoomInfo(roomId)
-//                            recreate()
-//                        }
-//                        updateFavoriteIcon(true)
-//                    }
-//                }
-//            }
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
                 layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -251,42 +224,39 @@ class RoomDetailActivity : AppCompatActivity() {
     private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
         binding.ivLike.setOnClickListener {
             lifecycleScope.launch {
-                if (favoriteId != 0) {
-                    favoriteViewModel.toggleRoomFavorite(favoriteId, true)
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "찜 목록에서 제거되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                // 현재 찜 상태 확인
+                val isCurrentlyFavorite = favoriteId != 0
+
+                if (isCurrentlyFavorite) {
+                    // 찜 해제 요청: favoriteId 사용
+                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
                 } else {
-                    favoriteViewModel.toggleRoomFavorite(roomId, false)
-                    Toast.makeText(
-                        this@RoomDetailActivity,
-                        "찜 목록에 추가되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // 찜 요청: roomId 사용
+                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
                 }
 
-                // 서버로부터 최신 데이터를 가져오고 UI 갱신
+                // UI 변경을 약간 늦추기 위해 딜레이 추가
+                delay(200)
+
+                // 방 정보를 새로고침하여 정확한 상태 반영
                 viewModel.getOtherRoomInfo(roomId)
+
             }
         }
     }
 
     private fun observeFavoriteState() {
-        lifecycleScope.launch {
-            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
-                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
-                updateFavoriteIcon(roomInfo.favoriteId != 0)
-            }
+        favoriteViewModel.roomFavoriteState.observe(this) { isFavorite ->
+            updateFavoriteIcon(isFavorite)
         }
     }
+
     private fun updateFavoriteIcon(favorite: Boolean) {
         binding.ivLike.setImageResource(
             if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
         )
         binding.ivLike.setColorFilter(
-            if (favorite) getColor(R.color.main_blue) else getColor(R.color.unuse_font)
+            if (favorite) getColor(R.color.red) else getColor(R.color.unuse_font)
         )
     }
     private fun updateOtherRoomFab(roomId: Int) {

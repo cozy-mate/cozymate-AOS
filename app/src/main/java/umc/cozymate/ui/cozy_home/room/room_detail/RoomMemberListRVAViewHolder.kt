@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,9 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 class RoomMemberListRVAViewHolder(
     private val binding: RvItemHomeRoomCurrentMemberBinding
 ) : RecyclerView.ViewHolder(binding.root) {
+
+    private val userId: Int? = binding.root.context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        .getInt("user_member_id", -1).takeIf { it != -1 }
 
     fun bind(item: GetRoomInfoResponse.Result.MateDetail, managerNickname: String) {
         // Persona 이미지 업데이트
@@ -39,9 +43,11 @@ class RoomMemberListRVAViewHolder(
             ivRoomMemberCharacter.setImageResource(personaResId)
             if (item.nickname == managerNickname) {
                 tvRoomMemberMaster.visibility = View.VISIBLE
-                tvRoomMemberMatch.visibility = View.GONE
             } else {
                 tvRoomMemberMaster.visibility = View.GONE
+            }
+            if (item.memberId == userId) {
+                tvRoomMemberMatch.visibility = View.GONE
             }
 
             binding.root.setOnClickListener {
