@@ -14,10 +14,10 @@ class RoommateRecommendVPAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoommateRecommendVPViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
-        binding.root.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
+//        binding.root.layoutParams = ViewGroup.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.MATCH_PARENT
+//        )
         return RoommateRecommendVPViewHolder(binding)
     }
 

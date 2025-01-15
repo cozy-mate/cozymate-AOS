@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +28,7 @@ import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendViewModel
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
@@ -52,14 +54,11 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val t =  intent.getSerializableExtra("test");
-        Log.d(TAG,"type : ${t}")
-
-        Log.d(TAG,"list ${memberList}")
         getPreference()
         initChip()
+        if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
+        else viewModel.fetchRecommendedRoommateList()
         setupObserver()
-
         // 사용자 검색으로 이동
         binding.lyRoomMateSearch.setOnClickListener {
             val intent = Intent(this, SearchRoommateActivity::class.java)
@@ -78,8 +77,10 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         viewModel.roommateList.observe(this, Observer { list ->
             Log.d(TAG,list.toString())
             if (list.isNullOrEmpty()){
-                binding.rvRoommateDetailInfo.visibility = View.GONE
-                binding.tvEmpty.visibility = View.VISIBLE
+                if (isLifestyleExist){
+                    binding.rvRoommateDetailInfo.visibility = View.GONE
+                    binding.tvEmpty.visibility = View.VISIBLE
+                }
             }
             else{
                 memberList = list
@@ -88,15 +89,20 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
                 updateUI()
             }
         })
-    }
+ }
 
     private fun updateUI(){
-        val adapter = RoommateRecommendVPAdapter(memberList){ memberId ->
+        val recommendAdapter = RoommateRecommendVPAdapter(memberList){ memberId ->
             navigatorToRoommateDetail(memberId)
         }
-        binding.rvRoommateDetailInfo.adapter = adapter
+        val guideAdapter = LifeStyleGuideRVAdapter(nickname,isLifestyleExist){ moveRoommateOnboarding() }
+        binding.rvRoommateDetailInfo.adapter = ConcatAdapter(recommendAdapter,guideAdapter)
         binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+    }
+    private fun moveRoommateOnboarding(){
+        val intent = Intent(this, RoommateOnboardingActivity::class.java)
+        startActivity(intent)
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
@@ -133,8 +139,8 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
                 box.setTextColor(ContextCompat.getColor(this, color))
                 if (!isChecked) selectedChips.remove(filter)
                 else if(!selectedChips.contains(filter)) selectedChips.add(filter)
-                viewModel.fetchRoommateListByEquality(selectedChips)
-                Log.d(TAG,"Selected : ${selectedChips}")
+                if(isLifestyleExist)viewModel.fetchRoommateListByEquality(selectedChips)
+                else binding.rvRoommateDetailInfo.adapter = LifeStyleGuideRVAdapter(nickname,isLifestyleExist){  moveRoommateOnboarding() }
             }
             chips.add(box)
             binding.chips.addView(box)

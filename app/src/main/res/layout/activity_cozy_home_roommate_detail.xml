@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
+
         tools:context=".ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity">
 
 
@@ -88,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:paddingBottom="20dp"
             tools:listitem="@layout/vp_item_roommate_recommend"
             app:layout_constraintTop_toBottomOf="@id/chips"
             app:layout_constraintStart_toStartOf="parent"/>
