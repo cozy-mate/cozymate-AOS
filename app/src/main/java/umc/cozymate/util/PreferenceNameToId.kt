@@ -29,3 +29,4 @@ fun PreferenceNameToId(name: String): String {
         else -> throw IllegalArgumentException("Invalid preference name: $name")
     }
 }
+
