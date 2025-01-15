@@ -1,5 +1,7 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 
+import android.content.Intent
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
@@ -97,7 +99,6 @@ class RoommateRecommendVPViewHolder(
                 }
             }
             binding.root.setOnClickListener {
-
                 val context = binding.root.context
                 val intent = Intent(context, RoommateDetailActivity::class.java).apply {
                     putExtra("mateId", item.memberDetail.memberId)

@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
-import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
-
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentRoommateRecommendComponentBinding? = null
     private val binding get() = _binding!!
@@ -36,11 +36,11 @@ class RoommateRecommendComponent : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoommateRecommendComponentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -48,8 +48,7 @@ class RoommateRecommendComponent : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getPreference()
         binding.tvName.text = "${nickname}님과"
-        if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
-        else viewModel.fetchRecommendedRoommateList()
+        updateData()
 
         // 추천 룸메이트 옵저빙
 
@@ -76,6 +75,11 @@ class RoommateRecommendComponent : Fragment() {
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun updateData() {
+        if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
+        else viewModel.fetchRecommendedRoommateList()
     }
 
 //    private fun testa(){
@@ -126,4 +130,11 @@ class RoommateRecommendComponent : Fragment() {
         )
         Log.d(TAG, "nickname: $nickname")
     }
+
+    fun refreshData() {
+        getPreference()
+        binding.tvName.text = "${nickname}님과"
+        updateData()
+    }
+
 }
