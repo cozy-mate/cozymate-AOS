@@ -40,7 +40,7 @@ class RoommateOnboardingFragment : Fragment() {
         }
 
         splashViewModel.memberCheck()
-        splashViewModel.membmerInfo.observe(viewLifecycleOwner) { info: MemberDetailInfo? ->
+        splashViewModel.memberInfo.observe(viewLifecycleOwner) { info: MemberDetailInfo? ->
             myNickname = info!!.nickname
             binding.tvName1.text = myNickname
             binding.tvName2.text = myNickname

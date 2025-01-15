@@ -15,7 +15,11 @@ class RoomRecommendListRVAViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            tvMatchRate.text = "${item.equality}%"
+            if (item.equality == 0){
+                tvMatchRate.text = "??%"
+            } else {
+                tvMatchRate.text = "${item.equality}%"
+            }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}"
 
             when (item.hashtags.size) {

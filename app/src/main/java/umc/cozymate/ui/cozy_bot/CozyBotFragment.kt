@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
+import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -48,36 +48,45 @@ class CozyBotFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cozy_bot, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
-        // 초대코드 클립보드 복사
-        binding.btnCopyInviteCode.setOnClickListener {
-            val clipboard =
-                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Copied Text", binding.btnCopyInviteCode.text)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(requireContext(), "텍스트가 클립보드에 복사되었습니다!", Toast.LENGTH_SHORT).show()
-        }
-        // 쪽지
-        openMessage()
-        // 알림
-        openNotification()
-        // 방 정보
-        binding.ivChar.setOnClickListener {
-            // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-            val intent = Intent(requireActivity(), RoomDetailActivity::class.java).apply {
-                putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
+        if (roomId != 0) {
+            // 닉네임
+            setName()
+            // 초대코드
+            setInviteCodeObserver()
+            // 룸로그
+            observeRoomLog()
+            // 쪽지
+            openMessage()
+            // 알림
+            openNotification()
+            // 방 정보
+            binding.ivChar.setOnClickListener {
+                // roomId 값을 넘겨주면서 방 상세 화면으로 이동
+                val intent = Intent(requireActivity(), UpdateMyRoomInfoActivity::class.java).apply {
+                    putExtra(UpdateMyRoomInfoActivity.ARG_ROOM_ID, roomId)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
+            // 초기 룸로그 로드
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.loadAchievements(isNextPage = true)
+            }
         }
     }
+
     override fun onResume() {
         super.onResume()
         getPreference()
         if (roomId != 0) {
-            observeViewModel()
+            setName()
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.loadAchievements(isNextPage = true)
+            }
         }
     }
 
@@ -87,15 +96,8 @@ class CozyBotFragment : Fragment() {
         CharacterUtil.setImg(roomPersona, binding.ivChar)
     }
 
-    private fun observeViewModel() {
-        observeName()
-        observeInviteCode()
-        observeRoomLog()
-    }
-
-    private fun observeName() {
+    private fun setName() {
         roomName = viewModel.getRoomName()
-
         if (roomName != null) {
             val tvWhoseRoom = binding.tvWhoseRoom2
             val roomText = "${roomName}의 방이에요!"
@@ -139,13 +141,23 @@ class CozyBotFragment : Fragment() {
         }
     }
 
-
-    private fun observeInviteCode() {
+    private fun setInviteCodeObserver() {
         viewModel.inviteCode.observe(viewLifecycleOwner, Observer { code ->
-            if (code != null) {
+            if (code == "" || code == null) {
+                binding.btnCopyInviteCode.visibility = View.GONE
+            } else {
+                binding.btnCopyInviteCode.visibility = View.VISIBLE
                 binding.btnCopyInviteCode.text = code
             }
         })
+        // 초대코드 클립보드 복사
+        binding.btnCopyInviteCode.setOnClickListener {
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Copied Text", binding.btnCopyInviteCode.text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), "텍스트가 클립보드에 복사되었습니다!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun observeRoomLog() {
@@ -170,10 +182,6 @@ class CozyBotFragment : Fragment() {
                 }
             }
         })
-        // 초기 룸로그 로드
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.loadAchievements(isNextPage = true)
-        }
     }
 
     private fun openMessage() {

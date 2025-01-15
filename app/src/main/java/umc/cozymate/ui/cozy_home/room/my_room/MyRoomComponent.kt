@@ -59,7 +59,11 @@ class MyRoomComponent : Fragment() {
             with(binding) {
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
-                tvEquality.text = roomInfo?.equality.toString() + "%"
+                if (roomInfo?.equality == 0){
+                    tvEquality.text = "??%"
+                } else {
+                    tvEquality.text = roomInfo?.equality.toString() + "%"
+                }
                 tvHashtag1.visibility = View.GONE
                 tvHashtag1.text = ""
                 tvHashtag2.visibility = View.GONE
@@ -67,8 +71,14 @@ class MyRoomComponent : Fragment() {
                 tvHashtag3.visibility = View.GONE
                 tvHashtag3.text = ""
                 when (roomInfo?.hashtagList?.size) {
-                    null -> {}
-                    0 -> {}
+                    null -> {
+                        tvHashtag1.visibility = View.VISIBLE
+                        tvHashtag1.text = "비공개방이에요"
+                    }
+                    0 -> {
+                        tvHashtag1.visibility = View.VISIBLE
+                        tvHashtag1.text = "비공개방이에요"
+                    }
                     1 -> {
                         if (roomInfo.hashtagList[0] != "") {
                             tvHashtag1.visibility = View.VISIBLE
@@ -92,5 +102,11 @@ class MyRoomComponent : Fragment() {
                 }
             }
         })
+    }
+
+    fun refreshData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            initMyRoomData()
+        }
     }
 }

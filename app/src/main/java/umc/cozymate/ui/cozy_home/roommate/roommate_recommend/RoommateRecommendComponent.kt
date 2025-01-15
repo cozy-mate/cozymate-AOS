@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -126,5 +126,4 @@ class RoommateRecommendComponent : Fragment() {
         )
         Log.d(TAG, "nickname: $nickname")
     }
-
 }

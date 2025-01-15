@@ -31,7 +31,7 @@ class RoommateOnboardingActivity : AppCompatActivity() {
         }
 
         splashViewModel.memberCheck()
-        splashViewModel.membmerInfo.observe(this) { info: MemberDetailInfo? ->
+        splashViewModel.memberInfo.observe(this) { info: MemberDetailInfo? ->
             myNickname = info!!.nickname
             binding.tvName1.text = myNickname
         }

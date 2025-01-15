@@ -1,7 +1,7 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 
-import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
@@ -15,7 +15,12 @@ class RoommateRecommendVPViewHolder(
     fun bind(item: RecommendedMemberInfo) {
         with(binding) {
             tvNickname.text = item.memberDetail.nickname
-            tvMatchRate.text = "${item.equality}%"
+            if (item.equality == 0){
+                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
+                tvMatchRate.text = "??%"
+            } else {
+                tvMatchRate.text = "${item.equality}%"
+            }
 
             // 색깔: 선호도가 나와 일치할때(파랑), 다를때(빨강), 라이프스타일 입력전에(흰색)
             // 텍스트: prefstat

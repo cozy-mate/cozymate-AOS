@@ -20,6 +20,7 @@ import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.pop_up.InviteCodeFailPopUp
 import umc.cozymate.ui.pop_up.InviteCodeSuccessPopUp
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
+import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
 // 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
 @AndroidEntryPoint

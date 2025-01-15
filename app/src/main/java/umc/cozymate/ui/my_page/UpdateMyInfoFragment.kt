@@ -1,5 +1,6 @@
 package umc.cozymate.ui.my_page
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class UpdateMyInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUpdateMyInfoBinding.inflate(inflater, container, false)
+        binding.tvUpdatePreference.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchMemberInfo()
             viewModel.fetchMyPreference()
@@ -78,11 +80,25 @@ class UpdateMyInfoFragment : Fragment() {
             }
 
             // 선호 칩 수정
+            // 수정하고 돌아왔을 때 새로고침합니다.
             llPreference.setOnClickListener {
-                (requireActivity() as UpdateMyInfoActivity).loadUpdatePreferenceFragment()
+                val fragment = UpdatePreferenceFragment()
+                fragment.show(parentFragmentManager, fragment.TAG)
+                parentFragmentManager.setFragmentResultListener(
+                    UpdatePreferenceFragment.TAG,
+                    viewLifecycleOwner
+                ) { _, _ ->
+                    refreshData()
+                }
             }
 
             observeResponse()
+        }
+    }
+
+    fun refreshData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchMyPreference()
         }
     }
 
@@ -90,7 +106,7 @@ class UpdateMyInfoFragment : Fragment() {
     fun formatDate(inputDate: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
-        try{
+        try {
             val date = inputFormat.parse(inputDate)
             if (date != null) {
                 return outputFormat.format(date).toString()

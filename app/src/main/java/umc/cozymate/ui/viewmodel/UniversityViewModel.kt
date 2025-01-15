@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
+import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.repository.repository.MemberRepository
@@ -27,7 +28,13 @@ class UniversityViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
     fun getSavedUniversity(): String? {
-        return sharedPreferences.getString("university_name", null)
+        return sharedPreferences.getString("user_university_name", null)
+    }
+    fun getSavedUniversityId(): Int {
+        return sharedPreferences.getInt("user_university_id", 0)
+    }
+    fun getSavedEmail(): String? {
+        return sharedPreferences.getString("user_email", "")
     }
     suspend fun fetchMyUniversityIfNeeded(): String? {
         if (getSavedUniversity() == null) {
@@ -39,8 +46,10 @@ class UniversityViewModel @Inject constructor(
     // 대학교 메일 인증 여부
     // 메일인증을 받은적이 없거나, 받았는데 인증 확인이 안된 경우 빈 문자열 반환
     // 메일 인증을 받고, 인증 확인이 된 경우 인증된 메일 주소 반환
-    private val _isVerified = MutableLiveData(false)
+    private val _isVerified = MutableLiveData<Boolean>(null)
     val isVerified: LiveData<Boolean> get() = _isVerified
+    private val _getMailVerifyResponse = MutableLiveData<GetMailVerifyResponse>()
+    val getMailVerifyResponse: LiveData<GetMailVerifyResponse> get() = _getMailVerifyResponse
     suspend fun isMailVerified() {
         val token = getToken()
         try {
@@ -49,12 +58,13 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
                     if (response.body()!!.result == "") {
-                        _isVerified.value = true
-                        fetchMyUniversity()
+                        _isVerified.value = false
                     } else {
                         _isVerified.value = false
+                        _getMailVerifyResponse.value = response.body()
                         fetchMyUniversity()
                     }
+                    sharedPreferences.edit().putString("user_email", response.body()!!.result).commit()
                 }
             }
         } catch (e: Exception) {
@@ -78,8 +88,8 @@ class UniversityViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "사용자 대학교 조회 성공: ${response.body()!!.result}")
                     sharedPreferences.edit().putBoolean("is_verified", true).commit()
-                    sharedPreferences.edit().putString("university_name", response.body()!!.result.name).commit()
-                    sharedPreferences.edit().putInt("university_id", response.body()!!.result.id).commit()
+                    sharedPreferences.edit().putString("user_university_name", response.body()!!.result.name).commit()
+                    sharedPreferences.edit().putInt("user_university_id", response.body()!!.result.id).commit()
                     _university.value = response.body()!!.result.name
                     _getMyUniversityResponse.value = response.body()
                 }
@@ -102,8 +112,9 @@ class UniversityViewModel @Inject constructor(
     val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
         val token = getToken()
+        val id = getSavedUniversityId()
         try {
-            val response = memberRepo.getUniversityInfo(token!!, id = universityId.value ?: 0)
+            val response = memberRepo.getUniversityInfo(token!!, id)
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "대학교 정보 조회 성공: ${response.body()!!.result}")
@@ -167,12 +178,13 @@ class UniversityViewModel @Inject constructor(
 
     fun sendVerifyCode(email: String) {
         val token = getToken()
+        val universityId = getSavedUniversityId()
         if (token != null) {
             viewModelScope.launch {
                 try {
                     val request = SendMailRequest(
                         mailAddress = email,
-                        universityId = universityId.value!!
+                        universityId = universityId
                     )
                     Log.d(TAG, "메일 request: ${request}")
                     val response = memberRepo.sendMail(token, request)

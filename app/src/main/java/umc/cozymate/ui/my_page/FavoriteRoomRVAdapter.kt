@@ -3,7 +3,9 @@ package umc.cozymate.ui.my_page
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.favorites.GetFavoritesRoomsResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
@@ -18,7 +20,11 @@ class FavoriteRoomRVAdapter(
         fun bind(item: GetFavoritesRoomsResponse.Result) {
             with(binding) {
                 tvRoomName.text = item.name
-                tvMatchRate.text = "${item.equality}%"
+                if (item.equality == 0){
+                    tvMatchRate.text = "??%"
+                } else {
+                    tvMatchRate.text = "${item.equality}%"
+                }
                 tvMemberNumber.text = ""
                 when (item.hashtagList.size) {
                     0 -> {

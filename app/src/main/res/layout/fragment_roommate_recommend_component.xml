@@ -89,7 +89,7 @@
         android:id="@+id/tv_empty_roommate"
         android:layout_width="match_parent"
         android:layout_height="156dp"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginHorizontal="20dp"
         android:background="@drawable/custom_rectangle_12_unuse"
         android:text="아직 등록된 사용자가 없어요"
         android:textAppearance="@style/TextAppearance.App.14sp.Medium"

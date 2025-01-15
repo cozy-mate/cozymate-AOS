@@ -220,7 +220,7 @@ class CozyHomeViewModel @Inject constructor(
                 accessToken = token!!,
                 size = 5,
                 page = 0,
-                sortType = SortType.LATEST.value
+                sortType = SortType.AVERAGE_RATE.value
             ) // 최신순
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {

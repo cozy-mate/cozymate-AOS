@@ -14,7 +14,7 @@ data class MemberDetail(
     @SerialName("nickname")
     var nickname: String,
     @SerialName("persona")
-    var persona: Int = 1,
+    var persona: Int,
     @SerialName("universityId")
-    var universityId: Int = 0,
+    var universityId: Int,
 )

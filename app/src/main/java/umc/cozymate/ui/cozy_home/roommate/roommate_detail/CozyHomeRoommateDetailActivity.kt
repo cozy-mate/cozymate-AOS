@@ -30,6 +30,7 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVi
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.util.PreferenceNameToId
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class CozyHomeRoommateDetailActivity : AppCompatActivity() {
