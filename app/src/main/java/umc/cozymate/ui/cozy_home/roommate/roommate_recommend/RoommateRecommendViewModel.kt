@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.data.repository.repository.MemberStatRepository
 import javax.inject.Inject
 
@@ -25,8 +27,9 @@ class RoommateRecommendViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
-    val _roommateList = MutableLiveData<List<GetRecommendedRoommateResponse.Result.Member>>()
-    val roommateList: LiveData<List<GetRecommendedRoommateResponse.Result.Member>> get() = _roommateList
+
+    val _roommateList = MutableSharedFlow<List<RecommendedMemberInfo>>()
+    val roommateList:  = _roommateList.asSharedFlow()
     fun fetchRecommendedRoommateList() { // 라이프스타일 없을 때
         val token = getToken()
         viewModelScope.launch {
@@ -35,10 +38,12 @@ class RoommateRecommendViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
-                        _roommateList.value = response.body()!!.result.memberList
+                        _roommateList.emit(response.body()!!.result.memberList)
+                    //_roommateList.value = response.body()!!.result.memberList
                     } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                 } else {
-                    _roommateList.value = emptyList()
+                    _roommateList.emit(emptyList())
+                    //_roommateList.value = emptyList()
                     Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                 }
             } catch (e: Exception) {
@@ -54,9 +59,11 @@ class RoommateRecommendViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
-                        _roommateList.value = response.body()!!.result.memberList
+                        _roommateList.emit(response.body()!!.result.memberList)
+                        //_roommateList.value = response.body()!!.result.memberList
                     } else {
-                        _roommateList.value = emptyList()
+                        _roommateList.emit(emptyList())
+                        //_roommateList.value = emptyList()
                         Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                     }
                 }

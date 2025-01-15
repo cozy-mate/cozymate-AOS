@@ -20,9 +20,6 @@ class RoommateDetailViewModel @Inject constructor(
 ): ViewModel() {
     private val TAG = this.javaClass.simpleName
 
-//    private val _isLoading = MutableStateFlow(false)
-//    val isLoading: StateFlow<Boolean> get() = _isLoading
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 

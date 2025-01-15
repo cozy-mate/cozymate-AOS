@@ -3,7 +3,7 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.data.domain.Preference
-import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
@@ -12,7 +12,7 @@ class RoommateRecommendVPViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: GetRecommendedRoommateResponse.Result.Member) {
+    fun bind(item: RecommendedMemberInfo) {
         with(binding) {
             tvNickname.text = item.memberDetail.nickname
             tvMatchRate.text = "${item.equality}%"

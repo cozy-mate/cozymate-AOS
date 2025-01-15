@@ -16,10 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import umc.cozymate.R
-import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendViewModel
@@ -31,10 +34,11 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityCozyHomeRoommateDetailBinding
     private val viewModel: RoommateRecommendViewModel by viewModels()
-    private var memberList : List<GetRecommendedRoommateResponse.Result.Member> = emptyList()
+    private val detailViewModel : RoommateDetailViewModel by viewModels()
+    private var memberList : List<RecommendedMemberInfo> = emptyList()
     private var chips  = mutableListOf<CheckBox>()
     private var selectedChips = mutableListOf<String>()
-    private var prefList: List<String> = mutableListOf()
+    private var isLifestyleExist : Boolean = false
     private var nickname : String = ""
 
 
@@ -48,10 +52,14 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel.fetchRecommendedRoommateList()
+        val t =  intent.getSerializableExtra("test");
+        Log.d(TAG,"type : ${t}")
+
+        Log.d(TAG,"list ${memberList}")
+        getPreference()
         initChip()
         setupObserver()
-        getPreference()
+
         // 사용자 검색으로 이동
         binding.lyRoomMateSearch.setOnClickListener {
             val intent = Intent(this, SearchRoommateActivity::class.java)
@@ -62,17 +70,13 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private fun getPreference() {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         nickname = spf.getString("user_nickname", "").toString()
-        prefList = arrayListOf(
-            spf.getString("pref_1", "").toString(),
-            spf.getString("pref_2", "").toString(),
-            spf.getString("pref_3", "").toString(),
-            spf.getString("pref_4", "").toString(),
-        )
+        isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
         Log.d(TAG, "nickname: $nickname")
     }
 
     private fun setupObserver(){
         viewModel.roommateList.observe(this, Observer { list ->
+            Log.d(TAG,list.toString())
             if (list.isNullOrEmpty()){
                 binding.rvRoommateDetailInfo.visibility = View.GONE
                 binding.tvEmpty.visibility = View.VISIBLE
@@ -87,11 +91,23 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun updateUI(){
-        Log.d(TAG,memberList.toString())
-        val adapter = RoommateRecommendVPAdapter(memberList)
+        val adapter = RoommateRecommendVPAdapter(memberList){ memberId ->
+            navigatorToRoommateDetail(memberId)
+        }
         binding.rvRoommateDetailInfo.adapter = adapter
         binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+    }
+
+    private fun navigatorToRoommateDetail(memberId: Int) {
+        lifecycleScope.launch {
+            detailViewModel.getOtherUserDetailInfo(memberId)
+            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+                val intent = Intent(this@CozyHomeRoommateDetailActivity, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun initChip(){

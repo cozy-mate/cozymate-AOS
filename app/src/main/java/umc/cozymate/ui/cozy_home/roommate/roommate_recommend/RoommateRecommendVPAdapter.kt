@@ -3,11 +3,11 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.data.model.response.member.stat.GetRecommendedRoommateResponse
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 
 class RoommateRecommendVPAdapter(
-    private val items: List<GetRecommendedRoommateResponse.Result.Member>,
+    private val items: List<RecommendedMemberInfo>,
     private val onItemClicked: (memberId: Int) -> Unit) :
     RecyclerView.Adapter<RoommateRecommendVPViewHolder>() {
 

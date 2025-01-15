@@ -13,9 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class RoommateRecommendComponent : Fragment() {
@@ -24,9 +26,11 @@ class RoommateRecommendComponent : Fragment() {
     private var _binding: FragmentRoommateRecommendComponentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoommateRecommendViewModel by viewModels()
+    private val detailViewModel : RoommateDetailViewModel by viewModels()
     private var nickname: String = ""
     private var prefList: List<String> = mutableListOf()
-
+    private var isLifestyleExist : Boolean = false
+    private var memberList : List<RecommendedMemberInfo> = emptyList()
     companion object {
         fun newInstance() = RoommateRecommendComponent
     }
@@ -43,8 +47,9 @@ class RoommateRecommendComponent : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getPreference()
         binding.tvName.text = "${nickname}님과"
-        viewModel.fetchRecommendedRoommateList()
-        viewModel.fetchRoommateListByEquality()
+        if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
+        else viewModel.fetchRecommendedRoommateList()
+
         // 추천 룸메이트 옵저빙
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
@@ -52,6 +57,7 @@ class RoommateRecommendComponent : Fragment() {
                 binding.dotsIndicator.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
+                memberList = rmList
                 binding.vpRoommate.visibility = View.VISIBLE
                 binding.dotsIndicator.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
@@ -65,19 +71,19 @@ class RoommateRecommendComponent : Fragment() {
         }
         // 룸메이트 더보기
         binding.llMore.setOnClickListener {
+            Log.d(TAG,"before : ${viewModel.roommateList.value}")
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
-            //intent.putExtras()
+            intent.putExtra("test", ArrayList(memberList))
             startActivity(intent)
         }
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
         lifecycleScope.launch {
-            viewModel.getOtherUserDetailInfo(memberId)
-            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+            detailViewModel.getOtherUserDetailInfo(memberId)
+            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
                 val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
                 intent.putExtra("other_user_detail", otherUserDetail)
-
                 startActivity(intent)
             }
         }
@@ -87,6 +93,7 @@ class RoommateRecommendComponent : Fragment() {
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         nickname = spf.getString("user_nickname", "").toString()
+        isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
         prefList = arrayListOf(
             spf.getString("pref_1", "").toString(),
             spf.getString("pref_2", "").toString(),
@@ -95,4 +102,5 @@ class RoommateRecommendComponent : Fragment() {
         )
         Log.d(TAG, "nickname: $nickname")
     }
+
 }
