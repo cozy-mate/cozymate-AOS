@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.ActivityNotificationBinding
 import umc.cozymate.ui.MessageDetail.NotificationAdapter
+import umc.cozymate.ui.viewmodel.NotificationViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint

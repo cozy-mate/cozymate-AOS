@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate.roommate_detail
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.repository.repository.MemberStatRepository
@@ -22,9 +20,6 @@ class RoommateDetailViewModel @Inject constructor(
 ): ViewModel() {
     private val TAG = this.javaClass.simpleName
 
-//    private val _isLoading = MutableStateFlow(false)
-//    val isLoading: StateFlow<Boolean> get() = _isLoading
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -36,6 +31,10 @@ class RoommateDetailViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
+
+//    val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//    isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
+//    Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
 
     fun getUserMemberId(): Int? {
         return sharedPreferences.getInt("user_member_id", 0)

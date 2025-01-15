@@ -20,13 +20,13 @@ import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
-import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomViewModel
+import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailViewModel
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick

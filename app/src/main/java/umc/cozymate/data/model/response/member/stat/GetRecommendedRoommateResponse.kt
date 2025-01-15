@@ -3,7 +3,7 @@ package umc.cozymate.data.model.response.member.stat
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import umc.cozymate.data.model.entity.MemberDetailInfo
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 
 @Serializable
 data class GetRecommendedRoommateResponse(
@@ -21,28 +21,8 @@ data class GetRecommendedRoommateResponse(
         @SerialName("hasNext")
         val hasNext: Boolean,
         @SerialName("memberList")
-        val memberList: List<Member>,
+        val memberList: List<RecommendedMemberInfo>,
         @SerialName("page")
         val page: Int
-    ) {
-        @Serializable
-        data class Member(
-            @SerialName("equality")
-            val equality: Int,
-            @SerialName("memberDetail")
-            val memberDetail: MemberDetailInfo,
-            @SerialName("preferenceStats")
-            val preferenceStats: List<PreferenceStat>
-        ) {
-            @Serializable
-            data class PreferenceStat(
-                @SerialName("color")
-                val color: String,
-                @SerialName("stat")
-                val stat: String,
-                @SerialName("value")
-                val value: Int
-            )
-        }
-    }
+    )
 }

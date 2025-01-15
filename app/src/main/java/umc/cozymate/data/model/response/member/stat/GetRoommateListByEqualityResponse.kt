@@ -3,6 +3,7 @@ package umc.cozymate.data.model.response.member.stat
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 
 @Serializable
 data class GetRoommateListByEqualityResponse(
@@ -20,7 +21,7 @@ data class GetRoommateListByEqualityResponse(
         @SerialName("hasNext")
         val hasNext: Boolean,
         @SerialName("memberList")
-        val memberList: List<GetRecommendedRoommateResponse.Result.Member>,
+        val memberList: List<RecommendedMemberInfo>,
         @SerialName("page")
         val page: Int
     )

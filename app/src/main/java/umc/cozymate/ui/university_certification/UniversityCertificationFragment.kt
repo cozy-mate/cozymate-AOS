@@ -1,10 +1,13 @@
 package umc.cozymate.ui.university_certification
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
+import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
@@ -28,6 +32,7 @@ import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class UniversityCertificationFragment : Fragment() {
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUniversityCertificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UniversityViewModel by viewModels()
@@ -35,7 +40,9 @@ class UniversityCertificationFragment : Fragment() {
     private var majorName: String = ""
     private var email: String = ""
     private var code: String = ""
+    var departments: List<String> = ArrayList()
     private var debounceJob: Job? = null
+    private lateinit var countDownTimer: CountDownTimer
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,36 +51,57 @@ class UniversityCertificationFragment : Fragment() {
     ): View {
         _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
-
-        //binding.btnSendVerifyCode.visibility = View.GONE
-        binding.btnCheckVerifyCode.isClickable = true
-        binding.tvAlertCode.visibility = View.INVISIBLE
+        getPreference()
+        binding.tvUniversityName.text = universityName
+        binding.btnCheckVerifyCode.visibility = View.GONE
+        binding.tvAlertCode.visibility = View.GONE
+        binding.tvAlertEmail.visibility = View.GONE
         binding.clCheckVerifyCode.visibility = View.GONE
-        binding.ivCheckVerifyCode.visibility = View.GONE
-
         checkIsValidMail()
         setMailBtnListener()
         setVerifyBtnListener()
         setVerifyCodeTextWatcher()
-        initSpinner()
         binding.ivBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().finish()
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //binding.spinnerMajor.isClickable = true
+        // 학과 불러오기
+        viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
+            Log.d(TAG, "Departments: ${univInfo.departments}")
+            viewModel.setMailPattern(univInfo.mailPattern)
+            initSpinner(univInfo)
+        }
+        // 학과 불러오기 (get-info)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchUniversityInfo()
+        }
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        universityName = spf.getString("user_university_name", "").toString()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        if (::countDownTimer.isInitialized) {
+            countDownTimer.cancel() // 2분 타이머
+        }
     }
 
     fun setMailBtnListener() {
+        // 인증번호 전송 버튼
         binding.btnSendVerifyCode.setOnClickListener {
             if (email.isNotEmpty()) {
                 viewModel.sendVerifyCode(binding.etUniversityEmail.text.toString())
             }
         }
-
         // 인증번호 전송 상태 관찰
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
             if (isSent) {
@@ -81,9 +109,25 @@ class UniversityCertificationFragment : Fragment() {
                 binding.clCheckVerifyCode.visibility = View.VISIBLE
                 binding.ivCheckVerifyCode.visibility = View.VISIBLE
                 binding.tvAlertCode.visibility = View.INVISIBLE
+                binding.btnCheckVerifyCode.isClickable = true
+                // 2분 타이머 (120,000ms)
+                countDownTimer = object : CountDownTimer(120000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        // 남은 시간 분: 초 형식으로 반환
+                        val minutes = millisUntilFinished / 1000 / 60
+                        val seconds = millisUntilFinished / 1000 % 60
+                        binding.tvCounter.text = String.format("%d:%02d", minutes, seconds)
+                    }
+
+                    override fun onFinish() {
+                        binding.tvCounter.text = "0:00"
+                    }
+                }
+                binding.tvCounter.visibility = View.VISIBLE
+                countDownTimer.start()
+
             } else {
-                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -99,7 +143,7 @@ class UniversityCertificationFragment : Fragment() {
             if (isVerified == true) { // 인증 완료 시 팝업 후 화면 이동
                 binding.tvAlertCode.visibility = View.GONE
                 showVerifyPopup()
-            } else {
+            } else if (isVerified == false) {
                 binding.tvAlertCode.visibility = View.VISIBLE
             }
         }
@@ -159,6 +203,7 @@ class UniversityCertificationFragment : Fragment() {
     }
 
     fun setVerifyCodeTextWatcher() {
+        // 인증번호
         binding.etCheckVerifyCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -172,7 +217,9 @@ class UniversityCertificationFragment : Fragment() {
                 debounceJob?.cancel()
                 debounceJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(500L) // 0.5초 대기
-                    code = binding.etCheckVerifyCode.text.toString()
+                    if (s.toString() != "") {
+                        code = binding.etCheckVerifyCode.text.toString()
+                    }
                 }
             }
 
@@ -180,95 +227,38 @@ class UniversityCertificationFragment : Fragment() {
         })
     }
 
-    fun initSpinner() {
-        // 학교 목록이랑 뷰 설정하기
-        val universities = arrayOf("학교를 선택해주세요", "인하대학교", "숭실대학교", "한국공학대학교")
-        val adapter = object : ArrayAdapter<String>(
-            requireContext(),
-            R.layout.spinner_selected_item_txt,
-            universities
-        ) {
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                return view
-            }
-        }
-        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
-        // 선택된 학교 반영하기
+    fun initSpinner(univInfo: GetUniversityInfoResponse.Result?) {
+        // 학과 조회해서 스피너 설정하기
         with(binding) {
-            spinnerUniversity.adapter = adapter
-            spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            btnUniversity.setOnClickListener {
-                spinnerUniversity.visibility = View.VISIBLE
+            val departments = (univInfo?.departments ?: emptyList())
+            val adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_selected_item_txt,
+                departments
+            )
+            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
+            //spinnerMajor.adapter = adapter
+            tvMajor.setAdapter(adapter)
+            // spinnerMajor.setSelection(0) // 기본값 설정
+            //spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            btnMajor.setOnClickListener {
+                //spinnerMajor.visibility = View.VISIBLE
             }
-            spinnerUniversity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            tvMajor.dropDownVerticalOffset = 30
+            tvMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
-                    val selectedUniversity = universities[position]
-                    universityName = selectedUniversity
-                    tvUniversityName.visibility = View.GONE
-                    viewModel.setUniversityId(universityName)
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.fetchUniversityInfo()
-                    }
+                    val selectedMajor = departments[position]
+                    majorName = selectedMajor
+                    tvMajor.visibility = View.GONE
+                    viewModel.setMajor(majorName)
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
-        // 학과 조회해서 뷰 설정하기
-        var departments: List<String>
-        viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
-            viewModel.setMailPattern(univInfo.mailPattern)
-            departments = univInfo?.departments ?: emptyList()
-            val adapter = object : ArrayAdapter<String>(
-                requireContext(),
-                R.layout.spinner_selected_item_txt,
-                departments
-            ) {
-                override fun getDropDownView(
-                    position: Int,
-                    convertView: View?,
-                    parent: ViewGroup
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    return view
-                }
-            }
-            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
-            // 선택된 학과 반영하기
-            with(binding) {
-                spinnerMajor.adapter = adapter
-                spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-                btnMajor.setOnClickListener {
-                    spinnerMajor.visibility = View.VISIBLE
-                }
-                spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        val selectedMajor = departments[position]
-                        majorName = selectedMajor
-                        tvMajor.visibility = View.GONE
-                        viewModel.setMajor(majorName)
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                }
-            }
-        }
-
     }
-
 }

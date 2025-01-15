@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -13,11 +13,12 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="315dp"
             android:layout_gravity="center"
+            android:layout_marginHorizontal="-20dp"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
+            app:lottie_loop="false"
             app:lottie_rawRes="@raw/onboarding_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

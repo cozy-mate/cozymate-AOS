@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyReceivedRequestComponentBinding
-import umc.cozymate.ui.cozy_home.room.sent_request.RoomRequestViewModel
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 
 @AndroidEntryPoint
 class MyReceivedRequestComponent : Fragment() {
@@ -48,7 +48,7 @@ class MyReceivedRequestComponent : Fragment() {
         }
         binding.rvMyReceived.adapter = adapter
         binding.rvMyReceived.layoutManager = LinearLayoutManager(requireContext())
-        // 참여요청한 방 목록 api 응답 옵저빙
+        // 참여요청한 멤버 목록 api 응답 옵저빙
         viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
@@ -78,6 +78,12 @@ class MyReceivedRequestComponent : Fragment() {
         // 로딩중 옵저빙
         viewModel.isLoading2.observe(viewLifecycleOwner) { isLoading ->
             //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    fun refreshData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getPendingMemberList()
         }
     }
 }

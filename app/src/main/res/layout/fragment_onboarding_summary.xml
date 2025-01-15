@@ -1,43 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title1_onboarding3"
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="56dp"
-        android:text="델로님, "
-        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-        android:textColor="@color/highlight_font"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/title2_onboarding3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:text="cozymate에 오신걸 환영해요!"
-        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-        android:textColor="@color/highlight_font"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title1_onboarding3" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_char"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginHorizontal="37dp"
-        android:layout_marginTop="104dp"
-        android:background="@drawable/background_circle"
-        android:src="@drawable/background_circle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title2_onboarding3" />
+            <TextView
+                android:id="@+id/title1_onboarding3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="56dp"
+                android:text="델로님, "
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title2_onboarding3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:text="cozymate에 오신걸 환영해요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title1_onboarding3" />
+
+            <ImageView
+                android:id="@+id/iv_char"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="37dp"
+                android:layout_marginTop="104dp"
+                android:background="@drawable/background_circle"
+                android:src="@drawable/background_circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title2_onboarding3" />
+
+            <!-- 간격 띄우기위한 코드-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_char" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"

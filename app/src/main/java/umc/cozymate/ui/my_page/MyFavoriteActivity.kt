@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityMyFavoriteBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.VerticalSpaceItemDecoration
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
@@ -28,6 +29,7 @@ class MyFavoriteActivity : AppCompatActivity() {
     private val viewModel: FavoriteViewModel by viewModels()
     private lateinit var roomsAdapter: FavoriteRoomRVAdapter
     private lateinit var membersAdapter: FavoriteRoommateRVAdapter
+    var isRoommateSelected: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFavoriteBinding.inflate(layoutInflater)
@@ -42,7 +44,21 @@ class MyFavoriteActivity : AppCompatActivity() {
         setClickListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isRoommateSelected){
+            lifecycleScope.launch {
+                viewModel.getFavoriteRoommateList()
+            }
+        } else {
+            lifecycleScope.launch {
+                viewModel.getFavoriteRoomList()
+            }
+        }
+    }
+
     fun setupRVAdapter() {
+        // 찜한 룸메이트
         membersAdapter = FavoriteRoommateRVAdapter(emptyList()) { memberId ->
             val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
                 putExtra("member_id", memberId) // 멤버 아이디 전달
@@ -55,6 +71,10 @@ class MyFavoriteActivity : AppCompatActivity() {
         }
         binding.rvFavoriteRoommate.adapter = membersAdapter
         binding.rvFavoriteRoommate.layoutManager = LinearLayoutManager(this)
+        binding.rvFavoriteRoommate.addItemDecoration(
+            VerticalSpaceItemDecoration(32)
+        )
+        // 찜한 방
         roomsAdapter = FavoriteRoomRVAdapter(emptyList()) { roomId ->
             val intent = Intent(this, RoomDetailActivity::class.java).apply {
                 putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId) // 방 아이디 전달
@@ -67,6 +87,9 @@ class MyFavoriteActivity : AppCompatActivity() {
         }
         binding.rvFavoriteRoom.adapter = roomsAdapter
         binding.rvFavoriteRoom.layoutManager = LinearLayoutManager(this)
+        binding.rvFavoriteRoom.addItemDecoration(
+            VerticalSpaceItemDecoration(32)
+        )
     }
 
     fun setupObservers() {
@@ -116,6 +139,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             }
 
             tvFavoriteRoommate.setOnClickListener {
+                isRoommateSelected = true
                 toggleSelection(tvFavoriteRoommate, tvFavoriteRoom)
                 lifecycleScope.launch {
                     viewModel.getFavoriteRoommateList()
@@ -123,6 +147,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             }
 
             tvFavoriteRoom.setOnClickListener {
+                isRoommateSelected = false
                 toggleSelection(tvFavoriteRoom, tvFavoriteRoommate)
                 lifecycleScope.launch {
                     viewModel.getFavoriteRoomList()

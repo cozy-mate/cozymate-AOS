@@ -1,4 +1,4 @@
-package umc.cozymate.ui.notification
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData

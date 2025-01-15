@@ -21,7 +21,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomViewModel
+import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
 @AndroidEntryPoint
 class InviteCodeSuccessPopUp : DialogFragment() {
