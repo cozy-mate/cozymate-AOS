@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -104,7 +106,10 @@ class UpdatePublicRoomFragment : Fragment() {
                 isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewModel.checkAndSubmitCreatePublicRoom() // 방 정보 POST
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.checkAndSubmitUpdateRoom() // 방 정보 PATCH
+                    Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
+                }
                 if (hashtags.size == 0) {
                     Toast.makeText(context, "방 해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
                 }
@@ -282,9 +287,7 @@ class UpdatePublicRoomFragment : Fragment() {
 
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
-        viewModel.publicRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+        viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
             requireActivity().finish()
         }
 

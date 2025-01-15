@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -56,7 +57,7 @@ class UpdatePrivateRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().finish()
             }
             // 캐릭터 선택
             ivCharacter.setOnClickListener {
@@ -65,7 +66,6 @@ class UpdatePrivateRoomFragment : Fragment() {
             }
             // 방 이름 유효성 체크
             checkValidRoomName()
-
             // 최대인원수 체크
             val numPeopleTexts = listOf(
                 binding.chip1 to 2,
@@ -77,7 +77,7 @@ class UpdatePrivateRoomFragment : Fragment() {
             for ((textView, value) in numPeopleTexts) {
                 textView.setOnClickListener { numPeopleSelected(it, value) }
             }
-            // 캐릭터, 방이름, 최대인원 선택되어야 다음 버튼 활성화
+            // 캐릭터, 방이름, 최대인원 선택되어야 [수정] 버튼 활성화
             updateNextButtonState()
         }
         setupObservers()
@@ -97,8 +97,10 @@ class UpdatePrivateRoomFragment : Fragment() {
             val isEnabled = isCharacterSelected && isRoomNameEntered && isPeopleNumSelected
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewModel.checkAndSubmitCreatePrivateRoom() // 방 정보 POST
-                Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.checkAndSubmitUpdateRoom() // 방 정보 PATCH
+                    Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
+                }
             }
         }
     }
@@ -193,14 +195,11 @@ class UpdatePrivateRoomFragment : Fragment() {
 
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
-        viewModel.privateRoomCreationResult.observe(viewLifecycleOwner) { result ->
-            /*(activity as? MakingPrivateRoomActivity)?.loadGivingInviteCodeFragment(
-                result.result.persona,
-                result.result.inviteCode
-            )*/
+        viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
+            requireActivity().finish()
         }
         // 에러 응답도 추가로 처리할 수 있음 >> TODO : 팝업 띄우기
-        viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
+        viewModel.updateRoomInfoError.observe(viewLifecycleOwner) { error ->
             if (error != null) {
                 Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
