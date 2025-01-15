@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.firebase.database)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.androidx.recyclerview)
 
 
     testImplementation("junit:junit:4.13.2")
