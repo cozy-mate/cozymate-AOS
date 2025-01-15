@@ -47,7 +47,7 @@
             android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.my_page.update_room.UpdateMyRoomInfoActivity"
+            android:name=".ui.my_page.update_room.OwnerRoomDetailInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity"

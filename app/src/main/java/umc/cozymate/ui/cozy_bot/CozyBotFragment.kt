@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.my_page.update_room.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.update_room.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -67,8 +67,8 @@ class CozyBotFragment : Fragment() {
             // 방 정보
             binding.ivChar.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-                val intent = Intent(requireActivity(), UpdateMyRoomInfoActivity::class.java).apply {
-                    putExtra(UpdateMyRoomInfoActivity.ARG_ROOM_ID, roomId)
+                val intent = Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
+                    putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
                 }
                 startActivity(intent)
             }
