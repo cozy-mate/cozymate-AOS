@@ -49,6 +49,7 @@ drawable background_cozyhome_character_2
 drawable background_cozyhome_top
 drawable background_cozyhome_v2
 drawable background_crewable_scroll
+drawable background_custom_chip
 drawable background_finding_roommate
 drawable background_finding_roommate_png
 drawable background_morebox
@@ -114,6 +115,7 @@ drawable custom_progress_bar_progress
 drawable custom_progress_bar_state_blue
 drawable custom_radiobutton
 drawable custom_rectangle_12
+drawable custom_rectangle_12_sub_color1
 drawable custom_rectangle_12_unuse
 drawable custom_rectangle_4_white
 drawable custom_rectangle_6
@@ -399,17 +401,20 @@ id chip_smoking
 id chip_studying
 id chip_turn_off_time
 id chip_wakeup_time
+id chips
 id chips1
 id cl_ac
 id cl_alert
 id cl_birth
 id cl_bottom
+id cl_btn
 id cl_call
 id cl_check_verify_code
 id cl_chips
 id cl_clean_check
 id cl_clean_frequency
 id cl_component
+id cl_content
 id cl_cozy_home_main
 id cl_cozy_room_hashtag
 id cl_cozy_room_name
@@ -513,6 +518,7 @@ id et_university_email
 id fab_bnt
 id fab_go_top
 id fab_request_roommate
+id fb_preference_chips
 id flexbox
 id fragment_container
 id fragment_container_giving
@@ -665,6 +671,7 @@ id ll_nickname
 id ll_preference
 id ll_user_info
 id lottieAnimation
+id lottie_splash
 id ly_ac_check
 id ly_ac_check2
 id ly_call_check
@@ -687,7 +694,6 @@ id ly_go_lifestyle
 id ly_guide
 id ly_heater_check
 id ly_heater_check2
-id ly_lifestyle_guide
 id ly_light_off_time_1
 id ly_light_off_time_7
 id ly_list_table_select
@@ -777,6 +783,7 @@ id radio_report_commercial
 id radio_report_insult
 id radio_report_obscenity
 id radio_report_other
+id refresh_layout
 id requested_room_container
 id requested_roommate_container
 id right_arrow
@@ -896,6 +903,7 @@ id tv_clean_frequency
 id tv_close
 id tv_closing
 id tv_content
+id tv_counter
 id tv_cozy_char_title
 id tv_cozy_description
 id tv_cozy_description2
@@ -972,7 +980,6 @@ id tv_label_room_name
 id tv_label_room_people_number
 id tv_label_university
 id tv_latest
-id tv_lifestyle_guide
 id tv_lifestyle_title
 id tv_light_off_1
 id tv_light_off_10
@@ -1261,7 +1268,9 @@ id tv_title2
 id tv_todo_item
 id tv_todo_member_name
 id tv_university
+id tv_university_cert
 id tv_university_email
+id tv_university_email_guide
 id tv_university_guide
 id tv_university_name
 id tv_update_info
@@ -1309,6 +1318,7 @@ layout activity_cozy_room_detail_info
 layout activity_fetch_lifestyle
 layout activity_inquiry
 layout activity_join_room
+layout activity_launch
 layout activity_login_fail
 layout activity_main
 layout activity_making_private_room
@@ -1385,6 +1395,7 @@ layout fragment_update_public_room
 layout fragment_write_inquiry
 layout item_character
 layout item_cozyhome_achievement
+layout item_lifestyle_guide
 layout item_more
 layout item_roommate_detail_list
 layout item_roommate_detail_table
@@ -1430,6 +1441,7 @@ mipmap ic_launcher_round
 raw onboarding_1
 raw onboarding_2
 raw onboarding_3
+raw splash_gif
 string access_token_1
 string access_token_2
 string app_name
