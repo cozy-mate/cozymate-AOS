@@ -11,6 +11,7 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
@@ -154,5 +155,12 @@ class RoomRepositoryImpl @Inject constructor(
         roomId: Int
     ): Response<CancelJoinRequestResponse> {
         return api.cancelJoinRequest(accessToken, roomId)
+    }
+
+    override suspend fun getInvitedMembers(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetInvitedMembersResponse> {
+        return api.getInvitedMembers(accessToken, roomId)
     }
 }

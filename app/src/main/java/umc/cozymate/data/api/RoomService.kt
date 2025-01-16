@@ -19,6 +19,7 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
@@ -177,4 +178,11 @@ interface RoomService {
         @Path("roomId") roomId: Int,
         @Path("memberStatKey") memberStatKey: String
     ): Response<GetRoomMemberStatResponse>
+
+    // 우리방으로 초대한 멤버 목록 조회
+    @GET("/rooms/{roomId}/invited-members")
+    suspend fun getInvitedMembers(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ) : Response<GetInvitedMembersResponse>
 }

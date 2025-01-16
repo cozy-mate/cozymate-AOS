@@ -59,6 +59,8 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
+    private val _invitedMembers = MutableSharedFlow<>
+
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
     val sortType: LiveData<String> get() = _sortType
 
