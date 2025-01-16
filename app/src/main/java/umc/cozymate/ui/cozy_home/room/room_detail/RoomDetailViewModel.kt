@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
@@ -59,7 +60,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
-    private val _invitedMembers = MutableSharedFlow<>
+    private val _invitedMembers = MutableSharedFlow<GetInvitedMembersResponse.Result>()
+    val invitedMembers = _invitedMembers.asSharedFlow()
+    -----
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
     val sortType: LiveData<String> get() = _sortType
