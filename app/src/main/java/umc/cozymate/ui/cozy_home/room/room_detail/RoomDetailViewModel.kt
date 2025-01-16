@@ -62,7 +62,6 @@ class RoomDetailViewModel @Inject constructor(
 
     private val _invitedMembers = MutableSharedFlow<GetInvitedMembersResponse.Result>()
     val invitedMembers = _invitedMembers.asSharedFlow()
-    -----
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
     val sortType: LiveData<String> get() = _sortType
@@ -205,6 +204,42 @@ class RoomDetailViewModel @Inject constructor(
                 // 로딩 완료
                 _isLoading.postValue(false)
                 Log.d(TAG, "Loading finished for memberStatKey: $memberStatKey")
+            }
+        }
+    }
+    // 초대 멤버 리스트 조회
+    fun fetchInvitedMembers(roomId: Int) {
+        viewModelScope.launch {
+            try {
+                // 로딩 상태 표시
+                _isLoading.value = true
+
+                val token = getToken() ?: return@launch
+                val response = repository.getInvitedMembers(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()?.result
+
+                    if (result.isNullOrEmpty()) {
+                        // Result가 비어 있는 경우
+                        Log.d(TAG, "초대된 멤버가 없습니다.")
+                    } else {
+                        // Result가 있는 경우 데이터를 스트림에 emit
+                        result.forEach {
+                            _invitedMembers.emit(it)
+                        }
+                        Log.d(TAG, "초대된 멤버 조회 성공: ${result.size}명")
+                    }
+                } else {
+                    // 응답 실패 처리
+                    Log.e(TAG, "초대된 멤버 조회 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                // 예외 처리
+                Log.e(TAG, "초대된 멤버 조회 중 오류 발생: $e")
+            } finally {
+                // 로딩 완료
+                _isLoading.value = false
             }
         }
     }
