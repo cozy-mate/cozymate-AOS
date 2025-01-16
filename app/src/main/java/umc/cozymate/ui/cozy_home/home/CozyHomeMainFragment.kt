@@ -101,11 +101,16 @@ class CozyHomeMainFragment : Fragment() {
                 univViewModel.isMailVerified()
             }
             // 각 컴포넌트 새로고침
-            val myRoomComponent = childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
-            val requestedRoommateComponent = childFragmentManager.findFragmentById(R.id.requested_roommate_container) as? MyReceivedRequestComponent
-            val requestedRoomComponent = childFragmentManager.findFragmentById(R.id.requested_room_container) as? MySentRequestComponent
-            val roommateRecommendComponent = childFragmentManager.findFragmentById(R.id.roommate_recommend_container) as? RoommateRecommendComponent
-            val roomRecommendComponent = childFragmentManager.findFragmentById(R.id.room_recommend_container) as? RoomRecommendComponent
+            val myRoomComponent =
+                childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
+            val requestedRoommateComponent =
+                childFragmentManager.findFragmentById(R.id.requested_roommate_container) as? MyReceivedRequestComponent
+            val requestedRoomComponent =
+                childFragmentManager.findFragmentById(R.id.requested_room_container) as? MySentRequestComponent
+            val roommateRecommendComponent =
+                childFragmentManager.findFragmentById(R.id.roommate_recommend_container) as? RoommateRecommendComponent
+            val roomRecommendComponent =
+                childFragmentManager.findFragmentById(R.id.room_recommend_container) as? RoomRecommendComponent
             myRoomComponent?.refreshData()
             requestedRoommateComponent?.refreshData()
             requestedRoomComponent?.refreshData()
@@ -166,17 +171,27 @@ class CozyHomeMainFragment : Fragment() {
                 startActivity(Intent(activity, JoinRoomActivity::class.java))
             }
             // 학교 버튼
-            btnSchoolCertificate.setOnClickListener {
+            /*btnSchoolCertificate.setOnClickListener {
                 val intent = Intent(activity, UniversityCertificationActivity::class.java)
                 intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
                 startActivity(intent)
-            }
+            }*/
             // 방장/방참여 사용자는 버튼 비활성화
             if (state == UserRoomState.HAS_ROOM || state == UserRoomState.CREATED_ROOM) {
                 btnMakeRoom.isEnabled = false
                 btnEnterRoom.isEnabled = false
-                btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                btnMakeRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
+                btnEnterRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
             }
         }
     }
@@ -197,32 +212,33 @@ class CozyHomeMainFragment : Fragment() {
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
-                if (univ == "학교 인증을 해주세요") {
+                // 학교인증 x
+                /*if (univ == "학교 인증을 해주세요") {
                     universityFlag = false
                     ivSchoolWhite.visibility = View.VISIBLE
                     ivSchoolBlue.visibility = View.GONE
                     ivNext.visibility = View.VISIBLE
-                } else {
-                    universityFlag = true
-                    ivSchoolWhite.visibility = View.GONE
-                    ivSchoolBlue.visibility = View.VISIBLE
-                    ivNext.visibility = View.GONE
-                    tvSchoolName.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.main_blue
-                        )
+                } */
+                universityFlag = true
+                ivSchoolWhite.visibility = View.GONE
+                ivSchoolBlue.visibility = View.VISIBLE
+                ivNext.visibility = View.GONE
+                tvSchoolName.text = "인하대학교"
+                tvSchoolName.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.main_blue
                     )
-                }
+                )
             }
         }
-        // 메일인증 여부가 확인되면, 사용자 대학교를 조회한다.
+        /*// 메일인증 여부가 확인되면, 사용자 대학교를 조회한다.
         univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true && univViewModel.university.value == null) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     univViewModel.fetchMyUniversityIfNeeded()
                 }
             }
-        }
+        }*/
     }
 }
