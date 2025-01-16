@@ -74,6 +74,7 @@ class CozyBotFragment : Fragment() {
             }
             // 초기 룸로그 로드
             viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getRoomInfoById()
                 viewModel.loadAchievements(isNextPage = true)
             }
         }
@@ -142,12 +143,12 @@ class CozyBotFragment : Fragment() {
     }
 
     private fun setInviteCodeObserver() {
-        viewModel.inviteCode.observe(viewLifecycleOwner, Observer { code ->
-            if (code == "" || code == null) {
+        viewModel.roomInfo.observe(viewLifecycleOwner, Observer { roomInfo ->
+            if (roomInfo.inviteCode == "" || roomInfo.inviteCode == null) {
                 binding.btnCopyInviteCode.visibility = View.GONE
             } else {
                 binding.btnCopyInviteCode.visibility = View.VISIBLE
-                binding.btnCopyInviteCode.text = code
+                binding.btnCopyInviteCode.text = roomInfo.inviteCode
             }
         })
         // 초대코드 클립보드 복사
