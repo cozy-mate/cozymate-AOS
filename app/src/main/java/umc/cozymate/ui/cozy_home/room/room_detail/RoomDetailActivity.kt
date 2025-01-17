@@ -31,6 +31,7 @@ import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
@@ -164,36 +165,34 @@ class RoomDetailActivity : AppCompatActivity() {
 
         with(binding) {
             ivExit.setOnClickListener {
-                // 기존 다이얼로그를 방 나가기 확인 용도로 사용
-                showQuitRoomPopup(roomId, spf)
+                val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
+                val dialog = TwoButtonPopup(text, object : PopupClick {
+                    override fun rightClickFunction() {
+                        // 방 나가기 로직 실행
+                        roomViewModel.quitRoom(roomId)
+
+                        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
+                            if (result.isSuccess) {
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방을 성공적으로 나갔습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                spf.edit().putInt("room_id", 0).apply()
+                                finish() // 방 나가기 성공 시 액티비티 종료
+                            } else {
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방 나가기에 실패했습니다. 다시 시도해주세요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }, true) // true로 설정하면 다이얼로그 외부 클릭 시 닫히지 않음
+                dialog.show(supportFragmentManager, "QuitRoomPopup")
             }
         }
-
-        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
-            if (result.isSuccess) {
-                finish() // 방 나가기 성공 시 액티비티 종료
-            } else {
-                Toast.makeText(
-                    this@RoomDetailActivity,
-                    "방 나가기를 실패했습니다. 다시 시도해주세요.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    // 방 나가기 확인 및 실행 다이얼로그
-    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
-        val text = listOf("방을 나가시겠습니까?", "", "확인", "취소")
-        val dialog = OneButtonPopup(text, object : PopupClick {
-            override fun clickFunction() {
-                // 확인 버튼을 눌렀을 때만 방 나가기 실행
-                roomViewModel.quitRoom(roomId)
-                spf.edit().putInt("room_id", 0).apply()
-            }
-        }, true) // 기존 다이얼로그가 재활용되도록 설정
-
-        dialog.show(supportFragmentManager, "roomQuitConfirmationPopup")
     }
 
     private fun getRoomDetailInfo() {
