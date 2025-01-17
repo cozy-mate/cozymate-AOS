@@ -534,7 +534,7 @@ class RoomDetailActivity : AppCompatActivity() {
         redViews.forEach { flexboxLayout.addView(it) }
         whiteViews.forEach { flexboxLayout.addView(it) }
     }
-    
+
     private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
         // 기존 다이얼로그 닫기
         activeDialog?.dismiss()
