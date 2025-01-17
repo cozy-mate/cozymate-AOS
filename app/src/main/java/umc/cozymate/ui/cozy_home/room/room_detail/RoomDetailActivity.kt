@@ -3,9 +3,11 @@ package umc.cozymate.ui.cozy_home.room_detail
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -276,6 +278,7 @@ class RoomDetailActivity : AppCompatActivity() {
             if (favorite) getColor(R.color.red) else getColor(R.color.unuse_font)
         )
     }
+
     private fun updateOtherRoomFab(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val mbti = spf.getString("user_mbti", null)
@@ -323,7 +326,8 @@ class RoomDetailActivity : AppCompatActivity() {
                 // 내 방이 있는 경우
                 with(binding) {
                     fabBnt.text = "방 참여 요청"
-                    fabBnt.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+                    fabBnt.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
                     fabBnt.setTextColor(getColor(R.color.white))
                     fabBnt.isEnabled = false
                 }
@@ -530,87 +534,72 @@ class RoomDetailActivity : AppCompatActivity() {
         redViews.forEach { flexboxLayout.addView(it) }
         whiteViews.forEach { flexboxLayout.addView(it) }
     }
-
+    
     private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
-        // 기존 다이얼로그 닫기 및 초기화
+        // 기존 다이얼로그 닫기
         activeDialog?.dismiss()
         activeDialog = null
-        viewModel.roomMemberStats.removeObservers(this)
-        viewModel.isLoading.removeObservers(this)
-
-        // 로딩 로그
-        Log.d(TAG, "Loading data for key: $memberStatKey")
 
         // 데이터 요청
         viewModel.getRoomMemberStats(roomId, memberStatKey)
 
-        // 0.5초 딜레이 후 다이얼로그 표시
         lifecycleScope.launch {
-            delay(50)
+            delay(50) // 데이터 로딩 대기
 
             viewModel.isLoading.observe(this@RoomDetailActivity) { isLoading ->
-                if (isLoading) {
-                    Log.d(TAG, "Still loading for key: $memberStatKey")
-                    return@observe
+                if (isLoading) return@observe
+
+                val memberList = viewModel.roomMemberStats.value ?: emptyList()
+
+                val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
+
+                dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
+                dialogBinding.tvStatTitle.setTextColor(chipColor)
+
+                dialogBinding.rvMemberStat.apply {
+                    layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                    adapter = RoomMemberStatRVA(
+                        context = this@RoomDetailActivity,
+                        members = memberList,
+                        memberStatKey = memberStatKey,
+                        color = chipColor
+                    )
+                    addItemDecoration(
+                        CustomDividerItemDecoration(
+                            context = this@RoomDetailActivity,
+                            heightDp = 1f,
+                            marginStartDp = 16f,
+                            marginEndDp = 16f
+                        )
+                    )
                 }
 
-                // 로딩이 끝난 후 데이터 확인
-                val memberList = viewModel.roomMemberStats.value
-                if (memberList.isNullOrEmpty()) {
-                    Log.e(TAG, "No data available for key: $memberStatKey")
+                dialogBinding.tvClose.setOnClickListener {
+                    activeDialog?.dismiss()
+                    activeDialog = null
+                }
+
+                val dialog = AlertDialog.Builder(this@RoomDetailActivity)
+                    .setView(dialogBinding.root)
+                    .create()
+
+                dialog.window?.let { window ->
+                    window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    val layoutParams = window.attributes
+                    layoutParams.dimAmount = 0.7f
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window.attributes = layoutParams
+                }
+
+                dialog.setOnDismissListener {
                     viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
                     viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                    return@observe
+                    activeDialog = null
                 }
 
-                // 다이얼로그 생성
-                if (activeDialog == null) {
-                    Log.d(TAG, "Creating dialog for key: $memberStatKey")
-                    val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
-
-                    // 다이얼로그 생성 시 스타일 적용 없이 기존 방식 유지
-                    val dialog = AlertDialog.Builder(this@RoomDetailActivity)
-                        .setView(dialogBinding.root)
-                        .create()
-
-                    dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
-                    dialogBinding.tvStatTitle.setTextColor(chipColor)
-
-                    dialogBinding.rvMemberStat.apply {
-                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
-                        adapter = RoomMemberStatRVA(
-                            context = this@RoomDetailActivity,
-                            members = memberList,
-                            memberStatKey = memberStatKey,
-                            color = chipColor
-                        )
-                        // 디바이더 추가
-                        addItemDecoration(
-                            CustomDividerItemDecoration(
-                                context = this@RoomDetailActivity,
-                                heightDp = 1f, // 1dp
-                                marginStartDp = 16f,
-                                marginEndDp = 16f
-                            )
-                        )
-                    }
-
-                    dialogBinding.tvClose.setOnClickListener {
-                        dialog.dismiss()
-                        activeDialog = null
-                    }
-
-                    dialog.setOnDismissListener {
-                        // 다이얼로그 닫힐 때 관찰자 제거
-                        viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
-                        viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                        activeDialog = null
-                    }
-
-                    dialog.setCancelable(true)
-                    dialog.show()
-                    activeDialog = dialog
-                }
+                dialog.setCancelable(true)
+                dialog.show()
+                activeDialog = dialog
             }
         }
     }
