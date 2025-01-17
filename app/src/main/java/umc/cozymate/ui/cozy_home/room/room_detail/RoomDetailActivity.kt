@@ -23,6 +23,7 @@ import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomInvitedListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
@@ -100,6 +101,7 @@ class RoomDetailActivity : AppCompatActivity() {
         } else {
             lifecycleScope.launch {
                 viewModel.getOtherRoomInfo(roomId!!)
+                viewModel.fetchInvitedMembers(roomId!!)
             }
             Log.d(TAG, "Received room ID: $roomId")
         }
@@ -136,6 +138,22 @@ class RoomDetailActivity : AppCompatActivity() {
                         }
                     }
                     ivSetting.visibility = View.GONE // 기능 구현 후 visible로 수정
+                }
+            }
+            viewModel.invitedMembers.collectLatest { invitedInfo ->
+                // Invited members의 데이터에 따라 RecyclerView의 visibility 조정
+                if (invitedInfo.isEmpty()) {
+                    binding.rvInvitedMember.visibility = View.GONE
+                } else {
+                    binding.rvInvitedMember.visibility = View.VISIBLE
+                    binding.rvInvitedMember.apply {
+                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                        adapter = RoomInvitedListRVA(
+                            invitedInfo
+                        ) { memberId ->
+                            navigatorToRoommateDetail(memberId)
+                        }
+                    }
                 }
             }
         }

@@ -60,7 +60,7 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
-    private val _invitedMembers = MutableSharedFlow<GetInvitedMembersResponse.Result>()
+    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>()
     val invitedMembers = _invitedMembers.asSharedFlow()
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
@@ -223,10 +223,11 @@ class RoomDetailViewModel @Inject constructor(
                     if (result.isNullOrEmpty()) {
                         // Result가 비어 있는 경우
                         Log.d(TAG, "초대된 멤버가 없습니다.")
+                        _invitedMembers.emit(emptyList())
                     } else {
                         // Result가 있는 경우 데이터를 스트림에 emit
                         result.forEach {
-                            _invitedMembers.emit(it)
+                            _invitedMembers.emit(result)
                         }
                         Log.d(TAG, "초대된 멤버 조회 성공: ${result.size}명")
                     }
