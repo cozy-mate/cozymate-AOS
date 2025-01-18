@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.entity.RoomInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
@@ -35,6 +36,8 @@ class JoinRoomViewModel @Inject constructor(
     private val _roomJoinSuccess = MutableLiveData<Boolean>()
     val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
@@ -103,6 +106,30 @@ class JoinRoomViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "방 참여 api 요청 실패: ${e}")
+            }
+        }
+    }
+
+    fun requsetJoinRoom(id: Int){
+        val token = getToken()
+        viewModelScope.launch {
+            try {
+                val response = repository.requestJoinRoom(token!!, id)
+                if (response.isSuccessful) {
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 참여 요청 성공: ${response.body()!!.result}")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                    }
+                    Log.d(TAG, "방 참여 요청 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "방 참여 요청 api 요청 실패: ${e}")
             }
         }
     }
