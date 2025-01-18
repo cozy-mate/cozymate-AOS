@@ -58,10 +58,6 @@ class MyPageFragment : Fragment() {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
         }
-        binding.layoutLifestyle.setOnClickListener {
-            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-            startActivity(intent)
-        }
         binding.layoutSchool.setOnClickListener {
             val intent = Intent(activity, UniversityCertificationActivity::class.java)
             intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
@@ -94,9 +90,15 @@ class MyPageFragment : Fragment() {
         }
 
         binding.layoutLifestyle.setOnClickListener {
-            val intent = Intent(activity, FetchLifestyleActivity::class.java)
-            startActivity(intent)
-            Log.d("MyPageFragment", "라이프스타일 수정 클릭")
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            if (spf.getString("user_mbti", "").isNullOrEmpty()) {
+                val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(activity, FetchLifestyleActivity::class.java)
+                startActivity(intent)
+                Log.d("MyPageFragment", "라이프스타일 수정 클릭")
+            }
         }
 
         return binding.root

@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityRoommateMyDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
+import umc.cozymate.ui.my_page.FetchLifestyleActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 
 class RoommateMyDetailActivity : AppCompatActivity() {
@@ -25,14 +26,24 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         updateUI()
-        binding.btnFetchLifestyle.setOnClickListener {
-            val intent = Intent(this, RoommateOnboardingActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun updateUI() {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
+        binding.btnFetchLifestyle.setOnClickListener {
+            if (spf.getString("user_mbti", "").isNullOrEmpty()) {
+                val intent = Intent(this, RoommateOnboardingActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, FetchLifestyleActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         with(binding) {
             setUserProfileImage(spf.getInt("user_persona", 0))
@@ -41,7 +52,7 @@ class RoommateMyDetailActivity : AppCompatActivity() {
 
         fun trimText(text: String?): String {
             return if (text != null && text.length > 6) {
-                text.substring(0, 7) + ".."
+                text.substring(0, 12) + ".."
             } else {
                 text ?: ""
             }
@@ -85,12 +96,13 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 else -> "적당하게 틀어"
             }
             tvListLivingPattern.text = spf.getString("user_lifePattern", "")
-            tvListFriendly.text = it.memberStatDetail.intimacy
-            tvListStudy.text = it.memberStatDetail.studying
-            tvListIntake.text = it.memberStatDetail.intake
-            tvListGameCheck.text = it.memberStatDetail.isPlayGame
-            tvListCallCheck.text = it.memberStatDetail.isPhoneCall
-            tvListCleanCheck.text = when (it.memberStatDetail.cleanSensitivity) {
+            tvListFriendly.text = spf.getString("user_intimacy", "")
+            tvListShare.text = spf.getString("user_canShare", "")
+            tvListStudy.text = spf.getString("user_studying", "")
+            tvListIntake.text = spf.getString("user_intake", "")
+            tvListGameCheck.text = spf.getString("user_isPlayGame", "")
+            tvListCallCheck.text = spf.getString("user_isPhoneCall", "")
+            tvListCleanCheck.text = when (spf.getInt("user_cleanSensitivity", 3)) {
                 1 -> "매우 예민하지 않아요"
                 2 -> "예민하지 않아요"
                 3 -> "보통이에요"
@@ -98,7 +110,7 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 5 -> "매우 예민해요"
                 else -> "보통이에요"
             }
-            tvListNoiseCheck.text = when (it.memberStatDetail.noiseSensitivity) {
+            tvListNoiseCheck.text = when (spf.getInt("user_noiseSensitivity", 3)) {
                 1 -> "매우 예민하지 않아요"
                 2 -> "예민하지 않아요"
                 3 -> "보통이에요"
@@ -106,11 +118,11 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 5 -> "매우 예민해요"
                 else -> "보통이에요"
             }
-            tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
-            tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
-            tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
-            tvListMbti.text = it.memberStatDetail.mbti
-            tvSelfIntroduction.text = it.memberStatDetail.selfIntroduction
+            tvListCleanFrequency.text = spf.getString("user_cleaningFrequency", "")
+            tvListDrinkFrequency.text = spf.getString("user_drinkingFrequency", "")
+            tvListPersonalityCheck.text = trimText(spf.getStringSet("user_personality", emptySet())?.toList()?.joinToString(", "))
+            tvListMbti.text = spf.getString("user_mbti", "")
+            tvSelfIntroduction.text = spf.getString("user_selfIntroduction", "")
         }
     }
 
