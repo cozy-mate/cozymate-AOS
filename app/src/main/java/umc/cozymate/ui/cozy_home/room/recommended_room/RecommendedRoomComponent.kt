@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.room_recommend
+package umc.cozymate.ui.cozy_home.room.recommended_room
 
 import android.content.Context
 import android.content.Intent
@@ -12,16 +12,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import umc.cozymate.databinding.FragmentRoomRecommendComponentBinding
+import umc.cozymate.databinding.FragmentRecommendedRoomBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 
 @AndroidEntryPoint
-class RoomRecommendComponent : Fragment() {
+class RecommendedRoomComponent : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentRoomRecommendComponentBinding? = null
+    private var _binding: FragmentRecommendedRoomBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateRecommendViewModel by viewModels()
@@ -32,7 +32,7 @@ class RoomRecommendComponent : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRoomRecommendComponentBinding.inflate(inflater, container, false)
+        _binding = FragmentRecommendedRoomBinding.inflate(inflater, container, false)
         getPreference()
         return binding.root
     }
@@ -52,7 +52,7 @@ class RoomRecommendComponent : Fragment() {
                 val dotsIndicator = binding.dotsIndicator
                 val viewPager = binding.vpRoom
                 // 클릭 시 방 상세 페이지로 room id 넘겨줌
-                val adapter = RoomRecommendVPAdapter(roomList, isLifestyleExist) { roomId ->
+                val adapter = RecommendedRoomVPAdapter(roomList, isLifestyleExist) { roomId ->
                     val intent = Intent(requireContext(), RoomDetailActivity::class.java).apply {
                         putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
                     }

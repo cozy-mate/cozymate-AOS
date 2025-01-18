@@ -1,14 +1,12 @@
-package umc.cozymate.ui.cozy_home.room.room_recommend
+package umc.cozymate.ui.cozy_home.room.recommended_room
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
-class RoomRecommendVPViewHolder(
+class RecommendedRoomVPViewHolder(
     private val binding: VpItemRoomRecommendBinding,
     private val isLifestyleExist: Boolean
 ) :

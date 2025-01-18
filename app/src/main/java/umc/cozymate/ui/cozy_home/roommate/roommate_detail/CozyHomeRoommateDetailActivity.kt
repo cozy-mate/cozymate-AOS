@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
-import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVPAdapter
+import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
@@ -99,7 +99,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
  }
 
     private fun updateUI(){
-        val recommendAdapter = RoommateRecommendVPAdapter(memberList){ memberId ->
+        val recommendAdapter = RecommendedRoommateVPAdapter(memberList){ memberId ->
             navigatorToRoommateDetail(memberId)
         }
         val guideAdapter = LifeStyleGuideRVAdapter(nickname,isLifestyleExist){ moveRoommateOnboarding() }

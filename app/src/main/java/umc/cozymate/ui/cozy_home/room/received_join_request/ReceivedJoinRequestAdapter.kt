@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.received_request
+package umc.cozymate.ui.cozy_home.room.received_join_request
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,9 @@ import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.util.CharacterUtil
 
-class ReceivedRequestAdapter(
+class ReceivedJoinRequestAdapter(
     private val onItemClick: (Int) -> Unit
-) : RecyclerView.Adapter<ReceivedRequestAdapter.RequestViewHolder>() {
+) : RecyclerView.Adapter<ReceivedJoinRequestAdapter.RequestViewHolder>() {
     private var memberList: List<GetPendingMemberListResponse.Result> = emptyList()
     class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.findViewById(R.id.tv_name)

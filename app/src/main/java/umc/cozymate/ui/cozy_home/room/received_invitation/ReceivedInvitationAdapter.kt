@@ -1,19 +1,18 @@
-package umc.cozymate.ui.cozy_home.room.sent_request
+package umc.cozymate.ui.cozy_home.room.received_invitation
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
+import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
 
-class SentRequestAdapter(
+class ReceivedInvitationAdapter(
     private val onItemClick: (Int) -> Unit
-) : RecyclerView.Adapter<SentRequestAdapter.RequestViewHolder>() {
-    private var roomList: List<GetRequestedRoomListResponse.Result> = emptyList()
-    class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+) : RecyclerView.Adapter<ReceivedInvitationAdapter.RoomViewHolder>() {
+    private var roomList: List<GetInvitedRoomListResponse.Result.Room> = emptyList()
+    class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val hashtag1: TextView = itemView.findViewById(R.id.tv_hashtag1)
         private val hashtag2: TextView = itemView.findViewById(R.id.tv_hashtag2)
         private val hashtag3: TextView = itemView.findViewById(R.id.tv_hashtag3)
@@ -22,15 +21,11 @@ class SentRequestAdapter(
         private val equality: TextView = itemView.findViewById(R.id.tv_equality)
         val divider: View = itemView.findViewById(R.id.view_divider)
 
-        fun bind(room: GetRequestedRoomListResponse.Result) {
+        fun bind(room: GetInvitedRoomListResponse.Result.Room) {
             name.text = room.name
             arrivalNum.text = "${room.arrivalMateNum}명"
-            if (room.equality == 0){
-                equality.setTextColor(ContextCompat.getColor(equality.context, R.color.color_font))
-                equality.text = "%"
-            } else {
-                equality.text = "${room.equality}%"
-            }
+            equality.text = ""
+            // 해시태그 텍스트 설정
             hashtag1.visibility = View.GONE
             hashtag1.text = ""
             hashtag2.visibility = View.GONE
@@ -66,14 +61,14 @@ class SentRequestAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_my_sent_request, parent, false)
-        return RequestViewHolder(view)
+        return RoomViewHolder(view)
     }
 
     override fun getItemCount(): Int = roomList.size
 
-    override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = roomList[position]
         holder.bind(room)
         // 마지막 아이템은 구분선 가리기
@@ -84,7 +79,7 @@ class SentRequestAdapter(
         }
     }
 
-    fun submitList(list: List<GetRequestedRoomListResponse.Result>) {
+    fun submitList(list: List<GetInvitedRoomListResponse.Result.Room>) {
         roomList = list
         notifyDataSetChanged()
     }

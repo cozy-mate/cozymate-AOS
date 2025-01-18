@@ -175,10 +175,9 @@
                     app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 참여한 방 컴포넌트 (조건 : 방 존재) -->
+            <!-- 참여하고 있는 방 컴포넌트 -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/my_room_container"
-                android:name="umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -187,12 +186,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/cl_top"
                 app:layout_goneMarginBottom="0dp"
                 app:layout_goneMarginTop="0dp"
-                tool:layout="@layout/fragment_my_room_component" />
+                tool:layout="@layout/fragment_my_room" />
 
-            <!-- 참여요청 받은 룸메이트 목록 (조건 : 공개방 방장)-->
+            <!-- 참여 요청 받은 멤버 목록 (조건 : 공개방 방장일 때)-->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/requested_roommate_container"
-                android:name="umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent"
+                android:id="@+id/received_join_request_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -204,51 +202,47 @@
 
             <!-- 초대 받은 방 목록 (조건 : 없음) -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/invited_room_container"
-                android:name="umc.cozymate.ui.cozy_home.room.invited_room.MyInvitedRoomComponent"
+                android:id="@+id/received_invitation_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
+                app:layout_constraintTop_toBottomOf="@+id/received_join_request_container"
                 app:layout_goneMarginTop="0dp"
-                tool:layout="@layout/fragment_my_sent_request_component" />
+                tool:layout="@layout/fragment_my_received_invitation" />
 
-            <!-- 참여요청한 방 목록 (조건 : 참여요청 보냄) -->
+            <!-- 참여 요청을 보낸 방 목록 (조건 : 참여 요청 1개 이상) -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/requested_room_container"
-                android:name="umc.cozymate.ui.cozy_home.room.sent_request.MySentRequestComponent"
+                android:id="@+id/sent_join_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
+                app:layout_constraintTop_toBottomOf="@+id/received_invitation_container"
                 app:layout_goneMarginTop="0dp"
-                tool:layout="@layout/fragment_my_sent_request_component" />
+                tool:layout="@layout/fragment_my_sent_join_request" />
 
-            <!-- 룸메이트 추천 (조건 : 방 없음) -->
+            <!-- 룸메이트 추천 -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/roommate_recommend_container"
-                android:name="umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendComponent"
+                android:id="@+id/recommended_roommate_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requested_room_container"
+                app:layout_constraintTop_toBottomOf="@+id/sent_join_container"
                 app:layout_goneMarginTop="0dp" />
 
-            <!-- 방 추천 (조건 : 방 없음) -->
+            <!-- 방 추천 -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/room_recommend_container"
-                android:name="umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent"
+                android:id="@+id/recommended_room_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_container"
+                app:layout_constraintTop_toBottomOf="@+id/recommended_roommate_container"
                 app:layout_goneMarginTop="0dp" />
 
             <!-- 하단 광고 -->
@@ -272,8 +266,7 @@
                 android:layout_height="65dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_recommend_container" />
-
+                app:layout_constraintTop_toBottomOf="@id/recommended_room_container" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cozy_home.room.room_recommend.RoomRecommendComponent">
+        tools:context=".ui.cozy_home.room.recommended_room.RecommendedRoomComponent">
 
         <!--제목 -->
         <TextView

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
+package umc.cozymate.ui.cozy_home.roommate.recommended_roommate
 
 import android.content.Intent
 import androidx.core.content.ContextCompat
@@ -9,7 +9,7 @@ import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
-class RoommateRecommendVPViewHolder(
+class RecommendRoommateVPViewHolder(
     private val binding: VpItemRoommateRecommendBinding,
 ) :
     RecyclerView.ViewHolder(binding.root) {

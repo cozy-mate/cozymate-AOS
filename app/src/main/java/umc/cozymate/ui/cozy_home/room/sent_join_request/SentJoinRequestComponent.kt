@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.sent_request
+package umc.cozymate.ui.cozy_home.room.sent_join_request
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,17 +11,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import umc.cozymate.databinding.FragmentMySentRequestComponentBinding
+import umc.cozymate.databinding.FragmentMySentJoinRequestBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 
 @AndroidEntryPoint
-class MySentRequestComponent : Fragment() {
-    private var _binding: FragmentMySentRequestComponentBinding? = null
+class SentJoinRequestComponent : Fragment() {
+    private var _binding: FragmentMySentJoinRequestBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoomRequestViewModel by viewModels()
     companion object {
-        fun newInstance() = MySentRequestComponent()
+        fun newInstance() = SentJoinRequestComponent()
     }
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class MySentRequestComponent : Fragment() {
         Main: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMySentRequestComponentBinding.inflate(inflater, Main, false)
+        _binding = FragmentMySentJoinRequestBinding.inflate(inflater, Main, false)
         observeRoomList()
         val nickname = viewModel.getNickname().toString()
         binding.tvMyNickname.text = "${nickname}님이"
@@ -64,7 +64,11 @@ class MySentRequestComponent : Fragment() {
         }
         // 로딩중 옵저빙
         viewModel.isLoading1.observe(viewLifecycleOwner) { isLoading ->
-            //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (isLoading == true || isLoading == null) {
+                binding.clComponent.visibility = View.GONE
+            } else {
+                binding.clComponent.visibility = View.VISIBLE
+            }
         }
     }
 

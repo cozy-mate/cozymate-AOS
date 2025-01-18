@@ -70,7 +70,7 @@ class UniversityCertificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //binding.spinnerMajor.isClickable = true
-        // 학과 불러오기
+        // 학과 정보 옵저빙해서 스피너 설정
         viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)

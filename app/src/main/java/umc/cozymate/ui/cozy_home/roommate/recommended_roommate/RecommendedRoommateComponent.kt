@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.roommate.roommate_recommend
+package umc.cozymate.ui.cozy_home.roommate.recommended_roommate
 
 import android.content.Context
 import android.content.Intent
@@ -14,16 +14,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
-import umc.cozymate.databinding.FragmentRoommateRecommendComponentBinding
+import umc.cozymate.databinding.FragmentRecommendRoommateBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 
 @AndroidEntryPoint
-class RoommateRecommendComponent : Fragment() {
+class RecommendedRoommateComponent : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentRoommateRecommendComponentBinding? = null
+    private var _binding: FragmentRecommendRoommateBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoommateRecommendViewModel by viewModels()
     private val detailViewModel : RoommateDetailViewModel by viewModels()
@@ -32,7 +32,7 @@ class RoommateRecommendComponent : Fragment() {
     private var isLifestyleExist : Boolean = false
     private var memberList : List<RecommendedMemberInfo> = emptyList()
     companion object {
-        fun newInstance() = RoommateRecommendComponent
+        fun newInstance() = RecommendedRoommateComponent
     }
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class RoommateRecommendComponent : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRoommateRecommendComponentBinding.inflate(inflater, container, false)
+        _binding = FragmentRecommendRoommateBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -63,7 +63,7 @@ class RoommateRecommendComponent : Fragment() {
                 binding.dotsIndicator.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 // 룸메이트 추천 뷰페이저 어댑터 설정
-                val adapter = RoommateRecommendVPAdapter(rmList){ memberId ->
+                val adapter = RecommendedRoommateVPAdapter(rmList){ memberId ->
                     navigatorToRoommateDetail(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
@@ -95,7 +95,7 @@ class RoommateRecommendComponent : Fragment() {
 //                    binding.dotsIndicator.visibility = View.VISIBLE
 //                    binding.tvEmptyRoommate.visibility = View.GONE
 //                    // 룸메이트 추천 뷰페이저 어댑터 설정
-//                    val adapter = RoommateRecommendVPAdapter(rmList){ memberId ->
+//                    val adapter = RecommendedRoommateVPAdapter(rmList){ memberId ->
 //                        navigatorToRoommateDetail(memberId)
 //                    }
 //                    binding.vpRoommate.adapter = adapter
