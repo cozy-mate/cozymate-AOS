@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.received_request
+package umc.cozymate.ui.cozy_home.room.invited_room
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyInvitedRoomComponentBinding
-import umc.cozymate.databinding.FragmentMyReceivedRequestComponentBinding
+import umc.cozymate.ui.cozy_home.room.received_request.ReceivedRequestAdapter
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="개의"
+        android:text="1개의"
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/main_blue"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         tools:itemCount="3"
         tools:listitem="@layout/rv_item_my_sent_request" />
 
-    <!-- 요청한 멤버가 없을 때 -->
+    <!-- 도착한 방 초대 요청이 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_empty_roommate"
         android:layout_width="match_parent"
