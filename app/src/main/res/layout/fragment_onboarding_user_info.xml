@@ -337,7 +337,7 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/custom_rectangle_12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_university" />
+                app:layout_constraintTop_toBottomOf="@id/mcv_university" />
 
             <TextView
                 android:id="@+id/tv_major_guide"
