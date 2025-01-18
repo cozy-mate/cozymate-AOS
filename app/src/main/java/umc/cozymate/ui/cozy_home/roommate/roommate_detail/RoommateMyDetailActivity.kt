@@ -39,6 +39,14 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             tvOtherUserName.text = spf.getString("user_nickname", "")
         }
 
+        fun trimText(text: String?): String {
+            return if (text != null && text.length > 6) {
+                text.substring(0, 7) + ".."
+            } else {
+                text ?: ""
+            }
+        }
+
         val listView = LayoutInflater.from(this).inflate(R.layout.item_roommate_detail_list, null)
         val listBinding = ItemRoommateDetailListBinding.bind(listView)
 
@@ -48,6 +56,61 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         with(listBinding) {
             guideView2.visibility = View.GONE
             tvListName.text = spf.getString("user_nickname", "")
+            tvListBirth.text = spf.getString("user_birthday", "")?.substring(0, 4)
+            tvListSchool.text = spf.getString("user_university_name", "")
+            tvListSchoolNumber.text = spf.getString("user_admissionYear", "")
+            tvListMajor.text = spf.getString("major_name", "")
+            tvListDormitoryNum.text = "${spf.getInt("user_numOfRoommate", 0)}인 1실"
+            tvListAcceptance.text = spf.getString("user_acceptance", "")
+                tvListWakeUpAmpm.text = spf.getString("user_wakeUpMeridian", "")
+                tvListWakeUpTime.text = "${spf.getInt("user_wakeUpTime", 0)}"
+                tvListSleepAmpm.text = spf.getString("user_sleepingMeridian", "")
+            tvListSleepTime.text = "${spf.getInt("user_sleepingTime", 0)}"
+            tvListLightOffAmpm.text = spf.getString("user_turnOffMeridian", "")
+            tvListLightOffTime.text = "${spf.getInt("user_turnOffTime", 0)}"
+            tvListSmokeCheck.text = spf.getString("user_smoking", "")
+            tvListSleepHabbit.text = trimText(spf.getStringSet("user_sleepingHabit", emptySet())?.toList()?.joinToString(", "))
+            tvListAc.text = when (spf.getInt("user_airConditioningIntensity", 3)) {
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어요"
+            }
+            tvListAcHeater.text = when (spf.getInt("user_heatingIntensity", 3)) {
+                0 -> "안 틀어요"
+                1 -> "약하게 틀어요"
+                2 -> "적당하게 틀어요"
+                3 -> "세게 틀어요"
+                else -> "적당하게 틀어"
+            }
+            tvListLivingPattern.text = spf.getString("user_lifePattern", "")
+            tvListFriendly.text = it.memberStatDetail.intimacy
+            tvListStudy.text = it.memberStatDetail.studying
+            tvListIntake.text = it.memberStatDetail.intake
+            tvListGameCheck.text = it.memberStatDetail.isPlayGame
+            tvListCallCheck.text = it.memberStatDetail.isPhoneCall
+            tvListCleanCheck.text = when (it.memberStatDetail.cleanSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListNoiseCheck.text = when (it.memberStatDetail.noiseSensitivity) {
+                1 -> "매우 예민하지 않아요"
+                2 -> "예민하지 않아요"
+                3 -> "보통이에요"
+                4 -> "예민해요"
+                5 -> "매우 예민해요"
+                else -> "보통이에요"
+            }
+            tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
+            tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
+            tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
+            tvListMbti.text = it.memberStatDetail.mbti
+            tvSelfIntroduction.text = it.memberStatDetail.selfIntroduction
         }
     }
 

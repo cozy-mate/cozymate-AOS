@@ -221,6 +221,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             }
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
+            tvListShare.text = it.memberStatDetail.canShare
             tvListStudy.text = it.memberStatDetail.studying
             tvListIntake.text = it.memberStatDetail.intake
             tvListGameCheck.text = it.memberStatDetail.isPlayGame
