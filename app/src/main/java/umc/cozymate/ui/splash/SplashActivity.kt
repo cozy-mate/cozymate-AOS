@@ -75,9 +75,9 @@ class SplashActivity : AppCompatActivity() {
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
         KakaoSdk.loggingEnabled = true
-        binding.progressBar.visibility = View.VISIBLE
 
         // 뷰모델 옵저빙
+        binding.progressBar.visibility = View.GONE
         observeSignInResponse()
         observeLoading()
         observeError()
@@ -111,7 +111,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
-        binding.progressBar.visibility = View.VISIBLE
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
@@ -174,11 +173,11 @@ class SplashActivity : AppCompatActivity() {
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
-
                         splashViewModel.memberCheck()
                         splashViewModel.isMember.observe(this) { isMember ->
                             if (isMember == true) goCozyHome()
                             else if (isMember == false) goOnboarding()
+                            else if (isMember == null) {}
                         }
                     } catch (e: Exception) {
                         goLoginFail()
