@@ -146,9 +146,9 @@ class RoomDetailActivity : AppCompatActivity() {
             viewModel.invitedMembers.collectLatest { invitedInfo ->
                 // Invited members의 데이터에 따라 RecyclerView의 visibility 조정
                 if (invitedInfo.isEmpty()) {
-                    binding.rvInvitedMember.visibility = View.GONE
+                    binding.clInvitedMember.visibility = View.GONE
                 } else {
-                    binding.rvInvitedMember.visibility = View.VISIBLE
+                    binding.clInvitedMember.visibility = View.VISIBLE
                     binding.rvInvitedMember.apply {
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
                         adapter = RoomInvitedListRVA(
