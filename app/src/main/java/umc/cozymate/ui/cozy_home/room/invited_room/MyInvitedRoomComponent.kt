@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMyInvitedRoomComponentBinding
-import umc.cozymate.ui.cozy_home.room.received_request.ReceivedRequestAdapter
+import umc.cozymate.ui.cozy_home.room.invited_member.ReceivedRequestAdapter
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
@@ -34,14 +36,14 @@ class MyInvitedRoomComponent : Fragment() {
         _binding = FragmentMyInvitedRoomComponentBinding.inflate(inflater, Main, false)
         observeRoomList()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPendingMemberList()
+            viewModel.getInvitedRoomList()
         }
         return binding.root
     }
 
     private fun observeRoomList() {
-        // 클릭 시 방 상세정보 페이지로 이동하도록 어댑터 설정
-        val adapter = ReceivedRequestAdapter { roomId ->
+        // 클릭 시 방 상세 정보 페이지로 이동하도록 어댑터 설정
+        val adapter = InvitedRoomAdapter { roomId ->
             val intent = Intent(requireActivity(), RoomDetailActivity::class.java).apply {
                 putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
             }
@@ -49,17 +51,19 @@ class MyInvitedRoomComponent : Fragment() {
         }
         binding.rvMyReceived.adapter = adapter
         binding.rvMyReceived.layoutManager = LinearLayoutManager(requireContext())
-        // 참여요청한 멤버 목록 api 응답 옵저빙
-        viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
-            val roomList = response?.result ?: emptyList()
+        // 초대 요청 받은 방 목록(/rooms/invited) api 응답 옵저빙
+        viewModel.invitedRoomResponse.observe(viewLifecycleOwner) { response ->
+            val roomList = response?.result?.roomList ?: emptyList()
             if (roomList.isNotEmpty()) {
-                binding.tvRequestNum.text = "${roomList.size}개의"
+                binding.tvRequestNum.text = "${response?.result?.requestCount}개의"
+                binding.tvRequestNum.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                 binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
                 binding.tvRequestNum.text = "0개의"
+                binding.tvRequestNum.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
                 binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.VISIBLE
                 binding.clEmptyRoommate.isEnabled = true
@@ -70,21 +74,21 @@ class MyInvitedRoomComponent : Fragment() {
                 binding.rvMyReceived.visibility = View.GONE
             }
         }
-        // 방장이 아닌 경우에는 constraintlayout이 보이지 않도록 합니다.
-        viewModel.errorResponse.observe(viewLifecycleOwner) { response ->
-            if (response.message == "방장이 아닙니다") {
-                binding.clComponent.visibility = View.GONE
-            }
-        }
         // 로딩중 옵저빙
-        viewModel.isLoading2.observe(viewLifecycleOwner) { isLoading ->
-            //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        viewModel.isLoading3.observe(viewLifecycleOwner) { isLoading ->
+            // 로딩 중에는 빈 화면을 띄웁니다
+            if (isLoading == true || isLoading == null) {
+                binding.clComponent.visibility = View.GONE
+            } else {
+                binding.clComponent.visibility = View.VISIBLE
+            }
         }
     }
 
+    // 홈 화면 시 새로고침하는 함수입니다
     fun refreshData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPendingMemberList()
+            viewModel.getInvitedRoomList()
         }
     }
 }
