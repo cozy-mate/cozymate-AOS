@@ -1024,6 +1024,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:id="@+id/guide_view"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_self_introduction" />
 

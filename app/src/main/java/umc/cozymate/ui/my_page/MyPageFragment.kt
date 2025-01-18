@@ -61,7 +61,6 @@ class MyPageFragment : Fragment() {
         binding.layoutLifestyle.setOnClickListener {
             val intent = Intent(activity, RoommateOnboardingActivity::class.java)
             startActivity(intent)
-
         }
         binding.layoutSchool.setOnClickListener {
             val intent = Intent(activity, UniversityCertificationActivity::class.java)

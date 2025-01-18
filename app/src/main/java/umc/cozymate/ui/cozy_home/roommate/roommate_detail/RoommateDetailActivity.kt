@@ -38,12 +38,18 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        memberId = intent.getIntExtra("member_id", -1)
-//        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")
-
         // intent로 사용자 정보 전달
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
         Log.d(TAG, "Received user detail: $otherUserDetail")
+
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val savedMemberId = spf.getInt("user_member_id", -1)
+        if (otherUserDetail!!.memberDetail.memberId == savedMemberId) {
+            val intent = Intent(this, RoommateMyDetailActivity::class.java)
+            startActivity(intent)
+            finish() // 현재 액티비티 종료
+            return
+        }
 
         val userDetail = getUserDetailFromPreferences()
 
