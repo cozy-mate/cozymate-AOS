@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/cl_component"
     tools:context=".ui.cozy_home.room.my_room.MyRoomComponent">
 
     <TextView
