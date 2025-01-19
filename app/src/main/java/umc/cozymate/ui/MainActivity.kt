@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -84,9 +85,10 @@ class MainActivity : AppCompatActivity() {
         GetMemberLifestyleInfo()
     }
 
-    private fun GetMemberLifestyleInfo(){
+    private fun GetMemberLifestyleInfo() {
         roommateViewModel.getUserInfo()
     }
+
     private fun HandleFCM() {
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
@@ -131,13 +133,13 @@ class MainActivity : AppCompatActivity() {
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
                 binding.progressBar.visibility = View.GONE
-                roleAndRuleItem.isEnabled = false
-                cozybotItem.isEnabled = false
+                //roleAndRuleItem.isEnabled = false
+                //cozybotItem.isEnabled = false
             } else {
                 isRoomExist = true
                 binding.progressBar.visibility = View.GONE
                 roleAndRuleItem.isEnabled = true
-                roleAndRuleItem.isEnabled = true
+                cozybotItem.isEnabled = true
             }
         }
     }
@@ -185,15 +187,22 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_role_and_rule -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
-
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                    }
                     true
                 }
 
                 R.id.fragment_cozybot -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyBotFragment()).commit()
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, CozyBotFragment()).commit()
+                    }
                     true
                 }
 
