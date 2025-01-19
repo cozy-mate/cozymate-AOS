@@ -153,7 +153,7 @@
                             android:contentDescription="리스트로 보기"
                             android:src="@drawable/ic_detail_list" />
 
-                        ㅋ <TextView
+                        <TextView
                             android:id="@+id/tvListView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
