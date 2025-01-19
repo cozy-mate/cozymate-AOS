@@ -17,8 +17,8 @@ class UpdateRoomInfoActivity : AppCompatActivity() {
 
     companion object {
         const val ROOM_STATE = "room_state"
-        const val PUBLIC = "public"
-        const val PRIVATE = "private"
+        const val PUBLIC = "PUBLIC"
+        const val PRIVATE = "PRIVATE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

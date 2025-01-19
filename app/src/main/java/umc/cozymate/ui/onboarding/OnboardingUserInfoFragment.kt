@@ -108,7 +108,7 @@ class OnboardingUserInfoFragment : Fragment() {
             adapter.setDropDownViewResource(R.layout.spinner_item_txt)
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = 28
+            spinnerUniversity.dropDownVerticalOffset = 20
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
@@ -129,7 +129,7 @@ class OnboardingUserInfoFragment : Fragment() {
             }
 
             // 학과 스피너
-            val departments = (univInfo?.departments ?: emptyList())
+            val departments = (univInfo?.departments?.slice(0..10) ?: emptyList())
             val majorAdapter = ArrayAdapter(
                 requireContext(),
                 R.layout.spinner_selected_item_txt,
@@ -137,7 +137,7 @@ class OnboardingUserInfoFragment : Fragment() {
             )
             majorAdapter.setDropDownViewResource(R.layout.spinner_item_txt)
             tvMajor.setAdapter(majorAdapter)
-            tvMajor.dropDownVerticalOffset = 28
+            tvMajor.dropDownVerticalOffset = -100
             tvMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
