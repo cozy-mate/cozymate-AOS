@@ -68,8 +68,8 @@
             android:id="@+id/vp_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@+id/dots_indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,14 +97,15 @@
             android:layout_width="match_parent"
             android:layout_height="156dp"
             android:layout_marginHorizontal="20dp"
+            android:background="@drawable/custom_rectangle_12_unuse"
+            android:gravity="center"
             android:text="아직 등록된 방이 없어요"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/unuse_font"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment"
-            android:gravity="center"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_ment" />
         <!--하단 구분 뷰 -->
         <View
             android:layout_width="match_parent"

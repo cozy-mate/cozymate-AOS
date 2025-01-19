@@ -83,7 +83,7 @@ class SplashActivity : AppCompatActivity() {
         observeError()
 
         // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
-        attemptAutoLogin()
+        //attemptAutoLogin()
 
         // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
@@ -147,14 +147,15 @@ class SplashActivity : AppCompatActivity() {
                 if (isLoading) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
-                    binding.progressBar.visibility = View.GONE
                     // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember == true) {
                             goCozyHome()
                             finish()
+                            binding.progressBar.visibility = View.GONE
                         } else {
                             //goOnboarding()
+                            binding.progressBar.visibility = View.GONE
                         }
                     }
                 }
@@ -195,6 +196,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goCozyHome() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
     }
@@ -202,7 +204,7 @@ class SplashActivity : AppCompatActivity() {
     private fun goOnboarding() {
         val intent = Intent(this, OnboardingActivity::class.java)
         intent.flags =
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 온보딩 백스택에 추가 안함
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

@@ -152,9 +152,9 @@ class CozyHomeMainFragment : Fragment() {
                     recommendedRoomContainer.visibility = View.VISIBLE
                     recommendedRoommateContainer.visibility = View.VISIBLE
                     parentFragmentManager.beginTransaction().apply {
-                        add(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        add(R.id.recommended_room_container, RecommendedRoomComponent())
-                        add(R.id.recommended_roommate_container, RecommendedRoommateComponent())
+                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
+                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
+                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
                         commit()
                     }
                     // 안 보이는 컴포넌트
@@ -170,10 +170,10 @@ class CozyHomeMainFragment : Fragment() {
                     recommendedRoomContainer.visibility = View.VISIBLE
                     recommendedRoommateContainer.visibility = View.VISIBLE
                     parentFragmentManager.beginTransaction().apply {
-                        add(R.id.my_room_container, MyRoomComponent())
-                        add(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        add(R.id.recommended_room_container, RecommendedRoomComponent())
-                        add(R.id.recommended_roommate_container, RecommendedRoommateComponent())
+                        replace(R.id.my_room_container, MyRoomComponent())
+                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
+                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
+                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
                         commit()
                     }
                     // 안 보이는 컴포넌트
@@ -190,12 +190,12 @@ class CozyHomeMainFragment : Fragment() {
                     receivedJoinRequestContainer.visibility = View.VISIBLE
                     sentJoinContainer.visibility = View.VISIBLE
                     parentFragmentManager.beginTransaction().apply {
-                        add(R.id.my_room_container, MyRoomComponent())
-                        add(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        add(R.id.recommended_room_container, RecommendedRoomComponent())
-                        add(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        add(R.id.received_join_request_container, ReceivedJoinRequestComponent())
-                        add(R.id.sent_join_container, SentJoinRequestComponent())
+                        replace(R.id.my_room_container, MyRoomComponent())
+                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
+                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
+                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
+                        replace(R.id.received_join_request_container, ReceivedJoinRequestComponent())
+                        replace(R.id.sent_join_container, SentJoinRequestComponent())
                         commit()
                     }
                 }
