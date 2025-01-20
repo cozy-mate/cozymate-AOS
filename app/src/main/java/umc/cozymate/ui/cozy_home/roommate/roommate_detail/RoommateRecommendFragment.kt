@@ -106,7 +106,7 @@ class RoommateRecommendFragment: Fragment() {
     }
 
     private fun initGuide() {
-        binding.lyGuide.visibility = View.VISIBLE
+        binding.tvUserName.text = nickname
         binding.btnGoLifestyle.setOnClickListener(){
             val intent = Intent(requireActivity(), RoommateOnboardingActivity::class.java)
             startActivity(intent)
