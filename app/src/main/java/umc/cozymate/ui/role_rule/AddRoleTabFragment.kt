@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -59,6 +60,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         setTextinput()
         initClickListener()
         checkInput()
+        setUpObserver()
         return binding.root
     }
 
@@ -83,6 +85,19 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         }
     }
 
+    private fun setUpObserver(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            try{
+            if (isLoading) {
+                (activity as? AddTodoActivity)?.showProgressBar(true)
+            } else {
+                (activity as?  AddTodoActivity)?.showProgressBar(false)
+            }
+            }catch (e: Exception){
+                Log.e(TAG,"프로그래스바 표시중 오류 발생",e)
+            }
+        })
+    }
 
     private fun initdata(){
         if(isEditable){
@@ -193,7 +208,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             editor.putInt("tab_idx", 1 )
             editor.commit()
             Log.d(TAG,"addRole tab_idx ${spf.getInt("tab_idx",202)}")
-            (requireActivity() as AddTodoActivity).finish()
+            //(requireActivity() as AddTodoActivity).finish()
         }
     }
 

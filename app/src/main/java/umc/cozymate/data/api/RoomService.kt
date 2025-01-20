@@ -9,6 +9,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
@@ -155,6 +156,13 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int
     ) : Response<QuitRoomResponse>
+
+    //방 참여 요청
+    @POST("/rooms/{roomId}/request-join")
+    suspend fun requestJoinRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ): Response<DefaultResponse>
 
     // 방 입장
     @POST("/rooms/{roomId}/join")

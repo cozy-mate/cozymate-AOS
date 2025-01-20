@@ -1,6 +1,7 @@
 package umc.cozymate.data.repository.repository
 
 import retrofit2.Response
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
@@ -51,6 +52,8 @@ interface RoomRepository {
     suspend fun changeToPrivateRoom(accessToken: String, roomId: Int): Response<ChangeRoomStatusResult>
 
     suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse>
+
+    suspend fun requestJoinRoom(accessToken: String, roomId: Int): Response<DefaultResponse>
 
     suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
 
