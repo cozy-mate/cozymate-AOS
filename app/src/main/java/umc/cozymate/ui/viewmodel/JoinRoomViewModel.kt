@@ -140,7 +140,7 @@ class JoinRoomViewModel @Inject constructor(
             gson.fromJson(errorBody, ErrorResponse::class.java)
         } catch (e: Exception) {
             Log.e(TAG, "Error parsing JSON: ${e.message}")
-            null
+            ErrorResponse("UNKNOWN", false, "unknown error")
         }
     }
 }

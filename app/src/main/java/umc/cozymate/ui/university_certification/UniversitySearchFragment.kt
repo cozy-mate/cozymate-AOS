@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
-import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
+//import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 class UniversitySearchFragment : Fragment() {
@@ -27,13 +27,13 @@ class UniversitySearchFragment : Fragment() {
         //binding.lifecycleOwner = viewLifecycleOwner
         //binding.viewModel = viewModel
 
-        val adapter = UniversitiesAdapter { schoolName ->
+        /*al adapter = UniversitiesAdapter { schoolName ->
             // 학교 클릭 시 처리할 로직
             println("학교 선택됨: $schoolName")
         }
 
         binding.rvSchools.adapter = adapter
-        binding.rvSchools.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSchools.layoutManager = LinearLayoutManager(requireContext())*/
 
         return binding.root
     }

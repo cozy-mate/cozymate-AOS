@@ -31,7 +31,7 @@ class UniversityViewModel @Inject constructor(
         return sharedPreferences.getString("user_university_name", null)
     }
     fun getSavedUniversityId(): Int {
-        return sharedPreferences.getInt("user_university_id", 0)
+        return sharedPreferences.getInt("user_university_id", 1) // 인하대
     }
     fun getSavedEmail(): String? {
         return sharedPreferences.getString("user_email", "")
@@ -112,7 +112,7 @@ class UniversityViewModel @Inject constructor(
     val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
         val token = getToken()
-        val id = getSavedUniversityId()
+        val id = 1 // getSavedUniversityId()
         try {
             val response = memberRepo.getUniversityInfo(token!!, id)
             if (response.isSuccessful) {

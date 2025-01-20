@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -81,6 +82,34 @@ class RoomRequestViewModel @Inject constructor(
                 Log.d(TAG, "참여요청한 멤버 목록 api 요청 실패: ${e}")
             } finally {
                 _isLoading2.value = false
+            }
+        }
+    }
+    // 초대요청 받은 방 목록
+    private val _invitedRoomResponse = MutableLiveData<GetInvitedRoomListResponse>()
+    val invitedRoomResponse: LiveData<GetInvitedRoomListResponse> get() = _invitedRoomResponse
+    private val _isLoading3 = MutableLiveData<Boolean>()
+    val isLoading3: LiveData<Boolean> = _isLoading3
+    suspend fun getInvitedRoomList() {
+        val token = getToken()
+        _isLoading2.value = true
+        if (token != null) {
+            try {
+                val response = repo.getInvitedRoomList(token)
+                if (response.isSuccessful) {
+                    _invitedRoomResponse.value = response.body()
+                    Log.d(TAG, "초대요청 받은 방 목록 조회 성공: ${response.body()!!.result}")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    }
+                    Log.d(TAG, "초대요청 받은 방 목록 에러 메시지: ${response}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "초대요청 받은 방 목록 api 요청 실패: ${e}")
+            } finally {
+                _isLoading3.value = false
             }
         }
     }

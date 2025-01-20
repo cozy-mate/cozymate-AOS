@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 사용자가 참여요청을 받은 방 목록 -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_component"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.cozy_home.room.my_room.MyRoomComponent">
+
+    <TextView
+        android:id="@+id/tv_request_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:text="1개의"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/main_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="방 참여요청이 도착했어요"
+        android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+        android:textColor="@color/highlight_font"
+        app:layout_constraintStart_toStartOf="@id/tv_request_num"
+        app:layout_constraintTop_toBottomOf="@id/tv_request_num" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_my_received"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:itemCount="3"
+        tools:listitem="@layout/rv_item_my_sent_request" />
+
+    <!-- 도착한 방 초대 요청이 없을 때 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_empty_roommate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_empty_roommate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:gravity="center"
+            android:text="직접 룸메이트를 찾으러 가볼까요?"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_goto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:drawableEnd="@drawable/ic_next"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/main_blue"
+            android:text="룸메이트 찾으러 가기"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/main_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_roommate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--하단 구분 뷰 -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F7F9FA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
