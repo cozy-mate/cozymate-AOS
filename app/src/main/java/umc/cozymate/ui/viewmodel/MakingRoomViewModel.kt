@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import hilt_aggregated_deps._umc_cozymate_data_local_DatabaseModule
 import kotlinx.coroutines.launch
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.local.RoomInfoEntity
@@ -49,6 +50,9 @@ class MakingRoomViewModel @Inject constructor(
 
     private val _pendingRoom = MutableLiveData<Boolean>()
     val pendingRoom: LiveData<Boolean> get() = _pendingRoom
+
+    private val _pendingMember = MutableLiveData<Boolean>()
+    val pendingMember: LiveData<Boolean> get() = _pendingMember
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
@@ -279,6 +283,41 @@ class MakingRoomViewModel @Inject constructor(
             null
         }
     }
+
+    fun getPendingMember(memberId: Int) {
+        val token = getToken()
+        Log.d(TAG, "멤버 초대 상태 확인 요청: memberId = $memberId")
+        _loading.value = true
+
+        if (token != null && memberId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.getPendingMember(token, memberId)
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "멤버 초대 상태 확인 성공: ${response.body()!!.result}")
+                        _pendingMember.value = response.body()!!.result
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        if(errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value = ErrorResponse("Unknown", false, "unknown error")
+                        }
+                        Log.d(TAG, "멤버 초대 상태 확인 응답 실패: $response")
+                    }
+                } catch (e: Exception) {
+                    _errorResponse.value?.message = e.message.toString()
+                    Log.d(TAG, "맴버 초대 상태 확인 요청 실패: $e")
+                } finally {
+                    _loading.value = false
+                }
+            }
+        }
+        else {
+            Log.e(TAG, "Invalid token or roomId for getPendingRoom")
+        }
+    }
+    
     fun getPendingRoom(roomId: Int) {
         val token = getToken()
         Log.d(TAG, "방 진입 상태 확인 요청: roomId = $roomId")

@@ -1,7 +1,6 @@
 package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -24,14 +23,13 @@ import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomInvitedListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
-import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity

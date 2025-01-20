@@ -23,7 +23,7 @@ import umc.cozymate.databinding.ActivityUpdateCozyRoomDetailInfoBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
