@@ -62,6 +62,8 @@ interface RoomRepository {
 
     suspend fun getPendingRoom(accessToken: String, roomId: Int): Response<GetRoomPendingMemberResponse>
 
+    suspend fun getPendingMember(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
+
     suspend fun cancelJoinRequest(accessToken: String, roomId: Int): Response<CancelJoinRequestResponse>
 
     suspend fun getInvitedMembers(accessToken: String, roomId: Int): Response<GetInvitedMembersResponse>

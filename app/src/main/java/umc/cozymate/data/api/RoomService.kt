@@ -99,6 +99,13 @@ interface RoomService {
         @Query("inviteCode") inviteCode: String
     ) : Response<GetRoomInfoByInviteCodeResponse>
 
+    // 방장 -> 방에 참여 요청한 사용자인지 조회
+    @GET("/rooms/pending-status/{memberId")
+    suspend fun getPendingMember(
+        @Header("Authorization") accessToken: String,
+        @Path("memberId") memberId: Int
+    ): Response<GetRoomPendingMemberResponse>
+
     // 방 존재 여부 조회
     @GET("/rooms/exist")
     suspend fun isRoomExist(
