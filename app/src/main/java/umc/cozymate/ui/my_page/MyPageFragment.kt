@@ -127,6 +127,7 @@ class MyPageFragment : Fragment() {
         } else {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.tvSchool.text = "아직 방이 존재하지 않아요"
         }
 
         // 학교 인증
