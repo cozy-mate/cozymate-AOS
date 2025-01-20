@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.update_room.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -67,13 +67,14 @@ class CozyBotFragment : Fragment() {
             // 방 정보
             binding.ivChar.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-                val intent = Intent(requireActivity(), UpdateMyRoomInfoActivity::class.java).apply {
-                    putExtra(UpdateMyRoomInfoActivity.ARG_ROOM_ID, roomId)
+                val intent = Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
+                    putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
                 }
                 startActivity(intent)
             }
             // 초기 룸로그 로드
             viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getRoomInfoById()
                 viewModel.loadAchievements(isNextPage = true)
             }
         }
@@ -142,12 +143,12 @@ class CozyBotFragment : Fragment() {
     }
 
     private fun setInviteCodeObserver() {
-        viewModel.inviteCode.observe(viewLifecycleOwner, Observer { code ->
-            if (code == "" || code == null) {
+        viewModel.roomInfo.observe(viewLifecycleOwner, Observer { roomInfo ->
+            if (roomInfo.inviteCode == "" || roomInfo.inviteCode == null) {
                 binding.btnCopyInviteCode.visibility = View.GONE
             } else {
                 binding.btnCopyInviteCode.visibility = View.VISIBLE
-                binding.btnCopyInviteCode.text = code
+                binding.btnCopyInviteCode.text = roomInfo.inviteCode
             }
         })
         // 초대코드 클립보드 복사

@@ -31,7 +31,10 @@ class MakingRoomDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog?.window?.setGravity(Gravity.TOP)
     }
 
@@ -48,7 +51,7 @@ class MakingRoomDialogFragment : DialogFragment() {
             }
             // 공개방 (학교인증여부, 라이프스타일 입력 여부)
             clPublicRoom.setOnClickListener {
-                if (universityFlag == false){
+                /*if (universityFlag == false){
                     val text = listOf("방을 만들려면\n먼저 학교인증을 해야해요!", "", "안할래요", "할래요")
                     val dialog = TwoButtonPopup(text, object : PopupClick {
                         override fun rightClickFunction() {
@@ -56,22 +59,21 @@ class MakingRoomDialogFragment : DialogFragment() {
                         }
                     }, true) // 확인, 취소 버튼 동작
                     dialog.show(parentFragmentManager, "LogoutPopup")
+                }*/
+                if (isLifestyleExist == false) {
+                    val text = listOf("방을 만들려면\n라이프스타일을 입력해야해요!", "", "안할래요", "할래요")
+                    val dialog = TwoButtonPopup(text, object : PopupClick {
+                        override fun rightClickFunction() {
+                            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }, true) // 확인, 취소 버튼 동작
+                    dialog.show(parentFragmentManager, "LogoutPopup")
+                } else {
+                    val intent = Intent(requireContext(), MakingPublicRoomActivity::class.java)
+                    startActivity(intent)
                 }
-                else {
-                    if (isLifestyleExist == false) {
-                        val text = listOf("방을 만들려면\n라이프스타일을 입력해야해요!", "", "안할래요", "할래요")
-                        val dialog = TwoButtonPopup(text, object : PopupClick {
-                            override fun rightClickFunction() {
-                                val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-                                startActivity(intent)
-                            }
-                        }, true) // 확인, 취소 버튼 동작
-                        dialog.show(parentFragmentManager, "LogoutPopup")
-                    } else {
-                        val intent = Intent(requireContext(), MakingPublicRoomActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
+
             }
             // 비공개(초대코드)방
             clPrivateRoom.setOnClickListener {
