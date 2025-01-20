@@ -358,9 +358,20 @@ class MakingRoomViewModel @Inject constructor(
         if (token != null && memberId != 0) {
             viewModelScope.launch {
                 try {
-                    val response = roomRepository.can
+                    val response = roomRepository.cancelInvitation(token, memberId)
+                    if(response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 초대 요청 취소 성공 : ${response.body()?.result}")
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = errorBody ?: response.message()
+                        Log.d(TAG, "방 초대 요청 취소 실패 : $errorMessage")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "방 초대 요청 취소 오류 : $e")
                 }
             }
+        } else {
+            Log.d(TAG, "토큰 또는 memberId 오류")
         }
     }
 

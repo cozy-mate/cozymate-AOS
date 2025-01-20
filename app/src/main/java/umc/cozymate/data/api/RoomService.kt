@@ -164,6 +164,12 @@ interface RoomService {
         @Path("roomId") roomId: Int,
     ) : Response<JoinRoomResponse>
 
+    @POST("/rooms/invite/{inviteeId")
+    suspend fun inviteMember(
+        @Header("Authorization") accessToken: String,
+        @Path("inviteeId") inviteeId: Int,
+    ) : Response<JoinRoomResponse>
+
     // 공개 방 생성
     @POST("/rooms/create-public")
     suspend fun createPublicRoom(

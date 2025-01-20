@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -216,7 +217,22 @@ class RoommateDetailActivity : AppCompatActivity() {
                             fabRequestRoommate.setTextColor(getColor(R.color.main_blue))
                             fabRequestRoommate.setOnClickListener {
                                 lifecycleScope.launch {
-                                    makingRoomViewModel.
+                                    makingRoomViewModel.deleteMemberInvite(memberId)
+                                    delay(300)
+                                    makingRoomViewModel.getPendingMember(memberId)
+                                    recreate()
+                                }
+                            }
+                        }
+                    } else {
+                        // 초대하지 않은 경우 = 초대하기
+                        with(binding) {
+                            fabRequestRoommate.text = "내 방으로 초대하기"
+                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
+                            fabRequestRoommate.setTextColor(getColor(R.color.white))
+                            fabRequestRoommate.setOnClickListener {
+                                lifecycleScope.launch {
+                                    makingRoomViewModel.in
                                 }
                             }
                         }

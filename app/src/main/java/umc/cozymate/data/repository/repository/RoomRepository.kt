@@ -35,6 +35,8 @@ interface RoomRepository {
 
     suspend fun joinRoom(accessToken: String, roomId: Int) : Response<JoinRoomResponse>
 
+    suspend fun inviteMember(accessToken: String, inviteeId: Int) : Response<JoinRoomResponse>
+
     suspend fun isRoomExist(accessToken: String) : Response<IsRoomExistResponse>
 
     suspend fun getRecommendedRoomList(accessToken: String, size: Int, page:Int, sortType: String?) : Response<GetRecommendedRoomListResponse>

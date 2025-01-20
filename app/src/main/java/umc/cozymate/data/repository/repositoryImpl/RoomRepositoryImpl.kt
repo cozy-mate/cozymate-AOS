@@ -82,6 +82,13 @@ class RoomRepositoryImpl @Inject constructor(
         return api.joinRoom(accessToken, roomId)
     }
 
+    override suspend fun inviteMember(
+        accessToken: String,
+        inviteeId: Int
+    ): Response<JoinRoomResponse> {
+        return api.inviteMember(accessToken, inviteeId)
+    }
+
     override suspend fun isRoomExist(
         accessToken: String
     ): Response<IsRoomExistResponse> {
