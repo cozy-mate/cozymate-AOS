@@ -43,19 +43,20 @@ class RoleAndRuleTabFragment: Fragment() {
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         setMinHight()
         getPreference()
-        updateInfo()
         return binding.root
     }
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            initData()
-        }, 1000)
-    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        updateInfo()
+        updateRule()
+        updateRole()
         setupObservers() // 옵저버 설정
-        initData()       // 초기 데이터 로드
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initData()
     }
 
     private fun setMinHight() {
@@ -76,34 +77,38 @@ class RoleAndRuleTabFragment: Fragment() {
                 val ruleResponse = response.body()
                 ruleResponse?.let {
                     rules = it.result
-                    updateRule()
                 }
-            } else {
-                Log.d(TAG, "response 응답 실패")
-                binding.tvEmptyRule.visibility = View.VISIBLE
-                binding.rvRules.visibility = View.GONE
+            }else{
+                // 에러처리 필요
             }
+            updateRule()
         })
 
         roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) {
-                binding.rvRoleList.visibility = View.GONE
-                binding.tvRole.visibility = View.VISIBLE
-                return@Observer
-            }
+            if (response == null) return@Observer
             if (response.isSuccessful) {
                 val roleResponse = response.body()
                 roleResponse?.let {
                     roles = it.result
-                    updateRole()
                 }
-            } else {
-                Log.d(TAG, "response 응답 실패")
-                binding.tvEmptyRole.visibility = View.VISIBLE
-                binding.rvRules.visibility = View.GONE
+            }else{
+                // 에러처리 필요
             }
+            updateRole()
+        })
+
+        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+            isLoading()
+        })
+        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+            isLoading()
         })
     }
+
+    private fun isLoading(){
+        binding.progressBar.visibility =  if (roleViewModel.isLoading.value == true || ruleViewModel.isLoading.value == true ) View.VISIBLE else View.GONE
+    }
+
     private fun initData(){
         if (view == null) return
 

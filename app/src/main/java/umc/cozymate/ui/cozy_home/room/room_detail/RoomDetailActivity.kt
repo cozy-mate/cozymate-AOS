@@ -30,6 +30,7 @@ import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
@@ -166,9 +167,9 @@ class RoomDetailActivity : AppCompatActivity() {
 
     // 방 나가기 확인 및 실행 다이얼로그
     private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
-        val text = listOf("방을 나가시겠습니까?", "", "확인", "취소")
-        val dialog = OneButtonPopup(text, object : PopupClick {
-            override fun clickFunction() {
+        val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
+        val dialog = TwoButtonPopup(text, object : PopupClick {
+            override fun rightClickFunction() {
                 // 확인 버튼을 눌렀을 때만 방 나가기 실행
                 roomViewModel.quitRoom(roomId)
                 spf.edit().putInt("room_id", 0).apply()
@@ -292,10 +293,12 @@ class RoomDetailActivity : AppCompatActivity() {
                             fabBnt.setTextColor(getColor(R.color.white))
                             fabBnt.setOnClickListener {
                                 lifecycleScope.launch {
-                                    joinRoomViewModel.joinRoom(roomId)
+                                    //joinRoomViewModel.joinRoom(roomId)
+                                    // 방 참여요청 api로 변경해두었습니다
+                                    joinRoomViewModel.requestJoinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
-                                    spf.edit().putInt("room_id", roomId).commit()
+                                    //spf.edit().putInt("room_id", roomId).commit()
                                     recreate()
                                 }
                             }

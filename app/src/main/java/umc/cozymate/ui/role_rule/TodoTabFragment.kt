@@ -36,7 +36,7 @@ import java.util.Locale
 class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentTodoTabBinding
-    private var mytodo : TodoData? = null
+    private var mytodo : List<TodoItem> = emptyList()
     private val viewModel: TodoViewModel by viewModels()
     private val roleViewModel : RoleViewModel by viewModels()
     private var memberList : Map<String, TodoData> =  emptyMap()
@@ -47,6 +47,7 @@ class TodoTabFragment : Fragment() {
     private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,24 +58,23 @@ class TodoTabFragment : Fragment() {
         setMinHight()
         getPreference()
         updateInfo()
+        updateUI()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         roleViewModel.getRole(roomId)
-        Handler(Looper.getMainLooper()).postDelayed({
-            initData()
-            Log.d(TAG,"resume ${mytodo?.todoList}")
-        }, 1000)
+        viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        updateRecyclerView(mytodo,memberList)
         setupCalendar()
     }
+
     private fun setMinHight() {
         val screenHeight = resources.displayMetrics.heightPixels
         val density = resources.displayMetrics.density
@@ -115,60 +115,37 @@ class TodoTabFragment : Fragment() {
                     setRoleTodo()
                 }
             }
-            else Log.d(TAG,"roleresponse 응답 실패")
         })
         viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccessful) {
-                updateUI(response)
+                mytodo = response.body()!!.result.myTodoList.todoList
+                memberList = response.body()!!.result.mateTodoList
             }
+            updateUI()
+        })
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
-    private fun updateUI(response: Response<TodoResponse>) {
-        // 옵저버에서 데이터 처리
-        if (response.isSuccessful) {
-            val todoResponse = response.body()
-            todoResponse?.let {
-                mytodo = it.result.myTodoList
-                memberList = it.result.mateTodoList
-            }
-            // 오늘보다 미래의 날짜에만 롤 투두 추가
-            if(selectedDate.isAfter(LocalDate.now())){
-                val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
-                mytodo!!.todoList += roleTodo[day]!!
-            }
-        } else {
-            Log.d(TAG, "response 응답 실패")
-            mytodo = null
-            binding.tvEmptyTodo.visibility = View.VISIBLE
-            binding.rvMyTodo.visibility = View.GONE
+
+    private fun updateUI() {
+        // 선택된 날짜가 미래일경우만 롤 투두 추가
+        if (selectedDate.isAfter(LocalDate.now())) {
+            val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
+            mytodo += roleTodo[day]!!
         }
 
-        updateRecyclerView(mytodo!!, memberList)
-    }
-    private fun initData(){
-        if (view == null) return
-        viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
-    }
-
-    private fun updateInfo() {
-        // 날짜
-        val fomatter = DateTimeFormatter.ofPattern("M/d(E), ")
-        binding.tvSelectedDate.text = selectedDate.format(fomatter)
-        // 이름
-        binding.tvUserName.text = nickname
-    }
-
-    private fun updateRecyclerView( mytodoList: TodoData?, memberList: Map<String, TodoData>?) {
-        // 내 할일
-        if (mytodoList?.todoList.isNullOrEmpty()) {
+        // 내 투두
+        if (mytodo.isNullOrEmpty()) {
             binding.tvEmptyTodo.visibility = View.VISIBLE
             binding.rvMyTodo.visibility = View.GONE
-        } else {
+        }else{
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodoList!!.todoList, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
+
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodo, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
@@ -177,7 +154,6 @@ class TodoTabFragment : Fragment() {
                 override fun checkboxClickFunction(todo: TodoItem) {
                     viewModel.updateTodo(roomId, todo.todoId, todo.completed)
                 }
-
                 override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
                     if (todo.todoType.equals("role")) return
@@ -197,12 +173,22 @@ class TodoTabFragment : Fragment() {
         } else {
             binding.tvEmptyMember.visibility = View.GONE
             binding.rvMemberTodo.visibility = View.VISIBLE
+
             val memberTodoListRVAdapter = TodoListRVAdapter(memberList!!) { todoItem -> }
-            binding.rvMemberTodo.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.rvMemberTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
+
     }
+
+    private fun updateInfo() {
+        // 날짜
+        val fomatter = DateTimeFormatter.ofPattern("M/d(E), ")
+        binding.tvSelectedDate.text = selectedDate.format(fomatter)
+        // 이름
+        binding.tvUserName.text = nickname
+    }
+
 
     private fun saveSpf(todo: TodoItem){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -225,13 +211,11 @@ class TodoTabFragment : Fragment() {
             widget.addDecorator(decorator)
         }
 
-
         calendarView.setOnDateChangedListener { _, date, _ ->
             val temp = String.format("%04d-%02d-%02d", date.year, date.month, date.day)
             selectedDate = LocalDate.parse(temp, DateTimeFormatter.ISO_LOCAL_DATE)
             Log.d(TAG, "선택된 날짜: $selectedDate")
-            initData()
-            updateInfo()
+            viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         }
     }
     private fun setRoleTodo(){

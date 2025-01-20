@@ -1,6 +1,7 @@
 package umc.cozymate.data.repository.repositoryImpl
 
 import retrofit2.Response
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
@@ -118,6 +119,13 @@ class RoomRepositoryImpl @Inject constructor(
 
     override suspend fun quitRoom(accessToken: String, roomId: Int): Response<QuitRoomResponse> {
         return api.quitRoom(accessToken, roomId)
+    }
+
+    override suspend fun requestJoinRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<DefaultResponse> {
+        return api.requestJoinRoom(accessToken,roomId)
     }
 
     override suspend fun searchRoom(
