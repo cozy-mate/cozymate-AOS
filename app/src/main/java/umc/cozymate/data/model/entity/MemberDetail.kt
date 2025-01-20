@@ -17,4 +17,6 @@ data class MemberDetail(
     var persona: Int,
     @SerialName("universityId")
     var universityId: Int,
+    @SerialName("majorName")
+    var majorName: String,
 )

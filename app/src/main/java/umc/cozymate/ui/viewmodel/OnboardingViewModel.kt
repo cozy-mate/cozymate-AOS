@@ -55,6 +55,9 @@ class OnboardingViewModel @Inject constructor(
     private val _gender = MutableLiveData<String>()
     val gender: LiveData<String> get() = _gender
 
+    private val _majorName = MutableLiveData<String>()
+    val majorName: LiveData<String> get() = _majorName
+
     private val _preferences = MutableLiveData<PreferenceList>()
     val preferences: LiveData<PreferenceList> get() = _preferences
 
@@ -138,6 +141,10 @@ class OnboardingViewModel @Inject constructor(
         _persona.value = persona
     }
 
+    fun setMajorName(majorName: String) {
+        _majorName.value = majorName
+    }
+
     fun setPreferences(preferences: PreferenceList){
         _preferences.value = preferences
     }
@@ -149,6 +156,7 @@ class OnboardingViewModel @Inject constructor(
             birthday = _birthday.value ?: "2001-01-01",
             persona = _persona.value ?: 0,
             universityId = _universityId.value ?: 0,
+            majorName = _majorName.value ?: "컴퓨터공학과"
         )
         val token = getToken() // 이때 임시 토큰이어야 함
         Log.d(TAG, "유저 정보: $memberDetail")

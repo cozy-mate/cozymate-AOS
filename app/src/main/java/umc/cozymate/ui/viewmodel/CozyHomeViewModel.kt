@@ -248,16 +248,12 @@ class CozyHomeViewModel @Inject constructor(
         _isLoading2.value = true
         val roomId = getSavedRoomId()
         Log.d(TAG, "getRoomInfoById 방 아이디: $roomId")
-        try {
-            val info = roomInfoDao.getRoomInfoById(roomId)
-            if (info == null) {
-                fetchRoomInfo()
-                _roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
-            } else {
-                _roomInfo.postValue(info!!)
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "방 정보 조회 실패: ${e.message}")
+        val info = roomInfoDao.getRoomInfoById(roomId)
+        if (info == null) {
+            fetchRoomInfo()
+            _roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+        } else {
+            _roomInfo.postValue(info!!)
         }
         _isLoading2.value = false
         Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
