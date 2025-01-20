@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSummaryBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 
 class OnboardingSummaryFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
@@ -34,7 +35,7 @@ class OnboardingSummaryFragment : Fragment() {
         _binding = FragmentOnboardingSummaryBinding.inflate(inflater, container, false)
 
         binding.btnNext.setOnClickListener {
-            var intent = Intent(activity, MainActivity::class.java)
+            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
             startActivity(intent)
         }
 
@@ -43,7 +44,12 @@ class OnboardingSummaryFragment : Fragment() {
         val mainText = "${nickname}님, "
         val spannable = SpannableStringBuilder(mainText)
         val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
-        spannable.setSpan(ForegroundColorSpan(color), 0, nickname.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(
+            ForegroundColorSpan(color),
+            0,
+            nickname.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         binding.title1Onboarding3.text = spannable
 
         setCharacterImage(persona)
