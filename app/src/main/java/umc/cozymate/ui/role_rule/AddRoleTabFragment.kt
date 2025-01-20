@@ -26,7 +26,6 @@ import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
-import umc.cozymate.ui.cozy_home.room.making_room.MakingPrivateRoomActivity
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
 @AndroidEntryPoint
