@@ -14,6 +14,7 @@ import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -65,9 +66,19 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
         setupCalendar()
         initClickListener()
         checkInput()
+        setUpObserver()
         return binding.root
     }
 
+    private fun setUpObserver(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                (activity as? AddTodoActivity)?.showProgressBar(true)
+            } else {
+                (activity as?  AddTodoActivity)?.showProgressBar(false)
+            }
+        })
+    }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
@@ -209,8 +220,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(),ItemCli
             editor.putInt("tab_idx", 0 )
             editor.apply()
             Log.d(TAG,"addTodo tab_idx ${spf.getInt("tab_idx",101)}")
-            (requireActivity() as AddTodoActivity).finish()
-
+            //(requireActivity() as AddTodoActivity).finish()
         }
     }
 

@@ -89,7 +89,7 @@ class MyPageFragment : Fragment() {
                     Intent(activity, WriteInquiryActivity::class.java)
             startActivity(intent)
         }
-        binding.btnMate.setOnClickListener {
+        binding.layoutMate.setOnClickListener {
             val intent = Intent(activity, MyFavoriteActivity::class.java)
             startActivity(intent)
         }

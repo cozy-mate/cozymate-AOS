@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
@@ -25,6 +26,7 @@ import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPrivateRoomActivity
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
 @AndroidEntryPoint
@@ -59,6 +61,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         setTextinput()
         initClickListener()
         checkInput()
+        setUpObserver()
         return binding.root
     }
 
@@ -83,6 +86,15 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         }
     }
 
+    private fun setUpObserver(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                (activity as? AddTodoActivity)?.showProgressBar(true)
+            } else {
+                (activity as?  AddTodoActivity)?.showProgressBar(false)
+            }
+        })
+    }
 
     private fun initdata(){
         if(isEditable){
@@ -193,7 +205,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             editor.putInt("tab_idx", 1 )
             editor.commit()
             Log.d(TAG,"addRole tab_idx ${spf.getInt("tab_idx",202)}")
-            (requireActivity() as AddTodoActivity).finish()
+            //(requireActivity() as AddTodoActivity).finish()
         }
     }
 

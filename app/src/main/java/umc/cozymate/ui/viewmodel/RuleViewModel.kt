@@ -25,29 +25,27 @@ class RuleViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-//    private val _roomId = MutableLiveData<Int>()
-//    val roomId: LiveData<Int> get() = _roomId
-
-    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
-    val  createResponse : LiveData<Response<CreateResponse>> get() =  _createResponse
-
     private val _getResponse = MutableLiveData<Response<RuleResponse>>()
     val  getResponse : LiveData<Response<RuleResponse>> get() =  _getResponse
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
     fun createRule( roomId : Int, request : RuleRequest ){
-
       viewModelScope.launch {
+          _isLoading.value = true
           val token = getToken()
           try{
               val response  = repository.createRule(token!!, roomId, request)
               if(!response.isSuccessful)Log.d(TAG, "createRule 응답 실패: ${response.body()!!.result}")
           }catch (e: Exception){
               Log.d(TAG, "createRule api 요청 실패: ${e}")
+          }finally {
+              _isLoading.value = false
           }
       }
     }
@@ -55,6 +53,7 @@ class RuleViewModel @Inject constructor(
     fun getRule(roomId : Int ){
         val token = getToken()
         viewModelScope.launch {
+            _isLoading.value = true
             try{
                 val response  = repository.getRule(token!!, roomId)
                 if(response.isSuccessful){
@@ -64,30 +63,38 @@ class RuleViewModel @Inject constructor(
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "getRule api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
 
     fun deleteRule( roomId : Int, ruleId : Int  ){
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try{
                 val response  = repository.deleteRule(token!!, roomId, ruleId)
                 if(!response.isSuccessful)Log.d(TAG, "deleteRule 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "deleteRule api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
 
     fun editRule( roomId : Int, ruleId : Int , request : RuleRequest){
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try{
                 val response  = repository.editRule(token!!, roomId, ruleId, request)
                 if(!response.isSuccessful) Log.d(TAG, "editRule 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "editRule api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }

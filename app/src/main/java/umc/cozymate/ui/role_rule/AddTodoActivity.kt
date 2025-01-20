@@ -59,7 +59,6 @@ class AddTodoActivity():AppCompatActivity() {
                 val dialog = TwoButtonPopup(text,object : PopupClick {
                     override fun rightClickFunction() {
                         fragment.deleteClickFunction()
-                        finish()
                     }
                 })
                 dialog.show(this.supportFragmentManager!!, "testPopup")
@@ -68,5 +67,9 @@ class AddTodoActivity():AppCompatActivity() {
         }
     }
 
+    fun showProgressBar(show: Boolean) {
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        if(!show) finish()
+    }
 }
 

@@ -24,23 +24,11 @@ class TodoViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _id = MutableLiveData<Int>()
-    val id : LiveData<Int> get() = _id
-
-    private val _content = MutableLiveData<String>()
-    val content : LiveData<String> get() = _content
-
-//    private val _complited = MutableLiveData<Boolean>()
-//    val complited : LiveData<Boolean> get() = _complited
-
     private val _todoResponse = MutableLiveData<Response<TodoResponse>>()
     val todoResponse: LiveData<Response<TodoResponse>> get() = _todoResponse
 
-
-//    private val _createResponse = MutableLiveData<Response<CreateResponse>>()
-//    val createResponse: LiveData<Response<CreateResponse>> get() = _createResponse
-//
-
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -48,6 +36,7 @@ class TodoViewModel @Inject constructor(
 
     fun getTodo(roomId: Int,timePoint: String?) {
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try {
                 val response = repository.getTodo(token!!, roomId, timePoint)
@@ -59,6 +48,8 @@ class TodoViewModel @Inject constructor(
 
             } catch (e: Exception) {
                Log.d(TAG," getTodo api 요청 실패:  ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
@@ -77,6 +68,7 @@ class TodoViewModel @Inject constructor(
 
     fun createTodo(roomId: Int, request: TodoRequest) {
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try {
                 val response = repository.createTodo( token!! ,roomId, request)
@@ -84,29 +76,38 @@ class TodoViewModel @Inject constructor(
                 if(!response.isSuccessful) Log.d(TAG, "createTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"createTodo api 요청 실패:  ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
+
     fun editTodo(roomId: Int,todoId: Int, request: TodoRequest) {
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try {
                 val response = repository.editTodo( token!! ,roomId,todoId, request)
                 if(!response.isSuccessful) Log.d(TAG, "editTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"editTodo api 요청 실패:  ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
 
     fun deleteTodo(roomId: Int,todoId: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             try {
                 val response = repository.deleteTodo( token!! ,roomId,todoId)
                 if(!response.isSuccessful) Log.d(TAG, "deleteTodo 응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {
                 Log.d(TAG,"deleteTodo api 요청 실패:  ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }

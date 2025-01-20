@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.databinding.FragmentAddRuleTabBinding
@@ -43,12 +44,24 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
         setRuleinput()
         setMemo()
         initClickListener()
+        setUpObserver()
         return binding.root
     }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
     }
+
+    private fun setUpObserver(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                (activity as? AddTodoActivity)?.showProgressBar(true)
+            } else {
+                (activity as?  AddTodoActivity)?.showProgressBar(false)
+            }
+        })
+    }
+
     private fun initdata(){
         if(isEditable){
             ruleId = spf.getInt("rule_id",0)
@@ -102,7 +115,7 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
             editor.putInt("tab_idx", 1 )
             editor.apply()
             Log.d(TAG,"addrule tab_idx ${spf.getInt("tab_idx",303)}")
-            (requireActivity() as AddTodoActivity).finish()
+            //(requireActivity() as AddTodoActivity).finish()
         }
     }
 
