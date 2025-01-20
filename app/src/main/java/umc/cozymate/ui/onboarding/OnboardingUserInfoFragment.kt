@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -80,6 +81,7 @@ class OnboardingUserInfoFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             univViewModel.fetchUniversityInfo()
         }
+        binding.spinnerMajor.visibility = View.GONE
     }
 
     // 학교 스피너
@@ -128,17 +130,46 @@ class OnboardingUserInfoFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-            // 학과 스피너
-            val departments = (univInfo?.departments?.slice(0..10) ?: emptyList())
-            val majorAdapter = ArrayAdapter(
+            // 학과 조회해서 뷰 설정하기
+            var departments: List<String>
+            departments = univInfo?.departments ?: emptyList()
+            val majorAdapter = object : ArrayAdapter<String>(
                 requireContext(),
                 R.layout.spinner_selected_item_txt,
                 departments
-            )
+            ) {
+                override fun getDropDownView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    val view = super.getDropDownView(position, convertView, parent)
+                    return view
+                }
+
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    //view?.alpha = 0f
+                    //view?.isVisible = false
+                    val view = super.getView(position, convertView, parent)
+                    val textView = view.findViewById<TextView>(R.id.tv_spinner)
+                    textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white)) // 선택된 값의 텍스트 색상
+                    return view
+                    //val textView: TextView = view?.findViewById<TextView>(R.id.tv_spinner)
+                    //textView?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                }
+            }
             majorAdapter.setDropDownViewResource(R.layout.spinner_item_txt)
-            tvMajor.setAdapter(majorAdapter)
-            tvMajor.dropDownVerticalOffset = -100
-            tvMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinnerMajor.adapter = majorAdapter
+            spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            // 스피너 기본 클릭 이벤트 무효화
+            spinnerMajor.setOnTouchListener { _, _ -> true }
+            // 버튼 클릭 시 스피너 드롭다운 열기
+            btnMajor.setOnClickListener {
+                spinnerMajor.visibility = View.VISIBLE
+                spinnerMajor.performClick() // 또는 spinnerMajor.showDropDown()
+            }
+            // 선택된 학과 반영하기
+            spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -146,9 +177,9 @@ class OnboardingUserInfoFragment : Fragment() {
                     id: Long
                 ) {
                     val selectedMajor = departments[position]
-                    tvMajor.visibility = View.GONE
-                    univViewModel.setMajor(selectedMajor)
-                    updateNextBtnState()
+                    tvMajor.text = selectedMajor
+                    spinnerMajor.visibility = View.GONE
+                    viewModel.setMajorName(selectedMajor)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}

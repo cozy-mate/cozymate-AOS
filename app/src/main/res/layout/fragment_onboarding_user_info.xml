@@ -351,7 +351,33 @@
                 app:layout_constraintStart_toStartOf="@id/btn_major"
                 app:layout_constraintTop_toTopOf="@+id/btn_major" />
 
-            <AutoCompleteTextView
+            <Spinner
+                android:id="@+id/spinner_major"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:dropDownWidth="match_parent"
+                android:overlapAnchor="false"
+                android:popupBackground="@drawable/spinner_background"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="@id/btn_major"
+                app:layout_constraintStart_toStartOf="@id/btn_major"
+                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_nickname" />
+
+            <TextView
+                android:id="@+id/tv_major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="21dp"
+                android:layout_marginStart="40dp"
+                android:text="학과를 선택해주세요"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/unuse_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!--AutoCompleteTextView
                 android:id="@+id/tv_major"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -370,7 +396,7 @@
                 android:textColorHint="@color/unuse_font"
                 app:layout_constraintEnd_toEndOf="@id/btn_major"
                 app:layout_constraintStart_toStartOf="@id/btn_major"
-                app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
+                app:layout_constraintTop_toTopOf="@id/tv_major_guide" /-->
 
             <!-- 간격 띄우기위한 코드-->
             <androidx.constraintlayout.widget.ConstraintLayout
