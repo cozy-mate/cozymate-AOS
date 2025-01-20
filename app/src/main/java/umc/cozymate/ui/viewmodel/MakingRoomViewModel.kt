@@ -317,7 +317,7 @@ class MakingRoomViewModel @Inject constructor(
             Log.e(TAG, "Invalid token or roomId for getPendingRoom")
         }
     }
-    
+
     fun getPendingRoom(roomId: Int) {
         val token = getToken()
         Log.d(TAG, "방 진입 상태 확인 요청: roomId = $roomId")
@@ -348,6 +348,19 @@ class MakingRoomViewModel @Inject constructor(
             }
         } else {
             Log.e(TAG, "Invalid token or roomId for getPendingRoom")
+        }
+    }
+
+    fun deleteMemberInvite(memberId: Int) {
+        val token = getToken()
+        Log.d(TAG, "방 초대 요청 취소: memberId = $memberId")
+
+        if (token != null && memberId != 0) {
+            viewModelScope.launch {
+                try {
+                    val response = roomRepository.can
+                }
+            }
         }
     }
 

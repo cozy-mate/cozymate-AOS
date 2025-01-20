@@ -69,7 +69,7 @@ data class GetMemberDetailInfoResponse(
             val drinkingFrequency: String,
             val personality: List<String>,
             val mbti: String,
-            val selfIntroduction: String
+            val selfIntroduction: String?
         ) : Parcelable
     }
 }

@@ -4,6 +4,7 @@ import retrofit2.Response
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
@@ -65,6 +66,8 @@ interface RoomRepository {
     suspend fun getPendingMember(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
 
     suspend fun cancelJoinRequest(accessToken: String, roomId: Int): Response<CancelJoinRequestResponse>
+
+    suspend fun cancelInvitation(accessToken: String, memberId: Int): Response<CancelInvitationResponse>
 
     suspend fun getInvitedMembers(accessToken: String, roomId: Int): Response<GetInvitedMembersResponse>
 }
