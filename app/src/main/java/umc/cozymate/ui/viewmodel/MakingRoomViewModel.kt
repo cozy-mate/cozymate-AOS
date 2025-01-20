@@ -23,6 +23,7 @@ import umc.cozymate.data.model.response.room.QuitRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
+import kotlin.math.max
 
 @HiltViewModel
 class MakingRoomViewModel @Inject constructor(
@@ -366,8 +367,10 @@ class MakingRoomViewModel @Inject constructor(
         if (token != null && roomId != -1) {
             try {
                 val request = UpdateRoomInfoRequest(
-                    name = nickname.value!!,
-                    persona = persona.value!!,
+                    name = nickname.value?.takeIf { it.isNotBlank() }
+                        ?: throw IllegalStateException("방 이름은 비어있을 수 없습니다"),
+                    persona = persona.value
+                        ?: throw IllegalStateException("페르소나를 선택해주세요"),
                     hashtagList = hashtags.value
                 )
                 val response = roomRepository.updateRoomInfo(token, roomId, request)
@@ -390,7 +393,7 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
     suspend fun checkAndSubmitUpdateRoom() {
-        if (persona.value != 0 && nickname.value != null && maxNum.value != 0 ) {
+        if (persona.value != 0 && !nickname.value.isNullOrEmpty() && maxNum.value != 0) {
             updateRoomInfo()
         }
     }

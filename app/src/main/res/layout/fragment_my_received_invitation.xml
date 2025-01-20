@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="1개의"
+        android:text=""
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/main_blue"
         app:layout_constraintStart_toStartOf="parent"

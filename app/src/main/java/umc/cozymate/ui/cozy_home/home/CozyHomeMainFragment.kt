@@ -101,12 +101,18 @@ class CozyHomeMainFragment : Fragment() {
                 univViewModel.isMailVerified()
             }*/
             // 각 컴포넌트 새로고침
-            val myRoom = childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
-            val receivedJoinRequest = childFragmentManager.findFragmentById(R.id.received_join_request_container) as? ReceivedJoinRequestComponent
-            val receivedInvitation = childFragmentManager.findFragmentById(R.id.received_invitation_container) as? ReceivedInvitationComponent
-            val sentJoinRequest = childFragmentManager.findFragmentById(R.id.sent_join_container) as? SentJoinRequestComponent
-            val roommateRecommend = childFragmentManager.findFragmentById(R.id.recommended_roommate_container) as? RecommendedRoommateComponent
-            val roomRecommend = childFragmentManager.findFragmentById(R.id.recommended_room_container) as? RecommendedRoomComponent
+            val myRoom =
+                childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
+            val receivedJoinRequest =
+                childFragmentManager.findFragmentById(R.id.received_join_request_container) as? ReceivedJoinRequestComponent
+            val receivedInvitation =
+                childFragmentManager.findFragmentById(R.id.received_invitation_container) as? ReceivedInvitationComponent
+            val sentJoinRequest =
+                childFragmentManager.findFragmentById(R.id.sent_join_container) as? SentJoinRequestComponent
+            val roommateRecommend =
+                childFragmentManager.findFragmentById(R.id.recommended_roommate_container) as? RecommendedRoommateComponent
+            val roomRecommend =
+                childFragmentManager.findFragmentById(R.id.recommended_room_container) as? RecommendedRoomComponent
             myRoom?.refreshData()
             receivedJoinRequest?.refreshData()
             receivedInvitation?.refreshData()
@@ -125,10 +131,14 @@ class CozyHomeMainFragment : Fragment() {
         // 방 정보 옵저빙
         // 방장인지 여부를 확인합니다.
         viewModel.roomInfo.observe(viewLifecycleOwner) { roomInfo ->
-            if (roomInfo != null) {
+            state = if (roomInfo != null) {
                 if (roomInfo.isRoomManager) {
-                    state = UserRoomState.CREATED_ROOM
+                    UserRoomState.CREATED_ROOM
+                } else {
+                    UserRoomState.HAS_ROOM
                 }
+            } else {
+                UserRoomState.NO_ROOM
             }
         }
         // 방 존재 여부를 spf로 조회한 방 아이디로 확인합니다.
@@ -194,7 +204,10 @@ class CozyHomeMainFragment : Fragment() {
                         replace(R.id.received_invitation_container, ReceivedInvitationComponent())
                         replace(R.id.recommended_room_container, RecommendedRoomComponent())
                         replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(R.id.received_join_request_container, ReceivedJoinRequestComponent())
+                        replace(
+                            R.id.received_join_request_container,
+                            ReceivedJoinRequestComponent()
+                        )
                         replace(R.id.sent_join_container, SentJoinRequestComponent())
                         commit()
                     }

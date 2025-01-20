@@ -23,10 +23,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.ui.my_page.update_room.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -67,14 +69,22 @@ class CozyBotFragment : Fragment() {
             // 방 정보
             binding.ivChar.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
-                val intent = Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
-                    putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
-                }
+                val intent =
+                    Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
+                        putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                    }
                 startActivity(intent)
             }
             // 초기 룸로그 로드
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.getRoomInfoById()
+                try {
+                    viewModel.getRoomInfoById()
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
                 viewModel.loadAchievements(isNextPage = true)
             }
         }
