@@ -63,7 +63,7 @@ class UpdatePublicRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().finish()
             }
             // 캐릭터 선택
             ivCharacter.setOnClickListener {
