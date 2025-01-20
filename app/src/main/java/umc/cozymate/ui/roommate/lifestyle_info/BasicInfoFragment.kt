@@ -74,7 +74,7 @@ class BasicInfoFragment : Fragment() {
 
     private fun fetchUniversityData() {
         val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val universityId = sharedPreferences.getInt("university_id", -1)
+        val universityId = sharedPreferences.getInt("university_id", 1)
 
         if (universityId != -1) {
             viewLifecycleOwner.lifecycleScope.launch {
