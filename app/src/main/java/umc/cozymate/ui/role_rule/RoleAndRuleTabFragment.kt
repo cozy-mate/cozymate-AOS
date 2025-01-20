@@ -43,7 +43,6 @@ class RoleAndRuleTabFragment: Fragment() {
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         setMinHight()
         getPreference()
-
         return binding.root
     }
 
@@ -78,8 +77,9 @@ class RoleAndRuleTabFragment: Fragment() {
                 val ruleResponse = response.body()
                 ruleResponse?.let {
                     rules = it.result
-                    updateRule()
                 }
+            }else{
+                // 에러처리 필요
             }
             updateRule()
         })
@@ -90,8 +90,9 @@ class RoleAndRuleTabFragment: Fragment() {
                 val roleResponse = response.body()
                 roleResponse?.let {
                     roles = it.result
-                    updateRole()
                 }
+            }else{
+                // 에러처리 필요
             }
             updateRole()
         })

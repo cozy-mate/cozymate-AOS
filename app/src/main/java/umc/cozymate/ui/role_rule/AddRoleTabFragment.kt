@@ -87,10 +87,14 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
 
     private fun setUpObserver(){
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            try{
             if (isLoading) {
                 (activity as? AddTodoActivity)?.showProgressBar(true)
             } else {
                 (activity as?  AddTodoActivity)?.showProgressBar(false)
+            }
+            }catch (e: Exception){
+                Log.e(TAG,"프로그래스바 표시중 오류 발생",e)
             }
         })
     }

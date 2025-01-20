@@ -25,8 +25,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendBinding
-import umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendVPAdapter
-import umc.cozymate.ui.role_rule.AddTodoActivity
+import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
@@ -98,7 +97,7 @@ class RoommateRecommendFragment: Fragment() {
     }
 
     private fun updateUI(){
-        val recommendAdapter = RoommateRecommendVPAdapter(memberList){ memberId ->
+        val recommendAdapter = RecommendedRoommateVPAdapter(memberList){ memberId ->
             navigatorToRoommateDetail(memberId)
         }
         binding.rvRoommateDetailInfo.adapter = recommendAdapter

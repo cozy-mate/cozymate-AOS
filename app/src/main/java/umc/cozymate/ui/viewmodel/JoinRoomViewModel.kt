@@ -110,7 +110,7 @@ class JoinRoomViewModel @Inject constructor(
         }
     }
 
-    fun requsetJoinRoom(id: Int){
+    fun requestJoinRoom(id: Int){
         val token = getToken()
         viewModelScope.launch {
             try {

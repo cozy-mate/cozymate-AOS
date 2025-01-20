@@ -295,7 +295,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     //joinRoomViewModel.joinRoom(roomId)
                                     // 방 참여요청 api로 변경해두었습니다
-                                    joinRoomViewModel.requsetJoinRoom(roomId)
+                                    joinRoomViewModel.requestJoinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
                                     //spf.edit().putInt("room_id", roomId).commit()
