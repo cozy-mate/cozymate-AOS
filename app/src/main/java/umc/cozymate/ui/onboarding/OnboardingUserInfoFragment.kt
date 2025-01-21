@@ -43,6 +43,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private val univViewModel: UniversityViewModel by activityViewModels()
     private var isSelectedMale = true
     private var isSelectedFemale = false
+    private var birthDate = ""
     private var debounceJob: Job? = null
 
     override fun onCreateView(
@@ -116,7 +117,7 @@ class OnboardingUserInfoFragment : Fragment() {
             adapter.setDropDownViewResource(R.layout.spinner_item_txt)
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = -70
+            spinnerUniversity.dropDownVerticalOffset = -80
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
@@ -332,7 +333,7 @@ class OnboardingUserInfoFragment : Fragment() {
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
             else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
             viewModel.setNickname(binding.etOnboardingNickname.text.toString())
-            viewModel.setBirthday(binding.tvBirth.text.toString())
+            viewModel.setBirthday(birthDate)
             viewModel.setGender(gender)
             viewModel.setUniversity(binding.tvUniversity.text.toString())
             viewModel.setMajorName(binding.tvMajor.text.toString())
@@ -406,6 +407,7 @@ class OnboardingUserInfoFragment : Fragment() {
                     DatePickerBottomSheetFragment.AlertPickerDialogInterface {
 
                     override fun onClickDoneButton(date: String) {
+                        birthDate = date
                         binding.tvBirth.text = StringUtil.formatDate(date)
                     }
                 })
