@@ -105,14 +105,16 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment" />
+            app:layout_constraintTop_toBottomOf="@id/tv_ment"
+            app:layout_constraintBottom_toTopOf="@id/divider"/>
         <!--하단 구분 뷰 -->
         <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:layout_marginTop="210dp"
             android:background="#F7F9FA"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_ment" />
 

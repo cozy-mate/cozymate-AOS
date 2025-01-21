@@ -29,7 +29,7 @@ enum class Preference(
     IS_PHONE_CALL(16, "isPhoneCall", "전화여부", "", R.drawable.ic_is_phone_call_blue, R.drawable.ic_is_phone_call_red, R.drawable.ic_is_phone_call_gray),
     STUDYING(17, "studying", "공부여부", "", R.drawable.ic_studying_blue, R.drawable.ic_studying_red, R.drawable.ic_studying_gray),
     INTAKE(18, "intake", "섭취여부", "", R.drawable.ic_intake_blue, R.drawable.ic_intake_red, R.drawable.ic_intake_gray),
-    CLEAN_SENSITIVITY(19, "cleaningSensitivity", "청결예민도", "", R.drawable.ic_clean_sensitivity_blue, R.drawable.ic_clean_sensitivity_red, R.drawable.ic_clean_sensitivity_gray),
+    CLEAN_SENSITIVITY(19, "cleanSensitivity", "청결예민도", "", R.drawable.ic_clean_sensitivity_blue, R.drawable.ic_clean_sensitivity_red, R.drawable.ic_clean_sensitivity_gray),
     NOISE_SENSITIVITY(20, "noiseSensitivity", "소음예민도", "", R.drawable.ic_noise_sensitivity_blue, R.drawable.ic_noise_sensitivity_red, R.drawable.ic_noise_sensitivity_gray),
     CLEANING_FREQUENCY(21, "cleaningFrequency", "청소빈도", "", R.drawable.ic_cleaning_frequency_blue, R.drawable.ic_cleaning_frequency_red, R.drawable.ic_cleaning_frequency_gray),
     DRINKING_FREQUENCY(22, "drinkingFrequency", "음주빈도", "", R.drawable.ic_drinking_frequency_blue, R.drawable.ic_drinking_frequency_red, R.drawable.ic_drinking_frequency_gray),

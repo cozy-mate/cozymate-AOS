@@ -37,6 +37,17 @@ class ReceivedInvitationComponent : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getInvitedRoomList()
         }
+        // 기본으로 0개 띄우기
+        binding.tvRequestNum.text = "0개의"
+        binding.tvRequestNum.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+        binding.clComponent.visibility = View.GONE
+        binding.clEmptyRoommate.visibility = View.VISIBLE
+        binding.clEmptyRoommate.isEnabled = true
+        binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동
+            val intent = Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
+            startActivity(intent)
+        }
+        binding.rvMyReceived.visibility = View.GONE
         return binding.root
     }
 
