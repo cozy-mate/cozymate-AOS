@@ -47,7 +47,7 @@ class NotificationActivity : AppCompatActivity() {
         viewModel.notificationResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccess) {
-                contents = response.result
+                contents = response.result.reversed() // 알림 리스트 역순 정렬
                 updateContents()
             }
         })
