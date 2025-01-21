@@ -3,5 +3,5 @@
     <!-- 선택된 상태 -->
     <item android:color="@color/main_blue" android:state_checked="true"/>
     <!-- 기본 상태 -->
-    <item android:color="@color/unuse_font"/>
+    <item android:color="@color/unuse_font" android:state_checked="false"/>
 </selector>
