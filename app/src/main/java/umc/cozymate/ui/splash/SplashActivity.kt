@@ -178,7 +178,7 @@ class SplashActivity : AppCompatActivity() {
                         splashViewModel.isMember.observe(this) { isMember ->
                             if (isMember == true) goCozyHome()
                             else if (isMember == false) goOnboarding()
-                            else if (isMember == null) {}
+                            else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
                         }
                     } catch (e: Exception) {
                         goLoginFail()

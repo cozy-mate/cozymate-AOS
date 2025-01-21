@@ -2,6 +2,7 @@ package umc.cozymate.ui.roommate
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
@@ -57,8 +59,6 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         tvTitle.text = "기본정보"
 
         btnNext.setOnClickListener {
-            val fragment = supportFragmentManager.findFragmentByTag("f${viewPager.currentItem}")
-
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
@@ -67,6 +67,12 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 //                )
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
+
+                // 마지막 프래그먼트에서 메인 액티비티로 이동
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                finish()
             }
         }
 

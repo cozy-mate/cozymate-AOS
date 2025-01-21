@@ -92,7 +92,7 @@ class RoomRequestViewModel @Inject constructor(
     val isLoading3: LiveData<Boolean> = _isLoading3
     suspend fun getInvitedRoomList() {
         val token = getToken()
-        _isLoading2.value = true
+        _isLoading3.value = true
         if (token != null) {
             try {
                 val response = repo.getInvitedRoomList(token)

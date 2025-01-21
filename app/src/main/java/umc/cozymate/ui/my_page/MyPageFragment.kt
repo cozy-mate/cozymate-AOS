@@ -16,7 +16,7 @@ import umc.cozymate.ui.my_page.favorite.MyFavoriteActivity
 import umc.cozymate.ui.my_page.inquiry.InquiryActivity
 import umc.cozymate.ui.my_page.inquiry.WriteInquiryActivity
 import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
-import umc.cozymate.ui.my_page.update_room.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.my_page.my_info.UpdateMyInfoActivity
 import umc.cozymate.ui.my_page.withdraw.WithDrawActivity
 import umc.cozymate.ui.pop_up.PopupClick
@@ -127,6 +127,7 @@ class MyPageFragment : Fragment() {
         } else {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.tvSchool.text = "아직 방이 존재하지 않아요"
         }
 
         // 학교 인증

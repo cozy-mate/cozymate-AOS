@@ -63,7 +63,7 @@ class UpdatePublicRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().finish()
             }
             // 캐릭터 선택
             ivCharacter.setOnClickListener {
@@ -106,13 +106,23 @@ class UpdatePublicRoomFragment : Fragment() {
                 isCharacterSelected && isRoomNameEntered && isPeopleNumSelected && isHashtagEntered
             btnNext.isEnabled = isEnabled
             btnNext.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.checkAndSubmitUpdateRoom() // 방 정보 PATCH
-                    Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
-                }
-                if (hashtags.size == 0) {
+                if (!isCharacterSelected) {
+                    Toast.makeText(context, "캐릭터를 선택해주세요", Toast.LENGTH_SHORT).show()
+                } else if (hashtags.size == 0) {
                     Toast.makeText(context, "방 해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else if (!isRoomNameEntered) {
+                    Toast.makeText(context, "방 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else if (!isPeopleNumSelected) {
+                    Toast.makeText(context, "최대 인원수를 선택해주세요", Toast.LENGTH_SHORT).show()
+                } else if (hashtags.isEmpty()) {
+                    Toast.makeText(context, "해시태그를 한 개 이상 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.checkAndSubmitUpdateRoom() // 방 정보 PATCH
+                        Log.d(TAG, "초대코드방 clicklistener 활성화 : $charId $roomName $numPeople")
+                    }
                 }
+
             }
         }
     }

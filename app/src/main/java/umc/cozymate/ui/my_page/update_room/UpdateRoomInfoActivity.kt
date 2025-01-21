@@ -32,9 +32,9 @@ class UpdateRoomInfoActivity : AppCompatActivity() {
             insets
         }
         // intent로 방 상태 불러오기
-        roomState = intent.getStringExtra(ROOM_STATE).toString()
+        roomState = intent.getStringExtra(ROOM_STATE) ?: ""
         if (roomState == PUBLIC) loadUpdatePublicRoomFragment()
-        else if (roomState == PRIVATE) loadUpdatePrivateRoomFragment()
+        else if (roomState == PRIVATE || roomState == "") loadUpdatePrivateRoomFragment()
 
     }
 

@@ -89,9 +89,10 @@
                         android:paddingTop="43dp"
                         android:paddingEnd="20dp"
                         android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                        android:textColor="@color/color_font"
+                        android:textColor="@color/basic_font"
                         android:textColorHint="@color/unuse_font"
-                        android:textCursorDrawable="@color/black" />
+                        android:textCursorDrawable="@color/black"
+                        android:textSize="13dp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -165,6 +166,7 @@
                             android:text="남자"
                             android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
                             android:textColor="@color/basic_font"
+                            android:textSize="13dp"
                             app:layout_constraintBottom_toBottomOf="@id/iv_male"
                             app:layout_constraintStart_toEndOf="@id/iv_male"
                             app:layout_constraintTop_toTopOf="@id/iv_male" />
@@ -197,6 +199,7 @@
                             android:text="여자"
                             android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
                             android:textColor="@color/basic_font"
+                            android:textSize="13dp"
                             app:layout_constraintBottom_toBottomOf="@id/iv_female"
                             app:layout_constraintStart_toEndOf="@id/iv_female"
                             app:layout_constraintTop_toTopOf="@id/iv_female" />
@@ -244,8 +247,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginBottom="21dp"
-                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
                         android:textColor="@color/basic_font"
+                        android:textSize="13dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -273,7 +277,6 @@
                 android:layout_marginTop="28dp"
                 android:backgroundTint="@color/white"
                 app:cardCornerRadius="12dp"
-                app:layout_constraintBottom_toTopOf="@id/cl_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mcv_birth"
@@ -303,8 +306,10 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginBottom="21dp"
                         android:text="학교를 선택해주세요"
-                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:elevation="1dp"
+                        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
                         android:textColor="@color/unuse_font"
+                        android:textSize="13dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -312,10 +317,9 @@
                     <Spinner
                         android:id="@+id/spinner_university"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:background="@drawable/spinner_bg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/transparent"
                         android:dropDownWidth="match_parent"
                         android:overlapAnchor="false"
                         android:popupBackground="@drawable/spinner_background"
@@ -324,53 +328,90 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_label_university" />
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="11.5dp"
+                        android:src="@drawable/ic_dropdown"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_university"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_university" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <!-- 학과 -->
-            <ImageView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_major"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/custom_rectangle_12"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="12dp"
+                app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mcv_university" />
+                app:layout_constraintTop_toBottomOf="@id/mcv_university"
+                app:rippleColor="@color/transparent"
+                app:strokeColor="@color/unuse">
 
-            <TextView
-                android:id="@+id/tv_major_guide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="학과"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/color_font"
-                app:layout_constraintStart_toStartOf="@id/btn_major"
-                app:layout_constraintTop_toTopOf="@+id/btn_major" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <AutoCompleteTextView
-                android:id="@+id/tv_major"
+                    <TextView
+                        android:id="@+id/tv_label_major"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:text="학과"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_major"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="21dp"
+                        android:text="학과를 선택해주세요"
+                        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                        android:textColor="@color/unuse_font"
+                        android:textSize="13dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="11.5dp"
+                        android:src="@drawable/ic_dropdown"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_major"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_major" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Spinner
+                android:id="@+id/spinner_major"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="20dp"
-                android:background="@null"
-                android:hint="학과를 입력해주세요"
-                android:dropDownWidth="280dp"
-                android:completionThreshold="1"
+                android:background="@color/transparent"
+                android:dropDownWidth="match_parent"
+                android:overlapAnchor="false"
                 android:popupBackground="@drawable/spinner_background"
-                android:padding="0dp"
                 android:spinnerMode="dropdown"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                android:textColorHint="@color/unuse_font"
                 app:layout_constraintEnd_toEndOf="@id/btn_major"
                 app:layout_constraintStart_toStartOf="@id/btn_major"
-                app:layout_constraintTop_toTopOf="@id/tv_major_guide" />
+                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_nickname" />
 
             <!-- 간격 띄우기위한 코드-->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -379,7 +420,7 @@
                 android:layout_height="100dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mcv_university" />
+                app:layout_constraintTop_toBottomOf="@id/btn_major" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

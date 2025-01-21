@@ -2,6 +2,7 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +22,8 @@ import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class RoommateDetailActivity : AppCompatActivity() {
@@ -37,6 +40,8 @@ class RoommateDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this@RoommateDetailActivity, Color.WHITE)
 
 //        memberId = intent.getIntExtra("member_id", -1)
 //        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")

@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentUpdateBirthBinding
 import umc.cozymate.ui.onboarding.DatePickerBottomSheetFragment
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
+import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
 class UpdateBirthFragment: Fragment() {
@@ -52,7 +53,7 @@ class UpdateBirthFragment: Fragment() {
                     DatePickerBottomSheetFragment.AlertPickerDialogInterface {
 
                     override fun onClickDoneButton(date: String) {
-                        binding.tvBirth.text = date
+                        binding.tvBirth.text = StringUtil.formatDate(date)
                         viewModel.setBirthDate(date)
                     }
                 })

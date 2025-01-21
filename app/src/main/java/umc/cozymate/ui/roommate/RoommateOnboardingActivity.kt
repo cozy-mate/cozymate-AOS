@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.databinding.ActivityRoommateOnboardingBinding
 import umc.cozymate.ui.viewmodel.SplashViewModel
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class RoommateOnboardingActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class RoommateOnboardingActivity : AppCompatActivity() {
 
         binding = ActivityRoommateOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setStatusBarTransparent()
 
         binding.btnGoLifestyle.setOnClickListener {
             Log.d("RoommateOnboardingActivity", "btnGoLifestyle Clicked")
