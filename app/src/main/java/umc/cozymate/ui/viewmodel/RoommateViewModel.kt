@@ -62,6 +62,9 @@ class RoommateViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("is_lifestyle_exist", true)
+                editor.commit()
             }.onError {
                 Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
             }.onException {
