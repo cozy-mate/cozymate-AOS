@@ -306,6 +306,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginBottom="21dp"
                         android:text="학교를 선택해주세요"
+                        android:elevation="1dp"
                         android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
                         android:textColor="@color/unuse_font"
                         android:textSize="13dp"
