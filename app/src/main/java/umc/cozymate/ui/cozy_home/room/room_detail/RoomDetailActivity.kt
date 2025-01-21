@@ -313,7 +313,6 @@ class RoomDetailActivity : AppCompatActivity() {
                                     joinRoomViewModel.joinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
-                                    spf.edit().putInt("room_id", roomId).commit()
                                     recreate()
                                 }
                             }

@@ -47,6 +47,8 @@ class MakingRoomViewModel @Inject constructor(
     val inviteCode: LiveData<String> get() = _inviteCode
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
+    private val _inviteMemberSuccess = MutableLiveData<Boolean>()
+    val inviteMemberSuccess: LiveData<Boolean> get() = _inviteMemberSuccess
 
     private val _pendingRoom = MutableLiveData<Boolean>()
     val pendingRoom: LiveData<Boolean> get() = _pendingRoom
@@ -292,7 +294,8 @@ class MakingRoomViewModel @Inject constructor(
         if (token != null && memberId != 0) {
             viewModelScope.launch {
                 try {
-                    val response = roomRepository.getPendingMember(token, memberId)
+//                    val response = roomRepository.getPendingMember(token, memberId)
+                    val response = roomRepository.getInvitedStatus(token, memberId)
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "멤버 초대 상태 확인 성공: ${response.body()!!.result}")
                         _pendingMember.value = response.body()!!.result
@@ -348,6 +351,32 @@ class MakingRoomViewModel @Inject constructor(
             }
         } else {
             Log.e(TAG, "Invalid token or roomId for getPendingRoom")
+        }
+    }
+
+    fun inviteMember(memberId: Int) {
+        val token = getToken()!!
+
+        viewModelScope.launch {
+            try {
+                val response = roomRepository.inviteMember(token, memberId)
+                if (response.isSuccessful) {
+                    if (response.body()!!.isSuccess) {
+                        Log.d(TAG, "방 초대 성공 : ${response.body()!!.result}")
+                        _inviteMemberSuccess.value = true
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if(errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("Unknown", false, "unknown error")
+                    }
+                    Log.d(TAG, "방 초대 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception){
+                Log.d(TAG, "방 초대 api 요청 실패: ${e}")
+            }
         }
     }
 

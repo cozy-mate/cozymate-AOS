@@ -59,7 +59,11 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val userDetail = getUserDetailFromPreferences()
 
-        updateUI(otherUserDetail!!)
+//        updateUI(otherUserDetail!!)
+        otherUserDetail.let {
+            updateUI(it!!)
+            setupFAB(it)
+        }
         selectListView(otherUserDetail!!)
 
         setUpListeners(userDetail!!)
@@ -133,6 +137,10 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupFAB(userDetail: GetMemberDetailInfoResponse.Result) {
+        updateFAB(userDetail)
+    }
+
     private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
         with(binding) {
             Log.d(TAG, "updateUI 실행")
@@ -166,7 +174,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         // 플로팅 버튼 처리
-        updateFAB(userDetail)
+//        updateFAB(userDetail)
 
         binding.btnChat.setOnClickListener {
             val memberId = otherUserDetail!!.memberDetail.memberId
@@ -180,10 +188,12 @@ class RoommateDetailActivity : AppCompatActivity() {
 
     private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
         val memberId = userDetail.memberDetail.memberId
+        Log.d(TAG, "현재 조회한 memberId: $memberId")
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val mbti = spf.getString("user_mbti", null)
         val savedRoomId = spf.getInt("room_id", -2)
         val otherRoom = userDetail.roomId
+        Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
 
         if (savedRoomId == 0 || savedRoomId == -2) {
             // 내 방이 방이 없는 경우
@@ -208,7 +218,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             } else {
                 // 상대방이 방이 없는 경우 = 초대가능한 경우
                 makingRoomViewModel.getPendingMember(memberId)
-                makingRoomViewModel.pendingMember.observe(this) {isPending ->
+                makingRoomViewModel.pendingMember.observe(this) { isPending ->
                     if (isPending) {
                         // 이미 초대한 경우 (초대 승인 대기 중)
                         with(binding) {
@@ -218,7 +228,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                             fabRequestRoommate.setOnClickListener {
                                 lifecycleScope.launch {
                                     makingRoomViewModel.deleteMemberInvite(memberId)
-                                    delay(300)
+                                    delay(600)
                                     makingRoomViewModel.getPendingMember(memberId)
                                     recreate()
                                 }
@@ -232,7 +242,10 @@ class RoommateDetailActivity : AppCompatActivity() {
                             fabRequestRoommate.setTextColor(getColor(R.color.white))
                             fabRequestRoommate.setOnClickListener {
                                 lifecycleScope.launch {
-                                    makingRoomViewModel.in
+                                    makingRoomViewModel.inviteMember(memberId)
+                                    delay(600)
+                                    makingRoomViewModel.getPendingMember(memberId)
+                                    recreate()
                                 }
                             }
                         }
