@@ -80,5 +80,9 @@ interface RoomRepository {
     suspend fun getInvitedMembers(accessToken: String, roomId: Int): Response<GetInvitedMembersResponse>
 
     suspend fun getInvitedStatus(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
+
+    suspend fun acceptMemberRequest(accessToken: String, requesterId: Int, accept: Boolean): Response<DefaultResponse>
+
+    suspend fun acceptRoomEnter(accessToken: String, roomId: Int, accept: Boolean): Response<DefaultResponse>
 }
 

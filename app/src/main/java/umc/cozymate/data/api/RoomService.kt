@@ -220,4 +220,18 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int
     ) : Response<GetInvitedMembersResponse>
+
+    @PATCH("/rooms/request-join/{requesterId}")
+    suspend fun acceptMemberRequest(
+        @Header("Authorization") accessToken: String,
+        @Path("requesterId") requesterId: Int,
+        @Query("accept") accept: Boolean
+    ) : Response<DefaultResponse>
+
+    @POST("/rooms/{roomId}/invite-request")
+    suspend fun acceptRoomEnter(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+        @Query("accept") accept: Boolean
+    ) : Response<DefaultResponse>
 }
