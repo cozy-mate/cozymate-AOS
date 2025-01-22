@@ -51,10 +51,10 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         }
 
         fun trimText(text: String?): String {
-            return if (text != null && text.length > 6) {
-                text.substring(0, 12) + ".."
-            } else {
-                text ?: ""
+            return when {
+                text == null -> ""
+                text.length > 12 -> "${text.substring(0, 12)}.."
+                else -> text
             }
         }
 
@@ -73,14 +73,16 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             tvListMajor.text = spf.getString("major_name", "")
             tvListDormitoryNum.text = "${spf.getInt("user_numOfRoommate", 0)}인 1실"
             tvListAcceptance.text = spf.getString("user_acceptance", "")
-                tvListWakeUpAmpm.text = spf.getString("user_wakeUpMeridian", "")
-                tvListWakeUpTime.text = "${spf.getInt("user_wakeUpTime", 0)}"
-                tvListSleepAmpm.text = spf.getString("user_sleepingMeridian", "")
+            tvListWakeUpAmpm.text = spf.getString("user_wakeUpMeridian", "")
+            tvListWakeUpTime.text = "${spf.getInt("user_wakeUpTime", 0)}"
+            tvListSleepAmpm.text = spf.getString("user_sleepingMeridian", "")
             tvListSleepTime.text = "${spf.getInt("user_sleepingTime", 0)}"
             tvListLightOffAmpm.text = spf.getString("user_turnOffMeridian", "")
             tvListLightOffTime.text = "${spf.getInt("user_turnOffTime", 0)}"
             tvListSmokeCheck.text = spf.getString("user_smoking", "")
-            tvListSleepHabbit.text = trimText(spf.getStringSet("user_sleepingHabit", emptySet())?.toList()?.joinToString(", "))
+            tvListSleepHabbit.text = trimText(
+                spf.getStringSet("user_sleepingHabit", emptySet())?.toList()?.joinToString(", ")
+            )
             tvListAc.text = when (spf.getInt("user_airConditioningIntensity", 3)) {
                 0 -> "안 틀어요"
                 1 -> "약하게 틀어요"
@@ -120,7 +122,9 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             }
             tvListCleanFrequency.text = spf.getString("user_cleaningFrequency", "")
             tvListDrinkFrequency.text = spf.getString("user_drinkingFrequency", "")
-            tvListPersonalityCheck.text = trimText(spf.getStringSet("user_personality", emptySet())?.toList()?.joinToString(", "))
+            tvListPersonalityCheck.text = trimText(
+                spf.getStringSet("user_personality", emptySet())?.toList()?.joinToString(", ")
+            )
             tvListMbti.text = spf.getString("user_mbti", "")
             tvSelfIntroduction.text = spf.getString("user_selfIntroduction", "")
         }

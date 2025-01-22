@@ -356,7 +356,7 @@ class MakingRoomViewModel @Inject constructor(
 
     fun inviteMember(memberId: Int) {
         val token = getToken()!!
-
+        _loading.value = true
         viewModelScope.launch {
             try {
                 val response = roomRepository.inviteMember(token, memberId)
@@ -376,6 +376,8 @@ class MakingRoomViewModel @Inject constructor(
                 }
             } catch (e: Exception){
                 Log.d(TAG, "방 초대 api 요청 실패: ${e}")
+            } finally {
+                _loading.value = false
             }
         }
     }

@@ -225,9 +225,6 @@ class RoomDetailViewModel @Inject constructor(
                         Log.d(TAG, "초대된 멤버가 없습니다.")
                         _invitedMembers.emit(emptyList())
                     } else {
-//                        result.forEach {
-//                            _invitedMembers.emit(result)
-//                        }
                         _invitedMembers.emit(result)
                         Log.d(TAG, "초대된 멤버  조회 성공: ${result.size}명")
                     }
