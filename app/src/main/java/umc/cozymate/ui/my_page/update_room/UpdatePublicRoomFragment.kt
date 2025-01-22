@@ -63,6 +63,9 @@ class UpdatePublicRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
                 requireActivity().finish()
             }
             // 캐릭터 선택

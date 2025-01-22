@@ -9,7 +9,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <!-- ProgressBar for loading state -->
         <ProgressBar
@@ -19,7 +20,6 @@
             android:layout_gravity="center"
             android:visibility="gone"
             tools:visibility="visible"/>
-
 
         <!-- 메인 UI 요소들 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="46dp"
                 android:background="@drawable/ic_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
                 android:id="@+id/btn_like"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="46dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/ic_heart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
                 android:id="@+id/btn_chat"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="46dp"
                 android:background="@drawable/ic_message"
                 app:layout_constraintEnd_toStartOf="@id/btn_like"
                 app:layout_constraintTop_toTopOf="parent" />

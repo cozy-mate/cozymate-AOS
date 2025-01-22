@@ -23,6 +23,7 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
@@ -42,6 +43,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@RoommateDetailActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
 //        memberId = intent.getIntExtra("member_id", -1)
 //        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")

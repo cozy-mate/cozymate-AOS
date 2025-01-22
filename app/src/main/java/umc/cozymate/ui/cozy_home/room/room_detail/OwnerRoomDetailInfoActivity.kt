@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,6 +32,9 @@ import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 // TODO: 방 수정, 방 나가기, 방 전환은 나중에(공개방/비공개방)
 @AndroidEntryPoint
@@ -58,11 +62,10 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         binding = ActivityOwnerRoomDetailInfoBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this@OwnerRoomDetailInfoActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
+
         // 더보기 버튼 설정
         var moreFlag = false
         binding.llMore.visibility = View.GONE
