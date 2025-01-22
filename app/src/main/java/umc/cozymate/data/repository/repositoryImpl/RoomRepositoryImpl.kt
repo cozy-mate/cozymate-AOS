@@ -6,12 +6,14 @@ import umc.cozymate.data.api.RoomService
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
@@ -80,6 +82,13 @@ class RoomRepositoryImpl @Inject constructor(
         roomId: Int
     ): Response<JoinRoomResponse> {
         return api.joinRoom(accessToken, roomId)
+    }
+
+    override suspend fun inviteMember(
+        accessToken: String,
+        inviteeId: Int
+    ): Response<JoinRoomResponse> {
+        return api.inviteMember(accessToken, inviteeId)
     }
 
     override suspend fun isRoomExist(
@@ -158,6 +167,13 @@ class RoomRepositoryImpl @Inject constructor(
         return api.getPendingRoom(accessToken, roomId)
     }
 
+    override suspend fun getPendingMember(
+        accessToken: String,
+        memberId: Int
+    ): Response<GetRoomPendingMemberResponse> {
+        return api.getPendingMember(accessToken, memberId)
+    }
+
     override suspend fun cancelJoinRequest(
         accessToken: String,
         roomId: Int
@@ -167,5 +183,26 @@ class RoomRepositoryImpl @Inject constructor(
 
     override suspend fun getInvitedRoomList(accessToken: String): Response<GetInvitedRoomListResponse> {
         return api.getInvitedRoomList(accessToken)
+    }
+
+    override suspend fun cancelInvitation(
+        accessToken: String,
+        memberId: Int
+    ): Response<CancelInvitationResponse> {
+        return api.cancelInvitation(accessToken, memberId)
+    }
+
+    override suspend fun getInvitedMembers(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetInvitedMembersResponse> {
+        return api.getInvitedMembers(accessToken, roomId)
+    }
+
+    override suspend fun getInvitedStatus(
+        accessToken: String,
+        memberId: Int
+    ): Response<GetRoomPendingMemberResponse> {
+        return api.getInvitedStatus(accessToken, memberId)
     }
 }

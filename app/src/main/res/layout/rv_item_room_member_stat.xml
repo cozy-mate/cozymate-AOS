@@ -50,13 +50,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_room_member_stat"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="34dp"
             android:text=""
             tools:text="집에 가고싶어요"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/color_font"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_room_member_master"
-            app:layout_constraintStart_toEndOf="@+id/tv_room_member_master"/>
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_room_member_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_room_member_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

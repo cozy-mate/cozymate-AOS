@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.room_detail
+package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.model.response.ErrorResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.room.GetRoomMemberStatResponse
@@ -58,6 +59,9 @@ class RoomDetailViewModel @Inject constructor(
 
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
+
+    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
+    val invitedMembers = _invitedMembers.asSharedFlow()
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
     val sortType: LiveData<String> get() = _sortType
@@ -200,6 +204,40 @@ class RoomDetailViewModel @Inject constructor(
                 // 로딩 완료
                 _isLoading.postValue(false)
                 Log.d(TAG, "Loading finished for memberStatKey: $memberStatKey")
+            }
+        }
+    }
+    // 초대 멤버 리스트 조회
+    fun fetchInvitedMembers(roomId: Int) {
+        viewModelScope.launch {
+            Log.d(TAG, "fecthInvitedMembers called with roomId: $roomId")
+            try {
+                _isLoading.value = true
+
+                val token = getToken() ?: return@launch
+                val response = repository.getInvitedMembers(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()?.result
+
+                    if (result.isNullOrEmpty()) {
+                        // Result가 비어 있는 경우
+                        Log.d(TAG, "초대된 멤버가 없습니다.")
+                        _invitedMembers.emit(emptyList())
+                    } else {
+                        _invitedMembers.emit(result)
+                        Log.d(TAG, "초대된 멤버  조회 성공: ${result.size}명")
+                    }
+                } else {
+                    // 응답 실패 처리
+                    Log.e(TAG, "초대된 멤버 조회 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                // 예외 처리
+                Log.e(TAG, "초대된 멤버 조회 중 오류 발생: $e")
+            } finally {
+                // 로딩 완료
+                _isLoading.value = false
             }
         }
     }

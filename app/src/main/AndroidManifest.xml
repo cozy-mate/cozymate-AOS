@@ -26,6 +26,9 @@
             android:name=".ui.my_page.update_room.UpdateRoomInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.cozy_home.roommate.roommate_detail.RoommateMyDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="false" />
         <activity
@@ -110,6 +113,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity"
+            android:launchMode="singleTask"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
