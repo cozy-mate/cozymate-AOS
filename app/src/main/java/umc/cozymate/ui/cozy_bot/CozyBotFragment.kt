@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -13,6 +14,8 @@ import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -27,9 +30,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import umc.cozymate.R
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentCozyBotBinding
+import umc.cozymate.databinding.ItemCozyhomeAchievementBinding
+import umc.cozymate.databinding.RvItemCozybotMemberBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
+import umc.cozymate.ui.my_page.update_room.UpdateRoomInfoActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.util.CharacterUtil
@@ -42,6 +49,7 @@ class CozyBotFragment : Fragment() {
     private var roomId: Int? = null
     private var roomName: String? = null
     private var roomPersona: Int? = null
+    private var roomType: String = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,8 +66,8 @@ class CozyBotFragment : Fragment() {
         if (roomId != 0) {
             // 닉네임
             setName()
-            // 초대코드
-            setInviteCodeObserver()
+            // 초대코드, 멤버 페르소나 옵저빙
+            setRoomInfoObserver()
             // 룸로그
             observeRoomLog()
             // 쪽지
@@ -67,7 +75,7 @@ class CozyBotFragment : Fragment() {
             // 알림
             openNotification()
             // 방 정보
-            binding.ivChar.setOnClickListener {
+            binding.clMembers.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
                 val intent =
                     Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
@@ -75,10 +83,16 @@ class CozyBotFragment : Fragment() {
                     }
                 startActivity(intent)
             }
+            // 방 페르소나 클릭하면 방 수정
+            binding.ivChar.setOnClickListener {
+                val intent = Intent(requireActivity(), UpdateRoomInfoActivity::class.java)
+                intent.putExtra(UpdateRoomInfoActivity.ROOM_STATE, roomType)
+                startActivity(intent)
+            }
             // 초기 룸로그 로드
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    viewModel.getRoomInfoById()
+                    viewModel.fetchRoomInfo()
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
@@ -96,6 +110,14 @@ class CozyBotFragment : Fragment() {
         if (roomId != 0) {
             setName()
             viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    viewModel.fetchRoomInfo()
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
                 viewModel.loadAchievements(isNextPage = true)
             }
         }
@@ -152,13 +174,57 @@ class CozyBotFragment : Fragment() {
         }
     }
 
-    private fun setInviteCodeObserver() {
-        viewModel.roomInfo.observe(viewLifecycleOwner, Observer { roomInfo ->
-            if (roomInfo.inviteCode == "" || roomInfo.inviteCode == null) {
+    private fun setRoomInfoObserver() {
+        // 멤버 페르소나 리스트
+        viewModel.mateList.observe(viewLifecycleOwner, Observer { res ->
+            if (res.isNullOrEmpty()) {
+                binding.rvMembers.visibility = View.GONE
+            } else {
+                binding.rvMembers.visibility = View.VISIBLE
+                binding.rvMembers.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                val adapter = CozybotCharactersAdapter(res)
+                binding.rvMembers.adapter = adapter
+                binding.rvMembers.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        view: View,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        val position = parent.getChildAdapterPosition(view)
+                        val itemCount = state.itemCount
+
+                        if (position == itemCount - 1) {
+                            outRect.right = 0 // 마지막 아이템 간격 없음
+                        } else {
+                            outRect.right = -4 // 아이템 간 겹침
+                        }
+                    }
+                })
+            }
+        })
+        // 초대코드
+        viewModel.inviteCode.observe(viewLifecycleOwner, Observer { res ->
+            if (res == "" || res == null) {
                 binding.btnCopyInviteCode.visibility = View.GONE
             } else {
                 binding.btnCopyInviteCode.visibility = View.VISIBLE
-                binding.btnCopyInviteCode.text = roomInfo.inviteCode
+                binding.btnCopyInviteCode.text = res
+            }
+        })
+        // 방 타입
+        viewModel.roomType.observe(viewLifecycleOwner, Observer { res ->
+            when (res) {
+                "PUBLIC" -> {
+                    roomType = UpdateRoomInfoActivity.PUBLIC
+                }
+                "PRIVATE" -> {
+                    roomType = UpdateRoomInfoActivity.PRIVATE
+                }
+                else -> {
+                    roomType = UpdateRoomInfoActivity.PRIVATE
+                }
             }
         })
         // 초대코드 클립보드 복사

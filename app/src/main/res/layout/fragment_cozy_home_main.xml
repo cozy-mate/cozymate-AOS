@@ -20,7 +20,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_top"
                 android:layout_width="match_parent"
-                android:layout_height="273dp"
+                android:layout_height="263dp"
                 android:background="@drawable/background_cozyhome_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_make_room"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="105dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="33dp"
