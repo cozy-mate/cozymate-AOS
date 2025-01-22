@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -110,6 +112,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun updateUserRoomInfo() {
         lifecycleScope.launch {
+            Log.d(TAG, "updateUserRoomInfo 진입")
             viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
                 with(binding) {
                     tvRoomName.text = roomInfo.name
@@ -141,11 +144,16 @@ class RoomDetailActivity : AppCompatActivity() {
                     ivSetting.visibility = View.GONE // 기능 구현 후 visible로 수정
                 }
             }
+        }
+        lifecycleScope.launch {
+            Log.d(TAG, "invitedMembers LifecycleScope 실행")
             viewModel.invitedMembers.collectLatest { invitedInfo ->
-                // Invited members의 데이터에 따라 RecyclerView의 visibility 조정
+                Log.d(TAG, "invitedMembers.collectLatest 호출")
                 if (invitedInfo.isEmpty()) {
                     binding.clInvitedMember.visibility = View.GONE
+                    Log.d(TAG, "InvitedMember Empty")
                 } else {
+                    Log.d(TAG, "InvitedMember Not Empty")
                     binding.clInvitedMember.visibility = View.VISIBLE
                     binding.rvInvitedMember.apply {
                         layoutManager = LinearLayoutManager(this@RoomDetailActivity)
@@ -158,6 +166,7 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun exitButton(roomId: Int) {

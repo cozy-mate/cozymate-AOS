@@ -60,7 +60,7 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
-    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>()
+    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
     val invitedMembers = _invitedMembers.asSharedFlow()
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
@@ -210,8 +210,8 @@ class RoomDetailViewModel @Inject constructor(
     // 초대 멤버 리스트 조회
     fun fetchInvitedMembers(roomId: Int) {
         viewModelScope.launch {
+            Log.d(TAG, "fecthInvitedMembers called with roomId: $roomId")
             try {
-                // 로딩 상태 표시
                 _isLoading.value = true
 
                 val token = getToken() ?: return@launch
@@ -225,11 +225,11 @@ class RoomDetailViewModel @Inject constructor(
                         Log.d(TAG, "초대된 멤버가 없습니다.")
                         _invitedMembers.emit(emptyList())
                     } else {
-                        // Result가 있는 경우 데이터를 스트림에 emit
-                        result.forEach {
-                            _invitedMembers.emit(result)
-                        }
-                        Log.d(TAG, "초대된 멤버 조회 성공: ${result.size}명")
+//                        result.forEach {
+//                            _invitedMembers.emit(result)
+//                        }
+                        _invitedMembers.emit(result)
+                        Log.d(TAG, "초대된 멤버  조회 성공: ${result.size}명")
                     }
                 } else {
                     // 응답 실패 처리
