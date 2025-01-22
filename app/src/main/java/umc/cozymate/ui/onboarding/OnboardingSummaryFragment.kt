@@ -35,8 +35,10 @@ class OnboardingSummaryFragment : Fragment() {
         _binding = FragmentOnboardingSummaryBinding.inflate(inflater, container, false)
 
         binding.btnNext.setOnClickListener {
-            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
+            requireActivity().finish()
         }
 
         getPreference()
@@ -65,7 +67,7 @@ class OnboardingSummaryFragment : Fragment() {
 
     private fun getPreference() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        nickname = sharedPref.getString("nickname", "No user found").toString()
+        nickname = sharedPref.getString("user_nickname", "No user found").toString()
         persona = sharedPref.getInt("persona", 1)
     }
 
