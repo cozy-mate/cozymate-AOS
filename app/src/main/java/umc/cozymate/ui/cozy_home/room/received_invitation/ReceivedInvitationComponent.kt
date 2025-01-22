@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.received_invitation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
+import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentMyReceivedInvitationBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
@@ -23,6 +25,7 @@ class ReceivedInvitationComponent : Fragment() {
     private var _binding: FragmentMyReceivedInvitationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoomRequestViewModel by viewModels()
+    var roomId = -1
     companion object {
         fun newInstance() = ReceivedInvitationComponent()
     }
@@ -33,6 +36,9 @@ class ReceivedInvitationComponent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyReceivedInvitationBinding.inflate(inflater, Main, false)
+        // 방 존재 여부를 spf로 조회한 방 아이디로 확인합니다.
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
         observeRoomList()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getInvitedRoomList()
@@ -72,16 +78,27 @@ class ReceivedInvitationComponent : Fragment() {
                 binding.rvMyReceived.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
-                binding.tvRequestNum.text = "0개의"
-                binding.tvRequestNum.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                binding.clComponent.visibility = View.GONE
-                binding.clEmptyRoommate.visibility = View.VISIBLE
-                binding.clEmptyRoommate.isEnabled = true
-                binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동
-                    val intent = Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
-                    startActivity(intent)
+                if (roomId == 0 || roomId == -1) {
+                    binding.tvRequestNum.text = "0개의"
+                    binding.tvRequestNum.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.unuse_font
+                        )
+                    )
+                    binding.clComponent.visibility = View.GONE
+                    binding.clEmptyRoommate.visibility = View.VISIBLE
+                    binding.clEmptyRoommate.isEnabled = true
+                    binding.clEmptyRoommate.setOnClickListener { // 룸메이트 더보기 페이지로 이동
+                        val intent =
+                            Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
+                        startActivity(intent)
+                    }
+                    binding.rvMyReceived.visibility = View.GONE
+                } else {
+                    // 방 존재할 때는 0개일 때 가리기
+                    binding.clComponent.visibility = View.GONE
                 }
-                binding.rvMyReceived.visibility = View.GONE
             }
         }
         // 로딩중 옵저빙
