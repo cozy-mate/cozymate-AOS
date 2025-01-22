@@ -14,12 +14,12 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.R
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
-import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.onboarding.OnboardingSelectingFragmentActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
@@ -43,7 +43,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         binding = ActivityRoommateInputInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

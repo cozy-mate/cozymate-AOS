@@ -198,7 +198,7 @@ class CozyBotFragment : Fragment() {
                         if (position == itemCount - 1) {
                             outRect.right = 0 // 마지막 아이템 간격 없음
                         } else {
-                            outRect.right = -4 // 아이템 간 겹침
+                            outRect.right = -8 // 아이템 간 겹침
                         }
                     }
                 })

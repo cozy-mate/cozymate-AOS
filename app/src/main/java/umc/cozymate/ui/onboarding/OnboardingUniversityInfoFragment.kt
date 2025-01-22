@@ -112,7 +112,7 @@ class OnboardingUniversityInfoFragment : Fragment() {
             adapter.setDropDownViewResource(R.layout.spinner_item_txt)
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = -80
+            spinnerUniversity.dropDownVerticalOffset = -40
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
