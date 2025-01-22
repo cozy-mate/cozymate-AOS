@@ -166,7 +166,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun exitButton(roomId: Int) {
@@ -262,7 +261,7 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
 
                 // UI 변경을 약간 늦추기 위해 딜레이 추가
-                delay(200)
+                delay(500)
 
                 // 방 정보를 새로고침하여 정확한 상태 반영
                 viewModel.getOtherRoomInfo(roomId)

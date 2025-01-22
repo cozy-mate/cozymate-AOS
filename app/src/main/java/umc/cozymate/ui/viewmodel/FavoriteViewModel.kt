@@ -82,6 +82,39 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
+    // 멤버 찜하기
+//    fun toogleMemberFavorite(id: Int, isFavorite: Boolean) {
+//        val token = getToken()
+//        if (token.isNullOrEmpty()) {
+//            Log.e(TAG, "Token is null or empty")
+//            return
+//        }
+//
+//        viewModelScope.launch {
+//            try {
+//                if( isFavorite) {
+//                    val response = repo.deleteFavoritesRoomMember(token, id)
+//                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                        _memberFavoriteState.postValue(false)
+//                        Log.d(TAG, "찜 해제 성공 : ${response.body()?.message}")
+//                    } else {
+//                        Log.d(TAG, "찜 해제 실패: ${response.errorBody()?.string()}")
+//                    }
+//                } else {
+//                    // 찜 요청
+//                    val response = repo.sendFavoritesMember(token, id)
+//                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                        _memberFavoriteState.postValue(true) // 찜 상태 변경
+//                        Log.d(TAG, "찜 요청 성공: ${response.body()?.message}")
+//                    } else {
+//                        Log.e(TAG, "찜 요청 실패 : ${response.errorBody()?.string()}")
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                Log.e(TAG, "API 호출 중 예외 발생: $e")
+//            }
+//        }
+//    }
     // 방 찜하기
     fun toggleRoomFavorite(id: Int, isFavorite: Boolean) {
         val token = getToken()
