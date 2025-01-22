@@ -91,6 +91,14 @@ class RoommateRecommendFragment: Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             (activity as? CozyHomeRoommateDetailActivity)?.showProgressBar(isLoading)
         }
+        detailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
         detailViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             (activity as? CozyHomeRoommateDetailActivity)?.showProgressBar(isLoading)
         }
@@ -98,7 +106,8 @@ class RoommateRecommendFragment: Fragment() {
 
     private fun updateUI(){
         val recommendAdapter = RecommendedRoommateVPAdapter(memberList){ memberId ->
-            navigatorToRoommateDetail(memberId)
+            detailViewModel.getOtherUserDetailInfo(memberId)
+        //navigatorToRoommateDetail(memberId)
         }
         binding.rvRoommateDetailInfo.adapter = recommendAdapter
         binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -114,14 +123,7 @@ class RoommateRecommendFragment: Fragment() {
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            detailViewModel.getOtherUserDetailInfo(memberId)
-            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
+
     }
 
     private fun initChip(){

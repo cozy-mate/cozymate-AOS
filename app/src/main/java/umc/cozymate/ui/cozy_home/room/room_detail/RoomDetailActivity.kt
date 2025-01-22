@@ -88,6 +88,9 @@ class RoomDetailActivity : AppCompatActivity() {
 
         setupBackButton()
 
+        // 룸메 상세정보창과 연결
+        observeOtherUserInfo()
+
         binding.ivChat.setOnClickListener {
             val intent: Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId", managerMemberId)
@@ -337,16 +340,23 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent =
-                    Intent(this@RoomDetailActivity, RoommateDetailActivity::class.java).apply {
-                        putExtra("other_user_detail", otherUserDetail)
-                    }
+        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
+    }
+
+    // 룸메 상세정보 받아오기
+    private fun observeOtherUserInfo() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(this, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
                 startActivity(intent)
             }
         }
+
+//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
+//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//        }
     }
 
     // 해시태그 업데이트
