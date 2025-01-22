@@ -500,15 +500,4 @@ class MakingRoomViewModel @Inject constructor(
             updateRoomInfo()
         }
     }
-
-    // 에러 메시지 파싱
-    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
-        return try {
-            val gson = Gson()
-            gson.fromJson(errorBody, ErrorResponse::class.java)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error parsing JSON: ${e.message}")
-            ErrorResponse("UNKNOWN", false, "unknown error")
-        }
-    }
 }
