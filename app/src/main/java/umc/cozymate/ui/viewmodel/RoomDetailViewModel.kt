@@ -54,13 +54,11 @@ class RoomDetailViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _errorResponse = MutableLiveData<ErrorResponse>()
-    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
-    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
+    private val _invitedMembers =
+        MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
     val invitedMembers = _invitedMembers.asSharedFlow()
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
@@ -72,6 +70,20 @@ class RoomDetailViewModel @Inject constructor(
     private val _roomMemberStatsColor = MutableLiveData<String>()
     val roomMemberStatsColor: LiveData<String> get() = _roomMemberStatsColor
 
+    private val _isPendingMember = MutableLiveData<Boolean>()
+    val isPendingMember: LiveData<Boolean> get() = _isPendingMember
+
+    private val _isPendingRoom = MutableLiveData<Boolean>()
+    val isPendingRoom: LiveData<Boolean> get() = _isPendingRoom
+
+    private val _acceptResponse = MutableLiveData<Boolean>()
+    val acceptResponse: LiveData<Boolean> get() = _acceptResponse
+
+    private val _errorResponse = MutableLiveData<String>()
+    val errorResponse: LiveData<String> get() = _errorResponse
+
+    private val _isPending = MutableLiveData<Boolean>()
+    val isPending: LiveData<Boolean> get() = _isPending
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -161,6 +173,7 @@ class RoomDetailViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+
     // 정렬 타입 변경
     fun updateSortType(newSortType: String) {
         _sortType.value = newSortType
@@ -188,9 +201,15 @@ class RoomDetailViewModel @Inject constructor(
                     val result = response.body()?.result
                     _roomMemberStats.postValue(result?.memberList)
                     _roomMemberStatsColor.postValue(result?.color)
-                    Log.d(TAG, "getRoomMemberStat 호출 성공 : $memberStatKey, 데이터 크기: ${result?.memberList?.size}")
+                    Log.d(
+                        TAG,
+                        "getRoomMemberStat 호출 성공 : $memberStatKey, 데이터 크기: ${result?.memberList?.size}"
+                    )
                 } else {
-                    Log.e(TAG, "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}")
+                    Log.e(
+                        TAG,
+                        "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}"
+                    )
                     // 에러가 발생했을 경우 빈 리스트 전달
                     _roomMemberStats.postValue(emptyList())
                     _roomMemberStatsColor.postValue("")
@@ -207,6 +226,7 @@ class RoomDetailViewModel @Inject constructor(
             }
         }
     }
+
     // 초대 멤버 리스트 조회
     fun fetchInvitedMembers(roomId: Int) {
         viewModelScope.launch {
@@ -237,6 +257,162 @@ class RoomDetailViewModel @Inject constructor(
                 Log.e(TAG, "초대된 멤버 조회 중 오류 발생: $e")
             } finally {
                 // 로딩 완료
+                _isLoading.value = false
+            }
+        }
+    }
+
+//    fun getPendingMember(memberId: Int) {
+//        viewModelScope.launch {
+//            try {
+//                _isLoading.value = true
+//                val token = getToken() ?: return@launch
+//                val response = repository.getPendingMember(token, memberId)
+//
+//                if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                    val result = response.body()?.result ?: false
+//                    Log.d(TAG, "getPendingMember 호출 성공: result = $result")
+//                    _isPendingMember.value = result
+//                } else {
+//                    Log.e(TAG, "getPendingMember 호출 실패: ${response.errorBody()?.string()}")
+//                    _isPendingMember.value = false // 기본값 설정
+//                }
+//            } catch (e: Exception) {
+//                Log.e(TAG, "getPendingMember 호출 중 오류 발생: $e")
+//                _isPendingMember.value = false // 기본값 설정
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
+//
+//    fun getPendingRoom(roomId: Int) {
+//        viewModelScope.launch {
+//            try {
+//                _isLoading.value = true
+//                val token = getToken() ?: return@launch
+//                val response = repository.getPendingRoom(token, roomId)
+//
+//                if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                    val result = response.body()?.result ?: false
+//                    Log.d(TAG, "getPendingRoom 호출 성공: result = $result")
+//                    _isPendingRoom.value = result
+//                } else {
+//                    Log.e(TAG, "getPendingRoom 호출 실패: ${response.errorBody()?.string()}")
+//                    _isPendingRoom.value = false // 기본값 설정
+//                }
+//            } catch (e: Exception) {
+//                Log.e(TAG, "getPendingMember 호출 중 오류 발생: $e")
+//                _isPendingRoom.value = false // 기본값 설정
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
+//
+//    fun acceptMemberRequest(requesterId: Int, accept: Boolean) {
+//        viewModelScope.launch {
+//            _isLoading.value = true
+//            try {
+//                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+//                val response = repository.acceptMemberRequest(token, requesterId, accept)
+//                if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                    _acceptResponse.value = true
+//                    Log.d("RoomDetailViewModel", "acceptMemberRequest 성공")
+//                } else {
+//                    _acceptResponse.value = false
+//                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+//                    Log.e("RoomDetailViewModel", "acceptMemberRequest 실패: ${response.errorBody()?.string()}")
+//                }
+//            } catch (e: Exception) {
+//                _acceptResponse.value = false
+//                _errorResponse.value = e.message ?: "Exception occurred"
+//                Log.e("RoomDetailViewModel", "acceptMemberRequest 예외 발생: $e")
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
+//
+//    fun acceptRoomEnter(roomId: Int, accept: Boolean) {
+//        viewModelScope.launch {
+//            _isLoading.value = true
+//            try {
+//                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+//                val response = repository.acceptRoomEnter(token, roomId, accept)
+//                if (response.isSuccessful && response.body()?.isSuccess == true) {
+//                    _acceptResponse.value = true
+//                    Log.d("RoomDetailViewModel", "acceptRoomEnter 성공")
+//                } else {
+//                    _acceptResponse.value = false
+//                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+//                    Log.e("RoomDetailViewModel", "acceptRoomEnter 실패: ${response.errorBody()?.string()}")
+//                }
+//            } catch (e: Exception) {
+//                _acceptResponse.value = false
+//                _errorResponse.value = e.message ?: "Exception occurred"
+//                Log.e("RoomDetailViewModel", "acceptRoomEnter 예외 발생: $e")
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
+
+    fun getPendingStatus(id: Int, isRoom: Boolean) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = if (isRoom) {
+                    repository.getPendingRoom(token, id)
+                } else {
+                    repository.getPendingMember(token, id)
+                }
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()?.result ?: false
+                    _isPending.value = result
+                    Log.d(TAG, "getPendingStatus 호출 성공: isRoom = $isRoom, result = $result")
+                } else {
+                    _isPending.value = false
+                    Log.e(TAG, "getPendingStatus 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isPending.value = false
+                Log.e(TAG, "getPendingStatus 호출 중 오류 발생: $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    /**
+     * 요청 수락/거절 (멤버 또는 방)
+     */
+    fun handleAcceptRequest(id: Int, accept: Boolean, isRoom: Boolean) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = if (isRoom) {
+                    repository.acceptRoomEnter(token, id, accept)
+                } else {
+                    repository.acceptMemberRequest(token, id, accept)
+                }
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _acceptResponse.value = true
+                    Log.d(TAG, "handleAcceptRequest 성공: isRoom = $isRoom, accept = $accept")
+                } else {
+                    _acceptResponse.value = false
+                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e(TAG, "handleAcceptRequest 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _acceptResponse.value = false
+                _errorResponse.value = e.message ?: "Exception occurred"
+                Log.e(TAG, "handleAcceptRequest 예외 발생: $e")
+            } finally {
                 _isLoading.value = false
             }
         }
