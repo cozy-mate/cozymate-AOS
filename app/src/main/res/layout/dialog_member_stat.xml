@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/custom_dialog_background"
         android:minWidth="300dp"
-        android:minHeight="200dp"
         android:padding="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
