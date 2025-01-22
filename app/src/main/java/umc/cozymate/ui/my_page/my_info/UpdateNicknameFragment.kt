@@ -1,5 +1,6 @@
 package umc.cozymate.ui.my_page.my_info
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -128,6 +129,8 @@ class UpdateNicknameFragment: Fragment() {
         }
         viewModel.updateNicknameResponse.observe(viewLifecycleOwner) { res ->
             if (res.result){
+                val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putString("user_nickname", viewModel.nickname.value).apply()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }

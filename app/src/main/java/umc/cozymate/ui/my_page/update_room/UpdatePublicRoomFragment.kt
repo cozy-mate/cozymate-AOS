@@ -301,7 +301,7 @@ class UpdatePublicRoomFragment : Fragment() {
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
-            requireActivity().finish()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         // 팝업을 띄워서 에러 응답 처리

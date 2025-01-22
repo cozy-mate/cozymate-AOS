@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityUpdateRoomInfoBinding
+import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -43,7 +44,6 @@ class UpdateRoomInfoActivity : AppCompatActivity() {
         val fragment = UpdatePublicRoomFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_update_room_info, fragment)
-            .addToBackStack(null)
             .commit()
     }
     // [비공개방 수정 페이지] 로드
@@ -51,7 +51,6 @@ class UpdateRoomInfoActivity : AppCompatActivity() {
         val fragment = UpdatePrivateRoomFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_update_room_info, fragment)
-            .addToBackStack(null)
             .commit()
     }
 }

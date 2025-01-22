@@ -5,21 +5,16 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
@@ -28,7 +23,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
-import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
@@ -61,13 +55,11 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = false
-                mcvUniversity.isSelected = false
                 updateColors()
             }
             // 이름, 닉네임, 성별, 생년월일이 선택되어 있으면 다음 버튼 활성화
             setupTextWatchers()
             setTextColor(binding.tvLabelGender, R.color.color_font)
-            tvUniversity.setTextColor(resources.getColor(R.color.unuse_font))
         }
 
         return binding.root
@@ -75,125 +67,6 @@ class OnboardingUserInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 학과 옵저빙해서 학교, 학과 스피너 설정
-        univViewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
-            Log.d(TAG, "Departments: ${univInfo.departments}")
-            initSpinner(univInfo)
-        }
-        // 학과 불러오기 (get-info)
-        viewLifecycleOwner.lifecycleScope.launch {
-            univViewModel.fetchUniversityInfo()
-        }
-        binding.spinnerMajor.visibility = View.GONE
-    }
-
-    // 학교 스피너
-    private fun initSpinner(univInfo: GetUniversityInfoResponse.Result?) {
-        with(binding) {
-            // 학교 스피너
-            val universities = arrayOf("학교를 선택해주세요", "인하대학교")
-            val adapter = object : ArrayAdapter<String>(
-                requireContext(),
-                R.layout.spinner_selected_item_txt,
-                universities
-            ) {
-                override fun getDropDownView(
-                    position: Int,
-                    convertView: View?,
-                    parent: ViewGroup
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    return view
-                }
-
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                    val view = super.getView(position, convertView, parent)
-                    val textView = view.findViewById<TextView>(R.id.tv_spinner)
-                    textView.alpha = 0f
-                    if (textView.text == "학교를 선택해주세요") setTextColor(textView, R.color.unuse_font)
-                    return View(context)
-                }
-            }
-            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
-            spinnerUniversity.adapter = adapter
-            spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = -80
-            mcvUniversity.setOnClickListener {
-                spinnerUniversity.visibility = View.VISIBLE
-            }
-            spinnerUniversity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedUniversity = universities[position]
-                    tvUniversity.text = selectedUniversity
-                    tvUniversity.setTextColor(resources.getColor(R.color.basic_font))
-                    //spinnerUniversity.visibility = View.GONE
-                    updateNextBtnState()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-
-            // 학과 조회해서 뷰 설정하기
-            val departments: List<String>
-            departments = listOf("학과를 선택해주세요") + (univInfo?.departments ?: emptyList())
-            val majorAdapter = object : ArrayAdapter<String>(
-                requireContext(),
-                R.layout.spinner_selected_item_txt,
-                departments
-            ) {
-                override fun getDropDownView(
-                    position: Int,
-                    convertView: View?,
-                    parent: ViewGroup
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    return view
-                }
-
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                    val view = super.getView(position, convertView, parent)
-                    val textView = view.findViewById<TextView>(R.id.tv_spinner)
-                    textView.alpha = 0f
-                    textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white)) // 선택된 값의 텍스트 색상
-                    return view
-                }
-            }
-            majorAdapter.setDropDownViewResource(R.layout.spinner_item_txt)
-            spinnerMajor.adapter = majorAdapter
-            spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            // 스피너 기본 클릭 이벤트 무효화
-            spinnerMajor.setOnTouchListener { _, _ -> true }
-            // 버튼 클릭 시 스피너 드롭다운 열기
-            btnMajor.setOnClickListener {
-                spinnerMajor.visibility = View.VISIBLE
-                spinnerMajor.performClick() // 또는 spinnerMajor.showDropDown()
-            }
-            // 선택된 학과 반영하기
-            spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedMajor = departments[position]
-                    tvMajor.text = selectedMajor
-                    tvMajor.setTextColor(resources.getColor(R.color.basic_font))
-                    //spinnerMajor.visibility = View.GONE
-                    viewModel.setMajorName(selectedMajor)
-                    updateNextBtnState()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    tvMajor.text = "학과를 선택해주세요"
-                }
-            }
-        }
     }
 
     // 성별 선택 시 이미지 변경
@@ -205,7 +78,7 @@ class OnboardingUserInfoFragment : Fragment() {
         }
     }
 
-    // 닉네임 유효성 체트
+    // 닉네임 유효성 체크
     private fun setupTextWatchers() {
         val nicknamePattern = "^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{1,7}$".toRegex() // 2-8자의 한글,영어,숫자
         binding.etOnboardingNickname.addTextChangedListener(object : TextWatcher {
@@ -297,7 +170,7 @@ class OnboardingUserInfoFragment : Fragment() {
         })
     }
 
-    // 닉네임, 성별, 생년월일, 학교, 학과 선택되어야 다음 버튼 활성화
+    // 닉네임, 성별, 생년월일 선택되어야 다음 버튼 활성화
     fun updateNextBtnState() {
         // 닉네임
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
@@ -314,20 +187,9 @@ class OnboardingUserInfoFragment : Fragment() {
         val isBirthSelected = binding.tvBirth.text?.isNotEmpty() == true
         if (isBirthSelected) setTextColor(binding.tvLabelBirth, R.color.main_blue)
         else setTextColor(binding.tvLabelBirth, R.color.color_font)
-        // 학교
-        val isUniversitySelected = binding.tvUniversity.text != "학교를 선택해주세요"
-        if (isUniversitySelected) setTextColor(binding.tvLabelUniversity, R.color.main_blue)
-        else {
-            setTextColor(binding.tvLabelUniversity, R.color.color_font)
-            setTextColor(binding.tvUniversity, R.color.unuse_font)
-        }
-        // 학과
-        val isMajorSelected = binding.tvMajor.text != "학과를 선택해주세요"
-        if (isMajorSelected) setTextColor(binding.tvLabelMajor, R.color.main_blue)
-        else setTextColor(binding.tvLabelMajor, R.color.color_font)
         // 활성화
         val isEnabled =
-            isNicknameEntered && isGenderChecked && isBirthSelected && isUniversitySelected && isMajorSelected
+            isNicknameEntered && isGenderChecked && isBirthSelected
         binding.btnNext.isEnabled = isEnabled
         binding.btnNext.setOnClickListener {
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
@@ -335,10 +197,8 @@ class OnboardingUserInfoFragment : Fragment() {
             viewModel.setNickname(binding.etOnboardingNickname.text.toString())
             viewModel.setBirthday(birthDate)
             viewModel.setGender(gender)
-            viewModel.setUniversity(binding.tvUniversity.text.toString())
-            viewModel.setMajorName(binding.tvMajor.text.toString())
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())
+                .replace(R.id.fragment_onboarding, OnboardingUniversityInfoFragment())
                 .addToBackStack(null) // 백스택에 추가
                 .commit()
             saveUserPreference(binding.etOnboardingNickname.text.toString())
@@ -377,7 +237,6 @@ class OnboardingUserInfoFragment : Fragment() {
                     setTextColor(tv, R.color.main_blue)
                     binding.mcvGender.isSelected = false
                     binding.mcvBirth.isSelected = false
-                    binding.mcvUniversity.isSelected = false
                     updateColors()
                 } else {
                     setTextColor(tv, R.color.color_font)
@@ -385,20 +244,18 @@ class OnboardingUserInfoFragment : Fragment() {
             }
     }
 
-    // 닉네임, 성별, 생년월일, 학교 리스너 설정
+    // 닉네임, 성별, 생년월일 리스너 설정
     private fun setFocusColor() {
         with(binding) {
             setTilFocusColor(tilOnboardingNickname, etOnboardingNickname, tvLabelNickname)
             mcvGender.setOnClickListener {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
-                mcvUniversity.isSelected = false
                 updateColors()
             }
             mcvBirth.setOnClickListener {
                 etOnboardingNickname.clearFocus()
                 mcvGender.isSelected = false
-                mcvUniversity.isSelected = false
                 updateColors()
 
                 // 바텀시트 띄우기
@@ -414,13 +271,6 @@ class OnboardingUserInfoFragment : Fragment() {
                 fragment.show(childFragmentManager, "FragmentTag")
                 updateNextBtnState()
             }
-            mcvUniversity.setOnClickListener {
-                etOnboardingNickname.clearFocus()
-                mcvGender.isSelected = false
-                mcvBirth.isSelected = false
-                updateColors()
-                updateNextBtnState()
-            }
             radioMale.setOnClickListener {
                 // 성별 선택 상태를 초기화
                 isSelectedMale = true
@@ -429,7 +279,6 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
-                mcvUniversity.isSelected = false
                 updateColors()
                 viewModel.setGender("MALE")
                 // 이미지 업데이트
@@ -444,7 +293,6 @@ class OnboardingUserInfoFragment : Fragment() {
                 etOnboardingNickname.clearFocus()
                 mcvBirth.isSelected = false
                 mcvGender.isSelected = true
-                mcvUniversity.isSelected = false
                 updateColors()
                 viewModel.setGender("FEMALE")
                 // 이미지 업데이트
@@ -469,13 +317,6 @@ class OnboardingUserInfoFragment : Fragment() {
             } else {
                 setStrokeColor(mcvGender, R.color.unuse)
                 setTextColor(tvLabelGender, R.color.color_font)
-            }
-            if (mcvUniversity.isSelected) {
-                setStrokeColor(mcvUniversity, R.color.sub_color1)
-                setTextColor(tvLabelUniversity, R.color.main_blue)
-            } else {
-                setStrokeColor(mcvUniversity, R.color.unuse)
-                setTextColor(tvLabelUniversity, R.color.color_font)
             }
         }
     }

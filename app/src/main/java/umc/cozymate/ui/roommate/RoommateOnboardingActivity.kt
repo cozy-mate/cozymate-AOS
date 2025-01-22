@@ -32,10 +32,12 @@ class RoommateOnboardingActivity : AppCompatActivity() {
             finish()
         }
 
-        splashViewModel.memberCheck()
+        myNickname = intent.getStringExtra("nickname").toString()
+        binding.tvName1.text = myNickname
+        /*splashViewModel.memberCheck()
         splashViewModel.memberInfo.observe(this) { info: MemberDetailInfo? ->
             myNickname = info!!.nickname
             binding.tvName1.text = myNickname
-        }
+        }*/
     }
 }

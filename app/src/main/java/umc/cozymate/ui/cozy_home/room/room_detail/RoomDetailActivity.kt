@@ -124,7 +124,10 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
-                    tvRoomMatch.text = "방 평균 일치율 - %"
+                    when(roomInfo.equality) {
+                        0 -> tvRoomMatch.text = "방 평균 일치율 - %"
+                        else -> tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
+                    }
                     ivLike.visibility = View.INVISIBLE
                     ivExit.visibility = View.VISIBLE
                     fabBnt.visibility = View.GONE
