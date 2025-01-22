@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityRoommateMyDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
-import umc.cozymate.ui.my_page.FetchLifestyleActivity
+import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 
 class RoommateMyDetailActivity : AppCompatActivity() {

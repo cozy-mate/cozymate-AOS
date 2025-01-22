@@ -12,7 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMypageBinding
-import umc.cozymate.ui.cozy_home.room_detail.UpdateMyRoomInfoActivity
+import umc.cozymate.ui.my_page.favorite.MyFavoriteActivity
+import umc.cozymate.ui.my_page.inquiry.InquiryActivity
+import umc.cozymate.ui.my_page.inquiry.WriteInquiryActivity
+import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.my_page.my_info.UpdateMyInfoActivity
+import umc.cozymate.ui.my_page.withdraw.WithDrawActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
@@ -84,7 +90,7 @@ class MyPageFragment : Fragment() {
                     Intent(activity, WriteInquiryActivity::class.java)
             startActivity(intent)
         }
-        binding.btnMate.setOnClickListener {
+        binding.layoutMate.setOnClickListener {
             val intent = Intent(activity, MyFavoriteActivity::class.java)
             startActivity(intent)
         }
@@ -122,6 +128,7 @@ class MyPageFragment : Fragment() {
         } else {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
+            binding.tvSchool.text = "아직 방이 존재하지 않아요"
         }
 
         // 학교 인증
@@ -163,8 +170,8 @@ class MyPageFragment : Fragment() {
 
     // 방정보 수정페이지로 전환
     private fun goToUpdateCozyRoomDetailInfoActivity() {
-        val intent = Intent(requireContext(), UpdateMyRoomInfoActivity::class.java)
-        intent.putExtra(UpdateMyRoomInfoActivity.ARG_ROOM_ID, roomId)
+        val intent = Intent(requireContext(), OwnerRoomDetailInfoActivity::class.java)
+        intent.putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         startActivity(intent)
     }
 

@@ -62,27 +62,28 @@ class SplashActivity : AppCompatActivity() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
-        // 2.5초마다 페이지 전환
+        // 2초마다 페이지 전환
         handler = Handler(Looper.getMainLooper())
         runnable = Runnable {
             val currentItem = binding.vpGif.currentItem
             val nextItem = if (currentItem + 1 < adapter.itemCount) currentItem + 1 else 0
             binding.vpGif.setCurrentItem(nextItem, true)
-            handler.postDelayed(runnable, 2500)
+            handler.postDelayed(runnable, 2000)
         }
-        handler.postDelayed(runnable, 2500)
+        handler.postDelayed(runnable, 2000)
 
         // 카카오 SDK 초기화
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
-        binding.progressBar.visibility = View.VISIBLE
+        KakaoSdk.loggingEnabled = true
 
         // 뷰모델 옵저빙
+        binding.progressBar.visibility = View.GONE
         observeSignInResponse()
         observeLoading()
         observeError()
 
         // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
-        attemptAutoLogin()
+        //attemptAutoLogin()
 
         // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
@@ -110,7 +111,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
-        binding.progressBar.visibility = View.VISIBLE
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
@@ -147,14 +147,15 @@ class SplashActivity : AppCompatActivity() {
                 if (isLoading) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
-                    binding.progressBar.visibility = View.GONE
                     // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember == true) {
                             goCozyHome()
                             finish()
+                            binding.progressBar.visibility = View.GONE
                         } else {
                             //goOnboarding()
+                            binding.progressBar.visibility = View.GONE
                         }
                     }
                 }
@@ -173,11 +174,11 @@ class SplashActivity : AppCompatActivity() {
                     try {
                         splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
                         splashViewModel.saveToken()
-
                         splashViewModel.memberCheck()
                         splashViewModel.isMember.observe(this) { isMember ->
                             if (isMember == true) goCozyHome()
                             else if (isMember == false) goOnboarding()
+                            else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
                         }
                     } catch (e: Exception) {
                         goLoginFail()
@@ -195,6 +196,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goCozyHome() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
     }
@@ -202,7 +204,7 @@ class SplashActivity : AppCompatActivity() {
     private fun goOnboarding() {
         val intent = Intent(this, OnboardingActivity::class.java)
         intent.flags =
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 온보딩 백스택에 추가 안함
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

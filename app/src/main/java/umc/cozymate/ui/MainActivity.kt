@@ -8,10 +8,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,16 +43,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var menu: Menu
     lateinit var roleAndRuleItem: MenuItem
     lateinit var cozybotItem: MenuItem
+    lateinit var cozyhomeItem: MenuItem
+    lateinit var mypageItem: MenuItem
+    var selectedItem: Int = 0
     var isRoomExist = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        menu = binding.bottomNavigationView.menu
-        roleAndRuleItem = menu.findItem(R.id.fragment_role_and_rule)
-        cozybotItem = menu.findItem(R.id.fragment_cozybot)
         setContentView(binding.root)
         initScreen()
         //observeLoading()
+        // 메뉴 설정
+        menu = binding.bottomNavigationView.menu
+        roleAndRuleItem = menu.findItem(R.id.fragment_role_and_rule)
+        cozybotItem = menu.findItem(R.id.fragment_cozybot)
+        cozyhomeItem = menu.findItem(R.id.fragment_home)
+        mypageItem = menu.findItem(R.id.fragment_mypage)
         observeRoomID()
         lifecycleScope.launch {
             homeViewModel.getRoomId()
@@ -84,9 +92,10 @@ class MainActivity : AppCompatActivity() {
         GetMemberLifestyleInfo()
     }
 
-    private fun GetMemberLifestyleInfo(){
+    private fun GetMemberLifestyleInfo() {
         roommateViewModel.getUserInfo()
     }
+
     private fun HandleFCM() {
         FCMService().getFirebaseToken()
         // 알림 확인을 위해 작성, 추후 삭제 요망
@@ -131,13 +140,9 @@ class MainActivity : AppCompatActivity() {
             if (roomId == 0 || roomId == null) {
                 isRoomExist = false
                 binding.progressBar.visibility = View.GONE
-                roleAndRuleItem.isEnabled = false
-                cozybotItem.isEnabled = false
             } else {
                 isRoomExist = true
                 binding.progressBar.visibility = View.GONE
-                roleAndRuleItem.isEnabled = true
-                roleAndRuleItem.isEnabled = true
             }
         }
     }
@@ -175,29 +180,49 @@ class MainActivity : AppCompatActivity() {
 
     // 바텀 네비게이션(홈, 롤앤룰, 코지봇, 마이페이지) 설정
     fun setBottomNavigationView() {
+        selectedItem = R.id.fragment_home
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
                     observeRoomID()
+                    selectedItem = item.itemId
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, CozyHomeMainFragment()).commit()
                     true
                 }
 
                 R.id.fragment_role_and_rule -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, RoleAndRuleFragment()).commit()
-
-                    true
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
+                        binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
+                        binding.bottomNavigationView.selectedItemId = selectedItem
+                        false
+                    } else {
+                        selectedItem = item.itemId
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, RoleAndRuleFragment()).commit()
+                        true
+                    }
                 }
 
                 R.id.fragment_cozybot -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyBotFragment()).commit()
-                    true
+                    if (!isRoomExist) {
+                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
+                        binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
+                        binding.bottomNavigationView.selectedItemId = selectedItem
+                        false
+                    } else {
+                        selectedItem = item.itemId
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, CozyBotFragment()).commit()
+                        true
+                    }
                 }
 
                 R.id.fragment_mypage -> {
+                    selectedItem = item.itemId
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MyPageFragment()).commit()
                     true

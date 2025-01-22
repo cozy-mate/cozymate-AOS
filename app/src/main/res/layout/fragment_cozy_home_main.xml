@@ -20,7 +20,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_top"
                 android:layout_width="match_parent"
-                android:layout_height="283dp"
+                android:layout_height="273dp"
                 android:background="@drawable/background_cozyhome_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
                     android:layout_width="247dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="58dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -96,50 +96,14 @@
                     app:layout_constraintEnd_toStartOf="@id/btn_bell"
                     app:layout_constraintTop_toTopOf="@id/btn_school_certificate" />
 
-                <!-- 공지 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_notice"
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/btn_rectangle_8"
-                    android:backgroundTint="@color/color_box"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_school_certificate">
-
-                    <ImageView
-                        android:id="@+id/iv_notice"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_speaker"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="8dp"
-                        android:text="[공지] 시험기간으로 인한 기숙사 통금시간 변경"
-                        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                        android:textColor="@color/highlight_font"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/iv_notice"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <!-- 방 버튼 -->
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_make_room"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="110dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginBottom="33dp"
                     android:background="@drawable/btn_rectangle_cozyhome_state"
                     android:backgroundTint="@color/color_box"
                     android:elevation="0dp"
@@ -152,7 +116,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btn_enter_room"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_notice" />
+                    app:layout_constraintTop_toBottomOf="@id/btn_school_certificate" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_enter_room"
@@ -175,10 +139,9 @@
                     app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 참여한 방 컴포넌트 (조건 : 방 있음) -->
+            <!-- 참여하고 있는 방 컴포넌트 -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/my_room_container"
-                android:name="umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -187,12 +150,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/cl_top"
                 app:layout_goneMarginBottom="0dp"
                 app:layout_goneMarginTop="0dp"
-                tool:layout="@layout/fragment_my_room_component" />
+                tool:layout="@layout/fragment_my_room" />
 
-            <!-- 참여요청 받은 룸메이트 목록 (조건 : 공개방 방장)-->
+            <!-- 참여 요청 받은 멤버 목록 (조건 : 공개방 방장일 때)-->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/requested_roommate_container"
-                android:name="umc.cozymate.ui.cozy_home.room.received_request.MyReceivedRequestComponent"
+                android:id="@+id/received_join_request_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -202,44 +164,54 @@
                 app:layout_goneMarginBottom="0dp"
                 app:layout_goneMarginTop="0dp" />
 
-            <!-- 참여요청한 방 목록 (조건 : 참여요청 보냄) -->
+            <!-- 초대 받은 방 목록 (조건 : 없음) -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/requested_room_container"
-                android:name="umc.cozymate.ui.cozy_home.room.sent_request.MySentRequestComponent"
+                android:id="@+id/received_invitation_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requested_roommate_container"
+                app:layout_constraintTop_toBottomOf="@+id/received_join_request_container"
                 app:layout_goneMarginTop="0dp"
-                tool:layout="@layout/fragment_my_sent_request_component" />
+                tool:layout="@layout/fragment_my_received_invitation" />
 
-            <!-- 룸메이트 추천 (조건 : 방 없음) -->
+            <!-- 참여 요청을 보낸 방 목록 (조건 : 참여 요청 1개 이상) -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/roommate_recommend_container"
-                android:name="umc.cozymate.ui.cozy_home.roommate.roommate_recommend.RoommateRecommendComponent"
+                android:id="@+id/sent_join_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/requested_room_container"
+                app:layout_constraintTop_toBottomOf="@+id/received_invitation_container"
+                app:layout_goneMarginTop="0dp"
+                tool:layout="@layout/fragment_my_sent_join_request" />
+
+            <!-- 룸메이트 추천 -->
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/recommended_roommate_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sent_join_container"
                 app:layout_goneMarginTop="0dp" />
 
-            <!-- 방 추천 (조건 : 방 없음) -->
+            <!-- 방 추천 -->
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/room_recommend_container"
-                android:name="umc.cozymate.ui.cozy_home.room.room_recommend.RoomRecommendComponent"
+                android:id="@+id/recommended_room_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/roommate_recommend_container"
+                app:layout_constraintTop_toBottomOf="@+id/recommended_roommate_container"
+                app:layout_constraintBottom_toTopOf="@id/cl_bottom"
                 app:layout_goneMarginTop="0dp" />
 
             <!-- 하단 광고 -->
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/banner_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -250,17 +222,16 @@
                 app:layout_constraintBottom_toTopOf="@id/cl_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_recommend_container" />
+                app:layout_constraintTop_toBottomOf="@id/room_recommend_container" />-->
 
             <!-- 하단네비 바텀뷰만큼 띄우기 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="75dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/banner_container" />
-
+                app:layout_constraintTop_toBottomOf="@id/recommended_room_container" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

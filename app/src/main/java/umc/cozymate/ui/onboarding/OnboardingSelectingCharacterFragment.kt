@@ -45,7 +45,7 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             viewModel.joinMember() // 유저 정보 POST
 
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingSelectingElementFragment()) // 화면 이동
+                .replace(R.id.fragment_onboarding, OnboardingSelectingPreferenceFragment()) // 화면 이동
                 .addToBackStack(null)
                 .commit()
         }

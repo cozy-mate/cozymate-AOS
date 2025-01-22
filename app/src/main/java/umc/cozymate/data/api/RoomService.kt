@@ -9,6 +9,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
@@ -20,6 +21,7 @@ import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
+import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
@@ -113,6 +115,12 @@ interface RoomService {
         @Path("memberId") memberId: Int
     ): Response<GetRoomPendingMemberResponse>
 
+    // 사용자가 초대 요청을 받은 방 목록 조회
+    @GET("/rooms/invited")
+    suspend fun getInvitedRoomList(
+        @Header("Authorization") accessToken: String
+    ) : Response<GetInvitedRoomListResponse>
+
     // 방 존재 여부 조회
     @GET("/rooms/exist")
     suspend fun isRoomExist(
@@ -163,6 +171,13 @@ interface RoomService {
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int
     ) : Response<QuitRoomResponse>
+
+    //방 참여 요청
+    @POST("/rooms/{roomId}/request-join")
+    suspend fun requestJoinRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ): Response<DefaultResponse>
 
     // 방 입장
     @POST("/rooms/{roomId}/join")

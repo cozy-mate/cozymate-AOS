@@ -62,6 +62,9 @@ class RoommateViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("is_lifestyle_exist", true)
+                editor.commit()
             }.onError {
                 Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
             }.onException {
@@ -294,24 +297,25 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
     }
 
     fun getUserInfo(){
-        val accessToken = getToken()!!
-
-        viewModelScope.launch {
-            try {
-                val response = repository.getUserInfo(accessToken)
-                if (response.isSuccessful) {
-                    Log.d(TAG, "사용자 라이프스타일 api 응답 성공 : ${response}")
-                    if (response.body()!!.isSuccess) {
-                        Log.d(TAG, "사용자 라이프스타일 정보 조회 성공 : ${response.body()!!.result}")
-                        _memberLifestyleInfo.value = response.body()!!.result
-                        saveUserLifestyleInfo()
-                    }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    Log.d(TAG, "사용자 라이프스타일 조회 api 응답 실패: ${response}")
+        val accessToken = getToken()
+        if (accessToken != null) {
+            viewModelScope.launch {
+                try {
+                    val response = repository.getUserInfo(accessToken)
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "사용자 라이프스타일 api 응답 성공 : ${response}")
+                        if (response.body()!!.isSuccess) {
+                            Log.d(TAG, "사용자 라이프스타일 정보 조회 성공 : ${response.body()!!.result}")
+                            _memberLifestyleInfo.value = response.body()!!.result
+                            saveUserLifestyleInfo()
+                        }
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        Log.d(TAG, "사용자 라이프스타일 조회 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "사용자 라이프스타일 api 요청 실패 : $e")
+                }
             }
         }
     }

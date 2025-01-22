@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -40,6 +41,8 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
 @AndroidEntryPoint
@@ -69,7 +72,9 @@ class RoomDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoomDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         getRoomId()
 
@@ -212,6 +217,7 @@ class RoomDetailActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupFavoriteButton() {
         binding.ivLike.setOnClickListener {
             lifecycleScope.launch {
@@ -233,11 +239,24 @@ class RoomDetailActivity : AppCompatActivity() {
                         }
                     },
                     onError = { errorMessage ->
-                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 )
             }
         }
+    }
+
+    // 방 나가기 확인 및 실행 다이얼로그
+    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
+        val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
+        val dialog = TwoButtonPopup(text, object : PopupClick {
+            override fun rightClickFunction() {
+                // 확인 버튼을 눌렀을 때만 방 나가기 실행
+                roomViewModel.quitRoom(roomId)
+                spf.edit().putInt("room_id", 0).apply()
+            }
+        })
     }
 
     private fun updateFavoriteButton() {
@@ -271,7 +290,8 @@ class RoomDetailActivity : AppCompatActivity() {
         with(binding) {
             tvRoomName.text = roomInfo.name
             tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
-            tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+            tvRoomInfoCurrentNum.text =
+                "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
@@ -352,7 +372,9 @@ class RoomDetailActivity : AppCompatActivity() {
                             fabBnt.setTextColor(getColor(R.color.white))
                             fabBnt.setOnClickListener {
                                 lifecycleScope.launch {
-                                    joinRoomViewModel.joinRoom(roomId)
+                                    //joinRoomViewModel.joinRoom(roomId)
+                                    // 방 참여요청 api로 변경해두었습니다
+                                    joinRoomViewModel.requestJoinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
                                     recreate()
@@ -385,7 +407,10 @@ class RoomDetailActivity : AppCompatActivity() {
             )
             fabBnt.setTextColor(getColor(R.color.white))
             fabBnt.setOnClickListener {
-                val intent = Intent(this@RoomDetailActivity, RoommateOnboardingActivity::class.java)
+                val intent = Intent(
+                    this@RoomDetailActivity,
+                    RoommateOnboardingActivity::class.java
+                )
                 startActivity(intent)
             }
         }
@@ -396,7 +421,10 @@ class RoomDetailActivity : AppCompatActivity() {
             roommateDetailViewModel.getOtherUserDetailInfo(memberId)
             roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
                 val intent =
-                    Intent(this@RoomDetailActivity, RoommateDetailActivity::class.java).apply {
+                    Intent(
+                        this@RoomDetailActivity,
+                        RoommateDetailActivity::class.java
+                    ).apply {
                         putExtra("other_user_detail", otherUserDetail)
                     }
                 startActivity(intent)
@@ -439,9 +467,18 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvHashtag3.visibility = View.VISIBLE
                 }
             }
-            Log.d(TAG, "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}")
-            Log.d(TAG, "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}")
-            Log.d(TAG, "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}")
+            Log.d(
+                TAG,
+                "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}"
+            )
+            Log.d(
+                TAG,
+                "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}"
+            )
+            Log.d(
+                TAG,
+                "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}"
+            )
         }
     }
 
@@ -574,7 +611,11 @@ class RoomDetailActivity : AppCompatActivity() {
         whiteViews.forEach { flexboxLayout.addView(it) }
     }
 
-    private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
+    private fun showMemberStatDialog(
+        roomId: Int,
+        memberStatKey: String,
+        chipColor: Int
+    ) {
         // 기존 다이얼로그 닫기
         activeDialog?.dismiss()
         activeDialog = null

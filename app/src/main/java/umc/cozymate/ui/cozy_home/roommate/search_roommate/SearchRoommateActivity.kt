@@ -12,21 +12,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySearchRoommateBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.SearchRoommateViewModel
 
 @AndroidEntryPoint
 class SearchRoommateActivity : AppCompatActivity() {
     private val TAG = this.javaClass
     private val viewModel: SearchRoommateViewModel by viewModels()
+    private val detailViewModel : RoommateDetailViewModel by viewModels()
     lateinit var binding: ActivitySearchRoommateBinding
     private var debounceJob: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,10 +96,7 @@ class SearchRoommateActivity : AppCompatActivity() {
     private fun observeSearchResult() {
         // 클릭 시 룸메이트 상세정보 페이지로 이동하도록 어댑터 설정
         val adapter = SearchedRoommatesAdapter { memberId ->
-            val intent = Intent(this, RoommateDetailActivity::class.java).apply {
-                putExtra("ROOMMATE_ID", memberId)
-            }
-            startActivity(intent)
+            navigatorToRoommateDetail(memberId)
         }
         binding.rvRoommateList.adapter = adapter
         binding.rvRoommateList.layoutManager = LinearLayoutManager(this@SearchRoommateActivity)
@@ -114,6 +115,20 @@ class SearchRoommateActivity : AppCompatActivity() {
         // 로딩중 옵저빙
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        detailViewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun navigatorToRoommateDetail(memberId: Int) {
+        lifecycleScope.launch {
+            detailViewModel.getOtherUserDetailInfo(memberId)
+            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
+                val intent = Intent(this@SearchRoommateActivity, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
         }
     }
 }

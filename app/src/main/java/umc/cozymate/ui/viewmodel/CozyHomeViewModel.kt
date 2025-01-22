@@ -239,16 +239,23 @@ class CozyHomeViewModel @Inject constructor(
 
     }
 
-    // 로컬db에 저장된 방정보 불러오기
-    suspend fun getRoomInfoById(): LiveData<RoomInfoEntity?> {
+    // 로컬db에 저장된 내방 정보 불러오기
+    val _roomInfo = MutableLiveData<RoomInfoEntity>()
+    val roomInfo: LiveData<RoomInfoEntity> get() = _roomInfo
+    val _isLoading2 = MutableLiveData<Boolean>(null)
+    val isLoading2: LiveData<Boolean> get() = _isLoading2
+    suspend fun getRoomInfoById(): LiveData<RoomInfoEntity> {
+        _isLoading2.value = true
         val roomId = getSavedRoomId()
         Log.d(TAG, "getRoomInfoById 방 아이디: $roomId")
-        val roomInfo = MutableLiveData<RoomInfoEntity?>()
-        roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
-        if (roomInfo.value == null) {
+        val info = roomInfoDao.getRoomInfoById(roomId)
+        if (info == null) {
             fetchRoomInfo()
-            roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+            _roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+        } else {
+            _roomInfo.postValue(info!!)
         }
+        _isLoading2.value = false
         Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
         return roomInfo
     }

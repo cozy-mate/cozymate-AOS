@@ -26,39 +26,28 @@ class RoleViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _createResponse = MutableLiveData< Response<CreateResponse>>()
-
     private val _getResponse = MutableLiveData<Response<RoleResponse>>()
     val  getResponse : LiveData<Response<RoleResponse>> get() =  _getResponse
 
-    private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
-    val  deleteResponse : LiveData<Response<DefaultResponse>> get() =  _deleteResponse
-
-    private val _editResponse = MutableLiveData<Response<DefaultResponse>>()
-    val  editResponse : LiveData<Response<DefaultResponse>> get() =  _editResponse
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun createRole( roomId : Int, request : RoleRequest){
-        viewModelScope.launch {
-            val token = getToken()
-            try{
-                val response  = repository.createRole(token!!, roomId, request)
-                if(!response.isSuccessful) Log.d(TAG, "createRole 응답 실패: ${response.body()!!.result}")
-            }catch (e: Exception){
-                Log.d(TAG, "createRole api 요청 실패: ${e}")
-            }
-        }
-    }
-
     fun getRole(roomId : Int ){
-        val token = getToken()
         viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
             try{
-                val response  = repository.getRole(token!!, roomId)
+                val response  = repository.getRole(token, roomId)
                 if(response.isSuccessful){
                     Log.d(TAG, "getRole 응답 성공: ${response.body()!!}")
                     _getResponse.postValue(response)
@@ -66,31 +55,45 @@ class RoleViewModel @Inject constructor(
                 else Log.d(TAG, "getRole 응답 실패: ${response.body()!!}")
             }catch (e: Exception){
                 Log.d(TAG, "getRole api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
 
-    fun deleteRole( roomId : Int, ruleId : Int ){
-        val token = getToken()
+    fun createRole( roomId : Int, request : RoleRequest){
         viewModelScope.launch {
-            try{
-                val response  = repository.deleteRole(token!!, roomId, ruleId)
-                if(!response.isSuccessful) Log.d(TAG, "deleteRole응답 실패: ${response.body()!!.result}")
-            }catch (e: Exception){
-                Log.d(TAG, "deleteRole api 요청 실패: ${e}")
-            }
+            safeApiCall {  repository.createRole( getToken()!!, roomId, request) }
+        }
+    }
+
+    fun deleteRole( roomId : Int, roleId : Int ){
+        viewModelScope.launch {
+            safeApiCall { repository.deleteRole( getToken()!! ,roomId, roleId) }
         }
     }
 
     fun editRole( roomId : Int, roleId: Int,  request : RoleRequest){
         viewModelScope.launch {
-            val token = getToken()
-            try{
-                val response  = repository.editRole(token!!, roomId,roleId, request)
-                if(!response.isSuccessful) Log.d(TAG, "editRole 응답 실패: ${response.body()!!.result}")
-            }catch (e: Exception){
-                Log.d(TAG, "editRole api 요청 실패: ${e}")
+            safeApiCall { repository.editRole(getToken()!!, roomId,roleId, request)}
+        }
+    }
+
+    private suspend fun <T> safeApiCall(
+        apiCall: suspend () -> Response<T>
+    ) {
+        _isLoading.value = true
+        try {
+            val response = apiCall()
+            if (!response.isSuccessful) {
+                Log.e(TAG, "API 응답 실패: ${response.body()}")
+                // 에러 상태를 UI에 전달 -> 방법 필요
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "API 요청 실패: $e")
+            // 에러 상태를 UI에 전달
+        } finally {
+            _isLoading.value = false
         }
     }
 }

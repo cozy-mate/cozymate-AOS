@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
@@ -25,8 +28,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
+import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
+import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
 class OnboardingUserInfoFragment : Fragment() {
@@ -34,8 +40,10 @@ class OnboardingUserInfoFragment : Fragment() {
     private var _binding: FragmentOnboardingUserInfoBinding? = null
     private val binding get() = _binding!!
     private val viewModel: OnboardingViewModel by activityViewModels()
+    private val univViewModel: UniversityViewModel by activityViewModels()
     private var isSelectedMale = true
     private var isSelectedFemale = false
+    private var birthDate = ""
     private var debounceJob: Job? = null
 
     override fun onCreateView(
@@ -46,8 +54,6 @@ class OnboardingUserInfoFragment : Fragment() {
         _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
 
         with(binding) {
-            // 학교 스피너
-            initSpinner()
             // 포커싱 색상 변경
             setFocusColor()
             // root 뷰 클릭시 포커스 해제
@@ -60,30 +66,58 @@ class OnboardingUserInfoFragment : Fragment() {
             }
             // 이름, 닉네임, 성별, 생년월일이 선택되어 있으면 다음 버튼 활성화
             setupTextWatchers()
-            updateNextBtnState()
+            setTextColor(binding.tvLabelGender, R.color.color_font)
+            tvUniversity.setTextColor(resources.getColor(R.color.unuse_font))
         }
 
         return binding.root
     }
 
-    // 학교 스피너
-    private fun initSpinner() {
-        val universities = arrayOf("학교를 선택해주세요", "인하대학교", "숭실대학교", "한국공학대학교")
-        val adapter = object : ArrayAdapter<String>(requireContext(), R.layout.spinner_selected_item_txt, universities) {
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                return view
-            }
-
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                return View(context)
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // 학과 옵저빙해서 학교, 학과 스피너 설정
+        univViewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
+            Log.d(TAG, "Departments: ${univInfo.departments}")
+            initSpinner(univInfo)
         }
-        adapter.setDropDownViewResource(R.layout.spinner_item_txt)
+        // 학과 불러오기 (get-info)
+        viewLifecycleOwner.lifecycleScope.launch {
+            univViewModel.fetchUniversityInfo()
+        }
+        binding.spinnerMajor.visibility = View.GONE
+    }
+
+    // 학교 스피너
+    private fun initSpinner(univInfo: GetUniversityInfoResponse.Result?) {
         with(binding) {
+            // 학교 스피너
+            val universities = arrayOf("학교를 선택해주세요", "인하대학교")
+            val adapter = object : ArrayAdapter<String>(
+                requireContext(),
+                R.layout.spinner_selected_item_txt,
+                universities
+            ) {
+                override fun getDropDownView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    val view = super.getDropDownView(position, convertView, parent)
+                    return view
+                }
+
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getView(position, convertView, parent)
+                    val textView = view.findViewById<TextView>(R.id.tv_spinner)
+                    textView.alpha = 0f
+                    if (textView.text == "학교를 선택해주세요") setTextColor(textView, R.color.unuse_font)
+                    return View(context)
+                }
+            }
+            adapter.setDropDownViewResource(R.layout.spinner_item_txt)
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = 30
+            spinnerUniversity.dropDownVerticalOffset = -80
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
@@ -96,11 +130,68 @@ class OnboardingUserInfoFragment : Fragment() {
                 ) {
                     val selectedUniversity = universities[position]
                     tvUniversity.text = selectedUniversity
+                    tvUniversity.setTextColor(resources.getColor(R.color.basic_font))
                     //spinnerUniversity.visibility = View.GONE
                     updateNextBtnState()
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) { }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
+            // 학과 조회해서 뷰 설정하기
+            val departments: List<String>
+            departments = listOf("학과를 선택해주세요") + (univInfo?.departments ?: emptyList())
+            val majorAdapter = object : ArrayAdapter<String>(
+                requireContext(),
+                R.layout.spinner_selected_item_txt,
+                departments
+            ) {
+                override fun getDropDownView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    val view = super.getDropDownView(position, convertView, parent)
+                    return view
+                }
+
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getView(position, convertView, parent)
+                    val textView = view.findViewById<TextView>(R.id.tv_spinner)
+                    textView.alpha = 0f
+                    textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white)) // 선택된 값의 텍스트 색상
+                    return view
+                }
+            }
+            majorAdapter.setDropDownViewResource(R.layout.spinner_item_txt)
+            spinnerMajor.adapter = majorAdapter
+            spinnerMajor.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            // 스피너 기본 클릭 이벤트 무효화
+            spinnerMajor.setOnTouchListener { _, _ -> true }
+            // 버튼 클릭 시 스피너 드롭다운 열기
+            btnMajor.setOnClickListener {
+                spinnerMajor.visibility = View.VISIBLE
+                spinnerMajor.performClick() // 또는 spinnerMajor.showDropDown()
+            }
+            // 선택된 학과 반영하기
+            spinnerMajor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedMajor = departments[position]
+                    tvMajor.text = selectedMajor
+                    tvMajor.setTextColor(resources.getColor(R.color.basic_font))
+                    //spinnerMajor.visibility = View.GONE
+                    viewModel.setMajorName(selectedMajor)
+                    updateNextBtnState()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    tvMajor.text = "학과를 선택해주세요"
+                }
             }
         }
     }
@@ -118,7 +209,13 @@ class OnboardingUserInfoFragment : Fragment() {
     private fun setupTextWatchers() {
         val nicknamePattern = "^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{1,7}$".toRegex() // 2-8자의 한글,영어,숫자
         binding.etOnboardingNickname.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
@@ -129,20 +226,25 @@ class OnboardingUserInfoFragment : Fragment() {
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 분리된 한글(모음, 자음)이 포함되면 안됩니다!"
                         binding.tilOnboardingNickname.isErrorEnabled = true
-                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                        binding.tilOnboardingNickname.boxStrokeColor =
+                            resources.getColor(R.color.red)
                     }
+
                     !nicknamePattern.matches(input) -> {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 2~8자로, 한글 또는 영어로 시작해야 합니다!"
                         binding.tilOnboardingNickname.isErrorEnabled = true
-                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                        binding.tilOnboardingNickname.boxStrokeColor =
+                            resources.getColor(R.color.red)
                     }
+
                     else -> {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
                         binding.tvAlertNickname.visibility = View.GONE
                         binding.tilOnboardingNickname.isErrorEnabled = false
-                        binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.sub_color1)
+                        binding.tilOnboardingNickname.boxStrokeColor =
+                            resources.getColor(R.color.sub_color1)
 
                         // Debounce 작업: 사용자가 입력을 멈춘 후 일정 시간 후에 중복 체크 API 호출
                         debounceJob?.cancel()
@@ -160,7 +262,13 @@ class OnboardingUserInfoFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
         binding.tvBirth.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateNextBtnState()
@@ -189,24 +297,46 @@ class OnboardingUserInfoFragment : Fragment() {
         })
     }
 
-    // 닉네임, 성별, 생년월일, 학교 선택되어야 다음 버튼 활성화
+    // 닉네임, 성별, 생년월일, 학교, 학과 선택되어야 다음 버튼 활성화
     fun updateNextBtnState() {
+        // 닉네임
         val isNicknameEntered = binding.etOnboardingNickname.text?.isNotEmpty() == true
+        if (isNicknameEntered) {
+            setTextColor(binding.tvLabelNickname, R.color.main_blue)
+            setTextColor(binding.tvLabelGender, R.color.main_blue)
+        }
+        else setTextColor(binding.tvLabelNickname, R.color.color_font)
+        // 성별
         val isGenderChecked = isSelectedMale || isSelectedFemale
+        //if (isGenderChecked) setTextColor(binding.tvLabelGender, R.color.main_blue)
+        //else setTextColor(binding.tvLabelGender, R.color.color_font)
+        // 생년월일
         val isBirthSelected = binding.tvBirth.text?.isNotEmpty() == true
+        if (isBirthSelected) setTextColor(binding.tvLabelBirth, R.color.main_blue)
+        else setTextColor(binding.tvLabelBirth, R.color.color_font)
+        // 학교
         val isUniversitySelected = binding.tvUniversity.text != "학교를 선택해주세요"
-        val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected && isUniversitySelected
+        if (isUniversitySelected) setTextColor(binding.tvLabelUniversity, R.color.main_blue)
+        else {
+            setTextColor(binding.tvLabelUniversity, R.color.color_font)
+            setTextColor(binding.tvUniversity, R.color.unuse_font)
+        }
+        // 학과
+        val isMajorSelected = binding.tvMajor.text != "학과를 선택해주세요"
+        if (isMajorSelected) setTextColor(binding.tvLabelMajor, R.color.main_blue)
+        else setTextColor(binding.tvLabelMajor, R.color.color_font)
+        // 활성화
+        val isEnabled =
+            isNicknameEntered && isGenderChecked && isBirthSelected && isUniversitySelected && isMajorSelected
         binding.btnNext.isEnabled = isEnabled
         binding.btnNext.setOnClickListener {
-            val nickname = binding.etOnboardingNickname.text.toString()
-            val birth = binding.tvBirth.text.toString()
             val gender = if (isSelectedFemale && !isSelectedMale) "FEMALE"
             else if (isSelectedMale && !isSelectedFemale) "MALE" else "MALE"
-            val university = binding.tvUniversity.text.toString()
-            viewModel.setNickname(nickname)
-            viewModel.setBirthday(birth)
+            viewModel.setNickname(binding.etOnboardingNickname.text.toString())
+            viewModel.setBirthday(birthDate)
             viewModel.setGender(gender)
-            viewModel.setUniversity(university)
+            viewModel.setUniversity(binding.tvUniversity.text.toString())
+            viewModel.setMajorName(binding.tvMajor.text.toString())
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingCharacterFragment())
                 .addToBackStack(null) // 백스택에 추가
@@ -222,7 +352,8 @@ class OnboardingUserInfoFragment : Fragment() {
             putString("nickname", nickname)
             apply()
         }
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("user_nickname", nickname)
         editor.commit() // or editor.commit()
@@ -276,7 +407,8 @@ class OnboardingUserInfoFragment : Fragment() {
                     DatePickerBottomSheetFragment.AlertPickerDialogInterface {
 
                     override fun onClickDoneButton(date: String) {
-                        binding.tvBirth.text = date
+                        birthDate = date
+                        binding.tvBirth.text = StringUtil.formatDate(date)
                     }
                 })
                 fragment.show(childFragmentManager, "FragmentTag")
@@ -321,6 +453,7 @@ class OnboardingUserInfoFragment : Fragment() {
             }
         }
     }
+
     private fun updateColors() {
         with(binding) {
             if (mcvBirth.isSelected) {
@@ -346,9 +479,11 @@ class OnboardingUserInfoFragment : Fragment() {
             }
         }
     }
+
     private fun setTextColor(tv: TextView, color: Int) {
         tv.setTextColor(ContextCompat.getColor(requireContext(), color))
     }
+
     private fun setStrokeColor(view: MaterialCardView, color: Int) {
         view.strokeColor = ContextCompat.getColor(requireContext(), color)
     }

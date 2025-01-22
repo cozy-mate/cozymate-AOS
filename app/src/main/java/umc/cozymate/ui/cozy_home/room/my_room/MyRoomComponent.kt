@@ -11,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import umc.cozymate.databinding.FragmentMyRoomComponentBinding
+import umc.cozymate.databinding.FragmentMyRoomBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class MyRoomComponent : Fragment() {
-    private var _binding: FragmentMyRoomComponentBinding? = null
+    private var _binding: FragmentMyRoomBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
     private var roomId: Int? = 0
@@ -30,7 +30,7 @@ class MyRoomComponent : Fragment() {
         Main: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMyRoomComponentBinding.inflate(inflater, Main, false)
+        _binding = FragmentMyRoomBinding.inflate(inflater, Main, false)
         viewLifecycleOwner.lifecycleScope.launch {
             initMyRoomData()
         }
@@ -59,10 +59,11 @@ class MyRoomComponent : Fragment() {
             with(binding) {
                 tvRoomName.text = roomInfo?.name
                 tvCurMemberCount.text = roomInfo?.arrivalMateNum.toString() + "명"
-                if (roomInfo?.equality == 0){
-                    tvEquality.text = "??%"
-                } else {
-                    tvEquality.text = roomInfo?.equality.toString() + "%"
+                tvEquality.text = when {
+                    roomInfo == null -> ""
+                    roomInfo.arrivalMateNum == 1 -> "-?"
+                    roomInfo.equality == 0 -> "??%"
+                    else -> "${roomInfo?.equality.toString()}%"
                 }
                 tvHashtag1.visibility = View.GONE
                 tvHashtag1.text = ""

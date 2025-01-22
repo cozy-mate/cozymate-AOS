@@ -32,6 +32,9 @@ import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class RoommateDetailActivity : AppCompatActivity() {
@@ -52,6 +55,9 @@ class RoommateDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this@RoommateDetailActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         // intent로 사용자 정보 전달
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
