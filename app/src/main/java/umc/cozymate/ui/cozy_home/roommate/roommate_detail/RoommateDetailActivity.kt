@@ -7,10 +7,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -36,10 +40,12 @@ class RoommateDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoommateDetailBinding
     private val viewModel: RoommateDetailViewModel by viewModels()
     private var memberId: Int = -1
+    private var favoriteId: Int = 0
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
     private val makingRoomViewModel: MakingRoomViewModel by viewModels()
     private var isFavorite: Boolean = false // 찜 상태
     private val favoriteViewModel: FavoriteViewModel by viewModels()
+    private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +68,19 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val userDetail = getUserDetailFromPreferences()
 
-//        updateUI(otherUserDetail!!)
+        memberId = otherUserDetail?.memberDetail?.memberId!!
+        favoriteId = otherUserDetail?.favoriteId ?: 0
+
         otherUserDetail.let {
             updateUI(it!!)
             setupFAB(it)
         }
-        updateFavoriteButton(otherUserDetail!!.memberDetail.memberId, otherUserDetail!!.favoriteId)
 
         selectListView(otherUserDetail!!)
-
         setUpListeners(userDetail!!)
 
+        observeMemberInfo()
+        setupFavoriteButton()
 
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -154,16 +162,12 @@ class RoommateDetailActivity : AppCompatActivity() {
             // 이름 및 일치율
             tvOtherUserName.text = otherUserDetail.memberDetail.nickname
             tvUserMatchPercent.text = otherUserDetail.equality.toString()
+
+            favoriteId = otherUserDetail.favoriteId
+            updateFavoriteButton()
         }
-        isFavorite = otherUserDetail.favoriteId != 0
-        updateFavoriteIcon(isFavorite)
     }
 
-    private fun updateFavoriteIcon(favorite: Boolean) {
-        binding.ivLike.setImageResource(
-            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
-        )
-    }
     private fun setUpListeners(userDetail: GetMemberDetailInfoResponse.Result) {
         // 리스트 뷰 클릭 시
         binding.llListView.setOnClickListener {
@@ -266,23 +270,63 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateFavoriteButton(memberId: Int, favoriteId: Int) {
-        binding.ivLike.setOnClickListener {
-            lifecycleScope.launch {
-                val isCurrentFavorite = favoriteId != 0
-
-                if (isCurrentFavorite) {
-                    // 찜 해제
-                    favoriteViewModel.toggleMemberFavorite(favoriteId, isCurrentFavorite)
-                } else {
-                    // 찜 요청
-                    favoriteViewModel.toggleMemberFavorite(favoriteId, isCurrentFavorite)
+    private fun observeMemberInfo() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                roommateDetailViewModel.otherUserDetailInfo.collect { memberInfo ->
+                    memberId = memberInfo.memberDetail.memberId
+                    favoriteId = memberInfo.favoriteId
+                    updateFavoriteButton()
                 }
-                delay(500)
-
-                viewModel.getOtherUserDetailInfo(memberId)
             }
         }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.ivLike.setOnClickListener {
+            lifecycleScope.launch {
+                favoriteViewModel.toggleRoommateFavorite(
+                    memberId = memberId,
+                    favoriteId = favoriteId,
+                    onUpdate = {
+                        // 최신 정보를 다시 불러와 favoriteId 갱신
+                        lifecycleScope.launch {
+                            roommateDetailViewModel.getOtherUserDetailInfo(memberId) // suspend 함수 호출
+                            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                roommateDetailViewModel.otherUserDetailInfo.collectLatest { updatedDetail ->
+                                    favoriteId = updatedDetail.favoriteId // 갱신된 favoriteId 적용
+                                    updateFavoriteButton()
+                                    Toast.makeText(
+                                        this@RoommateDetailActivity,
+                                        "찜 상태가 업데이트되었습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Toast.makeText(
+                            this@RoommateDetailActivity,
+                            errorMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            }
+        }
+    }
+
+    private fun updateFavoriteButton() {
+        binding.ivLike.setImageResource(
+            if (favoriteId == 0) R.drawable.ic_heart else R.drawable.ic_heartfull
+        )
+        binding.ivLike.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (favoriteId == 0) R.color.unuse_font else R.color.red
+            )
+        )
     }
 
     private fun selectListView(it: GetMemberDetailInfoResponse.Result) {

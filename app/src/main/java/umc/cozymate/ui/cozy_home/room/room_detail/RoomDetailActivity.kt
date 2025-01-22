@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -51,7 +52,10 @@ class RoomDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
-    private var roomId: Int? = 0
+
+    //    private var roomId: Int? = 0
+    private var roomId: Int = 0
+    private var favoriteId: Int = 0
     private var managerMemberId: Int? = 0
     private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
     private var isFavorite: Boolean = false // 찜 상태를 추적하는 변수 추가
@@ -68,16 +72,12 @@ class RoomDetailActivity : AppCompatActivity() {
         StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
 
         getRoomId()
-        observeFavoriteState()
 
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val savedRoomId = spf.getInt("room_id", -2)
 
-        lifecycleScope.launch {
-            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
-                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
-            }
-        }
+        observeRoomInfo()
+        setupFavoriteButton()
 
         if (savedRoomId == roomId) {
             updateUserRoomInfo()
@@ -203,6 +203,55 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeRoomInfo() {
+        lifecycleScope.launch {
+            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
+                roomId = roomInfo.roomId
+                favoriteId = roomInfo.favoriteId
+                updateFavoriteButton() // 방 찜 상태 UI 업데이트
+            }
+        }
+    }
+    private fun setupFavoriteButton() {
+        binding.ivLike.setOnClickListener {
+            lifecycleScope.launch {
+                favoriteViewModel.toggleRoomFavorite(
+                    roomId = roomId,
+                    favoriteId = favoriteId,
+                    onUpdate = {
+                        lifecycleScope.launch {
+                            viewModel.getOtherRoomInfo(roomId) // 방 정보 업데이트
+                            viewModel.otherRoomDetailInfo.collectLatest { updatedRoomInfo ->
+                                favoriteId = updatedRoomInfo.favoriteId // 갱신된 favoriteId 적용
+                                updateFavoriteButton()
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방 찜 상태가 업데이트되었습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+        }
+    }
+
+    private fun updateFavoriteButton() {
+        binding.ivLike.setImageResource(
+            if (favoriteId == 0) R.drawable.ic_heart else R.drawable.ic_heartfull
+        )
+        binding.ivLike.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (favoriteId == 0) R.color.unuse_font else R.color.red
+            )
+        )
+    }
+
     private fun getRoomDetailInfo() {
         viewModel.roomName.observe(this) { name ->
             binding.tvRoomName.text = name
@@ -231,7 +280,7 @@ class RoomDetailActivity : AppCompatActivity() {
             updateOtherRoomFab(roomInfo.roomId)
             // 초기 찜 상태 설정
             isFavorite = roomInfo.favoriteId != 0
-            updateFavoriteIcon(isFavorite)
+//            updateFavoriteIcon(isFavorite)
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
@@ -246,44 +295,29 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
-        binding.ivLike.setOnClickListener {
-            lifecycleScope.launch {
-                // 현재 찜 상태 확인
-                val isCurrentlyFavorite = favoriteId != 0
-
-                if (isCurrentlyFavorite) {
-                    // 찜 해제 요청: favoriteId 사용
-                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
-                } else {
-                    // 찜 요청: roomId 사용
-                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
-                }
-
-                // UI 변경을 약간 늦추기 위해 딜레이 추가
-                delay(500)
-
-                // 방 정보를 새로고침하여 정확한 상태 반영
-                viewModel.getOtherRoomInfo(roomId)
-
-            }
-        }
-    }
-
-    private fun observeFavoriteState() {
-        favoriteViewModel.roomFavoriteState.observe(this) { isFavorite ->
-            updateFavoriteIcon(isFavorite)
-        }
-    }
-
-    private fun updateFavoriteIcon(favorite: Boolean) {
-        binding.ivLike.setImageResource(
-            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
-        )
-        binding.ivLike.setColorFilter(
-            if (favorite) getColor(R.color.red) else getColor(R.color.unuse_font)
-        )
-    }
+    //    private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
+//        binding.ivLike.setOnClickListener {
+//            lifecycleScope.launch {
+//                // 현재 찜 상태 확인
+//                val isCurrentlyFavorite = favoriteId != 0
+//
+//                if (isCurrentlyFavorite) {
+//                    // 찜 해제 요청: favoriteId 사용
+//                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
+//                } else {
+//                    // 찜 요청: roomId 사용
+//                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
+//                }
+//
+//                // UI 변경을 약간 늦추기 위해 딜레이 추가
+//                delay(500)
+//
+//                // 방 정보를 새로고침하여 정확한 상태 반영
+//                viewModel.getOtherRoomInfo(roomId)
+//
+//            }
+//        }
+//    }
 
     private fun updateOtherRoomFab(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
