@@ -7,10 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.data.model.response.roommate.Detail
@@ -21,6 +29,8 @@ import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
+import umc.cozymate.ui.viewmodel.FavoriteViewModel
+import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
@@ -33,8 +43,12 @@ class RoommateDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoommateDetailBinding
     private val viewModel: RoommateDetailViewModel by viewModels()
     private var memberId: Int = -1
+    private var favoriteId: Int = 0
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
-//    private var userDetail: GetMemberDetailInfoResponse.Result? = null
+    private val makingRoomViewModel: MakingRoomViewModel by viewModels()
+    private var isFavorite: Boolean = false // 찜 상태
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
+    private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,27 +59,41 @@ class RoommateDetailActivity : AppCompatActivity() {
         StatusBarUtil.updateStatusBarColor(this@RoommateDetailActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
-//        memberId = intent.getIntExtra("member_id", -1)
-//        Log.d(TAG, "멤버 상세 조회 아이디 : ${memberId}")
-
         // intent로 사용자 정보 전달
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
         Log.d(TAG, "Received user detail: $otherUserDetail")
 
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val savedMemberId = spf.getInt("user_member_id", -1)
+        if (otherUserDetail!!.memberDetail.memberId == savedMemberId) {
+            val intent = Intent(this, RoommateMyDetailActivity::class.java)
+            startActivity(intent)
+            finish() // 현재 액티비티 종료
+            return
+        }
+
         val userDetail = getUserDetailFromPreferences()
 
-        updateUI(otherUserDetail!!)
-        selectListView(otherUserDetail!!)
+        memberId = otherUserDetail?.memberDetail?.memberId!!
+        favoriteId = otherUserDetail?.favoriteId ?: 0
 
+        otherUserDetail.let {
+            updateUI(it!!)
+            setupFAB(it)
+        }
+
+        selectListView(otherUserDetail!!)
         setUpListeners(userDetail!!)
 
+        observeMemberInfo()
+        setupFavoriteButton()
 
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
-    private fun getUserDetailFromPreferences() : GetMemberDetailInfoResponse.Result? {
+    private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return try {
             val nickname = spf.getString("user_nickname", "")
@@ -128,15 +156,21 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupFAB(userDetail: GetMemberDetailInfoResponse.Result) {
+        updateFAB(userDetail)
+    }
+
     private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
         with(binding) {
             Log.d(TAG, "updateUI 실행")
             // 프로필 이미지 업데이트
             setUserProfileImage(otherUserDetail.memberDetail.persona)
-
             // 이름 및 일치율
             tvOtherUserName.text = otherUserDetail.memberDetail.nickname
             tvUserMatchPercent.text = otherUserDetail.equality.toString()
+
+            favoriteId = otherUserDetail.favoriteId
+            updateFavoriteButton()
         }
     }
 
@@ -161,17 +195,144 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         // 플로팅 버튼 처리
-        binding.fabRequestRoommate.setOnClickListener {
-            toggleRoommateRequestButton()
-        }
+//        updateFAB(userDetail)
+
         binding.btnChat.setOnClickListener {
-            val memberId =  otherUserDetail!!.memberDetail.memberId
+            val memberId = otherUserDetail!!.memberDetail.memberId
             val memberName = otherUserDetail!!.memberDetail.nickname
-            val intent : Intent = Intent(this, WriteMessageActivity::class.java)
-            intent.putExtra("recipientId",memberId)
-            intent.putExtra("nickname",memberName)
+            val intent: Intent = Intent(this, WriteMessageActivity::class.java)
+            intent.putExtra("recipientId", memberId)
+            intent.putExtra("nickname", memberName)
             startActivity(intent)
         }
+    }
+
+    private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
+        val memberId = userDetail.memberDetail.memberId
+        Log.d(TAG, "현재 조회한 memberId: $memberId")
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val mbti = spf.getString("user_mbti", null)
+        val savedRoomId = spf.getInt("room_id", -2)
+        val otherRoom = userDetail.roomId
+        Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
+
+        if (savedRoomId == 0 || savedRoomId == -2) {
+            // 내 방이 방이 없는 경우
+            with(binding) {
+                fabRequestRoommate.text = "내 방으로 초대하기"
+                fabRequestRoommate.backgroundTintList =
+                    android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+                fabRequestRoommate.setTextColor(getColor(R.color.white))
+                fabRequestRoommate.isEnabled = false
+            }
+        } else {
+            // 내 방이 있는 경우
+            if (otherRoom != 0) {
+                // 상대방이 방이 있는 경우
+                with(binding) {
+                    fabRequestRoommate.text = "내 방으로 초대하기"
+                    fabRequestRoommate.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+                    fabRequestRoommate.setTextColor(getColor(R.color.white))
+                    fabRequestRoommate.isEnabled = false
+                }
+            } else {
+                // 상대방이 방이 없는 경우 = 초대가능한 경우
+                makingRoomViewModel.getPendingMember(memberId)
+                makingRoomViewModel.pendingMember.observe(this) { isPending ->
+                    if (isPending) {
+                        // 이미 초대한 경우 (초대 승인 대기 중)
+                        with(binding) {
+                            fabRequestRoommate.text = "방 초대요청  취소"
+                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.color_box))
+                            fabRequestRoommate.setTextColor(getColor(R.color.main_blue))
+                            fabRequestRoommate.setOnClickListener {
+                                lifecycleScope.launch {
+                                    makingRoomViewModel.deleteMemberInvite(memberId)
+                                    delay(600)
+                                    makingRoomViewModel.getPendingMember(memberId)
+                                    recreate()
+                                }
+                            }
+                        }
+                    } else {
+                        // 초대하지 않은 경우 = 초대하기
+                        with(binding) {
+                            fabRequestRoommate.text = "내 방으로 초대하기"
+                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
+                            fabRequestRoommate.setTextColor(getColor(R.color.white))
+                            fabRequestRoommate.setOnClickListener {
+                                lifecycleScope.launch {
+                                    makingRoomViewModel.inviteMember(memberId)
+                                    delay(600)
+                                    makingRoomViewModel.getPendingMember(memberId)
+                                    recreate()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeMemberInfo() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                roommateDetailViewModel.otherUserDetailInfo.collect { memberInfo ->
+                    memberId = memberInfo.memberDetail.memberId
+                    favoriteId = memberInfo.favoriteId
+                    updateFavoriteButton()
+                }
+            }
+        }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.ivLike.setOnClickListener {
+            lifecycleScope.launch {
+                favoriteViewModel.toggleRoommateFavorite(
+                    memberId = memberId,
+                    favoriteId = favoriteId,
+                    onUpdate = {
+                        // 최신 정보를 다시 불러와 favoriteId 갱신
+                        lifecycleScope.launch {
+                            roommateDetailViewModel.getOtherUserDetailInfo(memberId) // suspend 함수 호출
+                            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                roommateDetailViewModel.otherUserDetailInfo.collectLatest { updatedDetail ->
+                                    favoriteId = updatedDetail.favoriteId // 갱신된 favoriteId 적용
+                                    updateFavoriteButton()
+                                    Toast.makeText(
+                                        this@RoommateDetailActivity,
+                                        "찜 상태가 업데이트되었습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Toast.makeText(
+                            this@RoommateDetailActivity,
+                            errorMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            }
+        }
+    }
+
+    private fun updateFavoriteButton() {
+        binding.ivLike.setImageResource(
+            if (favoriteId == 0) R.drawable.ic_heart else R.drawable.ic_heartfull
+        )
+        binding.ivLike.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (favoriteId == 0) R.color.unuse_font else R.color.red
+            )
+        )
     }
 
     private fun selectListView(it: GetMemberDetailInfoResponse.Result) {
@@ -222,6 +383,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             }
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
+            tvListShare.text = it.memberStatDetail.canShare
             tvListStudy.text = it.memberStatDetail.studying
             tvListIntake.text = it.memberStatDetail.intake
             tvListGameCheck.text = it.memberStatDetail.isPlayGame
@@ -251,7 +413,10 @@ class RoommateDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun selectTableView(other: GetMemberDetailInfoResponse.Result, user: GetMemberDetailInfoResponse.Result) {
+    private fun selectTableView(
+        other: GetMemberDetailInfoResponse.Result,
+        user: GetMemberDetailInfoResponse.Result
+    ) {
         // TableView 텍스트와 아이콘 색상 변경
         binding.tvTableView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
         binding.ivTableViewIcon.setColorFilter(ContextCompat.getColor(this, R.color.main_blue))
@@ -330,38 +495,48 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smoking)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smoking)
 
-            tvTableUserSleepHabbit.text = trimText(user.memberStatDetail.sleepingHabit.joinToString(", "))
-            tvTableOtherSleepHabbit.text = trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
+            tvTableUserSleepHabbit.text =
+                trimText(user.memberStatDetail.sleepingHabit.joinToString(", "))
+            tvTableOtherSleepHabbit.text =
+                trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
 
-            tvTableUserAc.text = trimText(when (user.memberStatDetail.airConditioningIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "강하게 틀어요"
-                else -> "적당하게 틀어요"
-            })
-            tvTableOtherAc.text = trimText(when (other.memberStatDetail.airConditioningIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "강하게 틀어요"
-                else -> "적당하게 틀어요"
-            })
+            tvTableUserAc.text = trimText(
+                when (user.memberStatDetail.airConditioningIntensity) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "강하게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+            )
+            tvTableOtherAc.text = trimText(
+                when (other.memberStatDetail.airConditioningIntensity) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "강하게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+            )
 
-            tvTableUserHeater.text = trimText(when (user.memberStatDetail.heatingIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "강하게 틀어요"
-                else -> "적당하게 틀어요"
-            })
-            tvTableOtherHeater.text = trimText(when (other.memberStatDetail.heatingIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "강하게 틀어요"
-                else -> "적당하게 틀어요"
-            })
+            tvTableUserHeater.text = trimText(
+                when (user.memberStatDetail.heatingIntensity) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "강하게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+            )
+            tvTableOtherHeater.text = trimText(
+                when (other.memberStatDetail.heatingIntensity) {
+                    0 -> "안 틀어요"
+                    1 -> "약하게 틀어요"
+                    2 -> "적당하게 틀어요"
+                    3 -> "강하게 틀어요"
+                    else -> "적당하게 틀어요"
+                }
+            )
 
             tvTableUserLivingPattern.text = trimText(user.memberStatDetail.lifePattern)
             tvTableOtherLivingPattern.text = trimText(other.memberStatDetail.lifePattern)
@@ -384,39 +559,47 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserCall.text = trimText(user.memberStatDetail.isPhoneCall)
             tvTableOtherCall.text = trimText(other.memberStatDetail.isPhoneCall)
 
-            tvTableUserClean.text = trimText(when (user.memberStatDetail.cleanSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            })
-            tvTableOtherClean.text = trimText(when (other.memberStatDetail.cleanSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            })
+            tvTableUserClean.text = trimText(
+                when (user.memberStatDetail.cleanSensitivity) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+            )
+            tvTableOtherClean.text = trimText(
+                when (other.memberStatDetail.cleanSensitivity) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+            )
 
-            tvTableUserNoise.text = trimText(when (user.memberStatDetail.noiseSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            })
-            tvTableOtherNoise.text = trimText(when (other.memberStatDetail.noiseSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            })
+            tvTableUserNoise.text = trimText(
+                when (user.memberStatDetail.noiseSensitivity) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+            )
+            tvTableOtherNoise.text = trimText(
+                when (other.memberStatDetail.noiseSensitivity) {
+                    1 -> "매우 예민하지 않아요"
+                    2 -> "예민하지 않아요"
+                    3 -> "보통이에요"
+                    4 -> "예민해요"
+                    5 -> "매우 예민해요"
+                    else -> "보통이에요"
+                }
+            )
 
             tvTableUserCleanFrequency.text = trimText(user.memberStatDetail.cleaningFrequency)
             tvTableOtherCleanFrequency.text = trimText(other.memberStatDetail.cleaningFrequency)
@@ -424,8 +607,10 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserDrinkFrequency.text = trimText(user.memberStatDetail.drinkingFrequency)
             tvTableOtherDrinkFrequency.text = trimText(other.memberStatDetail.drinkingFrequency)
 
-            tvTableUserPersonality.text = trimText(user.memberStatDetail.personality.joinToString(", "))
-            tvTableOtherPersonality.text = trimText(other.memberStatDetail.personality.joinToString(", "))
+            tvTableUserPersonality.text =
+                trimText(user.memberStatDetail.personality.joinToString(", "))
+            tvTableOtherPersonality.text =
+                trimText(other.memberStatDetail.personality.joinToString(", "))
 
             tvTableUserMbti.text = user.memberStatDetail.mbti
             tvTableOtherMbti.text = other.memberStatDetail.mbti
@@ -720,19 +905,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         if (tableBinding.tvTableUserMbti.text != tableBinding.tvTableOtherMbti.text) {
             tableBinding.tvTableUserMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
             tableBinding.tvTableOtherMbti.setTextColor(ContextCompat.getColor(this, R.color.red))
-        }
-    }
-
-    private fun toggleRoommateRequestButton() {
-        isRoommateRequested = !isRoommateRequested  // 버튼 상태 변경
-
-        with(binding.fabRequestRoommate) {
-            if (isRoommateRequested) {
-                // 기본값 = true
-                backgroundTintList = getColorStateList(R.color.main_blue)
-            } else {
-                backgroundTintList = getColorStateList(R.color.gray)
-            }
         }
     }
 

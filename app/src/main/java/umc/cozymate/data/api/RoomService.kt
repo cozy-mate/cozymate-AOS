@@ -20,6 +20,7 @@ import umc.cozymate.data.model.response.room.CheckRoomNameResponse
 import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
@@ -100,6 +101,20 @@ interface RoomService {
         @Query("inviteCode") inviteCode: String
     ) : Response<GetRoomInfoByInviteCodeResponse>
 
+    // 방장 -> 방에 참여 요청한 사용자인지 조회
+    @GET("/rooms/pending-status/{memberId}")
+    suspend fun getPendingMember(
+        @Header("Authorization") accessToken: String,
+        @Path("memberId") memberId: Int
+    ): Response<GetRoomPendingMemberResponse>
+
+    // 방장 -> 방장이 초대한 사용자인지 조회
+    @GET("/rooms/invited-status/{memberId}")
+    suspend fun getInvitedStatus(
+        @Header("Authorization") accessToken: String,
+        @Path("memberId") memberId: Int
+    ): Response<GetRoomPendingMemberResponse>
+
     // 사용자가 초대 요청을 받은 방 목록 조회
     @GET("/rooms/invited")
     suspend fun getInvitedRoomList(
@@ -171,6 +186,12 @@ interface RoomService {
         @Path("roomId") roomId: Int,
     ) : Response<JoinRoomResponse>
 
+    @POST("/rooms/invite/{inviteeId}")
+    suspend fun inviteMember(
+        @Header("Authorization") accessToken: String,
+        @Path("inviteeId") inviteeId: Int,
+    ) : Response<JoinRoomResponse>
+
     // 공개 방 생성
     @POST("/rooms/create-public")
     suspend fun createPublicRoom(
@@ -192,4 +213,11 @@ interface RoomService {
         @Path("roomId") roomId: Int,
         @Path("memberStatKey") memberStatKey: String
     ): Response<GetRoomMemberStatResponse>
+
+    // 우리방으로 초대한 멤버 목록 조회
+    @GET("/rooms/{roomId}/invited-members")
+    suspend fun getInvitedMembers(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ) : Response<GetInvitedMembersResponse>
 }

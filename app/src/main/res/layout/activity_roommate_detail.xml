@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <!-- 메인 UI 요소들 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,13 +41,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_like"
+            <ImageView
+                android:id="@+id/iv_like"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="46dp"
+                android:clickable="true"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/ic_heart"
+                android:src="@drawable/ic_heart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,9 +56,9 @@
                 android:id="@+id/btn_chat"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="46dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/ic_message"
-                app:layout_constraintEnd_toStartOf="@id/btn_like"
+                app:layout_constraintEnd_toStartOf="@id/iv_like"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -214,20 +215,20 @@
 
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fab_request_roommate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fab_request_roommate"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/main_blue"
                 android:gravity="center"
                 android:text="내 방으로 초대하기"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/main_blue"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:visibility="visible"/>
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
