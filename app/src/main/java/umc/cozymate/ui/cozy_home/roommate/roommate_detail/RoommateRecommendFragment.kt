@@ -105,7 +105,7 @@ class RoommateRecommendFragment: Fragment() {
     }
 
     private fun updateUI(){
-        val recommendAdapter = RecommendedRoommateVPAdapter(memberList){ memberId ->
+        val recommendAdapter = RecommendedRoommateVPAdapter(memberList,true){ memberId ->
             detailViewModel.getOtherUserDetailInfo(memberId)
         //navigatorToRoommateDetail(memberId)
         }
