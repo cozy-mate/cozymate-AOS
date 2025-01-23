@@ -49,7 +49,7 @@
             <LinearLayout
                 android:id="@+id/ll_more"
                 android:layout_width="wrap_content"
-                android:layout_height="82dp"
+                android:layout_height="56dp"
                 android:background="@drawable/background_morebox"
                 android:orientation="vertical"
                 android:gravity="center"
@@ -83,7 +83,7 @@
                     android:textColor="@color/basic_font"
                     />
 
-                <View
+                <!--View
                     android:layout_width="48dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/basic_font"
-                    />
+                    /-->
 
             </LinearLayout>
 
