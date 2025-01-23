@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,7 @@ class CozyHomeMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            binding.refreshLayout.isRefreshing = true
             // 학교명
             // 학교인증 지금은 안 하도록 수정했습니다
             ivSchoolWhite.visibility = View.GONE
@@ -78,6 +80,7 @@ class CozyHomeMainFragment : Fragment() {
             initView()
             // 새로고침 설정
             onRefresh()
+            binding.refreshLayout.isRefreshing = false
         }
     }
 
@@ -130,9 +133,10 @@ class CozyHomeMainFragment : Fragment() {
         splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
         // 방 정보 옵저빙
         // 방장인지 여부를 확인합니다.
-        viewModel.roomInfo.observe(viewLifecycleOwner) { roomInfo ->
+        viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
             state = if (roomInfo != null) {
-                if (roomInfo.isRoomManager) {
+                if (roomInfo.result.isRoomManager) {
+                    Log.d("tag", "$roomInfo")
                     UserRoomState.CREATED_ROOM
                 } else {
                     UserRoomState.HAS_ROOM
@@ -147,7 +151,7 @@ class CozyHomeMainFragment : Fragment() {
         } else {
             state = UserRoomState.HAS_ROOM
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.getRoomId()
+                viewModel.fetchRoomInfo()
             }
         }
     }
@@ -180,15 +184,16 @@ class CozyHomeMainFragment : Fragment() {
                     receivedInvitationContainer.visibility = View.VISIBLE
                     recommendedRoomContainer.visibility = View.VISIBLE
                     recommendedRoommateContainer.visibility = View.VISIBLE
+                    receivedJoinRequestContainer.visibility = View.VISIBLE
                     parentFragmentManager.beginTransaction().apply {
                         replace(R.id.my_room_container, MyRoomComponent())
                         replace(R.id.received_invitation_container, ReceivedInvitationComponent())
                         replace(R.id.recommended_room_container, RecommendedRoomComponent())
                         replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
+                        replace(R.id.received_join_request_container, ReceivedJoinRequestComponent())
                         commit()
                     }
                     // 안 보이는 컴포넌트
-                    receivedJoinRequestContainer.visibility = View.GONE
                     sentJoinContainer.visibility = View.GONE
                 }
 
