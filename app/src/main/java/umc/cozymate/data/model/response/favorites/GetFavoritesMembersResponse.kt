@@ -57,10 +57,7 @@ data class GetFavoritesMembersResponse(
                 val stat: String,
                 @SerialName("value")
                 val value: String
-            ) {
-                @Serializable
-                class Value
-            }
+            )
         }
     }
 }

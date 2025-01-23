@@ -25,7 +25,6 @@ class FavoriteViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-
     private val _roomFavoriteState = MutableLiveData<Boolean>() // 방 찜 상태
     val roomFavoriteState: LiveData<Boolean> get() = _roomFavoriteState
 
@@ -72,13 +71,13 @@ class FavoriteViewModel @Inject constructor(
         try {
             val response = repo.getFavoritesMembers(token!!)
             if (response.isSuccessful) {
-                Log.d(TAG, "getFavoritesRooms 응답 성공 : ${response.body()}")
+                Log.d(TAG, "getFavoritesRoommates 응답 성공 : ${response.body()}")
                 _getFavoritesMembersResponse.value = response.body()
             } else {
-                Log.d(TAG, "getFavoritesRooms 응답 에러 : ${response.errorBody()}")
+                Log.d(TAG, "getFavoritesRoommates 응답 에러 : ${response.errorBody()}")
             }
         } catch (e: Exception) {
-            Log.d(TAG, "getFavoritesRooms api 요청 실패: ${e}")
+            Log.d(TAG, "getFavoritesRoommates api 요청 실패: ${e}")
         } finally {
             _isLoading2.value = false
         }

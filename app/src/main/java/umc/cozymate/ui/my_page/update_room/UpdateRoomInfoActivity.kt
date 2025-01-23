@@ -8,7 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityUpdateRoomInfoBinding
-import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint

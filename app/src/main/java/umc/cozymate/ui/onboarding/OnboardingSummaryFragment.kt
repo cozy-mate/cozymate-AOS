@@ -16,14 +16,13 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSummaryBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.roommate.RoommateOnboardingActivity
+import umc.cozymate.util.CharacterUtil
 
 class OnboardingSummaryFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
 
     private var _binding: FragmentOnboardingSummaryBinding? = null
     private val binding get() = _binding!!
-
     private var nickname: String = ""
     private var persona: Int = 0
 
@@ -56,7 +55,7 @@ class OnboardingSummaryFragment : Fragment() {
             binding.title1Onboarding3.text = spannable
         } else binding.title1Onboarding3.text = ""
 
-        setCharacterImage(persona)
+        CharacterUtil.setImg(persona, binding.ivChar)
 
         val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
         spf.edit {
@@ -71,27 +70,5 @@ class OnboardingSummaryFragment : Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         nickname = spf.getString("user_nickname", "").toString()
         persona = spf.getInt("persona", 1)
-    }
-
-    private fun setCharacterImage(persona: Int) {
-        when (persona) {
-            1 -> binding.ivChar.setImageResource(R.drawable.character_id_1)
-            2 -> binding.ivChar.setImageResource(R.drawable.character_id_2)
-            3 -> binding.ivChar.setImageResource(R.drawable.character_id_3)
-            4 -> binding.ivChar.setImageResource(R.drawable.character_id_4)
-            5 -> binding.ivChar.setImageResource(R.drawable.character_id_5)
-            6 -> binding.ivChar.setImageResource(R.drawable.character_id_6)
-            7 -> binding.ivChar.setImageResource(R.drawable.character_id_7)
-            8 -> binding.ivChar.setImageResource(R.drawable.character_id_8)
-            9 -> binding.ivChar.setImageResource(R.drawable.character_id_9)
-            10 -> binding.ivChar.setImageResource(R.drawable.character_id_10)
-            11 -> binding.ivChar.setImageResource(R.drawable.character_id_11)
-            12 -> binding.ivChar.setImageResource(R.drawable.character_id_12)
-            13 -> binding.ivChar.setImageResource(R.drawable.character_id_13)
-            14 -> binding.ivChar.setImageResource(R.drawable.character_id_14)
-            15 -> binding.ivChar.setImageResource(R.drawable.character_id_15)
-            16 -> binding.ivChar.setImageResource(R.drawable.character_id_16)
-            else -> binding.ivChar.setImageResource(R.drawable.character_id_1) // 기본 이미지 설정
-        }
     }
 }
