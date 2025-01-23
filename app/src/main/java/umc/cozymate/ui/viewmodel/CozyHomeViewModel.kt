@@ -154,6 +154,8 @@ class CozyHomeViewModel @Inject constructor(
     }
 
     // 방 정보 조회(방 있을 때)
+    private val _roomInfoResponse = MutableLiveData<GetRoomInfoResponse>()
+    val roomInfoResponse: LiveData<GetRoomInfoResponse> get() = _roomInfoResponse
     suspend fun fetchRoomInfo() {
         val token = getToken()
         val roomId = getSavedRoomId()
@@ -168,6 +170,7 @@ class CozyHomeViewModel @Inject constructor(
                         //_profileImage.value = response.body()!!.result.profileImage
                         _mateList.value = response.body()?.result?.mateDetailList
                         _roomType.value = response.body()?.result?.roomType
+                        _roomInfoResponse.value = response.body()
                         saveRoomInfo("mate_list", _mateList.value!!)
                         saveRoomName()
                         saveRoomPersona(response.body()?.result!!.persona)

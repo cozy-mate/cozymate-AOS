@@ -15,12 +15,14 @@ import umc.cozymate.databinding.FragmentMyReceivedJoinRequestBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 
 @AndroidEntryPoint
 class ReceivedJoinRequestComponent : Fragment() {
     private var _binding: FragmentMyReceivedJoinRequestBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoomRequestViewModel by viewModels()
+    private val detailViewModel: RoommateDetailViewModel by viewModels()
 
     companion object {
         fun newInstance() = ReceivedJoinRequestComponent()
@@ -33,19 +35,32 @@ class ReceivedJoinRequestComponent : Fragment() {
     ): View {
         _binding = FragmentMyReceivedJoinRequestBinding.inflate(inflater, Main, false)
         observeRoomList()
+        binding.clComponent.visibility = View.GONE
+        binding.tvTitle.visibility = View.GONE
+        binding.divider.visibility = View.GONE
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPendingMemberList()
         }
+
+        detailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
+            if (otherUserDetail == null) return@observe
+            else {
+                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
         return binding.root
+    }
+
+    private fun navigatorToRoommateDetail(memberId: Int) {
+        detailViewModel.getOtherUserDetailInfo(memberId)
     }
 
     private fun observeRoomList() {
         // 클릭 시 멤버 상세 정보 페이지로 이동하도록 어댑터 설정
         val adapter = ReceivedJoinRequestAdapter { memberId ->
-            val intent = Intent(requireActivity(), RoommateDetailActivity::class.java).apply {
-                    putExtra("other_user_detail", memberId)
-                }
-            startActivity(intent)
+            navigatorToRoommateDetail(memberId)
         }
         binding.rvMyReceived.adapter = adapter
         binding.rvMyReceived.layoutManager = LinearLayoutManager(requireContext())
@@ -54,12 +69,18 @@ class ReceivedJoinRequestComponent : Fragment() {
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.tvRequestNum.text = "${roomList.size}개의"
+                binding.tvTitle.visibility = View.VISIBLE
                 binding.clComponent.visibility = View.VISIBLE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.VISIBLE
+                binding.divider.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
                 binding.clComponent.visibility = View.GONE
+                binding.tvTitle.visibility = View.GONE
+                binding.divider.visibility = View.GONE
+                binding.clEmptyRoommate.visibility = View.GONE
+                binding.rvMyReceived.visibility = View.GONE
                 /*binding.tvRequestNum.text = "0개의"
                 binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.VISIBLE

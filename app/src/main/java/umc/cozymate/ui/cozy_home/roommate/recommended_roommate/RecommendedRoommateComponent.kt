@@ -51,7 +51,6 @@ class RecommendedRoommateComponent : Fragment() {
         updateData()
 
         // 추천 룸메이트 옵저빙
-
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
