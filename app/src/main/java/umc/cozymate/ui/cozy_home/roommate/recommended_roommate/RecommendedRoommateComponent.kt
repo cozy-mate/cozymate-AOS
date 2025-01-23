@@ -70,6 +70,16 @@ class RecommendedRoommateComponent : Fragment() {
                 binding.dotsIndicator.attachTo(binding.vpRoommate)
             }
         }
+
+        detailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+
         // 룸메이트 더보기
         binding.llMore.setOnClickListener {
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
@@ -84,14 +94,7 @@ class RecommendedRoommateComponent : Fragment() {
 
 
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            detailViewModel.getOtherUserDetailInfo(memberId)
-            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
+        detailViewModel.getOtherUserDetailInfo(memberId)
     }
 
     // sharedpreference에서 데이터 받아오기

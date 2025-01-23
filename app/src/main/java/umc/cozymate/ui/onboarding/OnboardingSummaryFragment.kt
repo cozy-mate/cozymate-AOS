@@ -42,16 +42,18 @@ class OnboardingSummaryFragment : Fragment() {
 
         getPreference()
 
-        val mainText = "${nickname}님, "
-        val spannable = SpannableStringBuilder(mainText)
-        val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
-        spannable.setSpan(
-            ForegroundColorSpan(color),
-            0,
-            nickname.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        binding.title1Onboarding3.text = spannable
+        if (nickname != "") {
+            val mainText = "${nickname}님, "
+            val spannable = SpannableStringBuilder(mainText)
+            val color = ContextCompat.getColor(requireContext(), R.color.main_blue)
+            spannable.setSpan(
+                ForegroundColorSpan(color),
+                0,
+                nickname.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            binding.title1Onboarding3.text = spannable
+        } else binding.title1Onboarding3.text = ""
 
         CharacterUtil.setImg(persona, binding.ivChar)
 
@@ -65,8 +67,8 @@ class OnboardingSummaryFragment : Fragment() {
     }
 
     private fun getPreference() {
-        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        nickname = sharedPref.getString("user_nickname", "No user found").toString()
-        persona = sharedPref.getInt("persona", 1)
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        nickname = spf.getString("user_nickname", "").toString()
+        persona = spf.getInt("persona", 1)
     }
 }

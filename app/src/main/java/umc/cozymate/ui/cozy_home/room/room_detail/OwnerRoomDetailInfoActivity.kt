@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -102,7 +103,26 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         updateUserRoomInfo()
         // 방 나가기
         setQuitRoom(roomId!!)
+
+        // 룸메 상세정보창과 연결
+        observeOtherUserInfo()
     }
+
+    private fun observeOtherUserInfo() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(this, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+
+//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
+//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//        }
+    }
+
 
     private fun updateUserRoomInfo() {
         lifecycleScope.launch {
@@ -133,6 +153,27 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            Log.d(TAG, "invitedMembers LifecycleScope 실행")
+            viewModel.invitedMembers.collectLatest { invitedInfo ->
+                Log.d(TAG, "invitedMembers.collectLatest 호출")
+                if (invitedInfo.isEmpty()) {
+                    binding.clInvitedMember.visibility = View.GONE
+                    Log.d(TAG, "InvitedMember Empty")
+                } else {
+                    Log.d(TAG, "InvitedMember Not Empty")
+                    binding.clInvitedMember.visibility = View.VISIBLE
+                    binding.rvInvitedMember.apply {
+                        layoutManager = LinearLayoutManager(this@OwnerRoomDetailInfoActivity)
+                        adapter = RoomInvitedListRVA(
+                            invitedInfo
+                        ) { memberId ->
+                            navigatorToRoommateDetail(memberId)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // 방 나가기
@@ -142,9 +183,11 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                 showQuitRoomPopup()
             }
         }
-        // 방 삭제 옵저빙
+        // 방 나가기 옵저빙
         roomViewModel.roomQuitResult.observe(this) { result ->
             if (result.isSuccess) {
+                val sharedPreferences = this.getSharedPreferences("shared_pref_name", Context.MODE_PRIVATE)
+                sharedPreferences.edit().remove("room_id").apply()
                 loadMainActivity()
             } else {
                 Toast.makeText(this, "방 나가기를 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
@@ -214,19 +257,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
 
     // 룸메이트 상세 창
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent =
-                    Intent(
-                        this@OwnerRoomDetailInfoActivity,
-                        RoommateDetailActivity::class.java
-                    ).apply {
-                        putExtra("other_user_detail", otherUserDetail)
-                    }
-                startActivity(intent)
-            }
-        }
+        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
     }
 
     // 해시태그 업데이트

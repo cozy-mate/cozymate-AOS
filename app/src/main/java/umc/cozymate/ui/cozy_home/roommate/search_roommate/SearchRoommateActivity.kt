@@ -51,6 +51,24 @@ class SearchRoommateActivity : AppCompatActivity() {
         binding.btnCancle.setOnClickListener {
             this.onBackPressed()
         }
+
+        // 룸메 상세정보창과 연결
+        observeOtherUserInfo()
+    }
+
+    private fun observeOtherUserInfo() {
+        detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(this@SearchRoommateActivity, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+
+        detailViewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -116,19 +134,10 @@ class SearchRoommateActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-        detailViewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
+
     }
 
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            detailViewModel.getOtherUserDetailInfo(memberId)
-            detailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent = Intent(this@SearchRoommateActivity, RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
+        detailViewModel.getOtherUserDetailInfo(memberId)
     }
 }
