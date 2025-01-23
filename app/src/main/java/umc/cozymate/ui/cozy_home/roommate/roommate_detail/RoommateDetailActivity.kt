@@ -159,7 +159,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setupFAB(userDetail: GetMemberDetailInfoResponse.Result) {
-        updateFAB(userDetail)
+        updateFAB()
     }
 
     private fun updateUI(otherUserDetail: GetMemberDetailInfoResponse.Result) {
@@ -277,70 +277,61 @@ class RoommateDetailActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
-    private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
-        val memberId = userDetail.memberDetail.memberId
-        Log.d(TAG, "현재 조회한 memberId: $memberId")
-        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val mbti = spf.getString("user_mbti", null)
-        val savedRoomId = spf.getInt("room_id", -2)
-        val otherRoom = userDetail.roomId
-        Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
+    private fun updateFAB() {
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val userMemberId = spf.getInt("user_member_id", -1) // 내 사용자 ID
+        val savedRoomId = spf.getInt("room_id", -1) // 내 방 ID
 
-        if (savedRoomId == 0 || savedRoomId == -2) {
-            // 내 방이 없는 경우
-            with(binding) {
-                fabRequestRoommate.text = "내 방으로 초대하기"
-                fabRequestRoommate.backgroundTintList =
-                    android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-                fabRequestRoommate.setTextColor(getColor(R.color.white))
-                fabRequestRoommate.isEnabled = false
+        // 상대방 정보
+        val otherRoomId = otherUserDetail?.roomId ?: -1
+        val otherMemberId = otherUserDetail?.memberDetail?.memberId ?: -1
+
+        if (savedRoomId <= 0) {
+            // 내 방이 없을 때: 버튼 비활성화 및 배경 변경
+            binding.fabRequestRoommate.apply {
+                text = "내 방으로 초대하기"
+                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray)) // 비활성화 색상
+                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+                isClickable = false // 클릭 비활성화
             }
-        } else {
-            // 내 방이 있는 경우
-            if (otherRoom != 0) {
-                // 상대방이 이미 방이 있는 경우
-                with(binding) {
-                    fabRequestRoommate.text = "내 방으로 초대하기"
-                    fabRequestRoommate.backgroundTintList =
-                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-                    fabRequestRoommate.setTextColor(getColor(R.color.white))
-                    fabRequestRoommate.isEnabled = false
+            return
+        }
+
+        if (otherRoomId > 0) {
+            // 상대방이 이미 방에 있을 때: 버튼 비활성화 및 배경 변경
+            binding.fabRequestRoommate.apply {
+                text = "내 방으로 초대하기"
+                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray)) // 비활성화 색상
+                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+                isClickable = false // 클릭 비활성화
+            }
+            return
+        }
+
+        // 상대방이 방에 없을 때만 로직 처리
+        roomDetailViewModel.isPendingMember.observe(this) { isPending ->
+            if (isPending) {
+                // 상대방이 초대 요청 상태일 때
+                binding.fabRequestRoommate.apply {
+                    text = "방 초대 요청 취소"
+                    setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+                    isClickable = true
+                    setOnClickListener {
+                        roomDetailViewModel.cancelInvitation(otherMemberId)
+                        recreate() // 화면 갱신
+                    }
                 }
             } else {
-                // 상대방이 방이 없는 경우 = 초대 가능한 경우
-                roomDetailViewModel.getPendingStatus(memberId, isRoom = false)
-
-                roomDetailViewModel.isPending.observe(this) { isPending ->
-                    if (isPending) {
-                        // 상대방이 우리 방에 입장 요청을 한 경우
-                        with(binding) {
-                            clAcceptBtn.visibility = View.VISIBLE // 수락/거절 버튼 표시
-                            fabRequestRoommate.visibility = View.GONE
-                            fabAcceptRefuse.setOnClickListener {
-                                // 거절 버튼 클릭 시
-                                roomDetailViewModel.handleAcceptRequest(memberId, false, false)
-                                clAcceptBtn.visibility = View.GONE
-                            }
-                            fabAcceptAccept.setOnClickListener {
-                                // 수락 버튼 클릭 시
-                                roomDetailViewModel.handleAcceptRequest(memberId, true, false)
-                                clAcceptBtn.visibility = View.GONE
-                            }
-                        }
-                    } else {
-                        // 상대방이 입장 요청을 하지 않은 경우 = 초대 로직 실행
-                        with(binding) {
-                            fabRequestRoommate.text = "내 방으로 초대하기"
-                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
-                            fabRequestRoommate.setTextColor(getColor(R.color.white))
-                            fabRequestRoommate.setOnClickListener {
-                                lifecycleScope.launch {
-                                    makingRoomViewModel.inviteMember(memberId)
-                                    delay(600)
-                                    roomDetailViewModel.getPendingStatus(memberId, isRoom = false) // 상태 갱신
-                                }
-                            }
-                        }
+                // 초대 가능한 상태일 때
+                binding.fabRequestRoommate.apply {
+                    text = "내 방으로 초대하기"
+                    setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+                    isClickable = true
+                    setOnClickListener {
+                        roomDetailViewModel.inviteMember(otherMemberId)
+                        recreate() // 화면 갱신
                     }
                 }
             }

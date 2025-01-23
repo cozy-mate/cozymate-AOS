@@ -70,20 +70,23 @@ class RoomDetailViewModel @Inject constructor(
     private val _roomMemberStatsColor = MutableLiveData<String>()
     val roomMemberStatsColor: LiveData<String> get() = _roomMemberStatsColor
 
+    private val _isPendingRoom = MutableLiveData<Boolean>()
+    val isPendingRoom: LiveData<Boolean> get() = _isPendingRoom
+
+    private val _isInvitedToRoom = MutableLiveData<Boolean>()
+    val isInvitedToRoom: LiveData<Boolean> get() = _isInvitedToRoom
+
     private val _isPendingMember = MutableLiveData<Boolean>()
     val isPendingMember: LiveData<Boolean> get() = _isPendingMember
 
-    private val _isPendingRoom = MutableLiveData<Boolean>()
-    val isPendingRoom: LiveData<Boolean> get() = _isPendingRoom
+    private val _isInvitedStatus = MutableLiveData<Boolean>()
+    val isInvitedStatus: LiveData<Boolean> get() = _isInvitedStatus
 
     private val _acceptResponse = MutableLiveData<Boolean>()
     val acceptResponse: LiveData<Boolean> get() = _acceptResponse
 
     private val _errorResponse = MutableLiveData<String>()
     val errorResponse: LiveData<String> get() = _errorResponse
-
-    private val _isPending = MutableLiveData<Boolean>()
-    val isPending: LiveData<Boolean> get() = _isPending
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -358,59 +361,203 @@ class RoomDetailViewModel @Inject constructor(
 //        }
 //    }
 
-    fun getPendingStatus(id: Int, isRoom: Boolean) {
+    /**
+     * 방 참여 요청 상태 확인
+     */
+    fun getPendingRoomStatus(roomId: Int) {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
                 val token = getToken() ?: throw IllegalStateException("Access token is null.")
-                val response = if (isRoom) {
-                    repository.getPendingRoom(token, id)
-                } else {
-                    repository.getPendingMember(token, id)
-                }
+                val response = repository.getPendingRoom(token, roomId)
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    val result = response.body()?.result ?: false
-                    _isPending.value = result
-                    Log.d(TAG, "getPendingStatus 호출 성공: isRoom = $isRoom, result = $result")
+                    _isPendingRoom.value = response.body()?.result ?: false
+                    Log.d(TAG, "getPendingRoomStatus 호출 성공: result = ${_isPendingRoom.value}")
                 } else {
-                    _isPending.value = false
-                    Log.e(TAG, "getPendingStatus 호출 실패: ${response.errorBody()?.string()}")
+                    _isPendingRoom.value = false
+                    Log.e(TAG, "getPendingRoomStatus 호출 실패: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                _isPending.value = false
-                Log.e(TAG, "getPendingStatus 호출 중 오류 발생: $e")
-            } finally {
-                _isLoading.value = false
+                _isPendingRoom.value = false
+                Log.e(TAG, "getPendingRoomStatus 호출 중 오류 발생: $e")
             }
         }
     }
 
-    fun handleAcceptRequest(id: Int, accept: Boolean, isRoom: Boolean) {
+    /**
+     * 방 초대 상태 확인
+     */
+    fun getInvitedRoomStatus(roomId: Int) {
         viewModelScope.launch {
-            _isLoading.value = true
             try {
                 val token = getToken() ?: throw IllegalStateException("Access token is null.")
-                val response = if (isRoom) {
-                    repository.acceptRoomEnter(token, id, accept)
+                val response = repository.getInvitedStatusRoom(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isInvitedToRoom.value = response.body()?.result ?: false
+                    Log.d(TAG, "getInvitedRoomStatus 호출 성공: result = ${_isInvitedToRoom.value}")
                 } else {
-                    repository.acceptMemberRequest(token, id, accept)
+                    _isInvitedToRoom.value = false
+                    Log.e(TAG, "getInvitedRoomStatus 호출 실패: ${response.errorBody()?.string()}")
                 }
+            } catch (e: Exception) {
+                _isInvitedToRoom.value = false
+                Log.e(TAG, "getInvitedRoomStatus 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 방 참여 요청 취소
+     */
+    fun cancelJoinRequest(roomId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.cancelJoinRequest(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "cancelJoinRequest 호출 성공")
+                } else {
+                    Log.e(TAG, "cancelJoinRequest 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "cancelJoinRequest 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 초대 수락/거절
+     */
+    fun acceptRoomEnter(roomId: Int, accept: Boolean) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.acceptRoomEnter(token, roomId, accept)
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
                     _acceptResponse.value = true
-                    Log.d(TAG, "handleAcceptRequest 성공: isRoom = $isRoom, accept = $accept")
+                    Log.d(TAG, "acceptRoomEnter 성공: accept = $accept")
                 } else {
                     _acceptResponse.value = false
                     _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
-                    Log.e(TAG, "handleAcceptRequest 실패: ${response.errorBody()?.string()}")
+                    Log.e(TAG, "acceptRoomEnter 실패: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 _acceptResponse.value = false
                 _errorResponse.value = e.message ?: "Exception occurred"
-                Log.e(TAG, "handleAcceptRequest 예외 발생: $e")
-            } finally {
-                _isLoading.value = false
+                Log.e(TAG, "acceptRoomEnter 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 룸메이트 초대 상태 확인
+     */
+    fun getInvitedStatus(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getInvitedStatus(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isInvitedStatus.value = response.body()?.result ?: false
+                    Log.d(TAG, "getInvitedStatus 호출 성공: result = ${_isInvitedStatus.value}")
+                } else {
+                    _isInvitedStatus.value = false
+                    Log.e(TAG, "getInvitedStatus 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isInvitedStatus.value = false
+                Log.e(TAG, "getInvitedStatus 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 초대 취소
+     */
+    fun cancelInvitation(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.cancelInvitation(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "cancelInvitation 호출 성공")
+                } else {
+                    Log.e(TAG, "cancelInvitation 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "cancelInvitation 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 내 방에 참여 요청 확인
+     */
+    fun getPendingMember(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getPendingMember(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isPendingMember.value = response.body()?.result ?: false
+                    Log.d(TAG, "getPendingMember 호출 성공: result = ${_isPendingMember.value}")
+                } else {
+                    _isPendingMember.value = false
+                    Log.e(TAG, "getPendingMember 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isPendingMember.value = false
+                Log.e(TAG, "getPendingMember 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 참여 요청 수락/거절
+     */
+    fun acceptMemberRequest(memberId: Int, accept: Boolean) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.acceptMemberRequest(token, memberId, accept)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _acceptResponse.value = true
+                    Log.d(TAG, "acceptMemberRequest 성공: accept = $accept")
+                } else {
+                    _acceptResponse.value = false
+                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e(TAG, "acceptMemberRequest 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _acceptResponse.value = false
+                _errorResponse.value = e.message ?: "Exception occurred"
+                Log.e(TAG, "acceptMemberRequest 호출 중 오류 발생: $e")
+            }
+        }
+    }
+    /**
+     * 내 방으로 사용자 초대
+     */
+    fun inviteMember(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.inviteMember(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "inviteMember 호출 성공")
+                } else {
+                    Log.e(TAG, "inviteMember 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "inviteMember 호출 중 오류 발생: $e")
             }
         }
     }
