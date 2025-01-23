@@ -122,9 +122,6 @@ class RoommateRecommendFragment: Fragment() {
         }
     }
 
-    private fun navigatorToRoommateDetail(memberId: Int) {
-
-    }
 
     private fun initChip(){
         val filterList  = listOf("출생년도","학번","학과","합격여부","기상시간","취침시간","소등시간","흡연여부","잠버릇","에어컨","히터", "생활패턴","친밀도",

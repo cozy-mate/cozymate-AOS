@@ -277,15 +277,22 @@ class RoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun observeMemberInfo() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                roommateDetailViewModel.otherUserDetailInfo.collect { memberInfo ->
-                    memberId = memberInfo.memberDetail.memberId
-                    favoriteId = memberInfo.favoriteId
-                    updateFavoriteButton()
-                }
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) {memberInfo ->
+            if(otherUserDetail == null) return@observe
+            else{
+                memberId = memberInfo.memberDetail.memberId
+                favoriteId = memberInfo.favoriteId
+                updateFavoriteButton()
             }
         }
+
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                roommateDetailViewModel.otherUserDetailInfo.collect { memberInfo ->
+//
+//                }
+//            }
+//        }
     }
 
     private fun setupFavoriteButton() {
@@ -295,21 +302,27 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberId = memberId,
                     favoriteId = favoriteId,
                     onUpdate = {
-                        // 최신 정보를 다시 불러와 favoriteId 갱신
-                        lifecycleScope.launch {
-                            roommateDetailViewModel.getOtherUserDetailInfo(memberId) // suspend 함수 호출
-                            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                roommateDetailViewModel.otherUserDetailInfo.collectLatest { updatedDetail ->
-                                    favoriteId = updatedDetail.favoriteId // 갱신된 favoriteId 적용
-                                    updateFavoriteButton()
-                                    Toast.makeText(
-                                        this@RoommateDetailActivity,
-                                        "찜 상태가 업데이트되었습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }
+                        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
+                        Toast.makeText(
+                            this@RoommateDetailActivity,
+                            "찜 상태가 업데이트되었습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+//                        // 최신 정보를 다시 불러와 favoriteId 갱신
+//                        lifecycleScope.launch {
+//                            // suspend 함수 호출
+//                            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                                roommateDetailViewModel.otherUserDetailInfo.collectLatest { updatedDetail ->
+//                                    favoriteId = updatedDetail.favoriteId // 갱신된 favoriteId 적용
+//                                    updateFavoriteButton()
+//                                    Toast.makeText(
+//                                        this@RoommateDetailActivity,
+//                                        "찜 상태가 업데이트되었습니다.",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                           }
+//                        }
                     },
                     onError = { errorMessage ->
                         Toast.makeText(

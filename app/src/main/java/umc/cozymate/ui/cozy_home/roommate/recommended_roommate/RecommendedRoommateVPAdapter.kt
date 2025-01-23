@@ -16,14 +16,11 @@ class RecommendedRoommateVPAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendRoommateVPViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
-        val height = if (isRecycleerView)   ViewGroup.LayoutParams.WRAP_CONTENT else   ViewGroup.LayoutParams.MATCH_PARENT
-        binding.root.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            height
-        )
+        val layoutParams  =  ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
+        if (isRecycleerView) { layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT }
+        binding.root.layoutParams =layoutParams
         return RecommendRoommateVPViewHolder(binding)
     }
-
     override fun onBindViewHolder(holder: RecommendRoommateVPViewHolder, position: Int) {
         val item = items[position]
         holder.bind(items[position])
