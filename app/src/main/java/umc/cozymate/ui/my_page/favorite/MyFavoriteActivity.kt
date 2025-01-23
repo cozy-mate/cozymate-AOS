@@ -17,9 +17,11 @@ import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.room_detail.VerticalSpaceItemDecoration
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
+import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -27,6 +29,7 @@ class MyFavoriteActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityMyFavoriteBinding
     private val viewModel: FavoriteViewModel by viewModels()
+    private val detailViewModel : RoommateDetailViewModel by viewModels()
     private lateinit var roomsAdapter: FavoriteRoomRVAdapter
     private lateinit var membersAdapter: FavoriteRoommateRVAdapter
     var isRoommateSelected: Boolean = true
@@ -42,6 +45,7 @@ class MyFavoriteActivity : AppCompatActivity() {
             viewModel.getFavoriteRoommateList()
         }
         setClickListener()
+        observeOtherUserInfo()
     }
 
     override fun onResume() {
@@ -60,11 +64,12 @@ class MyFavoriteActivity : AppCompatActivity() {
     fun setupRVAdapter() {
         // 찜한 룸메이트
         membersAdapter = FavoriteRoommateRVAdapter(emptyList()) { memberId ->
-            val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
-                putExtra("member_id", memberId) // 멤버 아이디 전달
-            }
+//            val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
+//                putExtra("member_id", memberId) // 멤버 아이디 전달
+//            }
             try {
-                startActivity(intent)
+                detailViewModel.getOtherUserDetailInfo(memberId)
+            //startActivity(intent)
             } catch (e: Exception) {
                 showNoMemberPopup()
             }
@@ -195,5 +200,21 @@ class MyFavoriteActivity : AppCompatActivity() {
 
         // 팝업 띄우기
         dialog.show(supportFragmentManager, "NoMemberPopup")
+    }
+
+
+    private fun observeOtherUserInfo() {
+        detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(this@MyFavoriteActivity, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+
+        detailViewModel.isLoading.observe(this@MyFavoriteActivity) { isLoading ->
+            setProgressbar(isLoading)
+        }
     }
 }

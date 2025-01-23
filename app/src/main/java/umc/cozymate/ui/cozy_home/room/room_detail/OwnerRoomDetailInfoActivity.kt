@@ -103,7 +103,26 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         updateUserRoomInfo()
         // 방 나가기
         setQuitRoom(roomId!!)
+
+        // 룸메 상세정보창과 연결
+        observeOtherUserInfo()
     }
+
+    private fun observeOtherUserInfo() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
+            if(otherUserDetail == null) return@observe
+            else{
+                val intent = Intent(this, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+
+//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
+//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//        }
+    }
+
 
     private fun updateUserRoomInfo() {
         lifecycleScope.launch {
@@ -238,19 +257,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
 
     // 룸메이트 상세 창
     private fun navigatorToRoommateDetail(memberId: Int) {
-        lifecycleScope.launch {
-            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-            roommateDetailViewModel.otherUserDetailInfo.collectLatest { otherUserDetail ->
-                val intent =
-                    Intent(
-                        this@OwnerRoomDetailInfoActivity,
-                        RoommateDetailActivity::class.java
-                    ).apply {
-                        putExtra("other_user_detail", otherUserDetail)
-                    }
-                startActivity(intent)
-            }
-        }
+        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
     }
 
     // 해시태그 업데이트

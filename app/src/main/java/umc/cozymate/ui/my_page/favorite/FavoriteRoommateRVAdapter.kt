@@ -142,7 +142,7 @@ class FavoriteRoommateRVAdapter(
         val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
         binding.root.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
         return RoommateViewHolder(binding)
     }
@@ -153,7 +153,8 @@ class FavoriteRoommateRVAdapter(
         holder.bind(items[position])
         // 아이템 클릭 시 roomId를 콜백으로 전달
         holder.itemView.setOnClickListener {
-            onItemClick(items[position].favoriteId)
+            onItemClick(items[position].memberStatPreferenceDetail.memberDetail.memberId)
+        //onItemClick(items[position].favoriteId)
         }
     }
 

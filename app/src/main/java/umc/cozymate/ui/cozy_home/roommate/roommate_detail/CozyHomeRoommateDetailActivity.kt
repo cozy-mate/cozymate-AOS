@@ -39,7 +39,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(
-                R.id.fragment_roommate_recommend1,
+                R.id.fragment_roommate_recommend,
                 RoommateRecommendFragment()
             )
             .commit()
