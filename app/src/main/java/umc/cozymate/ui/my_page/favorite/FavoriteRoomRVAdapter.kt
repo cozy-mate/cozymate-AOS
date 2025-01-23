@@ -128,7 +128,7 @@ class FavoriteRoomRVAdapter(
         val binding = VpItemRoomRecommendBinding.inflate(inflater, parent, false)
         binding.root.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
         return RoomViewHolder(binding)
     }
