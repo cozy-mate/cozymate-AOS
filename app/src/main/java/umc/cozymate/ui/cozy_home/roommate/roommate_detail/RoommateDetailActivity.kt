@@ -308,12 +308,13 @@ class RoommateDetailActivity : AppCompatActivity() {
                 }
             } else {
                 // 상대방이 방이 없는 경우 = 초대 가능한 경우
-                makingRoomViewModel.getPendingMember(memberId)
-                makingRoomViewModel.pendingMember.observe(this) { isPending ->
+                roomDetailViewModel.getPendingStatus(memberId, isRoom = false)
+
+                roomDetailViewModel.isPending.observe(this) { isPending ->
                     if (isPending) {
                         // 상대방이 우리 방에 입장 요청을 한 경우
                         with(binding) {
-                            clAcceptBtn.visibility = View.VISIBLE // `cl_accept_btn` 표시
+                            clAcceptBtn.visibility = View.VISIBLE // 수락/거절 버튼 표시
                             fabRequestRoommate.visibility = View.GONE
                             fabAcceptRefuse.setOnClickListener {
                                 // 거절 버튼 클릭 시
@@ -336,8 +337,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     makingRoomViewModel.inviteMember(memberId)
                                     delay(600)
-                                    makingRoomViewModel.getPendingMember(memberId)
-                                    recreate()
+                                    roomDetailViewModel.getPendingStatus(memberId, isRoom = false) // 상태 갱신
                                 }
                             }
                         }

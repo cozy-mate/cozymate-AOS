@@ -344,63 +344,53 @@ class RoomDetailActivity : AppCompatActivity() {
         val mbti = spf.getString("user_mbti", null)
         val savedRoomId = spf.getInt("room_id", -2)
 
-        if (mbti!!.isNotEmpty()) {
-            if (savedRoomId == 0 || savedRoomId == -2) {
-                // 내 방이 없는 경우
-                roomViewModel.getPendingRoom(roomId)
-                roomViewModel.pendingRoom.observe(this) { isPending ->
-                    if (isPending) {
-                        // 방에서 초대 요청을 받은 경우
-                        with(binding) {
-                            clAcceptBtn.visibility = View.VISIBLE  // 승인/거절 버튼 표시
-                            fabBnt.visibility = View.GONE          // 기존 버튼 숨기기
+        if (!mbti.isNullOrEmpty()) {
+            // 초대 상태 확인: getPendingStatus 호출
+            viewModel.getPendingStatus(roomId, isRoom = true)
 
-                            fabAcceptRefuse.setOnClickListener {
-                                // 거절 버튼 클릭 시
-                                viewModel.handleAcceptRequest(roomId, false, true)
-                                clAcceptBtn.visibility = View.GONE
-                                fabBnt.visibility = View.VISIBLE
-                            }
+            // getPendingStatus 결과를 관찰하여 UI 업데이트
+            viewModel.isPending.observe(this) { isPending ->
+                if (isPending) {
+                    // 초대를 받은 경우
+                    with(binding) {
+                        clAcceptBtn.visibility = View.VISIBLE // 승인/거절 버튼 표시
+                        fabBnt.visibility = View.GONE // 기존 버튼 숨김
 
-                            fabAcceptAccept.setOnClickListener {
-                                // 수락 버튼 클릭 시
-                                viewModel.handleAcceptRequest(roomId, true, true)
-                                clAcceptBtn.visibility = View.GONE
-                                fabBnt.visibility = View.VISIBLE
-                            }
-                        }
-                    } else {
-                        // 방에서 초대 요청을 받지 않은 경우 (기존 로직 실행)
-                        with(binding) {
-                            fabBnt.visibility = View.VISIBLE
+                        fabAcceptRefuse.setOnClickListener {
+                            // 거절 버튼 클릭 시 handleAcceptRequest 호출
+                            viewModel.handleAcceptRequest(roomId, accept = false, isRoom = true)
                             clAcceptBtn.visibility = View.GONE
+                            fabBnt.visibility = View.VISIBLE
+                        }
 
-                            fabBnt.text = "방 참여요청"
-                            fabBnt.setBackgroundTintList(getColorStateList(R.color.main_blue))
-                            fabBnt.setTextColor(getColor(R.color.white))
-                            fabBnt.setOnClickListener {
-                                lifecycleScope.launch {
-                                    joinRoomViewModel.requestJoinRoom(roomId)
-                                    delay(300)
-                                    roomViewModel.getPendingRoom(roomId)
-                                    recreate()
-                                }
+                        fabAcceptAccept.setOnClickListener {
+                            // 수락 버튼 클릭 시 handleAcceptRequest 호출
+                            viewModel.handleAcceptRequest(roomId, accept = true, isRoom = true)
+                            clAcceptBtn.visibility = View.GONE
+                            fabBnt.visibility = View.VISIBLE
+                        }
+                    }
+                } else {
+                    // 초대를 받지 않은 경우 기존 로직 실행
+                    with(binding) {
+                        fabBnt.visibility = View.VISIBLE
+                        clAcceptBtn.visibility = View.GONE
+
+                        fabBnt.text = "방 참여요청"
+                        fabBnt.setBackgroundTintList(getColorStateList(R.color.main_blue))
+                        fabBnt.setTextColor(getColor(R.color.white))
+                        fabBnt.setOnClickListener {
+                            lifecycleScope.launch {
+                                joinRoomViewModel.requestJoinRoom(roomId)
+                                delay(300)
+                                viewModel.getPendingStatus(roomId, isRoom = true) // 상태 갱신
                             }
                         }
                     }
                 }
-            } else {
-                // 내 방이 있는 경우
-                with(binding) {
-                    fabBnt.text = "방 참여 요청"
-                    fabBnt.backgroundTintList =
-                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-                    fabBnt.setTextColor(getColor(R.color.white))
-                    fabBnt.isEnabled = false
-                }
             }
         } else {
-            // 라이프스타일 입력을 안한 경우
+            // 라이프스타일 입력을 하지 않은 경우
             inputLifeStyle()
         }
     }

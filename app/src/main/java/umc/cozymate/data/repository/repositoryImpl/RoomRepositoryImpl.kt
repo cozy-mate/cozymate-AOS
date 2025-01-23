@@ -167,6 +167,13 @@ class RoomRepositoryImpl @Inject constructor(
         return api.getPendingRoom(accessToken, roomId)
     }
 
+    override suspend fun getInvitedStatusRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetRoomPendingMemberResponse> {
+        return api.getInvitedStatusRoom(accessToken, roomId)
+    }
+
     override suspend fun getPendingMember(
         accessToken: String,
         memberId: Int

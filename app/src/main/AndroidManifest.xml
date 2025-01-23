@@ -27,12 +27,14 @@
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.RoommateMyDetailActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.my_page.lifestyle.FetchLifestyleActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".ui.my_page.favorite.MyFavoriteActivity"
@@ -48,6 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity"

@@ -94,6 +94,13 @@ interface RoomService {
         @Path("roomId") roomId: Int
     ): Response<GetRoomPendingMemberResponse>
 
+    // 사용자 -> 사용자가 초대받은 방인지 조회
+    @GET("/rooms/{roomId}/invited-status")
+    suspend fun getInvitedStatusRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int
+    ): Response<GetRoomPendingMemberResponse>
+
     // 참여자가 초대코드로 방 정보 조회
     @GET("/rooms/join")
     suspend fun getRoomInfoByInviteCode(
@@ -186,6 +193,7 @@ interface RoomService {
         @Path("roomId") roomId: Int,
     ) : Response<JoinRoomResponse>
 
+    // 방장 -> 내 방으로 초대하기
     @POST("/rooms/invite/{inviteeId}")
     suspend fun inviteMember(
         @Header("Authorization") accessToken: String,
@@ -221,6 +229,7 @@ interface RoomService {
         @Path("roomId") roomId: Int
     ) : Response<GetInvitedMembersResponse>
 
+    // 방장 -> 방 참여 요청 수락/거절
     @PATCH("/rooms/request-join/{requesterId}")
     suspend fun acceptMemberRequest(
         @Header("Authorization") accessToken: String,
@@ -228,6 +237,7 @@ interface RoomService {
         @Query("accept") accept: Boolean
     ) : Response<DefaultResponse>
 
+    // 사용자 -> 방 초대 요청/수락
     @POST("/rooms/{roomId}/invite-request")
     suspend fun acceptRoomEnter(
         @Header("Authorization") accessToken: String,

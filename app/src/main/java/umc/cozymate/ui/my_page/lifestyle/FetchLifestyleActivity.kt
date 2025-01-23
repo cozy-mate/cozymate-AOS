@@ -7,21 +7,27 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityFetchLifestyleBinding
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 
 @AndroidEntryPoint
 class FetchLifestyleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFetchLifestyleBinding
     private lateinit var spf: SharedPreferences
+
+    private val universityViewModel: UniversityViewModel by viewModels()
 
     private val maxLength = 200
 
@@ -29,6 +35,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
     // 임시 데이터 저장 변수
     private var selectedAdmissionYear: Int = -1
+    private var selectedDormitoryName: String? = null
     private var selectedNumOfRoommate: Int = -1
     private var selectedAcceptance: String? = null
     private var selectedWakeUpMeridian: String? = null
@@ -64,6 +71,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         initData()
+        observeDormitoryNames()
         // 뒤로가기 버튼
         binding.ivBack.setOnClickListener { finish() }
 
@@ -78,6 +86,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
     private fun initData() {
         initAdmissionYear(spf.getString("user_admissionYear", "")!!.toInt())
+        initDormitoryName(spf.getString("user_dormitoryName", ""))
         initNumOfRoommate(spf.getInt("user_numOfRoommate", -1))
         initAcceptance(spf.getString("user_acceptance", ""))
         initWakeUpMeridian(spf.getString("user_wakeUpMeridian", ""))
@@ -104,6 +113,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         initPersonality(getStringListFromPreferences("user_personality"))
         initMbti(spf.getString("user_mbti", ""))
         initETCInfo(spf.getString("user_selfIntroduction", ""))
+        fetchUniversityData()
     }
 
     private fun initAdmissionYear(savedValue: Int) {
@@ -123,6 +133,103 @@ class FetchLifestyleActivity : AppCompatActivity() {
                 selectedAdmissionYear = if (inputText.isNotEmpty()) inputText.toInt() else -1
             }
         })
+    }
+
+
+    private fun initDormitoryName(savedValue: String?) {
+        lifecycleScope.launch {
+            val universityId = 1
+            try {
+                universityViewModel.getDormitory(universityId)
+                universityViewModel.dormitoryNames.observe(this@FetchLifestyleActivity) { dormitoryNames ->
+                    setupDormitoryOptions(dormitoryNames, savedValue)
+                }
+            } catch (e: Exception) {
+                Log.e("FetchLifestyleActivity", "Failed to fetch dormitory names: $e")
+            }
+        }
+    }
+
+    private fun fetchUniversityData() {
+        val universityId = 1 // 실제 ID로 대체
+        lifecycleScope.launch {
+            try {
+                universityViewModel.getDormitory(universityId)
+            } catch (e: Exception) {
+                Log.e("FetchLifestyleActivity", "Error fetching dormitory data: $e")
+            }
+        }
+    }
+
+    private fun observeDormitoryNames() {
+        universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
+            if (!dormitoryNames.isNullOrEmpty()) {
+                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormitoryName", ""))
+            } else {
+                Log.e("FetchLifestyleActivity", "Dormitory names list is empty or null")
+            }
+        }
+    }
+
+    private fun setupDormitoryOptions(dormitoryNames: List<String>, savedValue: String? = null) {
+        // lyDormitoryName의 기존 뷰 제거
+        binding.lyDormitoryName.removeAllViews()
+
+        dormitoryNames.forEach { dormitoryName ->
+            val textView = createDormitoryOption(dormitoryName)
+            // lyDormitoryName에 버튼 추가
+            binding.lyDormitoryName.addView(textView)
+
+            // 초기 선택된 기숙사 설정
+            if (dormitoryName == savedValue) {
+                updateSelectedDormitoryOption(textView)
+            }
+        }
+    }
+
+    private fun updateSelectedDormitoryOption(selectedView: TextView) {
+        // 모든 기숙사 옵션 초기화 (안전한 타입 확인)
+        for (i in 0 until binding.lyDormitoryName.childCount) {
+            val child = binding.lyDormitoryName.getChildAt(i)
+            if (child is TextView) { // TextView인 경우만 초기화
+                child.setTextColor(ContextCompat.getColor(this, R.color.unuse_font))
+                child.background =
+                    ContextCompat.getDrawable(this, R.drawable.custom_option_box_background_default)
+            }
+        }
+
+        // 선택된 옵션 강조
+        selectedView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
+        selectedView.background =
+            ContextCompat.getDrawable(this, R.drawable.custom_option_box_background_selected_6dp)
+    }
+
+    private fun createDormitoryOption(dormitoryName: String): TextView {
+        return TextView(this).apply {
+            text = dormitoryName
+            textSize = 14f
+            setPadding(48, 32, 48, 32)
+            setTextColor(ContextCompat.getColor(this@FetchLifestyleActivity, R.color.unuse_font))
+            background = ContextCompat.getDrawable(
+                this@FetchLifestyleActivity,
+                R.drawable.custom_option_box_background_default
+            )
+
+            // 간격 추가
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(16, 8, 16, 8) // 좌, 상, 우, 하 간격 설정
+            }
+            layoutParams = params
+
+            setOnClickListener {
+                updateSelectedDormitoryOption(this)
+                selectedDormitoryName = dormitoryName
+                saveAllSelections() // 변경 즉시 저장
+            }
+        }
     }
 
     private fun initNumOfRoommate(selectedValue: Int?) {
@@ -1199,6 +1306,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         val editor = spf.edit()
         with(editor) {
             putString("user_admissionYear", selectedAdmissionYear.toString())
+            putString("user_dormitoryName", selectedDormitoryName)
             putInt("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_acceptance", selectedAcceptance)
             putString("user_wakeUpMeridian", selectedWakeUpMeridian)

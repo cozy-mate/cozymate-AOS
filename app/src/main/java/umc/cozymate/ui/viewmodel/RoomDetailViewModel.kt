@@ -386,9 +386,6 @@ class RoomDetailViewModel @Inject constructor(
         }
     }
 
-    /**
-     * 요청 수락/거절 (멤버 또는 방)
-     */
     fun handleAcceptRequest(id: Int, accept: Boolean, isRoom: Boolean) {
         viewModelScope.launch {
             _isLoading.value = true
