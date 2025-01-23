@@ -20,6 +20,12 @@ class RecommendedRoomVPViewHolder(
             } else {
                 tvMatchRate.text = "${item.equality}%"
             }
+            tvMatchRate.text = when {
+                false -> ""
+                item.numOfArrival == 1 -> "- %"
+                item.equality == 0 -> "?? %"
+                else -> "${item?.equality.toString()}%"
+            }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
             when (item.hashtags.size) {
                 0 -> {

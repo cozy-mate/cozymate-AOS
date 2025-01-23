@@ -62,7 +62,7 @@ class MyRoomComponent : Fragment() {
                 tvEquality.text = when {
                     roomInfo == null -> ""
                     roomInfo.arrivalMateNum == 1 -> "- %"
-                    roomInfo.equality == 0 -> "??%"
+                    roomInfo.equality == 0 -> "?? %"
                     else -> "${roomInfo?.equality.toString()}%"
                 }
                 tvHashtag1.visibility = View.GONE
