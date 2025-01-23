@@ -60,7 +60,7 @@ class SearchRoommateActivity : AppCompatActivity() {
         detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
             if(otherUserDetail == null) return@observe
             else{
-                val intent = Intent(this, RoommateDetailActivity::class.java)
+                val intent = Intent(this@SearchRoommateActivity, RoommateDetailActivity::class.java)
                 intent.putExtra("other_user_detail", otherUserDetail)
                 startActivity(intent)
             }

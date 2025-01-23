@@ -207,13 +207,13 @@ class MyFavoriteActivity : AppCompatActivity() {
         detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
             if(otherUserDetail == null) return@observe
             else{
-                val intent = Intent(this, RoommateDetailActivity::class.java)
+                val intent = Intent(this@MyFavoriteActivity, RoommateDetailActivity::class.java)
                 intent.putExtra("other_user_detail", otherUserDetail)
                 startActivity(intent)
             }
         }
 
-        detailViewModel.isLoading.observe(this) { isLoading ->
+        detailViewModel.isLoading.observe(this@MyFavoriteActivity) { isLoading ->
             setProgressbar(isLoading)
         }
     }
