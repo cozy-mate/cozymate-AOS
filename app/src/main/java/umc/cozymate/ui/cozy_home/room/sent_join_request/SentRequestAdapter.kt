@@ -25,12 +25,13 @@ class SentRequestAdapter(
         fun bind(room: GetRequestedRoomListResponse.Result) {
             name.text = room.name
             arrivalNum.text = "${room.arrivalMateNum}명"
-            if (room.equality == 0){
-                equality.setTextColor(ContextCompat.getColor(equality.context, R.color.color_font))
-                equality.text = "%"
-            } else {
-                equality.text = "${room.equality}%"
+            equality.text = when {
+                false -> ""
+                room.arrivalMateNum == 1 -> "- %"
+                room.equality == 0 -> "?? %"
+                else -> "${room?.equality.toString()}%"
             }
+            equality.setTextColor(ContextCompat.getColor(equality.context, R.color.color_font))
             hashtag1.visibility = View.GONE
             hashtag1.text = ""
             hashtag2.visibility = View.GONE

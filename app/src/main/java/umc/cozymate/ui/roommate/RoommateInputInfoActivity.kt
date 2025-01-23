@@ -26,6 +26,7 @@ import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class RoommateInputInfoActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        StatusBarUtil.updateStatusBarColor(this, R.color.white)
         binding = ActivityRoommateInputInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
