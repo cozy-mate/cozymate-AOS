@@ -69,6 +69,8 @@ interface RoomRepository {
 
     suspend fun getPendingRoom(accessToken: String, roomId: Int): Response<GetRoomPendingMemberResponse>
 
+    suspend fun getInvitedStatusRoom(accessToken: String, roomId: Int): Response<GetRoomPendingMemberResponse>
+
     suspend fun getPendingMember(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
 
     suspend fun cancelJoinRequest(accessToken: String, roomId: Int): Response<CancelJoinRequestResponse>
@@ -80,5 +82,9 @@ interface RoomRepository {
     suspend fun getInvitedMembers(accessToken: String, roomId: Int): Response<GetInvitedMembersResponse>
 
     suspend fun getInvitedStatus(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
+
+    suspend fun acceptMemberRequest(accessToken: String, requesterId: Int, accept: Boolean): Response<DefaultResponse>
+
+    suspend fun acceptRoomEnter(accessToken: String, roomId: Int, accept: Boolean): Response<DefaultResponse>
 }
 

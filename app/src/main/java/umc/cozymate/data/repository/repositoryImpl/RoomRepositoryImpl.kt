@@ -167,6 +167,13 @@ class RoomRepositoryImpl @Inject constructor(
         return api.getPendingRoom(accessToken, roomId)
     }
 
+    override suspend fun getInvitedStatusRoom(
+        accessToken: String,
+        roomId: Int
+    ): Response<GetRoomPendingMemberResponse> {
+        return api.getInvitedStatusRoom(accessToken, roomId)
+    }
+
     override suspend fun getPendingMember(
         accessToken: String,
         memberId: Int
@@ -204,5 +211,21 @@ class RoomRepositoryImpl @Inject constructor(
         memberId: Int
     ): Response<GetRoomPendingMemberResponse> {
         return api.getInvitedStatus(accessToken, memberId)
+    }
+
+    override suspend fun acceptMemberRequest(
+        accessToken: String,
+        requesterId: Int,
+        accept: Boolean
+    ): Response<DefaultResponse> {
+        return api.acceptMemberRequest(accessToken, requesterId, accept)
+    }
+
+    override suspend fun acceptRoomEnter(
+        accessToken: String,
+        roomId: Int,
+        accept: Boolean
+    ): Response<DefaultResponse> {
+        return api.acceptRoomEnter(accessToken, roomId, accept)
     }
 }

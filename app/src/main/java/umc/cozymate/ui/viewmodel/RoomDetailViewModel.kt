@@ -39,6 +39,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomName = MutableLiveData<String>()
     val otherRoomName: LiveData<String> get() = _otherRoomName
 
+    private val _managerMemberId = MutableLiveData<Int>()
+    val managerMemberId: LiveData<Int> get() = _managerMemberId
+
     private val _profileImage = MutableLiveData<Int>()
     val profileImage: LiveData<Int> get() = _profileImage
 
@@ -54,13 +57,11 @@ class RoomDetailViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _errorResponse = MutableLiveData<ErrorResponse>()
-    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-
     private val _otherRoomDetailInfo = MutableSharedFlow<GetRoomInfoResponse.Result>()
     val otherRoomDetailInfo = _otherRoomDetailInfo.asSharedFlow()
 
-    private val _invitedMembers = MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
+    private val _invitedMembers =
+        MutableSharedFlow<List<GetInvitedMembersResponse.Result>>(replay = 1)
     val invitedMembers = _invitedMembers.asSharedFlow()
 
     private val _sortType = MutableLiveData(SortType.AVERAGE_RATE.value) // 기본값: 최신순
@@ -72,6 +73,23 @@ class RoomDetailViewModel @Inject constructor(
     private val _roomMemberStatsColor = MutableLiveData<String>()
     val roomMemberStatsColor: LiveData<String> get() = _roomMemberStatsColor
 
+    private val _isPendingRoom = MutableLiveData<Boolean>()
+    val isPendingRoom: LiveData<Boolean> get() = _isPendingRoom
+
+    private val _isInvitedToRoom = MutableLiveData<Boolean>()
+    val isInvitedToRoom: LiveData<Boolean> get() = _isInvitedToRoom
+
+    private val _isPendingMember = MutableLiveData<Boolean>()
+    val isPendingMember: LiveData<Boolean> get() = _isPendingMember
+
+    private val _isInvitedStatus = MutableLiveData<Boolean>()
+    val isInvitedStatus: LiveData<Boolean> get() = _isInvitedStatus
+
+    private val _acceptResponse = MutableLiveData<Boolean>()
+    val acceptResponse: LiveData<Boolean> get() = _acceptResponse
+
+    private val _errorResponse = MutableLiveData<String>()
+    val errorResponse: LiveData<String> get() = _errorResponse
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -92,6 +110,7 @@ class RoomDetailViewModel @Inject constructor(
             if (response.body()?.isSuccess == true) {
                 _roomName.value = response.body()?.result?.name
                 _mateList.value = response.body()?.result?.mateDetailList
+                _managerMemberId.postValue(response.body()?.result?.managerMemberId)
 
                 val body = response.body()
                 if (body != null) {
@@ -161,6 +180,7 @@ class RoomDetailViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+
     // 정렬 타입 변경
     fun updateSortType(newSortType: String) {
         _sortType.value = newSortType
@@ -188,9 +208,15 @@ class RoomDetailViewModel @Inject constructor(
                     val result = response.body()?.result
                     _roomMemberStats.postValue(result?.memberList)
                     _roomMemberStatsColor.postValue(result?.color)
-                    Log.d(TAG, "getRoomMemberStat 호출 성공 : $memberStatKey, 데이터 크기: ${result?.memberList?.size}")
+                    Log.d(
+                        TAG,
+                        "getRoomMemberStat 호출 성공 : $memberStatKey, 데이터 크기: ${result?.memberList?.size}"
+                    )
                 } else {
-                    Log.e(TAG, "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}")
+                    Log.e(
+                        TAG,
+                        "Failed to fetch Room Member Stats: ${response.errorBody()?.string()}"
+                    )
                     // 에러가 발생했을 경우 빈 리스트 전달
                     _roomMemberStats.postValue(emptyList())
                     _roomMemberStatsColor.postValue("")
@@ -207,6 +233,7 @@ class RoomDetailViewModel @Inject constructor(
             }
         }
     }
+
     // 초대 멤버 리스트 조회
     fun fetchInvitedMembers(roomId: Int) {
         viewModelScope.launch {
@@ -238,6 +265,207 @@ class RoomDetailViewModel @Inject constructor(
             } finally {
                 // 로딩 완료
                 _isLoading.value = false
+            }
+        }
+    }
+
+    /**
+     * 방 참여 요청 상태 확인
+     */
+    fun getPendingRoomStatus(roomId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getPendingRoom(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isPendingRoom.value = response.body()?.result ?: false
+                    Log.d(TAG, "getPendingRoomStatus 호출 성공: result = ${_isPendingRoom.value}")
+                } else {
+                    _isPendingRoom.value = false
+                    Log.e(TAG, "getPendingRoomStatus 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isPendingRoom.value = false
+                Log.e(TAG, "getPendingRoomStatus 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 방 초대 상태 확인
+     */
+    fun getInvitedRoomStatus(roomId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getInvitedStatusRoom(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isInvitedToRoom.value = response.body()?.result ?: false
+                    Log.d(TAG, "getInvitedRoomStatus 호출 성공: result = ${_isInvitedToRoom.value}")
+                } else {
+                    _isInvitedToRoom.value = false
+                    Log.e(TAG, "getInvitedRoomStatus 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isInvitedToRoom.value = false
+                Log.e(TAG, "getInvitedRoomStatus 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 방 참여 요청 취소
+     */
+    fun cancelJoinRequest(roomId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.cancelJoinRequest(token, roomId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "cancelJoinRequest 호출 성공")
+                } else {
+                    Log.e(TAG, "cancelJoinRequest 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "cancelJoinRequest 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 초대 수락/거절
+     */
+    fun acceptRoomEnter(roomId: Int, accept: Boolean) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.acceptRoomEnter(token, roomId, accept)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _acceptResponse.value = true
+                    Log.d(TAG, "acceptRoomEnter 성공: accept = $accept")
+                } else {
+                    _acceptResponse.value = false
+                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e(TAG, "acceptRoomEnter 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _acceptResponse.value = false
+                _errorResponse.value = e.message ?: "Exception occurred"
+                Log.e(TAG, "acceptRoomEnter 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 룸메이트 초대 상태 확인
+     */
+    fun getInvitedStatus(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getInvitedStatus(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isInvitedStatus.value = response.body()?.result ?: false
+                    Log.d(TAG, "getInvitedStatus 호출 성공: result = ${_isInvitedStatus.value}")
+                } else {
+                    _isInvitedStatus.value = false
+                    Log.e(TAG, "getInvitedStatus 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isInvitedStatus.value = false
+                Log.e(TAG, "getInvitedStatus 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 초대 취소
+     */
+    fun cancelInvitation(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.cancelInvitation(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "cancelInvitation 호출 성공")
+                } else {
+                    Log.e(TAG, "cancelInvitation 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "cancelInvitation 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 내 방에 참여 요청 확인
+     */
+    fun getPendingMember(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.getPendingMember(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _isPendingMember.value = response.body()?.result ?: false
+                    Log.d(TAG, "getPendingMember 호출 성공: result = ${_isPendingMember.value}")
+                } else {
+                    _isPendingMember.value = false
+                    Log.e(TAG, "getPendingMember 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _isPendingMember.value = false
+                Log.e(TAG, "getPendingMember 호출 중 오류 발생: $e")
+            }
+        }
+    }
+
+    /**
+     * 참여 요청 수락/거절
+     */
+    fun acceptMemberRequest(memberId: Int, accept: Boolean) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.acceptMemberRequest(token, memberId, accept)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    _acceptResponse.value = true
+                    Log.d(TAG, "acceptMemberRequest 성공: accept = $accept")
+                } else {
+                    _acceptResponse.value = false
+                    _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e(TAG, "acceptMemberRequest 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _acceptResponse.value = false
+                _errorResponse.value = e.message ?: "Exception occurred"
+                Log.e(TAG, "acceptMemberRequest 호출 중 오류 발생: $e")
+            }
+        }
+    }
+    /**
+     * 내 방으로 사용자 초대
+     */
+    fun inviteMember(memberId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken() ?: throw IllegalStateException("Access token is null.")
+                val response = repository.inviteMember(token, memberId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    Log.d(TAG, "inviteMember 호출 성공")
+                } else {
+                    Log.e(TAG, "inviteMember 호출 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "inviteMember 호출 중 오류 발생: $e")
             }
         }
     }

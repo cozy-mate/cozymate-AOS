@@ -741,6 +741,8 @@ class EssentialInfoFragment : Fragment() {
             textView.setOnClickListener {
                 updateSelectedStringOption(it, "user_mbti", value, mbtiOption)
                 mbtiOption = it as TextView
+
+                updateNextButtonState()
             }
         }
     }
