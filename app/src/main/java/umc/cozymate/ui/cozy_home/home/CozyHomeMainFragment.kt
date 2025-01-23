@@ -86,8 +86,10 @@ class CozyHomeMainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.refreshLayout.isRefreshing = true
         initState()
         initView()
+        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onDestroyView() {
