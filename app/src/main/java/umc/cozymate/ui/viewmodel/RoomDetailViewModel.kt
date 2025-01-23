@@ -39,6 +39,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _otherRoomName = MutableLiveData<String>()
     val otherRoomName: LiveData<String> get() = _otherRoomName
 
+    private val _managerMemberId = MutableLiveData<Int>()
+    val managerMemberId: LiveData<Int> get() = _managerMemberId
+
     private val _profileImage = MutableLiveData<Int>()
     val profileImage: LiveData<Int> get() = _profileImage
 
@@ -107,6 +110,7 @@ class RoomDetailViewModel @Inject constructor(
             if (response.body()?.isSuccess == true) {
                 _roomName.value = response.body()?.result?.name
                 _mateList.value = response.body()?.result?.mateDetailList
+                _managerMemberId.postValue(response.body()?.result?.managerMemberId)
 
                 val body = response.body()
                 if (body != null) {
