@@ -248,16 +248,16 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     // 방 나가기 확인 및 실행 다이얼로그
-    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
-        val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
-        val dialog = TwoButtonPopup(text, object : PopupClick {
-            override fun rightClickFunction() {
-                // 확인 버튼을 눌렀을 때만 방 나가기 실행
-                roomViewModel.quitRoom(roomId)
-                spf.edit().putInt("room_id", 0).apply()
-            }
-        })
-    }
+//    private fun showQuitRoomPopup(roomId: Int, spf: SharedPreferences) {
+//        val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
+//        val dialog = TwoButtonPopup(text, object : PopupClick {
+//            override fun rightClickFunction() {
+//                // 확인 버튼을 눌렀을 때만 방 나가기 실행
+//                roomViewModel.quitRoom(roomId)
+//                spf.edit().putInt("room_id", 0).apply()
+//            }
+//        })
+//    }
 
     private fun updateFavoriteButton() {
         binding.ivLike.setImageResource(
@@ -343,37 +343,43 @@ class RoomDetailActivity : AppCompatActivity() {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val mbti = spf.getString("user_mbti", null)
         val savedRoomId = spf.getInt("room_id", -2)
+
         if (mbti!!.isNotEmpty()) {
-            // 라이프스타일 입력을 한 경우
             if (savedRoomId == 0 || savedRoomId == -2) {
                 // 내 방이 없는 경우
                 roomViewModel.getPendingRoom(roomId)
                 roomViewModel.pendingRoom.observe(this) { isPending ->
                     if (isPending) {
-                        // 참여 요청한 방인 경우 (아직 승인 대기 중)
+                        // 방에서 초대 요청을 받은 경우
                         with(binding) {
-                            fabBnt.text = "방 참여요청 취소"
-                            fabBnt.setBackgroundTintList(getColorStateList(R.color.color_box))
-                            fabBnt.setTextColor(getColor(R.color.main_blue))
-                            fabBnt.setOnClickListener {
-                                lifecycleScope.launch {
-                                    roomViewModel.deleteRoomJoin(roomId)
-                                    delay(300)
-                                    roomViewModel.getPendingRoom(roomId)
-                                    recreate()
-                                }
+                            clAcceptBtn.visibility = View.VISIBLE  // 승인/거절 버튼 표시
+                            fabBnt.visibility = View.GONE          // 기존 버튼 숨기기
+
+                            fabAcceptRefuse.setOnClickListener {
+                                // 거절 버튼 클릭 시
+                                viewModel.handleAcceptRequest(roomId, false, true)
+                                clAcceptBtn.visibility = View.GONE
+                                fabBnt.visibility = View.VISIBLE
+                            }
+
+                            fabAcceptAccept.setOnClickListener {
+                                // 수락 버튼 클릭 시
+                                viewModel.handleAcceptRequest(roomId, true, true)
+                                clAcceptBtn.visibility = View.GONE
+                                fabBnt.visibility = View.VISIBLE
                             }
                         }
                     } else {
-                        // 참여 요청한 방이 아닌 경우 (참여 요청하기)
+                        // 방에서 초대 요청을 받지 않은 경우 (기존 로직 실행)
                         with(binding) {
+                            fabBnt.visibility = View.VISIBLE
+                            clAcceptBtn.visibility = View.GONE
+
                             fabBnt.text = "방 참여요청"
                             fabBnt.setBackgroundTintList(getColorStateList(R.color.main_blue))
                             fabBnt.setTextColor(getColor(R.color.white))
                             fabBnt.setOnClickListener {
                                 lifecycleScope.launch {
-                                    //joinRoomViewModel.joinRoom(roomId)
-                                    // 방 참여요청 api로 변경해두었습니다
                                     joinRoomViewModel.requestJoinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
@@ -398,6 +404,7 @@ class RoomDetailActivity : AppCompatActivity() {
             inputLifeStyle()
         }
     }
+
 
     private fun inputLifeStyle() {
         with(binding) {

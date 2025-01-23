@@ -31,6 +31,7 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
@@ -49,6 +50,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     private var isFavorite: Boolean = false // 찜 상태
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
+    private val roomDetailViewModel : RoomDetailViewModel by viewModels()
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -207,6 +209,74 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
+    //    private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
+//        val memberId = userDetail.memberDetail.memberId
+//        Log.d(TAG, "현재 조회한 memberId: $memberId")
+//        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+//        val mbti = spf.getString("user_mbti", null)
+//        val savedRoomId = spf.getInt("room_id", -2)
+//        val otherRoom = userDetail.roomId
+//        Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
+//
+//        if (savedRoomId == 0 || savedRoomId == -2) {
+//            // 내 방이 방이 없는 경우
+//            with(binding) {
+//                fabRequestRoommate.text = "내 방으로 초대하기"
+//                fabRequestRoommate.backgroundTintList =
+//                    android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+//                fabRequestRoommate.setTextColor(getColor(R.color.white))
+//                fabRequestRoommate.isEnabled = false
+//            }
+//        } else {
+//            // 내 방이 있는 경우
+//            if (otherRoom != 0) {
+//                // 상대방이 방이 있는 경우
+//                with(binding) {
+//                    fabRequestRoommate.text = "내 방으로 초대하기"
+//                    fabRequestRoommate.backgroundTintList =
+//                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+//                    fabRequestRoommate.setTextColor(getColor(R.color.white))
+//                    fabRequestRoommate.isEnabled = false
+//                }
+//            } else {
+//                // 상대방이 방이 없는 경우 = 초대가능한 경우
+//                makingRoomViewModel.getPendingMember(memberId)
+//                makingRoomViewModel.pendingMember.observe(this) { isPending ->
+//                    if (isPending) {
+//                        // 이미 초대한 경우 (초대 승인 대기 중)
+//                        with(binding) {
+//                            fabRequestRoommate.text = "방 초대요청  취소"
+//                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.color_box))
+//                            fabRequestRoommate.setTextColor(getColor(R.color.main_blue))
+//                            fabRequestRoommate.setOnClickListener {
+//                                lifecycleScope.launch {
+//                                    makingRoomViewModel.deleteMemberInvite(memberId)
+//                                    delay(600)
+//                                    makingRoomViewModel.getPendingMember(memberId)
+//                                    recreate()
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        // 초대하지 않은 경우 = 초대하기
+//                        with(binding) {
+//                            fabRequestRoommate.text = "내 방으로 초대하기"
+//                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
+//                            fabRequestRoommate.setTextColor(getColor(R.color.white))
+//                            fabRequestRoommate.setOnClickListener {
+//                                lifecycleScope.launch {
+//                                    makingRoomViewModel.inviteMember(memberId)
+//                                    delay(600)
+//                                    makingRoomViewModel.getPendingMember(memberId)
+//                                    recreate()
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
         val memberId = userDetail.memberDetail.memberId
         Log.d(TAG, "현재 조회한 memberId: $memberId")
@@ -217,7 +287,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
 
         if (savedRoomId == 0 || savedRoomId == -2) {
-            // 내 방이 방이 없는 경우
+            // 내 방이 없는 경우
             with(binding) {
                 fabRequestRoommate.text = "내 방으로 초대하기"
                 fabRequestRoommate.backgroundTintList =
@@ -228,7 +298,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         } else {
             // 내 방이 있는 경우
             if (otherRoom != 0) {
-                // 상대방이 방이 있는 경우
+                // 상대방이 이미 방이 있는 경우
                 with(binding) {
                     fabRequestRoommate.text = "내 방으로 초대하기"
                     fabRequestRoommate.backgroundTintList =
@@ -237,26 +307,27 @@ class RoommateDetailActivity : AppCompatActivity() {
                     fabRequestRoommate.isEnabled = false
                 }
             } else {
-                // 상대방이 방이 없는 경우 = 초대가능한 경우
+                // 상대방이 방이 없는 경우 = 초대 가능한 경우
                 makingRoomViewModel.getPendingMember(memberId)
                 makingRoomViewModel.pendingMember.observe(this) { isPending ->
                     if (isPending) {
-                        // 이미 초대한 경우 (초대 승인 대기 중)
+                        // 상대방이 우리 방에 입장 요청을 한 경우
                         with(binding) {
-                            fabRequestRoommate.text = "방 초대요청  취소"
-                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.color_box))
-                            fabRequestRoommate.setTextColor(getColor(R.color.main_blue))
-                            fabRequestRoommate.setOnClickListener {
-                                lifecycleScope.launch {
-                                    makingRoomViewModel.deleteMemberInvite(memberId)
-                                    delay(600)
-                                    makingRoomViewModel.getPendingMember(memberId)
-                                    recreate()
-                                }
+                            clAcceptBtn.visibility = View.VISIBLE // `cl_accept_btn` 표시
+                            fabRequestRoommate.visibility = View.GONE
+                            fabAcceptRefuse.setOnClickListener {
+                                // 거절 버튼 클릭 시
+                                roomDetailViewModel.handleAcceptRequest(memberId, false, false)
+                                clAcceptBtn.visibility = View.GONE
+                            }
+                            fabAcceptAccept.setOnClickListener {
+                                // 수락 버튼 클릭 시
+                                roomDetailViewModel.handleAcceptRequest(memberId, true, false)
+                                clAcceptBtn.visibility = View.GONE
                             }
                         }
                     } else {
-                        // 초대하지 않은 경우 = 초대하기
+                        // 상대방이 입장 요청을 하지 않은 경우 = 초대 로직 실행
                         with(binding) {
                             fabRequestRoommate.text = "내 방으로 초대하기"
                             fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
