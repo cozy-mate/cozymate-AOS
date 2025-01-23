@@ -31,8 +31,10 @@ class SentJoinRequestComponent : Fragment() {
     ): View {
         _binding = FragmentMySentJoinRequestBinding.inflate(inflater, Main, false)
         observeRoomList()
-        val nickname = viewModel.getNickname().toString()
-        binding.tvMyNickname.text = "${nickname}님이"
+        binding.clComponent.visibility = View.GONE
+        binding.tvTitle.visibility = View.GONE
+        binding.divider.visibility = View.GONE
+        binding.tvMyNickname.visibility = View.GONE
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getRequestedRoomList()
         }
@@ -53,12 +55,18 @@ class SentJoinRequestComponent : Fragment() {
         viewModel.RequestedRoomResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.clComponent.visibility = View.VISIBLE
+                binding.tvTitle.visibility = View.VISIBLE
+                binding.divider.visibility = View.VISIBLE
+                binding.tvMyNickname.visibility = View.VISIBLE
+                val nickname = viewModel.getNickname().toString()
+                binding.tvMyNickname.text = "${nickname}님이"
                 binding.tvEmptyRoom.visibility = View.GONE
                 binding.rvMySent.visibility = View.VISIBLE
                 adapter.submitList(roomList)
             } else {
                 binding.clComponent.visibility = View.GONE
-                binding.tvEmptyRoom.visibility = View.VISIBLE
+                binding.tvEmptyRoom.visibility = View.GONE
                 binding.rvMySent.visibility = View.GONE
             }
         }
