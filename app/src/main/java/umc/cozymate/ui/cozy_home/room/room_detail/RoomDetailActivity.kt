@@ -350,10 +350,13 @@ class RoomDetailActivity : AppCompatActivity() {
 
                         fabAcceptAccept.setOnClickListener {
                             // 초대 수락 처리
-                            viewModel.acceptRoomEnter(roomId, accept = true)
-                            clAcceptBtn.visibility = View.GONE
-                            fabBnt.visibility = View.VISIBLE
-                            recreate() // 액티비티 새로고침
+                            lifecycleScope.launch {
+                                viewModel.acceptRoomEnter(roomId, accept = true)
+                                clAcceptBtn.visibility = View.GONE
+                                fabBnt.visibility = View.VISIBLE
+                                delay(1000)
+                                recreate() // 액티비티 새로고침
+                            }
                         }
                     }
                 } else {
