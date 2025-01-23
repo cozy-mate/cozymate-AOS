@@ -44,6 +44,8 @@ class CozyHomeViewModel @Inject constructor(
     val inviteCode: LiveData<String> get() = _inviteCode
     private val _profileImage = MutableLiveData<Int>()
     val profileImage: LiveData<Int> get() = _profileImage
+    private val _roomType = MutableLiveData<String>()
+    val roomType: LiveData<String> get() = _roomType
     private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.MateDetail>>()
     val mateList: LiveData<List<GetRoomInfoResponse.Result.MateDetail>> get() = _mateList
     private val _roomLogResponse = MutableLiveData<RoomLogResponse>()
@@ -165,6 +167,7 @@ class CozyHomeViewModel @Inject constructor(
                         _inviteCode.value = response.body()?.result?.inviteCode
                         //_profileImage.value = response.body()!!.result.profileImage
                         _mateList.value = response.body()?.result?.mateDetailList
+                        _roomType.value = response.body()?.result?.roomType
                         saveRoomInfo("mate_list", _mateList.value!!)
                         saveRoomName()
                         saveRoomPersona(response.body()?.result!!.persona)

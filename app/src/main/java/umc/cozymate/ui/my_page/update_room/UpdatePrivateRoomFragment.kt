@@ -22,6 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPrivateRoomBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.making_room.SelectingRoomCharacterActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
@@ -57,6 +58,9 @@ class UpdatePrivateRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
                 requireActivity().finish()
             }
             // 캐릭터 선택
@@ -196,7 +200,7 @@ class UpdatePrivateRoomFragment : Fragment() {
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
-            requireActivity().finish()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         // 에러 응답도 추가로 처리할 수 있음 >> TODO : 팝업 띄우기
         viewModel.updateRoomInfoError.observe(viewLifecycleOwner) { error ->

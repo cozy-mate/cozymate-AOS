@@ -1,6 +1,7 @@
 package umc.cozymate.ui.onboarding
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import umc.cozymate.databinding.FragmentOnboardingSelectingCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
@@ -43,11 +45,7 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
 
         binding.btnNext.setOnClickListener {
             viewModel.joinMember() // 유저 정보 POST
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingSelectingPreferenceFragment()) // 화면 이동
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as OnboardingActivity).loadRoommateOnboardingActivity(viewModel.nickname.value.toString())
         }
 
         Log.d(TAG, viewModel.name.value.toString())
@@ -70,7 +68,6 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             } else {
                 Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "회원가입 실패: ${response.errorBody().toString()}")
-
             }
         })
     }

@@ -3,14 +3,19 @@ package umc.cozymate.ui.cozy_home.room_detail
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -22,13 +27,13 @@ import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomDetailViewModel
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomInvitedListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.message.WriteMessageActivity
-import umc.cozymate.ui.pop_up.OneButtonPopup
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
@@ -36,6 +41,7 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
 // 방 생성 후, 내방 컴포넌트 클릭 후 화면 전환할 때 room_id를 받아오도록 구현해놨습니다. 이해 안되는거 있음 얘기해주세요
@@ -49,7 +55,10 @@ class RoomDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
-    private var roomId: Int? = 0
+
+    //    private var roomId: Int? = 0
+    private var roomId: Int = 0
+    private var favoriteId: Int = 0
     private var managerMemberId: Int? = 0
     private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
     private var isFavorite: Boolean = false // 찜 상태를 추적하는 변수 추가
@@ -65,18 +74,15 @@ class RoomDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@RoomDetailActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         getRoomId()
-        observeFavoriteState()
 
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val savedRoomId = spf.getInt("room_id", -2)
 
-        lifecycleScope.launch {
-            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
-                updateFavoriteButton(roomInfo.roomId, roomInfo.favoriteId)
-            }
-        }
+        observeRoomInfo()
+        setupFavoriteButton()
 
         if (savedRoomId == roomId) {
             updateUserRoomInfo()
@@ -106,6 +112,7 @@ class RoomDetailActivity : AppCompatActivity() {
         } else {
             lifecycleScope.launch {
                 viewModel.getOtherRoomInfo(roomId!!)
+                viewModel.fetchInvitedMembers(roomId!!)
             }
             Log.d(TAG, "Received room ID: $roomId")
         }
@@ -113,13 +120,17 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun updateUserRoomInfo() {
         lifecycleScope.launch {
+            Log.d(TAG, "updateUserRoomInfo 진입")
             viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
                 with(binding) {
                     tvRoomName.text = roomInfo.name
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
-                    tvRoomMatch.text = "방 평균 일치율 - %"
+                    when(roomInfo.equality) {
+                        0 -> tvRoomMatch.text = "방 평균 일치율 - %"
+                        else -> tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
+                    }
                     ivLike.visibility = View.INVISIBLE
                     ivExit.visibility = View.VISIBLE
                     fabBnt.visibility = View.GONE
@@ -145,6 +156,27 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            Log.d(TAG, "invitedMembers LifecycleScope 실행")
+            viewModel.invitedMembers.collectLatest { invitedInfo ->
+                Log.d(TAG, "invitedMembers.collectLatest 호출")
+                if (invitedInfo.isEmpty()) {
+                    binding.clInvitedMember.visibility = View.GONE
+                    Log.d(TAG, "InvitedMember Empty")
+                } else {
+                    Log.d(TAG, "InvitedMember Not Empty")
+                    binding.clInvitedMember.visibility = View.VISIBLE
+                    binding.rvInvitedMember.apply {
+                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                        adapter = RoomInvitedListRVA(
+                            invitedInfo
+                        ) { memberId ->
+                            navigatorToRoommateDetail(memberId)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun exitButton(roomId: Int) {
@@ -152,20 +184,71 @@ class RoomDetailActivity : AppCompatActivity() {
 
         with(binding) {
             ivExit.setOnClickListener {
-                // 기존 다이얼로그를 방 나가기 확인 용도로 사용
-                showQuitRoomPopup(roomId, spf)
+                val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
+                val dialog = TwoButtonPopup(text, object : PopupClick {
+                    override fun rightClickFunction() {
+                        // 방 나가기 로직 실행
+                        roomViewModel.quitRoom(roomId)
+
+                        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
+                            if (result.isSuccess) {
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방을 성공적으로 나갔습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                spf.edit().putInt("room_id", 0).apply()
+                                finish() // 방 나가기 성공 시 액티비티 종료
+                            } else {
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방 나가기에 실패했습니다. 다시 시도해주세요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }, true) // true로 설정하면 다이얼로그 외부 클릭 시 닫히지 않음
+                dialog.show(supportFragmentManager, "QuitRoomPopup")
             }
         }
+    }
 
-        roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
-            if (result.isSuccess) {
-                finish() // 방 나가기 성공 시 액티비티 종료
-            } else {
-                Toast.makeText(
-                    this@RoomDetailActivity,
-                    "방 나가기를 실패했습니다. 다시 시도해주세요.",
-                    Toast.LENGTH_SHORT
-                ).show()
+    private fun observeRoomInfo() {
+        lifecycleScope.launch {
+            viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
+                roomId = roomInfo.roomId
+                favoriteId = roomInfo.favoriteId
+                updateFavoriteButton() // 방 찜 상태 UI 업데이트
+            }
+        }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.ivLike.setOnClickListener {
+            lifecycleScope.launch {
+                favoriteViewModel.toggleRoomFavorite(
+                    roomId = roomId,
+                    favoriteId = favoriteId,
+                    onUpdate = {
+                        lifecycleScope.launch {
+                            viewModel.getOtherRoomInfo(roomId) // 방 정보 업데이트
+                            viewModel.otherRoomDetailInfo.collectLatest { updatedRoomInfo ->
+                                favoriteId = updatedRoomInfo.favoriteId // 갱신된 favoriteId 적용
+                                updateFavoriteButton()
+                                Toast.makeText(
+                                    this@RoomDetailActivity,
+                                    "방 찜 상태가 업데이트되었습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                )
             }
         }
     }
@@ -179,9 +262,19 @@ class RoomDetailActivity : AppCompatActivity() {
                 roomViewModel.quitRoom(roomId)
                 spf.edit().putInt("room_id", 0).apply()
             }
-        }, true) // 기존 다이얼로그가 재활용되도록 설정
+        })
+    }
 
-        dialog.show(supportFragmentManager, "roomQuitConfirmationPopup")
+    private fun updateFavoriteButton() {
+        binding.ivLike.setImageResource(
+            if (favoriteId == 0) R.drawable.ic_heart else R.drawable.ic_heartfull
+        )
+        binding.ivLike.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (favoriteId == 0) R.color.unuse_font else R.color.red
+            )
+        )
     }
 
     private fun getRoomDetailInfo() {
@@ -203,7 +296,8 @@ class RoomDetailActivity : AppCompatActivity() {
         with(binding) {
             tvRoomName.text = roomInfo.name
             tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
-            tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+            tvRoomInfoCurrentNum.text =
+                "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
@@ -212,7 +306,7 @@ class RoomDetailActivity : AppCompatActivity() {
             updateOtherRoomFab(roomInfo.roomId)
             // 초기 찜 상태 설정
             isFavorite = roomInfo.favoriteId != 0
-            updateFavoriteIcon(isFavorite)
+//            updateFavoriteIcon(isFavorite)
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
@@ -227,44 +321,30 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
-        binding.ivLike.setOnClickListener {
-            lifecycleScope.launch {
-                // 현재 찜 상태 확인
-                val isCurrentlyFavorite = favoriteId != 0
+    //    private fun updateFavoriteButton(roomId: Int, favoriteId: Int) {
+//        binding.ivLike.setOnClickListener {
+//            lifecycleScope.launch {
+//                // 현재 찜 상태 확인
+//                val isCurrentlyFavorite = favoriteId != 0
+//
+//                if (isCurrentlyFavorite) {
+//                    // 찜 해제 요청: favoriteId 사용
+//                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
+//                } else {
+//                    // 찜 요청: roomId 사용
+//                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
+//                }
+//
+//                // UI 변경을 약간 늦추기 위해 딜레이 추가
+//                delay(500)
+//
+//                // 방 정보를 새로고침하여 정확한 상태 반영
+//                viewModel.getOtherRoomInfo(roomId)
+//
+//            }
+//        }
+//    }
 
-                if (isCurrentlyFavorite) {
-                    // 찜 해제 요청: favoriteId 사용
-                    favoriteViewModel.toggleRoomFavorite(favoriteId, isCurrentlyFavorite)
-                } else {
-                    // 찜 요청: roomId 사용
-                    favoriteViewModel.toggleRoomFavorite(roomId, isCurrentlyFavorite)
-                }
-
-                // UI 변경을 약간 늦추기 위해 딜레이 추가
-                delay(200)
-
-                // 방 정보를 새로고침하여 정확한 상태 반영
-                viewModel.getOtherRoomInfo(roomId)
-
-            }
-        }
-    }
-
-    private fun observeFavoriteState() {
-        favoriteViewModel.roomFavoriteState.observe(this) { isFavorite ->
-            updateFavoriteIcon(isFavorite)
-        }
-    }
-
-    private fun updateFavoriteIcon(favorite: Boolean) {
-        binding.ivLike.setImageResource(
-            if (favorite) R.drawable.ic_heartfull else R.drawable.ic_heart
-        )
-        binding.ivLike.setColorFilter(
-            if (favorite) getColor(R.color.red) else getColor(R.color.unuse_font)
-        )
-    }
     private fun updateOtherRoomFab(roomId: Int) {
         val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val mbti = spf.getString("user_mbti", null)
@@ -303,7 +383,6 @@ class RoomDetailActivity : AppCompatActivity() {
                                     joinRoomViewModel.requestJoinRoom(roomId)
                                     delay(300)
                                     roomViewModel.getPendingRoom(roomId)
-                                    //spf.edit().putInt("room_id", roomId).commit()
                                     recreate()
                                 }
                             }
@@ -314,7 +393,8 @@ class RoomDetailActivity : AppCompatActivity() {
                 // 내 방이 있는 경우
                 with(binding) {
                     fabBnt.text = "방 참여 요청"
-                    fabBnt.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+                    fabBnt.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
                     fabBnt.setTextColor(getColor(R.color.white))
                     fabBnt.isEnabled = false
                 }
@@ -333,7 +413,10 @@ class RoomDetailActivity : AppCompatActivity() {
             )
             fabBnt.setTextColor(getColor(R.color.white))
             fabBnt.setOnClickListener {
-                val intent = Intent(this@RoomDetailActivity, RoommateOnboardingActivity::class.java)
+                val intent = Intent(
+                    this@RoomDetailActivity,
+                    RoommateOnboardingActivity::class.java
+                )
                 startActivity(intent)
             }
         }
@@ -394,9 +477,18 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvHashtag3.visibility = View.VISIBLE
                 }
             }
-            Log.d(TAG, "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}")
-            Log.d(TAG, "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}")
-            Log.d(TAG, "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}")
+            Log.d(
+                TAG,
+                "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}"
+            )
+            Log.d(
+                TAG,
+                "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}"
+            )
+            Log.d(
+                TAG,
+                "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}"
+            )
         }
     }
 
@@ -529,86 +621,75 @@ class RoomDetailActivity : AppCompatActivity() {
         whiteViews.forEach { flexboxLayout.addView(it) }
     }
 
-    private fun showMemberStatDialog(roomId: Int, memberStatKey: String, chipColor: Int) {
-        // 기존 다이얼로그 닫기 및 초기화
+    private fun showMemberStatDialog(
+        roomId: Int,
+        memberStatKey: String,
+        chipColor: Int
+    ) {
+        // 기존 다이얼로그 닫기
         activeDialog?.dismiss()
         activeDialog = null
-        viewModel.roomMemberStats.removeObservers(this)
-        viewModel.isLoading.removeObservers(this)
-
-        // 로딩 로그
-        Log.d(TAG, "Loading data for key: $memberStatKey")
 
         // 데이터 요청
         viewModel.getRoomMemberStats(roomId, memberStatKey)
 
-        // 0.5초 딜레이 후 다이얼로그 표시
         lifecycleScope.launch {
-            delay(50)
+            delay(50) // 데이터 로딩 대기
 
             viewModel.isLoading.observe(this@RoomDetailActivity) { isLoading ->
-                if (isLoading) {
-                    Log.d(TAG, "Still loading for key: $memberStatKey")
-                    return@observe
+                if (isLoading) return@observe
+
+                val memberList = viewModel.roomMemberStats.value ?: emptyList()
+
+                val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
+
+                dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
+                dialogBinding.tvStatTitle.setTextColor(chipColor)
+
+                dialogBinding.rvMemberStat.apply {
+                    layoutManager = LinearLayoutManager(this@RoomDetailActivity)
+                    adapter = RoomMemberStatRVA(
+                        context = this@RoomDetailActivity,
+                        members = memberList,
+                        memberStatKey = memberStatKey,
+                        color = chipColor
+                    )
+                    addItemDecoration(
+                        CustomDividerItemDecoration(
+                            context = this@RoomDetailActivity,
+                            heightDp = 1f,
+                            marginStartDp = 16f,
+                            marginEndDp = 16f
+                        )
+                    )
                 }
 
-                // 로딩이 끝난 후 데이터 확인
-                val memberList = viewModel.roomMemberStats.value
-                if (memberList.isNullOrEmpty()) {
-                    Log.e(TAG, "No data available for key: $memberStatKey")
+                dialogBinding.tvClose.setOnClickListener {
+                    activeDialog?.dismiss()
+                    activeDialog = null
+                }
+
+                val dialog = AlertDialog.Builder(this@RoomDetailActivity)
+                    .setView(dialogBinding.root)
+                    .create()
+
+                dialog.window?.let { window ->
+                    window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    val layoutParams = window.attributes
+                    layoutParams.dimAmount = 0.7f
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window.attributes = layoutParams
+                }
+
+                dialog.setOnDismissListener {
                     viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
                     viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                    return@observe
+                    activeDialog = null
                 }
 
-                // 다이얼로그 생성
-                if (activeDialog == null) {
-                    Log.d(TAG, "Creating dialog for key: $memberStatKey")
-                    val dialogBinding = DialogMemberStatBinding.inflate(layoutInflater)
-
-                    // 다이얼로그 생성 시 스타일 적용 없이 기존 방식 유지
-                    val dialog = AlertDialog.Builder(this@RoomDetailActivity)
-                        .setView(dialogBinding.root)
-                        .create()
-
-                    dialogBinding.tvStatTitle.text = translateMemberStatKey(memberStatKey)
-                    dialogBinding.tvStatTitle.setTextColor(chipColor)
-
-                    dialogBinding.rvMemberStat.apply {
-                        layoutManager = LinearLayoutManager(this@RoomDetailActivity)
-                        adapter = RoomMemberStatRVA(
-                            context = this@RoomDetailActivity,
-                            members = memberList,
-                            memberStatKey = memberStatKey,
-                            color = chipColor
-                        )
-                        // 디바이더 추가
-                        addItemDecoration(
-                            CustomDividerItemDecoration(
-                                context = this@RoomDetailActivity,
-                                heightDp = 1f, // 1dp
-                                marginStartDp = 16f,
-                                marginEndDp = 16f
-                            )
-                        )
-                    }
-
-                    dialogBinding.tvClose.setOnClickListener {
-                        dialog.dismiss()
-                        activeDialog = null
-                    }
-
-                    dialog.setOnDismissListener {
-                        // 다이얼로그 닫힐 때 관찰자 제거
-                        viewModel.roomMemberStats.removeObservers(this@RoomDetailActivity)
-                        viewModel.isLoading.removeObservers(this@RoomDetailActivity)
-                        activeDialog = null
-                    }
-
-                    dialog.setCancelable(true)
-                    dialog.show()
-                    activeDialog = dialog
-                }
+                dialog.setCancelable(true)
+                dialog.show()
+                activeDialog = dialog
             }
         }
     }

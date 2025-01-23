@@ -19,6 +19,7 @@ import umc.cozymate.databinding.ActivityCozyRoomDetailInfoBinding
 import umc.cozymate.ui.cozy_home.home.FilterBottomSheetDialog
 import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.setStatusBarTransparent
 

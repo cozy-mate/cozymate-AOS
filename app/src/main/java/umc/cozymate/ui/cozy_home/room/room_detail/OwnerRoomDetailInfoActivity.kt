@@ -1,6 +1,8 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,6 +24,10 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityOwnerRoomDetailInfoBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
+import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.my_page.update_room.UpdateRoomInfoActivity
 import umc.cozymate.ui.pop_up.PopupClick
@@ -31,6 +37,9 @@ import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 // TODO: 방 수정, 방 나가기, 방 전환은 나중에(공개방/비공개방)
 @AndroidEntryPoint
@@ -58,11 +67,10 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         binding = ActivityOwnerRoomDetailInfoBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this@OwnerRoomDetailInfoActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
+
         // 더보기 버튼 설정
         var moreFlag = false
         binding.llMore.visibility = View.GONE
@@ -145,6 +153,27 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            Log.d(TAG, "invitedMembers LifecycleScope 실행")
+            viewModel.invitedMembers.collectLatest { invitedInfo ->
+                Log.d(TAG, "invitedMembers.collectLatest 호출")
+                if (invitedInfo.isEmpty()) {
+                    binding.clInvitedMember.visibility = View.GONE
+                    Log.d(TAG, "InvitedMember Empty")
+                } else {
+                    Log.d(TAG, "InvitedMember Not Empty")
+                    binding.clInvitedMember.visibility = View.VISIBLE
+                    binding.rvInvitedMember.apply {
+                        layoutManager = LinearLayoutManager(this@OwnerRoomDetailInfoActivity)
+                        adapter = RoomInvitedListRVA(
+                            invitedInfo
+                        ) { memberId ->
+                            navigatorToRoommateDetail(memberId)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // 방 나가기
@@ -154,9 +183,11 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                 showQuitRoomPopup()
             }
         }
-        // 방 삭제 옵저빙
+        // 방 나가기 옵저빙
         roomViewModel.roomQuitResult.observe(this) { result ->
             if (result.isSuccess) {
+                val sharedPreferences = this.getSharedPreferences("shared_pref_name", Context.MODE_PRIVATE)
+                sharedPreferences.edit().remove("room_id").apply()
                 loadMainActivity()
             } else {
                 Toast.makeText(this, "방 나가기를 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()

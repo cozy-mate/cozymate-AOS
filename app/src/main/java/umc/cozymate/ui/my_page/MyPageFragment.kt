@@ -54,7 +54,7 @@ class MyPageFragment : Fragment() {
         binding.tvMypageUserName.text = nickname
         binding.ivMypageCharacter.setImageResource(initCharactor())
         binding.tvCozyroom.text = roomname
-        binding.tvSchool.text = universityName
+        //binding.tvSchool.text = universityName
         binding.layoutMyinfo.setOnClickListener {
             val intent = Intent(activity, UpdateMyInfoActivity::class.java)
             startActivity(intent)
@@ -64,16 +64,11 @@ class MyPageFragment : Fragment() {
                 goToUpdateCozyRoomDetailInfoActivity()
             }
         }
-        binding.layoutLifestyle.setOnClickListener {
-            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
-            startActivity(intent)
-
-        }
-        binding.layoutSchool.setOnClickListener {
+        /*binding.layoutSchool.setOnClickListener {
             val intent = Intent(activity, UniversityCertificationActivity::class.java)
             intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
             startActivity(intent)
-        }
+        }*/
         binding.tvSignout.setOnClickListener {
             val text = listOf("로그아웃 하시겠어요?", "", "취소", "확인")
             val dialog = TwoButtonPopup(text, object : PopupClick {
@@ -101,9 +96,15 @@ class MyPageFragment : Fragment() {
         }
 
         binding.layoutLifestyle.setOnClickListener {
-            val intent = Intent(activity, FetchLifestyleActivity::class.java)
-            startActivity(intent)
-            Log.d("MyPageFragment", "라이프스타일 수정 클릭")
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            if (spf.getString("user_mbti", "").isNullOrEmpty()) {
+                val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(activity, FetchLifestyleActivity::class.java)
+                startActivity(intent)
+                Log.d("MyPageFragment", "라이프스타일 수정 클릭")
+            }
         }
 
         return binding.root
@@ -127,10 +128,10 @@ class MyPageFragment : Fragment() {
         } else {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
-            binding.tvSchool.text = "아직 방이 존재하지 않아요"
+            binding.tvCozyroom.text = "아직 방이 존재하지 않아요"
         }
 
-        // 학교 인증
+        /*// 학교 인증
         if (universityFlag) {
             binding.ivSchoolVerifiedMark.visibility = View.VISIBLE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
@@ -138,7 +139,7 @@ class MyPageFragment : Fragment() {
             binding.ivSchoolVerifiedMark.visibility = View.GONE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
             binding.tvSchool.text = "아직 학교인증이 되어있지 않아요"
-        }
+        }*/
     }
 
     private fun performLogout() {

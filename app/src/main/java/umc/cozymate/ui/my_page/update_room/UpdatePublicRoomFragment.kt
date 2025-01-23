@@ -63,6 +63,9 @@ class UpdatePublicRoomFragment : Fragment() {
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
                 requireActivity().finish()
             }
             // 캐릭터 선택
@@ -298,7 +301,7 @@ class UpdatePublicRoomFragment : Fragment() {
     private fun setupObservers() {
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
         viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
-            requireActivity().finish()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         // 팝업을 띄워서 에러 응답 처리

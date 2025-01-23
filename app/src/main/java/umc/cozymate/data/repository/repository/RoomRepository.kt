@@ -5,6 +5,7 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.CreatePrivateRoomRequest
 import umc.cozymate.data.model.request.CreatePublicRoomRequest
 import umc.cozymate.data.model.request.UpdateRoomInfoRequest
+import umc.cozymate.data.model.response.room.CancelInvitationResponse
 import umc.cozymate.data.model.response.room.CancelJoinRequestResponse
 import umc.cozymate.data.model.response.room.ChangeRoomStatusResult
 import umc.cozymate.data.model.response.room.CheckRoomNameResponse
@@ -12,6 +13,7 @@ import umc.cozymate.data.model.response.room.CreatePrivateRoomResponse
 import umc.cozymate.data.model.response.room.CreatePublicRoomResponse
 import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.GetInvitedRoomListResponse
+import umc.cozymate.data.model.response.room.GetInvitedMembersResponse
 import umc.cozymate.data.model.response.room.GetPendingMemberListResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
@@ -34,6 +36,8 @@ interface RoomRepository {
     suspend fun getRoomInfoByInviteCode(accessToken: String, inviteCode: String): Response<GetRoomInfoByInviteCodeResponse>
 
     suspend fun joinRoom(accessToken: String, roomId: Int) : Response<JoinRoomResponse>
+
+    suspend fun inviteMember(accessToken: String, inviteeId: Int) : Response<JoinRoomResponse>
 
     suspend fun isRoomExist(accessToken: String) : Response<IsRoomExistResponse>
 
@@ -65,8 +69,16 @@ interface RoomRepository {
 
     suspend fun getPendingRoom(accessToken: String, roomId: Int): Response<GetRoomPendingMemberResponse>
 
+    suspend fun getPendingMember(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
+
     suspend fun cancelJoinRequest(accessToken: String, roomId: Int): Response<CancelJoinRequestResponse>
 
     suspend fun getInvitedRoomList(accessToken: String): Response<GetInvitedRoomListResponse>
+
+    suspend fun cancelInvitation(accessToken: String, memberId: Int): Response<CancelInvitationResponse>
+
+    suspend fun getInvitedMembers(accessToken: String, roomId: Int): Response<GetInvitedMembersResponse>
+
+    suspend fun getInvitedStatus(accessToken: String, memberId: Int): Response<GetRoomPendingMemberResponse>
 }
 

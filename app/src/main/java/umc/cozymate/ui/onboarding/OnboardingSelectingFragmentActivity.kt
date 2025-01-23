@@ -16,7 +16,7 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 
 @AndroidEntryPoint
-class OnboardingActivity : AppCompatActivity() {
+class OnboardingSelectingFragmentActivity : AppCompatActivity() {
 
     private val TAG = this.javaClass.simpleName
     private val viewModel: OnboardingViewModel by viewModels()
@@ -34,7 +34,7 @@ class OnboardingActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_onboarding, OnboardingUserInfoFragment())
+                .replace(R.id.fragment_onboarding, OnboardingSelectingPreferenceFragment())
                 .commit()
         }
 
