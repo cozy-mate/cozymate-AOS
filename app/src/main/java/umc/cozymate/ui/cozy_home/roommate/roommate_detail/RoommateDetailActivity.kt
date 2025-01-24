@@ -318,12 +318,18 @@ class RoommateDetailActivity : AppCompatActivity() {
                     binding.fabAcceptAccept.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
                         Toast.makeText(this, "입장 요청을 수락했습니다.", Toast.LENGTH_SHORT).show()
+                        lifecycleScope.launch {
+                            delay(500)
+                        }
                         recreate() // 화면 갱신
                     }
 
                     binding.fabAcceptRefuse.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
                         Toast.makeText(this, "입장 요청을 거절했습니다.", Toast.LENGTH_SHORT).show()
+                        lifecycleScope.launch {
+                            delay(500)
+                        }
                         recreate() // 화면 갱신
                     }
                     return@observe
@@ -344,6 +350,9 @@ class RoommateDetailActivity : AppCompatActivity() {
                             isClickable = true
                             setOnClickListener {
                                 roomDetailViewModel.cancelInvitation(otherMemberId)
+                                lifecycleScope.launch {
+                                    delay(500)
+                                }
                                 Toast.makeText(this@RoommateDetailActivity, "초대를 취소했습니다.", Toast.LENGTH_SHORT).show()
                                 recreate() // 화면 갱신
                             }
@@ -358,6 +367,9 @@ class RoommateDetailActivity : AppCompatActivity() {
                             setOnClickListener {
                                 Log.d("updateFAB", "버튼 클릭됨")
                                 roomDetailViewModel.inviteMember(otherMemberId)
+                                lifecycleScope.launch {
+                                    delay(500)
+                                }
                                 Toast.makeText(this@RoommateDetailActivity, "초대 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
                                 recreate() // 화면 갱신
                             }
