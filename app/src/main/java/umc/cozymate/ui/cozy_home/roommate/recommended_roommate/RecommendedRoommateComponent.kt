@@ -48,7 +48,8 @@ class RecommendedRoommateComponent : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getPreference()
         binding.tvName.text = "${nickname}님과"
-        updateData()
+        viewModel.fetchRoommateListByEquality()
+        //updateData()
 
         // 추천 룸메이트 옵저빙
         viewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
@@ -113,7 +114,8 @@ class RecommendedRoommateComponent : Fragment() {
     fun refreshData() {
         getPreference()
         binding.tvName.text = "${nickname}님과"
-        updateData()
+        //updateData()
+        viewModel.fetchRoommateListByEquality()
     }
 
 }
