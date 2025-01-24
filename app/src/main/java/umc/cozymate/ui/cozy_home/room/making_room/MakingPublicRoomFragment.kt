@@ -24,6 +24,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
+import umc.cozymate.ui.pop_up.OneButtonPopup
+import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.ServerErrorPopUp
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
 
@@ -304,7 +308,10 @@ class MakingPublicRoomFragment : Fragment() {
         // 팝업을 띄워서 에러 응답 처리
         viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
             if (error != null) {
-                Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
+                val dialog = ServerErrorPopUp.newInstance(
+                    error.code, error.result ?: ""
+                )
+                dialog.show(parentFragmentManager, "LogoutPopup")
             }
         }
     }

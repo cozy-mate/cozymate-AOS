@@ -73,7 +73,7 @@ class MyPageViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         reissue()
                         Log.d(TAG, "로그아웃 api 응답 실패: ${errorBody}")
@@ -110,7 +110,7 @@ class MyPageViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
                     }

@@ -143,7 +143,7 @@ class CozyHomeViewModel @Inject constructor(
                 _isLoading.value = false
                 val errorBody = response.errorBody()?.string()
                 if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
-                else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                else _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                 Log.d(TAG, "방존재여부 api 응답 실패: ${errorBody}")
             }
         } catch (e: Exception) {
@@ -202,7 +202,7 @@ class CozyHomeViewModel @Inject constructor(
                     if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
                     } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     }
                     Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
                 }
@@ -306,7 +306,7 @@ class CozyHomeViewModel @Inject constructor(
                     if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
                     } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     }
                     Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
                 }

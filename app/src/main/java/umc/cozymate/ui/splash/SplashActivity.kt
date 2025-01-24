@@ -98,10 +98,10 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }*/
 
-        // 회원가입 버튼 >> 테스트 로그인 >> 온보딩
+        /*// 회원가입 버튼 >> 테스트 로그인 >> 온보딩
         binding.btnSignIn.setOnClickListener {
             testSignIn()
-        }
+        }*/
 
     }
 

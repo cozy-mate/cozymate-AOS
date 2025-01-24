@@ -57,7 +57,7 @@ class ServerErrorPopUp : DialogFragment() {
         // 에러 코드와 메시지 설정
         val errorCode = arguments?.getString(ARG_ERROR_CODE)
         val errorMessage = arguments?.getString(ARG_ERROR_MESSAGE)
-        binding.tvAlertCode.text = "[ $errorCode ]"
+        binding.tvAlertCode.text = "오류: $errorCode"
         binding.tvAlertMessage.text = errorMessage
 
         return dialog

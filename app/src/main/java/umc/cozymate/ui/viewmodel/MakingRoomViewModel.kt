@@ -152,14 +152,15 @@ class MakingRoomViewModel @Inject constructor(
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
+                            Log.d(TAG, "$errorBody")
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("COMMON400", false, "unknown error", "해시태그는 한글, 영어, 숫자 및 '_'만 사용할 수 있으며, '_'는 앞이나 뒤에 올 수 없습니다.")
                         }
                         Log.d(TAG, "공개 방 생성 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
-                    _errorResponse.value?.message = e.message.toString()
+                    _errorResponse.value = ErrorResponse("COMMON400", false, "unknown error", "해시태그는 한글, 영어, 숫자 및 '_'만 사용할 수 있으며, '_'는 앞이나 뒤에 올 수 없습니다.")
                     Log.d(TAG, "공개 방 생성 api 요청 실패: ${e}")
                 } finally {
                     _loading.value = false
@@ -201,7 +202,7 @@ class MakingRoomViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "초대코드 방 생성 api 응답 실패: ${response}")
                     }
@@ -330,7 +331,7 @@ class MakingRoomViewModel @Inject constructor(
                         if(errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("Unknown", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("Unknown", false, "unknown error", "")
                         }
                         Log.d(TAG, "멤버 초대 상태 확인 응답 실패: $response")
                     }
@@ -364,7 +365,7 @@ class MakingRoomViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "방 진입 상태 확인 응답 실패: $response")
                     }
@@ -396,7 +397,7 @@ class MakingRoomViewModel @Inject constructor(
                     if(errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
                     } else {
-                        _errorResponse.value = ErrorResponse("Unknown", false, "unknown error")
+                        _errorResponse.value = ErrorResponse("Unknown", false, "unknown error", "")
                     }
                     Log.d(TAG, "방 초대 api 응답 실패: ${errorBody}")
                 }

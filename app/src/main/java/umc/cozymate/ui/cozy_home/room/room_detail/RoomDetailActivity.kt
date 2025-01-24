@@ -25,6 +25,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
@@ -198,7 +199,10 @@ class RoomDetailActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 spf.edit().putInt("room_id", 0).apply()
-                                finish() // 방 나가기 성공 시 액티비티 종료
+                                val intent = Intent(this@RoomDetailActivity, MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                                finish() // 방 나가기 성공 시 메인액티비티로 이동하고 액티비티 종료
                             } else {
                                 Toast.makeText(
                                     this@RoomDetailActivity,
