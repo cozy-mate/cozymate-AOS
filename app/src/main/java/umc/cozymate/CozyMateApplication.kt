@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.HiltAndroidApp
@@ -17,6 +18,8 @@ import umc.cozymate.util.NetworkConnectionChecker
 class CozyMateApplication: Application(), DefaultLifecycleObserver {
     override fun onCreate() {
         super<Application>.onCreate()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         context = applicationContext
         networkConnectionChecker = NetworkConnectionChecker(context)

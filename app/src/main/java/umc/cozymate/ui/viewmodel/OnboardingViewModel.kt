@@ -204,7 +204,7 @@ class OnboardingViewModel @Inject constructor(
                     if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
                     } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     }
                     Log.d(TAG, "회원가입 api 응답 실패: ${response}")
                 }

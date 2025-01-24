@@ -38,6 +38,8 @@ class ReceivedJoinRequestComponent : Fragment() {
         binding.clComponent.visibility = View.GONE
         binding.tvTitle.visibility = View.GONE
         binding.divider.visibility = View.GONE
+        binding.tvRequestNum.visibility = View.GONE
+        binding.rvMyReceived.visibility = View.GONE
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPendingMemberList()
         }
@@ -68,6 +70,7 @@ class ReceivedJoinRequestComponent : Fragment() {
         viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.tvRequestNum.visibility = View.VISIBLE
                 binding.tvRequestNum.text = "${roomList.size}개의"
                 binding.tvTitle.visibility = View.VISIBLE
                 binding.clComponent.visibility = View.VISIBLE
@@ -81,6 +84,7 @@ class ReceivedJoinRequestComponent : Fragment() {
                 binding.divider.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.GONE
                 binding.rvMyReceived.visibility = View.GONE
+                binding.tvRequestNum.visibility = View.GONE
                 /*binding.tvRequestNum.text = "0개의"
                 binding.clComponent.visibility = View.GONE
                 binding.clEmptyRoommate.visibility = View.VISIBLE

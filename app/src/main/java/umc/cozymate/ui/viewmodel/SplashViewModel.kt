@@ -127,7 +127,7 @@ class SplashViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error" ,"")
                         }
                         reissue()
                         Log.d(TAG, "로그인 api 응답 실패: ${errorBody}")
@@ -167,7 +167,7 @@ class SplashViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
                     }
@@ -204,7 +204,7 @@ class SplashViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error")
+                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
                         _isMember.value = false
