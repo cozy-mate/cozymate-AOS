@@ -11,8 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +53,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
     private var roomType: String = ""
-    private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
+    private var activeDialog: AlertDialog? = null  // 현재 활성화된 다이얼로그 추적
 
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
