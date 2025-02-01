@@ -86,21 +86,27 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun saveToken() {
-        Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
-        sharedPreferences.edit()
-            .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
-        sharedPreferences.edit()
-            .putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
+        if (_tokenInfo.value != null) {
+            Log.d(TAG, "cozymate 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
+            val editor = sharedPreferences.edit()
+            editor.putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken)
+            editor.putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken)
+            editor.commit()
+        }
     }
 
     fun saveUserInfo() {
-        Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
-        sharedPreferences.edit().putString("user_university_name", _memberInfo.value!!.universityName).commit()
-        sharedPreferences.edit().putInt("user_university_id", _memberInfo.value!!.universityId).commit()
-        sharedPreferences.edit().putString("user_nickname", _memberInfo.value!!.nickname).commit()
-        sharedPreferences.edit().putInt("user_persona", _memberInfo.value!!.persona).commit()
-        sharedPreferences.edit().putString("user_gender", _memberInfo.value!!.gender).commit()
-        sharedPreferences.edit().putString("user_birthday", _memberInfo.value!!.birthday).commit()
+        if (_memberInfo.value != null) {
+            Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
+            val editor = sharedPreferences.edit()
+            editor.putString("user_university_name", _memberInfo.value!!.universityName)
+            editor.putInt("user_university_id", _memberInfo.value!!.universityId)
+            editor.putString("user_nickname", _memberInfo.value!!.nickname)
+            editor.putInt("user_persona", _memberInfo.value!!.persona)
+            editor.putString("user_gender", _memberInfo.value!!.gender)
+            editor.putString("user_birthday", _memberInfo.value!!.birthday)
+            editor.commit()
+        }
     }
 
     fun getToken(): String? {
