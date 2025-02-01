@@ -87,20 +87,14 @@ class MakingPublicRoomFragment : Fragment() {
             // 해시태그 설정
             setupHashtagInput()
 
-            // 캐릭터, 이름, 최대인원수, 해시태그 선택되어 있어야 다음 버튼 활성화
+            // 캐릭터, 이름, 최대인원수, 해시태그 선택해야 다음 버튼 활성화
             updateNextButtonState()
         }
 
-        addProgerssBar()
-
-        // 방 생성 옵저빙
+        // 방 생성 결과, 에러, 로딩중 옵저빙
         setupObservers()
     }
-    private fun addProgerssBar(){
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
+
 
     // 다음 버튼 비활성/활성
     fun updateNextButtonState() {
@@ -292,11 +286,7 @@ class MakingPublicRoomFragment : Fragment() {
     private fun setupObservers() {
         // 로딩 상태를 관찰하여 ProgressBar를 표시 / 숨기기
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                (activity as? MakingPublicRoomActivity)?.showProgressBar(true)
-            } else {
-                (activity as? MakingPublicRoomActivity)?.showProgressBar(false)
-            }
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환

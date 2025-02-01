@@ -41,11 +41,6 @@ class MakingPublicRoomActivity : AppCompatActivity() {
                 .replace(R.id.fragment_container_making, MakingPublicRoomFragment())
                 .commit()
         }
-
-    }
-
-    fun showProgressBar(show: Boolean) {
-        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     // 두번째 [자기 방 상세 페이지] 로드
