@@ -131,8 +131,8 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
                     tvRoomMatch.text = "방 평균 일치율 - %"
-                    tvRoomInfoCurrentNum.text =
-                        "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+                    tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
+                    tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
 
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
@@ -234,7 +234,8 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         with(binding) {
             tvRoomName.text = roomInfo.name
             tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
-            tvRoomInfoCurrentNum.text = "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+            tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
+            tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)

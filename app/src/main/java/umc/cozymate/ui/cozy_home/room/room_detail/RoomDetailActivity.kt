@@ -128,17 +128,16 @@ class RoomDetailActivity : AppCompatActivity() {
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
-                    when(roomInfo.equality) {
+                    when (roomInfo.equality) {
                         0 -> tvRoomMatch.text = "방 평균 일치율 - %"
                         else -> tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
                     }
                     ivLike.visibility = View.INVISIBLE
                     ivExit.visibility = View.VISIBLE
                     fabBnt.visibility = View.GONE
-                    tvRoomInfoCurrentNum.text =
-                        "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+                    tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
+                    tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
-
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
@@ -199,7 +198,8 @@ class RoomDetailActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 spf.edit().putInt("room_id", 0).apply()
-                                val intent = Intent(this@RoomDetailActivity, MainActivity::class.java)
+                                val intent =
+                                    Intent(this@RoomDetailActivity, MainActivity::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(intent)
                                 finish() // 방 나가기 성공 시 메인액티비티로 이동하고 액티비티 종료
@@ -288,8 +288,8 @@ class RoomDetailActivity : AppCompatActivity() {
         with(binding) {
             tvRoomName.text = roomInfo.name
             tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
-            tvRoomInfoCurrentNum.text =
-                "${roomInfo.arrivalMateNum}  /  ${roomInfo.maxMateNum}"
+            tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
+            tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
@@ -435,9 +435,9 @@ class RoomDetailActivity : AppCompatActivity() {
 
     // 룸메 상세정보 받아오기
     private fun observeOtherUserInfo() {
-        roommateDetailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
-            if(otherUserDetail == null) return@observe
-            else{
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) { otherUserDetail ->
+            if (otherUserDetail == null) return@observe
+            else {
                 val intent = Intent(this, RoommateDetailActivity::class.java)
                 intent.putExtra("other_user_detail", otherUserDetail)
                 startActivity(intent)
