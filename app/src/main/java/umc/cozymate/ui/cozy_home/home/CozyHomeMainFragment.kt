@@ -72,10 +72,8 @@ class CozyHomeMainFragment : Fragment() {
             openMessage()
             // 알림
             openNotification()
-            // 사용자 상태
+            // 사용자 상태 (방/방장/
             initState()
-            // 방 버튼 클릭 리스너
-            initRoomButtonListener()
             // 컴포넌트 초기화
             initView()
             // 새로고침 설정
@@ -161,6 +159,7 @@ class CozyHomeMainFragment : Fragment() {
     // 사용자의 방없음/방장/방참여 상태에 따른 컴포넌트 띄우기
     private fun initView() {
         with(binding) {
+            initRoomButtonListener()
             when (state) {
                 UserRoomState.NO_ROOM -> {
                     // 보이는 컴포넌트
@@ -225,8 +224,7 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             // 방 생성 버튼 > 팝업
             btnMakeRoom.setOnClickListener {
-                val popup: DialogFragment = MakingRoomDialogFragment()
-                popup.show(childFragmentManager, "팝업")
+                startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
             }
             // 방 참여 버튼
             btnEnterRoom.setOnClickListener {

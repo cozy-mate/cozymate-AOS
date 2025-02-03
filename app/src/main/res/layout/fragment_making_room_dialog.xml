@@ -2,117 +2,125 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_making_room"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CC000000"
     tools:context=".ui.cozy_home.room.making_room.MakingRoomDialogFragment">
 
     <ImageView
         android:id="@+id/iv_x"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/basic_font"
         android:src="@drawable/ic_xmark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 공개방 -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_public_room"
-        android:layout_width="match_parent"
-        android:layout_height="92dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="213dp"
-        android:background="@drawable/btn_rectangle_12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_1"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/img_public_room"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_public_room_title1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="27dp"
-            android:text="룸메이트를 구할래요!"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toEndOf="@id/iv_1"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_public_room_title2"
-            android:layout_width="223dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="27dp"
-            android:text="모든 사람들이 보고 참여할 수 있는 방이에요"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/color_font"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_public_room_title1"
-            app:layout_constraintTop_toBottomOf="@id/tv_public_room_title1" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- 초대방 -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_private_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/btn_rectangle_12"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_public_room">
-
-        <ImageView
-            android:id="@+id/iv_2"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/img_private_room"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_private_room_title1"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- 공개방 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_public_room"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/btn_rectangle_12"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_private_room_title1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="27dp"
-            android:text="룸메이트가 이미 있어요!"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toEndOf="@id/iv_2"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/iv_1"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginVertical="16dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/img_public_room"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_private_room_title2"
-            android:layout_width="224dp"
+            <TextView
+                android:id="@+id/tv_public_room_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="27dp"
+                android:text="룸메이트를 구할래요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toEndOf="@id/iv_1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_public_room_title2"
+                android:layout_width="232dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="27dp"
+                android:text="모든 사람들이 보고 참여할 수 있는 방이에요"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_public_room_title1"
+                app:layout_constraintTop_toBottomOf="@id/tv_public_room_title1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 초대방 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_private_room"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="27dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="초대코드가 있는 사람만 들어올 수 있는 방이에요"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/color_font"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_private_room_title1"
-            app:layout_constraintTop_toBottomOf="@id/tv_private_room_title1" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_rectangle_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_public_room">
+
+            <ImageView
+                android:id="@+id/iv_2"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginVertical="16dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/img_private_room"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_private_room_title1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_private_room_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="27dp"
+                android:text="룸메이트가 이미 있어요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toEndOf="@id/iv_2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_private_room_title2"
+                android:layout_width="232dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="27dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="초대코드가 있는 사람만 들어올 수 있는 방이에요"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/color_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_private_room_title1"
+                app:layout_constraintTop_toBottomOf="@id/tv_private_room_title1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,40 +14,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.window.OnBackInvokedDispatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import umc.cozymate.R
+import umc.cozymate.databinding.ActivityMyFavoriteBinding
 import umc.cozymate.databinding.FragmentMakingRoomDialogBinding
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
-class MakingRoomDialogFragment : DialogFragment() {
+class MakingRoomDialogFragment : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentMakingRoomDialogBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMakingRoomDialogBinding
     private var universityFlag: Boolean = false
     private var isLifestyleExist: Boolean = false
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog?.window?.setGravity(Gravity.TOP)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentMakingRoomDialogBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentMakingRoomDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        this.setStatusBarTransparent()
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        binding.clMakingRoom.setPadding(0, 0, 0, this.navigationHeight())
         getPreference()
-        // 다이얼로그 생성
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(binding.root)
         with(binding) {
             // 닫기
             ivX.setOnClickListener {
-                dismiss()
+                finish()
+            }
+            clMakingRoom.setOnClickListener {
+                finish()
             }
             // 공개방 (학교인증여부, 라이프스타일 입력 여부)
             clPublicRoom.setOnClickListener {
@@ -64,46 +67,29 @@ class MakingRoomDialogFragment : DialogFragment() {
                     val text = listOf("방을 만들려면\n라이프스타일을 입력해야해요!", "", "안할래요", "할래요")
                     val dialog = TwoButtonPopup(text, object : PopupClick {
                         override fun rightClickFunction() {
-                            val intent = Intent(activity, RoommateOnboardingActivity::class.java)
+                            val intent = Intent(this@MakingRoomDialogFragment, RoommateOnboardingActivity::class.java)
                             startActivity(intent)
                         }
                     }, true) // 확인, 취소 버튼 동작
-                    dialog.show(parentFragmentManager, "LogoutPopup")
+                    dialog.show(supportFragmentManager, "LogoutPopup")
                 } else {
-                    val intent = Intent(requireContext(), MakingPublicRoomActivity::class.java)
+                    val intent = Intent(this@MakingRoomDialogFragment, MakingPublicRoomActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
 
             }
             // 비공개(초대코드)방
             clPrivateRoom.setOnClickListener {
-                val intent = Intent(requireContext(), MakingPrivateRoomActivity::class.java)
+                val intent = Intent(this@MakingRoomDialogFragment, MakingPrivateRoomActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
-        val dialog = builder.create()
-        // 배경 투명 + 밝기 조절 (0.9)
-        dialog.window?.let { window ->
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val layoutParams = window.attributes
-            layoutParams.dimAmount = 0.9f
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            window.attributes = layoutParams
-        }
-
-        return dialog
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_making_room_dialog, container, false)
     }
 
     private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val spf = this.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
         universityFlag = spf.getBoolean("is_verified", false)
         Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
