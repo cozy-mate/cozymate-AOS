@@ -20,16 +20,33 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-
         <!-- 메인 UI 요소들 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background"
             tools:context=".ui.selectingRoommateItem.RoommateDetailActivity">
 
             <!-- 상단의 UI 요소들 -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/sub_skyblue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_bottom" />
+
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="490dp"
+                android:layout_height="0dp"
+                android:translationY="-107dp"
+                android:translationX="-30dp"
+                app:layout_constraintDimensionRatio="621:566"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/bg_room_detail"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_back"
@@ -82,6 +99,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="18dp"

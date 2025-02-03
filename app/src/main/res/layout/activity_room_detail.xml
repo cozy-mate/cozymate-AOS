@@ -16,16 +16,27 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:background="@color/sub_skyblue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/cl_top"/>
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="490dp"
+            android:layout_height="0dp"
+            android:translationY="-107dp"
+            android:translationX="-30dp"
+            app:layout_constraintDimensionRatio="621:566"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bg_room_detail"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_finding_roommate"
             android:paddingHorizontal="20dp"
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
