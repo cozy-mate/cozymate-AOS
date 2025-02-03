@@ -2,18 +2,19 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityRoommateMyDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 class RoommateMyDetailActivity : AppCompatActivity() {
 
@@ -24,7 +25,10 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoommateMyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setStatusBarTransparent()
+        window.navigationBarColor = Color.WHITE
+        StatusBarUtil.updateStatusBarColor(this@RoommateMyDetailActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
         updateUI()
     }
 

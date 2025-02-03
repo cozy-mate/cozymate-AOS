@@ -27,7 +27,6 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background"
             tools:context=".ui.selectingRoommateItem.RoommateDetailActivity">
 
             <!-- 상단의 UI 요소들 -->
@@ -143,10 +142,8 @@
                 android:background="@drawable/background_round_corner_20"
                 app:layout_constraintBottom_toTopOf="@+id/guide_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_user_match"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toBottomOf="@+id/ly_user_match">
 
                 <LinearLayout
                     android:id="@+id/ly_list_table_select"

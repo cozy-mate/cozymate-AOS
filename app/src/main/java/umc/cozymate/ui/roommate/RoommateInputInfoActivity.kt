@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,7 +15,6 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -27,6 +27,8 @@ import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class RoommateInputInfoActivity : AppCompatActivity() {
@@ -47,7 +49,10 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         StatusBarUtil.updateStatusBarColor(this, R.color.white)
         binding = ActivityRoommateInputInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setStatusBarTransparent()
+        window.navigationBarColor = Color.WHITE
+        StatusBarUtil.updateStatusBarColor(this@RoommateInputInfoActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         viewPager = binding.vpInputInfo

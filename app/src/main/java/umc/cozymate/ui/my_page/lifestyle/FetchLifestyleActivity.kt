@@ -2,6 +2,7 @@ package umc.cozymate.ui.my_page.lifestyle
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -21,6 +22,9 @@ import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityFetchLifestyleBinding
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.navigationHeight
+import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class FetchLifestyleActivity : AppCompatActivity() {
@@ -67,6 +71,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFetchLifestyleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setStatusBarTransparent()
+        window.navigationBarColor = Color.WHITE
+        StatusBarUtil.updateStatusBarColor(this@FetchLifestyleActivity, Color.WHITE)
+        binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 

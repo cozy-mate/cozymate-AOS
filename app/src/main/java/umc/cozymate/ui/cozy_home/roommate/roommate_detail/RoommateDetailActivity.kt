@@ -11,13 +11,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -58,6 +54,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding = ActivityRoommateDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         this.setStatusBarTransparent()
+        window.navigationBarColor = Color.WHITE
         StatusBarUtil.updateStatusBarColor(this@RoommateDetailActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
 

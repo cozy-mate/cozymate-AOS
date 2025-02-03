@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.data.local.RoomInfoEntity
+import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentMyRoomBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
@@ -21,6 +24,7 @@ class MyRoomComponent : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
     private var roomId: Int? = 0
+    private lateinit var roomInfoData: RoomInfoEntity
     companion object {
         fun newInstance() = MyRoomComponent()
     }
@@ -55,6 +59,7 @@ class MyRoomComponent : Fragment() {
         val nickname = viewModel.getNickname().toString()
         binding.tvMyNickname.text = "${nickname}님이"
         viewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
+            roomInfoData = roomInfo
             roomId = roomInfo?.roomId
             with(binding) {
                 tvRoomName.text = roomInfo?.name
