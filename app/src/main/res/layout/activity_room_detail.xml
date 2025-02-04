@@ -197,10 +197,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="-70dp"
+            android:background="@drawable/background_crewable_scroll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_top" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="-50dp"
             android:fillViewport="true"
             android:scrollbars="none"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,12 +220,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@drawable/background_crewable_scroll"
-                android:padding="24dp">
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/tv_room_info_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="방 정보"
                     android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                     android:textColor="@color/highlight_font"

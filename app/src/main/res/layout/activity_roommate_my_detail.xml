@@ -31,7 +31,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="400dp"
                 android:background="@color/sub_skyblue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -97,12 +97,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_other_user_profile" />
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/background_crewable_scroll"
+                android:layout_marginTop="18dp"
+                app:layout_constraintBottom_toTopOf="@+id/guide_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_fetch_lifestyle"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/background_round_corner_20"
                 app:layout_constraintBottom_toTopOf="@+id/guide_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
