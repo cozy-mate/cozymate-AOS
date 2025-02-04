@@ -59,27 +59,28 @@
                 android:layout_marginTop="56dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_members"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="3"
-                tools:listitem="@layout/rv_item_cozybot_member"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:paddingEnd="4dp" />
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_cozybot_next"
-                app:layout_constraintStart_toEndOf="@id/rv_members"
-                app:layout_constraintTop_toTopOf="@id/rv_members"
-                app:layout_constraintBottom_toBottomOf="@id/rv_members"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="4dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/rv_item_cozybot_member" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_cozybot_next"
+                    app:layout_constraintBottom_toBottomOf="@id/rv_members"
+                    app:layout_constraintStart_toEndOf="@id/rv_members"
+                    app:layout_constraintTop_toTopOf="@id/rv_members" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -113,6 +114,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_rectangle_12"
+                android:alpha="0.7"
                 android:drawableEnd="@drawable/ic_copy"
                 android:drawablePadding="-10dp"
                 android:drawableTint="@color/color_font"
@@ -157,23 +159,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- 업적 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="258dp"
+            android:background="@drawable/background_round_corner_20"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- 룸로그 -->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="238dp"
-            android:background="@drawable/background_round_corner_20"
+            android:layout_marginTop="284dp"
             app:layout_constraintBottom_toTopOf="@id/cl_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_acheivement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="24dp"
-                tools:listitem="@layout/item_cozyhome_achievement" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_acheivement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:listitem="@layout/item_cozyhome_achievement" />
 
         </androidx.core.widget.NestedScrollView>
 

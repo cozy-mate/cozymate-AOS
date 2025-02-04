@@ -270,31 +270,30 @@ class CozyHomeViewModel @Inject constructor(
     private var currentPage = 0
     private val pageSize = 10
     private var isLastPage = false
-    suspend fun loadAchievements(isNextPage: Boolean = false) {
+    suspend fun loadRoomLogs(isNextPage: Boolean = false) {
         if (isLoading.value == true || isLastPage) return
         _isLoading.value = true
         val token = getToken()
         val roomId = getSavedRoomId()
         if (roomId != 0) {
             try {
-                val response =
-                    logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
+                val response = logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
                 if (response.isSuccessful) {
                     if (response.body()!!.isSuccess) {
-                        _roomLogResponse.value = response.body()!!
                         val newItems = response.body()!!.result.result.map { roomLog ->
                             mapRoomLogResponseToItem(roomLog)
                         }
-                        // 기존 데이터에 새 데이터 추가
+                        // 기존 데이터에 추가 (중복 방지)
                         val updatedList = if (isNextPage) {
                             _achievements.value.orEmpty() + newItems
                         } else {
-                            newItems
+                            newItems // 초기 로드 시 새 데이터로 덮어쓰기
                         }
                         _achievements.value = updatedList
-                        // 마지막 페이지 여부 체크
+
+                        // 마지막 페이지 체크
                         isLastPage = newItems.size < pageSize
-                        if (!isLastPage) {
+                        if (!isLastPage && isNextPage) {
                             currentPage++
                         }
                         Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
@@ -313,8 +312,8 @@ class CozyHomeViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.d(TAG, "룸로그 조회 api 요청 실패: ${e}")
             }
-
         }
+        _isLoading.value = false
     }
 
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {

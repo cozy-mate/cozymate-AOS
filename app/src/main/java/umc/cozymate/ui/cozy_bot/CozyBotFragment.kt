@@ -50,6 +50,7 @@ class CozyBotFragment : Fragment() {
     private var roomName: String? = null
     private var roomPersona: Int? = null
     private var roomType: String = ""
+    private var roomLogCount: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -99,7 +100,7 @@ class CozyBotFragment : Fragment() {
                             .show()
                     }
                 }
-                viewModel.loadAchievements(isNextPage = true)
+                viewModel.loadRoomLogs(isNextPage = true)
             }
         }
     }
@@ -114,11 +115,10 @@ class CozyBotFragment : Fragment() {
                     viewModel.fetchRoomInfo()
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                viewModel.loadAchievements(isNextPage = true)
+                //viewModel.loadRoomLogs(isNextPage = true)
             }
         }
     }
@@ -242,7 +242,9 @@ class CozyBotFragment : Fragment() {
         binding.rvAcheivement.adapter = adapter
         binding.rvAcheivement.layoutManager = LinearLayoutManager(requireContext())
         viewModel.achievements.observe(viewLifecycleOwner) { items ->
+            roomLogCount = items.size
             adapter.setItems(items)
+            adapter.notifyDataSetChanged() // UI 갱신 (중복 방지)
         }
         // RecyclerView 스크롤 리스너 추가
         binding.rvAcheivement.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -252,9 +254,9 @@ class CozyBotFragment : Fragment() {
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 // 마지막 항목 근처에 도달하면 다음 페이지 로드
-                if (!viewModel.isLoading.value!! && lastVisibleItemPosition + 2 >= totalItemCount) {
+                if (roomLogCount > 9 && !viewModel.isLoading.value!! && lastVisibleItemPosition + 2 >= totalItemCount) {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.loadAchievements(isNextPage = true)
+                        viewModel.loadRoomLogs(isNextPage = true)
                     }
                 }
             }
