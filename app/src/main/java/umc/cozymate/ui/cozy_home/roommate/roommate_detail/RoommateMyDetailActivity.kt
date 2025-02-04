@@ -29,16 +29,10 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         window.navigationBarColor = Color.WHITE
         StatusBarUtil.updateStatusBarColor(this@RoommateMyDetailActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
-        updateUI()
-    }
-
-    private fun updateUI() {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
         binding.btnBack.setOnClickListener {
             finish()
         }
-
         binding.btnFetchLifestyle.setOnClickListener {
             if (spf.getString("user_mbti", "").isNullOrEmpty()) {
                 val intent = Intent(this, RoommateOnboardingActivity::class.java)
@@ -48,6 +42,16 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        updateUI()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateUI()
+    }
+
+    private fun updateUI() {
+        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         with(binding) {
             setUserProfileImage(spf.getInt("user_persona", 0))
@@ -74,7 +78,7 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             tvListBirth.text = spf.getString("user_birthday", "")?.substring(0, 4)
             tvListSchool.text = spf.getString("user_university_name", "")
             tvListSchoolNumber.text = spf.getString("user_admissionYear", "")
-            tvListMajor.text = spf.getString("major_name", "")
+            tvListMajor.text = spf.getString("user_major_name", "")
             tvListDormitoryNum.text = "${spf.getInt("user_numOfRoommate", 0)}인 1실"
             tvListAcceptance.text = spf.getString("user_acceptance", "")
             tvListWakeUpAmpm.text = spf.getString("user_wakeUpMeridian", "")

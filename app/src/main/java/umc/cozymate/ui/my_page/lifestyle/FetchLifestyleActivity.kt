@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -1406,6 +1408,9 @@ class FetchLifestyleActivity : AppCompatActivity() {
             onFailure = { errorMessage ->
                 Log.d("Activity", "Failed to fetch user info: $errorMessage")
             })
-        finish()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()  // 현재 액티비티 종료
+        }, 400)
     }
 }
