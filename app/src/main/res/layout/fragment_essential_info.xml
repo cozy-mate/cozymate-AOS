@@ -993,6 +993,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_friendly" />
 
+                <TextView
+                    android:id="@+id/friendly_enough"
+                    style="@style/OptionBox"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:text="친하게 지내요"
+                    app:layout_constraintStart_toEndOf="@id/friendly_no"
+                    app:layout_constraintTop_toTopOf="@id/friendly_no"/>
+
                 <LinearLayout
                     android:id="@+id/ly_friendly"
                     android:layout_width="wrap_content"
@@ -1001,14 +1011,6 @@
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/friendly_no">
-
-                    <TextView
-                        android:id="@+id/friendly_enough"
-                        style="@style/OptionBox"
-                        android:layout_width="170dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="어느정도 친하게 지내요" />
 
                     <TextView
                         android:id="@+id/friendly_yes"
@@ -1063,18 +1065,13 @@
                         android:layout_marginEnd="8dp"
                         android:text="아무것도 공유하고 싶지 않아요" />
 
+                    <TextView
+                        android:id="@+id/share_tissue"
+                        style="@style/OptionBox"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:text="휴지는 빌려줄 수 있어요" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/share_tissue"
-                    style="@style/OptionBox"
-                    android:layout_width="170dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="휴지정도는 빌려줄 수 있어요"
-                    app:layout_constraintTop_toBottomOf="@id/ly_share_check"
-                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <LinearLayout
                     android:id="@+id/ly_share_check2"
@@ -1083,15 +1080,15 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/share_tissue">
+                    app:layout_constraintTop_toBottomOf="@+id/ly_share_check">
 
                     <TextView
                         android:id="@+id/share_cloths"
                         style="@style/OptionBox"
-                        android:layout_width="140dp"
+                        android:layout_width="130dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="옷정도는 빌려줄 수 있어요" />
+                        android:text="옷은 빌려줄 수 있어요" />
 
                     <TextView
                         android:id="@+id/share_everything"
@@ -1148,10 +1145,10 @@
                     <TextView
                         android:id="@+id/game_keyboard"
                         style="@style/OptionBox"
-                        android:layout_width="140dp"
+                        android:layout_width="130dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="키보드 채팅정도만 쳐요" />
+                        android:text="키보드 채팅만 쳐요" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1362,10 +1359,10 @@
                     <TextView
                         android:id="@+id/eating_snack"
                         style="@style/OptionBox"
-                        android:layout_width="150dp"
+                        android:layout_width="130dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="간단한 간식정도만 먹어요" />
+                        android:text="간단한 간식만 먹어요" />
 
                     <TextView
                         android:id="@+id/eating_delivery"
@@ -1625,10 +1622,10 @@
                     <TextView
                         android:id="@+id/clean_frequency_2days"
                         style="@style/OptionBox"
-                        android:layout_width="130dp"
+                        android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="이틀에 한 번 정도 해요" />
+                        android:text="이틀에 한 번 해요" />
 
                 </LinearLayout>
 
