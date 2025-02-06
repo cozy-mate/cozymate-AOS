@@ -336,7 +336,12 @@ class RoomDetailActivity : AppCompatActivity() {
                 fabBnt.text = "방 참여요청"
                 fabBnt.backgroundTintList = getColorStateList(R.color.gray)
                 fabBnt.setTextColor(getColor(R.color.white))
-                fabBnt.isEnabled = false
+                fabBnt.isEnabled = true
+
+                fabBnt.setOnClickListener {
+                    Log.d(TAG, "Disable BTN onTouch")
+                    Toast.makeText(this@RoomDetailActivity, "이미 방에 참여 중입니다.", Toast.LENGTH_SHORT).show()
+                }
             }
             return
         }
