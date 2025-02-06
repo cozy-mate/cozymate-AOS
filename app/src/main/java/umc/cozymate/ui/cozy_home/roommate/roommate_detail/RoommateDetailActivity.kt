@@ -23,10 +23,13 @@ import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
 import umc.cozymate.ui.message.WriteMessageActivity
+import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.ui.viewmodel.ReportViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
@@ -43,6 +46,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     private var favoriteId: Int = 0
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
     private val makingRoomViewModel: MakingRoomViewModel by viewModels()
+    private val reportViewModel : ReportViewModel by viewModels()
     private var isFavorite: Boolean = false // 찜 상태
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
@@ -90,6 +94,8 @@ class RoommateDetailActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
+
+
     }
 
     private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
@@ -465,6 +471,9 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val listBinding = ItemRoommateDetailListBinding.bind(listView)
 
+        listBinding.tvReportTitle.setOnClickListener {
+                reportPopup()
+        }
         with(listBinding) {
             tvListName.text = it.memberDetail.nickname
             tvListBirth.text = it.memberDetail.birthday.substring(0, 4)  // 앞에 4자리만 받음
@@ -564,6 +573,10 @@ class RoommateDetailActivity : AppCompatActivity() {
             } else {
                 text ?: ""
             }
+        }
+
+        tableBinding.tvReportTitle.setOnClickListener {
+            reportPopup()
         }
 
         with(tableBinding) {
@@ -1174,4 +1187,14 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
         tableBinding.tvTableOtherMbti.text = detail?.mbti
     }
+
+    private fun reportPopup(){
+        val dialog = ReportPopup(object : PopupClick {
+            override fun reportFunction(reason: Int, content : String) {
+                reportViewModel.postReport(memberId, 0, reason, content)
+            }
+        })
+        dialog.show(this.supportFragmentManager!!, "reportPopup")
+    }
+
 }
