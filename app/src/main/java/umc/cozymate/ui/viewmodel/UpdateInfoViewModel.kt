@@ -130,6 +130,7 @@ class UpdateInfoViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "닉네임 수정 성공: ${response.body()!!.result} ")
                     _updateNicknameResponse.value = response.body()!!
+                    sharedPreferences.edit().putString("user_nickname", nickname.value.toString()).commit()
                 } else Log.d(TAG, "닉네임 수정 에러 메시지: ${response}")
             } else {
                 Log.d(TAG, "닉네임 수정 api 응답 실패: ${response.errorBody()?.string()}")
@@ -155,6 +156,7 @@ class UpdateInfoViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학과 수정 성공: ${response.body()!!.result}")
                     _updateMajorNameResponse.value = response.body()!!
+                    sharedPreferences.edit().putString("user_major_name", majorName.value.toString()).commit()
                 } else Log.d(TAG, "학과 수정 에러 메시지: ${response}")
             } else {
                 Log.d(TAG, "학과 수정 api 응답 실패: ${response.errorBody()?.string()}")
@@ -180,6 +182,7 @@ class UpdateInfoViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "생일 수정 성공: ${response.body()!!.result}")
                     _updateBirthDateResponse.value = response.body()!!
+                    sharedPreferences.edit().putString("user_birthday", birthDate.value.toString()).commit()
                 } else Log.d(TAG, "생일 수정 에러 메시지: ${response}")
             } else {
                 Log.d(TAG, "생일 수정 api 응답 실패: ${response.errorBody()?.string()}")
@@ -205,6 +208,7 @@ class UpdateInfoViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "캐릭터 수정 성공: ${response.body()!!.result}")
                     _updatePersonaResponse.value = response.body()!!
+                    sharedPreferences.edit().putInt("user_persona", persona.value ?: 0).commit()
                 } else Log.d(TAG, "캐릭터 수정 에러 메시지: ${response}")
             } else {
                 Log.d(TAG, "캐릭터 수정 api 응답 실패: ${response.errorBody()?.string()}")
