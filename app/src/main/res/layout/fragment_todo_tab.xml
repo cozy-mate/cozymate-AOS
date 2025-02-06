@@ -138,17 +138,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-            <TextView
-                android:id="@+id/tv_empty_member"
+            <LinearLayout
+                android:id="@+id/layout_empty_member"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"
                 android:layout_marginTop="16dp"
-                android:text="아직 등록된 코지메이트가 없어요"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/unuse_font"
                 android:gravity="center"
                 android:background="@drawable/background_checklist"
-                android:visibility="gone"/>
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="아직 등록된 룸메이트가 없어요"
+                    android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                    android:gravity="center"
+                    android:textColor="@color/unuse_font" />
+                <TextView
+                    android:id="@+id/btn_go_roommate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="룸메이트 찾으러 가기 >"
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/main_blue" />
+            </LinearLayout>
+
         </FrameLayout>
 
 
