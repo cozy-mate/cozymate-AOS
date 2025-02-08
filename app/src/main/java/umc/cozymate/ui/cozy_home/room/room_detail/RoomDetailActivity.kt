@@ -199,11 +199,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
                         roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
                             if (result.isSuccess) {
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방을 성공적으로 나갔습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방을 성공적으로 나갔습니다", ToastUtils.IconType.YES)
                                 spf.edit().putInt("room_id", 0).apply()
                                 val intent =
                                     Intent(this@RoomDetailActivity, MainActivity::class.java)
@@ -211,11 +207,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish() // 방 나가기 성공 시 메인액티비티로 이동하고 액티비티 종료
                             } else {
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방 나가기에 실패했습니다. 다시 시도해주세요.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방 나가기에 실패했습니다. 다시 시도해주세요.",ToastUtils.IconType.NO, binding.fabBnt, 20)
                             }
                         }
                     }
