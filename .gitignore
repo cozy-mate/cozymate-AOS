@@ -11,3 +11,5 @@ local.properties
 google-services.json
 constant.xml
 .idea/workspace.xml
+./
+app/src/main/res/values/constants.xml

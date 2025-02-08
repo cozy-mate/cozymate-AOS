@@ -247,17 +247,11 @@ class RoomDetailActivity : AppCompatActivity() {
                             viewModel.otherRoomDetailInfo.collectLatest { updatedRoomInfo ->
                                 favoriteId = updatedRoomInfo.favoriteId // 갱신된 favoriteId 적용
                                 updateFavoriteButton()
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방 찜 상태가 업데이트되었습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
                         }
                     },
                     onError = { errorMessage ->
-                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT)
-                            .show()
+                        ToastUtils.showCustomToast(this@RoomDetailActivity, "문제가 발생했어요", ToastUtils.IconType.NO)
                     }
                 )
             }
@@ -341,7 +335,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
                 fabBnt.setOnClickListener {
                     Log.d(TAG, "Disable BTN onTouch")
-                    ToastUtils.showCustomToast(this@RoomDetailActivity, "이미 방에 참여 중입니다.", ToastUtils.IconType.NO)
+                    ToastUtils.showCustomToast(this@RoomDetailActivity, "이미 방에 참여 중입니다.", ToastUtils.IconType.NO, binding.fabBnt, 20)
                 }
             }
             return
