@@ -42,6 +42,7 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.ToastUtils
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -340,7 +341,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
                 fabBnt.setOnClickListener {
                     Log.d(TAG, "Disable BTN onTouch")
-                    Toast.makeText(this@RoomDetailActivity, "이미 방에 참여 중입니다.", Toast.LENGTH_SHORT).show()
+                    ToastUtils.showCustomToast(this@RoomDetailActivity, "이미 방에 참여 중입니다.", ToastUtils.IconType.NO)
                 }
             }
             return
