@@ -51,9 +51,6 @@ class WriteMessageActivity : AppCompatActivity() {
             }
         }
 
-
-
-
     }
 
     // 밖 터치시 키보드 숨기기
