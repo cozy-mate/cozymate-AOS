@@ -36,6 +36,7 @@ class MessageMemberActivity : AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             finish()
         }
+
     }
 
     private fun setupObservers() {
