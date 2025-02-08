@@ -22,6 +22,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
+import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
@@ -63,6 +64,12 @@ class RoommateRecommendFragment: Fragment() {
         initChip()
         initGuide()
         binding.lyGuide.visibility = if(isLifestyleExist) View.GONE else View.VISIBLE
+        // 사용자 검색으로 이동
+        binding.lyRoomMateSearch.setOnClickListener {
+            val intent = Intent(requireActivity(), SearchRoommateActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 

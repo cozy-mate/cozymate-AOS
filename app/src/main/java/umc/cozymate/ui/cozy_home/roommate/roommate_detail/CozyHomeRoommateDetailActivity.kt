@@ -36,11 +36,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             this.onBackPressed()
         }
 
-        // 사용자 검색으로 이동
-        binding.lyRoomMateSearch.setOnClickListener {
-            val intent = Intent(this, SearchRoommateActivity::class.java)
-            startActivity(intent)
-        }
 
         supportFragmentManager.beginTransaction()
             .replace(

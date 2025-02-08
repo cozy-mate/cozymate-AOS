@@ -8,6 +8,55 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="원하는 칩을 선택하면\n나와 똑같은 답변을 한 사용자만 떠요!"
+            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+            android:textColor="@color/highlight_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_guide"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/ly_room_mate_search"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/custom_room_search_background"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:text="룸메이트 닉네임을 검색해보세요!"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font" />
+
+        </LinearLayout>
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/chips"
             android:layout_width="wrap_content"
@@ -17,8 +66,9 @@
             app:alignItems="flex_start"
             app:flexWrap="wrap"
             app:justifyContent="flex_start"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ly_room_mate_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_roommate_detail_info"
@@ -99,7 +149,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_guide"
+                android:id="@+id/tv_lifestyle_guide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="더 많은 사용자들의 정보를 확인할 수 있어요!"
@@ -119,7 +169,7 @@
                 android:textColor="@color/main_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_guide" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_lifestyle_guide" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
