@@ -22,7 +22,6 @@ class EndlessRoommateRVAdapter (
     override fun onBindViewHolder(holder: RecommendRoommateVPViewHolder, position: Int) {
         val item = items[position]
         holder.bind(items[position])
-        Log.d("roommate","${position} 번째 룸메 생성 ${item.memberDetail.nickname}")
         holder.itemView.setOnClickListener {
             onItemClicked(item.memberDetail.memberId)
         }

@@ -80,7 +80,7 @@
             tools:listitem="@layout/vp_item_roommate_recommend"
             app:layout_constraintTop_toBottomOf="@id/chips"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/guide_barrier"/>
+            />
 
         <TextView
             android:id="@+id/tv_empty"

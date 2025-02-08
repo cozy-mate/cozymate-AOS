@@ -86,7 +86,6 @@ class RoommateRecommendFragment: Fragment() {
 
                 // 스크롤이 끝에 도달했는지 확인
                 if ( lastVisibleItemPosition == itemTotalCount-1){
-                    Log.d(TAG,"마지막 룸메 ${lastVisibleItemPosition}")
                     viewModel.fetchRoommateListByEquality(selectedChips, ++page)
                 }
             }
