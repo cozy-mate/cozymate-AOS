@@ -441,10 +441,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
     }
 
     // 해시태그 업데이트

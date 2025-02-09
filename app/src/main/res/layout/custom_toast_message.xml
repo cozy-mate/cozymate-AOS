@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:paddingHorizontal="20dp"
         >
         
         <ImageView
@@ -41,7 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="테스트테스트테스트"
-            android:gravity="center"
             android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"/>
 
 
