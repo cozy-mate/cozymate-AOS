@@ -1,3 +1,4 @@
 /build
 google-services.json
-/src/res/values/constant.xml
+/src/main/res/values/constant.xml
+/src/main/res/values/constants.xml
