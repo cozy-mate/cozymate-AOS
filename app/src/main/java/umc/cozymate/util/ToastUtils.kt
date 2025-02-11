@@ -10,6 +10,8 @@ import umc.cozymate.databinding.CustomToastMessageBinding
 
 object ToastUtils {
 
+    private const val DEFAULT_Y_OFFSET_PX = -150
+    private var currentToast: Toast? = null
     fun showCustomToast(
         context: Context,
         message: String,
@@ -17,6 +19,9 @@ object ToastUtils {
         anchorView: View? = null,
         extraYOffset: Int = 0
     ) {
+        if (message.isBlank()) {
+            return
+        }
         val inflater = LayoutInflater.from(context)
         val binding = CustomToastMessageBinding.inflate(inflater)
 
@@ -40,27 +45,29 @@ object ToastUtils {
         }
 
         // 기본 yOffset 값 (-150px)
-        var yOffset = -150
+        var yOffset = DEFAULT_Y_OFFSET_PX
 
         anchorView?.let { view ->
             val location = IntArray(2)
             view.getLocationOnScreen(location)
-            val viewRect = Rect(location[0], location[1], location[0] + view.width, location[1] + view.height)
+            val viewRect =
+                Rect(location[0], location[1], location[0] + view.width, location[1] + view.height)
 
             yOffset = viewRect.top - convertDpToPx(context, extraYOffset)
         }
-
+        currentToast?.cancel()
         val toast = Toast(context)
 
         binding.root?.let { root ->
-                toast.view = root
-            } ?: run {
-                Toast.makeText(context, message, toast.duration).show()
-                return
-            }
+            toast.view = root
+        } ?: run {
+            Toast.makeText(context, message, toast.duration).show()
+            return
+        }
         toast.duration = Toast.LENGTH_SHORT
         toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, yOffset)
         toast.show()
+        currentToast = toast
     }
 
     private fun convertDpToPx(context: Context, dp: Int): Int {
