@@ -51,7 +51,13 @@ object ToastUtils {
         }
 
         val toast = Toast(context)
-        toast.view = binding.root
+
+        binding.root?.let { root ->
+                toast.view = root
+            } ?: run {
+                Toast.makeText(context, message, toast.duration).show()
+                return
+            }
         toast.duration = Toast.LENGTH_SHORT
         toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, yOffset)
         toast.show()
