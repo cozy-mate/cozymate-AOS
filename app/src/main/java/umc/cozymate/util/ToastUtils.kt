@@ -23,7 +23,13 @@ object ToastUtils {
             return
         }
         val inflater = LayoutInflater.from(context)
-        val binding = CustomToastMessageBinding.inflate(inflater)
+        val binding = try {
+            CustomToastMessageBinding.inflate(inflater)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            return
+        }
 
         binding.tvMessage.text = message
 
