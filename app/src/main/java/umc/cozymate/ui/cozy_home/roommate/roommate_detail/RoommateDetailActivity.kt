@@ -30,6 +30,7 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.ToastUtils
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -206,74 +207,10 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
     }
 
-    //    private fun updateFAB(userDetail: GetMemberDetailInfoResponse.Result) {
-//        val memberId = userDetail.memberDetail.memberId
-//        Log.d(TAG, "현재 조회한 memberId: $memberId")
-//        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
-//        val mbti = spf.getString("user_mbti", null)
-//        val savedRoomId = spf.getInt("room_id", -2)
-//        val otherRoom = userDetail.roomId
-//        Log.d(TAG, "userRoomId : ${spf.getInt("room_id", 0)}")
-//
-//        if (savedRoomId == 0 || savedRoomId == -2) {
-//            // 내 방이 방이 없는 경우
-//            with(binding) {
-//                fabRequestRoommate.text = "내 방으로 초대하기"
-//                fabRequestRoommate.backgroundTintList =
-//                    android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-//                fabRequestRoommate.setTextColor(getColor(R.color.white))
-//                fabRequestRoommate.isEnabled = false
-//            }
-//        } else {
-//            // 내 방이 있는 경우
-//            if (otherRoom != 0) {
-//                // 상대방이 방이 있는 경우
-//                with(binding) {
-//                    fabRequestRoommate.text = "내 방으로 초대하기"
-//                    fabRequestRoommate.backgroundTintList =
-//                        android.content.res.ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-//                    fabRequestRoommate.setTextColor(getColor(R.color.white))
-//                    fabRequestRoommate.isEnabled = false
-//                }
-//            } else {
-//                // 상대방이 방이 없는 경우 = 초대가능한 경우
-//                makingRoomViewModel.getPendingMember(memberId)
-//                makingRoomViewModel.pendingMember.observe(this) { isPending ->
-//                    if (isPending) {
-//                        // 이미 초대한 경우 (초대 승인 대기 중)
-//                        with(binding) {
-//                            fabRequestRoommate.text = "방 초대요청  취소"
-//                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.color_box))
-//                            fabRequestRoommate.setTextColor(getColor(R.color.main_blue))
-//                            fabRequestRoommate.setOnClickListener {
-//                                lifecycleScope.launch {
-//                                    makingRoomViewModel.deleteMemberInvite(memberId)
-//                                    delay(600)
-//                                    makingRoomViewModel.getPendingMember(memberId)
-//                                    recreate()
-//                                }
-//                            }
-//                        }
-//                    } else {
-//                        // 초대하지 않은 경우 = 초대하기
-//                        with(binding) {
-//                            fabRequestRoommate.text = "내 방으로 초대하기"
-//                            fabRequestRoommate.setBackgroundTintList(getColorStateList(R.color.main_blue))
-//                            fabRequestRoommate.setTextColor(getColor(R.color.white))
-//                            fabRequestRoommate.setOnClickListener {
-//                                lifecycleScope.launch {
-//                                    makingRoomViewModel.inviteMember(memberId)
-//                                    delay(600)
-//                                    makingRoomViewModel.getPendingMember(memberId)
-//                                    recreate()
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun updateRoommateInfo() {
+        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
+    }
+
     private fun updateFAB() {
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val userMemberId = spf.getInt("user_member_id", -1) // 현재 사용자 ID
@@ -289,7 +226,9 @@ class RoommateDetailActivity : AppCompatActivity() {
                 setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
                 setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
                 isClickable = false
+
             }
+            ToastUtils.showCustomToast(this, "초대할 수 없습니다.", ToastUtils.IconType.NO, binding.fabRequestRoommate, 20)
             return
         }
 
@@ -314,20 +253,20 @@ class RoommateDetailActivity : AppCompatActivity() {
 
                     binding.fabAcceptAccept.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
-                        Toast.makeText(this, "입장 요청을 수락했습니다.", Toast.LENGTH_SHORT).show()
+                        ToastUtils.showCustomToast(this, "입장 요청을 수락했습니다", ToastUtils.IconType.YES, binding.fabAcceptAccept, 20)
                         lifecycleScope.launch {
                             delay(500)
                         }
-                        recreate() // 화면 갱신
+                        updateRoommateInfo()
                     }
 
                     binding.fabAcceptRefuse.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
-                        Toast.makeText(this, "입장 요청을 거절했습니다.", Toast.LENGTH_SHORT).show()
+                        ToastUtils.showCustomToast(this, "입장 요청을 거절했습니다", ToastUtils.IconType.NO, binding.fabAcceptRefuse, 20)
                         lifecycleScope.launch {
                             delay(500)
                         }
-                        recreate() // 화면 갱신
+                        updateRoommateInfo()
                     }
                     return@observe
                 }
@@ -350,8 +289,8 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     delay(500)
                                 }
-                                Toast.makeText(this@RoommateDetailActivity, "초대를 취소했습니다.", Toast.LENGTH_SHORT).show()
-                                recreate() // 화면 갱신
+                                ToastUtils.showCustomToast(this@RoommateDetailActivity, "초대를 취소했습니다.", ToastUtils.IconType.NO, binding.fabRequestRoommate, 20)
+                                updateRoommateInfo()
                             }
                         }
                     } else {
@@ -367,8 +306,8 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     delay(500)
                                 }
-                                Toast.makeText(this@RoommateDetailActivity, "초대 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
-                                recreate() // 화면 갱신
+                                ToastUtils.showCustomToast(this@RoommateDetailActivity, "초대 요청을 보냈습니다.", ToastUtils.IconType.YES, binding.fabRequestRoommate, 20)
+                                updateRoommateInfo()
                             }
                         }
                     }
@@ -386,14 +325,6 @@ class RoommateDetailActivity : AppCompatActivity() {
                 updateFavoriteButton()
             }
         }
-
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                roommateDetailViewModel.otherUserDetailInfo.collect { memberInfo ->
-//
-//                }
-//            }
-//        }
     }
 
     private fun setupFavoriteButton() {
@@ -404,26 +335,6 @@ class RoommateDetailActivity : AppCompatActivity() {
                     favoriteId = favoriteId,
                     onUpdate = {
                         roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                        Toast.makeText(
-                            this@RoommateDetailActivity,
-                            "찜 상태가 업데이트되었습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-//                        // 최신 정보를 다시 불러와 favoriteId 갱신
-//                        lifecycleScope.launch {
-//                            // suspend 함수 호출
-//                            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                                roommateDetailViewModel.otherUserDetailInfo.collectLatest { updatedDetail ->
-//                                    favoriteId = updatedDetail.favoriteId // 갱신된 favoriteId 적용
-//                                    updateFavoriteButton()
-//                                    Toast.makeText(
-//                                        this@RoommateDetailActivity,
-//                                        "찜 상태가 업데이트되었습니다.",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//                           }
-//                        }
                     },
                     onError = { errorMessage ->
                         Toast.makeText(
@@ -431,6 +342,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                             errorMessage,
                             Toast.LENGTH_SHORT
                         ).show()
+                        ToastUtils.showCustomToast(this@RoommateDetailActivity, errorMessage, ToastUtils.IconType.NO)
                     }
                 )
             }
