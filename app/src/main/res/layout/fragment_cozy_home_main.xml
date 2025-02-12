@@ -29,6 +29,7 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/sub_skyblue"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
@@ -63,8 +64,8 @@
                         android:layout_width="470dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="-40dp"
-                        android:translationX="-20dp"
                         android:background="@drawable/bg_cozyhome_top"
+                        android:translationX="-20dp"
                         app:layout_constraintDimensionRatio="75:58"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -271,6 +272,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_bottom"
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="75dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
