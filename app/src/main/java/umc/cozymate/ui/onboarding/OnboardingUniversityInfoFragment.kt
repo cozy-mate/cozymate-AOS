@@ -112,7 +112,7 @@ class OnboardingUniversityInfoFragment : Fragment() {
             adapter.setDropDownViewResource(R.layout.spinner_item_txt)
             spinnerUniversity.adapter = adapter
             spinnerUniversity.dropDownWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            spinnerUniversity.dropDownVerticalOffset = -40
+            spinnerUniversity.dropDownVerticalOffset = -10
             mcvUniversity.setOnClickListener {
                 spinnerUniversity.visibility = View.VISIBLE
             }
@@ -231,7 +231,7 @@ class OnboardingUniversityInfoFragment : Fragment() {
         editor.commit() // or editor.commit()
     }
 
-    // 닉네임, 성별, 생년월일, 학교 리스너 설정
+    // 학교 리스너 설정
     private fun setFocusColor() {
         with(binding) {
             mcvUniversity.setOnClickListener {

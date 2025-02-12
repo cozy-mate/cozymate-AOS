@@ -2,6 +2,8 @@ package umc.cozymate.ui.my_page.my_info
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -126,7 +128,9 @@ class UpdateCharacterFragment: Fragment(), CharacterItemClickListener {
     fun setObserver() {
         viewModel.updatePersonaResponse.observe(viewLifecycleOwner) { res ->
             if (res.result) {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    activity?.onBackPressedDispatcher?.onBackPressed()
+                }, 300)
             }
         }
     }
