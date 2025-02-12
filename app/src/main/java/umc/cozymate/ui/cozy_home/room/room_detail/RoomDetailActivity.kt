@@ -42,6 +42,7 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.ToastUtils
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -119,6 +120,12 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateRoomInfo() {
+        lifecycleScope.launch {
+            viewModel.getOtherRoomInfo(roomId)
+        }
+    }
+
     private fun updateUserRoomInfo() {
         lifecycleScope.launch {
             Log.d(TAG, "updateUserRoomInfo 진입")
@@ -192,11 +199,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
                         roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
                             if (result.isSuccess) {
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방을 성공적으로 나갔습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방을 성공적으로 나갔습니다", ToastUtils.IconType.YES)
                                 spf.edit().putInt("room_id", 0).apply()
                                 val intent =
                                     Intent(this@RoomDetailActivity, MainActivity::class.java)
@@ -204,11 +207,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish() // 방 나가기 성공 시 메인액티비티로 이동하고 액티비티 종료
                             } else {
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방 나가기에 실패했습니다. 다시 시도해주세요.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방 나가기에 실패했습니다. 다시 시도해주세요.",ToastUtils.IconType.NO, binding.fabBnt, 20)
                             }
                         }
                     }
@@ -240,17 +239,11 @@ class RoomDetailActivity : AppCompatActivity() {
                             viewModel.otherRoomDetailInfo.collectLatest { updatedRoomInfo ->
                                 favoriteId = updatedRoomInfo.favoriteId // 갱신된 favoriteId 적용
                                 updateFavoriteButton()
-                                Toast.makeText(
-                                    this@RoomDetailActivity,
-                                    "방 찜 상태가 업데이트되었습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
                         }
                     },
                     onError = { errorMessage ->
-                        Toast.makeText(this@RoomDetailActivity, errorMessage, Toast.LENGTH_SHORT)
-                            .show()
+                        ToastUtils.showCustomToast(this@RoomDetailActivity, "문제가 발생했어요", ToastUtils.IconType.NO)
                     }
                 )
             }
@@ -330,7 +323,12 @@ class RoomDetailActivity : AppCompatActivity() {
                 fabBnt.text = "방 참여요청"
                 fabBnt.backgroundTintList = getColorStateList(R.color.gray)
                 fabBnt.setTextColor(getColor(R.color.white))
-                fabBnt.isEnabled = false
+                fabBnt.isEnabled = true
+
+                fabBnt.setOnClickListener {
+                    Log.d(TAG, "Disable BTN onTouch")
+                    ToastUtils.showCustomToast(this@RoomDetailActivity, "이미 방에 참여 중입니다.", ToastUtils.IconType.NO, binding.fabBnt, 20)
+                }
             }
             return
         }
@@ -355,7 +353,7 @@ class RoomDetailActivity : AppCompatActivity() {
                             viewModel.acceptRoomEnter(roomId, accept = false)
                             clAcceptBtn.visibility = View.GONE
                             fabBnt.visibility = View.VISIBLE
-                            recreate() // 액티비티 새로고침
+                            updateRoomInfo()
                         }
 
                         fabAcceptAccept.setOnClickListener {
@@ -365,7 +363,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                 clAcceptBtn.visibility = View.GONE
                                 fabBnt.visibility = View.VISIBLE
                                 delay(1000)
-                                recreate() // 액티비티 새로고침
+                                updateRoomInfo()
                             }
                         }
                     }
@@ -387,7 +385,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                 fabBnt.setOnClickListener {
                                     // 방 참여 요청 취소 처리
                                     viewModel.cancelJoinRequest(roomId)
-                                    recreate() // 액티비티 새로고침
+                                    updateRoomInfo()
                                 }
                             } else {
                                 // 방 참여 요청을 하지 않은 경우
@@ -400,7 +398,7 @@ class RoomDetailActivity : AppCompatActivity() {
                                         joinRoomViewModel.requestJoinRoom(roomId)
                                         delay(500)
                                         viewModel.getPendingRoomStatus(roomId) // 상태 갱신
-                                        recreate() // 액티비티 새로고침
+                                        updateRoomInfo()
                                     }
                                 }
                             }
@@ -443,10 +441,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
     }
 
     // 해시태그 업데이트
@@ -570,6 +564,12 @@ class RoomDetailActivity : AppCompatActivity() {
         )
 
         val flexboxLayout = binding.chips1
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val savedRoomId = spf.getInt("room_id", -2)
+
+        // 내 방인지 확인
+        val isMyRoom = savedRoomId == roomId
+        val isAlone = (difference.blue.size + difference.red.size + difference.white.size == 1)
 
         // 모든 칩 초기화
         viewMap.values.forEach { view ->
@@ -583,13 +583,16 @@ class RoomDetailActivity : AppCompatActivity() {
         val redViews = mutableListOf<View>()
         val whiteViews = mutableListOf<View>()
 
+        val isChipClickable = !(isMyRoom &&isAlone)
         // 파란색 칩 업데이트 및 추가
         difference.blue.forEach { key ->
             viewMap[key]?.let { view ->
                 view.setBackgroundResource(R.drawable.custom_select_chip_blue)
                 view.setTextColor(getColor(R.color.main_blue))
-                view.setOnClickListener {
-                    showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
+                if (isChipClickable) {
+                    view.setOnClickListener {
+                        showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
+                    }
                 }
                 blueViews.add(view)
             }
@@ -600,8 +603,10 @@ class RoomDetailActivity : AppCompatActivity() {
             viewMap[key]?.let { view ->
                 view.setBackgroundResource(R.drawable.custom_select_chip_red)
                 view.setTextColor(getColor(R.color.red))
-                view.setOnClickListener {
-                    showMemberStatDialog(roomId!!, key, getColor(R.color.red))
+                if (isChipClickable) {
+                    view.setOnClickListener {
+                        showMemberStatDialog(roomId!!, key, getColor(R.color.red))
+                    }
                 }
                 redViews.add(view)
             }
@@ -612,8 +617,10 @@ class RoomDetailActivity : AppCompatActivity() {
             viewMap[key]?.let { view ->
                 view.setBackgroundResource(R.drawable.custom_select_chip_default)
                 view.setTextColor(getColor(R.color.unuse_font))
-                view.setOnClickListener {
-                    showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
+                if (isChipClickable) {
+                    view.setOnClickListener {
+                        showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
+                    }
                 }
                 whiteViews.add(view)
             }

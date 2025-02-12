@@ -12,3 +12,5 @@ google-services.json
 constant.xml
 constants.xml
 .idea/workspace.xml
+./
+app/src/main/res/values/constants.xml
