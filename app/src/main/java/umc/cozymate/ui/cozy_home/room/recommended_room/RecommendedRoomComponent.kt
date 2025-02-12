@@ -54,7 +54,7 @@ class RecommendedRoomComponent : Fragment() {
                 // 클릭 시 방 상세 페이지로 room id 넘겨줌
                 val adapter = RecommendedRoomVPAdapter(roomList, isLifestyleExist) { roomId ->
                     val intent = Intent(requireContext(), RoomDetailActivity::class.java).apply {
-                        putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                        putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId)
                     }
                     startActivity(intent)
                 }
