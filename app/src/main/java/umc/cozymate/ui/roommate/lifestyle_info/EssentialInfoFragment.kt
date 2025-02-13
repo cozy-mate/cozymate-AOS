@@ -664,7 +664,7 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initDrinkingFrequency() {
         val drinkingFrequencyTexts = listOf(
-            binding.drinkNo to "아예 안 마시요",
+            binding.drinkNo to "아예 안 마셔요",
             binding.drinkMonth to "한 달에 한 두번 마셔요",
             binding.drinkWeek to "일주일에 한 두번 마셔요",
             binding.drink4Weeks to "일주일에 네 번 이상 마셔요",

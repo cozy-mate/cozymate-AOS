@@ -26,6 +26,7 @@ import umc.cozymate.ui.splash.SplashActivity
 import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.InquiryViewModel
 import umc.cozymate.ui.viewmodel.MyPageViewModel
+import umc.cozymate.util.CharacterUtil
 
 class MyPageFragment : Fragment() {
     private lateinit var viewModel: MyPageViewModel
@@ -52,7 +53,7 @@ class MyPageFragment : Fragment() {
         getPreference()
         updateTextStyle()
         binding.tvMypageUserName.text = nickname
-        binding.ivMypageCharacter.setImageResource(initCharactor())
+        CharacterUtil.setImg(persona, binding.ivMypageCharacter)
         binding.tvCozyroom.text = roomname
         //binding.tvSchool.text = universityName
         binding.layoutMyinfo.setOnClickListener {
@@ -112,7 +113,10 @@ class MyPageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        getPreference()
         inquiryViewModel.checkInquryExistance()
+        CharacterUtil.setImg(persona, binding.ivMypageCharacter)
+        binding.tvMypageUserName.text = nickname
     }
 
     private fun loadSchool() {
@@ -185,27 +189,5 @@ class MyPageFragment : Fragment() {
         persona = spf.getInt("user_persona", 0)
         nickname = spf.getString("user_nickname", "No user found").toString()
         roomname = spf.getString("room_name", "아직 방이 존재하지 않아요").toString()
-    }
-
-    private fun initCharactor(): Int {
-        return when (persona) {
-            1 -> R.drawable.character_id_1
-            2 -> R.drawable.character_id_2
-            3 -> R.drawable.character_id_3
-            4 -> R.drawable.character_id_4
-            5 -> R.drawable.character_id_5
-            6 -> R.drawable.character_id_6
-            7 -> R.drawable.character_id_7
-            8 -> R.drawable.character_id_8
-            9 -> R.drawable.character_id_9
-            10 -> R.drawable.character_id_10
-            11 -> R.drawable.character_id_11
-            12 -> R.drawable.character_id_12
-            13 -> R.drawable.character_id_13
-            14 -> R.drawable.character_id_14
-            15 -> R.drawable.character_id_15
-            16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_1  // 기본 이미지 설정
-        }
     }
 }

@@ -70,6 +70,7 @@ class MyRoomComponent : Fragment() {
                     roomInfo.equality == 0 -> "?? %"
                     else -> "${roomInfo?.equality.toString()}%"
                 }
+                tvPrivateRoom.visibility = View.GONE
                 tvHashtag1.visibility = View.GONE
                 tvHashtag1.text = ""
                 tvHashtag2.visibility = View.GONE
@@ -82,16 +83,14 @@ class MyRoomComponent : Fragment() {
                         tvHashtag1.text = "비공개방이에요"
                     }
                     0 -> {
-                        tvHashtag1.visibility = View.VISIBLE
-                        tvHashtag1.text = "비공개방이에요"
+                        tvPrivateRoom.visibility = View.VISIBLE
                     }
                     1 -> {
                         if (roomInfo.hashtagList[0] != "") {
                             tvHashtag1.visibility = View.VISIBLE
                             tvHashtag1.text = "#${roomInfo?.hashtagList?.get(0)}"
                         } else {
-                            tvHashtag1.visibility = View.VISIBLE
-                            tvHashtag1.text = "비공개방이에요"
+                            tvPrivateRoom.visibility = View.VISIBLE
                         }
                     }
                     2 -> {
