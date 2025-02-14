@@ -45,6 +45,10 @@ class MessageDetailActivity : AppCompatActivity() {
         chatRoomId = intent.getIntExtra("chatRoomId",0)
         setupObservers()
         initOnClickListener()
+        binding.refreshLayout.setOnRefreshListener{
+            viewModel.getChatContents(chatRoomId)
+        }
+
     }
 
     override fun onResume() {
@@ -65,7 +69,10 @@ class MessageDetailActivity : AppCompatActivity() {
             }
         })
         viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if(!binding.refreshLayout.isRefreshing)
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (!isLoading && binding.refreshLayout.isRefreshing)
+                binding.refreshLayout.isRefreshing = false
         }
     }
 

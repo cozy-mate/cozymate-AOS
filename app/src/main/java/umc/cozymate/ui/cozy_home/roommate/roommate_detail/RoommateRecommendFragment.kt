@@ -11,21 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
+import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
@@ -43,7 +40,10 @@ class RoommateRecommendFragment: Fragment() {
     private var selectedChips = mutableListOf<String>()
     private var isLifestyleExist : Boolean = false
     private var nickname : String = ""
-
+    private var page = 0
+    private val recommendAdapter = EndlessRoommateRVAdapter(){ memberId ->
+        detailViewModel.getOtherUserDetailInfo(memberId)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +51,7 @@ class RoommateRecommendFragment: Fragment() {
     ): View? {
         binding = FragmentRoommateRecommendBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        setupInfiniteScroll()
         getPreference()
         if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
         else viewModel.fetchRecommendedRoommateList()
@@ -63,9 +64,33 @@ class RoommateRecommendFragment: Fragment() {
         initChip()
         initGuide()
         binding.lyGuide.visibility = if(isLifestyleExist) View.GONE else View.VISIBLE
+        // 사용자 검색으로 이동
+        binding.lyRoomMateSearch.setOnClickListener {
+            val intent = Intent(requireActivity(), SearchRoommateActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
+    private fun setupInfiniteScroll(){
+        binding.rvRoommateDetailInfo.adapter = recommendAdapter
+        binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        binding.rvRoommateDetailInfo.addOnScrollListener(object  : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter!!.itemCount
+
+                // 스크롤이 끝에 도달했는지 확인
+                if ( lastVisibleItemPosition == itemTotalCount-1){
+                    viewModel.fetchRoommateListByEquality(selectedChips, ++page)
+                }
+            }
+        })
+    }
 
     private fun getPreference() {
         nickname = spf.getString("user_nickname", "").toString()
@@ -75,7 +100,10 @@ class RoommateRecommendFragment: Fragment() {
 
     private fun setupObserver(){
         viewModel.roommateList.observe(viewLifecycleOwner, Observer { list ->
-            if (list.isNullOrEmpty()){
+//                binding.rvRoommateDetailInfo.visibility = View.VISIBLE
+//                binding.tvEmpty.visibility = View.GONE
+//                recommendAdapter.addMember(list)
+            if (list.isNullOrEmpty()&& page == 0){
                 if (isLifestyleExist){
                     binding.rvRoommateDetailInfo.visibility = View.GONE
                     binding.tvEmpty.visibility = View.VISIBLE
@@ -85,7 +113,8 @@ class RoommateRecommendFragment: Fragment() {
                 memberList = list
                 binding.rvRoommateDetailInfo.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
-                updateUI()
+                //updateUI()
+                recommendAdapter.addMember(list)
             }
         })
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -149,7 +178,11 @@ class RoommateRecommendFragment: Fragment() {
                 else if(!selectedChips.contains(filter)) selectedChips.add(filter)
 
                 // 라이프 스타일이 있을 경우 재 검색
-                if(isLifestyleExist)viewModel.fetchRoommateListByEquality(selectedChips)
+                if(isLifestyleExist){
+                    page = 0
+                    viewModel.fetchRoommateListByEquality(selectedChips)
+                    recommendAdapter.clearMember()
+                }
                 // 라이프스타일이 없을 경우 칩이 선택되지 않았을때ㅑ만 추천사용자 보여주기
                 else{
                     binding.rvRoommateDetailInfo.visibility = if (selectedChips.isEmpty()) View.VISIBLE else View.GONE

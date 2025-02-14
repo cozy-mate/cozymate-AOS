@@ -67,6 +67,7 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
+                _isLoading.value = true
                 val response = repository.postChat(token!!, recipientId, request)
                 Log.d(TAG,"데이터 확인 ${recipientId} , ${request}")
                 if(response.isSuccessful){
@@ -76,6 +77,8 @@ class MessageViewModel @Inject constructor(
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }
@@ -84,6 +87,7 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
+
                 val response = repository.deleteChatRooms(token!!, chatRoomId)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
@@ -100,6 +104,7 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
+                _isLoading.value = true
                 val response = repository.getChatRooms(token!!)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
@@ -108,6 +113,8 @@ class MessageViewModel @Inject constructor(
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
                 Log.d(TAG, "api 요청 실패: ${e}")
+            }finally {
+                _isLoading.value = false
             }
         }
     }

@@ -25,6 +25,7 @@ import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.databinding.FragmentTodoTabBinding
+import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import java.time.LocalDate
@@ -168,10 +169,15 @@ class TodoTabFragment : Fragment() {
 
         // 룸메 할일(중첩 리사이클러뷰)
         if (memberList?.isNullOrEmpty() == true) {
-            binding.tvEmptyMember.visibility = View.VISIBLE
+            binding.layoutEmptyMember.visibility = View.VISIBLE
             binding.rvMemberTodo.visibility = View.GONE
+
+            binding.btnGoRoommate.setOnClickListener {
+                val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
+                startActivity(intent)
+            }
         } else {
-            binding.tvEmptyMember.visibility = View.GONE
+            binding.layoutEmptyMember.visibility = View.GONE
             binding.rvMemberTodo.visibility = View.VISIBLE
 
             val memberTodoListRVAdapter = TodoListRVAdapter(memberList!!) { todoItem -> }

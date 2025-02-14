@@ -3,11 +3,11 @@ package umc.cozymate.data.model.request
 import com.google.gson.annotations.SerializedName
 
 data class ReportRequest(
-    @SerializedName("reportedMemberId")
+    @SerializedName("memberId")
     val reportedMemberId : Int,
-    @SerializedName("reportSource")
+    @SerializedName("source")
     val reportSource: String,
-    @SerializedName("reportReason")
+    @SerializedName("reason")
     val reportReason : String,
     @SerializedName("content")
     val content : String
