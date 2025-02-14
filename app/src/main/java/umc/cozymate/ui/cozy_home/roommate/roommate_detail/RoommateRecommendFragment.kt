@@ -51,8 +51,8 @@ class RoommateRecommendFragment: Fragment() {
     ): View? {
         binding = FragmentRoommateRecommendBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        setupInfiniteScroll()
         getPreference()
-        test()
         if(isLifestyleExist)  viewModel.fetchRoommateListByEquality()
         else viewModel.fetchRecommendedRoommateList()
         return binding.root
@@ -73,7 +73,7 @@ class RoommateRecommendFragment: Fragment() {
     }
 
 
-    private fun test(){
+    private fun setupInfiniteScroll(){
         binding.rvRoommateDetailInfo.adapter = recommendAdapter
         binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 

@@ -47,7 +47,6 @@ class MessageDetailActivity : AppCompatActivity() {
         initOnClickListener()
         binding.refreshLayout.setOnRefreshListener{
             viewModel.getChatContents(chatRoomId)
-            binding.refreshLayout.isRefreshing = false
         }
 
     }
@@ -72,6 +71,8 @@ class MessageDetailActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { isLoading ->
             if(!binding.refreshLayout.isRefreshing)
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (!isLoading && binding.refreshLayout.isRefreshing)
+                binding.refreshLayout.isRefreshing = false
         }
     }
 
