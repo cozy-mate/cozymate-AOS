@@ -32,8 +32,8 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
-import umc.cozymate.util.ToastUtils
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -231,10 +231,17 @@ class RoommateDetailActivity : AppCompatActivity() {
                 text = "내 방으로 초대하기"
                 setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
                 setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
-                isClickable = false
-
+                isClickable = true
+                setOnClickListener {
+                    SnackbarUtil.showCustomSnackbar(
+                        context = this@RoommateDetailActivity,
+                        message = "초대할 수 없습니다",
+                        iconType = SnackbarUtil.IconType.NO,
+                        anchorView = binding.fabRequestRoommate,
+                        extraYOffset = 20
+                    )
+                }
             }
-            ToastUtils.showCustomToast(this, "초대할 수 없습니다.", ToastUtils.IconType.NO, binding.fabRequestRoommate, 20)
             return
         }
 
@@ -259,19 +266,25 @@ class RoommateDetailActivity : AppCompatActivity() {
 
                     binding.fabAcceptAccept.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
-                        ToastUtils.showCustomToast(this, "입장 요청을 수락했습니다", ToastUtils.IconType.YES, binding.fabAcceptAccept, 20)
-                        lifecycleScope.launch {
-                            delay(500)
-                        }
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@RoommateDetailActivity,
+                            message = "입장 요청을 수락했습니다.",
+                            iconType = SnackbarUtil.IconType.YES,
+                            anchorView = binding.fabAcceptAccept,
+                            extraYOffset = 20
+                        )
                         updateRoommateInfo()
                     }
 
                     binding.fabAcceptRefuse.setOnClickListener {
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
-                        ToastUtils.showCustomToast(this, "입장 요청을 거절했습니다", ToastUtils.IconType.NO, binding.fabAcceptRefuse, 20)
-                        lifecycleScope.launch {
-                            delay(500)
-                        }
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@RoommateDetailActivity,
+                            message = "입장 요청을 거절했습니다.",
+                            iconType = SnackbarUtil.IconType.YES,
+                            anchorView = binding.fabAcceptRefuse,
+                            extraYOffset = 20
+                        )
                         updateRoommateInfo()
                     }
                     return@observe
@@ -295,7 +308,13 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     delay(500)
                                 }
-                                ToastUtils.showCustomToast(this@RoommateDetailActivity, "초대를 취소했습니다.", ToastUtils.IconType.NO, binding.fabRequestRoommate, 20)
+                                SnackbarUtil.showCustomSnackbar(
+                                    context = this@RoommateDetailActivity,
+                                    message = "초대를 취소했습니다.",
+                                    iconType = SnackbarUtil.IconType.YES,
+                                    anchorView = binding.fabRequestRoommate,
+                                    extraYOffset = 20
+                                )
                                 updateRoommateInfo()
                             }
                         }
@@ -312,7 +331,13 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 lifecycleScope.launch {
                                     delay(500)
                                 }
-                                ToastUtils.showCustomToast(this@RoommateDetailActivity, "초대 요청을 보냈습니다.", ToastUtils.IconType.YES, binding.fabRequestRoommate, 20)
+                                SnackbarUtil.showCustomSnackbar(
+                                    context = this@RoommateDetailActivity,
+                                    message = "초대 요청을 보냈습니다.",
+                                    iconType = SnackbarUtil.IconType.YES,
+                                    anchorView = binding.fabRequestRoommate,
+                                    extraYOffset = 20
+                                )
                                 updateRoommateInfo()
                             }
                         }
@@ -348,7 +373,13 @@ class RoommateDetailActivity : AppCompatActivity() {
                             errorMessage,
                             Toast.LENGTH_SHORT
                         ).show()
-                        ToastUtils.showCustomToast(this@RoommateDetailActivity, errorMessage, ToastUtils.IconType.NO)
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@RoommateDetailActivity,
+                            message = errorMessage,
+                            iconType = SnackbarUtil.IconType.NO,
+                            anchorView = binding.fabRequestRoommate,
+                            extraYOffset = 20
+                        )
                     }
                 )
             }

@@ -1,21 +1,17 @@
 package umc.cozymate.ui.cozy_home.room_detail
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -41,8 +37,8 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
-import umc.cozymate.util.ToastUtils
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -199,7 +195,13 @@ class RoomDetailActivity : AppCompatActivity() {
 
                         roomViewModel.roomQuitResult.observe(this@RoomDetailActivity) { result ->
                             if (result.isSuccess) {
-                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방을 성공적으로 나갔습니다", ToastUtils.IconType.YES)
+                                SnackbarUtil.showCustomSnackbar(
+                                    context = this@RoomDetailActivity,
+                                    message = "방을 성공적으로 나갔습니다.",
+                                    iconType = SnackbarUtil.IconType.YES,
+                                    anchorView = binding.fabBnt,
+                                    extraYOffset = 20
+                                )
                                 spf.edit().putInt("room_id", 0).apply()
                                 val intent =
                                     Intent(this@RoomDetailActivity, MainActivity::class.java)
@@ -207,7 +209,13 @@ class RoomDetailActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish() // 방 나가기 성공 시 메인액티비티로 이동하고 액티비티 종료
                             } else {
-                                ToastUtils.showCustomToast(this@RoomDetailActivity, "방 나가기에 실패했습니다. 다시 시도해주세요.",ToastUtils.IconType.NO, binding.fabBnt, 20)
+                                SnackbarUtil.showCustomSnackbar(
+                                    context = this@RoomDetailActivity,
+                                    message = "방 나가기에 실패했습니다. 다시 시도해주세요",
+                                    iconType = SnackbarUtil.IconType.NO,
+                                    anchorView = binding.fabBnt,
+                                    extraYOffset = 20
+                                )
                             }
                         }
                     }
@@ -243,7 +251,11 @@ class RoomDetailActivity : AppCompatActivity() {
                         }
                     },
                     onError = { errorMessage ->
-                        ToastUtils.showCustomToast(this@RoomDetailActivity, "문제가 발생했어요", ToastUtils.IconType.NO)
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@RoomDetailActivity,
+                            message = "문제가 발생했어요.",
+                            iconType = SnackbarUtil.IconType.NO,
+                        )
                     }
                 )
             }
@@ -326,8 +338,13 @@ class RoomDetailActivity : AppCompatActivity() {
                 fabBnt.isEnabled = true
 
                 fabBnt.setOnClickListener {
-                    Log.d(TAG, "Disable BTN onTouch")
-                    ToastUtils.showCustomToast(this@RoomDetailActivity, "이미 방에 참여 중입니다.", ToastUtils.IconType.NO, binding.fabBnt, 20)
+                    SnackbarUtil.showCustomSnackbar(
+                        context = this@RoomDetailActivity,
+                        message = "이미 방에 참여 중 입니다.",
+                        iconType = SnackbarUtil.IconType.NO,
+                        anchorView = binding.fabBnt,
+                        extraYOffset = 20
+                    )
                 }
             }
             return
