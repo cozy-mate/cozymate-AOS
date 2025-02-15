@@ -20,7 +20,7 @@ import android.graphics.Color
 class NotificationWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
 
-    private val channelId: String = "Cozy1"
+    private val channelId: String = "Cozymate"
     private val channelName = "Cozymate Channel"
     private val channelDescription = "Cozymate를 위한 채널"
 
