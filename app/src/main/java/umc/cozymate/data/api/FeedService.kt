@@ -13,8 +13,10 @@ import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.EditCommentRequest
 import umc.cozymate.data.model.request.EditPostRequest
 import umc.cozymate.data.model.request.FeedInfoRequest
+import umc.cozymate.data.model.response.feed.FeedCommentResponse
 import umc.cozymate.data.model.response.feed.FeedContentsResponse
 import umc.cozymate.data.model.response.feed.FeedInfoResponse
+import umc.cozymate.data.model.response.feed.PostResponse
 
 interface FeedService {
     @GET("/feed/{roomId}")
@@ -41,7 +43,7 @@ interface FeedService {
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
         @Path("postId") postId : Int
-    ): Response<DefaultResponse>
+    ): Response<PostResponse>
 
     @POST("/post")
     suspend fun createPost(
@@ -63,26 +65,26 @@ interface FeedService {
     ): Response<DefaultResponse>
 
     @GET("/comment/{roomId}/{postId}")
-    suspend fun getcomment(
+    suspend fun getComment(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
-        @Path("commentId") commentId : Int
-    ): Response<DefaultResponse>
+        @Path("postId") postId : Int
+    ): Response<FeedCommentResponse>
 
     @POST("/comment")
-    suspend fun createcomment(
+    suspend fun createComment(
         @Header("Authorization") accessToken: String,
         @Body request :  EditCommentRequest
     ): Response<DefaultResponse>
 
     @PUT("/comment")
-    suspend fun editcomment(
+    suspend fun editComment(
         @Header("Authorization") accessToken: String,
         @Body request:  EditCommentRequest
     ): Response<DefaultResponse>
 
     @DELETE("/comment/{roomId}/{postId}/{commentId}")
-    suspend fun deletecomment(
+    suspend fun deleteComment(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
         @Path("postId") postId : Int,
