@@ -27,12 +27,6 @@ class RoommateFragment : Fragment() {
         _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
 
         (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
-//        binding.btnTest.setOnClickListener {
-//            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateOnboardingFragment()).commitAllowingStateLoss()
-//        }
-//        binding.btnCrew.setOnClickListener {
-//        }
-//        (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_container, RoommateMakeCrewableFragment()).commitAllowingStateLoss()
         return binding.root
     }
     private fun updateUI(userInfoList: List<OtherUserInfoResponse>){

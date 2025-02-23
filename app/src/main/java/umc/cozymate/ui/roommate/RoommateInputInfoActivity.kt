@@ -70,9 +70,6 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
-//                viewModel.sendUserInfo(
-//                    userInfo.toRequest()
-//                )
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
 
