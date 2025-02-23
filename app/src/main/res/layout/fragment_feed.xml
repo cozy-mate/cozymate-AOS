@@ -60,6 +60,7 @@
             tools:listitem="@layout/rv_item_feed"
             android:visibility="visible"/>
         <TextView
+            android:id="@+id/tv_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아직 시작된 우리의 이야기가 없어요!"

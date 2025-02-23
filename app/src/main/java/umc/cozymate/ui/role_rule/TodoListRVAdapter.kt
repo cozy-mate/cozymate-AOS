@@ -22,7 +22,6 @@ class TodoListRVAdapter(
             binding.ivTodoMemberIcon.setImageResource(initCharactor(pos))
             val todoMateData = member.values.elementAt(pos)
             if (todoMateData.todoList.isNullOrEmpty()) {
-                Log.d("MemberTodo", "empty")
                 binding.tvEmpty.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
             } else {
