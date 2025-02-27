@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import umc.cozymate.databinding.FragmentRoleAndRuleBinding
+import umc.cozymate.ui.feed.testActivity
 
 class RoleAndRuleFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
@@ -37,6 +38,10 @@ class RoleAndRuleFragment : Fragment() {
             editor.putInt("tab_idx", binding.vpRoleAndRule.currentItem)
             editor.apply()
             startActivity(Intent(activity,AddTodoActivity::class.java))
+        }
+
+        binding.ivTest.setOnClickListener{
+            startActivity(Intent(activity,testActivity::class.java))
         }
 
         return binding.root
