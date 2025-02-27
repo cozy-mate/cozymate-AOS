@@ -1,6 +1,8 @@
 package umc.cozymate.ui.feed
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.R
 import umc.cozymate.databinding.FragmentFeedBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.FeedViewModel
@@ -34,6 +37,8 @@ class FeedFragment : Fragment() {
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         adapter = FeedContentsRVAdapter()
         getPreference()
+        //setupObserver()
+        //viewModel.getFeedInfo(roomId)
         return binding.root
     }
 
@@ -42,17 +47,38 @@ class FeedFragment : Fragment() {
 
     }
     private fun getPreference() {
-        roomId = spf.getInt("roomId", 0)
-
+        roomId = spf.getInt("room_id", 0)
     }
 
+    private fun setClickListener(){
+        binding.btnFeedEditInfo.setOnClickListener{
+            val intent = Intent(requireActivity(),ActivityEditFeedInfo::class.java)
+            intent.putExtra("feed_name","")
+            intent.putExtra("roomId",roomId)
+            startActivity(intent)
+        }
+
+        binding.btnAddPost.setOnClickListener {
+            val intent = Intent(requireActivity(),ActivityWriteFeed::class.java)
+            startActivity(intent)
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
     private fun setupObserver(){
         viewModel.feedInfo.observe(viewLifecycleOwner, Observer { info->
+            Log.d(TAG,"${info}")
             if (info == null) {
-
+                binding.rvContents.visibility = View.GONE
+                binding.tvEmpty.visibility = View.VISIBLE
+                binding.tvFeedRoomName.setTextColor(R.color.unuse_font)
+                binding.tvFeedRoomDetail.setTextColor(R.color.unuse_font)
+                binding.ivFeedTitle.setColorFilter(R.color.unuse_font)
             }
             else{
-
+                binding.tvFeedRoomName.text = info.name
+                binding.tvFeedRoomDetail.text = info.description
+                viewModel.getContents(roomId,page++)
             }
         })
 
@@ -69,9 +95,8 @@ class FeedFragment : Fragment() {
         })
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            //(activity as? CozyHomeRoommateDetailActivity)?.showProgressBar(isLoading)
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
-    private fun updateUi(){
-    }
+
 }
