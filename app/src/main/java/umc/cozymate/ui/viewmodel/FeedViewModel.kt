@@ -32,8 +32,8 @@ class FeedViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _feedInfo = MutableLiveData<FeedInfo>()
-    val feedInfo : LiveData<FeedInfo> get() = _feedInfo
+    private val _feedInfo = MutableLiveData<FeedInfo?>()
+    val feedInfo : LiveData<FeedInfo?> get() = _feedInfo
 
     private val _contents = MutableLiveData<List<FeedContentData>>()
     val contents : LiveData<List<FeedContentData>> get() = _contents
@@ -75,7 +75,8 @@ class FeedViewModel @Inject constructor(
 
                 }
             }catch (e: Exception){
-                Log.d(TAG, "getRule api 요청 실패: ${e}")
+                Log.d(TAG, "getFeedInfo api 요청 실패: ${e}")
+                _feedInfo.postValue(null)
             }finally {
                 _isLoading.value = false
             }
@@ -108,7 +109,7 @@ class FeedViewModel @Inject constructor(
                     Log.d(TAG, "응답 실패: ${response.body()!!.result}")
                 }
             }catch (e: Exception){
-                Log.d(TAG, "getRule api 요청 실패: ${e}")
+                Log.d(TAG, "getContents api 요청 실패: ${e}")
             }finally {
                 _isLoading.value = false
             }
@@ -134,7 +135,7 @@ class FeedViewModel @Inject constructor(
                     Log.d(TAG, "응답 실패: ${response.body()!!.result}")
                 }
             }catch (e: Exception){
-                Log.d(TAG, "getRule api 요청 실패: ${e}")
+                Log.d(TAG, "getPost api 요청 실패: ${e}")
             }finally {
                 _isLoading.value = false
             }
@@ -173,7 +174,8 @@ class FeedViewModel @Inject constructor(
                     Log.d(TAG, "응답 실패: ${response.body()!!.result}")
                 }
             }catch (e: Exception){
-                Log.d(TAG, "getRule api 요청 실패: ${e}")
+                Log.d(TAG, "getComment api 요청 실패: ${e}")
+
             }finally {
                 _isLoading.value = false
             }
