@@ -1,10 +1,13 @@
 package umc.cozymate.ui.feed
 
+import android.R.attr.end
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +20,11 @@ import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.FeedViewModel
 import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.StatusBarUtil
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 @AndroidEntryPoint
 class FeedDetailActivity: AppCompatActivity() {
@@ -32,18 +40,30 @@ class FeedDetailActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFeedDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        roomId = intent.getIntExtra("a",0)
+        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        postId = intent.getIntExtra("postId",0)
+        roomId = intent.getIntExtra("roomId",0)
+        setupObserver()
+        setClickListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getPost(roomId,postId)
     }
 
     private fun setupObserver() {
         viewModel.postInfo.observe(this, Observer { post ->
-            if (post == null) return@Observer
-            postData = post
+            if (post == null) {
+                postData = FeedContentData(99,99,"test","test",1,"tinme", emptyList(), commentCount = 3, commentList = emptyList())
+                //return@Observer
+            }
+            else postData = post
             updateUI()
         })
 
         viewModel.isLoading.observe(this, Observer{ isloading ->
-
+            binding.progressBar.visibility = if (isloading) View.VISIBLE else View.GONE
         })
     }
 
@@ -64,9 +84,15 @@ class FeedDetailActivity: AppCompatActivity() {
             deletePopup()
         }
         binding.tvFeedEdit.setOnClickListener{
-            val intent  = Intent(this, ActivityWriteFeed::class.java)
+            val intent  = Intent(this, WriteFeedActivity::class.java)
             intent.putExtra("postId",postId)
+            intent.putExtra("roomId",roomId)
+            intent.putExtra("content",postData.content)
             startActivity(intent)
+        }
+
+        binding.ivBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -74,7 +100,7 @@ class FeedDetailActivity: AppCompatActivity() {
         binding.tvNickname.text = postData.nickname
         binding.tvContent.text = postData.content
         binding.tvCommentNum.text = postData.commentCount.toString()
-        binding.tvUploadTime.text = postData.time
+        binding.tvUploadTime.text =  editTimeline(postData.time)
         CharacterUtil.setImg(postData.persona, binding.ivIcon)
 
         if(postData.imageList.isNullOrEmpty()){
@@ -83,6 +109,19 @@ class FeedDetailActivity: AppCompatActivity() {
         else{
             binding.layoutImages.visibility = View.VISIBLE
         }
+    }
+
+    private fun editTimeline( time : String) : String {
+        val currentTime = LocalDateTime.now()
+        var postTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val diff: Duration = Duration.between( postTime, currentTime)
+        val diffMin: Long = diff.toMinutes()
+        Log.d(TAG,"current : ${currentTime} / post : ${postTime}")
+        Log.d(TAG, "min : ${diff.toMinutes()} / hour : ${diff.toHours()} / day : ${diff.toDays()}")
+        if( diffMin in 0..59 ) return diffMin.toString()+"분전"
+        else if( diff.toHours() in 1..23) return diff.toHours().toString()+"시간전"
+        else if(diff.toDays() in 1..3) return diff.toDays().toString()+ "일전"
+        else return postTime.format(DateTimeFormatter.ISO_DATE_TIME)
     }
 
     private fun deletePopup() {

@@ -9,22 +9,16 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.FeedContentData
-import umc.cozymate.databinding.AaatestBinding
-import umc.cozymate.databinding.ActivityWriteInquiryBinding
 import umc.cozymate.databinding.FragmentFeedBinding
-import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.viewmodel.FeedViewModel
 
 @AndroidEntryPoint
-class testActivity: AppCompatActivity() {
+class TestActivity: AppCompatActivity() {
     private val TAG  = this.javaClass.simpleName
     lateinit var binding : FragmentFeedBinding
     lateinit var spf : SharedPreferences
@@ -39,11 +33,16 @@ class testActivity: AppCompatActivity() {
         binding = FragmentFeedBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         setContentView(binding.root)
-        adapter = FeedContentsRVAdapter()
         getPreference()
         setClickListener()
         setupObserver()
-        initDummy()
+        //initDummy()
+        adapter = FeedContentsRVAdapter(onItemClicked = { postId ->
+            val intent = Intent(this, FeedDetailActivity::class.java)
+            intent.putExtra("roomId",roomId)
+            intent.putExtra("postId", postId)
+            startActivity(intent)
+        })
     }
 
     override fun onStart() {
@@ -51,6 +50,8 @@ class testActivity: AppCompatActivity() {
         binding.rvContents.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.rvContents.adapter = adapter
         adapter.addMember(data)
+
+        viewModel.getFeedInfo(roomId)
 
     }
 
@@ -67,14 +68,15 @@ class testActivity: AppCompatActivity() {
 
     private fun setClickListener(){
         binding.btnFeedEditInfo.setOnClickListener{
-            val intent = Intent(this,ActivityEditFeedInfo::class.java)
+            val intent = Intent(this,EditFeedInfoActivity::class.java)
             intent.putExtra("feed_name","")
             intent.putExtra("roomId",roomId)
             startActivity(intent)
         }
 
         binding.btnAddPost.setOnClickListener {
-            val intent = Intent(this,ActivityWriteFeed::class.java)
+            val intent = Intent(this,WriteFeedActivity::class.java)
+            intent.putExtra("roomId",roomId)
             startActivity(intent)
         }
     }
@@ -98,7 +100,7 @@ class testActivity: AppCompatActivity() {
         })
 
         viewModel.contents.observe(this, Observer { list->
-            if(list.isNullOrEmpty() && page == 0){
+            if(list.isNullOrEmpty() && page == 1){
                 binding.rvContents.visibility = View.GONE
                 binding.tvEmpty.visibility = View.VISIBLE
             }
@@ -113,5 +115,7 @@ class testActivity: AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
+
+
 
 }

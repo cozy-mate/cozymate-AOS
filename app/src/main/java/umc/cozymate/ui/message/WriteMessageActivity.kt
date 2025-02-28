@@ -113,8 +113,6 @@ class WriteMessageActivity : AppCompatActivity() {
         binding.btnInputButton.setOnClickListener {
             val request = ChatRequest( binding.etInputMessage.text.toString())
             viewModel.postChat(recipientId,  request)
-
-
         }
     }
 

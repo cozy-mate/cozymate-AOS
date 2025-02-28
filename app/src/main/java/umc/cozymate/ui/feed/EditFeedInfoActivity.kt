@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,7 +14,7 @@ import umc.cozymate.util.StatusBarUtil
 
 
 @AndroidEntryPoint
-class ActivityEditFeedInfo: AppCompatActivity() {
+class EditFeedInfoActivity: AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding : ActivityEditFeedInfoBinding
     private val viewModel : FeedViewModel by viewModels()
@@ -38,7 +39,10 @@ class ActivityEditFeedInfo: AppCompatActivity() {
     }
 
     private fun setupObserver() {
-
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            finish()
+        }
     }
 
     private fun  initOnClickListener(){

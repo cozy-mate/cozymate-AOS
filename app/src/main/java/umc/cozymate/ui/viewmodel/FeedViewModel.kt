@@ -41,8 +41,8 @@ class FeedViewModel @Inject constructor(
     private val _postInfo = MutableLiveData<FeedContentData>()
     val postInfo : LiveData<FeedContentData> get() = _postInfo
 
-    private val _CommentList = MutableLiveData<List<FeedCommentData>>()
-    val CommentList : LiveData<List<FeedCommentData>> get() = _CommentList
+    private val _commentList = MutableLiveData<List<FeedCommentData>>()
+    val commentList : LiveData<List<FeedCommentData>> get() = _commentList
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -83,9 +83,8 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun editPost(roomId : Int, postId : Int = 0, content : String, imageList : List<String>){
+    fun editPost(request: EditPostRequest){
         viewModelScope.launch {
-            val request = EditPostRequest(roomId,postId,content,imageList)
             safeApiCall {repository.editPost(getToken()!!,request)}
         }
     }
@@ -113,6 +112,12 @@ class FeedViewModel @Inject constructor(
             }finally {
                 _isLoading.value = false
             }
+        }
+    }
+
+    fun createPost(request: EditPostRequest){
+        viewModelScope.launch {
+            safeApiCall {repository.createPost(getToken()!!,request)}
         }
     }
 
@@ -168,7 +173,7 @@ class FeedViewModel @Inject constructor(
                 val response  = repository.getComment(token, roomId, postId)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    _CommentList.postValue(response.body()!!.result)
+                    _commentList.postValue(response.body()!!.result)
                 }
                 else {
                     Log.d(TAG, "응답 실패: ${response.body()!!.result}")

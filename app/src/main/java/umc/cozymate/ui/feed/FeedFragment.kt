@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentFeedBinding
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.FeedViewModel
 
 @AndroidEntryPoint
@@ -35,7 +34,7 @@ class FeedFragment : Fragment() {
     ): View {
         binding = FragmentFeedBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        adapter = FeedContentsRVAdapter()
+        //adapter = FeedContentsRVAdapter()
         getPreference()
         //setupObserver()
         //viewModel.getFeedInfo(roomId)
@@ -52,14 +51,14 @@ class FeedFragment : Fragment() {
 
     private fun setClickListener(){
         binding.btnFeedEditInfo.setOnClickListener{
-            val intent = Intent(requireActivity(),ActivityEditFeedInfo::class.java)
+            val intent = Intent(requireActivity(),EditFeedInfoActivity::class.java)
             intent.putExtra("feed_name","")
             intent.putExtra("roomId",roomId)
             startActivity(intent)
         }
 
         binding.btnAddPost.setOnClickListener {
-            val intent = Intent(requireActivity(),ActivityWriteFeed::class.java)
+            val intent = Intent(requireActivity(),WriteFeedActivity::class.java)
             startActivity(intent)
         }
     }

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import umc.cozymate.databinding.FragmentRoleAndRuleBinding
-import umc.cozymate.ui.feed.testActivity
+import umc.cozymate.ui.feed.TestActivity
 
 class RoleAndRuleFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
@@ -41,7 +41,7 @@ class RoleAndRuleFragment : Fragment() {
         }
 
         binding.ivTest.setOnClickListener{
-            startActivity(Intent(activity,testActivity::class.java))
+            startActivity(Intent(activity,TestActivity::class.java))
         }
 
         return binding.root
