@@ -63,6 +63,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_feed_room_name" />
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="4dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_room_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_contents"
             android:layout_width="match_parent"
@@ -73,6 +85,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/rv_item_feed"
             android:visibility="visible"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <TextView
             android:id="@+id/tv_empty"
             android:layout_width="wrap_content"

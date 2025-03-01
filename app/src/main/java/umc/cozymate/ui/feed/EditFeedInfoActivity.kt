@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,15 +19,15 @@ class EditFeedInfoActivity: AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding : ActivityEditFeedInfoBinding
     private val viewModel : FeedViewModel by viewModels()
-    private var name : String = ""
-    private var description : String  = ""
+    private var name : String? = ""
+    private var description : String?  = ""
     private var roomId : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditFeedInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        roomId = intent.getIntExtra("roomId",0)
+        getIntentData()
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
     }
 
@@ -35,7 +36,15 @@ class EditFeedInfoActivity: AppCompatActivity() {
         setTextListener()
         setupObserver()
         initOnClickListener()
+        checkInput()
 
+    }
+
+    private fun getIntentData(){
+        roomId = intent.getIntExtra("roomId",0)
+        name = intent.getStringExtra("feed_name")
+        description = intent.getStringExtra("feed_description")
+        Log.d(TAG, " roomId : ${roomId} name: ${name} description : ${description}")
     }
 
     private fun setupObserver() {
@@ -49,7 +58,7 @@ class EditFeedInfoActivity: AppCompatActivity() {
         binding.btnInputButton.setOnClickListener{
             name = binding.etFeedName.text.toString()
             description = binding.etInputDescription.text.toString()
-            viewModel.editFeedInfo(roomId, name,description)
+            viewModel.editFeedInfo(roomId, name!!,description!!)
         }
 
         binding.ivBack.setOnClickListener {
@@ -58,6 +67,8 @@ class EditFeedInfoActivity: AppCompatActivity() {
     }
 
     private fun setTextListener() {
+        if (!name.isNullOrBlank()) binding.etFeedName.setText(name)
+        binding.etInputDescription.setText(description)
         binding.etFeedName.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {checkInput()}

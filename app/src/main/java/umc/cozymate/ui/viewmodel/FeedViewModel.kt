@@ -88,6 +88,11 @@ class FeedViewModel @Inject constructor(
             safeApiCall {repository.editPost(getToken()!!,request)}
         }
     }
+    fun createPost(request: EditPostRequest){
+        viewModelScope.launch {
+            safeApiCall {repository.createPost(getToken()!!,request)}
+        }
+    }
 
     fun getContents(roomId : Int, page :Int = 0){
         viewModelScope.launch {
@@ -112,12 +117,6 @@ class FeedViewModel @Inject constructor(
             }finally {
                 _isLoading.value = false
             }
-        }
-    }
-
-    fun createPost(request: EditPostRequest){
-        viewModelScope.launch {
-            safeApiCall {repository.createPost(getToken()!!,request)}
         }
     }
 
@@ -153,10 +152,18 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+
+
     fun editComment(roomId : Int, postId : Int ,commentId : Int = 0, content : String){
         viewModelScope.launch {
             val request =  EditCommentRequest (roomId,postId,commentId,content)
             safeApiCall {repository.editComment(getToken()!!,request)}
+        }
+    }
+    fun createComment(roomId : Int, postId : Int , content : String){
+        viewModelScope.launch {
+            val request =  EditCommentRequest (roomId=roomId, postId = postId, content = content)
+            safeApiCall {repository.createComment(getToken()!!,request)}
         }
     }
 

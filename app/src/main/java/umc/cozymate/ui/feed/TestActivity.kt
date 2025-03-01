@@ -27,6 +27,8 @@ class TestActivity: AppCompatActivity() {
     private val viewModel : FeedViewModel by viewModels()
     private var page: Int = 0
     private var data = mutableListOf<FeedContentData>()
+    private var feedName : String = ""
+    private var feedDescription : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,12 @@ class TestActivity: AppCompatActivity() {
             intent.putExtra("postId", postId)
             startActivity(intent)
         })
+
+        binding.refreshLayout.setOnRefreshListener{
+            page = 0
+            adapter.clearMember()
+            viewModel.getContents(roomId,page++)
+        }
     }
 
     override fun onStart() {
@@ -50,9 +58,11 @@ class TestActivity: AppCompatActivity() {
         binding.rvContents.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.rvContents.adapter = adapter
         adapter.addMember(data)
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.getFeedInfo(roomId)
-
     }
 
     fun initDummy(){
@@ -69,7 +79,8 @@ class TestActivity: AppCompatActivity() {
     private fun setClickListener(){
         binding.btnFeedEditInfo.setOnClickListener{
             val intent = Intent(this,EditFeedInfoActivity::class.java)
-            intent.putExtra("feed_name","")
+            intent.putExtra("feed_name",feedName)
+            intent.putExtra("feed_description", feedDescription)
             intent.putExtra("roomId",roomId)
             startActivity(intent)
         }
@@ -93,6 +104,8 @@ class TestActivity: AppCompatActivity() {
                 binding.ivFeedTitle.setColorFilter(R.color.unuse_font)
             }
             else{
+                feedName = info.name
+                feedDescription = info.description
                 binding.tvFeedRoomName.text = info.name
                 binding.tvFeedRoomDetail.text = info.description
                 viewModel.getContents(roomId,page++)
@@ -112,7 +125,10 @@ class TestActivity: AppCompatActivity() {
         })
 
         viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if(!binding.refreshLayout.isRefreshing)
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (!isLoading && binding.refreshLayout.isRefreshing)
+                binding.refreshLayout.isRefreshing = false
         }
     }
 

@@ -1,5 +1,6 @@
 package umc.cozymate.ui.feed
 
+import android.R.attr.bottomMedium
 import android.R.attr.end
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,12 +8,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.data.model.entity.FeedCommentData
 import umc.cozymate.data.model.entity.FeedContentData
 import umc.cozymate.databinding.ActivityFeedDetailBinding
 import umc.cozymate.ui.pop_up.OneButtonPopup
@@ -34,21 +39,37 @@ class FeedDetailActivity: AppCompatActivity() {
     private var roomId : Int = 0
     private val viewModel : FeedViewModel by viewModels()
     lateinit var postData : FeedContentData
+    lateinit var commentAdapter : FeedCommentsRVAdapter
     private var postId : Int = 0
     private var moreFlag : Boolean = false
+    private var inputComment : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFeedDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        commentAdapter = FeedCommentsRVAdapter()
         postId = intent.getIntExtra("postId",0)
         roomId = intent.getIntExtra("roomId",0)
-        setupObserver()
-        setClickListener()
+
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.getPost(roomId,postId)
+            commentAdapter.clearMember()
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
+        setupObserver()
+        setClickListener()
+        setTextListener()
+        binding.rvComments.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.rvComments.adapter = commentAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.getPost(roomId,postId)
     }
 
@@ -62,8 +83,11 @@ class FeedDetailActivity: AppCompatActivity() {
             updateUI()
         })
 
-        viewModel.isLoading.observe(this, Observer{ isloading ->
-            binding.progressBar.visibility = if (isloading) View.VISIBLE else View.GONE
+        viewModel.isLoading.observe(this, Observer{ isLoading ->
+            if(!binding.refreshLayout.isRefreshing)
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (!isLoading && binding.refreshLayout.isRefreshing)
+                binding.refreshLayout.isRefreshing = false
         })
     }
 
@@ -94,6 +118,11 @@ class FeedDetailActivity: AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             finish()
         }
+
+        binding.btnSend.setOnClickListener {
+            if(inputComment.isNotEmpty()) viewModel.createComment(roomId,postId,inputComment)
+            binding.etInputComment.setText("")
+        }
     }
 
     private fun updateUI(){
@@ -102,13 +131,24 @@ class FeedDetailActivity: AppCompatActivity() {
         binding.tvCommentNum.text = postData.commentCount.toString()
         binding.tvUploadTime.text =  editTimeline(postData.time)
         CharacterUtil.setImg(postData.persona, binding.ivIcon)
-
+        commentAdapter.addMember(postData.commentList)
         if(postData.imageList.isNullOrEmpty()){
             binding.layoutImages.visibility = View.GONE
         }
         else{
             binding.layoutImages.visibility = View.VISIBLE
         }
+    }
+
+    private fun setTextListener(){
+        binding.etInputComment.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                inputComment = binding.etInputComment.text.toString()}
+            override fun afterTextChanged(p0: Editable?) {
+                inputComment = binding.etInputComment.text.toString()
+            }
+        })
     }
 
     private fun editTimeline( time : String) : String {

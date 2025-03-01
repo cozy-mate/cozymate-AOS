@@ -28,7 +28,16 @@
         android:layout_marginStart="-12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="4dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <LinearLayout
         android:id="@+id/layout_user_info"
@@ -188,15 +197,16 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#f4f4f4"
-        android:layout_marginHorizontal="-20dp"
         android:layout_marginVertical="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_info" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comments"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
+        android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@id/line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/layout_input"

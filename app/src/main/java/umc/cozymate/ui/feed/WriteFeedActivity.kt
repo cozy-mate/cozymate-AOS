@@ -19,7 +19,7 @@ class WriteFeedActivity : AppCompatActivity() {
     private val TAG  = this.javaClass.simpleName
     lateinit var binding : ActivityWriteFeedBinding
     lateinit var spf : SharedPreferences
-    private var content : String = ""
+    private var content : String? = ""
     private val viewModel : FeedViewModel by viewModels()
     private var roomId : Int = 0
     private var postId : Int = 0
@@ -39,13 +39,13 @@ class WriteFeedActivity : AppCompatActivity() {
     private fun getIntentData(){
         roomId = intent.getIntExtra("roomId",0)
         postId = intent.getIntExtra("postId",0)
-        content = intent.getStringExtra("content").toString()
+        content = intent.getStringExtra("content")
     }
 
     private fun  initOnClickListener(){
         binding.btnInputButton.setOnClickListener{
             content = binding.etInputContent.text.toString()
-            val request = EditPostRequest(roomId = roomId, postId = postId, content = content, imageList = emptyList() )
+            val request = EditPostRequest(roomId = roomId, postId = postId, content = content!!, imageList = emptyList() )
             if (postId == 0)viewModel.createPost(request)
             else viewModel.editPost(request)
         }
@@ -65,7 +65,7 @@ class WriteFeedActivity : AppCompatActivity() {
     }
 
     private fun setTextListener() {
-        if(content.isNotEmpty()) binding.etInputContent.setText(content)
+        if(!content.isNullOrBlank()) binding.etInputContent.setText(content)
         binding.etInputContent.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {checkInput()}
