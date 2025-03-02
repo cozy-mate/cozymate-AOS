@@ -163,7 +163,28 @@ class FeedViewModel @Inject constructor(
     fun createComment(roomId : Int, postId : Int , content : String){
         viewModelScope.launch {
             val request =  EditCommentRequest (roomId=roomId, postId = postId, content = content)
-            safeApiCall {repository.createComment(getToken()!!,request)}
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            try{
+                val response  = repository.createComment(getToken()!!,request)
+                if(response.isSuccessful){
+                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
+                    getComment(roomId,postId)
+                }
+                else {
+                    Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                }
+            }catch (e: Exception){
+                Log.d(TAG, "getComment api 요청 실패: ${e}")
+
+            }finally {
+                _isLoading.value = false
+            }
+            //safeApiCall {repository.createComment(getToken()!!,request)}
         }
     }
 
@@ -197,6 +218,7 @@ class FeedViewModel @Inject constructor(
     fun deleteComment(roomId: Int,postId: Int, commentId : Int){
         viewModelScope.launch {
             safeApiCall { repository.deleteComment(getToken()!!, roomId, postId, commentId)}
+            getComment(roomId,postId)
         }
     }
 

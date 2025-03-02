@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FeedCommentData(
     @SerializedName("id")
-    val postId: Int,
+    val commentId: Int,
     @SerializedName("writerId")
     val userId : Int,
     @SerializedName("content")

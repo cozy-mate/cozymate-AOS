@@ -48,14 +48,11 @@ class FeedDetailActivity: AppCompatActivity() {
         binding = ActivityFeedDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
-        commentAdapter = FeedCommentsRVAdapter()
+
         postId = intent.getIntExtra("postId",0)
         roomId = intent.getIntExtra("roomId",0)
 
-        binding.refreshLayout.setOnRefreshListener {
-            viewModel.getPost(roomId,postId)
-            commentAdapter.clearMember()
-        }
+
 
     }
 
@@ -65,7 +62,12 @@ class FeedDetailActivity: AppCompatActivity() {
         setClickListener()
         setTextListener()
         binding.rvComments.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        binding.rvComments.adapter = commentAdapter
+
+
+//        binding.refreshLayout.setOnRefreshListener {
+//            viewModel.getPost(roomId,postId)
+//            commentAdapter.clearMember()
+//        }
     }
 
     override fun onResume() {
@@ -84,10 +86,14 @@ class FeedDetailActivity: AppCompatActivity() {
         })
 
         viewModel.isLoading.observe(this, Observer{ isLoading ->
-            if(!binding.refreshLayout.isRefreshing)
+//            if(!binding.refreshLayout.isRefreshing)
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            if (!isLoading && binding.refreshLayout.isRefreshing)
-                binding.refreshLayout.isRefreshing = false
+//            if (!isLoading && binding.refreshLayout.isRefreshing)
+//                binding.refreshLayout.isRefreshing = false
+        })
+
+        viewModel.commentList.observe(this, Observer { list->
+            updateComments(list)
         })
     }
 
@@ -105,7 +111,7 @@ class FeedDetailActivity: AppCompatActivity() {
         }
 
         binding.tvFeedDelete.setOnClickListener{
-            deletePopup()
+            deletePopup(0)
         }
         binding.tvFeedEdit.setOnClickListener{
             val intent  = Intent(this, WriteFeedActivity::class.java)
@@ -128,16 +134,26 @@ class FeedDetailActivity: AppCompatActivity() {
     private fun updateUI(){
         binding.tvNickname.text = postData.nickname
         binding.tvContent.text = postData.content
-        binding.tvCommentNum.text = postData.commentCount.toString()
         binding.tvUploadTime.text =  editTimeline(postData.time)
         CharacterUtil.setImg(postData.persona, binding.ivIcon)
-        commentAdapter.addMember(postData.commentList)
+        updateComments(postData.commentList)
         if(postData.imageList.isNullOrEmpty()){
             binding.layoutImages.visibility = View.GONE
         }
         else{
             binding.layoutImages.visibility = View.VISIBLE
         }
+    }
+
+    private fun updateComments( list : List<FeedCommentData> = emptyList()){
+        commentAdapter = FeedCommentsRVAdapter(
+            items = list,
+            onItemClicked = { commentId ->
+            deletePopup(commentId)
+        })
+        binding.rvComments.adapter = commentAdapter
+        binding.tvCommentNum.text = list.size.toString()
+        binding.line.visibility =  if (list.size == 0) View.GONE else View.VISIBLE
     }
 
     private fun setTextListener(){
@@ -164,22 +180,27 @@ class FeedDetailActivity: AppCompatActivity() {
         else return postTime.format(DateTimeFormatter.ISO_DATE_TIME)
     }
 
-    private fun deletePopup() {
-        val text = listOf("게시글을 삭제하시나요?","삭제하면 우리의 추억을 복구할 수 없어요","취소","삭제")
+    private fun deletePopup(isComment : Int) {
+        val postType = if(isComment == 0) "게시글" else "댓글"
+        val text = listOf( postType+"을 삭제하시나요?","삭제하면 우리의 추억을 복구할 수 없어요","취소","삭제")
         val dialog = TwoButtonPopup(text,object : PopupClick {
             override fun rightClickFunction() {
-                popup()
-                viewModel.deletePost(roomId, postId)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    finish()
-                }, 500)
+                if (isComment == 0) {
+                    popup()
+                    viewModel.deletePost(roomId, postId)
+                }
+                else viewModel.deleteComment(roomId,postId, commentId = isComment)
             }
         })
         dialog.show(this.supportFragmentManager!!, "MessageDeletePopup")
     }
     private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
-        val dialog = OneButtonPopup(text,object : PopupClick{},false)
+        val dialog = OneButtonPopup(text,object : PopupClick{
+            override fun clickFunction() {
+            finish()
+            }
+        },false)
         dialog.show(this.supportFragmentManager!!, "messagePopup")
     }
 

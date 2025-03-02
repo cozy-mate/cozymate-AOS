@@ -38,8 +38,23 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_seemore"
             />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:text="삭제하기"
+        android:textAppearance="@style/TextAppearance.App.10sp.Medium"
+        android:textColor="@color/basic_font"
+        android:gravity="center"
+        android:background="@drawable/background_morebox"
+        android:translationZ="1dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/layout_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
 
 
