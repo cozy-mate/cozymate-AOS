@@ -44,6 +44,9 @@ class FeedViewModel @Inject constructor(
     private val _commentList = MutableLiveData<List<FeedCommentData>>()
     val commentList : LiveData<List<FeedCommentData>> get() = _commentList
 
+    private val _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess : LiveData<Boolean> get() = _isSuccess
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
@@ -236,6 +239,7 @@ class FeedViewModel @Inject constructor(
             Log.e(TAG, "API 요청 실패: $e")
             // 에러 상태를 UI에 전달
         } finally {
+            _isSuccess.value = true
             _isLoading.value = false
         }
     }

@@ -62,15 +62,12 @@ class TestActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        page = 0
+        adapter.clearMember()
+        Log.d(TAG,"Resume ${page}")
         viewModel.getFeedInfo(roomId)
     }
 
-    fun initDummy(){
-        for(i : Int in 1..5){
-            val t  = FeedContentData(i,i,"test ${i}","nickname${i}",i,"25.2.24", emptyList(),i)
-            data.add(t)
-        }
-    }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)

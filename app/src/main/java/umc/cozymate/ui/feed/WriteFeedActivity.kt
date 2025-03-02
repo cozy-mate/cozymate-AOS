@@ -56,11 +56,10 @@ class WriteFeedActivity : AppCompatActivity() {
     }
     private fun setupObserver() {
         viewModel.isLoading.observe(this) { isLoading ->
-            if (isLoading) binding.progressBar.visibility =  View.VISIBLE
-            else {
-                binding.progressBar.visibility = View.GONE
-                finish()
-            }
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        viewModel.isSuccess.observe(this) { isSuccess ->
+            if(isSuccess) finish()
         }
     }
 
