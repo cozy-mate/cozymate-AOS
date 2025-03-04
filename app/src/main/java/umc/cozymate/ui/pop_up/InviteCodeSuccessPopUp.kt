@@ -16,6 +16,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
@@ -25,14 +28,14 @@ import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
 @AndroidEntryPoint
 class InviteCodeSuccessPopUp : DialogFragment() {
-
     private val TAG = this.javaClass.simpleName
     private var _binding: PopupInviteCodeSuccessBinding? = null
     private val binding get() = _binding!!
     private lateinit var spf: SharedPreferences
-    private var roomName: String = "[피그말리온]"
+    private var roomName: String = ""
     private var roomDetail: String = ""
     private var roomId: Int = 0
+    val firebaseAnalytics = Firebase.analytics
 
     private lateinit var viewModel: JoinRoomViewModel
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -43,6 +46,10 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         initRoomInfo()
         // 확인 버튼 > 방 조회 > 코지홈
         binding.btnOk.setOnClickListener {
+            firebaseAnalytics.logEvent("invite_code_confirm_button_click") {
+                param("확인", "confirm_button")
+                param("초대코드로 방 입장", "enter_invite_code_screen")
+            }
             viewModel.joinRoom(roomId)
         }
         // 취소 버튼 > 팝업 닫기

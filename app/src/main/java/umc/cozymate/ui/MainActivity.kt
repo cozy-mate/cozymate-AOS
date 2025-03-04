@@ -15,6 +15,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
@@ -47,6 +50,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mypageItem: MenuItem
     var selectedItem: Int = 0
     var isRoomExist = false
+    val firebaseAnalytics = Firebase.analytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -184,6 +189,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
+                    firebaseAnalytics.logEvent("home_nav_button_click") {
+                        param("코지홈", "home_button")
+                        param("바텀 네비게이션", "bottom_navigation")
+                    }
                     observeRoomID()
                     selectedItem = item.itemId
                     supportFragmentManager.beginTransaction()
@@ -192,6 +201,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_role_and_rule -> {
+                    firebaseAnalytics.logEvent("role_and_rule_button_click") {
+                        param("롤앤룰", "role_and_rule_button")
+                        param("바텀 네비게이션", "bottom_navigation")
+                    }
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
@@ -207,6 +220,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_cozybot -> {
+                    firebaseAnalytics.logEvent("cozybot_nav_button_click") {
+                        param("코지봇", "cozybot_button")
+                        param("바텀 네비게이션", "bottom_navigation")
+                    }
                     if (!isRoomExist) {
                         Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
@@ -222,6 +239,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_mypage -> {
+                    firebaseAnalytics.logEvent("my_page_nav_button_click") {
+                        param("마이페이지", "my_page_button")
+                        param("바텀 네비게이션", "bottom_navigation")
+                    }
                     selectedItem = item.itemId
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MyPageFragment()).commit()
