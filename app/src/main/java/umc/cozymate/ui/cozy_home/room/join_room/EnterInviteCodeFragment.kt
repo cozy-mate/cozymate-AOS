@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
@@ -25,7 +28,6 @@ import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 // 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
 @AndroidEntryPoint
 class EnterInviteCodeFragment : Fragment() {
-
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentCozyHomeEnteringInviteCodeBinding? = null
     private val binding get() = _binding!!

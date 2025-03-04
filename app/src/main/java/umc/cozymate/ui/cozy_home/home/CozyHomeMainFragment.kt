@@ -21,6 +21,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
@@ -53,6 +56,7 @@ class CozyHomeMainFragment : Fragment() {
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
     private var universityFlag: Boolean = false
+    val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -276,10 +280,18 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             // 방 생성 버튼 > 팝업
             btnMakeRoom.setOnClickListener {
+                firebaseAnalytics.logEvent("make_room_button_click") {
+                    param("방 만들기", "make_room_button")
+                    param("코지홈", "cozy_home_screen")
+                }
                 startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
             }
             // 방 참여 버튼
             btnEnterRoom.setOnClickListener {
+                firebaseAnalytics.logEvent("join_room_button_click") {
+                    param("방 참여하기", "join_room_button")
+                    param("코지홈", "cozy_home_screen")
+                }
                 startActivity(Intent(activity, JoinRoomActivity::class.java))
             }
             // 학교 버튼
