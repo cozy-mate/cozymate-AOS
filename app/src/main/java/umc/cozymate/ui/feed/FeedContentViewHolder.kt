@@ -1,7 +1,9 @@
 package umc.cozymate.ui.feed
 
+import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import umc.cozymate.data.model.entity.FeedContentData
 import umc.cozymate.databinding.ItemFeedDetailBinding
 import umc.cozymate.util.CharacterUtil
@@ -42,11 +44,15 @@ class FeedContentViewHolder(
         binding.tvContent.text = postData.content
         binding.tvUploadTime.text =  editTimeline(postData.time)
         CharacterUtil.setImg(postData.persona, binding.ivIcon)
-        if(postData.imageList.isNullOrEmpty()){
+        if(postData.imageList.isEmpty()){
             binding.layoutImages.visibility = View.GONE
         }
         else{
             binding.layoutImages.visibility = View.VISIBLE
+            val adapter  = ImageVPAdapter(postData.imageList)
+            binding.vpImage.adapter = adapter
+            binding.dotsIndicator.attachTo(binding.vpImage)
+            setViewPager()
         }
     }
 
@@ -58,7 +64,22 @@ class FeedContentViewHolder(
         if( diffMin in 0..59 ) return diffMin.toString()+"분전"
         else if( diff.toHours() in 1..23) return diff.toHours().toString()+"시간전"
         else if(diff.toDays() in 1..3) return diff.toDays().toString()+ "일전"
-        else return postTime.format(DateTimeFormatter.ISO_DATE_TIME)
+        else return postTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    }
+
+    private fun setViewPager(){
+        val recyclerView = binding.vpImage.getChildAt(0) as RecyclerView
+        recyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> rv.parent.requestDisallowInterceptTouchEvent(false)
+                }
+                return false
+            }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
     fun changeCommentCount(num : Int){

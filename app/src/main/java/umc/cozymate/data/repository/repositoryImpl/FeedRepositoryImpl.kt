@@ -1,6 +1,10 @@
 package umc.cozymate.data.repository.repositoryImpl
 
+import android.media.Image
+import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.Header
+import retrofit2.http.Part
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.FeedService
 import umc.cozymate.data.model.request.EditCommentRequest
@@ -9,6 +13,7 @@ import umc.cozymate.data.model.request.FeedInfoRequest
 import umc.cozymate.data.model.response.feed.FeedCommentResponse
 import umc.cozymate.data.model.response.feed.FeedContentsResponse
 import umc.cozymate.data.model.response.feed.FeedInfoResponse
+import umc.cozymate.data.model.response.feed.ImageResponse
 import umc.cozymate.data.model.response.feed.PostResponse
 import umc.cozymate.data.repository.repository.FeedRepository
 import javax.inject.Inject
@@ -94,5 +99,12 @@ class FeedRepositoryImpl @Inject constructor(
         commentId: Int
     ): Response<DefaultResponse> {
        return api.deleteComment(accessToken,roomId,postId, commentId)
+    }
+
+    override suspend fun uploadImages(
+        accessToken: String,
+        files: List<MultipartBody.Part>
+    ) : Response<ImageResponse>{
+        return api.uploadImages(accessToken,files)
     }
 }

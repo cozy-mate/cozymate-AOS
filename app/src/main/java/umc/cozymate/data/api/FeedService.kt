@@ -1,21 +1,26 @@
 package umc.cozymate.data.api
 
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.EditCommentRequest
 import umc.cozymate.data.model.request.EditPostRequest
 import umc.cozymate.data.model.request.FeedInfoRequest
+import umc.cozymate.data.model.request.ImageRequest
 import umc.cozymate.data.model.response.feed.FeedCommentResponse
 import umc.cozymate.data.model.response.feed.FeedContentsResponse
 import umc.cozymate.data.model.response.feed.FeedInfoResponse
+import umc.cozymate.data.model.response.feed.ImageResponse
 import umc.cozymate.data.model.response.feed.PostResponse
 
 interface FeedService {
@@ -90,6 +95,14 @@ interface FeedService {
         @Path("postId") postId : Int,
         @Path("commentId") commentId : Int
     ): Response<DefaultResponse>
+
+    @Multipart
+    @POST("/api/files")
+    suspend fun uploadImages(
+        @Header("Authorization") accessToken: String,
+        @Part files: List<MultipartBody.Part>
+        //@Body request: ImageRequest
+    ) : Response<ImageResponse>
 
 
 

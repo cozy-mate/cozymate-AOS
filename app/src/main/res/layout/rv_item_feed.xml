@@ -72,7 +72,7 @@
             android:layout_height="300dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/background_stroke_12"
-            android:backgroundTint="#E4E4E4"
+            android:backgroundTint="@color/transparent"
             android:visibility="gone"/>
 
         <!--인디케이터 -->

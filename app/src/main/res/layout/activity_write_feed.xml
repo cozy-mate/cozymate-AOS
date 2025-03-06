@@ -29,13 +29,13 @@
         app:layout_constraintStart_toStartOf="parent" />
     
     <LinearLayout
-        android:id="@+id/layout_images"
+        android:id="@+id/layout_add_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginTop="31dp"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintTop_toBottomOf="@id/iv_back"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/btn_rectangle_8"
@@ -63,8 +63,15 @@
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/unuse_font"/>
         </LinearLayout>
-
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_images"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toTopOf="@id/layout_add_image"
+        app:layout_constraintStart_toEndOf="@id/layout_add_image"/>
 
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -80,7 +87,7 @@
         android:layout_marginTop="17dp"
         android:layout_marginHorizontal="20dp"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_images"
+        app:layout_constraintTop_toBottomOf="@id/layout_add_image"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
