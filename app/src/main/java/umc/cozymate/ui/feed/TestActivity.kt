@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import umc.cozymate.R
 import umc.cozymate.data.model.entity.FeedContentData
 import umc.cozymate.databinding.FragmentFeedBinding
 import umc.cozymate.ui.viewmodel.FeedViewModel
+import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class TestActivity: AppCompatActivity() {
@@ -34,6 +36,7 @@ class TestActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = FragmentFeedBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        StatusBarUtil.updateStatusBarColor(this, R.color.box)
         setContentView(binding.root)
         getPreference()
         setClickListener()
