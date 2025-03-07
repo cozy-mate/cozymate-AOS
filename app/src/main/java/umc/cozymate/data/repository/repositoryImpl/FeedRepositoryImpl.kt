@@ -7,6 +7,7 @@ import retrofit2.http.Header
 import retrofit2.http.Part
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.api.FeedService
+import umc.cozymate.data.model.request.DeleteImageRequest
 import umc.cozymate.data.model.request.EditCommentRequest
 import umc.cozymate.data.model.request.EditPostRequest
 import umc.cozymate.data.model.request.FeedInfoRequest
@@ -106,5 +107,9 @@ class FeedRepositoryImpl @Inject constructor(
         files: List<MultipartBody.Part>
     ) : Response<ImageResponse>{
         return api.uploadImages(accessToken,files)
+    }
+
+    override suspend fun deleteImages(accessToken: String,  fileNames: List<String>) {
+        api.deleteImages(accessToken, fileNames)
     }
 }

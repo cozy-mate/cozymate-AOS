@@ -1,8 +1,8 @@
 package umc.cozymate.ui.feed
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.request.EditPostRequest
 import umc.cozymate.databinding.ActivityWriteFeedBinding
@@ -52,27 +51,28 @@ class WriteFeedActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                imageViewModel.selectedImageUris.collect { uris->
-                    uris?.let {
-                        if(!uris.isNullOrEmpty()){
-                            binding.tvImageCount.text = uris.size.toString()
-                            updateImageLayout(uris)
-                        }
-                        else
-                            binding.tvImageCount.text = "null"
+                imageViewModel.imageList.collect { urls->
+                    urls.let {
+                        binding.tvImageCount.text = urls.size.toString()
+                        updateImageLayout(urls)
+                        imageList = urls
                     }
                 }
             }
         }
-
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG,"destory")
+        imageViewModel.deleteImages(imageList)
+    }
 
     private fun getIntentData(){
         roomId = intent.getIntExtra("roomId",0)
         postId = intent.getIntExtra("postId",0)
         content = intent.getStringExtra("content")
+
     }
 
     private fun  initOnClickListener(){
@@ -88,22 +88,30 @@ class WriteFeedActivity : AppCompatActivity() {
         }
 
         binding.layoutAddImage.setOnClickListener {
-            pickMultipleImagesLauncher.launch("image/*")
+            pickImagesLauncher.launch(arrayOf("image/*"))
         }
     }
 
-    // 이미지 가져오기
-    private val pickMultipleImagesLauncher = registerForActivityResult(
-        ActivityResultContracts.GetMultipleContents()
+
+    private val pickImagesLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenMultipleDocuments()
     ) { uris ->
         if (uris.isNotEmpty()) {
-            imageViewModel.setSelectedImages(uris) // 선택한 이미지 리스트를 ViewModel에 저장
+            val contentResolver = applicationContext.contentResolver
+            uris.forEach { uri ->
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
+            imageViewModel.uploadImages(uris) // ✅ 기존 선택한 이미지 유지하면서 추가
         }
-        Log.d(TAG,"uris : ${uris}")
     }
 
-    private fun updateImageLayout( uris: List<Uri>) {
-        for (uri in uris) {
+
+    private fun updateImageLayout( urls: List<String>) {
+        binding.layoutImages.removeAllViews()
+        for (url in urls) {
             val imageView = ImageView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     80f.fromDpToPx(), 80f.fromDpToPx()
@@ -112,9 +120,12 @@ class WriteFeedActivity : AppCompatActivity() {
                 }
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
+            imageView.setOnClickListener {
+                imageViewModel.deleteImages(listOf(url))
+            }
 
             // ✅ Glide를 사용하여 이미지 로드
-            Glide.with(this).load(uri).into(imageView)
+            Glide.with(this).load(url).into(imageView)
 
             binding.layoutImages.addView(imageView) // ✅ LinearLayout에 추가
         }
@@ -128,11 +139,6 @@ class WriteFeedActivity : AppCompatActivity() {
         viewModel.isSuccess.observe(this) { isSuccess ->
             if(isSuccess) finish()
         }
-        imageViewModel.imageList.observe(this){list->
-            imageList = list
-        }
-
-
     }
 
     private fun setTextListener() {

@@ -66,7 +66,10 @@ class FeedContentsRVAdapter(
         if( diffMin in 0..59 ) return diffMin.toString()+"분전"
         else if( diff.toHours() in 1..23) return diff.toHours().toString()+"시간전"
         else if(diff.toDays() in 1..3) return diff.toDays().toString()+ "일전"
-        else return postTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        else {
+            val formatter = DateTimeFormatter.ofPattern("yy.MM.dd")
+            return postTime.format(formatter)
+        }
     }
 
 

@@ -16,9 +16,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONArray
-import org.json.JSONObject
-import umc.cozymate.data.model.request.ImageRequest
+import umc.cozymate.data.model.request.DeleteImageRequest
 import umc.cozymate.data.repository.repository.FeedRepository
 import java.io.File
 import java.io.FileOutputStream
@@ -33,17 +31,40 @@ class ImageViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _selectedImageUris = MutableStateFlow<List<Uri>?>(null)
+    private val _selectedImageUris = MutableStateFlow<List<Uri>>(emptyList())
     val selectedImageUris = _selectedImageUris.asStateFlow()
 
-    private val _imageList = MutableLiveData<List<String>>()
-    val imageList : LiveData<List<String>> get() = _imageList
+    private val _imageList = MutableStateFlow<List<String>>(emptyList())
+    val imageList =_imageList.asStateFlow()
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun setSelectedImages(uris : List<Uri>){
+    fun deleteImages(urls: List<String>){
+        viewModelScope.launch {
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                return@launch
+            }
+            try {
+                repository.deleteImages(token,urls)
+                for( url : String in  urls)
+                    _imageList.value = _imageList.value.filterNot { it == url }
+                Log.d("UploadViewModel", "이미지 삭제 성공")
+            }catch (e: Exception){
+                Log.d(TAG, "deleteImages api 요청 실패: ${e}")
+            }
+
+        }
+    }
+//    fun removeUploadedImage(url: String) {
+//        _uploadedImageUrls.value = _uploadedImageUrls.value.filterNot { it == url }
+//        deleteImages(listOf(url)) // ✅ 서버에 삭제 요청
+//    }
+
+    fun uploadImages(uris : List<Uri>){
         viewModelScope.launch {
             val token = getToken()
             if (token == null) {
@@ -55,11 +76,10 @@ class ImageViewModel @Inject constructor(
                 val response  = repository.uploadImages(token,files )
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!}")
-                    _imageList.value = response.body()!!.imgList
+                    addUploadedImages(response.body()!!.imgList)
                 }
                 else {
                     Log.d(TAG, "응답 실패: ${response.body()!!}")
-                    _imageList.value = response.body()!!.imgList
                 }
             }catch (e: Exception){
                 Log.d(TAG, "uploadImages api 요청 실패: ${e}")
@@ -69,6 +89,15 @@ class ImageViewModel @Inject constructor(
         _selectedImageUris.value = uris
 
     }
+
+    private fun addUploadedImages(newUrls: List<String>) {
+        _imageList.value += newUrls // ✅ 기존 URL 유지하면서 추가
+    }
+
+    private fun addSelectedImages(newUris: List<Uri>) {
+        _selectedImageUris.value = _selectedImageUris.value + newUris // ✅ 기존 리스트에 추가
+    }
+
     fun getMultipartBodyFromUris(context: Context, uris: List<Uri>): List<MultipartBody.Part> {
         val contentResolver = context.contentResolver
         val multipartList = mutableListOf<MultipartBody.Part>()

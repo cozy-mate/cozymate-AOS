@@ -4,18 +4,15 @@ import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.cozymate.data.DefaultResponse
+import umc.cozymate.data.model.request.DeleteImageRequest
 import umc.cozymate.data.model.request.EditCommentRequest
 import umc.cozymate.data.model.request.EditPostRequest
 import umc.cozymate.data.model.request.FeedInfoRequest
-import umc.cozymate.data.model.request.ImageRequest
 import umc.cozymate.data.model.response.feed.FeedCommentResponse
 import umc.cozymate.data.model.response.feed.FeedContentsResponse
 import umc.cozymate.data.model.response.feed.FeedInfoResponse
@@ -87,7 +84,11 @@ interface FeedRepository {
     suspend fun uploadImages(
         @Header("Authorization") accessToken: String,
         @Part("files") files: List<MultipartBody.Part>
-        //@Body request: ImageRequest
     ) : Response<ImageResponse>
+
+    suspend fun deleteImages(
+        @Header("Authorization") accessToken: String,
+        @Query("fileNames") fileNames: List<String>
+    )
 
 }
