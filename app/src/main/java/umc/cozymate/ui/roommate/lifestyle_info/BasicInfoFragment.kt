@@ -53,9 +53,6 @@ class BasicInfoFragment : Fragment() {
         binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
         binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
-        binding.etBirth.filters = arrayOf(InputFilter.LengthFilter(4))  // 최대 4자리 입력
-        binding.etBirth.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
-
         initTextChangeListener()
         initLivingSelector()
         initNumPeoPleSelector()
@@ -154,24 +151,9 @@ class BasicInfoFragment : Fragment() {
                 val inputText = s.toString()
                 if (inputText.length == 2) {
                     saveToSharedPreferences("user_admissionYear", s.toString())
-                    showBirthLayout()
-                } else {
-                    binding.etNumber.error = "2자리 숫자를 입력해주세요."
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.etBirth.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val inputText = s.toString()
-                if (inputText.length == 4) {
-                    saveToSharedPreferences("user_birthday", s.toString())
-                    updateNextButtonState()
                     showDormitoryNameLayout()
                 } else {
-                    binding.etBirth.error = "4자리 숫자를 입력해주세요."
+                    binding.etNumber.error = "2자리 숫자를 입력해주세요."
                 }
             }
 
@@ -279,14 +261,12 @@ class BasicInfoFragment : Fragment() {
         val isDormitorySelected = onLivingOption != null
         val isRoommateNumSelected = numPeopleOption != null
         val isDormitoryNameSelected = dormitoryNameOption != null
-        val isBirthFilled = binding.etBirth.text?.isNotEmpty() == true
         val isNumberFilled = binding.etNumber.text?.isNotEmpty() == true
 
         val filledCount = listOf(
             isDormitorySelected,
             isRoommateNumSelected,
             isDormitoryNameSelected,
-            isBirthFilled,
             isNumberFilled
         ).count { it }
         val completionRate = filledCount / 5f
@@ -294,20 +274,13 @@ class BasicInfoFragment : Fragment() {
         (activity as? RoommateInputInfoActivity)?.updateProgressBar(completionRate)
 
         // 다음 버튼 활성화 여부
-        if (isDormitorySelected && isRoommateNumSelected && isBirthFilled && isNumberFilled) {
+        if (isDormitorySelected && isRoommateNumSelected && isNumberFilled) {
             (activity as? RoommateInputInfoActivity)?.showNextButton()
         }
     }
 
-    private fun showBirthLayout() {
-        if (binding.etNumber.text?.isNotEmpty() == true) {
-            binding.clBirth.showWithSlideDownAnimation()
-            scrollToTop()
-        }
-    }
-
     private fun showDormitoryNameLayout() {
-        if (binding.etBirth.text?.isNotEmpty() == true) {
+        if (binding.etNumber.text?.isNotEmpty() == true) {
             Log.d("BasicInfoFragment", "showDormitoryNameLayout called, dormitory names: ${universityViewModel.dormitoryNames.value}")
             binding.clDormitoryName.showWithSlideDownAnimation()
             scrollToTop()
@@ -337,7 +310,6 @@ class BasicInfoFragment : Fragment() {
 
     private fun removeEditTextFocus() {
         binding.etNumber.clearFocus()
-        binding.etBirth.clearFocus()
         hideKeyboard()
     }
 

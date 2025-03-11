@@ -90,26 +90,6 @@ class EssentialInfoFragment : Fragment() {
     private var mbtiOption: TextView? = null
     private var mbtiCheck: String? = null
 
-//    private var isSleepingLayoutShown = false
-//    private var isLightOffLayoutShown = false
-//    private var isSmokingLayoutShown = false
-//    private var isSleepHabitLayoutShown = false
-//    private var isAcLayoutShown = false
-//    private var isHeaterLayoutShown = false
-//    private var isLifePatternLayoutShown = false
-//    private var isFriendlyLayoutShown = false
-//    private var isShareLayoutShown = false
-//    private var isGameLayoutShown = false
-//    private var isCallLayoutShown = false
-//    private var isStudyLayoutShown = false
-//    private var isEatLayoutShown = false
-//    private var isCleanSenLayoutShown = false
-//    private var isNoiseSenLayoutShown = false
-//    private var isCleanFreLayoutShown = false
-//    private var isDrinkFreLayoutShown = false
-//    private var isPersonalityLayoutShown = false
-//    private var isMbtiLayoutShown = false
-
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
     private val delayInMillis: Long = 500
