@@ -26,6 +26,7 @@ import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
@@ -53,7 +54,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         window.navigationBarColor = Color.WHITE
         StatusBarUtil.updateStatusBarColor(this@RoommateInputInfoActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
-        spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        spf = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE)
 
         viewPager = binding.vpInputInfo
         progressBar = binding.pbBasic
@@ -172,37 +173,36 @@ class RoommateInputInfoActivity : AppCompatActivity() {
     // 정보 저장 로직인데 수정 필요
     fun sendUserDataToViewModel() {
         val userInfo = UserInfoRequest(
-            admissionYear = spf.getString("user_admissionYear", "") ?: "",
-            numOfRoommate = spf.getInt("user_numOfRoommate", -1),
-            dormitoryName = spf.getString("user_dormitoryName", "") ?: "",
-            acceptance = spf.getString("user_acceptance", "") ?: "",
-            wakeUpMeridian = spf.getString("user_wakeUpMeridian", "") ?: "",
-            wakeUpTime = spf.getInt("user_wakeUpTime", -1),
-            sleepingMeridian = spf.getString("user_sleepingMeridian", "") ?: "",
-            sleepingTime = spf.getInt("user_sleepingTime", -1),
-            turnOffMeridian = spf.getString("user_turnOffMeridian", "") ?: "",
-            turnOffTime = spf.getInt("user_turnOffTime", -1),
-            smoking = spf.getString("user_smoking", "") ?: "",
-            sleepingHabit = spf.getStringSet("user_sleepingHabit", emptySet())?.toList()
-                ?: emptyList(),
-            airConditioningIntensity = spf.getInt("user_airConditioningIntensity", -1),
-            heatingIntensity = spf.getInt("user_heatingIntensity", -1),
-            lifePattern = spf.getString("user_lifePattern", "") ?: "",
-            intimacy = spf.getString("user_intimacy", "") ?: "",
-            canShare = spf.getString("user_canShare", "") ?: "",
-            isPlayGame = spf.getString("user_isPlayGame", "") ?: "",
-            isPhoneCall = spf.getString("user_isPhoneCall", "") ?: "",
-            studying = spf.getString("user_studying", "") ?: "",
-            intake = spf.getString("user_intake", "") ?: "",
-            cleanSensitivity = spf.getInt("user_cleanSensitivity", -1),
-            noiseSensitivity = spf.getInt("user_noiseSensitivity", -1),
-            cleaningFrequency = spf.getString("user_cleaningFrequency", "") ?: "",
-            drinkingFrequency = spf.getString("user_drinkingFrequency", "") ?: "",
-            personality = spf.getStringSet("user_personality", emptySet())?.toList() ?: emptyList(),
-            mbti = spf.getString("user_mbti", "") ?: "",
-            selfIntroduction = spf.getString("user_selfIntroduction", "") ?: ""
+            admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
+            numOfRoommate = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, -1),
+            dormitoryName = PreferencesUtil.getString(this, "user_dormitoryName", "") ?: "",
+            acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ACCEPTANCE, "") ?: "",
+            wakeUpMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_WAKE_UP_MERIDIAN, "") ?: "",
+            wakeUpTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_WAKE_UP_TIME, -1),
+            sleepingMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SLEEPING_MERIDIAN, "") ?: "",
+            sleepingTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_SLEEPING_TIME, -1),
+            turnOffMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_TURN_OFF_MERIDIAN, "") ?: "",
+            turnOffTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_TURN_OFF_TIME, -1),
+            smoking = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING, "") ?: "",
+            sleepingHabit = PreferencesUtil.getString(this, "user_sleepingHabit", "")?.split(",") ?: emptyList(),
+            airConditioningIntensity = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_AIR_CONDITIONING_INTENSITY, -1),
+            heatingIntensity = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_HEATING_INTENSITY, -1),
+            lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
+            intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
+            canShare = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CAN_SHARE, "") ?: "",
+            isPlayGame = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PLAY_GAME, "") ?: "",
+            isPhoneCall = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PHONE_CALL, "") ?: "",
+            studying = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING, "") ?: "",
+            intake = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTAKE, "") ?: "",
+            cleanSensitivity = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, -1),
+            noiseSensitivity = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_NOISE_SENSITIVITY, -1),
+            cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
+            drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
+            personality = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_PERSONALITY, "")?.split(",") ?: emptyList(),
+            mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
+            selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
         )
         viewModel.sendUserInfo(userInfo)
-        finish() // 결과 전달 후 종료
+        finish()
     }
 }

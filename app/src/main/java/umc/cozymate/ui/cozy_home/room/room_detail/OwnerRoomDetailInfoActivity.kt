@@ -22,10 +22,8 @@ import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.ActivityOwnerRoomDetailInfoBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
+import umc.cozymate.util.CustomDividerItemDecoration
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
-import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberStatRVA
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.my_page.update_room.UpdateRoomInfoActivity
 import umc.cozymate.ui.pop_up.PopupClick
@@ -35,6 +33,7 @@ import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.CharacterUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
@@ -115,10 +114,6 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-//        roommateDetailViewModel.isLoading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
     }
 
 
@@ -263,65 +258,12 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
     private fun updateHashtags(hashtags: List<String>) {
         with(binding) {
             Log.d(TAG, "해시태그 : $hashtags")
-            /*when (hashtags.size) {
-                0 -> {
-                    tvHashtag1.visibility = View.GONE
-                    tvHashtag2.visibility = View.GONE
-                    tvHashtag3.visibility = View.GONE
-                }
-
-                1 -> {
-                    tvHashtag1.text = "#${hashtags[0]}"
-                    tvHashtag1.visibility = View.VISIBLE
-                    tvHashtag2.visibility = View.GONE
-                    tvHashtag3.visibility = View.GONE
-                }
-
-                2 -> {
-                    tvHashtag1.text = "#${hashtags[0]}"
-                    tvHashtag1.visibility = View.VISIBLE
-                    tvHashtag2.text = "#${hashtags[1]}"
-                    tvHashtag2.visibility = View.VISIBLE
-                    tvHashtag3.visibility = View.GONE
-                }
-
-                3 -> {
-                    tvHashtag1.text = "#${hashtags[0]}"
-                    tvHashtag1.visibility = View.VISIBLE
-                    tvHashtag2.text = "#${hashtags[1]}"
-                    tvHashtag2.visibility = View.VISIBLE
-                    tvHashtag3.text = "#${hashtags[2]}"
-                    tvHashtag3.visibility = View.VISIBLE
-                }
-            }
-            Log.d(TAG, "tvHashtag1: ${tvHashtag1.text}, visibility: ${tvHashtag1.visibility}")
-            Log.d(TAG, "tvHashtag2: ${tvHashtag2.text}, visibility: ${tvHashtag2.visibility}")
-            Log.d(TAG, "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}")*/
         }
     }
 
     // 방 프로필 이미지
     private fun updateProfileImage(persona: Int) {
-        val profileImageResId = when (persona) {
-            1 -> R.drawable.character_id_1
-            2 -> R.drawable.character_id_2
-            3 -> R.drawable.character_id_3
-            4 -> R.drawable.character_id_4
-            5 -> R.drawable.character_id_5
-            6 -> R.drawable.character_id_6
-            7 -> R.drawable.character_id_7
-            8 -> R.drawable.character_id_8
-            9 -> R.drawable.character_id_9
-            10 -> R.drawable.character_id_10
-            11 -> R.drawable.character_id_11
-            12 -> R.drawable.character_id_12
-            13 -> R.drawable.character_id_13
-            14 -> R.drawable.character_id_14
-            15 -> R.drawable.character_id_15
-            16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_1
-        }
-        binding.ivRoomCharacter.setImageResource(profileImageResId)
+        CharacterUtil.setImg(persona, binding.ivRoomCharacter)
     }
 
     private fun updateRoomStatus(type: String) {

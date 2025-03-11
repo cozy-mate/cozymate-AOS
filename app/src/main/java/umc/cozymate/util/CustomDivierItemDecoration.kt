@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.room_detail
+package umc.cozymate.util
 
 import android.content.Context
 import android.graphics.Canvas

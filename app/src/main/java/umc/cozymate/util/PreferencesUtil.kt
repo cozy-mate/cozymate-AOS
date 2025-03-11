@@ -3,7 +3,7 @@ package umc.cozymate.util
 import android.content.SharedPreferences
 import android.content.Context
 object PreferencesUtil {
-    private const val PREFS_NAME = "app_prefs"
+    const val PREFS_NAME = "app_prefs"
 
     // 저장할 때 사용할 키들을 상수로 정의
     const val KEY_USER_NICKNAME = "user_nickname"

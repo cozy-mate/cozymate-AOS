@@ -179,30 +179,6 @@ class RoommateMakeCrewableFragment : Fragment() {
             isShowingAllListData = !isShowingAllListData
         }
 
-        // 필터 없는 테이블의 더보기 버튼 처리
-//        binding.btnCrewableChipTableMore.setOnClickListener {
-//            Log.d("RoommateMakeCrewableFragment", "btnCrewableChipTableMore Clicked")
-//            if (!isShowingAllTableData) {
-//                viewModel.getAllOtherUserInfo(accessToken) // 필터 없는 모든 데이터를 가져옴
-//                lifecycleScope.launchWhenStarted {
-//                    viewModel.unfilteredUserInfo.collect { userInfoList ->
-//                        roommateMakeCrewableInfoTableRVA.updateData(userInfoList) // Table에만 적용
-//                        binding.tvTableNum.text = "${userInfoList.size} 명" // 테이블 데이터 개수 설정
-//                    }
-//                }
-//                rotateButton(binding.btnCrewableChipTableMore, -90f)
-//            } else {
-//                viewModel.getOtherUserInfo(accessToken, 0) // 필터 없는 초기 5개만 가져옴
-//                lifecycleScope.launchWhenStarted {
-//                    viewModel.unfilteredUserInfo.collect { userInfoList ->
-//                        roommateMakeCrewableInfoTableRVA.updateData(userInfoList) // Table에만 적용
-//                        binding.tvTableNum.text = "${userInfoList.size} 명" // 테이블 데이터 개수 설정
-//                    }
-//                }
-//                rotateButton(binding.btnCrewableChipTableMore, 0f)
-//            }
-//            isShowingAllTableData = !isShowingAllTableData
-//        }
         viewModel.getAllOtherUserInfo(accessToken) // 필터 없는 모든 데이터를 가져옴
         lifecycleScope.launchWhenStarted {
             viewModel.unfilteredUserInfo.collect { userInfoList ->
