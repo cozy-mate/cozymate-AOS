@@ -28,15 +28,14 @@ class LaunchActivity : AppCompatActivity() {
         binding = ActivityLaunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.navigationBarColor = Color.WHITE
-        // 스플래시 gif 로드
         binding.lottieSplash.setAnimation(R.raw.splash_gif)
         binding.lottieSplash.playAnimation()
 
-        // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
+        // 저장한 토큰이 유효하다면 자동 로그인을 합니다.
         attemptAutoLogin()
     }
 
-    private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
+    private fun attemptAutoLogin() {
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
