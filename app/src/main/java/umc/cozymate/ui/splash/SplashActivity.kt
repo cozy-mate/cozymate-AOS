@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -88,15 +90,8 @@ class SplashActivity : AppCompatActivity() {
         // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
             openKakaoLoginPage()
+            //goOnboarding()
         }
-
-        // 애플 로그인 버튼 >> 코지홈 비활성화
-        /*binding.btnAppleLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("SHOW_COZYHOME_DEFAULT_FRAGMENT", true) // 플래그 또는 데이터 추가
-            }
-            startActivity(intent)
-        }*/
 
         /*// 회원가입 버튼 >> 테스트 로그인 >> 온보딩
         binding.btnSignIn.setOnClickListener {
@@ -110,7 +105,7 @@ class SplashActivity : AppCompatActivity() {
         handler.removeCallbacks(runnable) // Activity 종료 시 Handler 리소스 해제
     }
 
-    private fun attemptAutoLogin() { // 멤버인 경우 홈화면으로 이동
+    private fun attemptAutoLogin() { // 멤버인 경우 홈 화면으로 이동
         val tokenInfo = splashViewModel.getToken()
         if (tokenInfo != null) {
             splashViewModel.memberCheck()
@@ -216,7 +211,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun openKakaoLoginPage() {
-        // 카카오톡 또는 카카오 계정으로 로그인 시도 >>> 데모 시에는 카카오 계정으로 로그인
+        // 카카오톡 또는 카카오 계정으로 로그인 시도
         try {
             /*if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SplashActivity)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -240,7 +235,7 @@ class SplashActivity : AppCompatActivity() {
                         Toast.makeText(this@SplashActivity, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT)
                             .show()
                     }
-
+                    getUserId()
                 }
             } else*/
 
