@@ -35,7 +35,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
         }
     }
 
-    // [학교인증 확인 페이지] 로드
+    // [학교 정보 확인 페이지]
     // 학교인증이 이미 되어있을 때 이 페이지를 로드합니다.
     fun loadUniversityCertificationInfoFragment() {
         val fragment = UniversityCertificationInfoFragment()
@@ -45,7 +45,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
             .commit()
     }
 
-    // [학교인증(재인증) 페이지] 로드
+    // [학교인증 페이지]
     fun loadUniversityCertificationFragment() {
         val fragment = UniversityCertificationFragment()
         supportFragmentManager.beginTransaction()
