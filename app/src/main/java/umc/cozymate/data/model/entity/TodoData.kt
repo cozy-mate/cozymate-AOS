@@ -1,13 +1,20 @@
 package umc.cozymate.data.model.entity
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TodoData(
     @SerializedName("memberDetail")
     val memberDetail: MemberDetailInfo,
     @SerializedName("todoList")
     var todoList: List<TodoItem>
 ){
+    @Parcelize
+    @Serializable
     data class TodoItem(
         @SerializedName("todoId")
         val todoId: Int = 0,
@@ -22,8 +29,6 @@ data class TodoData(
         val todoType : String = "self",
 
         @SerializedName("mateIdList")
-        val mateIdList: List<Int>
-
-
-    )
+        val mateIdList: List<Int> = emptyList()
+    ):  Parcelable
 }

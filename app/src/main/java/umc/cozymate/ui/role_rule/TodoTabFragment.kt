@@ -1,5 +1,6 @@
 package umc.cozymate.ui.role_rule
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -164,9 +165,9 @@ class TodoTabFragment : Fragment() {
                 override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
                     if (todo.todoType.equals("role")) return
-                    //saveSpf(todo)
                     val intent = Intent(activity,AddTodoActivity()::class.java)
                     val bundle = Bundle().apply {
+                        putString("todo_date", selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
                         putParcelable("todoItem", todo)
                     }
                     intent.putExtra("input_type",0)
@@ -178,7 +179,7 @@ class TodoTabFragment : Fragment() {
         }
 
         // 룸메 할일(중첩 리사이클러뷰)
-        if (memberList?.isNullOrEmpty() == true) {
+        if (memberList.isEmpty()) {
             binding.layoutEmptyMember.visibility = View.VISIBLE
             binding.rvMemberTodo.visibility = View.GONE
 
@@ -190,7 +191,7 @@ class TodoTabFragment : Fragment() {
             binding.layoutEmptyMember.visibility = View.GONE
             binding.rvMemberTodo.visibility = View.VISIBLE
 
-            val memberTodoListRVAdapter = TodoListRVAdapter(memberList!!) { todoItem -> }
+            val memberTodoListRVAdapter = TodoListRVAdapter(memberList) { _ -> }
             binding.rvMemberTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
@@ -206,16 +207,7 @@ class TodoTabFragment : Fragment() {
     }
 
 
-    private fun saveSpf(todo: TodoItem){
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val editor = spf.edit()
-        editor.putInt("todo_id",todo.todoId)
-        editor.putString("todo_content",todo.content)
-        editor.putString("todo_selected_date",selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
-        editor.putString("todo_mate_list",Gson().toJson(todo.mateIdList))
-        editor.apply()
-    }
-
+    @SuppressLint("DefaultLocale")
     private fun setupCalendar() {
         val decorator = CalenderDecorator(requireContext(),calendarView)
         val todayDecorator = todayDecorator(requireContext(),calendarView)
@@ -240,12 +232,10 @@ class TodoTabFragment : Fragment() {
         for(entry in roleTodo) entry.value.clear()
         for(role in roleList){
             // 반복 요일이 있고, 내가 포함 된 롤만 저장
-            if (!role.repeatDayList.isNullOrEmpty() && role.mateList.contains(myInfo))
+            if (role.repeatDayList.isNotEmpty() && role.mateList.contains(myInfo))
                 initRoleTodo(role)
         }
-        Log.d(TAG, "롤 투두 입력 후 : ${roleTodo}")
     }
-
     private fun initRoleTodo(role: RoleData) {
         val todo = TodoItem( content = role.content, todoType = "role", mateIdList = emptyList())
         for (day in role.repeatDayList)

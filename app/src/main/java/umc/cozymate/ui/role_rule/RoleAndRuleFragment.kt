@@ -3,11 +3,15 @@ package umc.cozymate.ui.role_rule
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
+import umc.cozymate.R
+import umc.cozymate.databinding.BottomSheetTwoTextBinding
 import umc.cozymate.databinding.FragmentRoleAndRuleBinding
 
 class RoleAndRuleFragment : Fragment() {
@@ -17,7 +21,7 @@ class RoleAndRuleFragment : Fragment() {
     private var isCreated : Boolean = false
     private val binding get() = _binding!!
     private val information = arrayListOf("To-do", "Role&Rule")
-
+    lateinit var bottomSheetDialog : BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,7 +35,10 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
         isCreated = false
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        setBottomSheet()
         binding.ivAddTodo.setOnClickListener {
+             //bottomSheetDialog.show()
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val editor = spf.edit()
             editor.putInt("tab_idx", binding.vpRoleAndRule.currentItem)
@@ -62,5 +69,18 @@ class RoleAndRuleFragment : Fragment() {
         binding.vpRoleAndRule.setCurrentItem(idx,false)
     }
 
+    private fun setBottomSheet(){
+        Log.d(TAG,"bokgjlkajsd")
+        val bottomSheet = BottomSheetTwoTextBinding.inflate(layoutInflater)
+        bottomSheet.tvTop.apply {
+            text = R.string.text_edit.toString()
+            setOnClickListener { Log.d(TAG,"수정하기") }
+        }
+        bottomSheet.tvBottom.apply {
+            text = R.string.text_delete.toString()
+            setOnClickListener { Log.d(TAG,"삭제하기") }
+        }
+        bottomSheetDialog.setContentView(bottomSheet.root)
+    }
 }
 

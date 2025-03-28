@@ -19,7 +19,7 @@ import umc.cozymate.databinding.FragmentAddRuleTabBinding
 import umc.cozymate.ui.viewmodel.RuleViewModel
 
 @AndroidEntryPoint
-class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClick {
+class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRuleTabBinding
     lateinit var spf : SharedPreferences
@@ -29,9 +29,7 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     private var memo : String? = ""
     private val viewModel : RuleViewModel by viewModels()
 
-    override fun deleteClickFunction() {
-        viewModel.deleteRule(roomId, ruleId)
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

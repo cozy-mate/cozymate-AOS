@@ -29,7 +29,7 @@ import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
 
 @AndroidEntryPoint
-class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClick {
+class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRoleTabBinding
     lateinit var spf : SharedPreferences
@@ -42,9 +42,6 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment(), ItemClic
     private var content : String? = ""
     private val viewModel: RoleViewModel by viewModels()
 
-    override fun deleteClickFunction() {
-        viewModel.deleteRole(roomId, roleId)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
