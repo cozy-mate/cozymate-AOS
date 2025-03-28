@@ -69,6 +69,7 @@ class RuleViewModel @Inject constructor(
     fun deleteRule( roomId : Int, ruleId : Int  ){
         viewModelScope.launch {
             safeApiCall { repository.deleteRule(getToken()!!, roomId, ruleId)}
+            getRule(roomId)
         }
     }
 

@@ -21,13 +21,13 @@ class RoleAndRuleFragment : Fragment() {
     private var isCreated : Boolean = false
     private val binding get() = _binding!!
     private val information = arrayListOf("To-do", "Role&Rule")
-    lateinit var bottomSheetDialog : BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoleAndRuleBinding.inflate(inflater, container, false)
+
         val roleAndRuleVPAdapter =  RoleAndRuleVPAdapter(this)
         binding.vpRoleAndRule.adapter = roleAndRuleVPAdapter
         TabLayoutMediator(binding.tbRoleAndRule, binding.vpRoleAndRule){
@@ -35,10 +35,8 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
         isCreated = false
-        bottomSheetDialog = BottomSheetDialog(requireContext())
-        setBottomSheet()
+
         binding.ivAddTodo.setOnClickListener {
-             //bottomSheetDialog.show()
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val editor = spf.edit()
             editor.putInt("tab_idx", binding.vpRoleAndRule.currentItem)
@@ -69,17 +67,5 @@ class RoleAndRuleFragment : Fragment() {
         binding.vpRoleAndRule.setCurrentItem(idx,false)
     }
 
-    private fun setBottomSheet(){
-        val bottomSheet = BottomSheetTwoTextBinding.inflate(layoutInflater)
-        bottomSheet.tvTop.apply {
-            text = R.string.text_edit.toString()
-            setOnClickListener { Log.d(TAG,"수정하기") }
-        }
-        bottomSheet.tvBottom.apply {
-            text = R.string.text_delete.toString()
-            setOnClickListener { Log.d(TAG,"삭제하기") }
-        }
-        bottomSheetDialog.setContentView(bottomSheet.root)
-    }
 }
 

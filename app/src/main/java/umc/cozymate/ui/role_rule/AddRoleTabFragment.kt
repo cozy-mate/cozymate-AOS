@@ -23,6 +23,8 @@ import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.MateInfo
+import umc.cozymate.data.model.entity.RoleData
+import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
@@ -38,8 +40,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private val weekdayBox = mutableListOf<Daybox>()
     private var mateBox = mutableListOf<MemberBox>()
     private var roomId : Int = 0
-    private var roleId : Int = 0
-    private var content : String? = ""
+    private var role : RoleData = RoleData()
     private val viewModel: RoleViewModel by viewModels()
 
 
@@ -51,7 +52,6 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
-        initMember(emptyList())
         initWeekdays()
         initdata()
         setTextinput()
@@ -97,37 +97,15 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     }
 
     private fun initdata(){
-        if(isEditable){
-            roleId = spf.getInt("role_id",0)
-            spf.edit().remove("role_id")
-            content = spf.getString("role_content","")
-            spf.edit().remove("role_content")
-            try{
-                var json = spf.getString("role_mate_list","")
-                var type = object : TypeToken<MutableList<MateInfo>>(){}.type
-                if(!json.isNullOrEmpty()) {
-                    selectedMates = Gson().fromJson(json,type)
-                    for(mate in mateBox )
-                        if(selectedMates.contains(mate.getMateInfo()))mate.box.isChecked = true
-                }
-                json = spf.getString("role_day_list","")
-                type = object : TypeToken<MutableList<String>>(){}.type
-                if(!json.isNullOrEmpty()) {
-                    repeatDayList = Gson().fromJson(json,type)
-                    for(day in weekdayBox)
-                        if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
-                }
-            }catch (e: JsonParseException){ e.printStackTrace() }
-            if(repeatDayList.isNullOrEmpty())binding.cbEmptyWeekday.isChecked = true
-            spf.edit().remove("role_mate_list")
-            spf.edit().remove("role_day_list")
-            spf.edit().apply()
-        }
-        else{
-            roleId=0
-            content = ""
-            selectedMates.clear()
-            repeatDayList.clear()
+        if(isEditable && arguments != null){
+            role = arguments?.getParcelable<RoleData>("role")!!
+            selectedMates = role.mateList as MutableList<MateInfo>
+            repeatDayList = role.repeatDayList as MutableList<String>
+            for(mate in mateBox )
+                if(selectedMates.contains(mate.getMateInfo()))mate.box.isChecked = true
+            for(day in weekdayBox)
+                if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
+            if(repeatDayList.isEmpty())binding.cbEmptyWeekday.isChecked = true
         }
     }
 
@@ -166,7 +144,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private fun setTextinput() {
         val maxLength = 20 // 최대 글자수 설정
         binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
-        binding.etInputRole.setText(content)
+        binding.etInputRole.setText(role.content)
         binding.etInputRole.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -198,14 +176,13 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         binding.btnInputButton.setOnClickListener {
             val request = RoleRequest(selectedMates, binding.etInputRole.text.toString(),repeatDayList)
             Log.d(TAG,"Role 입력 데이터 ${request}")
-            if(isEditable) viewModel.editRole(roomId, roleId, request)
+            if(isEditable) viewModel.editRole(roomId, role.roleId, request)
             else viewModel.createRole(roomId, request)
 
             val editor = spf.edit()
             editor.putInt("tab_idx", 1 )
-            editor.commit()
+            editor.apply()
             Log.d(TAG,"addRole tab_idx ${spf.getInt("tab_idx",202)}")
-            //(requireActivity() as AddTodoActivity).finish()
         }
     }
 
@@ -226,7 +203,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         val box : CheckBox
     ){
         init { setBox() }
-        fun setBox(){
+        private fun setBox(){
             val layoutParams  = LinearLayout.LayoutParams(ConvertDPtoPX(requireContext(),32),ConvertDPtoPX(requireContext(),32))
             layoutParams.marginEnd = ConvertDPtoPX(requireContext(),12)
             box.apply {
@@ -246,7 +223,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
                     binding.cbEmptyWeekday.isChecked = false
                 }
                 if(!isChecked && repeatDayList.contains(this.weekDay)) repeatDayList.remove(this.weekDay)
-                if(repeatDayList.isNullOrEmpty()) binding.cbEmptyWeekday.isChecked = true
+                if(repeatDayList.isEmpty()) binding.cbEmptyWeekday.isChecked = true
                 checkInput()
             }
             binding.layoutWeekdays.addView(box)

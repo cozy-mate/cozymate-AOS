@@ -48,20 +48,7 @@ class AddTodoActivity():AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             finish()
         }
-//        binding.tvDelete.setOnClickListener {
-//            val fragment = VPAdapter.getFragment(type)
-//            if(fragment != null && fragment.isAdded && fragment is ItemClick) {
-//                val t = listOf("투두를","롤을","룰을")
-//                val text = listOf("해당 "+t[type]+" 삭제하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
-//                val dialog = TwoButtonPopup(text,object : PopupClick {
-//                    override fun rightClickFunction() {
-//                        fragment.deleteClickFunction()
-//                    }
-//                })
-//                dialog.show(this.supportFragmentManager!!, "testPopup")
-//            }
-//
-//        }
+
     }
 
     fun showProgressBar(show: Boolean) {

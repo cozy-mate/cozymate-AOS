@@ -12,25 +12,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.R
 import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
-import umc.cozymate.databinding.BottomSheetTwoTextBinding
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
-import umc.cozymate.util.BottomSheetAction
 import umc.cozymate.util.BottomSheetAction.DELETE
 import umc.cozymate.util.BottomSheetAction.EDIT
 import umc.cozymate.util.showEnumBottomSheet
@@ -137,7 +133,6 @@ class TodoTabFragment : Fragment() {
         })
     }
 
-
     private fun updateUI() {
         // 선택된 날짜가 미래일경우만 롤 투두 추가
         if (selectedDate.isAfter(LocalDate.now())) {
@@ -198,8 +193,6 @@ class TodoTabFragment : Fragment() {
 
     }
 
-
-
     private fun updateInfo() {
         // 날짜
         val fomatter = DateTimeFormatter.ofPattern("M/d(E), ")
@@ -248,17 +241,17 @@ class TodoTabFragment : Fragment() {
         val intent = Intent(activity,AddTodoActivity()::class.java)
         val bundle = Bundle().apply {
             putString("todo_date", selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
-            putParcelable("todoItem", todo)
+            putParcelable("todo", todo)
         }
         intent.putExtra("input_type",0)
         intent.putExtra("edit_data",bundle)
         startActivity(intent)
     }
     private fun showDeletePopup(todoId : Int ){
-        val text = listOf("해당 투두를 삭제하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
+        val text = listOf("해당 투두를 삭제 하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
         val dialog = TwoButtonPopup(text,object : PopupClick {
                     override fun rightClickFunction() {
-                        viewModel.deleteTodo(roomId,todoId)
+                        viewModel.deleteTodo(roomId,todoId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
                     }
         })
         dialog.show(requireActivity().supportFragmentManager,"delete Todo")

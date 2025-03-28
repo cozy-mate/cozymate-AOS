@@ -82,7 +82,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
 
     private fun initdata(){
         if(isEditable && arguments != null){
-            val todo = arguments?.getParcelable<TodoData.TodoItem>("todoItem")!!
+            val todo = arguments?.getParcelable<TodoData.TodoItem>("todo")!!
             content = todo.content
             todoId = todo.todoId
             selectedDate = arguments?.getString("todo_date")
