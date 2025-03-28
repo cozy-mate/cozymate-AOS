@@ -70,7 +70,6 @@ class RoleAndRuleFragment : Fragment() {
     }
 
     private fun setBottomSheet(){
-        Log.d(TAG,"bokgjlkajsd")
         val bottomSheet = BottomSheetTwoTextBinding.inflate(layoutInflater)
         bottomSheet.tvTop.apply {
             text = R.string.text_edit.toString()
