@@ -13,17 +13,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
+import umc.cozymate.R
 import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
 import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
+import umc.cozymate.databinding.BottomSheetTwoTextBinding
 import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoleViewModel
@@ -48,6 +51,7 @@ class TodoTabFragment : Fragment() {
     private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
+    lateinit var bottomSheetDialog : BottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +60,12 @@ class TodoTabFragment : Fragment() {
     ): View? {
         binding = FragmentTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
+        bottomSheetDialog = BottomSheetDialog(requireContext())
         setMinHight()
         getPreference()
         updateInfo()
         updateUI()
+        setBottomSheet()
         return binding.root
     }
 
@@ -158,9 +164,13 @@ class TodoTabFragment : Fragment() {
                 override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
                     if (todo.todoType.equals("role")) return
-                    saveSpf(todo)
+                    //saveSpf(todo)
                     val intent = Intent(activity,AddTodoActivity()::class.java)
-                    intent.putExtra("type",0)
+                    val bundle = Bundle().apply {
+                        putParcelable("todoItem", todo)
+                    }
+                    intent.putExtra("input_type",0)
+                    intent.putExtra("edit_data",bundle)
                     startActivity(intent)
                 }
 
@@ -242,6 +252,20 @@ class TodoTabFragment : Fragment() {
             roleTodo[day]!!.add(todo)
     }
 
+    private fun setBottomSheet(){
+        val bottomSheet = BottomSheetTwoTextBinding.inflate(layoutInflater)
+        bottomSheet.tvTop.apply {
+            text = R.string.text_edit.toString()
+            setOnClickListener {
+
+            }
+        }
+        bottomSheet.tvBottom.apply {
+            text = R.string.text_delete.toString()
+            setOnClickListener { Log.d(TAG,"삭제하기") }
+        }
+        bottomSheetDialog.setContentView(bottomSheet.root)
+    }
 
 
 }
