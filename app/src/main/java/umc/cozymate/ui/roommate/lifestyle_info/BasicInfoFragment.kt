@@ -269,7 +269,7 @@ class BasicInfoFragment : Fragment() {
             isDormitoryNameSelected,
             isNumberFilled
         ).count { it }
-        val completionRate = filledCount / 5f
+        val completionRate = filledCount / 4f
 
         (activity as? RoommateInputInfoActivity)?.updateProgressBar(completionRate)
 
