@@ -12,6 +12,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,6 +57,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomDetailViewModel : RoomDetailViewModel by viewModels()
+    val firebaseAnalytics = Firebase.analytics
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -182,6 +186,10 @@ class RoommateDetailActivity : AppCompatActivity() {
     private fun setUpListeners(userDetail: GetMemberDetailInfoResponse.Result) {
         // 리스트 뷰 클릭 시
         binding.llListView.setOnClickListener {
+            firebaseAnalytics.logEvent("list_view_button_click") {
+                param("리스트로 보기", "list_view_button")
+                param("룸메이트 상세 화면", "roommate_detail_screen")
+            }
             Log.d(TAG, "리스트 뷰 클릭")
             otherUserDetail?.let { detail ->
                 selectListView(detail)
@@ -190,6 +198,11 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         // 테이블 뷰 클릭 시
         binding.llTableView.setOnClickListener {
+            firebaseAnalytics.logEvent("table_view_button_click") {
+                param("표로 보기", "table_view_button")
+                param("룸메이트 상세 화면", "roommate_detail_screen")
+            }
+
             Log.d(TAG, "테이블 뷰 클릭")
             selectTableView(otherUserDetail!!, userDetail!!)
         }
