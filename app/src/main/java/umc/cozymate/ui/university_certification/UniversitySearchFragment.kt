@@ -46,6 +46,7 @@ class UniversitySearchFragment : Fragment() {
         }
         observeUniversityList()
         setUniversitySearchView()
+        setCancelBtn()
     }
 
     override fun onDestroyView() {
@@ -86,15 +87,21 @@ class UniversitySearchFragment : Fragment() {
                 if (newText == "") {
                     binding.tvNone.visibility = View.GONE
                 } else {
-                    if (adapter.filteredList.isEmpty()) {
-                        binding.tvNone.visibility = View.VISIBLE
-                    }
                     binding.rvUniv.visibility = View.VISIBLE
                     binding.tvNone.visibility = View.GONE
                     adapter.filter(newText ?: "")
+                    if (adapter.filteredList.isEmpty()) {
+                        binding.tvNone.visibility = View.VISIBLE
+                    }
                 }
                 return true
             }
         })
+    }
+
+    fun setCancelBtn() {
+        binding.btnCancle.setOnClickListener() {
+            parentFragmentManager.popBackStack()
+        }
     }
 }

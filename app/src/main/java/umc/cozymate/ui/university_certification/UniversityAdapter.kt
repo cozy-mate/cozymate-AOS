@@ -42,6 +42,7 @@ class UniversityAdapter(
 
     fun setItems(newItems: List<GetUniversityListResponse.Result.University>) {
         originalList = newItems
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: UniversityAndMajorViewHolder, position: Int) {
