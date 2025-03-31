@@ -70,12 +70,6 @@ class UniversityCertificationFragment : Fragment() {
         handleMajorSelection()
         handleEmailValidation()
         handleVerifyCode()
-//        binding.btnCheckVerifyCode.visibility = View.GONE
-//        binding.tvAlertCode.visibility = View.GONE
-//        binding.tvAlertEmail.visibility = View.GONE
-//        binding.clCheckVerifyCode.visibility = View.GONE
-        // binding.spinnerMajor.isClickable = true
-        // 학과 정보 옵저빙해서 스피너 설정
         viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)
@@ -210,7 +204,7 @@ class UniversityCertificationFragment : Fragment() {
             }
         }
         viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true || isVerified == null) {
+            if (isVerified == true) {
                 binding.tvAlertCode.visibility = View.GONE
                 val intent = Intent(requireContext(), OnboardingActivity::class.java)
                 startActivity(intent)

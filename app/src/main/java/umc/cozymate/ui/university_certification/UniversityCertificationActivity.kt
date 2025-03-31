@@ -2,6 +2,7 @@ package umc.cozymate.ui.university_certification
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -47,6 +48,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
 
     // [학교인증 페이지]
     fun loadUniversityCertificationFragment() {
+        Log.d("TAG", "학교인증 페이지 가야지....")
         val fragment = UniversityCertificationFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_university_cert, fragment)
