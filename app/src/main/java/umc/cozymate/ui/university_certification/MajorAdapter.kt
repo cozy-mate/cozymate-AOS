@@ -41,6 +41,7 @@ class MajorAdapter(
 
     fun setItems(newItems: List<String>) {
         originalList = newItems
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: MajorViewHolder, position: Int) {
