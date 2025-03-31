@@ -34,6 +34,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private val roleViewModel : RoleViewModel by viewModels()
     private var roomId : Int = 0
     private var roomName : String = ""
+    
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -143,7 +144,7 @@ class RoleAndRuleTabFragment: Fragment() {
                     requireContext().showEnumBottomSheet( "\' "+rule.content+" \'", listOf(EDIT, DELETE)) { action->
                         when (action) {
                             EDIT -> {
-                                val intent = Intent(activity,AddTodoActivity()::class.java)
+                                val intent = Intent(activity,AddTodoActivity::class.java)
                                 val bundle = Bundle().apply {
                                     putParcelable("rule", rule)
                                 }
@@ -178,7 +179,7 @@ class RoleAndRuleTabFragment: Fragment() {
                     requireContext().showEnumBottomSheet( "\' "+role.content+" \'", listOf(EDIT, DELETE)) { action ->
                         when (action) {
                             EDIT -> {
-                                val intent = Intent(activity,AddTodoActivity()::class.java)
+                                val intent = Intent(activity,AddTodoActivity::class.java)
                                 val bundle = Bundle().apply {
                                     putParcelable("role", role)
                                 }

@@ -11,13 +11,21 @@ import umc.cozymate.databinding.BottomSheetTwoOptionsBinding
 fun Context.showEnumBottomSheet(
     title: String,
     actions: List<BottomSheetAction>,
-    onAction: (BottomSheetAction) -> Unit
+    onAction: (BottomSheetAction) -> Unit,
+
 ) {
     val binding = BottomSheetTwoOptionsBinding.inflate(LayoutInflater.from(this))
     val dialog = BottomSheetDialog(this)
 
+    // 빈 액션리스트에 대한 에러 처리
+    if (actions.isEmpty()) {
+        return
+   }
+
+    // 타이틀 반영 -> 없다면 아예 안보임
     binding.tvTitle.text = title
     if (title.isEmpty()) binding.tvTitle.visibility = View.GONE
+
 
     if (actions.size >= 1) {
         binding.tvTop.setText(actions[0].textResId)
