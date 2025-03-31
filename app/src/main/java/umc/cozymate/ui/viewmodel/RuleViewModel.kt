@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.request.RuleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RuleResponse
 import umc.cozymate.data.repository.repository.RuleRepository
 import javax.inject.Inject
@@ -69,6 +68,7 @@ class RuleViewModel @Inject constructor(
     fun deleteRule( roomId : Int, ruleId : Int  ){
         viewModelScope.launch {
             safeApiCall { repository.deleteRule(getToken()!!, roomId, ruleId)}
+            getRule(roomId)
         }
     }
 

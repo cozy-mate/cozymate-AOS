@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
+import umc.cozymate.ui.pop_up.PopupClick
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.RuleViewModel
+import umc.cozymate.util.BottomSheetAction.DELETE
+import umc.cozymate.util.BottomSheetAction.EDIT
+import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
 class RoleAndRuleTabFragment: Fragment() {
@@ -33,6 +34,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private val roleViewModel : RoleViewModel by viewModels()
     private var roomId : Int = 0
     private var roomName : String = ""
+    
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,10 +99,10 @@ class RoleAndRuleTabFragment: Fragment() {
             updateRole()
         })
 
-        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
             isLoading()
         })
-        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
             isLoading()
         })
     }
@@ -138,10 +140,22 @@ class RoleAndRuleTabFragment: Fragment() {
             binding.rvRules.adapter = ruleRVAdapter
             ruleRVAdapter.setItemClickListener(object :ItemClick{
                 override fun editClickFunction(rule: RuleData){
-                    saveRuleSpf(rule)
-                    val intent = Intent(activity,AddTodoActivity()::class.java)
-                    intent.putExtra("type",2)
-                    startActivity(intent)
+                    // 바텀 시트로 수정
+                    requireContext().showEnumBottomSheet( "\' "+rule.content+" \'", listOf(EDIT, DELETE)) { action->
+                        when (action) {
+                            EDIT -> {
+                                val intent = Intent(activity,AddTodoActivity::class.java)
+                                val bundle = Bundle().apply {
+                                    putParcelable("rule", rule)
+                                }
+                                intent.putExtra("input_type",2)
+                                intent.putExtra("edit_data",bundle)
+                                startActivity(intent)
+                            }
+                            DELETE -> showDeletePopup(rule.ruleId, 2)
+                            else -> {}
+                        }
+                    }
                 }
             })
         }
@@ -149,40 +163,49 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
     private fun updateRole() {
-        if(roles.isNullOrEmpty()){
+        if(roles.isEmpty()){
             binding.tvEmptyRole.visibility = View.VISIBLE
             binding.rvRoleList.visibility = View.GONE
         }
         else{
             binding.tvEmptyRole.visibility = View.GONE
             binding.rvRoleList.visibility = View.VISIBLE
-            val roleRVAdapter = RoleRVAdapter(roles!!)
+            val roleRVAdapter = RoleRVAdapter(roles)
             binding.rvRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvRoleList.adapter = roleRVAdapter
             roleRVAdapter.setItemClickListener(object : ItemClick{
                 override fun editClickFunction(role: RoleData) {
-                    saveRoleSpf(role)
-                    val intent = Intent(activity,AddTodoActivity()::class.java)
-                    intent.putExtra("type",1)
-                    startActivity(intent)
+                    // 바텀 시트로 수정
+                    requireContext().showEnumBottomSheet( "\' "+role.content+" \'", listOf(EDIT, DELETE)) { action ->
+                        when (action) {
+                            EDIT -> {
+                                val intent = Intent(activity,AddTodoActivity::class.java)
+                                val bundle = Bundle().apply {
+                                    putParcelable("role", role)
+                                }
+                                intent.putExtra("input_type",1)
+                                intent.putExtra("edit_data",bundle)
+                                startActivity(intent)
+                            }
+                            DELETE -> showDeletePopup(role.roleId, 1)
+                            else -> {}
+                        }
+                    }
                 }
             })
         }
     }
-    private fun saveRoleSpf(role: RoleData){
-        val editor = spf.edit()
-        editor.putInt("role_id",role.roleId)
-        editor.putString("role_content",role.content)
-        editor.putString("role_mate_list", Gson().toJson(role.mateList))
-        editor.putString("role_day_list",Gson().toJson(role.repeatDayList))
-        editor.apply()
-    }
-    private fun saveRuleSpf(rule: RuleData){
-        val editor = spf.edit()
-        editor.putInt("rule_id",rule.ruleId)
-        editor.putString("rule_content",rule.content)
-        editor.putString("rule_memo",rule.memo)
-        editor.apply()
+
+    private fun showDeletePopup(id : Int, type : Int ){
+        val t = if (type ==1) "롤" else "룰"
+        val text = listOf("해당 "+t+"을 삭제 하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
+        val dialog = TwoButtonPopup(text,object : PopupClick {
+            override fun rightClickFunction() {
+                if(type == 1) roleViewModel.deleteRole(roomId,id)
+                else ruleViewModel.deleteRule(roomId,id)
+            }
+        })
+        dialog.show(requireActivity().supportFragmentManager,"delete Todo")
     }
 
 }
