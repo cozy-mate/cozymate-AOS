@@ -14,6 +14,7 @@ import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
+import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -41,6 +42,24 @@ class UniversityViewModel @Inject constructor(
             fetchMyUniversity()
         }
         return getSavedUniversity()
+    }
+
+    // 대학 리스트 조회 (/university/get-list)
+    private val _getUnivListResponse = MutableLiveData<GetUniversityListResponse>()
+    val getUnivListResponse: LiveData<GetUniversityListResponse> get() = _getUnivListResponse
+    suspend fun getUniversityList() {
+        val token = getToken()
+        try {
+            val response = memberRepo.getUniversityList(token!!)
+            if (response.isSuccessful) {
+                if (response.body()?.isSuccess == true) {
+                    Log.d(TAG, "대학 리스트 조회 성공: ${response.body()!!.result}")
+                    _getUnivListResponse.value = response.body()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "대학 리스트 조회 api 요청 실패: $e")
+        }
     }
 
     // 대학교 메일 인증 여부
@@ -101,13 +120,11 @@ class UniversityViewModel @Inject constructor(
 
     }
 
-    // 대학교 정보 조회(학교인증 전)
+    // 대학 메일 패턴, 학과, 기숙사명 조회(/university/get-info)
     private val _universityInfo = MutableLiveData<GetUniversityInfoResponse.Result>()
     val universityInfo: LiveData<GetUniversityInfoResponse.Result> get() = _universityInfo
     private val _universityId = MutableLiveData<Int>()
     val universityId: LiveData<Int> get() = _universityId
-    private val _major = MutableLiveData<String>()
-    val major: LiveData<String> get() = _major
     private val _dormitoryNames = MutableLiveData<List<String>>()
     val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
@@ -127,7 +144,6 @@ class UniversityViewModel @Inject constructor(
             Log.d(TAG, "대학교 정보 조회 api 요청 실패: $e")
             _university.value = "학교 인증을 해주세요"
         }
-
     }
 
     fun getDormitory(id: Int) {
@@ -145,7 +161,7 @@ class UniversityViewModel @Inject constructor(
                 _universityId.value = 1
             }
 
-            "학교2" -> {
+            "가톨릭대학교" -> {
                 _universityId.value = 2
             }
 
@@ -159,6 +175,8 @@ class UniversityViewModel @Inject constructor(
         }
     }
 
+    private val _major = MutableLiveData<String>()
+    val major: LiveData<String> get() = _major
     fun setMajor(majorName: String) {
         _major.value = majorName
     }
