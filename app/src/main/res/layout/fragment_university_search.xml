@@ -12,7 +12,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="49dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,33 +22,21 @@
             <SearchView
                 android:id="@+id/search_view"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="49dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/ripple_box_12dp"
                 android:backgroundTint="@color/color_box"
+                android:closeIcon="@drawable/ic_clear"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@null"
                 android:queryHint="학교를 입력해주세요"
                 android:searchIcon="@null"
+                android:submitBackground="@null"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:theme="@style/AppSearchView"
                 app:layout_constraintEnd_toStartOf="@id/btn_cancle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="16dp"
-                android:background="@color/transparent"
-                android:cursorVisible="false"
-                android:hint="학교를 입력해주세요"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                android:textColorHint="@color/unuse_font"
-                app:layout_constraintBottom_toBottomOf="@id/iv_search"
-                app:layout_constraintEnd_toEndOf="@id/iv_search"
-                app:layout_constraintStart_toStartOf="@id/iv_search"
-                app:layout_constraintTop_toTopOf="@id/iv_search" />
 
             <Button
                 android:id="@+id/btn_cancle"
