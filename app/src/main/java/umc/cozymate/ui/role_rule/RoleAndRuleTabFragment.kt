@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
-import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
@@ -27,7 +22,6 @@ import umc.cozymate.ui.viewmodel.RuleViewModel
 import umc.cozymate.util.BottomSheetAction.DELETE
 import umc.cozymate.util.BottomSheetAction.EDIT
 import umc.cozymate.util.showEnumBottomSheet
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class RoleAndRuleTabFragment: Fragment() {
@@ -104,10 +98,10 @@ class RoleAndRuleTabFragment: Fragment() {
             updateRole()
         })
 
-        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
             isLoading()
         })
-        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
             isLoading()
         })
     }
@@ -146,7 +140,7 @@ class RoleAndRuleTabFragment: Fragment() {
             ruleRVAdapter.setItemClickListener(object :ItemClick{
                 override fun editClickFunction(rule: RuleData){
                     // 바텀 시트로 수정
-                    requireContext().showEnumBottomSheet( rule, listOf(EDIT, DELETE)) { action, _ ->
+                    requireContext().showEnumBottomSheet( "\' "+rule.content+" \'", listOf(EDIT, DELETE)) { action->
                         when (action) {
                             EDIT -> {
                                 val intent = Intent(activity,AddTodoActivity()::class.java)
@@ -168,20 +162,20 @@ class RoleAndRuleTabFragment: Fragment() {
     }
 
     private fun updateRole() {
-        if(roles.isNullOrEmpty()){
+        if(roles.isEmpty()){
             binding.tvEmptyRole.visibility = View.VISIBLE
             binding.rvRoleList.visibility = View.GONE
         }
         else{
             binding.tvEmptyRole.visibility = View.GONE
             binding.rvRoleList.visibility = View.VISIBLE
-            val roleRVAdapter = RoleRVAdapter(roles!!)
+            val roleRVAdapter = RoleRVAdapter(roles)
             binding.rvRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvRoleList.adapter = roleRVAdapter
             roleRVAdapter.setItemClickListener(object : ItemClick{
                 override fun editClickFunction(role: RoleData) {
                     // 바텀 시트로 수정
-                    requireContext().showEnumBottomSheet( role, listOf(EDIT, DELETE)) { action, _ ->
+                    requireContext().showEnumBottomSheet( "\' "+role.content+" \'", listOf(EDIT, DELETE)) { action ->
                         when (action) {
                             EDIT -> {
                                 val intent = Intent(activity,AddTodoActivity()::class.java)

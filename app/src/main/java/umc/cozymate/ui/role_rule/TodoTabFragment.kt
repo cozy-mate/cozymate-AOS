@@ -159,10 +159,10 @@ class TodoTabFragment : Fragment() {
                 }
                 override fun editClickFunction(todo : TodoItem) {
                     // 롤 투두는 수정 불가
-                    if (todo.todoType.equals("role")) return
+                    if (todo.todoType == "role") return
 
                     // 바텀 시트로 수정
-                    requireContext().showEnumBottomSheet( todo, listOf(EDIT, DELETE)) { action, _ ->
+                    requireContext().showEnumBottomSheet( "\' "+todo.content+" \'", listOf(EDIT, DELETE)) { action->
                         when (action) {
                             EDIT -> startEditActivity(todo)
                             DELETE -> showDeletePopup(todo.todoId)
@@ -209,7 +209,7 @@ class TodoTabFragment : Fragment() {
         calendarView.addDecorators(decorator,todayDecorator)
 
         // 월이 변경될 때마다 데코레이터를 업데이트
-        calendarView.setOnMonthChangedListener { widget, date ->
+        calendarView.setOnMonthChangedListener { widget, _ ->
             // 데코레이터를 재적용
             widget.addDecorator(decorator)
         }

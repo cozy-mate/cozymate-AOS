@@ -1,9 +1,8 @@
 package umc.cozymate.data.model.entity
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
