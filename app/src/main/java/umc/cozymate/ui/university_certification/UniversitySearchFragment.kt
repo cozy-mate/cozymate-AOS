@@ -7,22 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import umc.cozymate.R
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
-import umc.cozymate.databinding.FragmentOnboardingUniversityInfoBinding
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
 import umc.cozymate.ui.MessageDetail.UniversityAdapter
-//import umc.cozymate.ui.university_certification.adapter.UniversitiesAdapter
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -53,11 +48,17 @@ class UniversitySearchFragment : Fragment() {
         setUniversitySearchView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun observeUniversityList() {
-        adapter = UniversityAdapter { univId ->
+        adapter = UniversityAdapter { univId, univName ->
             setFragmentResult(
-                UniversityCertificationFragment.ARG_UNIVERSITY_ID,
-                bundleOf(UniversityCertificationFragment.ARG_UNIVERSITY_ID to univId)
+                UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
+                bundleOf(UniversityCertificationFragment.ARG_UNIVERSITY_ID to univId,
+                    UniversityCertificationFragment.ARG_UNIVERSITY_NAME to univName)
             )
             parentFragmentManager.popBackStack()
         }
@@ -75,16 +76,23 @@ class UniversitySearchFragment : Fragment() {
     }
 
     fun setUniversitySearchView() {
+        binding.tvNone.visibility = View.GONE
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val filteredList = univList.filter {
-                    univList.toString().contains(newText ?: "", ignoreCase = true)
+                if (newText == "") {
+                    binding.tvNone.visibility = View.GONE
+                } else {
+                    if (adapter.filteredList.isEmpty()) {
+                        binding.tvNone.visibility = View.VISIBLE
+                    }
+                    binding.rvUniv.visibility = View.VISIBLE
+                    binding.tvNone.visibility = View.GONE
+                    adapter.filter(newText ?: "")
                 }
-                adapter.setItems(filteredList)
                 return true
             }
         })

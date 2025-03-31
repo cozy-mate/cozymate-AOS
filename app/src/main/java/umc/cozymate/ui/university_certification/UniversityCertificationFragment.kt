@@ -49,6 +49,7 @@ class UniversityCertificationFragment : Fragment() {
     private lateinit var countDownTimer: CountDownTimer
 
     companion object {
+        const val ARG_UNIVERSITY_INFO = "university_info"
         const val ARG_UNIVERSITY_ID = "university_id"
         const val ARG_UNIVERSITY_NAME = "university_name"
         const val ARG_MAJOR_NAME = "major_name"
@@ -88,13 +89,15 @@ class UniversityCertificationFragment : Fragment() {
         binding.clUniversity.setOnClickListener {
             navigateToFragment(UniversitySearchFragment())
         }
-        setFragmentResultListener(ARG_UNIVERSITY_NAME) { _, bundle ->
+        setFragmentResultListener(ARG_UNIVERSITY_INFO) { _, bundle ->
             universityName = bundle.getString(ARG_UNIVERSITY_NAME) ?: ""
             binding.tvUniversityName.text = universityName
             binding.tvUniversityName.setTextColor(resources.getColor(R.color.basic_font))
+            Log.d(TAG, "selected university name: $universityName")
         }
-        setFragmentResultListener(ARG_UNIVERSITY_ID) { _, bundle ->
+        setFragmentResultListener(ARG_UNIVERSITY_INFO) { _, bundle ->
             universityId = bundle.getInt(ARG_UNIVERSITY_ID) ?: 0
+            Log.d(TAG, "selected university id: $universityId")
         }
     }
 
@@ -111,6 +114,7 @@ class UniversityCertificationFragment : Fragment() {
             majorName = bundle.getString(ARG_MAJOR_NAME) ?: ""
             binding.tvMajorName.text = majorName
             binding.tvMajorName.setTextColor(resources.getColor(R.color.basic_font))
+            Log.d(TAG, "selected major: $majorName")
         }
     }
 
