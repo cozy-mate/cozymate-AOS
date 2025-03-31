@@ -42,6 +42,7 @@ class UniversityCertificationFragment : Fragment() {
     private var universityName: String = ""
     private var universityId: Int = 0
     private var majorName: String = ""
+    private var mailPattern: String = ""
     private var email: String = ""
     private var code: String = ""
     var departments: List<String> = ArrayList()
@@ -52,6 +53,8 @@ class UniversityCertificationFragment : Fragment() {
         const val ARG_UNIVERSITY_INFO = "university_info"
         const val ARG_UNIVERSITY_ID = "university_id"
         const val ARG_UNIVERSITY_NAME = "university_name"
+        const val ARG_MAJOR_INFO = "major_info"
+        const val ARG_MAIL_PATTERN = "mail_pattern"
         const val ARG_MAJOR_NAME = "major_name"
     }
 
@@ -75,6 +78,7 @@ class UniversityCertificationFragment : Fragment() {
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)
         }
+        testBtn()
     }
 
     override fun onDestroyView() {
@@ -85,18 +89,31 @@ class UniversityCertificationFragment : Fragment() {
         }
     }
 
+    fun testBtn() {
+        binding.btnSendVerifyCode.isEnabled = true
+        binding.btnSendVerifyCode.setOnClickListener() {
+            val intent = Intent(requireContext(), OnboardingActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+    }
+
     fun handleUniversitySelection() {
         binding.clUniversity.setOnClickListener {
             navigateToFragment(UniversitySearchFragment())
         }
-        setFragmentResultListener(ARG_UNIVERSITY_INFO) { _, bundle ->
-            universityName = bundle.getString(ARG_UNIVERSITY_NAME) ?: ""
-            binding.tvUniversityName.text = universityName
-            binding.tvUniversityName.setTextColor(resources.getColor(R.color.basic_font))
-            Log.d(TAG, "selected university name: $universityName")
+        viewModel.universityName.observe(viewLifecycleOwner) { name ->
+            if (name != "" && name != null) {
+                binding.tvUniversityName.text = universityName
+                binding.tvUniversityName.setTextColor(resources.getColor(R.color.basic_font))
+            }
         }
         setFragmentResultListener(ARG_UNIVERSITY_INFO) { _, bundle ->
+            universityName = bundle.getString(ARG_UNIVERSITY_NAME) ?: ""
             universityId = bundle.getInt(ARG_UNIVERSITY_ID) ?: 0
+            viewModel.setUniversityName(universityName)
+            viewModel.setUniversityId(universityId.toString())
+            Log.d(TAG, "selected university name: $universityName")
             Log.d(TAG, "selected university id: $universityId")
         }
     }
@@ -110,11 +127,18 @@ class UniversityCertificationFragment : Fragment() {
         binding.clMajor.setOnClickListener {
             navigateToFragment(fragment)
         }
-        setFragmentResultListener(ARG_MAJOR_NAME) { _, bundle ->
+        viewModel.major.observe(viewLifecycleOwner) { major ->
+            if (major != "" && major != null) {
+                binding.tvMajorName.text = majorName
+                binding.tvMajorName.setTextColor(resources.getColor(R.color.basic_font))
+            }
+        }
+        setFragmentResultListener(ARG_MAJOR_INFO) { _, bundle ->
             majorName = bundle.getString(ARG_MAJOR_NAME) ?: ""
-            binding.tvMajorName.text = majorName
-            binding.tvMajorName.setTextColor(resources.getColor(R.color.basic_font))
-            Log.d(TAG, "selected major: $majorName")
+            mailPattern = bundle.getString(ARG_MAIL_PATTERN) ?: ""
+            viewModel.setMajor(majorName)
+            viewModel.setMailPattern(mailPattern)
+            Log.d(TAG, "selected major: $majorName , mail pattern: $mailPattern")
         }
     }
 
@@ -126,7 +150,14 @@ class UniversityCertificationFragment : Fragment() {
     fun checkIsValidEmail() {
         viewModel.mailPattern.observe(viewLifecycleOwner) { mp ->
             binding.etUniversityEmail.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val input = s.toString()
                     // 사용자가 입력하는 중엔 Job 취소하기
@@ -143,6 +174,7 @@ class UniversityCertificationFragment : Fragment() {
                         }
                     }
                 }
+
                 override fun afterTextChanged(s: Editable?) {}
             })
         }
@@ -156,8 +188,8 @@ class UniversityCertificationFragment : Fragment() {
         }
         // 인증번호 전송 상태 옵저빙
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
+            binding.btnSendVerifyCode.text = "인증번호 재전송"
             if (isSent) {
-                binding.btnSendVerifyCode.text = "인증번호 재전송"
                 binding.clCheckVerifyCode.visibility = View.VISIBLE
                 binding.tvAlertCode.visibility = View.INVISIBLE
                 binding.btnCheckVerifyCode.isEnabled = true
@@ -169,13 +201,15 @@ class UniversityCertificationFragment : Fragment() {
                         val seconds = millisUntilFinished / 1000 % 60
                         binding.tvCounter.text = String.format("%d:%02d", minutes, seconds)
                     }
+
                     override fun onFinish() {
                         binding.tvCounter.text = "0:00"
                     }
                 }
                 countDownTimer.start()
             } else {
-                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "인증번호 전송에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -197,6 +231,7 @@ class UniversityCertificationFragment : Fragment() {
                     }
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }
@@ -210,6 +245,8 @@ class UniversityCertificationFragment : Fragment() {
         viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true) {
                 binding.tvAlertCode.visibility = View.GONE
+                Toast.makeText(requireContext(), "학교 인증을 성공했습니다.", Toast.LENGTH_SHORT)
+                    .show()
                 val intent = Intent(requireContext(), OnboardingActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()

@@ -29,6 +29,7 @@ class MajorSearchFragment : Fragment() {
     private var _binding: FragmentMajorSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var majorList: List<String>
+    private var mailPattern: String = ""
     private lateinit var adapter: MajorAdapter
     private var debounceJob: Job? = null
     override fun onCreateView(
@@ -56,14 +57,8 @@ class MajorSearchFragment : Fragment() {
     }
 
     fun observeMajorList() {
-        adapter = MajorAdapter { majorName ->
-            setFragmentResult(
-                UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
-                bundleOf(UniversityCertificationFragment.ARG_MAJOR_NAME to majorName)
-            )
-            parentFragmentManager.popBackStack()
-        }
         viewModel.universityInfo.observe(viewLifecycleOwner) { res ->
+            mailPattern = res?.mailPattern.toString()
             majorList = res?.departments ?: emptyList()
             if (majorList.isNotEmpty()) {
                 binding.tvNone.visibility = View.GONE
@@ -71,6 +66,16 @@ class MajorSearchFragment : Fragment() {
             } else {
                 binding.tvNone.visibility = View.VISIBLE
             }
+        }
+        adapter = MajorAdapter { majorName ->
+            setFragmentResult(
+                UniversityCertificationFragment.ARG_MAJOR_INFO,
+                bundleOf(
+                    UniversityCertificationFragment.ARG_MAJOR_NAME to majorName,
+                    UniversityCertificationFragment.ARG_MAIL_PATTERN to mailPattern
+                )
+            )
+            parentFragmentManager.popBackStack()
         }
         binding.rvUniv.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUniv.adapter = adapter

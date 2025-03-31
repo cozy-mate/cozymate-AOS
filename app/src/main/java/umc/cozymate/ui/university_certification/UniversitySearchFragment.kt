@@ -58,8 +58,10 @@ class UniversitySearchFragment : Fragment() {
         adapter = UniversityAdapter { univId, univName ->
             setFragmentResult(
                 UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
-                bundleOf(UniversityCertificationFragment.ARG_UNIVERSITY_ID to univId,
-                    UniversityCertificationFragment.ARG_UNIVERSITY_NAME to univName)
+                bundleOf(
+                    UniversityCertificationFragment.ARG_UNIVERSITY_ID to univId,
+                    UniversityCertificationFragment.ARG_UNIVERSITY_NAME to univName
+                )
             )
             parentFragmentManager.popBackStack()
         }

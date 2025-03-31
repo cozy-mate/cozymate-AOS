@@ -123,8 +123,6 @@ class UniversityViewModel @Inject constructor(
     // 대학 메일 패턴, 학과, 기숙사명 조회(/university/get-info)
     private val _universityInfo = MutableLiveData<GetUniversityInfoResponse.Result>()
     val universityInfo: LiveData<GetUniversityInfoResponse.Result> get() = _universityInfo
-    private val _universityId = MutableLiveData<Int>()
-    val universityId: LiveData<Int> get() = _universityId
     private val _dormitoryNames = MutableLiveData<List<String>>()
     val dormitoryNames: LiveData<List<String>> get() = _dormitoryNames
     suspend fun fetchUniversityInfo() {
@@ -155,6 +153,14 @@ class UniversityViewModel @Inject constructor(
         }
     }
 
+    private val _universityName = MutableLiveData<String>()
+    val universityName: LiveData<String> get() = _universityName
+    fun setUniversityName(name: String) {
+        _universityName.value = name
+    }
+
+    private val _universityId = MutableLiveData<Int>()
+    val universityId: LiveData<Int> get() = _universityId
     fun setUniversityId(university: String) {
         when (university) {
             "인하대학교" -> {
@@ -171,6 +177,9 @@ class UniversityViewModel @Inject constructor(
 
             "한국공학대학교" -> {
                 _universityId.value = 4
+            }
+            else -> {
+                _universityId.value = 1
             }
         }
     }

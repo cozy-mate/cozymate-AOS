@@ -22,9 +22,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="56dp"
+                android:includeFontPadding="false"
                 android:text="원활한 서비스 이용을 위해"
-                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,9 +35,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="개인정보를 입력해주세요!"
-                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title1" />
 
