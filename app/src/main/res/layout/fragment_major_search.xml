@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.university_certification.UniversitySearchFragment">
+
+        <!-- 검색창 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="0dp"
+                android:layout_height="49dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ripple_box_12dp"
+                android:backgroundTint="@color/color_box"
+                android:closeIcon="@drawable/ic_clear"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@null"
+                android:queryHint="학과를 입력해주세요"
+                android:searchIcon="@null"
+                android:submitBackground="@null"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:theme="@style/AppSearchView"
+                app:layout_constraintEnd_toStartOf="@id/btn_cancle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/transparent"
+                android:padding="0dp"
+                android:text="취소"
+                android:textColor="@color/basic_font"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_univ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_search"
+            tools:itemCount="4"
+            tools:listitem="@layout/rv_item_university" />
+
+        <TextView
+            android:id="@+id/tv_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="검색결과가 없어요"
+            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
