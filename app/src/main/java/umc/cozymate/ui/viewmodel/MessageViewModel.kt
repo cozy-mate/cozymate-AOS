@@ -49,7 +49,7 @@ class MessageViewModel @Inject constructor(
             val token = getToken()
             try{
                 _isLoading.value = true
-                val response = repository.getChatContents(token!!, chatRoomId)
+                val response = repository.getChatContents(token!!, chatRoomId, 0, 0)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     _getChatContentsResponse.postValue(response)
@@ -105,7 +105,7 @@ class MessageViewModel @Inject constructor(
             val token = getToken()
             try{
                 _isLoading.value = true
-                val response = repository.getChatRooms(token!!)
+                val response = repository.getChatRooms(token!!, 0, 0)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     _getChatRoomsResponse.postValue(response)
