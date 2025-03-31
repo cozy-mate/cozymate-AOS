@@ -30,9 +30,6 @@ class MessageMemberActivity : AppCompatActivity() {
         setupObservers()
         viewModel.getChatRooms()
 
-        binding.ivClose.setOnClickListener {
-            finish()
-        }
         binding.ivBack.setOnClickListener {
             finish()
         }
@@ -40,15 +37,10 @@ class MessageMemberActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.getChatRoomsResponse.observe(this, Observer{response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                val chatRoomResponse = response.body()
-                chatRoomResponse?.let {
-                    chatRooms = it.result
-                    updateChatRooms()
-                }
-            }
+        viewModel.chatRooms.observe(this, Observer{
+            if (it == null) return@Observer
+            chatRooms = it
+            updateChatRooms()
         })
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -57,17 +49,15 @@ class MessageMemberActivity : AppCompatActivity() {
     }
 
     private fun updateChatRooms() {
-        if(chatRooms.size == 0){
+        if(chatRooms.isEmpty()){
             binding.rvMessage.visibility = View.GONE
             binding.tvEmpty.visibility = View.VISIBLE
             binding.ivBack.visibility = View.GONE
-            binding.ivClose.visibility = View.VISIBLE
         }
         else{
             binding.rvMessage.visibility = View.VISIBLE
             binding.tvEmpty.visibility = View.GONE
             binding.ivBack.visibility = View.VISIBLE
-            binding.ivClose.visibility = View.GONE
 
             messageAdapter = MessageAdapter(chatRooms, object : MessageAdapter.OnItemClickListener {
                 override fun onItemClick(item: ChatRoomData) {

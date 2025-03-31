@@ -11,6 +11,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
+import umc.cozymate.data.model.entity.ChatContentData
+import umc.cozymate.data.model.entity.ChatRoomData
 import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.data.model.response.chat.ChatContentsResponse
 import umc.cozymate.data.model.response.chat.ChatRoomResponse
@@ -26,19 +28,19 @@ class MessageViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _getChatContentsResponse = MutableLiveData<Response<ChatContentsResponse>>()
-    val getChatContentsResponse : LiveData<Response<ChatContentsResponse>> get() = _getChatContentsResponse
-
     private val _postChatResponse = MutableLiveData<Response<WriteChatResponse>>()
     val postChatResponse :  LiveData<Response<WriteChatResponse>> get() = _postChatResponse
 
-    private val _deleteResponse = MutableLiveData<Response<DefaultResponse>>()
+    private val _chatContents = MutableLiveData<List<ChatContentData>>()
+    val chatContents : LiveData<List<ChatContentData>> get() = _chatContents
 
-    private val _getChatRoomsResponse = MutableLiveData<Response<ChatRoomResponse>>()
-    val getChatRoomsResponse : LiveData<Response<ChatRoomResponse>> get() = _getChatRoomsResponse
+    private val _chatRooms = MutableLiveData<List<ChatRoomData>>()
+    val chatRooms : LiveData<List<ChatRoomData>> get() = _chatRooms
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private var page : Int = 0
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -51,12 +53,13 @@ class MessageViewModel @Inject constructor(
                 _isLoading.value = true
                 val response = repository.getChatContents(token!!, chatRoomId, 0, 0)
                 if(response.isSuccessful){
-                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    _getChatContentsResponse.postValue(response)
+                    val content = response.body()!!.result.result.content
+                    _chatContents.postValue(content)
+                    Log.d(TAG, "getChatContents api 응답 성공: ${response.body()!!.result.result}")
                 }
-                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                else Log.d(TAG, "getChatContents api 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "api 요청 실패: ${e}")
+                Log.e(TAG, "getChatContents api 요청 실패: $e")
             }finally {
                 _isLoading.value = false
             }
@@ -69,14 +72,13 @@ class MessageViewModel @Inject constructor(
             try{
                 _isLoading.value = true
                 val response = repository.postChat(token!!, recipientId, request)
-                Log.d(TAG,"데이터 확인 ${recipientId} , ${request}")
                 if(response.isSuccessful){
-                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
+                    Log.d(TAG, "postChat api 응답 성공: ${response.body()!!.result}")
                     _postChatResponse.postValue(response)
                 }
-                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                else Log.d(TAG, "postChat api 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "api 요청 실패: ${e}")
+                Log.d(TAG, "postChat api 요청 실패: $e")
             }finally {
                 _isLoading.value = false
             }
@@ -87,15 +89,14 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val token = getToken()
             try{
-
                 val response = repository.deleteChatRooms(token!!, chatRoomId)
                 if(response.isSuccessful){
-                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    _deleteResponse.postValue(response)
+                    page = 0
+                    getChatContents(chatRoomId)
                 }
-                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                else Log.d(TAG, "deleteChatRooms api 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "api 요청 실패: ${e}")
+                Log.d(TAG, "deleteChatRooms api 요청 실패: ${e}")
             }
         }
     }
@@ -105,14 +106,15 @@ class MessageViewModel @Inject constructor(
             val token = getToken()
             try{
                 _isLoading.value = true
-                val response = repository.getChatRooms(token!!, 0, 0)
+                val response = repository.getChatRooms(token!!, page++, 0)
                 if(response.isSuccessful){
-                    Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    _getChatRoomsResponse.postValue(response)
+                    val content = response.body()!!.result.result
+                    _chatRooms.postValue( content)
+                    Log.d(TAG, "getChatRooms api 응답 성공: ${response.body()!!.result.result}")
                 }
-                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                else Log.d(TAG, "getChatRooms api 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
-                Log.d(TAG, "api 요청 실패: ${e}")
+                Log.e(TAG, "getChatRooms api 요청 실패: $e")
             }finally {
                 _isLoading.value = false
             }

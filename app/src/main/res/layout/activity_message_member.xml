@@ -34,20 +34,6 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_back"
                     app:tint="@color/basic_font" />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-
-                <ImageView
-                    android:id="@+id/iv_close"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="11dp"
-                    android:src="@drawable/ic_close"
-                    app:tint="@color/basic_font"
-                    android:visibility="visible"/>
         </LinearLayout>
 
         <TextView

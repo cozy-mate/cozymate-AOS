@@ -21,7 +21,11 @@ import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
+import umc.cozymate.util.BottomSheetAction.DELETE
+import umc.cozymate.util.BottomSheetAction.EDIT
+import umc.cozymate.util.BottomSheetAction.REPORT
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
 class MessageDetailActivity : AppCompatActivity() {
@@ -57,16 +61,9 @@ class MessageDetailActivity : AppCompatActivity() {
         viewModel.getChatContents(chatRoomId)
     }
     private fun setupObservers() {
-        viewModel.getChatContentsResponse.observe(this, Observer{response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                val contentsResponse = response.body()
-                contentsResponse?.let {
-                    contents = it.result.content
-                    memberId = it.result.memberId
-                    updateContents()
-                }
-            }
+        viewModel.chatContents.observe(this, Observer{
+            if (it == null) return@Observer
+            contents = it
         })
         viewModel.isLoading.observe(this) { isLoading ->
             if(!binding.refreshLayout.isRefreshing)
@@ -77,9 +74,9 @@ class MessageDetailActivity : AppCompatActivity() {
     }
 
     private fun updateContents() {
-        Log.d(TAG,"뷰 생성 : ${contents}")
+
         if(contents.isNullOrEmpty()){
-            val text = "["+nickname+"]님과\n아직 주고 받은 쪽지가 없어요!"
+            val text = "[$nickname]님과\n아직 주고 받은 쪽지가 없어요!"
             binding.tvEmpty.text = text
             binding.rvMessageDetail.visibility = View.GONE
             binding.tvEmpty.visibility = View.VISIBLE
@@ -103,16 +100,12 @@ class MessageDetailActivity : AppCompatActivity() {
            finish()
         }
         binding.ivMore.setOnClickListener {
-            if(!moreFlag) {
-                binding.layoutMessageDetailMore.visibility = View.VISIBLE
-                binding.layoutMessageDetailMore.bringToFront() // 우선순위 조정
-                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(true) // RecyclerView의 터치 차단
-                moreFlag = true
-            }
-            else{
-                binding.layoutMessageDetailMore.visibility = View.GONE
-                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(false)
-                moreFlag = false
+            this.showEnumBottomSheet( "", listOf(DELETE,REPORT)) { action->
+                when (action) {
+                    DELETE  -> deletePopup()
+                    REPORT ->  reportPopup()
+                    else -> {}
+                }
             }
         }
         binding.btnWriteMessage.setOnClickListener {
@@ -122,12 +115,6 @@ class MessageDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.tvMessageDelete.setOnClickListener {
-            deletePopup()
-        }
-        binding.tvMessageReport.setOnClickListener {
-            reportPopup()
-        }
     }
 
     private fun reportPopup(){
@@ -145,17 +132,14 @@ class MessageDetailActivity : AppCompatActivity() {
             override fun rightClickFunction() {
                 popup()
                 viewModel.deleteChatRooms(chatRoomId)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    viewModel.getChatContents(chatRoomId)
-                }, 500)
             }
         })
-        dialog.show(this.supportFragmentManager!!, "MessageDeletePopup")
+        dialog.show(this.supportFragmentManager, "MessageDeletePopup")
     }
 
     private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
         val dialog = OneButtonPopup(text,object : PopupClick{},false)
-        dialog.show(this.supportFragmentManager!!, "messagePopup")
+        dialog.show(this.supportFragmentManager, "messagePopup")
     }
 }
