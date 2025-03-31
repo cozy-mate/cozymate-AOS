@@ -3,35 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--<data>
-
-        <variable
-            name="viewModel"
-            type="umc.cozymate.ui.school_certification.SchoolSearchViewModel" />
-    </data>-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.school_certification.SchoolSearchFragment">
+        tools:context=".ui.university_certification.UniversitySearchFragment">
 
         <!-- 검색창 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/iv_search"
+            <SearchView
+                android:id="@+id/search_view"
                 android:layout_width="0dp"
-                android:layout_height="49dp"
-                android:layout_marginStart="21dp"
+                android:layout_height="52dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/ripple_box_12dp"
                 android:backgroundTint="@color/color_box"
+                android:queryHint="학교를 입력해주세요"
+                android:searchIcon="@null"
                 app:layout_constraintEnd_toStartOf="@id/btn_cancle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +54,6 @@
                 android:id="@+id/btn_cancle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="20dp"
                 android:background="@color/transparent"
                 android:padding="0dp"
                 android:text="취소"
@@ -70,25 +65,25 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_schools"
+            android:id="@+id/rv_univ"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_search"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_university" />
+            tools:itemCount="4"
+            tools:listitem="@layout/rv_item_university" />
 
         <TextView
+            android:id="@+id/tv_none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="검색결과가 없어요"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/unuse_font"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_search" />
