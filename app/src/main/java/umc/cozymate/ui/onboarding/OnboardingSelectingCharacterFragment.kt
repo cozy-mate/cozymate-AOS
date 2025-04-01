@@ -79,7 +79,8 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             apply()
         }
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("user_persona", persona)
         editor.commit()
@@ -110,12 +111,10 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
 
     private fun setupSignUpObserver() {
         viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response.isSuccessful) {
-                if (response.body()!!.isSuccess) {
-                    viewModel.saveToken() // 찐 토큰 발급
-                    viewModel.saveUserInfo()
-                    Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
-                }
+            if (response != null) {
+                viewModel.saveToken() // 찐 토큰 발급
+                viewModel.saveUserInfo()
+                Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
             }

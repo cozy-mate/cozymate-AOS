@@ -171,7 +171,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     fun goToSummaryFragment() {
         viewModel.postPreference()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_onboarding, OnboardingSummaryFragment()) // 화면 이동
+            .replace(R.id.fragment_onboarding, OnboardingSummaryFragment())
             .addToBackStack(null)
             .commit()
     }
