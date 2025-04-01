@@ -15,15 +15,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivitySplashBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
+import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.SplashViewModel
 
 @AndroidEntryPoint
@@ -64,7 +62,6 @@ class SplashActivity : AppCompatActivity() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
-        // 2초마다 페이지 전환
         handler = Handler(Looper.getMainLooper())
         runnable = Runnable {
             val currentItem = binding.vpGif.currentItem
@@ -84,40 +81,16 @@ class SplashActivity : AppCompatActivity() {
         observeLoading()
         observeError()
 
-        // 자동 로그인 시도 : 유효한 토큰이 있다면 자동 로그인
-        //attemptAutoLogin()
-
-        // 카카오 로그인 버튼 >> 카카오 로그인 >> 멤버 확인 >> 코지홈 또는 온보딩
         binding.btnKakaoLogin.setOnClickListener {
-            openKakaoLoginPage()
-            //goOnboarding()
-        }
-
-        /*// 회원가입 버튼 >> 테스트 로그인 >> 온보딩
-        binding.btnSignIn.setOnClickListener {
+            //openKakaoLoginPage() // 테스트
             testSignIn()
-        }*/
+        }
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(runnable) // Activity 종료 시 Handler 리소스 해제
-    }
-
-    private fun attemptAutoLogin() { // 멤버인 경우 홈 화면으로 이동
-        val tokenInfo = splashViewModel.getToken()
-        if (tokenInfo != null) {
-            splashViewModel.memberCheck()
-            splashViewModel.isMember.observe(this) { isMember ->
-                if (isMember == true) {
-                    goCozyHome()
-                }
-                binding.progressBar.visibility = View.GONE
-            }
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
     }
 
     private fun testSignIn() {
@@ -171,8 +144,9 @@ class SplashActivity : AppCompatActivity() {
                         splashViewModel.saveToken()
                         splashViewModel.memberCheck()
                         splashViewModel.isMember.observe(this) { isMember ->
-                            if (isMember == true) goCozyHome()
-                            else if (isMember == false) goOnboarding()
+                            if (isMember == true) {
+                                goCozyHome()
+                            } else if (isMember == false) goUnivCert()
                             else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
                         }
                     } catch (e: Exception) {
@@ -196,8 +170,8 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun goOnboarding() {
-        val intent = Intent(this, OnboardingActivity::class.java)
+    private fun goUnivCert() {
+        val intent = Intent(this, UniversityCertificationActivity::class.java)
         intent.flags =
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
@@ -264,8 +238,7 @@ class SplashActivity : AppCompatActivity() {
 
                     if (userId != null) {
                         splashViewModel.setClientId(userId.toString())
-                        // splashViewModel.setClientId("9")
-                        splashViewModel.setSocialType("KAKAO")
+                        splashViewModel.setSocialType("TEST") // "KAKAO"
                         splashViewModel.signIn()
                     }
                 }
