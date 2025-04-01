@@ -28,7 +28,6 @@ class OnboardingViewModel @Inject constructor(
     private val preferenceRepository: MemberStatPreferenceRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-
     private val TAG = this.javaClass.simpleName
 
     private val _selectedElementCount = MutableLiveData(0)
@@ -76,9 +75,6 @@ class OnboardingViewModel @Inject constructor(
     private val _persona = MutableLiveData<Int>()
     val persona: LiveData<Int> get() = _persona
 
-    private val _signUpResponse = MutableLiveData<Response<SignUpResponse>>()
-    val signUpResponse: LiveData<Response<SignUpResponse>> get() = _signUpResponse
-
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun updateSelectedElementCount(isSelected: Boolean) {
@@ -119,12 +115,15 @@ class OnboardingViewModel @Inject constructor(
             "인하대학교" -> {
                 _universityId.value = 1
             }
+
             "학교2" -> {
                 _universityId.value = 2
             }
+
             "숭실대학교" -> {
                 _universityId.value = 3
             }
+
             "한국공학대학교" -> {
                 _universityId.value = 4
             }
@@ -151,72 +150,75 @@ class OnboardingViewModel @Inject constructor(
         _majorName.value = majorName
     }
 
-    fun setPreferences(preferences: PreferenceList){
+    fun setPreferences(preferences: PreferenceList) {
         _preferences.value = preferences
     }
 
+    // 회원가입 (/members/sign-up)
+    private val _signUpResponse = MutableLiveData<SignUpResponse.Result>()
+    val signUpResponse: LiveData<SignUpResponse.Result> get() = _signUpResponse
     fun joinMember() {
-        val memberDetail = MemberDetail(
-            nickname = _nickname.value ?: "unknown",
-            gender = _gender.value ?: "MALE",
-            birthday = _birthday.value ?: "2001-01-01",
-            persona = _persona.value ?: 0,
-            universityId = _universityId.value ?: 0,
-            majorName = _majorName.value ?: "컴퓨터공학과"
-        )
-        val token = getToken() // 이때 임시 토큰이어야 함
-        Log.d(TAG, "유저 정보: $memberDetail")
-        Log.d(TAG, "토큰: $token")
-        _tokenInfo.value = TokenInfo("", "", "")
-        viewModelScope.launch {
-            try {
-                val response = repository.signUp(token = token!!, memberDetail = memberDetail)
-                if (response.isSuccessful) {
-                    Log.d(TAG, "회원가입 api 응답 성공: ${response}")
-                    if (response.body()!!.isSuccess) {
-                        Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
-                        _tokenInfo.value?.accessToken =
-                            response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        _tokenInfo.value?.message =
-                            response.body()!!.result?.tokenResponseDTO!!.message
-                        _tokenInfo.value?.refreshToken =
-                            response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        _memberInfo.value?.universityName =
-                            response.body()!!.result?.memberDetailResponseDTO!!.universityName
-                        _memberInfo.value?.nickname =
-                            response.body()!!.result?.memberDetailResponseDTO!!.nickname
-                        _memberInfo.value?.persona =
-                            response.body()!!.result?.memberDetailResponseDTO!!.persona
-                        _memberInfo.value?.gender =
-                            response.body()!!.result?.memberDetailResponseDTO!!.gender
-                        _memberInfo.value?.birthday =
-                            response.body()!!.result?.memberDetailResponseDTO!!.birthday
-                        _memberInfo.value?.memberId =
-                            response.body()!!.result?.memberDetailResponseDTO!!.memberId
-                        _memberInfo.value?.majorName =
-                            response.body()!!.result?.memberDetailResponseDTO!!.majorName
+        val token = getToken()
+        if (token != null && nickname.value != null && gender.value != null && birthday.value != null && persona.value != null && universityId.value != null && majorName.value != null) {
+            val memberDetail = MemberDetail(
+                nickname = nickname.value!!,
+                gender = gender.value!!,
+                birthday = birthday.value!!,
+                persona = persona.value!!,
+                universityId = universityId.value!!,
+                majorName = majorName.value!!
+            )
+            Log.d(TAG, "join member request: $memberDetail")
+            Log.d(TAG, "짭 토큰: $token")
+            viewModelScope.launch {
+                try {
+                    val response = repository.signUp(token, memberDetail)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.isSuccess) {
+                            Log.d(TAG, "회원가입 성공: ${response.body()!!.result}")
+                            _signUpResponse.value = response.body()!!.result
+                            _tokenInfo.value = TokenInfo(
+                                response.body()!!.result?.tokenResponseDTO!!.accessToken,
+                                response.body()!!.result?.tokenResponseDTO!!.message,
+                                response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                            )
+                            _memberInfo.value?.universityName =
+                                response.body()!!.result?.memberDetailResponseDTO!!.universityName
+                            _memberInfo.value?.nickname =
+                                response.body()!!.result?.memberDetailResponseDTO!!.nickname
+                            _memberInfo.value?.persona =
+                                response.body()!!.result?.memberDetailResponseDTO!!.persona
+                            _memberInfo.value?.gender =
+                                response.body()!!.result?.memberDetailResponseDTO!!.gender
+                            _memberInfo.value?.birthday =
+                                response.body()!!.result?.memberDetailResponseDTO!!.birthday
+                            _memberInfo.value?.memberId =
+                                response.body()!!.result?.memberDetailResponseDTO!!.memberId
+                            _memberInfo.value?.majorName =
+                                response.body()!!.result?.memberDetailResponseDTO!!.majorName
 
-                        sharedPreferences.edit().putString(
-                            "access_token",
-                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
-                        ).commit()
-                        sharedPreferences.edit().putString(
-                            "refresh_token",
-                            "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
-                        ).commit()
-                    }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
+                            sharedPreferences.edit().putString(
+                                "access_token",
+                                "Bearer " + response.body()!!.result?.tokenResponseDTO!!.accessToken
+                            ).commit()
+                            sharedPreferences.edit().putString(
+                                "refresh_token",
+                                "Bearer " + response.body()!!.result?.tokenResponseDTO!!.refreshToken
+                            ).commit()
+                        }
                     } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value =
+                                ErrorResponse("UNKNOWN", false, "unknown error", "")
+                        }
+                        Log.d(TAG, "회원가입 api 응답 실패: ${response}")
                     }
-                    Log.d(TAG, "회원가입 api 응답 실패: ${response}")
+                } catch (e: Exception) {
+                    Log.d(TAG, "회원가입 api 요청 실패: ${e}")
                 }
-                _signUpResponse.value = response
-            } catch (e: Exception) {
-                Log.d(TAG, "회원가입 api 요청 실패: ${e}")
             }
         }
     }
@@ -260,9 +262,11 @@ class OnboardingViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response =
-                        preferenceRepository.postMyPreference(accessToken, preferenceList = preferences.value ?: PreferenceList(
-                            arrayListOf("","","",""))
+                        preferenceRepository.postMyPreference(
+                            accessToken, preferenceList = preferences.value ?: PreferenceList(
+                                arrayListOf("", "", "", "")
                             )
+                        )
                     if (response.isSuccessful) {
                         Log.d(TAG, "멤버 선호 항목 생성 api 응답 성공: ${response}")
                         if (response.body()!!.isSuccess) {

@@ -29,62 +29,9 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
     private lateinit var binding: FragmentOnboardingSelectingCharacterBinding
     private val viewModel: OnboardingViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentOnboardingSelectingCharacterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initCharacterList()
-
-        binding.btnNext.setOnClickListener {
-            viewModel.joinMember() // 유저 정보 POST
-            (requireActivity() as OnboardingActivity).loadRoommateOnboardingActivity(viewModel.nickname.value.toString())
-        }
-
-        Log.d(TAG, viewModel.name.value.toString())
-
-        observeViewModel()
-    }
-
-    private fun initCharacterList() {
-        binding.btnNext.isEnabled = false
-        val adapter = CharactersAdapter(this)
-        binding.rvList.adapter = adapter
-        binding.rvList.run {
-            layoutManager = GridLayoutManager(requireContext(), 4)
-            addItemDecoration(
-                GridSpacingItemDecoration(spanCount = 4, 16f.fromDpToPx(), 40f.fromDpToPx(), true)
-            )
-        }
-    }
-
-    private fun observeViewModel() {
-        // signUpResponse 관찰하여 처리
-        viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response.isSuccessful) {
-                if (response.body()!!.isSuccess) {
-                    viewModel.saveToken()
-                    viewModel.saveUserInfo()
-                    Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "회원가입 성공: ${response.body()}")
-                }
-            } else {
-                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "회원가입 실패: ${response.errorBody().toString()}")
-            }
-        })
-    }
-
     override fun onItemClick(character: CharacterItem, position: Int) {
-        // Handle the item click
-        val selectedCharacter = position // Assuming character selection logic here
-
+        binding.btnNext.isEnabled = true
+        val selectedCharacter = position
         var id = 0
         when (position) {
             0 -> id = 1
@@ -106,9 +53,23 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         }
         viewModel.setPersona(id)
         saveUserPreference(id)
-        Log.d(TAG, "Selected item position: $position")
+        Log.d(TAG, "Selected item position: $position , character id: $id")
+    }
 
-        binding.btnNext.isEnabled = true
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentOnboardingSelectingCharacterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupCharacterList()
+        setupNextBtn()
+        setupSignUpObserver()
     }
 
     private fun saveUserPreference(persona: Int) {
@@ -118,10 +79,46 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
             apply()
         }
 
-        val sharedPreferences =
-            requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("user_persona", persona)
-        editor.commit() // or editor.commit()
+        editor.commit()
+    }
+
+    private fun setupCharacterList() {
+        val adapter = CharactersAdapter(this)
+        binding.rvList.adapter = adapter
+        binding.rvList.run {
+            layoutManager = GridLayoutManager(requireContext(), 4)
+            addItemDecoration(
+                GridSpacingItemDecoration(spanCount = 4, 16f.fromDpToPx(), 40f.fromDpToPx(), true)
+            )
+        }
+    }
+
+    private fun setupNextBtn() {
+        binding.btnNext.isEnabled = false
+        binding.btnNext.setOnClickListener {
+            Log.d(TAG, "회원가입 요청 확인: ${viewModel.nickname.value} ${viewModel.gender.value} ${viewModel.birthday.value} ${viewModel.universityId.value} ${viewModel.majorName.value} ")
+            viewModel.joinMember()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_onboarding, OnboardingSelectingPreferenceFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    private fun setupSignUpObserver() {
+        viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.isSuccess) {
+                    viewModel.saveToken() // 찐 토큰 발급
+                    viewModel.saveUserInfo()
+                    Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

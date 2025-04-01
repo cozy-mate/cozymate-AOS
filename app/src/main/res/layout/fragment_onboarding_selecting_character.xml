@@ -22,9 +22,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="56dp"
+                android:includeFontPadding="false"
                 android:text="cozymate와 함께할"
-                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,9 +35,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="캐릭터를 선택해주세요!"
                 android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_onboarding2_title1" />
 
@@ -56,7 +61,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_list" />

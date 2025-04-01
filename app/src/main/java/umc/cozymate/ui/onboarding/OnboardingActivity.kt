@@ -17,7 +17,6 @@ import umc.cozymate.ui.viewmodel.OnboardingViewModel
 
 @AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
     private val viewModel: OnboardingViewModel by viewModels()
 
@@ -37,7 +36,6 @@ class OnboardingActivity : AppCompatActivity() {
                 .replace(R.id.fragment_onboarding, OnboardingUserInfoFragment())
                 .commit()
         }
-
     }
 
     companion object {
@@ -62,5 +60,4 @@ class OnboardingActivity : AppCompatActivity() {
         intent.putExtra("nickname", nickname)
         launcher.launch(intent)
     }
-
 }
