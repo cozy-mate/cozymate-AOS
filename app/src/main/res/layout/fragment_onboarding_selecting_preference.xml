@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="umc.cozymate.ui.viewmodel.OnboardingViewModel" />
@@ -30,9 +31,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="56dp"
+                    android:includeFontPadding="false"
                     android:text="룸메이트를 선택할 때,"
-                    android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                    android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                     android:textColor="@color/highlight_font"
+                    android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,10 +44,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
                     android:text="가장 중요한 요소 "
-                    android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                    android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                     android:textColor="@color/highlight_font"
+                    android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />
 
@@ -52,10 +57,12 @@
                     android:id="@+id/tv_onboarding3_title3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
                     android:text="4가지"
-                    android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                    android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                     android:textColor="@color/main_blue"
+                    android:textSize="20dp"
                     app:layout_constraintStart_toEndOf="@id/tv_onboarding3_title2"
                     app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />
 
@@ -63,10 +70,12 @@
                     android:id="@+id/tv_onboarding2_title4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
                     android:text="를 선택해주세요"
-                    android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                    android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                     android:textColor="@color/highlight_font"
+                    android:textSize="20dp"
                     app:layout_constraintStart_toEndOf="@id/tv_onboarding3_title3"
                     app:layout_constraintTop_toBottomOf="@id/tv_onboarding3_title1" />
 
@@ -278,7 +287,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fb_preference_chips" />
@@ -298,6 +307,14 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/include_bs"
+            style="@style/Widget.Material3.BottomSheet"
+            layout="@layout/bottom_sheet_agreement"
+            app:behavior_peekHeight="375dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
