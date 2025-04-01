@@ -23,13 +23,8 @@ import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
-// 1. 유저 정보(이름, 닉네임, 성별, 생년월일, 페르소나) POST
-// 2. 유저 정보 로컬 데이터에 저장
-// 3. 작업 완료되는 동안 프로그레스바 띄우기
-
 @AndroidEntryPoint
 class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListener {
-
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentOnboardingSelectingCharacterBinding
     private val viewModel: OnboardingViewModel by activityViewModels()
@@ -40,7 +35,11 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnboardingSelectingCharacterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initCharacterList()
 
         binding.btnNext.setOnClickListener {
@@ -51,8 +50,18 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         Log.d(TAG, viewModel.name.value.toString())
 
         observeViewModel()
+    }
 
-        return binding.root
+    private fun initCharacterList() {
+        binding.btnNext.isEnabled = false
+        val adapter = CharactersAdapter(this)
+        binding.rvList.adapter = adapter
+        binding.rvList.run {
+            layoutManager = GridLayoutManager(requireContext(), 4)
+            addItemDecoration(
+                GridSpacingItemDecoration(spanCount = 4, 16f.fromDpToPx(), 40f.fromDpToPx(), true)
+            )
+        }
     }
 
     private fun observeViewModel() {
@@ -70,38 +79,6 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
                 Log.d(TAG, "회원가입 실패: ${response.errorBody().toString()}")
             }
         })
-    }
-
-    private fun initCharacterList() {
-        binding.btnNext.isEnabled = false
-
-        val characters = listOf(
-            CharacterItem(R.drawable.character_id_1),
-            CharacterItem(R.drawable.character_id_2),
-            CharacterItem(R.drawable.character_id_3),
-            CharacterItem(R.drawable.character_id_5),
-            CharacterItem(R.drawable.character_id_6),
-            CharacterItem(R.drawable.character_id_4),
-            CharacterItem(R.drawable.character_id_15),
-            CharacterItem(R.drawable.character_id_14),
-            CharacterItem(R.drawable.character_id_8),
-            CharacterItem(R.drawable.character_id_7),
-            CharacterItem(R.drawable.character_id_11),
-            CharacterItem(R.drawable.character_id_12),
-            CharacterItem(R.drawable.character_id_10),
-            CharacterItem(R.drawable.character_id_13),
-            CharacterItem(R.drawable.character_id_9),
-            CharacterItem(R.drawable.character_id_16),
-        )
-
-        val adapter = CharactersAdapter(characters, this)
-        binding.rvList.adapter = adapter
-        binding.rvList.run {
-            layoutManager = GridLayoutManager(requireContext(), 4)
-            addItemDecoration(
-                GridSpacingItemDecoration(spanCount = 4, 16f.fromDpToPx(), 40f.fromDpToPx(), true)
-            )
-        }
     }
 
     override fun onItemClick(character: CharacterItem, position: Int) {
