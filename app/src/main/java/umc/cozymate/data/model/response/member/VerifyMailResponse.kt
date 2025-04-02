@@ -3,6 +3,7 @@ package umc.cozymate.data.model.response.member
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import umc.cozymate.data.model.entity.MemberDetailInfo
 
 @Serializable
 data class VerifyMailResponse(
@@ -18,7 +19,9 @@ data class VerifyMailResponse(
     @Serializable
     data class Result(
         @SerialName("tokenResponseDTO")
-        val tokenResponseDTO: TokenResponseDTO
+        val tokenResponseDTO: TokenResponseDTO,
+        @SerialName("memberDetailResponseDTO")
+        val memberDetailResponseDTO: MemberDetailInfo
     ) {
         @Serializable
         data class TokenResponseDTO(
