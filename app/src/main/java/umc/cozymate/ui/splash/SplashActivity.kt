@@ -43,7 +43,35 @@ class SplashActivity : AppCompatActivity() {
             Log.d(TAG, "idToken: ${token.idToken}")
             Toast.makeText(this@SplashActivity, "카카오계정으로 로그인 성공", Toast.LENGTH_SHORT).show()
             // 로그인 후 사용자 정보를 가져옴
-            getUserId()
+            getKakaoUserClientId()
+        }
+    }
+
+    private fun goLoginFail() {
+        val intent = Intent(this, LoginFailActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun getKakaoUserClientId() {
+        try {
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e(TAG, "사용자 정보 요청 실패", error)
+                } else if (user != null) {
+                    Log.i(TAG, "사용자 정보 요청 성공")
+                    val userId = user.id
+                    Log.d(TAG, "사용자 ID: $userId")
+                    if (userId != null) {
+                        splashViewModel.setClientId(userId.toString())
+                        splashViewModel.setSocialType("KAKAO")
+                        splashViewModel.signIn()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "${e.message}")
+            goLoginFail()
         }
     }
 
@@ -58,7 +86,22 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
         window.navigationBarColor = Color.WHITE
-        // gif 뷰페이저 설정
+        binding.progressBar.visibility = View.GONE
+        setObservers()
+        setGIFViewpager()
+        setBtns()
+
+        // 카카오 SDK 초기화
+        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+        KakaoSdk.loggingEnabled = true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable)
+    }
+
+    private fun setGIFViewpager() {
         val adapter = GIFAdapter(this)
         binding.vpGif.adapter = adapter
         binding.dotsIndicator.attachTo(binding.vpGif)
@@ -70,27 +113,12 @@ class SplashActivity : AppCompatActivity() {
             handler.postDelayed(runnable, 2000)
         }
         handler.postDelayed(runnable, 2000)
+    }
 
-        // 카카오 SDK 초기화
-        KakaoSdk.init(this, getString(R.string.kakao_app_key))
-        KakaoSdk.loggingEnabled = true
-
-        // 뷰모델 옵저빙
-        binding.progressBar.visibility = View.GONE
+    private fun setObservers() {
         observeSignInResponse()
         observeLoading()
         observeError()
-
-        binding.btnKakaoLogin.setOnClickListener {
-            //openKakaoLoginPage() // 테스트
-            testSignIn()
-        }
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(runnable) // Activity 종료 시 Handler 리소스 해제
     }
 
     private fun testSignIn() {
@@ -99,14 +127,46 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.signIn()
     }
 
-    private fun observeError() {
-        splashViewModel.errorResponse.observe(this) { errorResponse ->
-            errorResponse?.let {
-                val errorDialog =
-                    ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
-                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
+    private fun observeSignInResponse() {
+        splashViewModel.signInResponse.observe(this) { result ->
+            if (result.isSuccessful) {
+                if (result.body()!!.isSuccess) {
+                    try {
+                        splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
+                        splashViewModel.saveToken()
+                        splashViewModel.memberCheck()
+                        splashViewModel.isMember.observe(this) { isMember ->
+                            if (isMember == true) {
+                                goCozyHome()
+                            } else if (isMember == false) goUnivCert()
+                            else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
+                        }
+                    } catch (e: Exception) {
+                        goLoginFail()
+                        Log.d(TAG, "토큰 저장 실패: $e")
+                    }
+                } else {
+                    goLoginFail()
+                }
+            } else {
+                goLoginFail()
             }
         }
+    }
+
+    private fun goCozyHome() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goUnivCert() {
+        val intent = Intent(this, UniversityCertificationActivity::class.java)
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun observeLoading() {
@@ -134,120 +194,36 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeSignInResponse() {
-        // signInResponse 관찰 >> cozymate 로그인 api 성공 >> cozymate 멤버인지 체크
-        splashViewModel.signInResponse.observe(this) { result ->
-            if (result.isSuccessful) {
-                if (result.body()!!.isSuccess) {
-                    try {
-                        splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
-                        splashViewModel.saveToken()
-                        splashViewModel.memberCheck()
-                        splashViewModel.isMember.observe(this) { isMember ->
-                            if (isMember == true) {
-                                goCozyHome()
-                            } else if (isMember == false) goUnivCert()
-                            else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
-                        }
-                    } catch (e: Exception) {
-                        goLoginFail()
-                        Log.d(TAG, "토큰 저장 실패: $e")
-                    }
-                } else {
-                    Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
-                    goLoginFail()
-                }
-            } else {
+    private fun observeError() {
+        splashViewModel.errorResponse.observe(this) { errorResponse ->
+            errorResponse?.let {
+                val errorDialog =
+                    ServerErrorPopUp.newInstance(errorResponse.code, errorResponse.message)
+                errorDialog.show(supportFragmentManager, "ServerErrorPopUp")
+            }
+        }
+    }
+
+    private fun setBtns() {
+        setKaKaoBtn()
+        setTestBtn()
+    }
+
+    private fun setKaKaoBtn() {
+        binding.btnKakaoLogin.setOnClickListener {
+            // 카카오 계정으로 로그인
+            try {
+                UserApiClient.instance.loginWithKakaoAccount(this@SplashActivity, callback = callback)
+            } catch (e: Exception) {
+                Log.e(TAG, "로그인 실패: ${e.message}")
                 goLoginFail()
             }
         }
     }
 
-    private fun goCozyHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun goUnivCert() {
-        val intent = Intent(this, UniversityCertificationActivity::class.java)
-        intent.flags =
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
-    }
-
-    private fun goLoginFail() {
-        val intent = Intent(this, LoginFailActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun openKakaoLoginPage() {
-        // 카카오톡 또는 카카오 계정으로 로그인 시도
-        try {
-            /*if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SplashActivity)) {
-                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                    if (error != null) {
-                        Log.e(TAG, "카카오톡으로 로그인 실패", error)
-                        Toast.makeText(this@SplashActivity, "카카오톡으로 로그인 실패", Toast.LENGTH_SHORT)
-                            .show()
-
-                        // 사용자가 의도적으로 로그인을 취소한 경우(ex. 뒤로가기) 리턴
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                            return@loginWithKakaoTalk
-                        }
-                        UserApiClient.instance.loginWithKakaoAccount(
-                            this@SplashActivity,
-                            callback = callback
-                        )
-                    } else if (token != null) {
-                        Log.i(TAG, "카카오톡으로 로그인 성공")
-                        Log.d(TAG, "kakao accessToken: ${token.accessToken}")
-                        Log.d(TAG, "kakao refreshToken: ${token.refreshToken}")
-                        Toast.makeText(this@SplashActivity, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    getUserId()
-                }
-            } else*/
-
-            // 카카오 계정으로 로그인
-            UserApiClient.instance.loginWithKakaoAccount(
-                this@SplashActivity,
-                callback = callback
-            )
-
-        } catch (e: Exception) {
-            Log.e(TAG, "${e.message}")
-            Toast.makeText(this@SplashActivity, "로그인 실패 ${e.message}", Toast.LENGTH_SHORT).show()
-            goLoginFail()
-        }
-    }
-
-    private fun getUserId() {
-        try {
-            UserApiClient.instance.me { user, error ->
-                if (error != null) {
-                    Log.e(TAG, "사용자 정보 요청 실패", error)
-                } else if (user != null) {
-                    Log.i(TAG, "사용자 정보 요청 성공")
-                    val userId = user.id
-                    Log.d(TAG, "사용자 ID: $userId")
-
-                    if (userId != null) {
-                        splashViewModel.setClientId(userId.toString())
-                        splashViewModel.setSocialType("TEST") // "KAKAO"
-                        splashViewModel.signIn()
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "${e.message}")
-            Toast.makeText(this@SplashActivity, "로그인 실패 ${e.message}", Toast.LENGTH_SHORT)
-                .show()
-            goLoginFail()
+    private fun setTestBtn() {
+        binding.btnTest.setOnClickListener {
+            testSignIn()
         }
     }
 
