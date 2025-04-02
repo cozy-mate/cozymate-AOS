@@ -78,7 +78,6 @@ class UniversityCertificationFragment : Fragment() {
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)
         }
-        testBtn()
     }
 
     override fun onDestroyView() {
@@ -86,15 +85,6 @@ class UniversityCertificationFragment : Fragment() {
         _binding = null
         if (::countDownTimer.isInitialized) {
             countDownTimer.cancel() // 2분 타이머
-        }
-    }
-
-    fun testBtn() {
-        binding.btnSendVerifyCode.isEnabled = true
-        binding.btnSendVerifyCode.setOnClickListener() {
-            val intent = Intent(requireContext(), OnboardingActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
         }
     }
 
@@ -112,10 +102,17 @@ class UniversityCertificationFragment : Fragment() {
             universityName = bundle.getString(ARG_UNIVERSITY_NAME) ?: ""
             universityId = bundle.getInt(ARG_UNIVERSITY_ID) ?: 0
             viewModel.setUniversityName(universityName)
-            viewModel.setUniversityId(universityId.toString())
+            viewModel.setUniversityId(universityId)
             Log.d(TAG, "selected university name: $universityName")
             Log.d(TAG, "selected university id: $universityId")
         }
+    }
+
+    fun navigateToFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_university_cert, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     fun handleMajorSelection() {
@@ -171,6 +168,7 @@ class UniversityCertificationFragment : Fragment() {
                             email = binding.etUniversityEmail.text.toString()
                         } else {
                             binding.tvAlertEmail.visibility = View.VISIBLE
+                            binding.btnSendVerifyCode.isEnabled = false
                         }
                     }
                 }
@@ -186,22 +184,18 @@ class UniversityCertificationFragment : Fragment() {
                 viewModel.sendVerifyCode(email)
             }
         }
-        // 인증번호 전송 상태 옵저빙
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
             binding.btnSendVerifyCode.text = "인증번호 재전송"
             if (isSent) {
-                binding.clCheckVerifyCode.visibility = View.VISIBLE
-                binding.tvAlertCode.visibility = View.INVISIBLE
-                binding.btnCheckVerifyCode.isEnabled = true
-                binding.tvCounter.visibility = View.VISIBLE
+                binding.tvAlertCode.visibility = View.GONE
                 // 2분 타이머 (120,000ms)
+                binding.tvCounter.visibility = View.VISIBLE
                 countDownTimer = object : CountDownTimer(120000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         val minutes = millisUntilFinished / 1000 / 60
                         val seconds = millisUntilFinished / 1000 % 60
                         binding.tvCounter.text = String.format("%d:%02d", minutes, seconds)
                     }
-
                     override fun onFinish() {
                         binding.tvCounter.text = "0:00"
                     }
@@ -220,30 +214,31 @@ class UniversityCertificationFragment : Fragment() {
     }
 
     fun setVerifyCodeTextWatcher() {
-        binding.etCheckVerifyCode.addTextChangedListener(object : TextWatcher {
+        binding.etCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 debounceJob?.cancel()
                 debounceJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(500L)
                     if (s.toString() != "") {
-                        code = binding.etCheckVerifyCode.text.toString()
+                        binding.btnVerify.isEnabled = true
+                        code = binding.etCode.text.toString()
                     }
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         })
     }
 
     fun setVerifyBtnListener() {
-        binding.btnCheckVerifyCode.setOnClickListener {
+        binding.btnVerify.setOnClickListener {
             if (code.isNotEmpty()) {
                 viewModel.verifyCode(code)
             }
         }
         viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true) {
+                viewModel.saveToken()
                 binding.tvAlertCode.visibility = View.GONE
                 Toast.makeText(requireContext(), "학교 인증을 성공했습니다.", Toast.LENGTH_SHORT)
                     .show()
@@ -254,12 +249,5 @@ class UniversityCertificationFragment : Fragment() {
                 binding.tvAlertCode.visibility = View.VISIBLE
             }
         }
-    }
-
-    fun navigateToFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_university_cert, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }
