@@ -76,11 +76,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
 
-                // 마지막 프래그먼트에서 온보딩 액티비티로 이동
-                val intent = Intent(this, OnboardingSelectingFragmentActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+                this.finish()
             }
         }
 
