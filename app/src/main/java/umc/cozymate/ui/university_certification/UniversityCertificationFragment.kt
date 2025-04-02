@@ -245,7 +245,6 @@ class UniversityCertificationFragment : Fragment() {
         }
         viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
             if (isVerified == true) {
-                viewModel.saveToken()
                 binding.tvAlertCode.visibility = View.GONE
                 Toast.makeText(requireContext(), "학교 인증을 성공했습니다.", Toast.LENGTH_SHORT)
                     .show()

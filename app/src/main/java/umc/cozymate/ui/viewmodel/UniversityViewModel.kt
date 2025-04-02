@@ -146,10 +146,6 @@ class UniversityViewModel @Inject constructor(
     // 메일 인증 (/members/mail/verify)
     private val _verifyCode = MutableLiveData<String>()
     val verifyCode: LiveData<String> get() = _verifyCode
-    private val _accessToken = MutableLiveData<String>()
-    val accessToken: LiveData<String> get() = _accessToken
-    private val _refreshToken = MutableLiveData<String>()
-    val refreshToken: LiveData<String> get() = _refreshToken
     fun verifyCode(code: String) {
         val token = getToken()
         Log.d(TAG, "verifyCode: $code, major: ${major.value}, univId: ${universityId.value}")
@@ -162,8 +158,9 @@ class UniversityViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         Log.d(TAG, "메일 인증 성공")
                         _isVerified.value = true
-                        _accessToken.value = response.body()!!.result.tokenResponseDTO.accessToken
-                        _refreshToken.value = response.body()!!.result.tokenResponseDTO.refreshToken
+                        Log.d(TAG, "학교 인증 후 짭?토큰: ${response.body()!!.result.tokenResponseDTO.accessToken}")
+                        sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result.tokenResponseDTO.accessToken).commit()
+                        sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result.tokenResponseDTO.refreshToken).commit()
                     } else {
                         Log.d(TAG, "메일 인증 실패")
                         _isVerified.value = false
@@ -174,12 +171,6 @@ class UniversityViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun saveToken() {
-        Log.d(TAG, "학교 인증 후 짭?토큰: ${accessToken.value}")
-        sharedPreferences.edit().putString("access_token", "Bearer " + accessToken.value).commit()
-        sharedPreferences.edit().putString("refresh_token", "Bearer " + refreshToken.value).commit()
     }
 
     // 대학교 메일 인증 여부
