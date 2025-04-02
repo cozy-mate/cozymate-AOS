@@ -4,16 +4,20 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class UniversityCertificationActivity : AppCompatActivity() {
+    private val viewModel: UniversityViewModel by viewModels()
+
     companion object {
         const val UNIVERSITY_FLAG = "university_flag"
     }

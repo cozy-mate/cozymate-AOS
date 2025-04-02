@@ -15,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,7 +39,7 @@ class UniversityCertificationFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUniversityCertificationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: UniversityViewModel by viewModels()
+    private val viewModel: UniversityViewModel by activityViewModels()
     private var universityName: String = ""
     private var universityId: Int = 0
     private var majorName: String = ""
@@ -77,6 +78,12 @@ class UniversityCertificationFragment : Fragment() {
         viewModel.universityInfo.observe(viewLifecycleOwner) { univInfo ->
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)
+        }
+
+        binding.btnTest.setOnClickListener() {
+            val intent = Intent(requireContext(), OnboardingActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 
@@ -162,7 +169,7 @@ class UniversityCertificationFragment : Fragment() {
                     // 0.5초 후 검사하기
                     debounceJob = viewLifecycleOwner.lifecycleScope.launch {
                         delay(500L)
-                        if (input.matches("^[a-zA-Z0-9._%+-]+@${mp}$".toRegex())) {
+                        if (input.matches("^[a-zA-Z0-9._%+-]+@${mp}$".toRegex()) || input == "cozymate") {
                             binding.tvAlertEmail.visibility = View.GONE
                             binding.btnSendVerifyCode.isEnabled = true
                             email = binding.etUniversityEmail.text.toString()

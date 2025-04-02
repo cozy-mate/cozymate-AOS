@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +25,7 @@ import umc.cozymate.util.StatusBarUtil
 @AndroidEntryPoint
 class UniversitySearchFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private val viewModel: UniversityViewModel by viewModels()
+    private val viewModel: UniversityViewModel by activityViewModels()
     private var _binding: FragmentUniversitySearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var univList: List<GetUniversityListResponse.Result.University>
@@ -56,6 +57,7 @@ class UniversitySearchFragment : Fragment() {
 
     fun observeUniversityList() {
         adapter = UniversityAdapter { univId, univName ->
+            viewModel.setUniversityId(univId)
             setFragmentResult(
                 UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
                 bundleOf(

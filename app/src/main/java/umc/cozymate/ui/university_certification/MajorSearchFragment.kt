@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +26,7 @@ import umc.cozymate.util.StatusBarUtil
 @AndroidEntryPoint
 class MajorSearchFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private val viewModel: UniversityViewModel by viewModels()
+    private val viewModel: UniversityViewModel by activityViewModels()
     private var _binding: FragmentMajorSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var majorList: List<String>
