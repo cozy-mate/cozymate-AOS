@@ -10,6 +10,7 @@
             type="umc.cozymate.ui.viewmodel.OnboardingViewModel" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -309,13 +310,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <include
-            android:id="@+id/include_bs"
-            style="@style/Widget.Material3.BottomSheet"
-            layout="@layout/bottom_sheet_agreement"
-            android:elevation="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_next"
-            app:layout_constraintStart_toStartOf="parent" />
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/dim_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/include_bs"
+                layout="@layout/bottom_sheet_agreement"
+                android:elevation="1dp" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

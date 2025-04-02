@@ -101,9 +101,11 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     fun setupNextBtn() {
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
-                val preferences = PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                val preferences =
+                    PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
                 viewModel.setPreferences(preferences)
                 binding.includeBs.bottomSheetAgreement.visibility = View.VISIBLE
+                binding.dimBackground.visibility = View.VISIBLE
                 setupBottomSheet()
             } else {
                 Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
@@ -112,11 +114,21 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     }
 
     fun setupBottomSheet() {
+        val bottomSheet = binding.includeBs.bottomSheetAgreement
         var checked1: Boolean = false
         var checked2: Boolean = false
         var checkedAll: Boolean = false
-        val sheetBehavior = BottomSheetBehavior.from(binding.includeBs.bottomSheetAgreement)
-        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        val sheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) binding.dimBackground.visibility = View.GONE
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.dimBackground.alpha = slideOffset
+            }
+        })
         with(binding.includeBs) {
             btnSeeAgreement1.setOnClickListener() {
                 val url = "https://google.com"
@@ -132,12 +144,14 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
                 checked1 = btnCheck1.isSelected
                 checked2 = btnCheck2.isSelected
                 btnCheck1.isSelected = !checked1
+                checked1 = btnCheck1.isSelected
                 updateCheckAllState(checked1, checked2)
             }
             btnCheck2.setOnClickListener() {
                 checked1 = btnCheck1.isSelected
                 checked2 = btnCheck2.isSelected
                 btnCheck2.isSelected = !checked2
+                checked2 = btnCheck2.isSelected
                 updateCheckAllState(checked1, checked2)
             }
             btnCheckAll.setOnClickListener() {

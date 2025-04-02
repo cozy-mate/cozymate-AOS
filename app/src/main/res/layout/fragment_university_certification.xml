@@ -259,9 +259,7 @@
                 android:padding="0dp"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/basic_font"
-                android:textColorHint="@color/unuse_font"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_check_verify_code" />
+                android:textColorHint="@color/unuse_font" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -296,6 +294,21 @@
         app:layout_constraintStart_toStartOf="@id/cl_verify"
         app:layout_constraintTop_toBottomOf="@id/cl_verify" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_test"
+        android:layout_width="96dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/btn_rectangle_univ_state"
+        android:elevation="0dp"
+        android:enabled="true"
+        android:outlineProvider="none"
+        android:text="다음화면(테스트)"
+        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+        android:textColor="@color/btn_text_univ_color"
+        app:layout_constraintEnd_toEndOf="@id/cl_verify"
+        app:layout_constraintTop_toBottomOf="@id/cl_verify" />
     <!-- 바텀뷰 높이 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_bottom"

@@ -85,8 +85,7 @@
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font"
                         android:textColorHint="@color/unuse_font"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_check_verify_code" />
+                        />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
