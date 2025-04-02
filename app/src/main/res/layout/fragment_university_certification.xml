@@ -4,317 +4,330 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_roommate1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="56dp"
-        android:includeFontPadding="false"
-        android:text="룸메이트를 구하려면,"
-        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
-        android:textColor="@color/highlight_font"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_roommate2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:includeFontPadding="false"
-        android:text="학교 인증"
-        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
-        android:textColor="@color/main_blue"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_roommate1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_roommate1" />
-
-    <TextView
-        android:id="@+id/tv_roommate3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:text="이 필요해요!"
-        android:textAppearance="@style/TextAppearance.App.18sp.Bold"
-        android:textColor="@color/highlight_font"
-        android:textSize="20dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_roommate2"
-        app:layout_constraintStart_toEndOf="@+id/tv_roommate2" />
-
-    <!-- 학교-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_university"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_rectangle_12"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_roommate2">
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:id="@+id/ll_univ"
-            android:layout_width="264dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_university_guide"
+                android:id="@+id/tv_roommate1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="학교"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/color_font" />
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="56dp"
+                android:includeFontPadding="false"
+                android:text="룸메이트를 구하려면,"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
+                android:textColor="@color/highlight_font"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_university_name"
+                android:id="@+id/tv_roommate2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="학교를 선택해주세요"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintStart_toStartOf="@id/btn_university"
-                app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- 학과-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_major"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_rectangle_12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_university">
-
-        <LinearLayout
-            android:layout_width="264dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="@id/cl_major"
-            app:layout_constraintTop_toTopOf="@+id/cl_major">
+                android:includeFontPadding="false"
+                android:text="학교 인증"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
+                android:textColor="@color/main_blue"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_roommate1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_roommate1" />
 
             <TextView
-                android:id="@+id/tv_major_guide"
+                android:id="@+id/tv_roommate3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="학과"
+                android:includeFontPadding="false"
+                android:text="이 필요해요!"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
+                android:textColor="@color/highlight_font"
+                android:textSize="20dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_roommate2"
+                app:layout_constraintStart_toEndOf="@+id/tv_roommate2" />
+
+            <!-- 학교-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_university"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/custom_rectangle_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_roommate2">
+
+                <LinearLayout
+                    android:id="@+id/ll_univ"
+                    android:layout_width="264dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_university_guide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="학교"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font" />
+
+                    <TextView
+                        android:id="@+id/tv_university_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="학교를 선택해주세요"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toStartOf="@id/btn_university"
+                        app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 학과-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_major"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/custom_rectangle_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_university">
+
+                <LinearLayout
+                    android:layout_width="264dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="@id/cl_major"
+                    app:layout_constraintTop_toTopOf="@+id/cl_major">
+
+                    <TextView
+                        android:id="@+id/tv_major_guide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="학과"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font" />
+
+                    <TextView
+                        android:id="@+id/tv_major_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="학과를 선택해주세요"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/unuse_font"
+                        app:layout_constraintStart_toStartOf="@id/btn_university"
+                        app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 학교 이메일-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_email_input"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/custom_rectangle_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_major">
+
+                <LinearLayout
+                    android:id="@+id/ll_univ_email"
+                    android:layout_width="191dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_university_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="학교 이메일"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font" />
+
+                    <EditText
+                        android:id="@+id/et_university_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@null"
+                        android:hint="이메일을 입력해주세요"
+                        android:imeOptions="actionDone"
+                        android:inputType="textEmailAddress"
+                        android:padding="0dp"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/basic_font"
+                        android:textColorHint="@color/unuse_font" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_send_verify_code"
+                android:layout_width="96dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_rectangle_univ_state"
+                android:elevation="0dp"
+                android:enabled="false"
+                android:outlineProvider="none"
+                android:text="인증번호 전송"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/color_font" />
+                android:textColor="@color/btn_text_univ_color"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/cl_email_input"
+                app:layout_constraintEnd_toEndOf="@id/cl_email_input"
+                app:layout_constraintTop_toTopOf="@id/cl_email_input" />
 
             <TextView
-                android:id="@+id/tv_major_name"
+                android:id="@+id/tv_alert_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="이메일을 다시 확인해주세요!"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/red"
+                android:textSize="10dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/cl_email_input"
+                app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
+
+            <TextView
+                android:id="@+id/tv_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="학과를 선택해주세요"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintStart_toStartOf="@id/btn_university"
-                app:layout_constraintTop_toTopOf="@id/tv_university_guide" />
+                android:layout_marginEnd="8dp"
+                android:text="2:00"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/red"
+                android:textSize="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/cl_email_input"
+                app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_verify"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/custom_rectangle_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_email_input">
 
-    <!-- 학교 이메일-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_email_input"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_rectangle_12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_major">
+                <LinearLayout
+                    android:id="@+id/ll_univ_check"
+                    android:layout_width="191dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ll_univ_email"
-            android:layout_width="191dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/tv_verify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인증번호 확인"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font" />
 
-            <TextView
-                android:id="@+id/tv_university_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="학교 이메일"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/color_font" />
+                    <EditText
+                        android:id="@+id/et_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@null"
+                        android:hint="인증번호를 입력해주세요"
+                        android:padding="0dp"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                        android:textColor="@color/basic_font"
+                        android:textColorHint="@color/unuse_font" />
+                </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_university_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@null"
-                android:hint="이메일을 입력해주세요"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
-                android:padding="0dp"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                android:textColorHint="@color/unuse_font" />
-        </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_send_verify_code"
-        android:layout_width="96dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_rectangle_univ_state"
-        android:elevation="0dp"
-        android:enabled="false"
-        android:outlineProvider="none"
-        android:text="인증번호 전송"
-        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-        android:textColor="@color/btn_text_univ_color"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/cl_email_input"
-        app:layout_constraintEnd_toEndOf="@id/cl_email_input"
-        app:layout_constraintTop_toTopOf="@id/cl_email_input" />
-
-    <TextView
-        android:id="@+id/tv_alert_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="이메일을 다시 확인해주세요!"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:textSize="10dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/cl_email_input"
-        app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
-
-    <TextView
-        android:id="@+id/tv_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="2:00"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:textSize="10dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/cl_email_input"
-        app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_verify"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_rectangle_12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_email_input">
-
-        <LinearLayout
-            android:id="@+id/ll_univ_check"
-            android:layout_width="191dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_verify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_verify"
+                android:layout_width="96dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_rectangle_univ_state"
+                android:elevation="0dp"
+                android:enabled="false"
+                android:outlineProvider="none"
                 android:text="인증번호 확인"
                 android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/color_font" />
+                android:textColor="@color/btn_text_univ_color"
+                app:layout_constraintBottom_toBottomOf="@id/cl_verify"
+                app:layout_constraintEnd_toEndOf="@id/cl_verify"
+                app:layout_constraintTop_toTopOf="@id/cl_verify" />
 
-            <EditText
-                android:id="@+id/et_code"
+            <TextView
+                android:id="@+id/tv_alert_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
-                android:background="@null"
-                android:hint="인증번호를 입력해주세요"
-                android:padding="0dp"
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/basic_font"
-                android:textColorHint="@color/unuse_font" />
-        </LinearLayout>
+                android:text="인증번호를 다시 확인해주세요!"
+                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                android:textColor="@color/red"
+                android:textSize="10dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/cl_verify"
+                app:layout_constraintTop_toBottomOf="@id/cl_verify" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_verify"
-        android:layout_width="96dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_rectangle_univ_state"
-        android:elevation="0dp"
-        android:enabled="false"
-        android:outlineProvider="none"
-        android:text="인증번호 확인"
-        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-        android:textColor="@color/btn_text_univ_color"
-        app:layout_constraintBottom_toBottomOf="@id/cl_verify"
-        app:layout_constraintEnd_toEndOf="@id/cl_verify"
-        app:layout_constraintTop_toTopOf="@id/cl_verify" />
-
-    <TextView
-        android:id="@+id/tv_alert_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="인증번호를 다시 확인해주세요!"
-        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-        android:textColor="@color/red"
-        android:textSize="10dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/cl_verify"
-        app:layout_constraintTop_toBottomOf="@id/cl_verify" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_test"
-        android:layout_width="96dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_rectangle_univ_state"
-        android:elevation="0dp"
-        android:enabled="true"
-        android:outlineProvider="none"
-        android:text="다음화면(테스트)"
-        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-        android:textColor="@color/btn_text_univ_color"
-        app:layout_constraintEnd_toEndOf="@id/cl_verify"
-        app:layout_constraintTop_toBottomOf="@id/cl_verify" />
-    <!-- 바텀뷰 높이 -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_test"
+                android:layout_width="96dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_rectangle_univ_state"
+                android:elevation="0dp"
+                android:enabled="true"
+                android:outlineProvider="none"
+                android:text="다음화면(테스트)"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/btn_text_univ_color"
+                app:layout_constraintEnd_toEndOf="@id/cl_verify"
+                app:layout_constraintTop_toBottomOf="@id/cl_verify" />
+            <!-- 바텀뷰 높이 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
