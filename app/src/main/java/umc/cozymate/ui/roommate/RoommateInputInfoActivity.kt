@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
-import umc.cozymate.ui.onboarding.OnboardingSelectingFragmentActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
