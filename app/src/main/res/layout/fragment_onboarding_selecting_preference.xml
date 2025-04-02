@@ -313,8 +313,8 @@
             android:id="@+id/include_bs"
             style="@style/Widget.Material3.BottomSheet"
             layout="@layout/bottom_sheet_agreement"
-            app:behavior_peekHeight="375dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_next"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

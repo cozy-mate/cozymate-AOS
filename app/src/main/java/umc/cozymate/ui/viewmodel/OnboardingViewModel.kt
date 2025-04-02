@@ -36,40 +36,6 @@ class OnboardingViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
-    private val _universityId = MutableLiveData<Int>()
-    val universityId: LiveData<Int> get() = _universityId
-    private val _universityName = MutableLiveData<String>()
-    val universityName: LiveData<String> get() = _universityName
-    fun setUniversityName(name: String) {
-        _universityName.value = name
-    }
-    fun setUniversityId(university: String) {
-        _universityName.value = university
-        when (university) {
-            "인하대학교" -> {
-                _universityId.value = 1
-            }
-            "가톨릭대학교" -> {
-                _universityId.value = 2
-            }
-            "숭실대학교" -> {
-                _universityId.value = 3
-            }
-            "한국공학대학교" -> {
-                _universityId.value = 4
-            }
-            else -> {
-                _universityId.value = 1
-            }
-        }
-    }
-
-    private val _majorName = MutableLiveData<String>()
-    val majorName: LiveData<String> get() = _majorName
-    fun setMajorName(majorName: String) {
-        _majorName.value = majorName
-    }
-
     // 닉네임 중복 검사(/members/check-nickname)
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
@@ -123,6 +89,21 @@ class OnboardingViewModel @Inject constructor(
         _persona.value = persona
     }
 
+    // 선호항목 리스트
+    private val _selectedElementCount = MutableLiveData(0)
+    val selectedElementCount: LiveData<Int> get() = _selectedElementCount
+    val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
+        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
+    }
+    fun updateSelectedElementCount(isSelected: Boolean) {
+        _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
+    }
+    private val _preferences = MutableLiveData<PreferenceList>()
+    val preferences: LiveData<PreferenceList> get() = _preferences
+    fun setPreferences(preferences: PreferenceList) {
+        _preferences.value = preferences
+    }
+
     // 회원가입 (/members/sign-up)
     private val _signUpResponse = MutableLiveData<SignUpResponse.Result?>()
     val signUpResponse: LiveData<SignUpResponse.Result?> get() = _signUpResponse
@@ -132,16 +113,13 @@ class OnboardingViewModel @Inject constructor(
     val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
     fun joinMember() {
         val token = getToken()
-        _universityId.value = 1
-        _majorName.value = "컴퓨터공학과"
-        if (token != null && nickname.value != null && gender.value != null && birthday.value != null && persona.value != null && universityId.value != null && majorName.value != null) {
+        if (token != null && nickname.value != null && gender.value != null && birthday.value != null && persona.value != null && preferences.value != null) {
             val memberDetail = MemberDetail(
                 nickname = nickname.value!!,
                 gender = gender.value!!,
                 birthday = birthday.value!!,
                 persona = persona.value!!,
-                universityId = universityId.value!!,
-                majorName = majorName.value!!
+                memberStatPreferenceDto = preferences.value!!
             )
             Log.d(TAG, "join member request: $memberDetail")
             Log.d(TAG, "짭 토큰: $token")
@@ -200,7 +178,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun saveToken() {
         if (_tokenInfo.value != null) {
-            Log.d(TAG, "cozymate 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
+            Log.d(TAG, "회원가입 후 찐 토큰 저장: ${_tokenInfo.value!!.accessToken}")
             val editor = sharedPreferences.edit()
             editor.putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken)
             editor.putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken)
@@ -219,50 +197,6 @@ class OnboardingViewModel @Inject constructor(
             editor.putString("user_gender", _memberInfo.value!!.gender)
             editor.putString("user_birthday", _memberInfo.value!!.birthday)
             editor.commit()
-        }
-    }
-
-    // 선호항목 선택 확인 버튼 활성화 여부
-    private val _selectedElementCount = MutableLiveData(0)
-    val selectedElementCount: LiveData<Int> get() = _selectedElementCount
-    val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
-        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
-    }
-    fun updateSelectedElementCount(isSelected: Boolean) {
-        _selectedElementCount.value = (_selectedElementCount.value ?: 0) + if (isSelected) 1 else -1
-    }
-
-    // 선호항목 생성 (/members/stat/preference)
-    private val _preferences = MutableLiveData<PreferenceList>()
-    val preferences: LiveData<PreferenceList> get() = _preferences
-    fun setPreferences(preferences: PreferenceList) {
-        _preferences.value = preferences
-    }
-    fun postPreference() {
-        val accessToken = getToken()
-        Log.d(TAG, "멤버 선호 항목 생성 토큰 확인: $accessToken")
-        Log.d(TAG, "${preferences.value}")
-        if (accessToken != null) {
-            viewModelScope.launch {
-                try {
-                    val response =
-                        preferenceRepository.postMyPreference(
-                            accessToken, preferenceList = preferences.value ?: PreferenceList(
-                                arrayListOf("", "", "", "")
-                            )
-                        )
-                    if (response.isSuccessful) {
-                        Log.d(TAG, "멤버 선호 항목 생성 api 응답 성공: ${response}")
-                        if (response.body()!!.isSuccess) {
-                            Log.d(TAG, "멤버 선호 항목 생성 성공: ${response.body()!!.result}")
-                        }
-                    } else {
-                        Log.d(TAG, "멤버 선호 항목 api 응답 실패: ${response}")
-                    }
-                } catch (e: Exception) {
-                    Log.d(TAG, "멤버 선호 항목 api 요청 실패: ${e}")
-                }
-            }
         }
     }
 

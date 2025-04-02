@@ -69,7 +69,6 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         super.onViewCreated(view, savedInstanceState)
         setupCharacterList()
         setupNextBtn()
-        setupSignUpObserver()
     }
 
     private fun saveUserPreference(persona: Int) {
@@ -100,24 +99,11 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
     private fun setupNextBtn() {
         binding.btnNext.isEnabled = false
         binding.btnNext.setOnClickListener {
-            Log.d(TAG, "회원가입 요청 확인: ${viewModel.nickname.value} ${viewModel.gender.value} ${viewModel.birthday.value} ${viewModel.universityId.value} ${viewModel.majorName.value} ")
-            viewModel.joinMember()
+            Log.d(TAG, "닉넴/성별/생일/캐릭터 확인: ${viewModel.nickname.value} ${viewModel.gender.value} ${viewModel.birthday.value} ")
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingSelectingPreferenceFragment())
                 .addToBackStack(null)
                 .commit()
         }
-    }
-
-    private fun setupSignUpObserver() {
-        viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response != null) {
-                viewModel.saveToken() // 찐 토큰 발급
-                viewModel.saveUserInfo()
-                Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }

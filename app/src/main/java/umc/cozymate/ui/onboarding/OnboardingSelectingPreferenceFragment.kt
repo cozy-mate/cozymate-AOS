@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
@@ -24,7 +26,7 @@ import umc.cozymate.util.PreferenceNameToId
 class OnboardingSelectingPreferenceFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentOnboardingSelectingPreferenceBinding
-    private val viewModel: OnboardingViewModel by viewModels()
+    private val viewModel: OnboardingViewModel by activityViewModels()
     private lateinit var chips: List<TextView>
     private val selectedChips = mutableListOf<TextView>()
 
@@ -46,11 +48,13 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnNext.isEnabled = false
+        binding.includeBs.bottomSheetAgreement.visibility = View.GONE
+        setupSignUpObserver()
         setupChips()
         setupNextBtn()
     }
 
-    private fun setupChips() {
+    fun setupChips() {
         chips = listOf(
             binding.chipBirthYear,
             binding.chipAdmissionYear,
@@ -99,6 +103,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
             if (selectedChips.size == 4) {
                 val preferences = PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
                 viewModel.setPreferences(preferences)
+                binding.includeBs.bottomSheetAgreement.visibility = View.VISIBLE
                 setupBottomSheet()
             } else {
                 Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
@@ -156,7 +161,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
             }
             btnNext.setOnClickListener() {
                 if (btnCheckAll.isSelected) {
-                    goToSummaryFragment()
+                    viewModel.joinMember()
                 }
             }
         }
@@ -168,8 +173,20 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         binding.includeBs.btnNext.isEnabled = isCheckedAll
     }
 
+    private fun setupSignUpObserver() {
+        viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response != null) {
+                viewModel.saveToken() // 찐? 토큰 발급
+                viewModel.saveUserInfo()
+                Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
+                goToSummaryFragment()
+            } else {
+                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     fun goToSummaryFragment() {
-        viewModel.postPreference()
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_onboarding, OnboardingSummaryFragment())
             .addToBackStack(null)

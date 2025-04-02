@@ -30,7 +30,6 @@ class OnboardingActivity : AppCompatActivity() {
             insets
         }
         window.navigationBarColor = Color.WHITE
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_onboarding, OnboardingUserInfoFragment())

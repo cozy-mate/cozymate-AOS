@@ -110,15 +110,13 @@ class OnboardingUserInfoFragment : Fragment() {
                 binding.tvAlertNickname.text = "다른 사용자가 이미 사용 중인 닉네임이에요!"
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                 binding.clOnboardingNickname.isSelected = true
-                binding.btnValidCheck.isEnabled = false
                 binding.btnNext.isEnabled = false
             } else {
-                binding.tvAlertNickname.visibility = View.GONE
+                binding.tvAlertNickname.visibility = View.VISIBLE
+                binding.tvAlertNickname.text = "사용가능한 닉네임이에요!"
+                binding.tvAlertNickname.setTextColor(resources.getColor(R.color.main_blue))
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
-                binding.tvLabelNickname.setTextColor(resources.getColor(R.color.color_font))
-                binding.tvAlertNickname.visibility = View.GONE
                 binding.clOnboardingNickname.isSelected = false
-                binding.btnValidCheck.isEnabled = true
                 updateNextBtnState()
             }
         })
@@ -193,7 +191,6 @@ class OnboardingUserInfoFragment : Fragment() {
         val isNicknameEntered = binding.etNickname.text?.isNotEmpty() == true
         val isGenderChecked = isSelectedMale || isSelectedFemale
         val isBirthSelected = binding.tvBirth.text?.isNotEmpty() == true
-        // 버튼 활성화
         val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected
         binding.btnNext.isEnabled = isEnabled
     }
