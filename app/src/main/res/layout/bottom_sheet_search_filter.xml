@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <!-- 필터 항목 1: 평균일치율순 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_average"
         android:layout_width="match_parent"
@@ -49,7 +48,6 @@
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 구분선 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -57,7 +55,6 @@
         android:background="@color/detail_gray"
         app:layout_constraintTop_toBottomOf="@id/layout_average" />
 
-    <!-- 필터 항목 2: 최신순 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_latest"
         android:layout_width="match_parent"
@@ -102,7 +99,6 @@
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 구분선 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -110,7 +106,6 @@
         android:background="@color/detail_gray"
         app:layout_constraintTop_toBottomOf="@id/layout_latest" />
 
-    <!-- 필터 항목 3: 마감순 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_closing"
         android:layout_width="match_parent"
@@ -155,7 +150,6 @@
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 확인 버튼 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_check_filter"
         android:layout_width="0dp"

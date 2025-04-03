@@ -79,9 +79,10 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    fun deleteTodo(roomId: Int,todoId: Int) {
+    fun deleteTodo(roomId: Int,todoId: Int, timePoint: String?) {
         viewModelScope.launch {
             safeApiCall { repository.deleteTodo( getToken()!! ,roomId,todoId) }
+            getTodo(roomId,timePoint)
         }
     }
 

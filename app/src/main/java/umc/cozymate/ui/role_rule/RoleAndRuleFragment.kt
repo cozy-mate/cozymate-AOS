@@ -17,13 +17,13 @@ class RoleAndRuleFragment : Fragment() {
     private var isCreated : Boolean = false
     private val binding get() = _binding!!
     private val information = arrayListOf("To-do", "Role&Rule")
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRoleAndRuleBinding.inflate(inflater, container, false)
+
         val roleAndRuleVPAdapter =  RoleAndRuleVPAdapter(this)
         binding.vpRoleAndRule.adapter = roleAndRuleVPAdapter
         TabLayoutMediator(binding.tbRoleAndRule, binding.vpRoleAndRule){
@@ -31,6 +31,7 @@ class RoleAndRuleFragment : Fragment() {
             tab.text = information[position]
         }.attach()
         isCreated = false
+
         binding.ivAddTodo.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val editor = spf.edit()
