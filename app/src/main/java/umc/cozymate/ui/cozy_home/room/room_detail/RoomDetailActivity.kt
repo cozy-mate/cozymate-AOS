@@ -130,7 +130,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 with(binding) {
                     tvRoomName.text = roomInfo.name
                     CharacterUtil.setImg(roomInfo.persona, ivRoomCharacter)
-                    updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
                     when (roomInfo.equality) {
                         0 -> tvRoomMatch.text = "방 평균 일치율 - %"
@@ -509,16 +508,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}"
             )
         }
-    }
-
-    private fun updateRoomStatus(type: String) {
-        val roomStatusText = if (type == "PUBLIC") {
-            "공개방이에요"
-        } else {
-            "비공개방이에요"
-        }
-        binding.tvRoomStatus.visibility = View.VISIBLE
-        binding.tvRoomStatus.text = roomStatusText
     }
 
     private fun updateRoomManager(isRoomManager: Boolean) {
