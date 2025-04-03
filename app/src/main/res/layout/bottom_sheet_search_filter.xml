@@ -3,107 +3,172 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/background_bottom_sheet"
-    >
+    android:padding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_average"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="평균일치율순"
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <FrameLayout
+            android:id="@+id/indicator_average"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:id="@+id/outer_average"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_bg_circle_border" />
+
+            <View
+                android:id="@+id/inner_average"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_bg_circle_inner"
+                android:visibility="gone"/>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/detail_gray"
+        app:layout_constraintTop_toBottomOf="@id/layout_average" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_latest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_latest"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_check"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_average">
 
         <TextView
             android:id="@+id/tv_latest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="최신순"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="@color/basic_font"
-            app:layout_constraintStart_toEndOf="@+id/iv_latest"
-            app:layout_constraintTop_toTopOf="@+id/iv_latest"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_latest"
-            android:layout_marginStart="12dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/guide_latest"
-        android:background="@color/detail_gray"
-        app:layout_constraintTop_toBottomOf="@+id/layout_latest"
-        android:layout_marginTop="8dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guide_latest"
-        android:layout_marginTop="8dp"
-        android:id="@+id/layout_average_rate">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:id="@+id/iv_average_rate"
-            android:src="@drawable/ic_check"
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_average_rate"
-            android:text="평균일치율순"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="@color/main_blue"
-            app:layout_constraintStart_toEndOf="@+id/iv_average_rate"
-            app:layout_constraintTop_toTopOf="@id/iv_average_rate"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_average_rate"
-            android:layout_marginStart="12dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <FrameLayout
+            android:id="@+id/indicator_latest"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:id="@+id/outer_latest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_bg_circle_border" />
+
+            <View
+                android:id="@+id/inner_latest"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_bg_circle_inner"
+                android:visibility="gone"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/guide_average"
+        android:layout_marginTop="8dp"
         android:background="@color/detail_gray"
-        app:layout_constraintTop_toBottomOf="@id/layout_average_rate"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toBottomOf="@id/layout_latest" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/layout_closing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guide_average">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:visibility="invisible"
-            android:id="@+id/iv_closing"
-            android:src="@drawable/ic_check"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/layout_latest">
+
         <TextView
+            android:id="@+id/tv_closing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_closing"
-            android:text="마감임박순"
-            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-            android:textColor="@color/basic_font"
-            app:layout_constraintStart_toEndOf="@+id/iv_closing"
-            app:layout_constraintTop_toTopOf="@+id/iv_closing"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_closing"
-            android:layout_marginStart="12dp"/>
+            android:text="마감순"
+            android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+            android:textColor="@color/unuse_font"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <FrameLayout
+            android:id="@+id/indicator_closing"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:id="@+id/outer_closing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_bg_circle_border" />
+
+            <View
+                android:id="@+id/inner_closing"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_bg_circle_inner"
+                android:visibility="gone"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_check_filter"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/custom_roommate_onboarding"
+        android:text="확인"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+        app:layout_constraintTop_toBottomOf="@+id/layout_closing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_check_filter"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

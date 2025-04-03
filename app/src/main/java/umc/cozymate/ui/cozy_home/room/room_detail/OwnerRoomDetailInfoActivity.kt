@@ -67,31 +67,6 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@OwnerRoomDetailInfoActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
-
-        // 더보기 버튼 설정
-        var moreFlag = false
-        binding.llMore.visibility = View.GONE
-        binding.ivMore.setOnClickListener {
-            if (!moreFlag) {
-                binding.llMore.visibility = View.VISIBLE
-                binding.llMore.bringToFront() // 우선순위 조정
-                binding.clMid.requestDisallowInterceptTouchEvent(true) // RecyclerView의 터치 차단
-                moreFlag = true
-            } else {
-                binding.llMore.visibility = View.GONE
-                binding.clMid.requestDisallowInterceptTouchEvent(false)
-                moreFlag = false
-            }
-        }
-        binding.tvUpdateInfo.setOnClickListener {
-            val intent = Intent(this@OwnerRoomDetailInfoActivity, UpdateRoomInfoActivity::class.java)
-            intent.putExtra(UpdateRoomInfoActivity.ROOM_STATE, roomType)
-            startActivity(intent)
-        }
-        // 뒤로가기 버튼
-        binding.ivBack.setOnClickListener {
-            finish()
-        }
         // 방 id 불러오기
         roomId = intent.getIntExtra(ARG_ROOM_ID, -1)
         lifecycleScope.launch {
@@ -125,7 +100,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
-                    tvRoomMatch.text = "방 평균 일치율 - %"
+                    tvRoomCode.text = "이 자리에 방 초대 코드가 들어가야 함!!"
                     tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
                     tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
@@ -172,7 +147,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
     // 방 나가기
     fun setQuitRoom(roomId: Int) {
         with(binding) {
-            tvQuit.setOnClickListener {
+            fabBnt.setOnClickListener {
                 showQuitRoomPopup()
             }
         }
@@ -228,7 +203,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
         updateHashtags(roomInfo.hashtagList)
         with(binding) {
             tvRoomName.text = roomInfo.name
-            tvRoomMatch.text = "방 평균 일치율 ${roomInfo.equality}%"
+            tvRoomCode.text = "방 평균 일치율 ${roomInfo.equality}%"
             tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
             tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName

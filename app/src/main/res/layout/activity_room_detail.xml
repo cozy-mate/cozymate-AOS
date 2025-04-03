@@ -159,20 +159,6 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/tv_room_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-                android:textColor="@color/color_font"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@id/tv_room_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_room_name"
-                tools:text="비공개방입니다"
-                tools:visibility="visible" />
-
-            <TextView
                 android:id="@+id/tv_room_match"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -688,7 +674,7 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/main_blue"
             android:gravity="center"
-            android:text="방 참여요청"
+            android:text="방 참여하기"
             android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
             android:textColor="@color/white"
             android:visibility="visible"
