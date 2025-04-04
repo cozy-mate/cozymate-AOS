@@ -42,11 +42,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- 홈 상단 부분 ui -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_top"
                     android:layout_width="match_parent"
-                    android:layout_height="196dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -61,126 +60,128 @@
 
                     <ImageView
                         android:id="@+id/iv_bg"
-                        android:layout_width="470dp"
-                        android:layout_height="0dp"
+                        android:layout_width="450dp"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="-40dp"
+                        android:layout_marginBottom="-24dp"
                         android:background="@drawable/bg_cozyhome_top"
                         android:translationX="-20dp"
+                        app:layout_constraintBottom_toBottomOf="@id/cl_top_btns"
                         app:layout_constraintDimensionRatio="75:58"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/btn_school_certificate"
-                        android:layout_width="247dp"
+                        android:id="@+id/btn_univ"
+                        android:layout_width="239dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginStart="20dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/iv_school_white"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_school_white"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_school_blue"
+                            android:id="@+id/iv_univ_blue"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_school_color"
-                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_school_name"
+                            android:id="@+id/tv_univ_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
-                            android:text="학교 인증을 해주세요"
+                            android:text="인하대학교"
                             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-                            android:textColor="@color/unuse_font"
+                            android:textColor="@color/main_blue"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_next"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:src="@drawable/ic_next"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_school_name"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_bell"
+                        android:id="@+id/btn_notification"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="19dp"
+                        android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_bell"
-                        app:layout_constraintBottom_toBottomOf="@id/btn_school_certificate"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_univ"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/btn_school_certificate" />
+                        app:layout_constraintTop_toTopOf="@id/btn_univ" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_message"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/ic_message"
-                        app:layout_constraintBottom_toBottomOf="@id/btn_school_certificate"
-                        app:layout_constraintEnd_toStartOf="@id/btn_bell"
-                        app:layout_constraintTop_toTopOf="@id/btn_school_certificate" />
+                        app:layout_constraintBottom_toBottomOf="@id/btn_univ"
+                        app:layout_constraintEnd_toStartOf="@id/btn_notification"
+                        app:layout_constraintTop_toTopOf="@id/btn_univ" />
 
-                    <!-- 방 버튼 -->
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_make_room"
-                        android:layout_width="0dp"
-                        android:layout_height="105dp"
-                        android:layout_marginStart="20dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_top_btns"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="24dp"
-                        android:background="@drawable/btn_rectangle_cozyhome_state"
-                        android:backgroundTint="@color/color_box"
-                        android:elevation="0dp"
-                        android:gravity="start"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
-                        android:text="방 만들기"
-                        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                        android:textColor="@color/main_blue"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btn_enter_room"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/btn_school_certificate" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_enter_room"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_marginEnd="20dp"
-                        android:background="@drawable/btn_rectangle_cozyhome_state"
-                        android:backgroundTint="@color/color_box"
-                        android:elevation="0dp"
-                        android:gravity="start"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
-                        android:text="방 참여하기"
-                        android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                        android:textColor="@color/main_blue"
-                        app:layout_constraintBottom_toBottomOf="@id/btn_make_room"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btn_make_room"
-                        app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_notification">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_lifestyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/background_btn_lifestyle"
+                            android:gravity="start"
+                            android:paddingHorizontal="50dp"
+                            android:paddingVertical="14dp"
+                            android:text="nickname님, 라이프스타일을 입력하고\n나와 꼭 맞는 룸메이트를 찾아볼까요?"
+                            android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                            android:textColor="@color/basic_font"
+                            app:layout_constraintBottom_toTopOf="@id/btn_make_room"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_make_room"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginEnd="11dp"
+                            android:background="@drawable/btn_rectangle_cozyhome_state"
+                            android:backgroundTint="@color/color_box"
+                            android:gravity="start"
+                            android:paddingStart="16dp"
+                            android:paddingTop="16dp"
+                            android:text="방 만들기"
+                            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                            android:textColor="@color/main_blue"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btn_enter_room"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_enter_room"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@drawable/btn_rectangle_cozyhome_state"
+                            android:backgroundTint="@color/color_box"
+                            android:gravity="start"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:text="방 참여하기"
+                            android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                            android:textColor="@color/main_blue"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_make_room"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btn_make_room"
+                            app:layout_constraintTop_toTopOf="@+id/btn_make_room" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- 참여하고 있는 방 컴포넌트 -->
@@ -188,7 +189,6 @@
                     android:id="@+id/my_room_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_top"
@@ -254,26 +254,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/recommended_roommate_container"
                     app:layout_goneMarginTop="0dp" />
 
-                <!-- 하단 광고 -->
-                <!--<ImageView
-                    android:id="@+id/banner_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/background_banner"
-                    app:layout_constraintBottom_toTopOf="@id/cl_bottom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/room_recommend_container" />-->
-
-                <!-- 하단네비 바텀뷰만큼 띄우기 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_bottom"
                     android:layout_width="match_parent"
+                    android:layout_height="80dp"
                     android:background="@color/white"
-                    android:layout_height="75dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recommended_room_container" />
