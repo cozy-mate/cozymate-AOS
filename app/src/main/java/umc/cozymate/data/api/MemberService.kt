@@ -40,7 +40,7 @@ interface MemberService {
     ): Response<WithdrawResponse>
 
     // 로그아웃
-    @GET("/members/sign-out")
+    @GET("/auth/logout")
     suspend fun signOut(
         @Header("Authorization") accessToken: String,
     ): Response<Unit>
@@ -66,7 +66,7 @@ interface MemberService {
     ): Response<SignUpResponse>
 
     // 로그인
-    @POST("/members/sign-in")
+    @POST("/auth/sign-in")
     suspend fun signIn(
         @Body request: SignInRequest
     ): Response<SignInResponse>

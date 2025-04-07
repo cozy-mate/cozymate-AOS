@@ -22,25 +22,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cozymate"
         tools:targetApi="31">
-        <activity android:name=".ui.cozy_home.room.making_room.MakingRoomDialogFragment"
-            android:theme="@style/Theme.TransparentActivity"
-            android:exported="true" />
-        <activity android:name=".ui.onboarding.OnboardingSelectingFragmentActivity"
-            android:exported="false" />
+        <activity
+            android:name=".ui.cozy_home.room.making_room.MakingRoomDialogFragment"
+            android:exported="true"
+            android:theme="@style/Theme.TransparentActivity" />
         <activity
             android:name=".ui.my_page.update_room.UpdateRoomInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.RoommateMyDetailActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.my_page.lifestyle.FetchLifestyleActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.my_page.favorite.MyFavoriteActivity"
             android:exported="false" />
@@ -55,8 +54,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.room_detail.RoomDetailActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity"
             android:exported="false" />
@@ -65,7 +64,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.university_certification.UniversityCertificationActivity"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
         <activity
             android:name=".ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />
@@ -74,7 +74,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.roommate.RoommateInputInfoActivity"
-            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+            android:exported="false" />
+        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -88,7 +89,8 @@
                     android:host="oauth"
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
-        </activity> <!-- 시작 화면 -->
+        </activity>
+        <!-- 시작 화면 -->
         <activity
             android:name=".ui.splash.LaunchActivity"
             android:exported="true">

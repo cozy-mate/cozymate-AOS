@@ -20,13 +20,11 @@ import umc.cozymate.data.model.response.member.WithdrawResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
-
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val repository: MemberRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-
     private val TAG = this.javaClass.simpleName
 
     private val _loading = MutableLiveData<Boolean>()
@@ -78,7 +76,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun saveToken() {
-        Log.d(TAG, "코지메이트 어세스 토큰: ${_tokenInfo.value!!.accessToken}")
+        Log.d(TAG, "찐 토큰: ${_tokenInfo.value!!.accessToken}")
         sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
         sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
@@ -90,7 +88,6 @@ class SplashViewModel @Inject constructor(
     fun getRefreshToken(): String? {
         return sharedPreferences.getString("refresh_token", null)
     }
-
 
     fun saveUserInfo() {
         Log.d(TAG, "사용자 정보: ${_memberInfo.value!!}")
@@ -240,9 +237,9 @@ class SplashViewModel @Inject constructor(
                     Log.d(TAG, "회원 탈퇴 성공 ${response.body()}")
                 }
                 else Log.d(TAG,"withdraw 응답 실패 : ${response.body()}")
-            }catch (e:Exception){
+            } catch (e:Exception){
                 Log.d(TAG,"withdraw api 요청 실패 ${e}")
-            }finally {
+            } finally {
                 _loading.value = false
             }
         }

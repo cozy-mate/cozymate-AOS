@@ -15,25 +15,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.response.member.GetUniversityListResponse
-import umc.cozymate.databinding.FragmentUniversitySearchBinding
+import umc.cozymate.databinding.FragmentMajorSearchBinding
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
-class UniversitySearchFragment : Fragment() {
+class MajorSearchFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private val viewModel: UniversityViewModel by activityViewModels()
-    private var _binding: FragmentUniversitySearchBinding? = null
+    private var _binding: FragmentMajorSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var univList: List<GetUniversityListResponse.Result.University>
-    private lateinit var adapter: UniversityAdapter
+    private lateinit var majorList: List<String>
+    private var mailPattern: String = ""
+    private lateinit var adapter: MajorAdapter
     private var debounceJob: Job? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUniversitySearchBinding.inflate(inflater, container, false)
+        _binding = FragmentMajorSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,10 +41,10 @@ class UniversitySearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         lifecycleScope.launch {
-            viewModel.getUniversityList()
+            viewModel.fetchUniversityInfo()
         }
-        observeUniversityList()
-        setUniversitySearchView()
+        observeMajorList()
+        setMajorSearchView()
         setCancelBtn()
     }
 
@@ -53,32 +53,32 @@ class UniversitySearchFragment : Fragment() {
         _binding = null
     }
 
-    fun observeUniversityList() {
-        adapter = UniversityAdapter { univId, univName ->
-            viewModel.setUniversityId(univId)
+    fun observeMajorList() {
+        adapter = MajorAdapter { majorName ->
             setFragmentResult(
-                UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
+                UniversityCertificationFragment.ARG_MAJOR_INFO,
                 bundleOf(
-                    UniversityCertificationFragment.ARG_UNIVERSITY_ID to univId,
-                    UniversityCertificationFragment.ARG_UNIVERSITY_NAME to univName
+                    UniversityCertificationFragment.ARG_MAJOR_NAME to majorName,
+                    UniversityCertificationFragment.ARG_MAIL_PATTERN to mailPattern
                 )
             )
             parentFragmentManager.popBackStack()
         }
-        viewModel.getUnivListResponse.observe(viewLifecycleOwner) { res ->
-            univList = res?.result?.universityList ?: emptyList()
-            if (univList.isNotEmpty()) {
+        viewModel.universityInfo.observe(viewLifecycleOwner) { res ->
+            mailPattern = res?.mailPattern.toString()
+            majorList = res?.departments ?: emptyList()
+            if (majorList.isNotEmpty()) {
                 binding.tvNone.visibility = View.GONE
-                adapter.setItems(univList)
+                adapter.setItems(majorList)
             } else {
                 binding.tvNone.visibility = View.VISIBLE
             }
         }
-        binding.rvUniv.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvUniv.adapter = adapter
+        binding.rvMajor.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMajor.adapter = adapter
     }
 
-    fun setUniversitySearchView() {
+    fun setMajorSearchView() {
         binding.tvNone.visibility = View.GONE
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -89,7 +89,7 @@ class UniversitySearchFragment : Fragment() {
                 if (newText == "") {
                     binding.tvNone.visibility = View.GONE
                 } else {
-                    binding.rvUniv.visibility = View.VISIBLE
+                    binding.rvMajor.visibility = View.VISIBLE
                     binding.tvNone.visibility = View.GONE
                     adapter.filter(newText ?: "")
                     if (adapter.filteredList.isEmpty()) {

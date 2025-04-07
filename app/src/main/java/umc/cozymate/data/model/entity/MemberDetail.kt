@@ -3,8 +3,6 @@ package umc.cozymate.data.model.entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// nickname, gender, birthday, persona, *universityId
-
 @Serializable
 data class MemberDetail(
     @SerialName("birthday")
@@ -15,8 +13,6 @@ data class MemberDetail(
     var nickname: String,
     @SerialName("persona")
     var persona: Int,
-    @SerialName("universityId")
-    var universityId: Int,
-    @SerialName("majorName")
-    var majorName: String,
+    @SerialName("memberStatPreferenceDto")
+    val memberStatPreferenceDto: PreferenceList,
 )
