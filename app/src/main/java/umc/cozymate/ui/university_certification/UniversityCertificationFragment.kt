@@ -70,12 +70,6 @@ class UniversityCertificationFragment : Fragment() {
             Log.d(TAG, "Departments: ${univInfo.departments}")
             viewModel.setMailPattern(univInfo.mailPattern)
         }
-
-        binding.btnTest.setOnClickListener() {
-            val intent = Intent(requireContext(), OnboardingActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
     }
 
     override fun onDestroyView() {
