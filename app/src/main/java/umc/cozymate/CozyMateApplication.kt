@@ -13,6 +13,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import umc.cozymate.util.NetworkConnectionChecker
 import java.security.MessageDigest
@@ -22,6 +23,7 @@ import java.security.MessageDigest
 class CozyMateApplication: Application(), DefaultLifecycleObserver {
     override fun onCreate() {
         super<Application>.onCreate()
+        FirebaseApp.initializeApp(this)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 

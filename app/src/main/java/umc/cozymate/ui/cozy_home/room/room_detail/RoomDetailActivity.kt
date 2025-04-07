@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +58,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
+    val firebaseAnalytics = Firebase.analytics
 
     private var roomId: Int = 0
     private var favoriteId: Int = 0
@@ -187,6 +191,11 @@ class RoomDetailActivity : AppCompatActivity() {
 
         with(binding) {
             ivExit.setOnClickListener {
+                firebaseAnalytics.logEvent("exit_button_click") {
+                    param("방 나가기", "exit_button")
+                    param("방 상세 화면", "room_detail_screen")
+                }
+
                 val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
                 val dialog = TwoButtonPopup(text, object : PopupClick {
                     override fun rightClickFunction() {
@@ -410,6 +419,11 @@ class RoomDetailActivity : AppCompatActivity() {
                                 fabBnt.setBackgroundTintList(getColorStateList(R.color.main_blue))
                                 fabBnt.setTextColor(getColor(R.color.white))
                                 fabBnt.setOnClickListener {
+                                    firebaseAnalytics.logEvent("join_room_button_click") {
+                                        param("방 참여요청", "join_room_button")
+                                        param("방 상세 화면", "room_detail_screen")
+                                    }
+
                                     // 방 참여 요청 처리
                                     lifecycleScope.launch {
                                         joinRoomViewModel.requestJoinRoom(roomId)

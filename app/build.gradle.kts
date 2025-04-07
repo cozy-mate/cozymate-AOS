@@ -23,8 +23,8 @@ android {
         applicationId = "umc.cozymate"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 8
+        versionName = "1.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -166,6 +166,10 @@ dependencies {
 
     // Swiperefreshlayout
     implementation(libs.androidx.swiperefreshlayout)
+
+    // google play core in-app updates
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
 }
 kapt {
     correctErrorTypes = true
