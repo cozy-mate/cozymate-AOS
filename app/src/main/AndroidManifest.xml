@@ -27,9 +27,6 @@
             android:exported="true"
             android:theme="@style/Theme.TransparentActivity" />
         <activity
-            android:name=".ui.onboarding.OnboardingSelectingFragmentActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.my_page.update_room.UpdateRoomInfoActivity"
             android:exported="false" />
         <activity

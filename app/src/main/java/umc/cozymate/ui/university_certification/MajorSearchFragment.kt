@@ -10,16 +10,12 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentMajorSearchBinding
-import umc.cozymate.databinding.FragmentUniversitySearchBinding
-import umc.cozymate.ui.MessageDetail.MajorAdapter
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -58,16 +54,6 @@ class MajorSearchFragment : Fragment() {
     }
 
     fun observeMajorList() {
-        viewModel.universityInfo.observe(viewLifecycleOwner) { res ->
-            mailPattern = res?.mailPattern.toString()
-            majorList = res?.departments ?: emptyList()
-            if (majorList.isNotEmpty()) {
-                binding.tvNone.visibility = View.GONE
-                adapter.setItems(majorList)
-            } else {
-                binding.tvNone.visibility = View.VISIBLE
-            }
-        }
         adapter = MajorAdapter { majorName ->
             setFragmentResult(
                 UniversityCertificationFragment.ARG_MAJOR_INFO,
@@ -78,8 +64,18 @@ class MajorSearchFragment : Fragment() {
             )
             parentFragmentManager.popBackStack()
         }
-        binding.rvUniv.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvUniv.adapter = adapter
+        viewModel.universityInfo.observe(viewLifecycleOwner) { res ->
+            mailPattern = res?.mailPattern.toString()
+            majorList = res?.departments ?: emptyList()
+            if (majorList.isNotEmpty()) {
+                binding.tvNone.visibility = View.GONE
+                adapter.setItems(majorList)
+            } else {
+                binding.tvNone.visibility = View.VISIBLE
+            }
+        }
+        binding.rvMajor.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMajor.adapter = adapter
     }
 
     fun setMajorSearchView() {
@@ -93,7 +89,7 @@ class MajorSearchFragment : Fragment() {
                 if (newText == "") {
                     binding.tvNone.visibility = View.GONE
                 } else {
-                    binding.rvUniv.visibility = View.VISIBLE
+                    binding.rvMajor.visibility = View.VISIBLE
                     binding.tvNone.visibility = View.GONE
                     adapter.filter(newText ?: "")
                     if (adapter.filteredList.isEmpty()) {

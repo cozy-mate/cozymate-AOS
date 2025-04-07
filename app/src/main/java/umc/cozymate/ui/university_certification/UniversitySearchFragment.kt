@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +17,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
-import umc.cozymate.ui.MessageDetail.UniversityAdapter
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 

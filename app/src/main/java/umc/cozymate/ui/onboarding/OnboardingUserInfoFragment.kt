@@ -163,10 +163,10 @@ class OnboardingUserInfoFragment : Fragment() {
                     birthDate = date
                     binding.tvBirth.text = StringUtil.formatDate(date)
                     setTextColor(binding.tvBirth, R.color.color_font)
+                    updateNextBtnState()
                 }
             })
             fragment.show(childFragmentManager, "DatePickerBottomSheetFragment")
-            updateNextBtnState()
         }
     }
 
@@ -190,7 +190,7 @@ class OnboardingUserInfoFragment : Fragment() {
     fun updateNextBtnState() {
         val isNicknameEntered = binding.etNickname.text?.isNotEmpty() == true
         val isGenderChecked = isSelectedMale || isSelectedFemale
-        val isBirthSelected = (binding.tvBirth.text?.isNotEmpty() == true) && (binding.tvBirth.text.toString() == "생일을 선택해주세요")
+        val isBirthSelected = (binding.tvBirth.text?.isNotEmpty() == true) && (binding.tvBirth.text.toString() != "생일을 선택해주세요")
         val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected
         binding.btnNext.isEnabled = isEnabled
     }

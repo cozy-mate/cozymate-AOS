@@ -1,4 +1,4 @@
-package umc.cozymate.ui.MessageDetail
+package umc.cozymate.ui.university_certification
 
 import android.text.Spannable
 import android.text.SpannableString
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.databinding.RvItemUniversityBinding
 
 class MajorAdapter(

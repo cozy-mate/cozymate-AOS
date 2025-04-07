@@ -1,8 +1,7 @@
-package umc.cozymate.ui.MessageDetail
+package umc.cozymate.ui.university_certification
 
 import android.text.Spannable
 import android.text.SpannableString
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

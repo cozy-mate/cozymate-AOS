@@ -82,7 +82,7 @@
                 android:id="@+id/tv_check1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="약관 전체 동의"
+                android:text="이용약관 동의(필수)"
                 android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                 android:textColor="@color/basic_font"
                 app:layout_constraintBottom_toBottomOf="parent"
