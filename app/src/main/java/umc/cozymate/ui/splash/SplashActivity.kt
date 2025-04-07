@@ -121,12 +121,6 @@ class SplashActivity : AppCompatActivity() {
         observeError()
     }
 
-    private fun testSignIn() {
-        splashViewModel.setClientId("TEST")
-        splashViewModel.setSocialType("TEST")
-        splashViewModel.signIn()
-    }
-
     private fun observeSignInResponse() {
         splashViewModel.signInResponse.observe(this) { result ->
             if (result.isSuccessful) {
@@ -225,6 +219,12 @@ class SplashActivity : AppCompatActivity() {
         binding.btnTest.setOnClickListener {
             testSignIn()
         }
+    }
+
+    private fun testSignIn() {
+        splashViewModel.setClientId("TEST")
+        splashViewModel.setSocialType("TEST")
+        splashViewModel.signIn()
     }
 
 }

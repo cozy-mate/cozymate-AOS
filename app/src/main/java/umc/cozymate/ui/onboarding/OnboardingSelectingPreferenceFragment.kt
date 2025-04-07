@@ -104,8 +104,6 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
                 val preferences =
                     PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
                 viewModel.setPreferences(preferences)
-                binding.includeBs.bottomSheetAgreement.visibility = View.VISIBLE
-                binding.dimBackground.visibility = View.VISIBLE
                 setupBottomSheet()
             } else {
                 Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
@@ -120,15 +118,8 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         var checkedAll: Boolean = false
         val sheetBehavior = BottomSheetBehavior.from(bottomSheet)
         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) binding.dimBackground.visibility = View.GONE
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.dimBackground.alpha = slideOffset
-            }
-        })
+        bottomSheet.visibility = View.VISIBLE
+        binding.dimBackground.visibility = View.VISIBLE
         with(binding.includeBs) {
             btnSeeAgreement1.setOnClickListener() {
                 val url = "https://google.com"
@@ -190,7 +181,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     private fun setupSignUpObserver() {
         viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response != null) {
-                viewModel.saveToken() // 찐? 토큰 발급
+                viewModel.saveToken() // 찐 토큰 발급
                 viewModel.saveUserInfo()
                 Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
                 goToSummaryFragment()

@@ -64,21 +64,18 @@ class CozyHomeMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
-        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         with(binding) {
             binding.refreshLayout.isRefreshing = true
+
             // 학교명
-            // 학교인증 지금은 안 하도록 수정했습니다
-            ivSchoolWhite.visibility = View.GONE
-            ivSchoolBlue.visibility = View.VISIBLE
-            ivNext.visibility = View.GONE
-            tvSchoolName.text = "인하대학교"
-            tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            tvUnivName.text = "인하대학교"
+            tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
             /*viewLifecycleOwner.lifecycleScope.launch {
                 univViewModel.isMailVerified()
             }*/
@@ -342,13 +339,13 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun openNotification() {
-        binding.btnBell.setOnClickListener {
+        binding.btnNotification.setOnClickListener {
             startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
 
     // 학교 인증 / 학교명 옵저빙
-    private fun observeUnivViewModel() {
+    /*private fun observeUnivViewModel() {
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
@@ -380,5 +377,5 @@ class CozyHomeMainFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 }

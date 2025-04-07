@@ -1,6 +1,5 @@
 package umc.cozymate.ui.university_certification
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,26 +10,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
-import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
-import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.onboarding.OnboardingActivity
-import umc.cozymate.ui.pop_up.OneButtonPopup
-import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -243,16 +234,16 @@ class UniversityCertificationFragment : Fragment() {
                 viewModel.verifyCode(code)
             }
         }
-        viewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true) {
+        viewModel.verifyResponse.observe(viewLifecycleOwner) { res ->
+            if (res.isSuccess) {
                 binding.tvAlertCode.visibility = View.GONE
+                viewModel.setTokenInfo(res.result.tokenResponseDTO)
+                viewModel.saveToken()
                 Toast.makeText(requireContext(), "학교 인증을 성공했습니다.", Toast.LENGTH_SHORT)
                     .show()
                 val intent = Intent(requireContext(), OnboardingActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
-            } else if (isVerified == false) {
-                binding.tvAlertCode.visibility = View.VISIBLE
             }
         }
     }

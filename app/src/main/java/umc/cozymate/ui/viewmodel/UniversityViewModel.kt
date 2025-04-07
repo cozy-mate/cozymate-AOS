@@ -9,12 +9,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
+import umc.cozymate.data.model.response.member.VerifyMailResponse
 import umc.cozymate.data.repository.repository.MemberRepository
 import javax.inject.Inject
 
@@ -146,6 +148,8 @@ class UniversityViewModel @Inject constructor(
     // 메일 인증 (/members/mail/verify)
     private val _verifyCode = MutableLiveData<String>()
     val verifyCode: LiveData<String> get() = _verifyCode
+    private val _verifyResponse = MutableLiveData<VerifyMailResponse>()
+    val verifyResponse: LiveData<VerifyMailResponse> get() = _verifyResponse
     fun verifyCode(code: String) {
         val token = getToken()
         Log.d(TAG, "verifyCode: $code, major: ${major.value}, univId: ${universityId.value}")
@@ -157,10 +161,8 @@ class UniversityViewModel @Inject constructor(
                     val response = memberRepo.verifyMail(token, request)
                     if (response.isSuccessful) {
                         Log.d(TAG, "메일 인증 성공")
+                        _verifyResponse.value = response.body()
                         _isVerified.value = true
-                        Log.d(TAG, "학교 인증 후 짭?토큰: ${response.body()!!.result.tokenResponseDTO.accessToken}")
-                        sharedPreferences.edit().putString("access_token", "Bearer " + response.body()!!.result.tokenResponseDTO.accessToken).commit()
-                        sharedPreferences.edit().putString("refresh_token", "Bearer " + response.body()!!.result.tokenResponseDTO.refreshToken).commit()
                     } else {
                         Log.d(TAG, "메일 인증 실패")
                         _isVerified.value = false
@@ -171,6 +173,21 @@ class UniversityViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private val _tokenInfo = MutableLiveData<TokenInfo>()
+    val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
+    fun setTokenInfo(tokenInfo: VerifyMailResponse.Result.TokenResponseDTO) {
+        _tokenInfo.value = TokenInfo(
+            accessToken = tokenInfo.accessToken,
+            message = tokenInfo.message,
+            refreshToken = tokenInfo.refreshToken
+        )
+    }
+    fun saveToken() {
+        Log.d(TAG, "학교인증 후 짭 토큰: ${_tokenInfo.value!!.accessToken}")
+        sharedPreferences.edit().putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit().putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
     }
 
     // 대학교 메일 인증 여부
@@ -187,11 +204,11 @@ class UniversityViewModel @Inject constructor(
             if (response.isSuccessful) {
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학교 메일 인증 여부 조회 성공: ${response.body()!!.result}")
+                    _getMailVerifyResponse.value = response.body()
                     if (response.body()!!.result == "") {
                         _isVerified.value = false
                     } else {
                         _isVerified.value = false
-                        _getMailVerifyResponse.value = response.body()
                         fetchMyUniversity()
                     }
                     sharedPreferences.edit().putString("user_email", response.body()!!.result)
