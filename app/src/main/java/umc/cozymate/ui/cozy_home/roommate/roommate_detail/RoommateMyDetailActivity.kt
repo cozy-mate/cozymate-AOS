@@ -12,9 +12,12 @@ import umc.cozymate.databinding.ActivityRoommateMyDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
+import umc.cozymate.util.CharacterUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
+import umc.cozymate.util.PreferencesUtil
+
 
 class RoommateMyDetailActivity : AppCompatActivity() {
 
@@ -29,12 +32,11 @@ class RoommateMyDetailActivity : AppCompatActivity() {
         window.navigationBarColor = Color.WHITE
         StatusBarUtil.updateStatusBarColor(this@RoommateMyDetailActivity, Color.WHITE)
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
-        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         binding.btnBack.setOnClickListener {
             finish()
         }
         binding.btnFetchLifestyle.setOnClickListener {
-            if (spf.getString("user_mbti", "").isNullOrEmpty()) {
+            if (PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "").isNullOrEmpty()) {
                 val intent = Intent(this, RoommateOnboardingActivity::class.java)
                 startActivity(intent)
             } else {
@@ -51,11 +53,10 @@ class RoommateMyDetailActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
         with(binding) {
-            setUserProfileImage(spf.getInt("user_persona", 0))
-            tvOtherUserName.text = spf.getString("user_nickname", "")
+            val persona = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_PERSONA, 0)
+            CharacterUtil.setImg(persona, binding.ivOtherUserProfile)
+            tvOtherUserName.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NICKNAME, "")
         }
 
         fun trimText(text: String?): String {
@@ -74,45 +75,43 @@ class RoommateMyDetailActivity : AppCompatActivity() {
 
         with(listBinding) {
             guideView2.visibility = View.GONE
-            tvListName.text = spf.getString("user_nickname", "")
-            tvListBirth.text = spf.getString("user_birthday", "")?.substring(0, 4)
-            tvListSchool.text = spf.getString("user_university_name", "")
-            tvListSchoolNumber.text = spf.getString("user_admissionYear", "")
-            tvListMajor.text = spf.getString("user_major_name", "")
-            tvListDormitoryNum.text = "${spf.getInt("user_numOfRoommate", 0)}인 1실"
-            tvListAcceptance.text = spf.getString("user_acceptance", "")
-            tvListWakeUpAmpm.text = spf.getString("user_wakeUpMeridian", "")
-            tvListWakeUpTime.text = "${spf.getInt("user_wakeUpTime", 0)}"
-            tvListSleepAmpm.text = spf.getString("user_sleepingMeridian", "")
-            tvListSleepTime.text = "${spf.getInt("user_sleepingTime", 0)}"
-            tvListLightOffAmpm.text = spf.getString("user_turnOffMeridian", "")
-            tvListLightOffTime.text = "${spf.getInt("user_turnOffTime", 0)}"
-            tvListSmokeCheck.text = spf.getString("user_smoking", "")
-            tvListSleepHabbit.text = trimText(
-                spf.getStringSet("user_sleepingHabit", emptySet())?.toList()?.joinToString(", ")
-            )
-            tvListAc.text = when (spf.getInt("user_airConditioningIntensity", 3)) {
+            tvListName.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NICKNAME, "")
+            tvListBirth.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_BIRTHDAY, "")?.substring(0, 4)
+            tvListSchool.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "")
+            tvListSchoolNumber.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
+            tvListMajor.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
+            tvListDormitoryNum.text = "${PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, 0)}인 1실"
+            tvListAcceptance.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_ACCEPTANCE, "")
+            tvListWakeUpAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_WAKE_UP_MERIDIAN, "")
+            tvListWakeUpTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_WAKE_UP_TIME, 0).toString()
+            tvListSleepAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_MERIDIAN, "")
+            tvListSleepTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_TIME, 0).toString()
+            tvListLightOffAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_TURN_OFF_MERIDIAN, "")
+            tvListLightOffTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_TURN_OFF_TIME, 0).toString()
+            tvListSmokeCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SMOKING, "")
+            tvListSleepHabbit.text = trimText(PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_HABIT, ""))
+            tvListAc.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_AIR_CONDITIONING_INTENSITY, 3)) {
                 0 -> "안 틀어요"
                 1 -> "약하게 틀어요"
                 2 -> "적당하게 틀어요"
                 3 -> "세게 틀어요"
                 else -> "적당하게 틀어요"
             }
-            tvListAcHeater.text = when (spf.getInt("user_heatingIntensity", 3)) {
+            tvListAcHeater.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_HEATING_INTENSITY, 3)) {
                 0 -> "안 틀어요"
                 1 -> "약하게 틀어요"
                 2 -> "적당하게 틀어요"
                 3 -> "세게 틀어요"
                 else -> "적당하게 틀어"
             }
-            tvListLivingPattern.text = spf.getString("user_lifePattern", "")
-            tvListFriendly.text = spf.getString("user_intimacy", "")
-            tvListShare.text = spf.getString("user_canShare", "")
-            tvListStudy.text = spf.getString("user_studying", "")
-            tvListIntake.text = spf.getString("user_intake", "")
-            tvListGameCheck.text = spf.getString("user_isPlayGame", "")
-            tvListCallCheck.text = spf.getString("user_isPhoneCall", "")
-            tvListCleanCheck.text = when (spf.getInt("user_cleanSensitivity", 3)) {
+            tvListLivingPattern.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_LIFE_PATTERN, "")
+            tvListFriendly.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_INTIMACY, "")
+            tvListShare.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CAN_SHARE, "")
+            tvListStudy.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_STUDYING, "")
+            tvListIntake.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_INTAKE, "")
+            tvListGameCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_IS_PLAY_GAME, "")
+            tvListCallCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_IS_PHONE_CALL, "")
+            tvListCleanCheck.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CLEAN_SENSITIVITY, 3)) {
                 1 -> "매우 예민하지 않아요"
                 2 -> "예민하지 않아요"
                 3 -> "보통이에요"
@@ -120,7 +119,7 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 5 -> "매우 예민해요"
                 else -> "보통이에요"
             }
-            tvListNoiseCheck.text = when (spf.getInt("user_noiseSensitivity", 3)) {
+            tvListNoiseCheck.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NOISE_SENSITIVITY, 3)) {
                 1 -> "매우 예민하지 않아요"
                 2 -> "예민하지 않아요"
                 3 -> "보통이에요"
@@ -128,36 +127,13 @@ class RoommateMyDetailActivity : AppCompatActivity() {
                 5 -> "매우 예민해요"
                 else -> "보통이에요"
             }
-            tvListCleanFrequency.text = spf.getString("user_cleaningFrequency", "")
-            tvListDrinkFrequency.text = spf.getString("user_drinkingFrequency", "")
+            tvListCleanFrequency.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "")
+            tvListDrinkFrequency.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "")
             tvListPersonalityCheck.text = trimText(
-                spf.getStringSet("user_personality", emptySet())?.toList()?.joinToString(", ")
+                PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_PERSONALITY, "")
             )
-            tvListMbti.text = spf.getString("user_mbti", "")
-            tvSelfIntroduction.text = spf.getString("user_selfIntroduction", "")
+            tvListMbti.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_MBTI, "")
+            tvSelfIntroduction.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "")
         }
-    }
-
-    private fun setUserProfileImage(persona: Int) {
-        val profileImageResId = when (persona) {
-            1 -> R.drawable.character_id_1
-            2 -> R.drawable.character_id_2
-            3 -> R.drawable.character_id_3
-            4 -> R.drawable.character_id_4
-            5 -> R.drawable.character_id_5
-            6 -> R.drawable.character_id_6
-            7 -> R.drawable.character_id_7
-            8 -> R.drawable.character_id_8
-            9 -> R.drawable.character_id_9
-            10 -> R.drawable.character_id_10
-            11 -> R.drawable.character_id_11
-            12 -> R.drawable.character_id_12
-            13 -> R.drawable.character_id_13
-            14 -> R.drawable.character_id_14
-            15 -> R.drawable.character_id_15
-            16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_1
-        }
-        binding.ivOtherUserProfile.setImageResource(profileImageResId)
     }
 }

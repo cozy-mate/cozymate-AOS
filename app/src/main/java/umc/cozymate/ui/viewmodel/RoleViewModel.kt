@@ -70,6 +70,7 @@ class RoleViewModel @Inject constructor(
     fun deleteRole( roomId : Int, roleId : Int ){
         viewModelScope.launch {
             safeApiCall { repository.deleteRole( getToken()!! ,roomId, roleId) }
+            getRole(roomId)
         }
     }
 

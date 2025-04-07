@@ -23,6 +23,8 @@
     <!--    메인 색상: 노란색-->
     <color name="red">#FF391E</color>
     <!--    경고 색-->
+    <color name="warning">#FF6868</color>
+    <color name="warning_sub">#FFDDDD</color>
 
     <color name="highlight_font">#51555C</color>
     <!--    강조폰트-->

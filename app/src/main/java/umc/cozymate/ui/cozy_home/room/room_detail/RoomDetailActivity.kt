@@ -26,7 +26,7 @@ import umc.cozymate.databinding.ActivityRoomDetailBinding
 import umc.cozymate.databinding.DialogMemberStatBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
-import umc.cozymate.ui.cozy_home.room.room_detail.CustomDividerItemDecoration
+import umc.cozymate.util.CustomDividerItemDecoration
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomInvitedListRVA
 import umc.cozymate.ui.cozy_home.room.room_detail.RoomMemberListRVA
@@ -40,6 +40,8 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
@@ -58,7 +60,6 @@ class RoomDetailActivity : AppCompatActivity() {
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
     val firebaseAnalytics = Firebase.analytics
 
-    //    private var roomId: Int? = 0
     private var roomId: Int = 0
     private var favoriteId: Int = 0
     private var managerMemberId: Int? = 0
@@ -80,7 +81,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
         getRoomId()
 
-        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val spf = getSharedPreferences(PreferencesUtil.PREFS_NAME, MODE_PRIVATE)
         val savedRoomId = spf.getInt("room_id", -2)
 
         observeRoomInfo()
@@ -132,8 +133,7 @@ class RoomDetailActivity : AppCompatActivity() {
             viewModel.otherRoomDetailInfo.collectLatest { roomInfo ->
                 with(binding) {
                     tvRoomName.text = roomInfo.name
-                    updateProfileImage(roomInfo.persona)
-                    updateRoomStatus(roomInfo.roomType)
+                    CharacterUtil.setImg(roomInfo.persona, ivRoomCharacter)
                     updateRoomManager(roomInfo.isRoomManager)
                     when (roomInfo.equality) {
                         0 -> tvRoomMatch.text = "방 평균 일치율 - %"
@@ -297,7 +297,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
 
     private fun updateUI(roomInfo: GetRoomInfoResponse.Result) {
-        updateProfileImage(roomInfo.persona)
+        CharacterUtil.setImg(roomInfo.persona, binding.ivRoomCharacter)
         updateHashtags(roomInfo.hashtagList)
         with(binding) {
             tvRoomName.text = roomInfo.name
@@ -522,40 +522,6 @@ class RoomDetailActivity : AppCompatActivity() {
                 "tvHashtag3: ${tvHashtag3.text}, visibility: ${tvHashtag3.visibility}"
             )
         }
-    }
-
-    // 방 프로필 이미지
-    private fun updateProfileImage(persona: Int) {
-        val profileImageResId = when (persona) {
-            1 -> R.drawable.character_id_1
-            2 -> R.drawable.character_id_2
-            3 -> R.drawable.character_id_3
-            4 -> R.drawable.character_id_4
-            5 -> R.drawable.character_id_5
-            6 -> R.drawable.character_id_6
-            7 -> R.drawable.character_id_7
-            8 -> R.drawable.character_id_8
-            9 -> R.drawable.character_id_9
-            10 -> R.drawable.character_id_10
-            11 -> R.drawable.character_id_11
-            12 -> R.drawable.character_id_12
-            13 -> R.drawable.character_id_13
-            14 -> R.drawable.character_id_14
-            15 -> R.drawable.character_id_15
-            16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_1
-        }
-        binding.ivRoomCharacter.setImageResource(profileImageResId)
-    }
-
-    private fun updateRoomStatus(type: String) {
-        val roomStatusText = if (type == "PUBLIC") {
-            "공개방이에요"
-        } else {
-            "비공개방이에요"
-        }
-        binding.tvRoomStatus.visibility = View.VISIBLE
-        binding.tvRoomStatus.text = roomStatusText
     }
 
     private fun updateRoomManager(isRoomManager: Boolean) {

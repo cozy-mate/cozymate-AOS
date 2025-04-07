@@ -35,6 +35,8 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
@@ -71,7 +73,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
         Log.d(TAG, "Received user detail: $otherUserDetail")
 
-        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val spf = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE)
         val savedMemberId = spf.getInt("user_member_id", -1)
         if (otherUserDetail!!.memberDetail.memberId == savedMemberId) {
             val intent = Intent(this, RoommateMyDetailActivity::class.java)
@@ -104,10 +106,9 @@ class RoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
-        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return try {
-            val nickname = spf.getString("user_nickname", "")
-            val birthday = spf.getString("user_birthday", "")
+            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
+            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
             if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty()) {
                 null
             } else {
@@ -115,44 +116,42 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
                         birthday = birthday,
-                        universityName = spf.getString("user_university_name", "") ?: "",
-                        majorName = spf.getString("user_major_name", "") ?: "",
-                        gender = spf.getString("user_gender", "") ?: "",
-                        memberId = spf.getInt("user_member_id", 0),
+                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
+                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
+                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
                         universityId = 0,
                         persona = 0
                     ),
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
-                        admissionYear = spf.getString("user_admissionYear", "") ?: "",
-                        numOfRoommate = spf.getInt("user_numOfRoommate", 0),
-                        dormitoryName = spf.getString("user_dormitoryName", "") ?: "",
-                        acceptance = spf.getString("user_acceptance", "") ?: "",
-                        wakeUpMeridian = spf.getString("user_wakeUpMeridian", "") ?: "",
-                        wakeUpTime = spf.getInt("user_wakeUpTime", 0),
-                        sleepingMeridian = spf.getString("user_sleepingMeridian", "") ?: "",
-                        sleepingTime = spf.getInt("user_sleepingTime", 0),
-                        turnOffMeridian = spf.getString("user_turnOffMeridian", "") ?: "",
-                        turnOffTime = spf.getInt("user_turnOffTime", 0),
-                        smoking = spf.getString("user_smoking", "") ?: "",
-                        sleepingHabit = spf.getStringSet("user_sleepingHabit", emptySet())?.toList()
-                            ?: emptyList(),
-                        airConditioningIntensity = spf.getInt("user_airConditioningIntensity", 3),
-                        heatingIntensity = spf.getInt("user_heatingIntensity", 3),
-                        lifePattern = spf.getString("user_lifePattern", "") ?: "",
-                        intimacy = spf.getString("user_intimacy", "") ?: "",
-                        canShare = spf.getString("user_canShare", "") ?: "",
-                        isPlayGame = spf.getString("user_isPlayGame", "") ?: "",
-                        isPhoneCall = spf.getString("user_isPhoneCall", "") ?: "",
-                        studying = spf.getString("user_studying", "") ?: "",
-                        intake = spf.getString("user_intake", "") ?: "",
-                        cleanSensitivity = spf.getInt("user_cleanSensitivity", 3),
-                        noiseSensitivity = spf.getInt("user_noiseSensitivity", 3),
-                        cleaningFrequency = spf.getString("user_cleaningFrequency", "") ?: "",
-                        drinkingFrequency = spf.getString("user_drinkingFrequency", "") ?: "",
-                        personality = spf.getStringSet("user_personality", emptySet())?.toList()
-                            ?: emptyList(),
-                        mbti = spf.getString("user_mbti", "") ?: "",
-                        selfIntroduction = spf.getString("user_selfIntroduction", "") ?: "",
+                        admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
+                        numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
+                        dormitoryName = PreferencesUtil.getString(this, "user_dormitoryName", "") ?: "",
+                        acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ACCEPTANCE, "") ?: "",
+                        wakeUpMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_WAKE_UP_MERIDIAN, "") ?: "",
+                        wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
+                        sleepingMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SLEEPING_MERIDIAN, "") ?: "",
+                        sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
+                        turnOffMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_TURN_OFF_MERIDIAN, "") ?: "",
+                        turnOffTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_turnOffTime", 0),
+                        smoking = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING, "") ?: "",
+                        sleepingHabit = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabit", emptySet())?.toList() ?: emptyList(),
+                        airConditioningIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_airConditioningIntensity", 3),
+                        heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_heatingIntensity", 3),
+                        lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
+                        intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
+                        canShare = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CAN_SHARE, "") ?: "",
+                        isPlayGame = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PLAY_GAME, "") ?: "",
+                        isPhoneCall = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PHONE_CALL, "") ?: "",
+                        studying = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING, "") ?: "",
+                        intake = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTAKE, "") ?: "",
+                        cleanSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_cleanSensitivity", 3),
+                        noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_noiseSensitivity", 3),
+                        cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
+                        drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
+                        personality = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personality", emptySet())?.toList() ?: emptyList(),
+                        mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
+                        selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
                     ),
                     equality = 0,
                     roomId = 0,
@@ -992,26 +991,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setUserProfileImage(persona: Int) {
-        val profileImageResId = when (persona) {
-            1 -> R.drawable.character_id_1
-            2 -> R.drawable.character_id_2
-            3 -> R.drawable.character_id_3
-            4 -> R.drawable.character_id_4
-            5 -> R.drawable.character_id_5
-            6 -> R.drawable.character_id_6
-            7 -> R.drawable.character_id_7
-            8 -> R.drawable.character_id_8
-            9 -> R.drawable.character_id_9
-            10 -> R.drawable.character_id_10
-            11 -> R.drawable.character_id_11
-            12 -> R.drawable.character_id_12
-            13 -> R.drawable.character_id_13
-            14 -> R.drawable.character_id_14
-            15 -> R.drawable.character_id_15
-            16 -> R.drawable.character_id_16
-            else -> R.drawable.character_id_1
-        }
-        binding.ivOtherUserProfile.setImageResource(profileImageResId)
+        CharacterUtil.setImg(persona, binding.ivOtherUserProfile)
     }
 
     // 테이블 뷰를 선택했을 때
