@@ -9,8 +9,9 @@ import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.databinding.RvItemMessageBinding
 
 class MessageDetailAdapter(
-    private var items: List<ChatContentData>
+
 ) : RecyclerView.Adapter<MessageDetailAdapter.MessageDetailViewHolder>() {
+    private var messageList = mutableListOf<ChatContentData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageDetailViewHolder {
         val binding = RvItemMessageBinding.inflate(
@@ -22,19 +23,26 @@ class MessageDetailAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int =  messageList .size
 
-//    fun setItems(newItems: List<ChatContentData>) {
-//        items = newItems
-//        notifyDataSetChanged()
-//    }
+    fun addData(newData: List<ChatContentData>) {
+        val startPosition = messageList.size
+        messageList.addAll(newData)
+        notifyItemRangeInserted(startPosition, newData.size)
+    }
+
+    fun deleteList(){
+        messageList.clear()
+        notifyDataSetChanged()
+    }
+
 
     inner class MessageDetailViewHolder(
         private val binding: RvItemMessageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pos : Int) {
-            val item = items[pos]
+            val item =  messageList[pos]
             val nickname = item.nickname
             binding.tvMessageName.text = nickname
             binding.tvMessageText.text = item.content
@@ -46,7 +54,7 @@ class MessageDetailAdapter(
                 }
             }
 
-            if(pos == items.size-1) binding.ivLine.visibility = View.GONE
+            if(pos ==  messageList.size-1) binding.ivLine.visibility = View.GONE
         }
     }
 }

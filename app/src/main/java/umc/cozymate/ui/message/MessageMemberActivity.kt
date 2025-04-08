@@ -18,7 +18,7 @@ import umc.cozymate.util.StatusBarUtil
 class MessageMemberActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMessageMemberBinding
     private val TAG = this.javaClass.simpleName
-    private lateinit var messageAdapter: MessageAdapter
+    private lateinit var messageMemberAdapter: MessageMemberAdapter
     private val viewModel : MessageViewModel by viewModels()
     private var chatRooms : List<ChatRoomData> = emptyList()
 
@@ -59,7 +59,7 @@ class MessageMemberActivity : AppCompatActivity() {
             binding.tvEmpty.visibility = View.GONE
             binding.ivBack.visibility = View.VISIBLE
 
-            messageAdapter = MessageAdapter(chatRooms, object : MessageAdapter.OnItemClickListener {
+            messageMemberAdapter = MessageMemberAdapter(chatRooms, object : MessageMemberAdapter.OnItemClickListener {
                 override fun onItemClick(item: ChatRoomData) {
                     val intent = Intent(this@MessageMemberActivity,MessageDetailActivity::class.java)
                     intent.putExtra("userId", item.memberId)
@@ -70,7 +70,7 @@ class MessageMemberActivity : AppCompatActivity() {
             })
             binding.rvMessage.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                adapter = messageAdapter
+                adapter = messageMemberAdapter
             }
         }
 
