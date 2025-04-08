@@ -1,5 +1,6 @@
 package umc.cozymate.ui.MessageDetail
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class MessageDetailAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int =  messageList .size
+    override fun getItemCount(): Int =  messageList.size
 
     fun addData(newData: List<ChatContentData>) {
         val startPosition = messageList.size
@@ -42,6 +43,7 @@ class MessageDetailAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pos : Int) {
+            Log.d("test", "pos : $pos / size ${messageList.size}")
             val item =  messageList[pos]
             val nickname = item.nickname
             binding.tvMessageName.text = nickname
@@ -53,8 +55,9 @@ class MessageDetailAdapter(
                     setTextColor(binding.root.context.getColor(R.color.main_blue))
                 }
             }
+            binding.ivLine.visibility =  if(pos ==  messageList.size-1 && (pos+1)%10 != 0)  View.GONE else View.VISIBLE
 
-            if(pos ==  messageList.size-1) binding.ivLine.visibility = View.GONE
         }
+
     }
 }

@@ -28,12 +28,17 @@ class MessageMemberActivity : AppCompatActivity() {
         binding = ActivityMessageMemberBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupObservers()
-        viewModel.getChatRooms()
+
 
         binding.ivBack.setOnClickListener {
             finish()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getChatRooms()
     }
 
     private fun setupObservers() {

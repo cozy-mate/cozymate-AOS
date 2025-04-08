@@ -3,6 +3,7 @@ package umc.cozymate.ui.message
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -83,11 +84,11 @@ class MessageDetailActivity : AppCompatActivity() {
                 binding.tvEmpty.visibility = View.VISIBLE
             }
             else{
-                messageDetailAdapter.addData(it.reversed())
+                Log.d(TAG,"page $page")
+                messageDetailAdapter.addData(it)
                 if (it.size < ITEM_SIZE ) isLastPage = true
                 binding.rvMessageDetail.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
-
 
             }
         })
@@ -114,8 +115,8 @@ class MessageDetailActivity : AppCompatActivity() {
                     val totalItemCount = layoutManager.itemCount
                     val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-//                    val isNotLoading = !isLoading // 로딩 중이 아닐 때만 요청
-                    if (!isLastPage) {
+                    val isLoading = viewModel.isLoading.value // 로딩 중이 아닐 때만 요청
+                    if (!isLastPage && !isLoading!!) {
                         val isAtBottom =
                             (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         val isValidPosition = firstVisibleItemPosition >= 0
@@ -147,6 +148,7 @@ class MessageDetailActivity : AppCompatActivity() {
         binding.btnWriteMessage.setOnClickListener {
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",memberId)
+            intent.putExtra("nickname",nickname)
             startActivity(intent)
             finish()
         }

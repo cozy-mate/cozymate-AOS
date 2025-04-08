@@ -54,6 +54,7 @@ class WriteMessageActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 val intent = Intent(this, MessageDetailActivity::class.java)
                 intent.putExtra("chatRoomId", response.body()!!.result.chatRoomId)
+                intent.putExtra("userId",recipientId)
                 intent.putExtra("nickname",nickname)
                 startActivity(intent)
                 finish()
