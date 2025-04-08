@@ -1,5 +1,6 @@
 package umc.cozymate.ui.message
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -30,6 +31,9 @@ class WriteMessageActivity : AppCompatActivity() {
     private var nickname : String = ""
     private var prev : View? = null
     private lateinit var mDetector: GestureDetectorCompat
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteMessageBinding.inflate(layoutInflater)
@@ -41,10 +45,16 @@ class WriteMessageActivity : AppCompatActivity() {
         mDetector = GestureDetectorCompat(this, SingleTapListener())
         recipientId = intent.getIntExtra("recipientId",0)
         nickname = intent.getStringExtra("nickname").toString()
+
+
+        // 하드코딩하지 말란 경고 무시용
+        @SuppressLint("SetTextI18n")
+        binding.tvNickname.text = nickname+"님에게"
         viewModel.postChatResponse.observe(this){response ->
             if (response.isSuccessful) {
                 val intent = Intent(this, MessageDetailActivity::class.java)
                 intent.putExtra("chatRoomId", response.body()!!.result.chatRoomId)
+                intent.putExtra("userId",recipientId)
                 intent.putExtra("nickname",nickname)
                 startActivity(intent)
                 finish()
@@ -61,6 +71,7 @@ class WriteMessageActivity : AppCompatActivity() {
         mDetector.onTouchEvent(ev)
         return result
     }
+
     private inner class SingleTapListener : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             // ACTION_UP 이벤트에서 포커스를 가진 뷰가 EditText일 때 터치 영역을 확인하여 키보드를 토글
@@ -113,10 +124,8 @@ class WriteMessageActivity : AppCompatActivity() {
         binding.btnInputButton.setOnClickListener {
             val request = ChatRequest( binding.etInputMessage.text.toString())
             viewModel.postChat(recipientId,  request)
-
-
+            
         }
     }
-
 
 }

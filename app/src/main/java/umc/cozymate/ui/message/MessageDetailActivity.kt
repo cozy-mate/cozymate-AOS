@@ -3,16 +3,14 @@ package umc.cozymate.ui.message
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.databinding.ActivityMessageDetailBinding
 import umc.cozymate.ui.MessageDetail.MessageDetailAdapter
 import umc.cozymate.ui.pop_up.OneButtonPopup
@@ -21,7 +19,10 @@ import umc.cozymate.ui.pop_up.ReportPopup
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
+import umc.cozymate.util.BottomSheetAction.DELETE
+import umc.cozymate.util.BottomSheetAction.REPORT
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
 class MessageDetailActivity : AppCompatActivity() {
@@ -30,11 +31,17 @@ class MessageDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private val viewModel : MessageViewModel by viewModels()
     private val reportViewModel : ReportViewModel by viewModels()
-    private var contents : List<ChatContentData> = emptyList()
     private var chatRoomId : Int = 0
     private var memberId : Int = 0
     private var nickname :String = ""
-    private var moreFlag : Boolean = false
+    private var page : Int = 0
+    private var isLastPage: Boolean  = false
+
+    companion object{
+        const val ITEM_SIZE = 10
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessageDetailBinding.inflate(layoutInflater)
@@ -44,28 +51,44 @@ class MessageDetailActivity : AppCompatActivity() {
         nickname = intent.getStringExtra("nickname").toString()
         chatRoomId = intent.getIntExtra("chatRoomId",0)
         setupObservers()
+        setRecyclerView()
         initOnClickListener()
+
         binding.refreshLayout.setOnRefreshListener{
-            viewModel.getChatContents(chatRoomId)
+            clearPage()
+            viewModel.getChatContents(chatRoomId, page++, ITEM_SIZE)
         }
 
     }
 
     override fun onResume() {
-        // 단순 시간 딜레이
         super.onResume()
-        viewModel.getChatContents(chatRoomId)
+        clearPage()
+        viewModel.getChatContents(chatRoomId,page++, ITEM_SIZE)
     }
+
+    private fun clearPage(){
+        page = 0
+        isLastPage = false
+        messageDetailAdapter.deleteList()
+    }
+
     private fun setupObservers() {
-        viewModel.getChatContentsResponse.observe(this, Observer{response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                val contentsResponse = response.body()
-                contentsResponse?.let {
-                    contents = it.result.content
-                    memberId = it.result.memberId
-                    updateContents()
-                }
+        viewModel.chatContents.observe(this, Observer{
+            if (it == null) return@Observer
+            if(it.isEmpty() && page <=1 ){
+                val text = "[$nickname]님과\n아직 주고 받은 쪽지가 없어요!"
+                binding.tvEmpty.text = text
+                binding.rvMessageDetail.visibility = View.GONE
+                binding.tvEmpty.visibility = View.VISIBLE
+            }
+            else{
+                Log.d(TAG,"page $page")
+                messageDetailAdapter.addData(it)
+                if (it.size < ITEM_SIZE ) isLastPage = true
+                binding.rvMessageDetail.visibility = View.VISIBLE
+                binding.tvEmpty.visibility = View.GONE
+
             }
         })
         viewModel.isLoading.observe(this) { isLoading ->
@@ -76,58 +99,59 @@ class MessageDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateContents() {
-        Log.d(TAG,"뷰 생성 : ${contents}")
-        if(contents.isNullOrEmpty()){
-            val text = "["+nickname+"]님과\n아직 주고 받은 쪽지가 없어요!"
-            binding.tvEmpty.text = text
-            binding.rvMessageDetail.visibility = View.GONE
-            binding.tvEmpty.visibility = View.VISIBLE
-        }
-        else{
-            messageDetailAdapter = MessageDetailAdapter(contents.reversed())
-            binding.rvMessageDetail.visibility = View.VISIBLE
-            binding.tvEmpty.visibility = View.GONE
-
+    private fun setRecyclerView(){
+        messageDetailAdapter = MessageDetailAdapter()
         // RecyclerView에 어댑터 설정
         binding.rvMessageDetail.apply {
             adapter = messageDetailAdapter
             layoutManager = LinearLayoutManager(context)
-        }
+            addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    val isLoading = viewModel.isLoading.value // 로딩 중이 아닐 때만 요청
+                    if (!isLastPage && !isLoading!!) {
+                        val isAtBottom =
+                            (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        val isValidPosition = firstVisibleItemPosition >= 0
+                        val hasEnoughItems = totalItemCount >= ITEM_SIZE
+
+                        if (isAtBottom && isValidPosition && hasEnoughItems) {
+                            viewModel.getChatContents(chatRoomId, page++, ITEM_SIZE)
+                        }
+                    }
+                }
+            })
         }
     }
-
 
     private fun  initOnClickListener(){
         binding.ivBack.setOnClickListener {
            finish()
         }
+
         binding.ivMore.setOnClickListener {
-            if(!moreFlag) {
-                binding.layoutMessageDetailMore.visibility = View.VISIBLE
-                binding.layoutMessageDetailMore.bringToFront() // 우선순위 조정
-                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(true) // RecyclerView의 터치 차단
-                moreFlag = true
-            }
-            else{
-                binding.layoutMessageDetailMore.visibility = View.GONE
-                binding.rvMessageDetail.requestDisallowInterceptTouchEvent(false)
-                moreFlag = false
+            this.showEnumBottomSheet( "", listOf(DELETE,REPORT)) { action->
+                when (action) {
+                    DELETE  -> deletePopup()
+                    REPORT ->  reportPopup()
+                    else -> {}
+                }
             }
         }
         binding.btnWriteMessage.setOnClickListener {
             val intent : Intent = Intent(this, WriteMessageActivity::class.java)
             intent.putExtra("recipientId",memberId)
+            intent.putExtra("nickname",nickname)
             startActivity(intent)
             finish()
         }
 
-        binding.tvMessageDelete.setOnClickListener {
-            deletePopup()
-        }
-        binding.tvMessageReport.setOnClickListener {
-            reportPopup()
-        }
     }
 
     private fun reportPopup(){
@@ -136,7 +160,7 @@ class MessageDetailActivity : AppCompatActivity() {
                 reportViewModel.postReport(memberId, 1, reason, content)
             }
         })
-        dialog.show(this.supportFragmentManager!!, "reportPopup")
+        dialog.show(this.supportFragmentManager, "reportPopup")
     }
 
     private fun deletePopup() {
@@ -145,17 +169,15 @@ class MessageDetailActivity : AppCompatActivity() {
             override fun rightClickFunction() {
                 popup()
                 viewModel.deleteChatRooms(chatRoomId)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    viewModel.getChatContents(chatRoomId)
-                }, 500)
             }
         })
-        dialog.show(this.supportFragmentManager!!, "MessageDeletePopup")
+        dialog.show(this.supportFragmentManager, "MessageDeletePopup")
     }
 
     private fun popup() {
         val text = listOf("삭제가 완료되었습니다.","","확인")
         val dialog = OneButtonPopup(text,object : PopupClick{},false)
-        dialog.show(this.supportFragmentManager!!, "messagePopup")
+        dialog.show(this.supportFragmentManager, "messagePopup")
+        clearPage()
     }
 }

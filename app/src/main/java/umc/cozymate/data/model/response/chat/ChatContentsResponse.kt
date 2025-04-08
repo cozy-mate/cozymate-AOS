@@ -1,8 +1,11 @@
 package umc.cozymate.data.model.response.chat
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 import umc.cozymate.data.model.entity.ChatContentData
+import umc.cozymate.data.model.entity.PageInfo
 
+@Serializable
 data class ChatContentsResponse(
     @SerializedName("isSuccess")
     val isSuccess: Boolean,
@@ -14,9 +17,10 @@ data class ChatContentsResponse(
     val message: String,
 
     @SerializedName("result")
-    val result: Result
+    val result: PageInfo<ChatRoomInfo>
 ){
-    data class Result(
+    @Serializable
+    data class ChatRoomInfo(
         @SerializedName("memberId")
         val memberId : Int,
         @SerializedName("content")

@@ -1,7 +1,12 @@
 package umc.cozymate.data.model.entity
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Parcelize
+@Serializable
 data class ChatRoomData(
     @SerializedName("persona")
     val persona : Int,
@@ -15,4 +20,4 @@ data class ChatRoomData(
     val memberId : Int,
     @SerializedName("hasNewChat")
     val hasNewChat : Boolean
-)
+) : Parcelable

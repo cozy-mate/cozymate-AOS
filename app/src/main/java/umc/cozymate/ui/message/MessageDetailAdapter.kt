@@ -1,5 +1,6 @@
 package umc.cozymate.ui.MessageDetail
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,9 @@ import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.databinding.RvItemMessageBinding
 
 class MessageDetailAdapter(
-    private var items: List<ChatContentData>
+
 ) : RecyclerView.Adapter<MessageDetailAdapter.MessageDetailViewHolder>() {
+    private var messageList = mutableListOf<ChatContentData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageDetailViewHolder {
         val binding = RvItemMessageBinding.inflate(
@@ -22,19 +24,27 @@ class MessageDetailAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int =  messageList.size
 
-//    fun setItems(newItems: List<ChatContentData>) {
-//        items = newItems
-//        notifyDataSetChanged()
-//    }
+    fun addData(newData: List<ChatContentData>) {
+        val startPosition = messageList.size
+        messageList.addAll(newData)
+        notifyItemRangeInserted(startPosition, newData.size)
+    }
+
+    fun deleteList(){
+        messageList.clear()
+        notifyDataSetChanged()
+    }
+
 
     inner class MessageDetailViewHolder(
         private val binding: RvItemMessageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pos : Int) {
-            val item = items[pos]
+            Log.d("test", "pos : $pos / size ${messageList.size}")
+            val item =  messageList[pos]
             val nickname = item.nickname
             binding.tvMessageName.text = nickname
             binding.tvMessageText.text = item.content
@@ -45,8 +55,9 @@ class MessageDetailAdapter(
                     setTextColor(binding.root.context.getColor(R.color.main_blue))
                 }
             }
+            binding.ivLine.visibility =  if(pos ==  messageList.size-1 && (pos+1)%10 != 0)  View.GONE else View.VISIBLE
 
-            if(pos == items.size-1) binding.ivLine.visibility = View.GONE
         }
+
     }
 }
