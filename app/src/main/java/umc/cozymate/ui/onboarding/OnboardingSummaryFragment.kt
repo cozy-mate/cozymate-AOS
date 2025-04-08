@@ -17,6 +17,8 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSummaryBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
+import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 class OnboardingSummaryFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
@@ -40,21 +42,15 @@ class OnboardingSummaryFragment : Fragment() {
         setNickname()
         setPersona()
         setNextBtn()
-
-        val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
-        spf.edit {
-            putInt("profile", persona)
-            commit()
-        }
     }
 
-    fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("user_nickname", "").toString()
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        nickname = spf.getString(KEY_USER_NICKNAME, "").toString()
         persona = spf.getInt("persona", 1)
     }
 
-    fun setNickname() {
+    private fun setNickname() {
         if (nickname != "") {
             val mainText = "${nickname}님, "
             val spannable = SpannableStringBuilder(mainText)
@@ -69,11 +65,11 @@ class OnboardingSummaryFragment : Fragment() {
         } else binding.title1Onboarding3.text = ""
     }
 
-    fun setPersona() {
+    private fun setPersona() {
         CharacterUtil.setImg(persona, binding.ivChar)
     }
 
-    fun setNextBtn() {
+    private fun setNextBtn() {
         binding.btnNext.setOnClickListener {
             val intent = Intent(requireActivity(), MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -81,5 +77,4 @@ class OnboardingSummaryFragment : Fragment() {
             requireActivity().finish()
         }
     }
-
 }
