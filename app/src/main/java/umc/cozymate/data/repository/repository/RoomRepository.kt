@@ -61,7 +61,7 @@ interface RoomRepository {
 
     suspend fun searchRoom(accessToken: String, keyword: String): Response<SearchRoomResponse>
 
-    suspend fun getRequestedRoomList(accessToken: String): Response<GetRequestedRoomListResponse>
+    suspend fun getRequestedRoomList(accessToken: String, size: Int, page:Int): Response<GetRequestedRoomListResponse>
 
     suspend fun getPendingMemberLiat(accessToken: String): Response<GetPendingMemberListResponse>
 

@@ -144,8 +144,12 @@ class RoomRepositoryImpl @Inject constructor(
         return api.searchRoom(accessToken, keyword)
     }
 
-    override suspend fun getRequestedRoomList(accessToken: String): Response<GetRequestedRoomListResponse> {
-        return api.getRequestedRoomList(accessToken)
+    override suspend fun getRequestedRoomList(
+        accessToken: String,
+        size: Int,
+        page: Int
+    ): Response<GetRequestedRoomListResponse> {
+        return api.getRequestedRoomList(accessToken, size, page)
     }
 
     override suspend fun getPendingMemberLiat(accessToken: String): Response<GetPendingMemberListResponse> {

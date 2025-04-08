@@ -31,7 +31,8 @@ class RoomRequestViewModel @Inject constructor(
     fun getNickname(): String? {
         return sharedPreferences.getString("user_nickname", "")
     }
-    // 참여요청한 방 목록
+
+    // 일반 사용자가 참여 요청한 방 목록 (/rooms/requested)
     private val _requestedRoomResponse = MutableLiveData<GetRequestedRoomListResponse>()
     val RequestedRoomResponse: LiveData<GetRequestedRoomListResponse> get() = _requestedRoomResponse
     private val _isLoading1 = MutableLiveData<Boolean>()
@@ -41,7 +42,7 @@ class RoomRequestViewModel @Inject constructor(
         _isLoading1.value = true
         if (token != null) {
             try {
-                val response = repo.getRequestedRoomList(token)
+                val response = repo.getRequestedRoomList(token, page = 0, size = 5)
                 if (response.isSuccessful) {
                     _requestedRoomResponse.value = response.body()
                     Log.d(TAG, "참여요청한 방 목록 조회 성공: ${response.body()!!.result}")
