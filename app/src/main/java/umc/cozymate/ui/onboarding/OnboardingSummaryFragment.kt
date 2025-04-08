@@ -20,7 +20,6 @@ import umc.cozymate.util.CharacterUtil
 
 class OnboardingSummaryFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
-
     private var _binding: FragmentOnboardingSummaryBinding? = null
     private val binding get() = _binding!!
     private var nickname: String = ""
@@ -32,16 +31,30 @@ class OnboardingSummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOnboardingSummaryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.btnNext.setOnClickListener {
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            requireActivity().finish()
-        }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getPreference()
+        setNickname()
+        setPersona()
+        setNextBtn()
 
+        val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
+        spf.edit {
+            putInt("profile", persona)
+            commit()
+        }
+    }
+
+    fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        nickname = spf.getString("user_nickname", "").toString()
+        persona = spf.getInt("persona", 1)
+    }
+
+    fun setNickname() {
         if (nickname != "") {
             val mainText = "${nickname}님, "
             val spannable = SpannableStringBuilder(mainText)
@@ -54,21 +67,19 @@ class OnboardingSummaryFragment : Fragment() {
             )
             binding.title1Onboarding3.text = spannable
         } else binding.title1Onboarding3.text = ""
+    }
 
+    fun setPersona() {
         CharacterUtil.setImg(persona, binding.ivChar)
+    }
 
-        val spf = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
-        spf.edit {
-            putInt("profile", persona)
-            commit()
+    fun setNextBtn() {
+        binding.btnNext.setOnClickListener {
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
-
-        return binding.root
     }
 
-    private fun getPreference() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("user_nickname", "").toString()
-        persona = spf.getInt("persona", 1)
-    }
 }

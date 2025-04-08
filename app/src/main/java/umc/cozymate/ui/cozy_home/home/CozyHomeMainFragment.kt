@@ -1,18 +1,29 @@
 package umc.cozymate.ui.cozy_home.home
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
@@ -35,6 +46,8 @@ import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class CozyHomeMainFragment : Fragment() {
+    private val UPDATE_REQUEST_CODE = 1001
+    private val updateManager by lazy { AppUpdateManagerFactory.create(requireActivity()) }
     private var _binding: FragmentCozyHomeMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
@@ -43,6 +56,7 @@ class CozyHomeMainFragment : Fragment() {
     private var roomId: Int = 0
     private var state: UserRoomState = UserRoomState.NO_ROOM
     private var universityFlag: Boolean = false
+    val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,21 +64,18 @@ class CozyHomeMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCozyHomeMainBinding.inflate(inflater, Main, false)
-        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         with(binding) {
             binding.refreshLayout.isRefreshing = true
+
             // 학교명
-            // 학교인증 지금은 안 하도록 수정했습니다
-            ivSchoolWhite.visibility = View.GONE
-            ivSchoolBlue.visibility = View.VISIBLE
-            ivNext.visibility = View.GONE
-            tvSchoolName.text = "인하대학교"
-            tvSchoolName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            tvUnivName.text = "인하대학교"
+            tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
             /*viewLifecycleOwner.lifecycleScope.launch {
                 univViewModel.isMailVerified()
             }*/
@@ -78,12 +89,15 @@ class CozyHomeMainFragment : Fragment() {
             initView()
             // 새로고침 설정
             onRefresh()
+            // 업데이트 체크
+            checkForUpdate()
             binding.refreshLayout.isRefreshing = false
         }
     }
 
     override fun onResume() {
         super.onResume()
+        checkForUpdate()
         binding.refreshLayout.isRefreshing = true
         initState()
         initView()
@@ -93,6 +107,39 @@ class CozyHomeMainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // 새로운 앱 버전이 있는지 확인합니다.
+    private fun checkForUpdate() {
+        val appUpdateInfoTask = updateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("")
+                    .setMessage("새로운 버전이 출시되었습니다. 업데이트하시겠습니까?")
+                    .setPositiveButton("확인") { _, _ ->
+                        try {
+                            // 강제 업데이트 요청
+                            //updateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, requireActivity(), UPDATE_REQUEST_CODE )
+                            // 구글 플레이스토어로 리다이렉트
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=umc.cozymate")))
+                        } catch(e: ActivityNotFoundException) {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/test/umc.cozymate")))
+                        }
+                    }
+                    .setNegativeButton("나중에") { dialog, _ -> dialog.dismiss() }
+                    .show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UPDATE_REQUEST_CODE && resultCode != Activity.RESULT_OK) {
+            // 업데이트 실패 처리
+            Toast.makeText(requireActivity(), "업데이트 실패", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun onRefresh() {
@@ -191,7 +238,10 @@ class CozyHomeMainFragment : Fragment() {
                         replace(R.id.received_invitation_container, ReceivedInvitationComponent())
                         replace(R.id.recommended_room_container, RecommendedRoomComponent())
                         replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(R.id.received_join_request_container, ReceivedJoinRequestComponent())
+                        replace(
+                            R.id.received_join_request_container,
+                            ReceivedJoinRequestComponent()
+                        )
                         commit()
                     }
                     // 안 보이는 컴포넌트
@@ -210,7 +260,10 @@ class CozyHomeMainFragment : Fragment() {
                         replace(R.id.received_invitation_container, ReceivedInvitationComponent())
                         replace(R.id.recommended_room_container, RecommendedRoomComponent())
                         replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(R.id.received_join_request_container, ReceivedJoinRequestComponent())
+                        replace(
+                            R.id.received_join_request_container,
+                            ReceivedJoinRequestComponent()
+                        )
                         commit()
                     }
                     // 안 보이는 컴포넌트
@@ -224,10 +277,18 @@ class CozyHomeMainFragment : Fragment() {
         with(binding) {
             // 방 생성 버튼 > 팝업
             btnMakeRoom.setOnClickListener {
+                firebaseAnalytics.logEvent("make_room_button_click") {
+                    param("방 만들기", "make_room_button")
+                    param("코지홈", "cozy_home_screen")
+                }
                 startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
             }
             // 방 참여 버튼
             btnEnterRoom.setOnClickListener {
+                firebaseAnalytics.logEvent("join_room_button_click") {
+                    param("방 참여하기", "join_room_button")
+                    param("코지홈", "cozy_home_screen")
+                }
                 startActivity(Intent(activity, JoinRoomActivity::class.java))
             }
             // 학교 버튼
@@ -278,13 +339,13 @@ class CozyHomeMainFragment : Fragment() {
     }
 
     private fun openNotification() {
-        binding.btnBell.setOnClickListener {
+        binding.btnNotification.setOnClickListener {
             startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
 
     // 학교 인증 / 학교명 옵저빙
-    private fun observeUnivViewModel() {
+    /*private fun observeUnivViewModel() {
         univViewModel.university.observe(viewLifecycleOwner) { univ ->
             with(binding) {
                 tvSchoolName.text = univ
@@ -316,5 +377,5 @@ class CozyHomeMainFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 }

@@ -9,7 +9,6 @@
 
     <FrameLayout
         android:id="@+id/fragment_university_cert"
-        android:name="umc.cozymate.ui.onboarding.OnboardingUserInfoFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"

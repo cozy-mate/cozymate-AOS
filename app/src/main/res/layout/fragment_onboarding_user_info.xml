@@ -22,9 +22,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="56dp"
+                android:includeFontPadding="false"
                 android:text="원활한 서비스 이용을 위해"
-                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,9 +35,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="개인정보를 입력해주세요!"
-                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.Bold"
                 android:textColor="@color/highlight_font"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title1" />
 
@@ -46,56 +51,61 @@
                 android:layout_height="80dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/custom_rectangle_12_state"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_onboarding_title2">
 
-                <TextView
-                    android:id="@+id/tv_label_nickname"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_nickname"
+                    android:layout_width="191dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
-                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                    android:textColor="@color/color_font"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_onboarding_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxStrokeErrorColor="@color/red"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="1dp"
-                    app:counterMaxLength="9"
-                    app:errorTextColor="@color/red"
-                    app:hintEnabled="false"
+                    android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_onboarding_nickname"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/tv_label_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="닉네임"
+                        android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                        android:textColor="@color/color_font" />
+
+                    <EditText
+                        android:id="@+id/et_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@null"
                         android:hint="닉네임을 입력해주세요"
-                        android:inputType="text"
-                        android:paddingStart="20dp"
-                        android:paddingTop="43dp"
-                        android:paddingEnd="20dp"
-                        android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
+                        android:padding="0dp"
+                        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font"
                         android:textColorHint="@color/unuse_font"
-                        android:textCursorDrawable="@color/black"
-                        android:textSize="13dp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_valid_check"
+                    android:layout_width="76dp"
+                    android:layout_height="33dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/btn_rectangle_univ_state"
+                    android:elevation="0dp"
+                    android:enabled="false"
+                    android:outlineProvider="none"
+                    android:text="중복 확인"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/btn_text_univ_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 다른 사용자가 이미 사용중인 닉네임이에요! -->
             <TextView
                 android:id="@+id/tv_alert_nickname"
                 android:layout_width="wrap_content"
@@ -110,30 +120,31 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_onboarding_nickname" />
 
             <!--성별-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/mcv_gender"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_gender"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="28dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="12dp"
+                android:background="@drawable/custom_rectangle_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_onboarding_nickname"
-                app:rippleColor="@color/transparent"
                 app:strokeColor="@color/unuse">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="191dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tv_label_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
                         android:text="성별"
                         android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
                         android:textColor="@color/color_font"
@@ -144,7 +155,6 @@
                         android:id="@+id/radio_male"
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_marginTop="6dp"
                         android:paddingBottom="16dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +175,7 @@
                             android:layout_marginStart="4dp"
                             android:text="남자"
                             android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                            android:textColor="@color/basic_font"
+                            android:textColor="@color/unuse_font"
                             android:textSize="13dp"
                             app:layout_constraintBottom_toBottomOf="@id/iv_male"
                             app:layout_constraintStart_toEndOf="@id/iv_male"
@@ -198,7 +208,7 @@
                             android:layout_marginStart="4dp"
                             android:text="여자"
                             android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                            android:textColor="@color/basic_font"
+                            android:textColor="@color/unuse_font"
                             android:textSize="13dp"
                             app:layout_constraintBottom_toBottomOf="@id/iv_female"
                             app:layout_constraintStart_toEndOf="@id/iv_female"
@@ -208,21 +218,19 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--생년월일-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/mcv_birth"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_birth"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="28dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="12dp"
+                android:background="@drawable/custom_rectangle_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mcv_gender"
-                app:rippleColor="@color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/cl_gender"
                 app:strokeColor="@color/unuse">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -241,14 +249,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <!--android:textColor="@color/basic_font"-->
                     <TextView
                         android:id="@+id/tv_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginBottom="21dp"
+                        android:text="생일을 선택해주세요"
                         android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                        android:textColor="@color/basic_font"
+                        android:textColor="@color/unuse_font"
                         android:textSize="13dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -266,16 +276,16 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 간격 띄우기위한 코드-->
+            <!-- 간격 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mcv_birth" />
+                app:layout_constraintTop_toBottomOf="@id/cl_birth" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -285,7 +295,7 @@
         android:layout_width="0dp"
         android:layout_height="54dp"
         android:layout_marginHorizontal="22dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_rectangle_next_state"
         android:text="다음"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
