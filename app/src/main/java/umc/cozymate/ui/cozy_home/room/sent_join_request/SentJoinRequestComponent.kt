@@ -52,7 +52,7 @@ class SentJoinRequestComponent : Fragment() {
         binding.rvMySent.adapter = adapter
         binding.rvMySent.layoutManager = LinearLayoutManager(requireContext())
         // 참여요청한 방 목록 api 응답 옵저빙
-        viewModel.RequestedRoomResponse.observe(viewLifecycleOwner) { response ->
+        viewModel.requestedRoomResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.clComponent.visibility = View.VISIBLE

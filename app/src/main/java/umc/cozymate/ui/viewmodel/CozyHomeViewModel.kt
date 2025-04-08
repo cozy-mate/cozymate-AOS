@@ -49,8 +49,6 @@ class CozyHomeViewModel @Inject constructor(
     val profileImage: LiveData<Int> get() = _profileImage
     private val _roomType = MutableLiveData<String>()
     val roomType: LiveData<String> get() = _roomType
-    private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.MateDetail>>()
-    val mateList: LiveData<List<GetRoomInfoResponse.Result.MateDetail>> get() = _mateList
     private val _roomLogResponse = MutableLiveData<RoomLogResponse>()
     val roomLogResponse: LiveData<RoomLogResponse> get() = _roomLogResponse
     private val _isLoading = MutableLiveData<Boolean>(false)
@@ -237,45 +235,27 @@ class CozyHomeViewModel @Inject constructor(
             }
         }
     }
-
-
-
-
-    fun getRoomName(): String? {
-        return sharedPreferences.getString("room_name", "")
+    fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.MateDetail>) {
+        val gson = Gson()
+        val json = gson.toJson(mateList)
+        sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
+        Log.d(TAG, "spf 룸메이트 정보 : ${json}")
     }
-
+    fun saveRoomName(name: String) {
+        Log.d(TAG, "spf 방 이름 : $name")
+        sharedPreferences.edit().putString("room_name", name).apply()
+    }
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
     }
 
-    fun saveRoomName(name: String) {
-        Log.d(TAG, "spf 방 이름 : $name")
-        sharedPreferences.edit().putString("room_name", name).apply()
+    fun getRoomName(): String? {
+        return sharedPreferences.getString("room_name", "")
     }
-
-    fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.MateDetail>) {
-        val gson = Gson()
-        val json = gson.toJson(mateList)
-
-        sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
-        Log.d(TAG, "spf 룸메이트 정보 : ${json}")
-    }
-
-    private var hasCalledApi = false
-    suspend fun fetchRoomIdIfNeeded(): Int {
-        val roomId = getSavedRoomId()
-        if (roomId == 0 || roomId == -1) {
-            hasCalledApi = false
-            getRoomId()
-        }
-        Log.d(TAG, "fetchRoomIdIfNeeded 방 아이디 : ${getSavedRoomId()}")
-        return getSavedRoomId()
-    }
-
 
     // 방 아이디 조회
+    private var hasCalledApi = false
     private val mutex = Mutex()
     suspend fun getRoomId() {
         // 이미 api 호출한 적이 있으면 api 호출하지 않기
