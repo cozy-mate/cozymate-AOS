@@ -34,7 +34,7 @@ class RoomRequestViewModel @Inject constructor(
 
     // 일반 사용자가 참여 요청한 방 목록 (/rooms/requested)
     private val _requestedRoomResponse = MutableLiveData<GetRequestedRoomListResponse>()
-    val RequestedRoomResponse: LiveData<GetRequestedRoomListResponse> get() = _requestedRoomResponse
+    val requestedRoomResponse: LiveData<GetRequestedRoomListResponse> get() = _requestedRoomResponse
     private val _isLoading1 = MutableLiveData<Boolean>()
     val isLoading1: LiveData<Boolean> = _isLoading1
     suspend fun getRequestedRoomList() {
@@ -56,9 +56,10 @@ class RoomRequestViewModel @Inject constructor(
             }
         }
     }
-    // 참여요청한 방 목록
+
+    // 방장에게 참여요청을 한 멤버 목록 (/rooms/pending-members)
     private val _pendingMemberResponse = MutableLiveData<GetPendingMemberListResponse>()
-    val PendingMemberResponse: LiveData<GetPendingMemberListResponse> get() = _pendingMemberResponse
+    val pendingMemberResponse: LiveData<GetPendingMemberListResponse> get() = _pendingMemberResponse
     private val _isLoading2 = MutableLiveData<Boolean>()
     val isLoading2: LiveData<Boolean> = _isLoading2
     private val _errorResponse = MutableLiveData<ErrorResponse>()
@@ -86,6 +87,7 @@ class RoomRequestViewModel @Inject constructor(
             }
         }
     }
+
     // 초대요청 받은 방 목록
     private val _invitedRoomResponse = MutableLiveData<GetInvitedRoomListResponse>()
     val invitedRoomResponse: LiveData<GetInvitedRoomListResponse> get() = _invitedRoomResponse

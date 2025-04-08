@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMyReceivedJoinRequestBinding
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
@@ -67,7 +66,7 @@ class ReceivedJoinRequestComponent : Fragment() {
         binding.rvMyReceived.adapter = adapter
         binding.rvMyReceived.layoutManager = LinearLayoutManager(requireContext())
         // 참여요청한 멤버 목록 api 응답 옵저빙
-        viewModel.PendingMemberResponse.observe(viewLifecycleOwner) { response ->
+        viewModel.pendingMemberResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.tvRequestNum.visibility = View.VISIBLE
