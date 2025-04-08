@@ -61,6 +61,7 @@
                 android:text=""
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -74,6 +75,7 @@
                 android:text=""
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@id/tv_hashtag1" />
 
             <TextView
@@ -87,6 +89,7 @@
                 android:text=""
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@id/tv_hashtag2" />
 
             <TextView
@@ -101,7 +104,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_cur_member_count"
+                android:id="@+id/tv_arrival_num"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -117,8 +120,8 @@
                 android:text="의 룸메이트가 있어요"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/unuse_font"
-                app:layout_constraintStart_toEndOf="@id/tv_cur_member_count"
-                app:layout_constraintTop_toTopOf="@id/tv_cur_member_count" />
+                app:layout_constraintStart_toEndOf="@id/tv_arrival_num"
+                app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
 
             <TextView
                 android:id="@+id/tv_equality"
@@ -127,9 +130,9 @@
                 android:text="%"
                 android:textAppearance="@style/TextAppearance.App.16sp.Medium"
                 android:textColor="@color/color_font"
-                app:layout_constraintBottom_toBottomOf="@id/tv_cur_member_count"
+                app:layout_constraintBottom_toBottomOf="@id/tv_arrival_num"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_cur_member_count" />
+                app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -282,7 +285,7 @@
             android:id="@+id/tv_ment2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:text="꼭 맞는 방을 추천해드릴게요"
             android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
@@ -292,7 +295,7 @@
 
         <!--더보기 버튼 -->
         <LinearLayout
-            android:id="@+id/ll_more_room"
+            android:id="@+id/btn_more_room"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="24dp"

@@ -38,113 +38,18 @@
             app:layout_constraintStart_toStartOf="@id/tv_nickname1"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_my_room_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_my_room"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title1">
-
-            <TextView
-                android:id="@+id/tv_hashtag1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_hashtag2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag1" />
-
-            <TextView
-                android:id="@+id/tv_hashtag3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag2" />
-
-            <TextView
-                android:id="@+id/tv_room_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="26dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-                android:textColor="@color/highlight_font"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_cur_member_count"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/main_blue"
-                app:layout_constraintStart_toStartOf="@id/tv_room_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_room_name" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="의 룸메이트가 있어요"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintStart_toEndOf="@id/tv_cur_member_count"
-                app:layout_constraintTop_toTopOf="@id/tv_cur_member_count" />
-
-            <TextView
-                android:id="@+id/tv_equality"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="%"
-                android:textAppearance="@style/TextAppearance.App.16sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintBottom_toBottomOf="@id/tv_cur_member_count"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_cur_member_count" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <TextView
             android:id="@+id/tv_room_not_exist"
             android:layout_width="match_parent"
             android:layout_height="107dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/custom_rectangle_12_unuse"
             android:gravity="center"
             android:text="아직 참여하고 있는 방이 없어요\n방을 만들거나, 방에 참여해보세요!"
             android:textAppearance="@style/TextAppearance.App.14sp.Medium"
             android:textColor="@color/unuse_font"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title1" />
@@ -390,7 +295,7 @@
 
         <!--더보기 버튼 -->
         <LinearLayout
-            android:id="@+id/ll_more_room"
+            android:id="@+id/btn_more_room"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="24dp"
