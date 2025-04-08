@@ -124,7 +124,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
 
     private fun fetchRoommateList() {
         val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
         if (isLifestyleExist) cozyHomeViewModel.fetchRoommateListByEquality()
         else cozyHomeViewModel.fetchRandomRoommateList()
     }

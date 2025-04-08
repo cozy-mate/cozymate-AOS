@@ -3,7 +3,6 @@ package umc.cozymate.ui.cozy_home.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.databinding.FragmentCozyHomeContentAfterMatchingBinding
-import umc.cozymate.databinding.FragmentCozyHomeContentDefaultBinding
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
@@ -28,7 +26,6 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
-import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
 import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 @AndroidEntryPoint
@@ -39,7 +36,6 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateRecommendViewModel: RoommateRecommendViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private var nickname: String = ""
     private var isLifestyleExist: Boolean = false
     private lateinit var roomInfoData: RoomInfoEntity
     val firebaseAnalytics = Firebase.analytics
@@ -67,7 +63,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     private fun setNickname() {
-        nickname = cozyHomeViewModel.getNickname().toString()
+        val nickname = cozyHomeViewModel.getNickname().toString()
         binding.tvNickname1.text = "${nickname}님이"
         binding.tvNickname2.text = "${nickname}님과"
         binding.tvNickname3.text = "${nickname}님과"
@@ -81,8 +77,8 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
 
     private suspend fun fetchMyRoomData() {
         cozyHomeViewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
-            roomInfoData = roomInfo
             if (roomInfo != null) {
+                roomInfoData = roomInfo
                 setHashtagList(roomInfo.hashtagList)
                 setRoomName(roomInfo.name)
                 setArrivalNum(roomInfo.arrivalMateNum)
@@ -129,7 +125,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     private fun setArrivalNum(num: Int) {
-        binding.tvArrivalNum.text = num.toString() + "명"
+        binding.tvArrivalNum.text = "${num.toString()}명"
     }
 
     private fun setEquality(equality: Int, arrivalNum: Int) {
@@ -157,13 +153,15 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
+        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
         if (isLifestyleExist) roommateRecommendViewModel.fetchRoommateListByEquality()
-        else roommateRecommendViewModel.fetchRecommendedRoommateList()
+        else cozyHomeViewModel.fetchRandomRoommateList()
     }
 
     private fun setRoommateList() {
         var adapter: RecommendedRoommateVPAdapter
-        roommateRecommendViewModel.roommateList.observe(viewLifecycleOwner) { rmList ->
+        cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
@@ -214,7 +212,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
 
     private fun setRoomList() {
         var adapter: RecommendedRoomVPAdapter
-        cozyHomeViewModel.roomList.observe(viewLifecycleOwner) { roomList ->
+        cozyHomeViewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
                 binding.dotsIndicator2.visibility = View.GONE
@@ -247,11 +245,9 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     fun setRefreshData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            setNickname()
-            fetchMyRoomData()
-            fetchRoommateList()
-            fetchRoomList()
-        }
+        setNickname()
+        setMyRoom()
+        fetchRoommateList()
+        fetchRoomList()
     }
 }

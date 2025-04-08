@@ -161,10 +161,85 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-
-    fun getSavedRoomId(): Int {
-        return sharedPreferences.getInt("room_id", -1) // 0은 기본 값으로, 저장된 값이 없으면 0이 반환됨
+    // RoomDB에 저장된 내방 정보 불러오기
+    val _roomInfo = MutableLiveData<RoomInfoEntity?>()
+    val roomInfo: LiveData<RoomInfoEntity?> get() = _roomInfo
+    val _isLoading4 = MutableLiveData<Boolean>(null)
+    val isLoading4: LiveData<Boolean> get() = _isLoading4
+    suspend fun getRoomInfoById(): LiveData<RoomInfoEntity?> {
+        _isLoading4.value = true
+        val roomId = getSavedRoomId()
+        Log.d(TAG, "getRoomInfoById 방 아이디: $roomId")
+        val info = roomInfoDao.getRoomInfoById(roomId)
+        if (info == null) {
+            fetchRoomInfo()
+            _roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
+        } else {
+            _roomInfo.postValue(info)
+        }
+        _isLoading4.value = false
+        Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
+        return roomInfo
     }
+    fun getSavedRoomId(): Int {
+        return sharedPreferences.getInt("room_id", -1)
+    }
+
+    // 방 정보 조회 (/rooms/{roomId})
+    private val _roomInfoResponse = MutableLiveData<GetRoomInfoResponse>()
+    val roomInfoResponse: LiveData<GetRoomInfoResponse> get() = _roomInfoResponse
+    suspend fun fetchRoomInfo() {
+        val token = getToken()
+        val roomId = getSavedRoomId()
+        Log.d(TAG, "방 정보 조회 방 아이디 : ${roomId}")
+        if (token != null && roomId != 0) {
+            try {
+                val response = repository.getRoomInfo(token, roomId)
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
+                        _roomInfoResponse.value = response.body()
+                        saveRoomInfo("mate_list", response.body()?.result?.mateDetailList!!)
+                        saveRoomName(response.body()?.result?.name!!)
+                        saveRoomPersona(response.body()?.result!!.persona)
+
+                        val roomInfoEntity = RoomInfoEntity(
+                            roomId = response.body()?.result!!.roomId,
+                            name = response.body()?.result!!.name,
+                            inviteCode = response.body()?.result!!.inviteCode,
+                            persona = response.body()?.result!!.persona,
+                            managerMemberId = response.body()?.result!!.managerMemberId,
+                            managerNickname = response.body()?.result!!.managerNickname,
+                            isRoomManager = response.body()?.result!!.isRoomManager,
+                            favoriteId = response.body()?.result!!.favoriteId,
+                            maxMateNum = response.body()?.result!!.maxMateNum,
+                            arrivalMateNum = response.body()?.result!!.arrivalMateNum,
+                            dormitoryName = response.body()?.result!!.dormitoryName,
+                            roomType = response.body()?.result!!.roomType,
+                            equality = response.body()?.result!!.equality,
+                            hashtagList = response.body()?.result!!.hashtagList,
+                            difference = response.body()?.result!!.difference
+                        )
+                        roomInfoDao.insertRoomInfo(roomInfoEntity)
+                        Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
+                    } else {
+                        Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (errorBody != null) {
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                    } else {
+                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
+                    }
+                    Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
+            }
+        }
+    }
+
+
 
 
     fun getRoomName(): String? {
@@ -176,9 +251,9 @@ class CozyHomeViewModel @Inject constructor(
         sharedPreferences.edit().putInt("room_persona", id).apply()
     }
 
-    fun saveRoomName() {
-        Log.d(TAG, "spf 방 이름 : ${_roomName.value}")
-        sharedPreferences.edit().putString("room_name", _roomName.value).apply()
+    fun saveRoomName(name: String) {
+        Log.d(TAG, "spf 방 이름 : $name")
+        sharedPreferences.edit().putString("room_name", name).apply()
     }
 
     fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.MateDetail>) {
@@ -243,88 +318,6 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-    // 방 정보 조회(방 있을 때)
-    private val _roomInfoResponse = MutableLiveData<GetRoomInfoResponse>()
-    val roomInfoResponse: LiveData<GetRoomInfoResponse> get() = _roomInfoResponse
-    suspend fun fetchRoomInfo() {
-        val token = getToken()
-        val roomId = getSavedRoomId()
-        Log.d(TAG, "방 정보 조회 방 아이디 : ${roomId}")
-        if (roomId != 0) {
-            try {
-                val response = repository.getRoomInfo(token!!, roomId)
-                if (response.isSuccessful) {
-                    if (response.body()?.isSuccess == true) {
-                        _roomName.value = response.body()?.result?.name
-                        _inviteCode.value = response.body()?.result?.inviteCode
-                        //_profileImage.value = response.body()!!.result.profileImage
-                        _mateList.value = response.body()?.result?.mateDetailList
-                        _roomType.value = response.body()?.result?.roomType
-                        _roomInfoResponse.value = response.body()
-                        saveRoomInfo("mate_list", _mateList.value!!)
-                        saveRoomName()
-                        saveRoomPersona(response.body()?.result!!.persona)
-
-                        val roomInfoEntity = RoomInfoEntity(
-                            roomId = response.body()?.result!!.roomId,
-                            name = response.body()?.result!!.name,
-                            inviteCode = response.body()?.result!!.inviteCode,
-                            persona = response.body()?.result!!.persona,
-                            managerMemberId = response.body()?.result!!.managerMemberId,
-                            managerNickname = response.body()?.result!!.managerNickname,
-                            isRoomManager = response.body()?.result!!.isRoomManager,
-                            favoriteId = response.body()?.result!!.favoriteId,
-                            maxMateNum = response.body()?.result!!.maxMateNum,
-                            arrivalMateNum = response.body()?.result!!.arrivalMateNum,
-                            dormitoryName = response.body()?.result!!.dormitoryName,
-                            roomType = response.body()?.result!!.roomType,
-                            equality = response.body()?.result!!.equality,
-                            hashtagList = response.body()?.result!!.hashtagList,
-                            difference = response.body()?.result!!.difference
-                        )
-                        roomInfoDao.insertRoomInfo(roomInfoEntity)
-                        Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
-                    } else {
-                        Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
-                    }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
-                    }
-                    Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
-                }
-            } catch (e: Exception) {
-                Log.d(TAG, "방정보 조회 api 요청 실패: ${e}")
-            } finally {
-                _isLoading.value = false
-            }
-
-        }
-    }
-
-    // 로컬db에 저장된 내방 정보 불러오기
-    val _roomInfo = MutableLiveData<RoomInfoEntity>()
-    val roomInfo: LiveData<RoomInfoEntity> get() = _roomInfo
-    val _isLoading2 = MutableLiveData<Boolean>(null)
-    val isLoading2: LiveData<Boolean> get() = _isLoading2
-    suspend fun getRoomInfoById(): LiveData<RoomInfoEntity> {
-        _isLoading2.value = true
-        val roomId = getSavedRoomId()
-        Log.d(TAG, "getRoomInfoById 방 아이디: $roomId")
-        val info = roomInfoDao.getRoomInfoById(roomId)
-        if (info == null) {
-            fetchRoomInfo()
-            _roomInfo.postValue(roomInfoDao.getRoomInfoById(roomId))
-        } else {
-            _roomInfo.postValue(info!!)
-        }
-        _isLoading2.value = false
-        Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
-        return roomInfo
-    }
 
     // 룸로그
     private var currentPage = 0
