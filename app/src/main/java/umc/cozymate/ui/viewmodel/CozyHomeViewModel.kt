@@ -73,7 +73,7 @@ class CozyHomeViewModel @Inject constructor(
     val randomRoommateList: LiveData<List<RecommendedMemberInfo>> get() = _randomRoommateList
     private val _isLoading1 = MutableLiveData<Boolean>()
     val isLoading1: LiveData<Boolean> = _isLoading1
-    fun fetchRecommendedRoommateList() {
+    fun fetchRandomRoommateList() {
         val token = getToken()
         if (token != null) {
             viewModelScope.launch {

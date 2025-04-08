@@ -75,7 +75,7 @@ class CozyHomeContentDefaultFragment : Fragment() {
         val isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
         Log.d(TAG, "라이프스타일 입력 여부: $isLifestyleExist")
         if (isLifestyleExist) cozyHomeViewModel.fetchRoommateListByEquality()
-        else cozyHomeViewModel.fetchRecommendedRoommateList()
+        else cozyHomeViewModel.fetchRandomRoommateList()
     }
 
     private fun setRoommateList() {
@@ -180,10 +180,8 @@ class CozyHomeContentDefaultFragment : Fragment() {
     }
 
     fun setRefreshData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            setNickname()
-            fetchRoommateList()
-            fetchRoomList()
-        }
+        setNickname()
+        fetchRoommateList()
+        fetchRoomList()
     }
 }
