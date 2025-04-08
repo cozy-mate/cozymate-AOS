@@ -40,16 +40,17 @@ class MessageViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
-    fun getChatContents(chatRoomId : Int, page : Int = 0){
+    fun getChatContents(chatRoomId : Int, page : Int , size : Int){
         viewModelScope.launch {
             val token = getToken()
             try{
                 _isLoading.value = true
-                val response = repository.getChatContents(token!!, chatRoomId, page, 10)
+                val response = repository.getChatContents(token!!, chatRoomId, page, size)
                 if(response.isSuccessful){
                     val content = response.body()!!.result.result.content
                     _chatContents.postValue(content)
@@ -89,7 +90,7 @@ class MessageViewModel @Inject constructor(
             try{
                 val response = repository.deleteChatRooms(token!!, chatRoomId)
                 if(response.isSuccessful){
-                    getChatContents(chatRoomId)
+                    getChatContents(chatRoomId,0,10)
                 }
                 else Log.d(TAG, "deleteChatRooms api 응답 실패: ${response.body()!!.result}")
             }catch (e: Exception){
@@ -98,12 +99,12 @@ class MessageViewModel @Inject constructor(
         }
     }
 
-    fun getChatRooms(){
+    fun getChatRooms( page : Int , size : Int){
         viewModelScope.launch {
             val token = getToken()
             try{
                 _isLoading.value = true
-                val response = repository.getChatRooms(token!!, 0, 10)
+                val response = repository.getChatRooms(token!!, page, size)
                 if(response.isSuccessful){
                     val content = response.body()!!.result.result
                     _chatRooms.postValue( content)

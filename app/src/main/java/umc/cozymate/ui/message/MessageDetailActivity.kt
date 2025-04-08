@@ -55,9 +55,8 @@ class MessageDetailActivity : AppCompatActivity() {
         initOnClickListener()
 
         binding.refreshLayout.setOnRefreshListener{
-            messageDetailAdapter.deleteList()
             clearPage()
-            viewModel.getChatContents(chatRoomId, page++)
+            viewModel.getChatContents(chatRoomId, page++, ITEM_SIZE)
         }
 
     }
@@ -65,7 +64,7 @@ class MessageDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         clearPage()
-        viewModel.getChatContents(chatRoomId,page++)
+        viewModel.getChatContents(chatRoomId,page++, ITEM_SIZE)
     }
 
     private fun clearPage(){
@@ -123,7 +122,7 @@ class MessageDetailActivity : AppCompatActivity() {
                         val hasEnoughItems = totalItemCount >= ITEM_SIZE
 
                         if (isAtBottom && isValidPosition && hasEnoughItems) {
-                            viewModel.getChatContents(chatRoomId, page++)
+                            viewModel.getChatContents(chatRoomId, page++, ITEM_SIZE)
                         }
                     }
                 }
