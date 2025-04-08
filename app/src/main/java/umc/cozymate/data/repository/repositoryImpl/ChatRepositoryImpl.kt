@@ -15,9 +15,11 @@ class ChatRepositoryImpl @Inject constructor(
 ) : ChatRepository {
     override suspend fun getChatContents(
         accessToken: String,
-        chatRoomId: Int
+        chatRoomId: Int,
+        page: Int,
+        size: Int
     ): Response<ChatContentsResponse> {
-       return api.getChatContents(accessToken, chatRoomId)
+        return api.getChatContents(accessToken, chatRoomId , page, size)
     }
 
     override suspend fun postChat(
@@ -36,9 +38,11 @@ class ChatRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getChatRooms(
-        accessToken: String
+        accessToken: String,
+        page: Int,
+        size: Int
     ): Response<ChatRoomResponse> {
-        return api.getChatRooms(accessToken)
+        return api.getChatRooms(accessToken, page, size)
     }
 
 }

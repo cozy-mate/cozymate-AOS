@@ -9,10 +9,10 @@ import umc.cozymate.data.model.response.chat.WriteChatResponse
 
 interface ChatRepository {
 
-    suspend fun getChatContents(accessToken: String, chatRoomId: Int ): Response<ChatContentsResponse>
+    suspend fun getChatContents(accessToken: String, chatRoomId: Int , page: Int, size: Int): Response<ChatContentsResponse>
     suspend fun postChat(accessToken: String, recipientId: Int, request : ChatRequest): Response<WriteChatResponse>
 
     suspend fun deleteChatRooms (accessToken: String, chatRoomId: Int ): Response<DefaultResponse>
-    suspend fun getChatRooms (accessToken: String): Response<ChatRoomResponse>
+    suspend fun getChatRooms (accessToken: String, page: Int, size: Int): Response<ChatRoomResponse>
 
 }
