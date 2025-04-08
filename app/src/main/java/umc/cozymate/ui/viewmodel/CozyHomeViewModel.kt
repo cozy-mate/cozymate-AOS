@@ -5,34 +5,37 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.local.RoomInfoEntity
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
-import umc.cozymate.data.repository.repository.MemberStatPreferenceRepository
+import umc.cozymate.data.repository.repository.MemberStatRepository
 import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_bot.AchievementItem
 import umc.cozymate.ui.cozy_bot.AchievementItemType
+import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
 import javax.inject.Inject
 
 @HiltViewModel
 class CozyHomeViewModel @Inject constructor(
     private val repository: RoomRepository,
     private val logRepository: RoomLogRepository,
-    private val prefRepository: MemberStatPreferenceRepository,
+    private val memberStatRepository: MemberStatRepository,
     private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-
     private val TAG = this.javaClass.simpleName
     private val _achievements = MutableLiveData<List<AchievementItem>>()
     val achievements: LiveData<List<AchievementItem>> get() = _achievements
@@ -54,18 +57,115 @@ class CozyHomeViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
+    fun getNickname(): String? {
+        return sharedPreferences.getString(KEY_USER_NICKNAME, "")
+    }
+
+    // 랜덤 룸메이트 5명 추천 (/members/stat/random)
+    // 사용자 라이프스타일이 아직 존재하지 않을 때 호출합니다.
+    private val _randomRoommateList = MutableLiveData<List<RecommendedMemberInfo>>()
+    val randomRoommateList: LiveData<List<RecommendedMemberInfo>> get() = _randomRoommateList
+    private val _isLoading1 = MutableLiveData<Boolean>()
+    val isLoading1: LiveData<Boolean> = _isLoading1
+    fun fetchRecommendedRoommateList() {
+        val token = getToken()
+        if (token != null) {
+            viewModelScope.launch {
+                _isLoading1.value = true
+                try {
+                    val response = memberStatRepository.getRecommendedRoommateList(token)
+                    if (response.isSuccessful) {
+                        if (response.body()?.isSuccess == true) {
+                            Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
+                            _randomRoommateList.value = response.body()!!.result.memberList
+                        } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                    } else {
+                        _randomRoommateList.value = emptyList()
+                        Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "추천 룸메이트 리스트 조회 api 요청 실패: ${e}")
+                } finally {
+                    _isLoading1.value = false
+                }
+            }
+        }
+    }
+
+    // 일치율순 룸메이트 추천 (/members/stat/filter)
+    // 사용자 라이프스타일이 존재하면 호출합니다.
+    private val _roommateListByEquality = MutableLiveData<List<RecommendedMemberInfo>>()
+    val roommateListByEquality: LiveData<List<RecommendedMemberInfo>> get() = _roommateListByEquality
+    private val _isLoading2 = MutableLiveData<Boolean>()
+    val isLoading2: LiveData<Boolean> = _isLoading2
+    fun fetchRoommateListByEquality(filter: List<String> = emptyList(), page: Int = 0) {
+        val token = getToken()
+        if (token != null) {
+            viewModelScope.launch {
+                _isLoading2.value = true
+                try {
+                    val response = memberStatRepository.getRoommateListByEquality(
+                        accessToken = token,
+                        page = page,
+                        filter
+                    )
+                    if (response.isSuccessful) {
+                        if (response.body()?.isSuccess == true) {
+                            Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
+                            _roommateListByEquality.value = response.body()!!.result.memberList
+                        } else {
+                            _roommateListByEquality.value = emptyList()
+                            Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "추천 룸메이트 리스트 조회 api 요청 실패: ${e}")
+                }
+                _isLoading2.value = false
+            }
+        }
+    }
+
+    // 방 추천 (/rooms/list)
+    val _recommendedRoomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
+    val recommendedRoomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _recommendedRoomList
+    private val _isLoading3 = MutableLiveData<Boolean>()
+    val isLoading3: LiveData<Boolean> = _isLoading3
+    suspend fun fetchRecommendedRoomList() {
+        _isLoading3.value = true
+        val token = getToken()
+        if (token != null) {
+            try {
+                val response = repository.getRecommendedRoomList(accessToken = token, size = 5, page = 0,
+                    sortType = SortType.AVERAGE_RATE.value
+                ) // 최신순
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
+                        Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
+                        _recommendedRoomList.value = response.body()!!.result.result
+                    } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
+                } else {
+                    _recommendedRoomList.value = emptyList()
+                    Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
+            }
+            _isLoading3.value = false
+        }
+    }
+
+
     fun getSavedRoomId(): Int {
         return sharedPreferences.getInt("room_id", -1) // 0은 기본 값으로, 저장된 값이 없으면 0이 반환됨
     }
 
-    fun getNickname(): String? {
-        return sharedPreferences.getString("user_nickname", "")
-    }
 
     fun getRoomName(): String? {
         return sharedPreferences.getString("room_name", "")
@@ -87,16 +187,6 @@ class CozyHomeViewModel @Inject constructor(
 
         sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
         Log.d(TAG, "spf 룸메이트 정보 : ${json}")
-    }
-
-    fun saveMyPreference(prefList: List<String>) {
-        //sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장 <- 왜 안 되냐
-        sharedPreferences.edit().putString("pref_1", prefList[0])
-        sharedPreferences.edit().putString("pref_2", prefList[1])
-        sharedPreferences.edit().putString("pref_3", prefList[2])
-        sharedPreferences.edit().putString("pref_4", prefList[3])
-
-        //Log.d(TAG, "spf 선호도 정보 : $pref_1")
     }
 
     private var hasCalledApi = false
@@ -215,36 +305,6 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-    // 방추천
-    val _roomList = MutableLiveData<List<GetRecommendedRoomListResponse.Result.Result>>()
-    val roomList: LiveData<List<GetRecommendedRoomListResponse.Result.Result>> get() = _roomList
-    suspend fun fetchRecommendedRoomList() {
-        _isLoading.value = true
-        val token = getToken()
-        try {
-            val response = repository.getRecommendedRoomList(
-                accessToken = token!!,
-                size = 5,
-                page = 0,
-                sortType = SortType.AVERAGE_RATE.value
-            ) // 최신순
-            if (response.isSuccessful) {
-                if (response.body()?.isSuccess == true) {
-                    Log.d(TAG, "추천 방 리스트 조회 성공: ${response.body()!!.result}")
-                    _roomList.value = response.body()!!.result?.result
-                } else Log.d(TAG, "추천 방 리스트 조회 에러 메시지: ${response}")
-            } else {
-                _roomList.value = emptyList()
-                Log.d(TAG, "추천 방 리스트 조회 api 응답 실패: ${response.errorBody()?.string()}")
-            }
-        } catch (e: Exception) {
-            Log.d(TAG, "추천 방 리스트 조회 api 요청 실패: ${e}")
-        } finally {
-            _isLoading.value = false
-        }
-
-    }
-
     // 로컬db에 저장된 내방 정보 불러오기
     val _roomInfo = MutableLiveData<RoomInfoEntity>()
     val roomInfo: LiveData<RoomInfoEntity> get() = _roomInfo
@@ -332,47 +392,5 @@ class CozyHomeViewModel @Inject constructor(
             datetime = roomLog.createdAt,
             AchievementItemType.DEFAULT
         )
-    }
-
-    // 선호항목 조회
-    private val _myPreference = MutableLiveData<List<String>>()
-    val myPreference: LiveData<List<String>> get() = _myPreference
-    suspend fun fetchMyPreference() {
-        _isLoading.value = true
-        val token = getToken()
-        try {
-            val response = prefRepository.getMyPreference(token!!)
-            if (response.isSuccessful) {
-                if (response.body()?.isSuccess == true) {
-                    Log.d(TAG, "선호 항목 조회 성공: ${response.body()!!.result} ")
-                    _myPreference.value = response.body()!!.result?.preferenceList
-                    //saveMyPreference(_myPreference.value!!)
-                    sharedPreferences.edit().putString(
-                        "pref_1",
-                        response.body()!!.result?.preferenceList?.get(0)
-                    ).commit()
-                    sharedPreferences.edit().putString(
-                        "pref_2",
-                        response.body()!!.result?.preferenceList?.get(1)
-                    ).commit()
-                    sharedPreferences.edit().putString(
-                        "pref_3",
-                        response.body()!!.result?.preferenceList?.get(2)
-                    ).commit()
-                    sharedPreferences.edit().putString(
-                        "pref_4",
-                        response.body()!!.result?.preferenceList?.get(3)
-                    ).commit()
-                } else Log.d(TAG, "선호 항목 조회 에러 메시지: ${response}")
-            } else {
-                _isLoading.value = false
-                Log.d(TAG, "선호 항복 조회 api 응답 실패: ${response.errorBody()?.string()}")
-            }
-        } catch (e: Exception) {
-            Log.d(TAG, "선호 항목 조회 api 요청 실패: $e ")
-        } finally {
-            _isLoading.value = false
-        }
-
     }
 }
