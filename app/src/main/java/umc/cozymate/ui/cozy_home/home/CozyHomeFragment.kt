@@ -29,6 +29,7 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPrivateRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
@@ -49,6 +50,7 @@ import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class CozyHomeFragment : Fragment() {
+    private val TAG = this.javaClass.simpleName
     private val UPDATE_REQUEST_CODE = 1001
     private val updateManager by lazy { AppUpdateManagerFactory.create(requireActivity()) }
     private var _binding: FragmentCozyHomeMainBinding? = null
@@ -135,13 +137,32 @@ class CozyHomeFragment : Fragment() {
                 val intent = Intent(requireContext(), RoommateOnboardingActivity::class.java)
                 startActivity(intent)
             }
-        }
-        else binding.btnLifestyle.visibility = View.GONE
+        } else binding.btnLifestyle.visibility = View.GONE
         viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
             if (roomInfo != null) {
                 roomId = roomInfo.result.roomId
                 isRoomExist = true
                 isRoomManager = roomInfo.result.isRoomManager
+                Log.d(TAG, "is room manager: ${isRoomManager}")
+                if (isRoomManager) {
+                    // 방장 뷰
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(
+                            R.id.container_cozyhome_content,
+                            CozyHomeContentRoomManagerFragment()
+                        )
+                        commit()
+                    }
+                } else {
+                    // 방 매칭 후 뷰
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(
+                            R.id.container_cozyhome_content,
+                            CozyHomeContentAfterMatchingFragment()
+                        )
+                        commit()
+                    }
+                }
                 binding.btnMakeRoom.isEnabled = false
                 binding.btnEnterRoom.isEnabled = false
                 binding.btnMakeRoom.setTextColor(
@@ -189,7 +210,7 @@ class CozyHomeFragment : Fragment() {
                 param("방 만들기", "make_room_button")
                 param("코지홈", "cozy_home_screen")
             }
-            startActivity(Intent(requireContext(), MakingPublicRoomActivity::class.java))
+            startActivity(Intent(requireContext(), MakingPrivateRoomActivity::class.java))
         }
         binding.btnEnterRoom.setOnClickListener {
             firebaseAnalytics.logEvent("join_room_button_click") {
@@ -217,29 +238,10 @@ class CozyHomeFragment : Fragment() {
                     )
                     commit()
                 }
-            } else {
-                if (isRoomManager) {
-                    // 방장 뷰
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(
-                            R.id.container_cozyhome_content,
-                            CozyHomeContentRoomManagerFragment()
-                        )
-                        commit()
-                    }
-                } else {
-                    // 방 매칭 후 뷰
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(
-                            R.id.container_cozyhome_content,
-                            CozyHomeContentAfterMatchingFragment()
-                        )
-                        commit()
-                    }
-                }
             }
         }
     }
+
 
     private fun setOnRefreshListener() {
         binding.refreshLayout.setOnRefreshListener {
