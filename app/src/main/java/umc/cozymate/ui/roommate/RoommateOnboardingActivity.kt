@@ -8,21 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.databinding.ActivityRoommateOnboardingBinding
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.util.setStatusBarTransparent
 
 @AndroidEntryPoint
 class RoommateOnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoommateOnboardingBinding
-    private val splashViewModel: SplashViewModel by viewModels()
+    private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
 
-    private var myNickname: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityRoommateOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setStatusBarTransparent()
+        setNickname()
 
         binding.btnGoLifestyle.setOnClickListener {
             Log.d("RoommateOnboardingActivity", "btnGoLifestyle Clicked")
@@ -31,13 +32,9 @@ class RoommateOnboardingActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
 
-        myNickname = intent.getStringExtra("nickname").toString()
-        binding.tvName1.text = myNickname
-        /*splashViewModel.memberCheck()
-        splashViewModel.memberInfo.observe(this) { info: MemberDetailInfo? ->
-            myNickname = info!!.nickname
-            binding.tvName1.text = myNickname
-        }*/
+    private fun setNickname() {
+        binding.tvName1.text = cozyHomeViewModel.getNickname().toString()
     }
 }

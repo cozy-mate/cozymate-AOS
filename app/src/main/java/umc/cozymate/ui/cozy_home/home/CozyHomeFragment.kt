@@ -29,6 +29,7 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 import umc.cozymate.ui.cozy_home.room.making_room.MakingRoomDialogFragment
 import umc.cozymate.ui.cozy_home.room.my_room.MyRoomComponent
 import umc.cozymate.ui.cozy_home.room.received_invitation.ReceivedInvitationComponent
@@ -38,6 +39,7 @@ import umc.cozymate.ui.cozy_home.room.sent_join_request.SentJoinRequestComponent
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateComponent
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
@@ -126,25 +128,54 @@ class CozyHomeFragment : Fragment() {
     private fun observeUserState() {
         val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
+        if (!isLifestyleExist) {
+            binding.btnLifestyle.visibility = View.VISIBLE
+            binding.btnLifestyle.isEnabled = true
+            binding.btnLifestyle.setOnClickListener() {
+                val intent = Intent(requireContext(), RoommateOnboardingActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        else binding.btnLifestyle.visibility = View.GONE
         viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
             if (roomInfo != null) {
                 roomId = roomInfo.result.roomId
                 isRoomExist = true
                 isRoomManager = roomInfo.result.isRoomManager
-                binding.btnMakeRoom.isEnabled = true
-                binding.btnEnterRoom.isEnabled = true
-                binding.btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                binding.btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
-                setRoomBtns()
+                binding.btnMakeRoom.isEnabled = false
+                binding.btnEnterRoom.isEnabled = false
+                binding.btnMakeRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
+                binding.btnEnterRoom.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.unuse_font
+                    )
+                )
             }
         }
         roomId = spf.getInt("room_id", 0)
         if (roomId == 0 || roomId == -1) {
             isRoomExist = false
-            binding.btnMakeRoom.isEnabled = false
-            binding.btnEnterRoom.isEnabled = false
-            binding.btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-            binding.btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            binding.btnMakeRoom.isEnabled = true
+            binding.btnEnterRoom.isEnabled = true
+            setRoomBtns()
+            binding.btnMakeRoom.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.main_blue
+                )
+            )
+            binding.btnEnterRoom.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.main_blue
+                )
+            )
         } else {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.fetchRoomInfo() // rooms/{roomId}
@@ -158,7 +189,7 @@ class CozyHomeFragment : Fragment() {
                 param("방 만들기", "make_room_button")
                 param("코지홈", "cozy_home_screen")
             }
-            startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
+            startActivity(Intent(requireContext(), MakingPublicRoomActivity::class.java))
         }
         binding.btnEnterRoom.setOnClickListener {
             firebaseAnalytics.logEvent("join_room_button_click") {
@@ -226,7 +257,7 @@ class CozyHomeFragment : Fragment() {
             } else {
                 if (!isRoomExist) {
                     parentFragmentManager.beginTransaction().apply {
-                       beforeMatchingFragment?.refreshData()
+                        beforeMatchingFragment?.refreshData()
                     }
                 } else {
                     if (isRoomManager) {
