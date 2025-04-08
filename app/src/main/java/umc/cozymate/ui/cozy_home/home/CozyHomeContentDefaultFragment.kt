@@ -179,7 +179,7 @@ class CozyHomeContentDefaultFragment : Fragment() {
         }
     }
 
-    fun setRefreshData() {
+    fun refreshData() {
         setNickname()
         fetchRoommateList()
         fetchRoomList()

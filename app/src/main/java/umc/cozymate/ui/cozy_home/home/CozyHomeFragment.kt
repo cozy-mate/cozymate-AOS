@@ -41,6 +41,8 @@ import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
+import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -50,11 +52,11 @@ class CozyHomeFragment : Fragment() {
     private var _binding: FragmentCozyHomeMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CozyHomeViewModel by viewModels()
-    private val univViewModel: UniversityViewModel by viewModels()
     private val splashViewmodel: SplashViewModel by viewModels()
     private var roomId: Int = 0
-    private var state: UserRoomState = UserRoomState.NO_ROOM
-    private var universityFlag: Boolean = false
+    private var isLifestyleExist: Boolean = false
+    private var isRoomExist = false
+    private var isRoomManager = false
     val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
@@ -69,37 +71,25 @@ class CozyHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
-        with(binding) {
-            binding.refreshLayout.isRefreshing = true
-
-            // 학교명
-            tvUnivName.text = "인하대학교"
-            tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-            /*viewLifecycleOwner.lifecycleScope.launch {
-                univViewModel.isMailVerified()
-            }*/
-            // 쪽지
-            openMessage()
-            // 알림
-            openNotification()
-            // 사용자 상태 (방/방장/
-            initState()
-            // 컴포넌트 초기화
-            initView()
-            // 새로고침 설정
-            onRefresh()
-            // 업데이트 체크
-            checkForUpdate()
-            binding.refreshLayout.isRefreshing = false
-        }
+        binding.refreshLayout.isRefreshing = true
+        setName()
+        setMessageBtn()
+        setNotificationBtn()
+        initUserState()
+        setOnRefreshListener()
+        // 업데이트 체크
+        checkForUpdate()
+        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
         checkForUpdate()
         binding.refreshLayout.isRefreshing = true
-        initState()
-        initView()
+        setName()
+        setMessageBtn()
+        setNotificationBtn()
+        initUserState()
         binding.refreshLayout.isRefreshing = false
     }
 
@@ -108,12 +98,155 @@ class CozyHomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun setName() {
+        splashViewmodel.memberCheck()
+        val nickname = viewModel.getNickname().toString()
+        binding.btnLifestyle.text = "${nickname}님, 라이프스타일을 입력하고\n나와 꼭 맞는 룸메이트를 찾아볼까요?"
+        binding.tvUnivName.text = "인하대학교"
+        binding.tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+    }
+
+    private fun setMessageBtn() {
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageMemberActivity::class.java))
+        }
+    }
+
+    private fun setNotificationBtn() {
+        binding.btnNotification.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
+        }
+    }
+
+    private fun initUserState() {
+        observeUserState()
+        setContents()
+    }
+
+    private fun observeUserState() {
+        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
+        viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
+            if (roomInfo != null) {
+                roomId = roomInfo.result.roomId
+                isRoomExist = true
+                isRoomManager = roomInfo.result.isRoomManager
+                binding.btnMakeRoom.isEnabled = true
+                binding.btnEnterRoom.isEnabled = true
+                binding.btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                binding.btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.unuse_font))
+                setRoomBtns()
+            }
+        }
+        roomId = spf.getInt("room_id", 0)
+        if (roomId == 0 || roomId == -1) {
+            isRoomExist = false
+            binding.btnMakeRoom.isEnabled = false
+            binding.btnEnterRoom.isEnabled = false
+            binding.btnMakeRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            binding.btnEnterRoom.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+        } else {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.fetchRoomInfo() // rooms/{roomId}
+            }
+        }
+    }
+
+    private fun setRoomBtns() {
+        binding.btnMakeRoom.setOnClickListener {
+            firebaseAnalytics.logEvent("make_room_button_click") {
+                param("방 만들기", "make_room_button")
+                param("코지홈", "cozy_home_screen")
+            }
+            startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
+        }
+        binding.btnEnterRoom.setOnClickListener {
+            firebaseAnalytics.logEvent("join_room_button_click") {
+                param("방 참여하기", "join_room_button")
+                param("코지홈", "cozy_home_screen")
+            }
+            startActivity(Intent(activity, JoinRoomActivity::class.java))
+        }
+    }
+
+    private fun setContents() {
+        if (!isLifestyleExist) {
+            // 기본 뷰
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.container_cozyhome_content, CozyHomeContentDefaultFragment())
+                commit()
+            }
+        } else {
+            if (!isRoomExist) {
+                // 방 매칭 전 뷰
+                parentFragmentManager.beginTransaction().apply {
+                    replace(
+                        R.id.container_cozyhome_content,
+                        CozyHomeContentBeforeMatchingFragment()
+                    )
+                    commit()
+                }
+            } else {
+                if (isRoomManager) {
+                    // 방장 뷰
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(
+                            R.id.container_cozyhome_content,
+                            CozyHomeContentRoomManagerFragment()
+                        )
+                        commit()
+                    }
+                } else {
+                    // 방 매칭 후 뷰
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(
+                            R.id.container_cozyhome_content,
+                            CozyHomeContentAfterMatchingFragment()
+                        )
+                        commit()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setOnRefreshListener() {
+        binding.refreshLayout.setOnRefreshListener {
+            initUserState()
+            val defaultFragment =
+                childFragmentManager.findFragmentById(R.id.container_cozyhome_content) as? CozyHomeContentDefaultFragment
+            val roomManagerFragment =
+                childFragmentManager.findFragmentById(R.id.container_cozyhome_content) as? CozyHomeContentRoomManagerFragment
+            val beforeMatchingFragment =
+                childFragmentManager.findFragmentById(R.id.container_cozyhome_content) as? CozyHomeContentBeforeMatchingFragment
+            val afterMatchingFragment =
+                childFragmentManager.findFragmentById(R.id.container_cozyhome_content) as? CozyHomeContentAfterMatchingFragment
+            if (!isLifestyleExist) {
+                defaultFragment?.refreshData()
+            } else {
+                if (!isRoomExist) {
+                    parentFragmentManager.beginTransaction().apply {
+                       beforeMatchingFragment?.refreshData()
+                    }
+                } else {
+                    if (isRoomManager) {
+                        roomManagerFragment?.refreshData()
+                    } else {
+                        afterMatchingFragment?.refreshData()
+                    }
+                }
+            }
+            binding.refreshLayout.isRefreshing = false
+        }
+    }
+
     // 새로운 앱 버전이 있는지 확인합니다.
     private fun checkForUpdate() {
         val appUpdateInfoTask = updateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("")
                     .setMessage("새로운 버전이 출시되었습니다. 업데이트하시겠습니까?")
@@ -122,9 +255,19 @@ class CozyHomeFragment : Fragment() {
                             // 강제 업데이트 요청
                             //updateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, requireActivity(), UPDATE_REQUEST_CODE )
                             // 구글 플레이스토어로 리다이렉트
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=umc.cozymate")))
-                        } catch(e: ActivityNotFoundException) {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/test/umc.cozymate")))
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("market://details?id=umc.cozymate")
+                                )
+                            )
+                        } catch (e: ActivityNotFoundException) {
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("https://play.google.com/apps/test/umc.cozymate")
+                                )
+                            )
                         }
                     }
                     .setNegativeButton("나중에") { dialog, _ -> dialog.dismiss() }
@@ -140,241 +283,4 @@ class CozyHomeFragment : Fragment() {
             Toast.makeText(requireActivity(), "업데이트 실패", Toast.LENGTH_SHORT).show()
         }
     }
-
-    private fun onRefresh() {
-        // SwipeRefreshLayout OnRefreshListener를 등록합니다
-        binding.refreshLayout.setOnRefreshListener {
-            initState()
-            initView()
-            /*viewLifecycleOwner.lifecycleScope.launch {
-                univViewModel.isMailVerified()
-            }*/
-            // 각 컴포넌트 새로고침
-            val myRoom =
-                childFragmentManager.findFragmentById(R.id.my_room_container) as? MyRoomComponent
-            val receivedJoinRequest =
-                childFragmentManager.findFragmentById(R.id.received_join_request_container) as? ReceivedJoinRequestComponent
-            val receivedInvitation =
-                childFragmentManager.findFragmentById(R.id.received_invitation_container) as? ReceivedInvitationComponent
-            val sentJoinRequest =
-                childFragmentManager.findFragmentById(R.id.sent_join_container) as? SentJoinRequestComponent
-            val roommateRecommend =
-                childFragmentManager.findFragmentById(R.id.recommended_roommate_container) as? RecommendedRoommateComponent
-            val roomRecommend =
-                childFragmentManager.findFragmentById(R.id.recommended_room_container) as? RecommendedRoomComponent
-            myRoom?.refreshData()
-            receivedJoinRequest?.refreshData()
-            receivedInvitation?.refreshData()
-            sentJoinRequest?.refreshData()
-            roommateRecommend?.refreshData()
-            roomRecommend?.refreshData()
-            // isRefreshing = false 인 경우 새로고침 완료시 새로고침 아이콘이 사라집니다
-            binding.refreshLayout.isRefreshing = false
-        }
-    }
-
-    private fun initState() {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", 0)
-        splashViewmodel.memberCheck() // 멤버 정보 저장(닉네임 안 불러와지는 문제 해결을 위해 시도)
-        // 방 정보 옵저빙
-        // 방장인지 여부를 확인합니다.
-        viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
-            state = if (roomInfo != null) {
-                if (roomInfo.result.isRoomManager) {
-                    Log.d("tag", "$roomInfo")
-                    UserRoomState.CREATED_ROOM
-                } else {
-                    UserRoomState.HAS_ROOM
-                }
-            } else {
-                UserRoomState.NO_ROOM
-            }
-        }
-        // 방 존재 여부를 spf로 조회한 방 아이디로 확인합니다.
-        if (roomId == 0 || roomId == -1) {
-            state = UserRoomState.NO_ROOM
-        } else {
-            state = UserRoomState.HAS_ROOM
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.fetchRoomInfo()
-            }
-        }
-    }
-
-    // 사용자의 방없음/방장/방참여 상태에 따른 컴포넌트 띄우기
-    private fun initView() {
-        with(binding) {
-            initRoomButtonListener()
-            when (state) {
-                UserRoomState.NO_ROOM -> {
-                    // 보이는 컴포넌트
-                    receivedInvitationContainer.visibility = View.VISIBLE
-                    recommendedRoomContainer.visibility = View.VISIBLE
-                    recommendedRoommateContainer.visibility = View.VISIBLE
-                    sentJoinContainer.visibility = View.VISIBLE
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
-                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(R.id.sent_join_container, SentJoinRequestComponent())
-                        commit()
-                    }
-                    // 안 보이는 컴포넌트
-                    myRoomContainer.visibility = View.GONE
-                    receivedJoinRequestContainer.visibility = View.GONE
-                }
-
-                UserRoomState.HAS_ROOM -> {
-                    // 보이는 컴포넌트
-                    myRoomContainer.visibility = View.VISIBLE
-                    receivedInvitationContainer.visibility = View.VISIBLE
-                    recommendedRoomContainer.visibility = View.VISIBLE
-                    recommendedRoommateContainer.visibility = View.VISIBLE
-                    receivedJoinRequestContainer.visibility = View.VISIBLE
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(R.id.my_room_container, MyRoomComponent())
-                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
-                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(
-                            R.id.received_join_request_container,
-                            ReceivedJoinRequestComponent()
-                        )
-                        commit()
-                    }
-                    // 안 보이는 컴포넌트
-                    sentJoinContainer.visibility = View.GONE
-                }
-
-                UserRoomState.CREATED_ROOM -> {
-                    // 보이는 컴포넌트
-                    myRoomContainer.visibility = View.VISIBLE
-                    receivedInvitationContainer.visibility = View.VISIBLE
-                    recommendedRoomContainer.visibility = View.VISIBLE
-                    recommendedRoommateContainer.visibility = View.VISIBLE
-                    receivedJoinRequestContainer.visibility = View.VISIBLE
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(R.id.my_room_container, MyRoomComponent())
-                        replace(R.id.received_invitation_container, ReceivedInvitationComponent())
-                        replace(R.id.recommended_room_container, RecommendedRoomComponent())
-                        replace(R.id.recommended_roommate_container, RecommendedRoommateComponent())
-                        replace(
-                            R.id.received_join_request_container,
-                            ReceivedJoinRequestComponent()
-                        )
-                        commit()
-                    }
-                    // 안 보이는 컴포넌트
-                    sentJoinContainer.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun initRoomButtonListener() {
-        with(binding) {
-            // 방 생성 버튼 > 팝업
-            btnMakeRoom.setOnClickListener {
-                firebaseAnalytics.logEvent("make_room_button_click") {
-                    param("방 만들기", "make_room_button")
-                    param("코지홈", "cozy_home_screen")
-                }
-                startActivity(Intent(requireContext(), MakingRoomDialogFragment::class.java))
-            }
-            // 방 참여 버튼
-            btnEnterRoom.setOnClickListener {
-                firebaseAnalytics.logEvent("join_room_button_click") {
-                    param("방 참여하기", "join_room_button")
-                    param("코지홈", "cozy_home_screen")
-                }
-                startActivity(Intent(activity, JoinRoomActivity::class.java))
-            }
-            // 학교 버튼
-            /*btnSchoolCertificate.setOnClickListener {
-                val intent = Intent(activity, UniversityCertificationActivity::class.java)
-                intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
-                startActivity(intent)
-            }*/
-            // 방장/방참여 사용자는 버튼 비활성화
-            if (state == UserRoomState.HAS_ROOM || state == UserRoomState.CREATED_ROOM) {
-                btnMakeRoom.isEnabled = false
-                btnEnterRoom.isEnabled = false
-                btnMakeRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.unuse_font
-                    )
-                )
-                btnEnterRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.unuse_font
-                    )
-                )
-            } else {
-                btnMakeRoom.isEnabled = true
-                btnEnterRoom.isEnabled = true
-                btnMakeRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.main_blue
-                    )
-                )
-                btnEnterRoom.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.main_blue
-                    )
-                )
-            }
-        }
-    }
-
-    private fun openMessage() {
-        binding.btnMessage.setOnClickListener {
-            startActivity(Intent(activity, MessageMemberActivity::class.java))
-        }
-    }
-
-    private fun openNotification() {
-        binding.btnNotification.setOnClickListener {
-            startActivity(Intent(activity, NotificationActivity::class.java))
-        }
-    }
-
-    // 학교 인증 / 학교명 옵저빙
-    /*private fun observeUnivViewModel() {
-        univViewModel.university.observe(viewLifecycleOwner) { univ ->
-            with(binding) {
-                tvSchoolName.text = univ
-                // 학교인증 x
-                if (univ == "학교 인증을 해주세요") {
-                    universityFlag = false
-                    ivSchoolWhite.visibility = View.VISIBLE
-                    ivSchoolBlue.visibility = View.GONE
-                    ivNext.visibility = View.VISIBLE
-                }
-                universityFlag = true
-                ivSchoolWhite.visibility = View.GONE
-                ivSchoolBlue.visibility = View.VISIBLE
-                ivNext.visibility = View.GONE
-                tvSchoolName.text = "인하대학교"
-                tvSchoolName.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.main_blue
-                    )
-                )
-            }
-        }
-        // 메일인증 여부가 확인되면, 사용자 대학교를 조회한다.
-        univViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-            if (isVerified == true && univViewModel.university.value == null) {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    // univViewModel.fetchMyUniversityIfNeeded()
-                }
-            }
-        }
-    }*/
 }

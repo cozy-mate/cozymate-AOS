@@ -77,12 +77,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         fetchRequest()
     }
 
-    private fun fetchRequest() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            roomRequestViewModel.getRequestedRoomList()
-        }
-    }
-
     private fun setRequestList() {
         val adapter = SentRequestAdapter { roomId ->
             val intent = Intent(requireActivity(), RoomDetailActivity::class.java).apply {
@@ -92,7 +86,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         }
         binding.rvRequestList.adapter = adapter
         binding.rvRequestList.layoutManager = LinearLayoutManager(requireContext())
-        roomRequestViewModel.RequestedRoomResponse.observe(viewLifecycleOwner) { response ->
+        roomRequestViewModel.requestedRoomResponse.observe(viewLifecycleOwner) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.clRoomParticipantRequest.visibility = View.VISIBLE
@@ -113,6 +107,12 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     private fun setMoreRequestBtn() {
         binding.btnMoreRequest.setOnClickListener() {
             // todo: 요청 더보기 페이지
+        }
+    }
+
+    private fun fetchRequest() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            roomRequestViewModel.getRequestedRoomList()
         }
     }
 
@@ -230,7 +230,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         }
     }
 
-    fun setRefreshData() {
+    fun refreshData() {
         setNickname()
         fetchRequest()
         fetchRoommateList()

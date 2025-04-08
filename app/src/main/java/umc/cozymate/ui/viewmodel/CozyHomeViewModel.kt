@@ -201,7 +201,6 @@ class CozyHomeViewModel @Inject constructor(
                         saveRoomInfo("mate_list", response.body()?.result?.mateDetailList!!)
                         saveRoomName(response.body()?.result?.name!!)
                         saveRoomPersona(response.body()?.result!!.persona)
-
                         val roomInfoEntity = RoomInfoEntity(
                             roomId = response.body()?.result!!.roomId,
                             name = response.body()?.result!!.name,
