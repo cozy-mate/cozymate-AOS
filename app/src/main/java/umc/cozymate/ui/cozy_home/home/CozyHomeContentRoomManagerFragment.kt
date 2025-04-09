@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentRoomManagerBinding
-import umc.cozymate.ui.cozy_home.room.received_join_request.ReceivedJoinRequestAdapter
+import umc.cozymate.ui.cozy_home.request.ReceivedJoinRequestAdapter
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
