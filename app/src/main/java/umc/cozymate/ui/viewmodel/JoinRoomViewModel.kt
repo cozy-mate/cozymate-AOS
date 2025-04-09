@@ -15,6 +15,7 @@ import umc.cozymate.data.model.entity.RoomInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
 import umc.cozymate.data.repository.repository.RoomRepository
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_ID
 import javax.inject.Inject
 
 // TODO: 방이름, 방장 닉네임, 최대인원수 정보 필요
@@ -68,8 +69,6 @@ class JoinRoomViewModel @Inject constructor(
                     val errorBody = response.errorBody()?.string()
                     if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     }
                     Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
                 }
@@ -97,13 +96,16 @@ class JoinRoomViewModel @Inject constructor(
                 } else {
                     val errorBody = response.errorBody()?.string()
                     if (errorBody != null) _roomJoinErrorResponse.value = parseErrorResponse(errorBody)
-                    else _roomJoinErrorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "방 참여 api 요청 실패: ${e}")
             }
         }
+    }
+
+    fun saveRoomId(id: Int) {
+        sharedPreferences.edit().putInt(KEY_ROOM_ID, id).commit()
     }
 
     fun requestJoinRoom(id: Int){
@@ -119,8 +121,6 @@ class JoinRoomViewModel @Inject constructor(
                     val errorBody = response.errorBody()?.string()
                     if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     }
                     Log.d(TAG, "방 참여 요청 api 응답 실패: ${errorBody}")
                 }

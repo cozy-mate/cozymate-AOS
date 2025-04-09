@@ -14,6 +14,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentDefaultBinding
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
@@ -79,6 +80,10 @@ class CozyHomeContentDefaultFragment : Fragment() {
     }
 
     private fun setRoommateList() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
+            if (otherUserDetail == null) return@observe
+            else goToRoommateDetail(otherUserDetail)
+        }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
@@ -90,7 +95,7 @@ class CozyHomeContentDefaultFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    goToRoommateDetail(memberId)
+                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator1.attachTo(binding.vpRoommate)
@@ -106,12 +111,18 @@ class CozyHomeContentDefaultFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    goToRoommateDetail(memberId)
+                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator1.attachTo(binding.vpRoommate)
             }
         }
+    }
+
+    private fun goToRoommateDetail(otherUserDetail: GetMemberDetailInfoResponse.Result) {
+        val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+        intent.putExtra("other_user_detail", otherUserDetail)
+        startActivity(intent)
     }
 
     private fun goToRoommateDetail(memberId: Int) {

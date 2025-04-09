@@ -22,6 +22,7 @@ import umc.cozymate.data.model.response.room.DeleteRoomResponse
 import umc.cozymate.data.model.response.room.QuitRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_ID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -133,6 +134,10 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
 
+    fun saveRoomId(id: Int) {
+        sharedPreferences.edit().putInt(KEY_ROOM_ID, id).commit()
+    }
+
     fun checkAndSubmitCreatePrivateRoom() {
         if (persona.value != 0 && roomName.value != null && maxNum.value != 0) {
             createPrivateRoom()
@@ -179,10 +184,6 @@ class MakingRoomViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun saveRoomId(id: Int) {
-        sharedPreferences.edit().putInt("room_id", id).commit()
     }
 
     fun saveRoomCharacterId(id: Int) {

@@ -26,6 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
+import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
@@ -76,9 +77,11 @@ class MakingPublicRoomFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-        viewModel.createPublicRoomResponse.observe(viewLifecycleOwner) { result ->
-            //(activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
-            (activity as? MakingPublicRoomActivity)?.loadMainActivity()
+        viewModel.createPublicRoomResponse.observe(viewLifecycleOwner) { res ->
+            if (res != null) {
+                viewModel.saveRoomId(res.result.roomId)
+                goToCozyRoomDetail(res.result.roomId)
+            }
         }
         viewModel.createPublicRoomError.observe(viewLifecycleOwner) { res ->
             Log.d(TAG, "방생성 실패: ${res}")
@@ -87,6 +90,14 @@ class MakingPublicRoomFragment : Fragment() {
                 popup.show(childFragmentManager, "팝업")
             }
         }
+    }
+
+    private fun goToCozyRoomDetail(roomId: Int) {
+        val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
+        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+        intent.putExtra("isMyRoom", true)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun setBackBtn() {

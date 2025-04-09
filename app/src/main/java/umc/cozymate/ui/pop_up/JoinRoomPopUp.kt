@@ -24,6 +24,7 @@ import umc.cozymate.R
 import umc.cozymate.databinding.PopupInviteCodeSuccessBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
+import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
 @AndroidEntryPoint
@@ -78,15 +79,19 @@ class JoinRoomPopUp : DialogFragment() {
     private fun setRoomJoinObserver() {
         viewModel.roomJoinSuccess.observe(viewLifecycleOwner, Observer { success ->
             if (success) {
-                dismiss()
-                view?.post {
-                    parentFragmentManager.commit {
-                        replace(R.id.main_container, CozyBotFragment())
-                        addToBackStack(null)
-                    }
-                }
+                viewModel.saveRoomId(roomId)
+                goToCozyRoomDetail(roomId)
             }
         })
+    }
+
+    private fun goToCozyRoomDetail(roomId: Int) {
+        val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
+        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+        intent.putExtra("isMyRoom", true)
+        startActivity(intent)
+        requireActivity().finish()
+        dismiss()
     }
 
     private fun setErrorObserver() {
