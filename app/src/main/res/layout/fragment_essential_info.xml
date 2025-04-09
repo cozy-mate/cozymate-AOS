@@ -19,23 +19,23 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/tv_wakeup_time"
+                android:id="@+id/tv_wake_up_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="기상시간을 선택해주세요"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_sleep_time" />
+                app:layout_constraintTop_toBottomOf="@id/cl_sleeping_time" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cy_wake_ampm"
+                android:id="@+id/cl_wake_ampm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_wakeup_time">
+                app:layout_constraintTop_toBottomOf="@+id/tv_wake_up_time">
 
                 <TextView
                     android:id="@+id/tv_wake_am"
@@ -80,7 +80,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cy_wake_ampm">
+                app:layout_constraintTop_toBottomOf="@+id/cl_wake_ampm">
 
                 <TextView
                     android:id="@+id/tv_wakeup_1"
@@ -202,16 +202,16 @@
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_sleep_time"
+                android:id="@+id/cl_sleeping_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/tv_wakeup_time"
+                app:layout_constraintBottom_toTopOf="@id/tv_wake_up_time"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_sleep_time"
+                    android:id="@+id/tv_sleeping_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="취침시간을 선택해주세요"
@@ -227,7 +227,7 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sleep_time">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sleeping_time">
 
                     <TextView
                         android:id="@+id/tv_sleep_am"
@@ -390,16 +390,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_light_off"
+                android:id="@+id/cl_turn_off_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/cl_sleep_time"
+                app:layout_constraintBottom_toTopOf="@id/cl_sleeping_time"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_light_off_time"
+                    android:id="@+id/tv_turn_off_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="소등시간을 선택해주세요"
@@ -409,16 +409,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cy_light_off_ampm"
+                    android:id="@+id/cy_turn_off_ampm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_light_off_time">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_turn_off_time">
 
                     <TextView
-                        android:id="@+id/tv_light_off_am"
+                        android:id="@+id/tv_turn_off_am"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
@@ -431,16 +431,16 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <View
-                        android:id="@+id/light_off_guide_line"
+                        android:id="@+id/turn_off_guide_line"
                         android:layout_width="1dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="20dp"
                         android:background="@color/unuse_font"
-                        app:layout_constraintStart_toEndOf="@id/tv_light_off_am"
+                        app:layout_constraintStart_toEndOf="@id/tv_turn_off_am"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_pm"
+                        android:id="@+id/tv_turn_off_pm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -449,21 +449,21 @@
                         android:text="PM"
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/unuse_font"
-                        app:layout_constraintStart_toEndOf="@+id/light_off_guide_line"
+                        app:layout_constraintStart_toEndOf="@+id/turn_off_guide_line"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
-                    android:id="@+id/ly_light_off_time_1"
+                    android:id="@+id/ly_turn_off_time_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cy_light_off_ampm">
+                    app:layout_constraintTop_toBottomOf="@+id/cy_turn_off_ampm">
 
                     <TextView
-                        android:id="@+id/tv_light_off_1"
+                        android:id="@+id/tv_turn_off_1"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -471,7 +471,7 @@
                         android:text="1" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_2"
+                        android:id="@+id/tv_turn_off_2"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -479,7 +479,7 @@
                         android:text="2" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_3"
+                        android:id="@+id/tv_turn_off_3"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -487,7 +487,7 @@
                         android:text="3" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_4"
+                        android:id="@+id/tv_turn_off_4"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -495,7 +495,7 @@
                         android:text="4" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_5"
+                        android:id="@+id/tv_turn_off_5"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -503,7 +503,7 @@
                         android:text="5" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_6"
+                        android:id="@+id/tv_turn_off_6"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -512,16 +512,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ly_light_off_time_7"
+                    android:id="@+id/ly_turn_off_time_7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_1">
+                    app:layout_constraintTop_toBottomOf="@+id/ly_turn_off_time_1">
 
                     <TextView
-                        android:id="@+id/tv_light_off_7"
+                        android:id="@+id/tv_turn_off_7"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -529,7 +529,7 @@
                         android:text="7" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_8"
+                        android:id="@+id/tv_turn_off_8"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -537,7 +537,7 @@
                         android:text="8" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_9"
+                        android:id="@+id/tv_turn_off_9"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -545,7 +545,7 @@
                         android:text="9" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_10"
+                        android:id="@+id/tv_turn_off_10"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -553,7 +553,7 @@
                         android:text="10" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_11"
+                        android:id="@+id/tv_turn_off_11"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -561,7 +561,7 @@
                         android:text="11" />
 
                     <TextView
-                        android:id="@+id/tv_light_off_12"
+                        android:id="@+id/tv_turn_off_12"
                         style="@style/OptionBox"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
@@ -573,20 +573,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_light_off_time_7" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_turn_off_time_7" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_smoke"
+                android:id="@+id/cl_smoking_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/cl_light_off"
+                app:layout_constraintBottom_toTopOf="@id/cl_turn_off_time"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_smoke_check"
+                    android:id="@+id/tv_smoking_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="흡연여부를 선택해주세요"
@@ -596,16 +596,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ly_smoke_check"
+                    android:id="@+id/ly_smoking_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_smoke_check">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_smoking_status">
 
                     <TextView
-                        android:id="@+id/smoke_no"
+                        android:id="@+id/smoking_status_no"
                         style="@style/OptionBox"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
@@ -613,7 +613,7 @@
                         android:text="비흡연자" />
 
                     <TextView
-                        android:id="@+id/smoke_paper"
+                        android:id="@+id/smoking_status_paper"
                         style="@style/OptionBox"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -621,7 +621,7 @@
                         android:text="연초" />
 
                     <TextView
-                        android:id="@+id/smoke_eletronic"
+                        android:id="@+id/smoking_status_eletronic"
                         style="@style/OptionBox"
                         android:layout_width="110dp"
                         android:layout_height="40dp"
@@ -631,30 +631,28 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ly_smoke_check2"
+                    android:id="@+id/ly_smoking_status2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check">
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoking_status">
 
                     <TextView
-                        android:id="@+id/smoke_water"
+                        android:id="@+id/smoking_status_water"
                         style="@style/OptionBox"
                         android:layout_width="110dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
                         android:text="액상형 전자담배" />
-
                 </LinearLayout>
-
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_smoke_check2" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_smoking_status2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -662,7 +660,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/cl_smoke"
+                app:layout_constraintBottom_toTopOf="@+id/cl_smoking_status"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible">
 
