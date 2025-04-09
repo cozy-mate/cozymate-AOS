@@ -59,7 +59,7 @@ class MakingPrivateRoomFragment : Fragment() {
             }
             // 캐릭터 선택
             ivCharacter.setOnClickListener {
-                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
+                val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
                 characterResultLauncher.launch(intent)
             }
             // 방 이름 유효성 체크
@@ -160,7 +160,7 @@ class MakingPrivateRoomFragment : Fragment() {
 
     // 방이름 중복체크 옵저빙
     fun observeRoomNameValid() {
-        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+        viewModel.isRoomNameValid.observe(viewLifecycleOwner) { isValid ->
             with(binding) {
                 if (!isValid) {
                     tvAlertName.visibility = View.VISIBLE
@@ -187,7 +187,7 @@ class MakingPrivateRoomFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
         }
         numPeople = value
-        viewModel.setMaxNum(numPeople)
+        viewModel.setMaxMateNum(numPeople)
         updateNextButtonState()
     }
 

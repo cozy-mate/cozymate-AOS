@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import hilt_aggregated_deps._umc_cozymate_data_local_DatabaseModule
 import kotlinx.coroutines.launch
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.local.RoomInfoEntity
@@ -24,7 +23,6 @@ import umc.cozymate.data.model.response.room.QuitRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import javax.inject.Inject
-import kotlin.math.max
 
 @HiltViewModel
 class MakingRoomViewModel @Inject constructor(
@@ -36,16 +34,11 @@ class MakingRoomViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
-    private val _hashtags = MutableLiveData<List<String>>()
-    val hashtags: LiveData<List<String>> get() = _hashtags
-    private val _nickname = MutableLiveData<String>()
-    val nickname: LiveData<String> get() = _nickname
+
     private val _creatorId = MutableLiveData<Int>()
     val creatorId: LiveData<Int> get() = _creatorId
-    private val _persona = MutableLiveData<Int>()
-    val persona: LiveData<Int> get() = _persona
-    private val _maxNum = MutableLiveData<Int>()
-    val maxNum: LiveData<Int> get() = _maxNum
+
+
     private val _inviteCode = MutableLiveData<String>()
     val inviteCode: LiveData<String> get() = _inviteCode
     private val _errorResponse = MutableLiveData<ErrorResponse>()
@@ -63,29 +56,8 @@ class MakingRoomViewModel @Inject constructor(
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
-
     fun getRoomId(): Int {
         return sharedPreferences.getInt("room_id", -1)
-    }
-
-    fun setNickname(nickname: String) {
-        _nickname.value = nickname
-    }
-
-    fun setCreatorId(creatorId: Int) {
-        _creatorId.value = creatorId
-    }
-
-    fun setPersona(id: Int) {
-        _persona.value = id
-    }
-
-    fun setMaxNum(maxNum: Int) {
-        _maxNum.value = maxNum
-    }
-
-    fun setHashtags(hashtags: List<String>) {
-        _hashtags.value = hashtags
     }
 
     // spf에 방 id 저장
@@ -103,42 +75,69 @@ class MakingRoomViewModel @Inject constructor(
         sharedPreferences.edit().putString("invite_code", inviteCode).commit()
     }
 
-    // 방이름 중복 검증
-    private val _isNameValid = MutableLiveData(true)
-    val isNameValid: LiveData<Boolean> get() = _isNameValid
-    fun roomNameCheck() {
+    // 방이름 중복 검증 (/rooms/check-roomname)
+    private val _isRoomNameValid = MutableLiveData(true)
+    val isRoomNameValid: LiveData<Boolean> get() = _isRoomNameValid
+    fun roomNameCheck(roomName: String) {
         val token = getToken()
-        Log.d(TAG, "방 이름 중복검증 request 확인: ${nickname.value}")
-        if (token != null && nickname.value != null && nickname.value != "") {
+        if (token != null && roomName != "") {
             viewModelScope.launch {
                 try {
-                    val response = roomRepository.checkRoomName(token, nickname.value!!)
+                    val response = roomRepository.checkRoomName(token, roomName)
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "방 이름 중복검증 성공: ${response.body()!!.result}")
-                        _isNameValid.value = response.body()!!.result
+                        _isRoomNameValid.value = response.body()!!.result
                     }
                 } catch (e: Exception) {
-                    Log.d(TAG, "공개 방 생성 api 요청 실패: ${e}")
+                    Log.d(TAG, "방 이름 중복검증 api 요청 실패: ${e}")
                 }
             }
         }
     }
 
-    // 공개방생성
-    private val _publicRoomCreationResult = MutableLiveData<CreatePublicRoomResponse>()
-    val publicRoomCreationResult: MutableLiveData<CreatePublicRoomResponse> get() = _publicRoomCreationResult
+    private val _persona = MutableLiveData<Int>()
+    val persona: LiveData<Int> get() = _persona
+    fun setPersona(id: Int) {
+        _persona.value = id
+    }
+
+    private val _roomName = MutableLiveData<String>()
+    val roomName: LiveData<String> get() = _roomName
+    fun setNickname(name: String) {
+        _roomName.value = name
+    }
+
+    private val _maxNum = MutableLiveData<Int>()
+    val maxNum: LiveData<Int> get() = _maxNum
+    fun setMaxMateNum(maxNum: Int) {
+        _maxNum.value = maxNum
+    }
+
+    private val _hashtags = MutableLiveData<List<String>>()
+    val hashtags: LiveData<List<String>> get() = _hashtags
+    fun setHashtags(hashtags: List<String>) {
+        _hashtags.value = hashtags
+    }
+
+    fun checkAndSubmitCreatePublicRoom() {
+        if (persona.value != 0 && roomName.value != null && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
+            createPublicRoom()
+        }
+    }
+
+    // 공개방 생성 (/rooms/create-public)
+    private val _createPublicRoomResponse = MutableLiveData<CreatePublicRoomResponse>()
+    val createPublicRoomResponse: MutableLiveData<CreatePublicRoomResponse> get() = _createPublicRoomResponse
+    private val _createPublicRoomErrorMessage = MutableLiveData<String>()
+    val createPublicRoomErrorMessage: MutableLiveData<String> get() = _createPublicRoomErrorMessage
     fun createPublicRoom() {
         val token = getToken()
-        Log.d(
-            TAG,
-            "방 생성 request 확인: ${nickname.value} ${persona.value} ${maxNum.value} ${hashtags.value}"
-        )
-        _loading.value = true // 로딩 시작
-        if (token != null && persona.value != 0 && nickname.value != null && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
+        _loading.value = true
+        if (token != null && persona.value != 0 && roomName.value != null && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
             viewModelScope.launch {
                 try {
                     val roomRequest = CreatePublicRoomRequest(
-                        nickname.value!!,
+                        roomName.value!!,
                         persona.value ?: 1,
                         maxNum.value ?: 6,
                         hashtags.value!!
@@ -146,7 +145,7 @@ class MakingRoomViewModel @Inject constructor(
                     val response = roomRepository.createPublicRoom(token, roomRequest)
                     if (response.body()!!.isSuccess) {
                         Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
-                        _publicRoomCreationResult.value = response.body()!!
+                        _createPublicRoomResponse.value = response.body()!!
                         saveRoomCharacterId(response.body()!!.result.profileImage)
                         saveRoomId(response.body()!!.result.roomId)
                     } else {
@@ -169,24 +168,18 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
 
-    fun checkAndSubmitCreatePublicRoom() {
-        if (persona.value != 0 && nickname.value != null && maxNum.value != 0 && !hashtags.value.isNullOrEmpty()) {
-            createPublicRoom()
-        }
-    }
-
     // 초대코드 방 생성
     private val _privateRoomCreationResult = MutableLiveData<CreatePrivateRoomResponse>()
     val privateRoomCreationResult: MutableLiveData<CreatePrivateRoomResponse> get() = _privateRoomCreationResult
     fun createPrivateRoom() {
         val token = getToken()
-        Log.d(TAG, "초대코드 방 생성 request 확인: ${nickname.value} ${persona.value} ${maxNum.value}")
+        Log.d(TAG, "초대코드 방 생성 request 확인: ${roomName.value} ${persona.value} ${maxNum.value}")
         _loading.value = true // 로딩 시작
-        if (token != null && persona.value != 0 && nickname.value != null && maxNum.value != 0) {
+        if (token != null && persona.value != 0 && roomName.value != null && maxNum.value != 0) {
             viewModelScope.launch {
                 try {
                     val roomRequest = CreatePrivateRoomRequest(
-                        nickname.value!!,
+                        roomName.value!!,
                         persona.value ?: 0,
                         maxNum.value ?: 0,
                     )
@@ -217,7 +210,7 @@ class MakingRoomViewModel @Inject constructor(
     }
 
     fun checkAndSubmitCreatePrivateRoom() {
-        if (persona.value != 0 && nickname.value != null && maxNum.value != 0) {
+        if (persona.value != 0 && roomName.value != null && maxNum.value != 0) {
             createPrivateRoom()
         }
     }
@@ -471,7 +464,7 @@ class MakingRoomViewModel @Inject constructor(
         if (token != null && roomId != -1) {
             try {
                 val request = UpdateRoomInfoRequest(
-                    name = nickname.value?.takeIf { it.isNotBlank() }
+                    name = roomName.value?.takeIf { it.isNotBlank() }
                         ?: throw IllegalStateException("방 이름은 비어있을 수 없습니다"),
                     persona = persona.value
                         ?: throw IllegalStateException("페르소나를 선택해주세요"),
@@ -497,7 +490,7 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
     suspend fun checkAndSubmitUpdateRoom() {
-        if (persona.value != 0 && !nickname.value.isNullOrEmpty() && maxNum.value != 0) {
+        if (persona.value != 0 && !roomName.value.isNullOrEmpty() && maxNum.value != 0) {
             updateRoomInfo()
         }
     }

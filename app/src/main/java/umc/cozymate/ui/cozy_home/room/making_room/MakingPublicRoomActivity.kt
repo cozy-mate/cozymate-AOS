@@ -1,7 +1,9 @@
 package umc.cozymate.ui.cozy_home.room.making_room
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -15,17 +17,14 @@ import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
-// 방정보 입력 > 방상세 (자기방) > 코지홈 (방장)
 @AndroidEntryPoint
 class MakingPublicRoomActivity : AppCompatActivity() {
-
     private val TAG = this.javaClass.simpleName
     private val viewModel: MakingRoomViewModel by viewModels()
     private lateinit var binding: ActivityMakingPublicRoomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMakingPublicRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()

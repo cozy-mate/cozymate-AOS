@@ -6,7 +6,7 @@
     android:background="@color/transparent"
     android:id="@+id/layout">
     <ImageView
-        android:id="@+id/iv_character"
+        android:id="@+id/iv_persona"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_basic_character1"
