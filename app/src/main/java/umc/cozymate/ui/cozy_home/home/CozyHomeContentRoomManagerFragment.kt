@@ -19,6 +19,7 @@ import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentRoomManagerBinding
 import umc.cozymate.ui.cozy_home.request.ReceivedJoinRequestAdapter
+import umc.cozymate.ui.cozy_home.request.RoomManagerRequestActivity
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
@@ -161,7 +162,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
 
     private fun setRequestList() {
         val adapter = ReceivedJoinRequestAdapter { memberId ->
-            goToRoommateDetail(memberId)
+            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
         }
         binding.rvRequestList.adapter = adapter
         binding.rvRequestList.layoutManager = LinearLayoutManager(requireContext())
@@ -174,6 +175,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 adapter.submitList(roomList)
             } else {
                 binding.tvRequestNum.text = "0개의"
+                binding.btnMoreRequest.visibility = View.GONE
                 binding.clEmptyRequest.visibility = View.VISIBLE
                 binding.clEmptyRequest.isEnabled = true
                 binding.clEmptyRequest.setOnClickListener {
@@ -191,21 +193,10 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         }
     }
 
-    private fun goToRoommateDetail(memberId: Int) {
-        roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
-            if (otherUserDetail == null) return@observe
-            else {
-                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
-        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-    }
-
     private fun setMoreRequestBtn() {
         binding.btnMoreRequest.setOnClickListener() {
-            // todo: 요청 더보기 페이지
+            val intent = Intent(requireActivity(), RoomManagerRequestActivity::class.java)
+            startActivity(intent)
         }
     }
 

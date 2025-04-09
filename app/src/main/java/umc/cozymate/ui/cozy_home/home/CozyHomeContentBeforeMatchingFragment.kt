@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentBeforeMatchingBinding
+import umc.cozymate.ui.cozy_home.request.BeforeMatchingRequestActivity
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.request.SentRequestAdapter
@@ -106,7 +107,8 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
 
     private fun setMoreRequestBtn() {
         binding.btnMoreRequest.setOnClickListener() {
-            // todo: 요청 더보기 페이지
+            val intent = Intent(requireActivity(), BeforeMatchingRequestActivity::class.java)
+            startActivity(intent)
         }
     }
 

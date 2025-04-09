@@ -8,14 +8,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityBeforeMatchingRequestBinding
-import umc.cozymate.databinding.ActivityJoinRoomBinding
-import umc.cozymate.databinding.FragmentCozyHomeContentBeforeMatchingBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
@@ -40,6 +38,7 @@ class BeforeMatchingRequestActivity : AppCompatActivity() {
         setBackBtn()
         setNickname()
         setRequestList()
+        fetchRequest()
     }
 
     private fun setBackBtn() {
@@ -74,6 +73,12 @@ class BeforeMatchingRequestActivity : AppCompatActivity() {
             } else {
                 binding.progressBar.visibility = View.GONE
             }
+        }
+    }
+
+    private fun fetchRequest() {
+        this.lifecycleScope.launch {
+            roomRequestViewModel.getRequestedRoomList()
         }
     }
 }
