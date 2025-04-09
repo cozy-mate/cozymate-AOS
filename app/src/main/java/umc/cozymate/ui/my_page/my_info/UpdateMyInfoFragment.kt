@@ -118,7 +118,7 @@ class UpdateMyInfoFragment : Fragment() {
                         tvMajor.text = response.result.majorName
                         tvMajor.setTextColor(root.context.getColor(R.color.highlight_font))
                     }
-                    CharacterUtil.setImg(response.result.persona, ivCharacter)
+                    CharacterUtil.setImg(response.result.persona, ivPersona)
                 }
             })
             viewModel.myPreference.observe(viewLifecycleOwner, Observer { prefList ->

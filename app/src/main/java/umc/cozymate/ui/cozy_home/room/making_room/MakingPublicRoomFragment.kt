@@ -140,9 +140,16 @@ class MakingPublicRoomFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
+                val invalidLength = input.length > 12
                 val pattern = "^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9 ]{1,12}(?<! )$".toRegex()
                 val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
                 when {
+                    invalidLength -> {
+                        binding.tvAlertName.visibility = View.VISIBLE
+                        binding.tvAlertName.text = "방이름은 최대 12글자입니다"
+                        binding.tilRoomName.isErrorEnabled = true
+                    }
+
                     containsSeparatedHangul -> {
                         binding.tvAlertName.visibility = View.VISIBLE
                         binding.tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안됩니다!"

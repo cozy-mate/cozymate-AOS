@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentCozyHomeMainBinding
 import umc.cozymate.ui.cozy_home.room.join_room.JoinRoomActivity
-import umc.cozymate.ui.cozy_home.room.making_room.MakingPrivateRoomActivity
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
@@ -200,7 +200,7 @@ class CozyHomeFragment : Fragment() {
                 param("방 만들기", "make_room_button")
                 param("코지홈", "cozy_home_screen")
             }
-            startActivity(Intent(requireContext(), MakingPrivateRoomActivity::class.java))
+            startActivity(Intent(requireContext(), MakingPublicRoomActivity::class.java))
         }
         binding.btnEnterRoom.setOnClickListener {
             firebaseAnalytics.logEvent("join_room_button_click") {
