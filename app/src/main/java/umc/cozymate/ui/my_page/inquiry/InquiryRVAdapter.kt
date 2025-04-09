@@ -20,7 +20,7 @@ class InquiryRVAdapter(
             binding.tvDate.text = item.datetime
             binding.tvStatus.text = item.status
             binding.tvContent.text = item.content
-            binding.ivCharacter.setImageResource(initCharactor(pos))
+            binding.ivPersona.setImageResource(initCharactor(pos))
             if(item.status.equals("답변 완료")) binding.tvStatus.setTextColor(binding.root.context.getColor(R.color.main_blue))
         }
     }

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.received_invitation
+package umc.cozymate.ui.cozy_home.request
 
 import android.content.Context
 import android.content.Intent
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
-import umc.cozymate.data.domain.UserRoomState
 import umc.cozymate.databinding.FragmentMyReceivedInvitationBinding
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity

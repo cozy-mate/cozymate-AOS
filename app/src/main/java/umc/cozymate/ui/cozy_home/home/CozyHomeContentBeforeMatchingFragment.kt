@@ -14,10 +14,12 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentBeforeMatchingBinding
+import umc.cozymate.ui.cozy_home.request.BeforeMatchingRequestActivity
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
-import umc.cozymate.ui.cozy_home.room.sent_join_request.SentRequestAdapter
+import umc.cozymate.ui.cozy_home.request.SentRequestAdapter
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
@@ -25,7 +27,6 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
-import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
 import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
@@ -106,7 +107,8 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
 
     private fun setMoreRequestBtn() {
         binding.btnMoreRequest.setOnClickListener() {
-            // todo: 요청 더보기 페이지
+            val intent = Intent(requireActivity(), BeforeMatchingRequestActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -130,6 +132,10 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     }
 
     private fun setRoommateList() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
+            if (otherUserDetail == null) return@observe
+            else goToRoommateDetail(otherUserDetail)
+        }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
@@ -141,7 +147,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    goToRoommateDetail(memberId)
+                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator1.attachTo(binding.vpRoommate)
@@ -157,7 +163,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    goToRoommateDetail(memberId)
+                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator1.attachTo(binding.vpRoommate)
@@ -165,16 +171,10 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         }
     }
 
-    private fun goToRoommateDetail(memberId: Int) {
-        roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
-            if (otherUserDetail == null) return@observe
-            else {
-                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
-        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
+    private fun goToRoommateDetail(otherUserDetail: GetMemberDetailInfoResponse.Result) {
+        val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
+        intent.putExtra("other_user_detail", otherUserDetail)
+        startActivity(intent)
     }
 
     private fun setMoreRoommateBtn() {

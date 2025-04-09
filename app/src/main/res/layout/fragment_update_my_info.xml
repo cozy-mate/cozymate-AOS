@@ -28,7 +28,7 @@
 
     <!-- 캐릭터 수정 -->
     <ImageView
-        android:id="@+id/iv_character"
+        android:id="@+id/iv_persona"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="99dp"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="99dp"
         android:src="@drawable/ic_update_char"
-        app:layout_constraintBottom_toBottomOf="@id/iv_character"
+        app:layout_constraintBottom_toBottomOf="@id/iv_persona"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,7 +69,7 @@
         android:paddingVertical="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_character">
+        app:layout_constraintTop_toBottomOf="@id/iv_persona">
 
         <LinearLayout
             android:id="@+id/ll_nickname"

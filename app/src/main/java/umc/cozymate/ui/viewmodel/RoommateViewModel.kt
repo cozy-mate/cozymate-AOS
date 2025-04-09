@@ -20,6 +20,7 @@ import umc.cozymate.data.model.response.roommate.Detail
 import umc.cozymate.data.model.response.roommate.GetUserInfoResponse
 import umc.cozymate.data.model.response.roommate.OtherUserInfoResponse
 import umc.cozymate.data.repository.repositoryImpl.RoommateRepositoryImpl
+import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
 import umc.cozymate.util.onError
 import umc.cozymate.util.onException
 import umc.cozymate.util.onFail
@@ -63,7 +64,7 @@ class RoommateViewModel @Inject constructor(
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
                 val editor = sharedPreferences.edit()
-                editor.putBoolean("is_lifestyle_exist", true)
+                editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, true)
                 editor.commit()
             }.onError {
                 Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
@@ -323,7 +324,7 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
     fun saveUserLifestyleInfo() {
         Log.d(TAG, "사용자 라이프스타일 정보: ${_memberLifestyleInfo.value!!}")
         val editor = sharedPreferences.edit()
-        editor.putBoolean("is_lifestyle_exist", true)
+        editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, true)
         editor.putString("user_admissionYear", _memberLifestyleInfo.value!!.memberStatDetail.admissionYear)
         editor.putString("user_dormitoryName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
         editor.putInt("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)

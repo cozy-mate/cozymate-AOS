@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUpdatePublicRoomBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.cozy_home.room.making_room.SelectingRoomCharacterActivity
+import umc.cozymate.ui.cozy_home.room.making_room.SelectingRoomPersonaActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
 
@@ -69,8 +69,8 @@ class UpdatePublicRoomFragment : Fragment() {
                 requireActivity().finish()
             }
             // 캐릭터 선택
-            ivCharacter.setOnClickListener {
-                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
+            ivPersona.setOnClickListener {
+                val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
                 characterResultLauncher.launch(intent)
             }
             // 방 이름 유효성 체크
@@ -220,7 +220,7 @@ class UpdatePublicRoomFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
         }
         numPeople = value
-        viewModel.setMaxNum(numPeople!!)
+        viewModel.setMaxMateNum(numPeople!!)
         updateNextButtonState()
     }
 
@@ -264,7 +264,7 @@ class UpdatePublicRoomFragment : Fragment() {
                             debounceJob = viewModel.viewModelScope.launch {
                                 delay(1000L) // 1000ms 대기
                                 viewModel.setNickname(input)
-                                viewModel.roomNameCheck() // API 호출
+                                viewModel.roomNameCheck(input) // API 호출
                                 observeRoomNameValid()
                             }
                             // 다음 버튼 상태 확인
@@ -282,7 +282,7 @@ class UpdatePublicRoomFragment : Fragment() {
 
     // 방이름 중복체크 옵저빙
     fun observeRoomNameValid() {
-        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+        viewModel.isRoomNameValid.observe(viewLifecycleOwner) { isValid ->
             with(binding) {
                 if (!isValid) {
                     tvAlertName.visibility = View.VISIBLE
@@ -322,14 +322,11 @@ class UpdatePublicRoomFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            // 결과가 정상적으로 반환되었는지 확인
             val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
-            // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            CharacterUtil.setImg(selectedCharacterId, binding.ivCharacter)
+            CharacterUtil.setImg(selectedCharacterId, binding.ivPersona)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
         }
     }
 }
-

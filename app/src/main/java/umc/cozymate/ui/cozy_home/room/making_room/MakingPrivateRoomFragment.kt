@@ -58,8 +58,8 @@ class MakingPrivateRoomFragment : Fragment() {
                 requireActivity().onBackPressed()
             }
             // 캐릭터 선택
-            ivCharacter.setOnClickListener {
-                val intent = Intent(context, SelectingRoomCharacterActivity::class.java)
+            ivPersona.setOnClickListener {
+                val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
                 characterResultLauncher.launch(intent)
             }
             // 방 이름 유효성 체크
@@ -118,9 +118,16 @@ class MakingPrivateRoomFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val input = s.toString()
+                    val invalidLength = input.length > 12
                     val pattern = "^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9 ]{1,12}(?<! )$".toRegex()
                     val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
                     when {
+                        invalidLength -> {
+                            binding.tvAlertName.visibility = View.VISIBLE
+                            binding.tvAlertName.text = "방이름은 최대 12글자입니다"
+                            binding.tilRoomName.isErrorEnabled = true
+                        }
+
                         containsSeparatedHangul -> {
                             tvAlertName.visibility = View.VISIBLE
                             tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안됩니다!"
@@ -144,7 +151,7 @@ class MakingPrivateRoomFragment : Fragment() {
                             debounceJob = viewModel.viewModelScope.launch {
                                 delay(500L) // 500ms 대기
                                 viewModel.setNickname(input)
-                                viewModel.roomNameCheck() // API 호출
+                                viewModel.roomNameCheck(roomName) // API 호출
                                 observeRoomNameValid()
                             }
                             // 다음 버튼 상태 확인
@@ -160,7 +167,7 @@ class MakingPrivateRoomFragment : Fragment() {
 
     // 방이름 중복체크 옵저빙
     fun observeRoomNameValid() {
-        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
+        viewModel.isRoomNameValid.observe(viewLifecycleOwner) { isValid ->
             with(binding) {
                 if (!isValid) {
                     tvAlertName.visibility = View.VISIBLE
@@ -187,7 +194,7 @@ class MakingPrivateRoomFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp)
         }
         numPeople = value
-        viewModel.setMaxNum(numPeople)
+        viewModel.setMaxMateNum(numPeople)
         updateNextButtonState()
     }
 
@@ -224,7 +231,7 @@ class MakingPrivateRoomFragment : Fragment() {
             val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 0) ?: 0
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            CharacterUtil.setImg(charId, binding.ivCharacter)
+            CharacterUtil.setImg(charId, binding.ivPersona)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
         }

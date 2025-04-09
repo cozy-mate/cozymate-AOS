@@ -23,7 +23,7 @@ class CozybotCharactersAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(member: GetRoomInfoResponse.Result.MateDetail) {
-            CharacterUtil.setImg(member.persona, binding.ivCharacter)
+            CharacterUtil.setImg(member.persona, binding.ivPersona)
         }
     }
 

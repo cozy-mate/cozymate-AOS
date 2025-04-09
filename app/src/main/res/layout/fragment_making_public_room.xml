@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_back"
+                android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -39,14 +39,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_character"
+                android:id="@+id/iv_persona"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="31dp"
                 android:src="@drawable/background_circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_back" />
+                app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
             <ImageView
                 android:id="@+id/iv_edit_back"
@@ -57,8 +57,8 @@
                 android:layout_marginBottom="-5dp"
                 android:background="@drawable/background_circle"
                 android:backgroundTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/iv_character"
-                app:layout_constraintEnd_toEndOf="@id/iv_character" />
+                app:layout_constraintBottom_toBottomOf="@id/iv_persona"
+                app:layout_constraintEnd_toEndOf="@id/iv_persona" />
 
             <ImageView
                 android:id="@+id/iv_edit_back2"
@@ -93,7 +93,7 @@
                 android:textColor="@color/basic_font"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_character" />
+                app:layout_constraintTop_toBottomOf="@id/iv_persona" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_cozy_room_name"

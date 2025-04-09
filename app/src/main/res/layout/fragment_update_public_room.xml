@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_character"
+        android:id="@+id/iv_persona"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="31dp"
@@ -33,8 +33,8 @@
         android:layout_marginBottom="-5dp"
         android:background="@drawable/background_circle"
         android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/iv_character"
-        app:layout_constraintEnd_toEndOf="@id/iv_character" />
+        app:layout_constraintBottom_toBottomOf="@id/iv_persona"
+        app:layout_constraintEnd_toEndOf="@id/iv_persona" />
 
     <ImageView
         android:id="@+id/iv_edit_back2"
@@ -69,7 +69,7 @@
         android:textColor="@color/basic_font"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_character" />
+        app:layout_constraintTop_toBottomOf="@id/iv_persona" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_cozy_room_name"

@@ -1,4 +1,4 @@
-package umc.cozymate.ui.cozy_home.room.received_invitation
+package umc.cozymate.ui.cozy_home.request
 
 import android.view.LayoutInflater
 import android.view.View

@@ -5,8 +5,7 @@
     android:id="@+id/cl_component"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    tools:context=".ui.cozy_home.room.my_room.MyRoomComponent">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_request_num"
