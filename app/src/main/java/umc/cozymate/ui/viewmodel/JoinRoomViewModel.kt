@@ -11,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.entity.RoomInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoByInviteCodeResponse
@@ -25,31 +24,26 @@ class JoinRoomViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
+    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
+
     private val _inviteCode = MutableLiveData<String>()
     val inviteCode: LiveData<String> get() = _inviteCode
+    fun setInviteCode(code: String) {
+        _inviteCode.value = code
+    }
+
+    // 초대코드로 방정보 조회 (/rooms/join)
     private val _roomInfo = MutableLiveData<RoomInfo?>()
     val roomInfo: LiveData<RoomInfo?> get() = _roomInfo
     private val _response = MutableLiveData<Response<GetRoomInfoByInviteCodeResponse>>()
     val response: LiveData<Response<GetRoomInfoByInviteCodeResponse>> get() = _response
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-    private val _roomJoinSuccess = MutableLiveData<Boolean>()
-    val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
-
-    fun getToken(): String? {
-        return sharedPreferences.getString("access_token", null)
-    }
-
-    fun setInviteCode(code: String) {
-        _inviteCode.value = code
-    }
-
-    suspend fun getRoomInfo() {
+    suspend fun getRoomInfoByInviteCode() {
         val token = getToken()
-        Log.d(TAG, "초대 코드: ${_inviteCode.value}")
-
         if (token != null && inviteCode.value != null) {
             try {
                 val response = repository.getRoomInfoByInviteCode(token, inviteCode.value!!)
@@ -85,6 +79,9 @@ class JoinRoomViewModel @Inject constructor(
         }
     }
 
+    // 방으로 바로 입장 (rooms/{roomId}/join)
+    private val _roomJoinSuccess = MutableLiveData<Boolean>()
+    val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
     fun joinRoom(id: Int) {
         val token = getToken()
         viewModelScope.launch {

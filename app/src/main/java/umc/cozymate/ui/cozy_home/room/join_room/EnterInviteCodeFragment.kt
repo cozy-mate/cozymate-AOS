@@ -13,23 +13,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.analytics.analytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import umc.cozymate.databinding.FragmentCozyHomeEnteringInviteCodeBinding
+import umc.cozymate.databinding.FragmentEnterInviteCodeBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.pop_up.InviteCodeFailPopUp
-import umc.cozymate.ui.pop_up.InviteCodeSuccessPopUp
+import umc.cozymate.ui.pop_up.JoinRoomPopUp
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
-// 플로우3 : "초대코드 입력창(1)" > 성공/실패 팝업창 > 코지홈 활성화창
 @AndroidEntryPoint
 class EnterInviteCodeFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
-    private var _binding: FragmentCozyHomeEnteringInviteCodeBinding? = null
+    private var _binding: FragmentEnterInviteCodeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: JoinRoomViewModel
     private lateinit var popup: DialogFragment
@@ -39,82 +35,97 @@ class EnterInviteCodeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCozyHomeEnteringInviteCodeBinding.inflate(inflater, container, false)
+        _binding = FragmentEnterInviteCodeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[JoinRoomViewModel::class.java]
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            // 확인 버튼 비활성화
-            btnNext.isEnabled = false
-            // 뒤로가기 버튼
-            ivBack.setOnClickListener {
-                requireActivity().finish()
-            }
-            // et에 초대코드 입력 시 확인 버튼 활성화
-            etRoomName.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    viewModel.setInviteCode(s.toString())
-                    btnNext.isEnabled = !s.isNullOrEmpty()
-                }
-            })
-            // root 뷰 클릭시 포커스 해제
-            root.setOnClickListener {
-                etRoomName.clearFocus()
-            }
-            // 확인 버튼 > 방 정보 조회 > 팝업
-            btnNext.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.getRoomInfo()
-                }
-            }
-            observeResponse()
-            observeError()
-        }
+        setObservers()
+        setBackBtn()
+        setNextBtn()
+        setInviteCodeText()
     }
 
-    private fun observeResponse() {
-        viewModel.response.observe(viewLifecycleOwner, Observer { response ->
-            if (response.isSuccessful) {
-                if (response.body()?.isSuccess == true) {
-                    Log.d(TAG, "방조회 성공: ${response.body()}")
+    private fun setObservers() {
+        setRoomInfoObserver()
+        setErrorObserver()
+    }
+
+    private fun setRoomInfoObserver() {
+        viewModel.response.observe(viewLifecycleOwner, Observer { res ->
+            if (res.isSuccessful) {
+                if (res.body()?.isSuccess == true) {
+                    Log.d(TAG, "방 정보 조회 성공: ${res.body()}")
                     if (isAdded && isVisible) {
-                        popup = InviteCodeSuccessPopUp()
+                        popup = JoinRoomPopUp()
                         popup.show(childFragmentManager, "팝업")
                     } else {
                         Log.d(TAG, "Fragment is not added or not visible")
                     }
                 }
             } else {
-                Log.d(TAG, "Response is not successful: ${response.code()}")
+                Log.d(TAG, "Response is not successful: ${res.code()}")
             }
         })
     }
 
-    private fun observeError() {
-        viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
-            Log.d(TAG, "방조회 실패: ${response}")
+    private fun setErrorObserver() {
+        viewModel.errorResponse.observe(viewLifecycleOwner, Observer { res ->
+            Log.d(TAG, "방조회 실패: ${res}")
             if (isAdded && isVisible) {
-                when (response?.message.toString()) {
+                when (res?.message.toString()) {
                     "존재하지 않는 방입니다." -> {
                         popup = InviteCodeFailPopUp()
                     }
+
                     "이미 참가한 방입니다." -> {
                         val intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
                     }
+
                     else -> {
-                        popup = ServerErrorPopUp.newInstance(response.code, response.message)
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
                     }
                 }
                 popup.show(childFragmentManager, "팝업")
             } else {
                 Log.d(TAG, "Fragment is not added or not visible")
+            }
+        })
+    }
+
+    private fun setBackBtn() {
+        binding.ivBack.setOnClickListener {
+            requireActivity().finish()
+        }
+    }
+
+    private fun setNextBtn() {
+        updateNextBtnState()
+        binding.btnNext.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getRoomInfoByInviteCode()
+            }
+        }
+    }
+
+    private fun updateNextBtnState() {
+        val isCodeEntered = binding.etRoomName.text.toString().isNotEmpty()
+        binding.btnNext.isEnabled = isCodeEntered
+    }
+
+    private fun setInviteCodeText() {
+        binding.root.setOnClickListener {
+            binding.etRoomName.clearFocus()
+        }
+        binding.etRoomName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.setInviteCode(s.toString())
+                updateNextBtnState()
             }
         })
     }

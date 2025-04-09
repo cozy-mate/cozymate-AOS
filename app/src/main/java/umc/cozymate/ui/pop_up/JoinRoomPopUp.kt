@@ -27,35 +27,21 @@ import umc.cozymate.ui.cozy_bot.CozyBotFragment
 import umc.cozymate.ui.viewmodel.JoinRoomViewModel
 
 @AndroidEntryPoint
-class InviteCodeSuccessPopUp : DialogFragment() {
+class JoinRoomPopUp : DialogFragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: PopupInviteCodeSuccessBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: JoinRoomViewModel
     private lateinit var spf: SharedPreferences
-    private var roomName: String = ""
-    private var roomDetail: String = ""
     private var roomId: Int = 0
+    private var roomName: String = ""
+    private var roomManagerName: String = ""
+    private var roomMaxMateNum: Int = 0
     val firebaseAnalytics = Firebase.analytics
 
-    private lateinit var viewModel: JoinRoomViewModel
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = PopupInviteCodeSuccessBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[JoinRoomViewModel::class.java]
-        spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", 0)  // roomId 초기화
-        initRoomInfo()
-        // 확인 버튼 > 방 조회 > 코지홈
-        binding.btnOk.setOnClickListener {
-            firebaseAnalytics.logEvent("invite_code_confirm_button_click") {
-                param("확인", "confirm_button")
-                param("초대코드로 방 입장", "enter_invite_code_screen")
-            }
-            viewModel.joinRoom(roomId)
-        }
-        // 취소 버튼 > 팝업 닫기
-        binding.btnCancel.setOnClickListener {
-            dismiss()
-        }
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
         val dialog = builder.create()
@@ -68,27 +54,28 @@ class InviteCodeSuccessPopUp : DialogFragment() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.attributes = layoutParams
         }
-
         return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-        observeError()
+        getPreference()
+        setObservers()
+        setRoomInfo()
+        setBtns()
     }
 
-    private fun initRoomInfo() {
-        val roomManagerName = spf.getString("room_manager_name", "")
-        val roomMaxMateNum = spf.getInt("room_max_mate_num", 0)
-        roomName = "[" + spf.getString("room_name", "") + "]"
-        roomDetail = "방장 : [" + roomManagerName + "] | " + roomMaxMateNum + "인실"
-        binding.tvRoomname.text = roomName
-        binding.tvRoomInfo.text = roomDetail
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun observeViewModel() {
-        // 방 참여 성공 시 CozyHomeActiveFragment로 전환
+    private fun setObservers() {
+        setRoomJoinObserver()
+        setErrorObserver()
+    }
+
+    private fun setRoomJoinObserver() {
         viewModel.roomJoinSuccess.observe(viewLifecycleOwner, Observer { success ->
             if (success) {
                 dismiss()
@@ -102,7 +89,7 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         })
     }
 
-    private fun observeError() {
+    private fun setErrorObserver() {
         viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
             Log.d(TAG, "방참여 실패: ${response?.message}")
             if (isAdded && isVisible) {
@@ -125,9 +112,29 @@ class InviteCodeSuccessPopUp : DialogFragment() {
         })
     }
 
+    private fun getPreference() {
+        spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        roomId = spf.getInt("room_id", 0)
+        roomName = spf.getString("room_name", "") ?: ""
+        roomManagerName = spf.getString("room_manager_name", "") ?: ""
+        roomMaxMateNum = spf.getInt("room_max_mate_num", 0)
+    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setRoomInfo() {
+        binding.tvRoomname.text = "[" + roomName + "]"
+        binding.tvRoomInfo.text = "방장 : [" + roomManagerName + "] | " + roomMaxMateNum + "인실"
+    }
+
+    private fun setBtns() {
+        binding.btnOk.setOnClickListener {
+            firebaseAnalytics.logEvent("invite_code_confirm_button_click") {
+                param("확인", "confirm_button")
+                param("초대코드로 방 입장", "enter_invite_code_screen")
+            }
+            viewModel.joinRoom(roomId)
+        }
+        binding.btnCancel.setOnClickListener {
+            dismiss()
+        }
     }
 }

@@ -58,7 +58,7 @@ class MakingPrivateRoomFragment : Fragment() {
                 requireActivity().onBackPressed()
             }
             // 캐릭터 선택
-            ivCharacter.setOnClickListener {
+            ivPersona.setOnClickListener {
                 val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
                 characterResultLauncher.launch(intent)
             }
@@ -144,7 +144,7 @@ class MakingPrivateRoomFragment : Fragment() {
                             debounceJob = viewModel.viewModelScope.launch {
                                 delay(500L) // 500ms 대기
                                 viewModel.setNickname(input)
-                                viewModel.roomNameCheck() // API 호출
+                                viewModel.roomNameCheck(roomName) // API 호출
                                 observeRoomNameValid()
                             }
                             // 다음 버튼 상태 확인
@@ -224,7 +224,7 @@ class MakingPrivateRoomFragment : Fragment() {
             val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 0) ?: 0
             // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            CharacterUtil.setImg(charId, binding.ivCharacter)
+            CharacterUtil.setImg(charId, binding.ivPersona)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
         }

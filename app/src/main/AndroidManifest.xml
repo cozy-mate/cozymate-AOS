@@ -118,7 +118,7 @@
             android:name=".ui.cozy_home.room.making_room.MakingPublicRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.cozy_home.room.making_room.SelectingRoomCharacterActivity"
+            android:name=".ui.cozy_home.room.making_room.SelectingRoomPersonaActivity"
             android:exported="true" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity"
