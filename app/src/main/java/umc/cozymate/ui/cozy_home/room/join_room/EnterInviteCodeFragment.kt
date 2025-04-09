@@ -78,18 +78,13 @@ class EnterInviteCodeFragment : Fragment() {
                 when (res?.message.toString()) {
                     "존재하지 않는 방입니다." -> {
                         popup = InviteCodeFailPopUp()
+                        popup.show(childFragmentManager, "팝업")
                     }
-
-                    "이미 참가한 방입니다." -> {
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
-                    }
-
                     else -> {
                         popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
                     }
                 }
-                popup.show(childFragmentManager, "팝업")
             } else {
                 Log.d(TAG, "Fragment is not added or not visible")
             }

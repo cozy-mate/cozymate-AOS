@@ -90,20 +90,34 @@ class JoinRoomPopUp : DialogFragment() {
     }
 
     private fun setErrorObserver() {
-        viewModel.errorResponse.observe(viewLifecycleOwner, Observer { response ->
-            Log.d(TAG, "방참여 실패: ${response?.message}")
+        var popup: DialogFragment
+        viewModel.roomJoinErrorResponse.observe(viewLifecycleOwner, Observer { res ->
+            Log.d(TAG, "방참여 실패: ${res?.message}")
             if (isAdded && isVisible) {
-                when (response?.message.toString()) {
+                when (res?.message.toString()) {
+                    "멤버를 찾을 수 없습니다." -> {
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
+                    }
                     "존재하지 않는 방입니다." -> {
-                        //popup = InviteCodeFailPopUp()
+                        popup = InviteCodeFailPopUp()
+                        popup.show(childFragmentManager, "팝업")
                     }
                     "이미 참가한 방입니다." -> {
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
+                    }
+                    "이미 활성화 또는 대기 중인 방이 존재합니다." -> {
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
+                    }
+                    "방 정원이 꽉 찼습니다." -> {
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
                     }
                     else -> {
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
+                        popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                        popup.show(childFragmentManager, "팝업")
                     }
                 }
             } else {

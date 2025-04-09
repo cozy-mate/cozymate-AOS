@@ -82,6 +82,8 @@ class JoinRoomViewModel @Inject constructor(
     // 방으로 바로 입장 (rooms/{roomId}/join)
     private val _roomJoinSuccess = MutableLiveData<Boolean>()
     val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
+    private val _roomJoinErrorResponse = MutableLiveData<ErrorResponse>()
+    val roomJoinErrorResponse: LiveData<ErrorResponse> get() = _errorResponse
     fun joinRoom(id: Int) {
         val token = getToken()
         viewModelScope.launch {
@@ -94,11 +96,8 @@ class JoinRoomViewModel @Inject constructor(
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
-                    }
+                    if (errorBody != null) _roomJoinErrorResponse.value = parseErrorResponse(errorBody)
+                    else _roomJoinErrorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
                     Log.d(TAG, "방 참여 api 응답 실패: ${errorBody}")
                 }
             } catch (e: Exception) {
