@@ -79,6 +79,8 @@ interface RoomService {
     @GET("/rooms/requested")
     suspend fun getRequestedRoomList(
         @Header("Authorization") accessToken: String,
+        @Query("size") size: Int,
+        @Query("page") page: Int
     ) : Response<GetRequestedRoomListResponse>
 
     // 방장이 받은 방 참여요청 목록 조회

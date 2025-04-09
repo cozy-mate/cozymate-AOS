@@ -175,15 +175,15 @@ class CozyBotFragment : Fragment() {
     }
 
     private fun setRoomInfoObserver() {
-        // 멤버 페르소나 리스트
-        viewModel.mateList.observe(viewLifecycleOwner, Observer { res ->
-            if (res.isNullOrEmpty()) {
+        viewModel.roomInfoResponse.observe(viewLifecycleOwner, Observer { res ->
+            val mateList = res.result.mateDetailList
+            if (mateList.isNullOrEmpty()) {
                 binding.rvMembers.visibility = View.GONE
             } else {
                 binding.rvMembers.visibility = View.VISIBLE
                 binding.rvMembers.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                val adapter = CozybotCharactersAdapter(res)
+                val adapter = CozybotCharactersAdapter(mateList)
                 binding.rvMembers.adapter = adapter
                 binding.rvMembers.addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(

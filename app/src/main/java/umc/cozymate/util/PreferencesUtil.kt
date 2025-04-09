@@ -38,6 +38,7 @@ object PreferencesUtil {
     const val KEY_USER_PERSONALITY = "user_personality"
     const val KEY_USER_MBTI = "user_mbti"
     const val KEY_USER_SELF_INTRODUCTION = "user_selfIntroduction"
+    const val KEY_IS_LIFESTYLE_EXIST = "is_lifestyle_exist"
 
     // SharedPreferences 인스턴스 반환
     private fun getPreferences(context: Context): SharedPreferences =

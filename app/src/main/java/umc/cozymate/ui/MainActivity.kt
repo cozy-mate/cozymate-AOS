@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
@@ -25,7 +24,7 @@ import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.databinding.ActivityMainBinding
 import umc.cozymate.firebase.FCMService
 import umc.cozymate.ui.cozy_bot.CozyBotFragment
-import umc.cozymate.ui.cozy_home.home.CozyHomeMainFragment
+import umc.cozymate.ui.cozy_home.home.CozyHomeFragment
 import umc.cozymate.ui.my_page.MyPageFragment
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.role_rule.RoleAndRuleFragment
@@ -196,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                     observeRoomID()
                     selectedItem = item.itemId
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, CozyHomeMainFragment()).commit()
+                        .replace(R.id.main_container, CozyHomeFragment()).commit()
                     true
                 }
 

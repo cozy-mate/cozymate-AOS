@@ -44,7 +44,7 @@ class RecommendedRoomComponent : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchRecommendedRoomList()
         }
-        viewModel.roomList.observe(viewLifecycleOwner) { roomList ->
+        viewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
                 binding.tvEmptyRoom.visibility = View.VISIBLE
