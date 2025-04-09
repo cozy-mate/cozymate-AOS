@@ -21,74 +21,35 @@ class EssentialInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentEssentialInfoBinding
 
-    //    private lateinit var spfHelper: UserInfoSPFHelper
-//    private var userInfo = UserInfo()
     private lateinit var spf: SharedPreferences
 
     private var wakeAmpmOption: TextView? = null
     private var wakeAmpm: String? = null
     private var wakeTimeOption: TextView? = null
-    private var wakeTime: Int? = null
-
     private var sleepAmpmOption: TextView? = null
     private var sleepAmpm: String? = null
     private var sleepTimeOption: TextView? = null
-    private var sleepTime: Int? = null
-
     private var lightOffAmpmOption: TextView? = null
     private var lightOffAmpm: String? = null
     private var lightOffTimeOption: TextView? = null
-    private var lightOffTime: Int? = null
 
     private var smokeOption: TextView? = null
-    private var smokeCheck: String? = null
-
-    //    private var selectedSleepHabits: List<String> = emptyList()
     private var selectedSleepHabits: MutableList<String> = mutableListOf()
-
     private var acOption: TextView? = null
-    private var acCheck: Int? = null
-
     private var heaterOption: TextView? = null
-    private var heaterCheck: Int? = null
-
     private var livingPatternOption: TextView? = null
-    private var livingPatternCheck: String? = null
-
     private var friendlyOption: TextView? = null
-    private var friendlyCheck: String? = null
-
     private var shareOption: TextView? = null
-    private var shareCheck: String? = null
-
     private var gameOption: TextView? = null
-    private var gameCheck: String? = null
-
     private var callOption: TextView? = null
-    private var callCheck: String? = null
-
     private var studyOption: TextView? = null
-    private var studyCheck: String? = null
-
     private var eatingOption: TextView? = null
-    private var eatingCheck: String? = null
-
     private var cleanOption: TextView? = null
-    private var cleanCheck: Int? = null
-
     private var noiseOption: TextView? = null
-    private var noiseCheck: Int? = null
-
     private var cleanFrequencyOption: TextView? = null
-    private var cleanFrequencyCheck: String? = null
-
     private var drinkingFrequencyOption: TextView? = null
-    private var drinkingFrequencyCheck: String? = null
-
     private var selectedPersonalitys: MutableList<String> = mutableListOf()
-
     private var mbtiOption: TextView? = null
-    private var mbtiCheck: String? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
