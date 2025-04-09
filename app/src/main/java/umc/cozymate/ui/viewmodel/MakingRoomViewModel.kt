@@ -30,49 +30,17 @@ class MakingRoomViewModel @Inject constructor(
     private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-
     private val TAG = this.javaClass.simpleName
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _creatorId = MutableLiveData<Int>()
-    val creatorId: LiveData<Int> get() = _creatorId
-
-
-    private val _inviteCode = MutableLiveData<String>()
-    val inviteCode: LiveData<String> get() = _inviteCode
     private val _errorResponse = MutableLiveData<ErrorResponse>()
     val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
-    private val _inviteMemberSuccess = MutableLiveData<Boolean>()
-    val inviteMemberSuccess: LiveData<Boolean> get() = _inviteMemberSuccess
-
-    private val _pendingRoom = MutableLiveData<Boolean>()
-    val pendingRoom: LiveData<Boolean> get() = _pendingRoom
-
-    private val _pendingMember = MutableLiveData<Boolean>()
-    val pendingMember: LiveData<Boolean> get() = _pendingMember
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
-    }
-    fun getRoomId(): Int {
-        return sharedPreferences.getInt("room_id", -1)
-    }
-
-    // spf에 방 id 저장
-    fun saveRoomId(id: Int) {
-        sharedPreferences.edit().putInt("room_id", id).commit()
-    }
-
-    // spf에 방 캐릭터 저장
-    fun saveRoomCharacterId(id: Int) {
-        sharedPreferences.edit().putInt("room_persona", id).commit()
-    }
-
-    // spf에 초대코드 저장
-    fun saveInviteCode(inviteCode: String) {
-        sharedPreferences.edit().putString("invite_code", inviteCode).commit()
     }
 
     // 방이름 중복 검증 (/rooms/check-roomname)
@@ -84,7 +52,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.checkRoomName(token, roomName)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방 이름 중복검증 성공: ${response.body()!!.result}")
                         _isRoomNameValid.value = response.body()!!.result
                     }
@@ -128,8 +96,8 @@ class MakingRoomViewModel @Inject constructor(
     // 공개방 생성 (/rooms/create-public)
     private val _createPublicRoomResponse = MutableLiveData<CreatePublicRoomResponse>()
     val createPublicRoomResponse: MutableLiveData<CreatePublicRoomResponse> get() = _createPublicRoomResponse
-    private val _createPublicRoomErrorMessage = MutableLiveData<String>()
-    val createPublicRoomErrorMessage: MutableLiveData<String> get() = _createPublicRoomErrorMessage
+    private val _createPublicRoomError = MutableLiveData<ErrorResponse>()
+    val createPublicRoomError: MutableLiveData<ErrorResponse> get() = _createPublicRoomError
     fun createPublicRoom() {
         val token = getToken()
         _loading.value = true
@@ -143,7 +111,7 @@ class MakingRoomViewModel @Inject constructor(
                         hashtags.value!!
                     )
                     val response = roomRepository.createPublicRoom(token, roomRequest)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
                         _createPublicRoomResponse.value = response.body()!!
                         saveRoomCharacterId(response.body()!!.result.profileImage)
@@ -151,57 +119,13 @@ class MakingRoomViewModel @Inject constructor(
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
-                            Log.d(TAG, "$errorBody")
-                            _errorResponse.value = parseErrorResponse(errorBody)
-                        } else {
-                            _errorResponse.value = ErrorResponse("COMMON400", false, "unknown error", "해시태그는 한글, 영어, 숫자 및 '_'만 사용할 수 있으며, '_'는 앞이나 뒤에 올 수 없습니다.")
+                            _createPublicRoomError.value =
+                                parseErrorResponse(errorBody)
                         }
                         Log.d(TAG, "공개 방 생성 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
-                    _errorResponse.value = ErrorResponse("COMMON400", false, "unknown error", "해시태그는 한글, 영어, 숫자 및 '_'만 사용할 수 있으며, '_'는 앞이나 뒤에 올 수 없습니다.")
                     Log.d(TAG, "공개 방 생성 api 요청 실패: ${e}")
-                } finally {
-                    _loading.value = false
-                }
-            }
-        }
-    }
-
-    // 초대코드 방 생성
-    private val _privateRoomCreationResult = MutableLiveData<CreatePrivateRoomResponse>()
-    val privateRoomCreationResult: MutableLiveData<CreatePrivateRoomResponse> get() = _privateRoomCreationResult
-    fun createPrivateRoom() {
-        val token = getToken()
-        Log.d(TAG, "초대코드 방 생성 request 확인: ${roomName.value} ${persona.value} ${maxNum.value}")
-        _loading.value = true // 로딩 시작
-        if (token != null && persona.value != 0 && roomName.value != null && maxNum.value != 0) {
-            viewModelScope.launch {
-                try {
-                    val roomRequest = CreatePrivateRoomRequest(
-                        roomName.value!!,
-                        persona.value ?: 0,
-                        maxNum.value ?: 0,
-                    )
-                    val response = roomRepository.createPrivateRoom(token, roomRequest)
-                    if (response.body()!!.isSuccess) {
-                        Log.d(TAG, "초대코드 방 생성 성공: ${response.body()!!.result}")
-                        _privateRoomCreationResult.value = response.body()!!
-                        saveRoomCharacterId(response.body()!!.result.persona)
-                        saveInviteCode(response.body()!!.result.inviteCode)
-                        saveRoomId(response.body()!!.result.roomId)
-                    } else {
-                        val errorBody = response.errorBody()?.string()
-                        if (errorBody != null) {
-                            _errorResponse.value = parseErrorResponse(errorBody)
-                        } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
-                        }
-                        Log.d(TAG, "초대코드 방 생성 api 응답 실패: ${response}")
-                    }
-                } catch (e: Exception) {
-                    _errorResponse.value?.message = e.message.toString()
-                    Log.d(TAG, "초대코드 방 생성 api 요청 실패: ${e}")
                 } finally {
                     _loading.value = false
                 }
@@ -215,6 +139,60 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
 
+    // 초대코드 방 생성
+    private val _privateRoomCreationResult = MutableLiveData<CreatePrivateRoomResponse>()
+    val privateRoomCreationResult: MutableLiveData<CreatePrivateRoomResponse> get() = _privateRoomCreationResult
+    fun createPrivateRoom() {
+        val token = getToken()
+        Log.d(TAG, "초대코드 방 생성 request 확인: ${roomName.value} ${persona.value} ${maxNum.value}")
+        _loading.value = true
+        if (token != null && persona.value != 0 && roomName.value != null && maxNum.value != 0) {
+            viewModelScope.launch {
+                try {
+                    val roomRequest = CreatePrivateRoomRequest(
+                        roomName.value!!,
+                        persona.value ?: 0,
+                        maxNum.value ?: 0,
+                    )
+                    val response = roomRepository.createPrivateRoom(token, roomRequest)
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "초대코드 방 생성 성공: ${response.body()!!.result}")
+                        _privateRoomCreationResult.value = response.body()!!
+                        saveRoomId(response.body()!!.result.roomId)
+                        saveRoomCharacterId(response.body()!!.result.persona)
+                        saveInviteCode(response.body()!!.result.inviteCode)
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value =
+                                ErrorResponse("UNKNOWN", false, "unknown error", "")
+                        }
+                        Log.d(TAG, "초대코드 방 생성 api 응답 실패: ${response}")
+                    }
+                } catch (e: Exception) {
+                    _errorResponse.value?.message = e.message.toString()
+                    Log.d(TAG, "초대코드 방 생성 api 요청 실패: ${e}")
+                } finally {
+                    _loading.value = false
+                }
+            }
+        }
+    }
+
+    fun saveRoomId(id: Int) {
+        sharedPreferences.edit().putInt("room_id", id).commit()
+    }
+
+    fun saveRoomCharacterId(id: Int) {
+        sharedPreferences.edit().putInt("room_persona", id).commit()
+    }
+
+    fun saveInviteCode(inviteCode: String) {
+        sharedPreferences.edit().putString("invite_code", inviteCode).commit()
+    }
+
     // 방 삭제
     private val _roomDeletionResult = MutableLiveData<DeleteRoomResponse>()
     val roomDeletionResult: MutableLiveData<DeleteRoomResponse> get() = _roomDeletionResult
@@ -226,7 +204,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.deleteRoom(token, roomId!!)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방삭제 성공: ${response.body()!!.result}")
                         _roomDeletionResult.value = response.body()!!
                         // spf에 저장된 방 정보 삭제
@@ -234,6 +212,14 @@ class MakingRoomViewModel @Inject constructor(
                             remove("invite_code")
                             remove("room_id")
                             apply()
+                        }
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) {
+                            _errorResponse.value = parseErrorResponse(errorBody)
+                        } else {
+                            _errorResponse.value =
+                                ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                     }
                 } catch (e: Exception) {
@@ -257,7 +243,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.quitRoom(token, roomId!!)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방나가기 성공: ${response.body()!!.result}")
                         _roomQuitResult.value = response.body()!!
                         // db 방 삭제
@@ -269,6 +255,11 @@ class MakingRoomViewModel @Inject constructor(
                             apply()
                         }
                     } else {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) _createPublicRoomError.value =
+                            parseErrorResponse(errorBody)
+                        else _createPublicRoomError.value =
+                            ErrorResponse("UNKNOWN", false, "unknown error", "")
                         Log.d(TAG, "방나가기 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
@@ -295,36 +286,27 @@ class MakingRoomViewModel @Inject constructor(
         }
         return result
     }
-    // 에러 처리
-    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
-        return try {
-            val gson = Gson()
-            gson.fromJson(errorBody, ErrorResponse::class.java)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error parsing JSON: ${e.message}")
-            null
-        }
-    }
+
 
     fun getPendingMember(memberId: Int) {
         val token = getToken()
         Log.d(TAG, "멤버 초대 상태 확인 요청: memberId = $memberId")
         _loading.value = true
-
         if (token != null && memberId != 0) {
             viewModelScope.launch {
                 try {
 //                    val response = roomRepository.getPendingMember(token, memberId)
                     val response = roomRepository.getInvitedStatus(token, memberId)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "멤버 초대 상태 확인 성공: ${response.body()!!.result}")
                         _pendingMember.value = response.body()!!.result
                     } else {
                         val errorBody = response.errorBody()?.string()
-                        if(errorBody != null) {
+                        if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("Unknown", false, "unknown error", "")
+                            _errorResponse.value =
+                                ErrorResponse("Unknown", false, "unknown error", "")
                         }
                         Log.d(TAG, "멤버 초대 상태 확인 응답 실패: $response")
                     }
@@ -335,8 +317,7 @@ class MakingRoomViewModel @Inject constructor(
                     _loading.value = false
                 }
             }
-        }
-        else {
+        } else {
             Log.e(TAG, "Invalid token or roomId for getPendingRoom")
         }
     }
@@ -350,7 +331,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.getPendingRoom(token, roomId)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방 진입 상태 확인 성공: ${response.body()!!.result}")
                         _pendingRoom.value = response.body()!!.result
                     } else {
@@ -358,7 +339,8 @@ class MakingRoomViewModel @Inject constructor(
                         if (errorBody != null) {
                             _errorResponse.value = parseErrorResponse(errorBody)
                         } else {
-                            _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
+                            _errorResponse.value =
+                                ErrorResponse("UNKNOWN", false, "unknown error", "")
                         }
                         Log.d(TAG, "방 진입 상태 확인 응답 실패: $response")
                     }
@@ -387,14 +369,14 @@ class MakingRoomViewModel @Inject constructor(
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    if(errorBody != null) {
+                    if (errorBody != null) {
                         _errorResponse.value = parseErrorResponse(errorBody)
                     } else {
                         _errorResponse.value = ErrorResponse("Unknown", false, "unknown error", "")
                     }
                     Log.d(TAG, "방 초대 api 응답 실패: ${errorBody}")
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Log.d(TAG, "방 초대 api 요청 실패: ${e}")
             } finally {
                 _loading.value = false
@@ -410,7 +392,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.cancelInvitation(token, memberId)
-                    if(response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방 초대 요청 취소 성공 : ${response.body()?.result}")
                     } else {
                         val errorBody = response.errorBody()?.string()
@@ -434,7 +416,7 @@ class MakingRoomViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = roomRepository.cancelJoinRequest(token, roomId)
-                    if (response.body()!!.isSuccess) {
+                    if (response.isSuccessful) {
                         Log.d(TAG, "방 참여 요청 취소 성공 : ${response.body()?.result}")
                     } else {
                         val errorBody = response.errorBody()?.string()
@@ -448,6 +430,20 @@ class MakingRoomViewModel @Inject constructor(
         } else {
             Log.d(TAG, "토큰 or roomId 에러")
         }
+    }
+
+
+    private val _inviteMemberSuccess = MutableLiveData<Boolean>()
+    val inviteMemberSuccess: LiveData<Boolean> get() = _inviteMemberSuccess
+
+    private val _pendingRoom = MutableLiveData<Boolean>()
+    val pendingRoom: LiveData<Boolean> get() = _pendingRoom
+
+    private val _pendingMember = MutableLiveData<Boolean>()
+    val pendingMember: LiveData<Boolean> get() = _pendingMember
+
+    fun getRoomId(): Int {
+        return sharedPreferences.getInt("room_id", -1)
     }
 
     // 방 정보 수정
@@ -489,9 +485,20 @@ class MakingRoomViewModel @Inject constructor(
             Log.d(TAG, "토큰 or roomId 에러")
         }
     }
+
     suspend fun checkAndSubmitUpdateRoom() {
         if (persona.value != 0 && !roomName.value.isNullOrEmpty() && maxNum.value != 0) {
             updateRoomInfo()
+        }
+    }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            ErrorResponse("UNKNOWN", false, "unknown error", "")
         }
     }
 }

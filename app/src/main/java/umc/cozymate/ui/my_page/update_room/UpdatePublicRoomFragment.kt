@@ -69,7 +69,7 @@ class UpdatePublicRoomFragment : Fragment() {
                 requireActivity().finish()
             }
             // 캐릭터 선택
-            ivCharacter.setOnClickListener {
+            ivPersona.setOnClickListener {
                 val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
                 characterResultLauncher.launch(intent)
             }
@@ -264,7 +264,7 @@ class UpdatePublicRoomFragment : Fragment() {
                             debounceJob = viewModel.viewModelScope.launch {
                                 delay(1000L) // 1000ms 대기
                                 viewModel.setNickname(input)
-                                viewModel.roomNameCheck() // API 호출
+                                viewModel.roomNameCheck(input) // API 호출
                                 observeRoomNameValid()
                             }
                             // 다음 버튼 상태 확인
@@ -322,14 +322,11 @@ class UpdatePublicRoomFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            // 결과가 정상적으로 반환되었는지 확인
             val selectedCharacterId = result.data?.getIntExtra("selectedCharacterId", 1) ?: 0
-            // 선택된 캐릭터 아이디 반영
             charId = selectedCharacterId
-            CharacterUtil.setImg(selectedCharacterId, binding.ivCharacter)
+            CharacterUtil.setImg(selectedCharacterId, binding.ivPersona)
             viewModel.setPersona(selectedCharacterId)
             updateNextButtonState()
         }
     }
 }
-

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -78,12 +80,11 @@ class MakingPublicRoomFragment : Fragment() {
             //(activity as? MakingPublicRoomActivity)?.loadMyRoomDetailActivity(0)
             (activity as? MakingPublicRoomActivity)?.loadMainActivity()
         }
-        viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                val dialog = ServerErrorPopUp.newInstance(
-                    error.code, error.result ?: ""
-                )
-                dialog.show(parentFragmentManager, "LogoutPopup")
+        viewModel.createPublicRoomError.observe(viewLifecycleOwner) { res ->
+            Log.d(TAG, "방생성 실패: ${res}")
+            if (res != null) {
+                val popup = ServerErrorPopUp.newInstance(res.code, res.message)
+                popup.show(childFragmentManager, "팝업")
             }
         }
     }
@@ -146,7 +147,7 @@ class MakingPublicRoomFragment : Fragment() {
                 when {
                     invalidLength -> {
                         binding.tvAlertName.visibility = View.VISIBLE
-                        binding.tvAlertName.text = "방이름은 최대 12글자입니다"
+                        binding.tvAlertName.text = "방이름은 12글자를 넘을 수 없어요!"
                         binding.tilRoomName.isErrorEnabled = true
                     }
 
@@ -158,7 +159,7 @@ class MakingPublicRoomFragment : Fragment() {
 
                     !pattern.matches(input) -> {
                         binding.tvAlertName.visibility = View.VISIBLE
-                        binding.tvAlertName.text = "방이름은 최대 12글자로 한글, 영어, 숫자 및 공백만 입력해주세요!\n" +
+                        binding.tvAlertName.text = "방이름은 한글, 영어, 숫자 및 공백만 입력해주세요!\n" +
                                 "단 공백은 처음이나 끝에 올 수 없습니다."
                         binding.tilRoomName.isErrorEnabled = true
                     }
@@ -297,4 +298,3 @@ class MakingPublicRoomFragment : Fragment() {
         binding.btnNext.isEnabled = isEnabled
     }
 }
-
