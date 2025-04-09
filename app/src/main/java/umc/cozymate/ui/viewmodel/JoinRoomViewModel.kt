@@ -82,7 +82,7 @@ class JoinRoomViewModel @Inject constructor(
     private val _roomJoinSuccess = MutableLiveData<Boolean>()
     val roomJoinSuccess: LiveData<Boolean> get() = _roomJoinSuccess
     private val _roomJoinErrorResponse = MutableLiveData<ErrorResponse>()
-    val roomJoinErrorResponse: LiveData<ErrorResponse> get() = _errorResponse
+    val roomJoinErrorResponse: LiveData<ErrorResponse> get() = _roomJoinErrorResponse
     fun joinRoom(id: Int) {
         val token = getToken()
         viewModelScope.launch {

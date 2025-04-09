@@ -21,10 +21,11 @@
         android:id="@+id/btn_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="@string/back"
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_nickname"
@@ -33,7 +34,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:includeFontPadding="false"
-        android:text="델로님이"
+        android:text=""
         android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
         android:textColor="@color/highlight_font"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,10 +59,10 @@
         android:layout_marginTop="10dp"
         android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        tools:listitem="@layout/rv_item_my_sent_request"
-        tools:itemCount="3"/>
+        tools:itemCount="3"
+        tools:listitem="@layout/rv_item_my_sent_request" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
