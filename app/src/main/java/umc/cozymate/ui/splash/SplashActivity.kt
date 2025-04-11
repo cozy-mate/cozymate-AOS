@@ -34,15 +34,10 @@ class SplashActivity : AppCompatActivity() {
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e(TAG, "카카오계정으로 로그인 실패", error)
-            Toast.makeText(this@SplashActivity, "카카오계정으로 로그인 실패", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "카카오계정으로 로그인 실패", error)
             goLoginFail()
         } else if (token != null) {
-            Log.i(TAG, "카카오계정으로 로그인 성공")
-            Log.d(TAG, "accessToken: ${token.accessToken}")
-            Log.d(TAG, "idToken: ${token.idToken}")
-            Toast.makeText(this@SplashActivity, "카카오계정으로 로그인 성공", Toast.LENGTH_SHORT).show()
-            // 로그인 후 사용자 정보를 가져옴
+            Log.d(TAG, "카카오계정으로 로그인 성공")
             getKakaoUserClientId()
         }
     }
@@ -124,22 +119,17 @@ class SplashActivity : AppCompatActivity() {
     private fun observeSignInResponse() {
         splashViewModel.signInResponse.observe(this) { result ->
             if (result.isSuccessful) {
-                if (result.body()!!.isSuccess) {
-                    try {
-                        splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
-                        splashViewModel.saveToken()
-                        splashViewModel.memberCheck()
-                        splashViewModel.isMember.observe(this) { isMember ->
-                            if (isMember == true) {
-                                goCozyHome()
-                            } else if (isMember == false) goUnivCert()
-                            else if (isMember == null) Log.w(TAG, "회원 상태 확인 실패")
-                        }
-                    } catch (e: Exception) {
-                        goLoginFail()
-                        Log.d(TAG, "토큰 저장 실패: $e")
+                try {
+                    splashViewModel.setTokenInfo(result.body()!!.result.tokenResponseDTO)
+                    splashViewModel.saveToken()
+                    splashViewModel.memberCheck()
+                    splashViewModel.memberInfoResponse.observe(this) { memberInfo ->
+                        if (memberInfo != null) {
+                            splashViewModel.saveUserInfo(memberInfo)
+                            goCozyHome()
+                        } else goUnivCert()
                     }
-                } else {
+                } catch (e: Exception) {
                     goLoginFail()
                 }
             } else {
@@ -157,8 +147,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goUnivCert() {
         val intent = Intent(this, UniversityCertificationActivity::class.java)
-        intent.flags =
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
@@ -169,14 +158,12 @@ class SplashActivity : AppCompatActivity() {
                 if (isLoading) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
-                    // 로딩이 완료되었을 때, 멤버 여부를 확인하고 화면 전환
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember == true) {
                             goCozyHome()
                             finish()
                             binding.progressBar.visibility = View.GONE
                         } else {
-                            //goOnboarding()
                             binding.progressBar.visibility = View.GONE
                         }
                     }
@@ -207,7 +194,10 @@ class SplashActivity : AppCompatActivity() {
         binding.btnKakaoLogin.setOnClickListener {
             // 카카오 계정으로 로그인
             try {
-                UserApiClient.instance.loginWithKakaoAccount(this@SplashActivity, callback = callback)
+                UserApiClient.instance.loginWithKakaoAccount(
+                    this@SplashActivity,
+                    callback = callback
+                )
             } catch (e: Exception) {
                 Log.e(TAG, "로그인 실패: ${e.message}")
                 goLoginFail()
