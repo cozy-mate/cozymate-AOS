@@ -25,14 +25,13 @@ class UpdateMyInfoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // 기본으로 [내 정보 수정 페이지] 로드
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_update_my_info, UpdateMyInfoFragment())
                 .commit()
         }
     }
-    // [캐릭터 수정 페이지] 로드
+
     fun loadUpdateCharacterFragment() {
         val fragment = UpdateCharacterFragment()
         supportFragmentManager.beginTransaction()
@@ -40,7 +39,6 @@ class UpdateMyInfoActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
-    // [닉네임 수정 페이지] 로드
     fun loadUpdateNicknameFragment() {
         val fragment = UpdateNicknameFragment()
         supportFragmentManager.beginTransaction()
@@ -48,15 +46,15 @@ class UpdateMyInfoActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
-    // [학과 수정 페이지] 로드
-    fun loadUpdateMajorFragment() {
-        val fragment = UpdateMajorFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_update_my_info, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-    // [생년월일 수정 페이지] 로드
+
+//    fun loadUpdateMajorFragment() {
+//        val fragment = UpdateMajorFragment()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_update_my_info, fragment)
+//            .addToBackStack(null)
+//            .commit()
+//    }
+
     fun loadUpdateBirthFragment() {
         val fragment = UpdateBirthFragment()
         supportFragmentManager.beginTransaction()
@@ -64,8 +62,8 @@ class UpdateMyInfoActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
-    // [선호 칩 수정 페이지] 로드
-    fun loadUpdatePreferenceFragment() {
+
+    fun loadUpdatePreferenceBottomSheet() {
         val fragment = UpdatePreferenceFragment()
         fragment.show(supportFragmentManager, fragment.TAG)
     }

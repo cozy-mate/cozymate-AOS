@@ -24,62 +24,12 @@ import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.fromDpToPx
 
 @AndroidEntryPoint
-class UpdateCharacterFragment: Fragment(), CharacterItemClickListener {
+class UpdateCharacterFragment : Fragment(), CharacterItemClickListener {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUpdateCharacterBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UpdateInfoViewModel by viewModels()
-    private var selectedCharacterId: Int? = 0
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentUpdateCharacterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        with(binding) {
-            // 캐릭터 리스트 설정
-            initCharacterList()
-
-            // 뒤로가기
-            ivBack.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-            // 캐릭터 수정
-            btnNext.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.updatePersona()
-                }
-            }
-
-            // 캐릭터 수정 결과 옵저빙
-            setObserver()
-        }
-    }
-
-    private fun initCharacterList() {
-        val adapter = CharactersAdapter(this)
-        binding.rvList.adapter = adapter
-        binding.rvList.run {
-            layoutManager = GridLayoutManager(context, 4)
-            addItemDecoration(
-                GridSpacingItemDecoration(spanCount = 4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
-            )
-        }
-    }
-
-    private fun saveUserPreference(persona: Int) {
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putInt("user_persona", persona)
-        editor.commit()
-    }
+    private var selectedCharacterId: Int = 0
 
     override fun onItemClick(character: CharacterItem, position: Int) {
         selectedCharacterId =
@@ -102,18 +52,52 @@ class UpdateCharacterFragment: Fragment(), CharacterItemClickListener {
                 15 -> 16
                 else -> 0
             }
-        saveUserPreference(selectedCharacterId ?: 0)
-        viewModel.setPersona(selectedCharacterId ?: 0)
+        viewModel.setPersona(selectedCharacterId)
         Log.d(TAG, "Selected item position: $position, id: $selectedCharacterId")
     }
 
-    fun setObserver() {
-        viewModel.updatePersonaResponse.observe(viewLifecycleOwner) { res ->
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentUpdateCharacterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setObserver()
+        initCharacterList()
+        binding.ivBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnNext.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.updateMyInfo()
+            }
+        }
+    }
+
+    private fun setObserver() {
+        viewModel.updateInfoResponse.observe(viewLifecycleOwner) { res ->
             if (res.result) {
+                viewModel.savePersona(selectedCharacterId)
                 Handler(Looper.getMainLooper()).postDelayed({
                     activity?.onBackPressedDispatcher?.onBackPressed()
                 }, 300)
             }
+        }
+    }
+
+    private fun initCharacterList() {
+        val adapter = CharactersAdapter(this)
+        binding.rvList.adapter = adapter
+        binding.rvList.run {
+            layoutManager = GridLayoutManager(context, 4)
+            addItemDecoration(
+                GridSpacingItemDecoration(spanCount = 4, 8f.fromDpToPx(), 40f.fromDpToPx(), true)
+            )
         }
     }
 }
