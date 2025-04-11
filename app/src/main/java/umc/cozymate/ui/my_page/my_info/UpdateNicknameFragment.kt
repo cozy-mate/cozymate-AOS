@@ -54,7 +54,6 @@ class UpdateNicknameFragment : Fragment() {
             requireActivity().finish()
         }
         binding.btnNext.setOnClickListener {
-            nickname = binding.etOnboardingNickname.text.toString()
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.updateMyInfo()
             }
@@ -91,6 +90,7 @@ class UpdateNicknameFragment : Fragment() {
                 binding.tilOnboardingNickname.isErrorEnabled = false
                 binding.tilOnboardingNickname.boxStrokeColor =
                     resources.getColor(R.color.sub_color1)
+                nickname = binding.etOnboardingNickname.text.toString()
                 binding.btnNext.isEnabled = true
             }
         }

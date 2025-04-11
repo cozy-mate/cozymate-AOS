@@ -67,6 +67,7 @@ class UpdateCharacterFragment : Fragment(), CharacterItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getPreferences()
         setObserver()
         initCharacterList()
         binding.ivBack.setOnClickListener {
@@ -76,6 +77,13 @@ class UpdateCharacterFragment : Fragment(), CharacterItemClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.updateMyInfo()
             }
+        }
+    }
+
+    private fun getPreferences() {
+        viewModel.getMemberInfoSPF()
+        viewModel.birthDate.observe(viewLifecycleOwner) { s ->
+            Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
         }
     }
 
