@@ -24,11 +24,16 @@ import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.splash.SplashActivity
+import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.InquiryViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_ID
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_NAME
 import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
 import umc.cozymate.util.PreferencesUtil.KEY_USER_PERSONA
+import umc.cozymate.util.PreferencesUtil.KEY_USER_UNIVERSITY_ID
+import umc.cozymate.util.PreferencesUtil.KEY_USER_UNIVERSITY_NAME
 
 @AndroidEntryPoint
 class MyPageFragment : Fragment() {
@@ -72,18 +77,18 @@ class MyPageFragment : Fragment() {
 
     private fun getPreference() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        roomId = spf.getInt("room_id", -1)
+        roomId = spf.getInt(KEY_ROOM_ID, -1)
         if (roomId != 0 && roomId != -1) {
             roomFlag = true
-            roomname = spf.getString("room_name", "").toString()
+            roomname = spf.getString(KEY_ROOM_NAME, "").toString()
         } else {
             roomFlag = false
             roomname = "아직 방이 존재하지 않아요"
         }
-        universityId = spf.getInt("user_university_id", -1)
+        universityId = spf.getInt(KEY_USER_UNIVERSITY_ID, -1)
         if (universityId != 0 && universityId != -1) {
             universityFlag = true
-            universityName = spf.getString("user_university_name", "").toString()
+            universityName = spf.getString(KEY_USER_UNIVERSITY_NAME, "").toString()
         } else {
             universityFlag = false
             universityName = "아직 학교인증이 되어있지 않아요"
@@ -99,6 +104,7 @@ class MyPageFragment : Fragment() {
     private fun updateTextStyle() {
         binding.tvMypageUserName.text = nickname
         binding.tvCozyroom.text = roomname
+        binding.tvSchool.text = universityName
         if (roomFlag) {
             binding.ivCozyroom.visibility = View.VISIBLE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.main_blue))
@@ -106,16 +112,13 @@ class MyPageFragment : Fragment() {
             binding.ivCozyroom.visibility = View.GONE
             binding.tvCozyroom.setTextColor(binding.root.context.getColor(R.color.unuse_font))
         }
-        /*// 학교 인증
-        //binding.tvSchool.text = universityNam
         if (universityFlag) {
             binding.ivSchoolVerifiedMark.visibility = View.VISIBLE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.main_blue))
         } else {
             binding.ivSchoolVerifiedMark.visibility = View.GONE
             binding.tvSchool.setTextColor(binding.root.context.getColor(R.color.unuse_font))
-            binding.tvSchool.text = "아직 학교인증이 되어있지 않아요"
-        }*/
+        }
     }
 
     private fun setListeners() {
@@ -132,11 +135,9 @@ class MyPageFragment : Fragment() {
             }
         }
 
-        /*binding.layoutSchool.setOnClickListener {
-            val intent = Intent(activity, UniversityCertificationActivity::class.java)
-            intent.putExtra(UniversityCertificationActivity.UNIVERSITY_FLAG, universityFlag)
-            startActivity(intent)
-        }*/
+        binding.layoutSchool.setOnClickListener {
+            (activity as? UniversityCertificationActivity)?.loadUniversityInfoFragment()
+        }
 
         binding.layoutLifestyle.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
