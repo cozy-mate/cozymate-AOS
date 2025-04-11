@@ -152,11 +152,11 @@ class MakingPublicRoomFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
-                val invalidLength = input.length > 12
+                val notInvalidLength = input.length > 12
                 val pattern = "^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9 ]{1,12}(?<! )$".toRegex()
                 val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
                 when {
-                    invalidLength -> {
+                    notInvalidLength -> {
                         binding.tvAlertName.visibility = View.VISIBLE
                         binding.tvAlertName.text = "방이름은 12글자를 넘을 수 없어요!"
                         binding.tilRoomName.isErrorEnabled = true

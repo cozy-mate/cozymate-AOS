@@ -21,6 +21,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
     companion object {
         const val UNIVERSITY_FLAG = "university_flag"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,15 +35,13 @@ class UniversityCertificationActivity : AppCompatActivity() {
         }
         val universityFlag = intent.getBooleanExtra(UNIVERSITY_FLAG, false)
         if (universityFlag) {
-            loadUniversityCertificationInfoFragment()
+            loadUniversityInfoFragment()
         } else {
             loadUniversityCertificationFragment()
         }
     }
 
-    // [학교 정보 확인 페이지]
-    // 학교인증이 이미 되어있을 때 이 페이지를 로드합니다.
-    fun loadUniversityCertificationInfoFragment() {
+    fun loadUniversityInfoFragment() {
         val fragment = UniversityCertificationInfoFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_university_cert, fragment)
@@ -50,9 +49,7 @@ class UniversityCertificationActivity : AppCompatActivity() {
             .commit()
     }
 
-    // [학교인증 페이지]
     fun loadUniversityCertificationFragment() {
-        Log.d("TAG", "학교인증 페이지 가야지....")
         val fragment = UniversityCertificationFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_university_cert, fragment)
