@@ -23,6 +23,7 @@ import umc.cozymate.data.model.response.room.QuitRoomResponse
 import umc.cozymate.data.model.response.room.UpdateRoomInfoResponse
 import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.util.PreferencesUtil.KEY_ROOM_ID
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_NAME
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +43,30 @@ class MakingRoomViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
+    }
+
+    private val _roomName = MutableLiveData<String>()
+    val roomName: LiveData<String> get() = _roomName
+    fun setNickname(name: String) {
+        _roomName.value = name
+    }
+
+    private val _persona = MutableLiveData<Int>()
+    val persona: LiveData<Int> get() = _persona
+    fun setPersona(id: Int) {
+        _persona.value = id
+    }
+
+    private val _maxNum = MutableLiveData<Int>()
+    val maxNum: LiveData<Int> get() = _maxNum
+    fun setMaxMateNum(maxNum: Int) {
+        _maxNum.value = maxNum
+    }
+
+    private val _hashtags = MutableLiveData<List<String>>()
+    val hashtags: LiveData<List<String>> get() = _hashtags
+    fun setHashtags(hashtags: List<String>) {
+        _hashtags.value = hashtags
     }
 
     // 방이름 중복 검증 (/rooms/check-roomname)
@@ -64,28 +89,20 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
 
-    private val _persona = MutableLiveData<Int>()
-    val persona: LiveData<Int> get() = _persona
-    fun setPersona(id: Int) {
-        _persona.value = id
+    fun saveRoomName(name: String) {
+        sharedPreferences.edit().putString(KEY_ROOM_NAME, name).commit()
     }
 
-    private val _roomName = MutableLiveData<String>()
-    val roomName: LiveData<String> get() = _roomName
-    fun setNickname(name: String) {
-        _roomName.value = name
+    fun saveRoomPersona(id: Int) {
+        sharedPreferences.edit().putInt("room_persona", id).commit()
     }
 
-    private val _maxNum = MutableLiveData<Int>()
-    val maxNum: LiveData<Int> get() = _maxNum
-    fun setMaxMateNum(maxNum: Int) {
-        _maxNum.value = maxNum
+    fun saveInviteCode(inviteCode: String) {
+        sharedPreferences.edit().putString("invite_code", inviteCode).commit()
     }
 
-    private val _hashtags = MutableLiveData<List<String>>()
-    val hashtags: LiveData<List<String>> get() = _hashtags
-    fun setHashtags(hashtags: List<String>) {
-        _hashtags.value = hashtags
+    fun saveRoomId(id: Int) {
+        sharedPreferences.edit().putInt(KEY_ROOM_ID, id).commit()
     }
 
     fun checkAndSubmitCreatePublicRoom() {
@@ -115,8 +132,6 @@ class MakingRoomViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         Log.d(TAG, "공개 방 생성 성공: ${response.body()!!.result}")
                         _createPublicRoomResponse.value = response.body()!!
-                        saveRoomCharacterId(response.body()!!.result.profileImage)
-                        saveRoomId(response.body()!!.result.roomId)
                     } else {
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) {
@@ -132,10 +147,6 @@ class MakingRoomViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun saveRoomId(id: Int) {
-        sharedPreferences.edit().putInt(KEY_ROOM_ID, id).commit()
     }
 
     fun checkAndSubmitCreatePrivateRoom() {
@@ -163,8 +174,9 @@ class MakingRoomViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         Log.d(TAG, "초대코드 방 생성 성공: ${response.body()!!.result}")
                         _privateRoomCreationResult.value = response.body()!!
+                        saveRoomName(response.body()!!.result.name)
                         saveRoomId(response.body()!!.result.roomId)
-                        saveRoomCharacterId(response.body()!!.result.persona)
+                        saveRoomPersona(response.body()!!.result.persona)
                         saveInviteCode(response.body()!!.result.inviteCode)
                     } else {
                         val errorBody = response.errorBody()?.string()
@@ -186,14 +198,6 @@ class MakingRoomViewModel @Inject constructor(
         }
     }
 
-    fun saveRoomCharacterId(id: Int) {
-        sharedPreferences.edit().putInt("room_persona", id).commit()
-    }
-
-    fun saveInviteCode(inviteCode: String) {
-        sharedPreferences.edit().putString("invite_code", inviteCode).commit()
-    }
-
     // 방 삭제
     private val _roomDeletionResult = MutableLiveData<DeleteRoomResponse>()
     val roomDeletionResult: MutableLiveData<DeleteRoomResponse> get() = _roomDeletionResult
@@ -210,7 +214,9 @@ class MakingRoomViewModel @Inject constructor(
                         _roomDeletionResult.value = response.body()!!
                         // spf에 저장된 방 정보 삭제
                         sharedPreferences.edit().apply {
+                            remove("room_name")
                             remove("invite_code")
+                            remove("room_persona")
                             remove("room_id")
                             apply()
                         }
@@ -251,7 +257,9 @@ class MakingRoomViewModel @Inject constructor(
                         deleteRoom(roomId)
                         // spf에 저장된 방 정보 삭제
                         sharedPreferences.edit().apply {
+                            remove("room_name")
                             remove("invite_code")
+                            remove("room_persona")
                             remove("room_id")
                             apply()
                         }

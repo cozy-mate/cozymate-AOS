@@ -65,6 +65,9 @@ class UpdateNicknameFragment : Fragment() {
         viewModel.birthDate.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
         }
+        viewModel.majorName.observe(viewLifecycleOwner) { s ->
+            Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
+        }
     }
 
     private fun setObservers() {

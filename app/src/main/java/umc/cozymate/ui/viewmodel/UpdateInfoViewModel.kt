@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.data.model.request.UpdateInfoRequest
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.MemberInfoResponse
 import umc.cozymate.data.model.response.member.UpdateInfoCommonResponse
 import umc.cozymate.data.model.response.member.stat.UpdatePreferenceResponse
@@ -51,6 +52,7 @@ class UpdateInfoViewModel @Inject constructor(
             }
         }
     }
+
     fun getMemberInfoSPF() {
         _nickname.value = sharedPreferences.getString(KEY_USER_NICKNAME, "")
         _persona.value = sharedPreferences.getInt(KEY_USER_PERSONA, 0)
@@ -64,6 +66,7 @@ class UpdateInfoViewModel @Inject constructor(
     fun setPersona(persona: Int) {
         _persona.value = persona
     }
+
     fun savePersona(id: Int) {
         sharedPreferences.edit().putInt(KEY_USER_PERSONA, id).commit()
     }
@@ -74,9 +77,11 @@ class UpdateInfoViewModel @Inject constructor(
     fun getNickname(): String? {
         return sharedPreferences.getString(KEY_USER_NICKNAME, "")
     }
+
     fun setNickname(nickname: String) {
         _nickname.value = nickname
     }
+
     fun saveNickname(nickname: String) {
         sharedPreferences.edit().putString(KEY_USER_NICKNAME, nickname).commit()
     }
@@ -87,6 +92,7 @@ class UpdateInfoViewModel @Inject constructor(
     fun setBirthDate(birthDate: String) {
         _birthDate.value = birthDate
     }
+
     fun saveBirthDate(date: String) {
         sharedPreferences.edit().putString(KEY_USER_BIRTHDAY, date).commit()
     }
@@ -126,24 +132,26 @@ class UpdateInfoViewModel @Inject constructor(
     val updateInfoResponse: LiveData<UpdateInfoCommonResponse> get() = _updateInfoResponse
     suspend fun updateMyInfo() {
         val token = getToken()
-        try {
-            val request = UpdateInfoRequest(
-                nickname = nickname.value!!,
-                majorName = majorName.value!!,
-                birthday = birthDate.value!!,
-                persona = persona.value!!
-            )
-            val response = repo.updateInfo(token!!, request)
-            if (response.isSuccessful) {
-                if (response.body()?.isSuccess == true) {
-                    Log.d(TAG, "닉네임 수정 성공: ${response.body()!!.result} ")
-                    _updateInfoResponse.value = response.body()!!
-                } else Log.d(TAG, "닉네임 수정 에러 메시지: ${response}")
-            } else {
-                Log.d(TAG, "닉네임 수정 api 응답 실패: ${response.errorBody()?.string()}")
+        if (token != null && nickname.value != null && majorName.value != null) {
+            try {
+                val request = UpdateInfoRequest(
+                    nickname = nickname.value!!,
+                    majorName = majorName.value!!,
+                    birthday = birthDate.value!!,
+                    persona = persona.value!!
+                )
+                val response = repo.updateInfo(token!!, request)
+                if (response.isSuccessful) {
+                    if (response.body()?.isSuccess == true) {
+                        Log.d(TAG, "사용자 정보 수정 성공: ${response.body()!!.result} ")
+                        _updateInfoResponse.value = response.body()!!
+                    }
+                } else {
+                    Log.d(TAG, "사용자 정보 수정 api 응답 실패: ${response}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "사용자 정보 수정 api 요청 실패: $e ")
             }
-        } catch (e: Exception) {
-            Log.d(TAG, "닉네임 수정 api 요청 실패: $e ")
         }
     }
 
@@ -222,6 +230,7 @@ class UpdateInfoViewModel @Inject constructor(
     fun setMajorName(majorName: String) {
         _majorName.value = majorName
     }
+
     private val _updateMajorNameResponse = MutableLiveData<UpdateInfoCommonResponse>()
     val updateMajorNameResponse: LiveData<UpdateInfoCommonResponse> get() = _updateMajorNameResponse
     suspend fun updateMajorName() {
@@ -238,12 +247,13 @@ class UpdateInfoViewModel @Inject constructor(
                 if (response.body()?.isSuccess == true) {
                     Log.d(TAG, "학과 수정 성공: ${response.body()!!.result}")
                     _updateMajorNameResponse.value = response.body()!!
-                    sharedPreferences.edit().putString("user_major_name", majorName.value.toString()).commit()
+                    sharedPreferences.edit()
+                        .putString("user_major_name", majorName.value.toString()).commit()
                 } else Log.d(TAG, "학과 수정 에러 메시지: ${response}")
             } else {
                 Log.d(TAG, "학과 수정 api 응답 실패: ${response.errorBody()?.string()}")
             }
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             Log.d(TAG, "학과 수정 api 요청 실패: $e")
         }
     }

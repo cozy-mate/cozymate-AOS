@@ -5,6 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 import umc.cozymate.data.model.entity.MemberDetail
@@ -112,7 +113,7 @@ interface MemberService {
     ): Response<VerifyMailResponse>
 
     // 사용자 정보 수정
-    @POST("/members/update")
+    @PATCH("/members/update")
     suspend fun updateUserInfo(
         @Header("Authorization") accessToken: String,
         @Body request: UpdateInfoRequest

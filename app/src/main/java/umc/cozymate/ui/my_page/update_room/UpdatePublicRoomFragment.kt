@@ -40,7 +40,7 @@ class UpdatePublicRoomFragment : Fragment() {
     private var roomName: String = ""
     private var numPeopleOption: TextView? = null
     private var numPeople: Int? = 0
-    private var charId: Int? = 0 // 0은 선택 안 되었다는 의미
+    private var charId: Int = 0
     private val hashtags = mutableListOf<String>()
     private var debounceJob: Job? = null
 
@@ -59,7 +59,7 @@ class UpdatePublicRoomFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupUpdateRoomObserver()
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
@@ -93,9 +93,6 @@ class UpdatePublicRoomFragment : Fragment() {
             // 캐릭터, 이름, 최대인원수, 해시태그 선택되어 있어야 다음 버튼 활성화
             updateNextButtonState()
         }
-
-        // 방 생성 옵저빙
-        setupObservers()
     }
 
     // 다음 버튼 비활성/활성
@@ -298,14 +295,14 @@ class UpdatePublicRoomFragment : Fragment() {
         }
     }
 
-    private fun setupObservers() {
-        // 방 생성 결과를 관찰하여 성공 시 다음 화면으로 전환
+    private fun setupUpdateRoomObserver() {
         viewModel.updateRoomInfoResponse.observe(viewLifecycleOwner) { result ->
+            viewModel.saveRoomPersona(charId)
+            viewModel.saveRoomName(roomName)
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        // 팝업을 띄워서 에러 응답 처리
-        viewModel.errorResponse.observe(viewLifecycleOwner) { error ->
+        viewModel.updateRoomInfoError.observe(viewLifecycleOwner) { error ->
             if (error != null) {
                 Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }

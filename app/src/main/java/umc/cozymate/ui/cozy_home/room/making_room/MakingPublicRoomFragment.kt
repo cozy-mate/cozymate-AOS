@@ -79,7 +79,10 @@ class MakingPublicRoomFragment : Fragment() {
         }
         viewModel.createPublicRoomResponse.observe(viewLifecycleOwner) { res ->
             if (res != null) {
+                viewModel.saveRoomName(res.result.name)
                 viewModel.saveRoomId(res.result.roomId)
+                viewModel.saveRoomPersona(res.result.profileImage)
+                viewModel.saveInviteCode(res.result.inviteCode)
                 goToCozyRoomDetail(res.result.roomId)
             }
         }
