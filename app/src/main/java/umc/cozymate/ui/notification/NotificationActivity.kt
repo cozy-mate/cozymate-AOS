@@ -36,18 +36,16 @@ class NotificationActivity : AppCompatActivity() {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
-        lifecycleScope.launch {
-            viewModel.fetchNotification()
-        }
         setupObservers()
-        initOnClickListener()
+        fetchData()
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch {
-            viewModel.fetchNotification()
-        }
+        fetchData()
     }
 
     private fun setupObservers() {
@@ -89,11 +87,11 @@ class NotificationActivity : AppCompatActivity() {
                         }
 
                         "방 참여요청" -> {
-                            navigatorToRoommateDetail(targetId)
+                            detailViewModel.getOtherUserDetailInfo(targetId)
                         }
 
                         "초대요청" -> {
-                            navigatorToRoommateDetail(targetId)
+                            detailViewModel.getOtherUserDetailInfo(targetId)
                         }
                     }
                 } catch (e: Exception) {
@@ -112,13 +110,9 @@ class NotificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun initOnClickListener() {
-        binding.ivBack.setOnClickListener {
-            finish()
+    private fun fetchData() {
+        lifecycleScope.launch {
+            viewModel.fetchNotification()
         }
-    }
-
-    private fun navigatorToRoommateDetail(memberId: Int) {
-        detailViewModel.getOtherUserDetailInfo(memberId)
     }
 }
