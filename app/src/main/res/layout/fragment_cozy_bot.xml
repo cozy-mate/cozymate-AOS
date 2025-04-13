@@ -9,7 +9,7 @@
 
         <!--상단 섹션-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_cozyhome_top"
+            android:id="@+id/cl_cozybot_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/background_cozyhome_active_png"
@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_members"
+                android:id="@+id/btn_members"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
@@ -93,7 +93,7 @@
                 android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                 android:textColor="@color/basic_font"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_members" />
+                app:layout_constraintTop_toBottomOf="@id/btn_members" />
 
             <TextView
                 android:id="@+id/tv_whose_room2"
@@ -149,7 +149,7 @@
 
         <!-- 캐릭터 -->
         <ImageView
-            android:id="@+id/iv_char"
+            android:id="@+id/btn_char"
             android:layout_width="135dp"
             android:layout_height="135dp"
             android:layout_marginTop="155dp"
@@ -178,19 +178,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_acheivement"
+                    android:id="@+id/rv_room_logs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:listitem="@layout/item_cozyhome_achievement" />
+                    tools:listitem="@layout/rv_item_cozybot_room_log" />
 
         </androidx.core.widget.NestedScrollView>
 
-        <!-- 바텀뷰만큼 띄우기위한 코드 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bottom"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="70dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

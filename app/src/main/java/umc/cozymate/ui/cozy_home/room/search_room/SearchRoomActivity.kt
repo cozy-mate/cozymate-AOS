@@ -39,11 +39,8 @@ class SearchRoomActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // 검색창 뷰
-        setSearchView()
-        // 방 검색 기능
         observeSearchResult()
-        // 취소 버튼
+        setSearchView()
         binding.btnCancle.setOnClickListener {
             this.onBackPressed()
         }

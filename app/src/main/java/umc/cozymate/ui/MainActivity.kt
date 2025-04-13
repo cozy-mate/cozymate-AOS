@@ -97,12 +97,10 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity navigation", "navigate_to value: $navigateTo")
             when (navigateTo) {
                 "RoommateOnboarding" -> {
-                    // RoommateOnboardingFragment로 이동
                     switchToRoommateOnboardingFragment()
                 }
 
                 "RoommateMakeCrewable" -> {
-                    // RoommateMakeCrewableFragment로 이동
                     switchToRoommateMakeCrewableFragment()
                 }
 
@@ -147,7 +145,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val requestNotificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     private fun handleFCM() {
         FCMService().getFirebaseToken()

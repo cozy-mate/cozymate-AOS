@@ -1,12 +1,12 @@
 package umc.cozymate.ui.cozy_bot
 
-data class AchievementItem(
+data class RoomLogItem(
     val content: String,
     val datetime: String,
-    val type: AchievementItemType
+    val type: RoomLogType
 )
 
-enum class AchievementItemType {
+enum class RoomLogType {
     PRAISE,
     COMPLETE,
     FORGOT,

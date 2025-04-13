@@ -14,8 +14,6 @@ import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -30,10 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import umc.cozymate.R
-import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.databinding.FragmentCozyBotBinding
-import umc.cozymate.databinding.ItemCozyhomeAchievementBinding
-import umc.cozymate.databinding.RvItemCozybotMemberBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.message.MessageMemberActivity
 import umc.cozymate.ui.my_page.update_room.UpdateRoomInfoActivity
@@ -65,18 +60,14 @@ class CozyBotFragment : Fragment() {
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         getPreference()
         if (roomId != 0) {
-            // 닉네임
-            setName()
-            // 초대코드, 멤버 페르소나 옵저빙
-            setRoomInfoObserver()
-            // 룸로그
-            observeRoomLog()
-            // 쪽지
+            setRoomName()
             openMessage()
-            // 알림
             openNotification()
-            // 방 정보
-            binding.clMembers.setOnClickListener {
+            setRoomInfoObserver()
+            setRoomLogObserver()
+            fetchData()
+
+            binding.btnMembers.setOnClickListener {
                 // roomId 값을 넘겨주면서 방 상세 화면으로 이동
                 val intent =
                     Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
@@ -84,23 +75,10 @@ class CozyBotFragment : Fragment() {
                     }
                 startActivity(intent)
             }
-            // 방 페르소나 클릭하면 방 수정
-            binding.ivChar.setOnClickListener {
+            binding.btnChar.setOnClickListener {
                 val intent = Intent(requireActivity(), UpdateRoomInfoActivity::class.java)
                 intent.putExtra(UpdateRoomInfoActivity.ROOM_STATE, roomType)
                 startActivity(intent)
-            }
-            // 초기 룸로그 로드
-            viewLifecycleOwner.lifecycleScope.launch {
-                try {
-                    viewModel.fetchRoomInfo()
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-                viewModel.loadRoomLogs(isNextPage = true)
             }
         }
     }
@@ -109,27 +87,20 @@ class CozyBotFragment : Fragment() {
         super.onResume()
         getPreference()
         if (roomId != 0) {
-            setName()
-            viewLifecycleOwner.lifecycleScope.launch {
-                try {
-                    viewModel.fetchRoomInfo()
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                //viewModel.loadRoomLogs(isNextPage = true)
-            }
+            setRoomName()
+            setRoomInfoObserver()
+            setRoomLogObserver()
+            fetchData()
         }
     }
 
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
         roomPersona = spf.getInt("room_persona", 0)
-        CharacterUtil.setImg(roomPersona, binding.ivChar)
+        CharacterUtil.setImg(roomPersona, binding.btnChar)
     }
 
-    private fun setName() {
+    private fun setRoomName() {
         roomName = viewModel.getRoomName()
         if (roomName != null) {
             val tvWhoseRoom = binding.tvWhoseRoom2
@@ -168,9 +139,20 @@ class CozyBotFragment : Fragment() {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
-
             // 텍스트에 적용된 스타일을 설정
             tvWhoseRoom.text = spannableString
+        }
+    }
+
+    private fun openMessage() {
+        binding.btnMessage.setOnClickListener {
+            startActivity(Intent(activity, MessageMemberActivity::class.java))
+        }
+    }
+
+    private fun openNotification() {
+        binding.btnBell.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
 
@@ -183,7 +165,7 @@ class CozyBotFragment : Fragment() {
                 binding.rvMembers.visibility = View.VISIBLE
                 binding.rvMembers.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                val adapter = CozybotCharactersAdapter(mateList)
+                val adapter = CozyBotCharacterRVAdapter(mateList)
                 binding.rvMembers.adapter = adapter
                 binding.rvMembers.addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
@@ -237,17 +219,17 @@ class CozyBotFragment : Fragment() {
         }
     }
 
-    private fun observeRoomLog() {
-        val adapter = AchievementsAdapter(requireContext(), emptyList())
-        binding.rvAcheivement.adapter = adapter
-        binding.rvAcheivement.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.achievements.observe(viewLifecycleOwner) { items ->
+    private fun setRoomLogObserver() {
+        val adapter = RoomLogRVAdapter(requireContext(), emptyList())
+        binding.rvRoomLogs.adapter = adapter
+        binding.rvRoomLogs.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.roomLogs.observe(viewLifecycleOwner) { items ->
             roomLogCount = items.size
             adapter.setItems(items)
             adapter.notifyDataSetChanged() // UI 갱신 (중복 방지)
         }
         // RecyclerView 스크롤 리스너 추가
-        binding.rvAcheivement.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvRoomLogs.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -263,15 +245,17 @@ class CozyBotFragment : Fragment() {
         })
     }
 
-    private fun openMessage() {
-        binding.btnMessage.setOnClickListener {
-            startActivity(Intent(activity, MessageMemberActivity::class.java))
-        }
-    }
-
-    private fun openNotification() {
-        binding.btnBell.setOnClickListener {
-            startActivity(Intent(activity, NotificationActivity::class.java))
+    private fun fetchData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                viewModel.fetchRoomInfo()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "방 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            viewModel.loadRoomLogs(isNextPage = true)
         }
     }
 }
