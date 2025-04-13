@@ -26,6 +26,7 @@ import umc.cozymate.data.repository.repository.RoomRepository
 import umc.cozymate.ui.cozy_bot.AchievementItem
 import umc.cozymate.ui.cozy_bot.AchievementItemType
 import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
+import umc.cozymate.util.PreferencesUtil.KEY_USER_UNIVERSITY_NAME
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,6 +64,10 @@ class CozyHomeViewModel @Inject constructor(
 
     fun getNickname(): String? {
         return sharedPreferences.getString(KEY_USER_NICKNAME, "")
+    }
+
+    fun getUnivName(): String? {
+        return sharedPreferences.getString(KEY_USER_UNIVERSITY_NAME, "")
     }
 
     // 랜덤 룸메이트 5명 추천 (/members/stat/random)
