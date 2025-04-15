@@ -5,11 +5,13 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.request.UpdateInfoRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
@@ -110,32 +112,10 @@ interface MemberService {
         @Body request: VerifyMailRequest
     ): Response<VerifyMailResponse>
 
-    // 사용자 프로필 이미지 수정
-    @POST("/members/update-persona")
-    suspend fun updatePersona(
+    // 사용자 정보 수정
+    @PATCH("/members/update")
+    suspend fun updateUserInfo(
         @Header("Authorization") accessToken: String,
-        @Query("persona") persona: Int
-    ): Response<UpdateInfoCommonResponse>
-
-    // 사용자 닉네임 수정
-    @POST("/members/update-nickname")
-    suspend fun updateNickname(
-        @Header("Authorization") accessToken: String,
-        @Query("nickname") nickname: String
-    ): Response<UpdateInfoCommonResponse>
-
-    // 사용자 프로필 이미지 수정
-    @POST("/members/update-majorName")
-    suspend fun updateMajorName(
-        @Header("Authorization") accessToken: String,
-        @Query("majorName") majorName: String
-    ): Response<UpdateInfoCommonResponse>
-
-    // 사용자 생일 수정
-    // yyyy-MM-dd 형식
-    @POST("/members/update-birthday")
-    suspend fun updateBirthday(
-        @Header("Authorization") accessToken: String,
-        @Query("localDate") localDate: String
+        @Body request: UpdateInfoRequest
     ): Response<UpdateInfoCommonResponse>
 }

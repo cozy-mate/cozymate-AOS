@@ -1,6 +1,7 @@
 package umc.cozymate.ui.my_page.my_info
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,12 @@ import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
 import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
-class UpdateBirthFragment: Fragment() {
+class UpdateBirthFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentUpdateBirthBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UpdateInfoViewModel by viewModels()
+    private var birthDate: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,40 +34,42 @@ class UpdateBirthFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getPreferences()
         setObserver()
-        with(binding) {
-            // 뒤로가기
-            ivBack.setOnClickListener {
-                requireActivity().onBackPressed()
+        binding.ivBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        binding.btnNext.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.updateMyInfo()
             }
+        }
+        binding.mcvBirth.setOnClickListener {
+            val fragment = DatePickerBottomSheetFragment()
+            fragment.setOnDateSelectedListener(object :
+                DatePickerBottomSheetFragment.AlertPickerDialogInterface {
 
-            // 생년월일 수정
-            btnNext.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.updateBirthDate()
+                override fun onClickDoneButton(date: String) {
+                    birthDate = StringUtil.formatDate(date)
+                    binding.tvBirth.text = birthDate
+                    viewModel.setBirthDate(date)
                 }
-            }
-
-            // 생년월일 바텀시트
-            mcvBirth.setOnClickListener {
-                val fragment = DatePickerBottomSheetFragment()
-                fragment.setOnDateSelectedListener(object :
-                    DatePickerBottomSheetFragment.AlertPickerDialogInterface {
-
-                    override fun onClickDoneButton(date: String) {
-                        binding.tvBirth.text = StringUtil.formatDate(date)
-                        viewModel.setBirthDate(date)
-                    }
-                })
-                fragment.show(childFragmentManager, "FragmentTag")
-            }
+            })
+            fragment.show(childFragmentManager, "FragmentTag")
         }
     }
 
-    // 생년월일 수정 결과 옵저빙
-    fun setObserver() {
-        viewModel.updateBirthDateResponse.observe(viewLifecycleOwner) { res ->
+    private fun getPreferences() {
+        viewModel.getMemberInfoSPF()
+        viewModel.birthDate.observe(viewLifecycleOwner) { s ->
+            Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
+        }
+    }
+
+    private fun setObserver() {
+        viewModel.updateInfoResponse.observe(viewLifecycleOwner) { res ->
             if (res.result) {
+                viewModel.saveBirthDate(birthDate)
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }

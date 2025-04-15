@@ -23,9 +23,10 @@ import umc.cozymate.data.model.response.roomlog.RoomLogResponse
 import umc.cozymate.data.repository.repository.MemberStatRepository
 import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
-import umc.cozymate.ui.cozy_bot.AchievementItem
-import umc.cozymate.ui.cozy_bot.AchievementItemType
+import umc.cozymate.ui.cozy_bot.RoomLogItem
+import umc.cozymate.ui.cozy_bot.RoomLogType
 import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
+import umc.cozymate.util.PreferencesUtil.KEY_USER_UNIVERSITY_NAME
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,8 +38,7 @@ class CozyHomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
-    private val _achievements = MutableLiveData<List<AchievementItem>>()
-    val achievements: LiveData<List<AchievementItem>> get() = _achievements
+
     private val _roomId = MutableLiveData<Int>()
     val roomId: LiveData<Int> get() = _roomId
     private val _roomName = MutableLiveData<String>()
@@ -63,6 +63,10 @@ class CozyHomeViewModel @Inject constructor(
 
     fun getNickname(): String? {
         return sharedPreferences.getString(KEY_USER_NICKNAME, "")
+    }
+
+    fun getUnivName(): String? {
+        return sharedPreferences.getString(KEY_USER_UNIVERSITY_NAME, "")
     }
 
     // 랜덤 룸메이트 5명 추천 (/members/stat/random)
@@ -140,7 +144,8 @@ class CozyHomeViewModel @Inject constructor(
         val token = getToken()
         if (token != null) {
             try {
-                val response = repository.getRecommendedRoomList(accessToken = token, size = 5, page = 0,
+                val response = repository.getRecommendedRoomList(
+                    accessToken = token, size = 5, page = 0,
                     sortType = SortType.AVERAGE_RATE.value
                 ) // 최신순
                 if (response.isSuccessful) {
@@ -179,6 +184,7 @@ class CozyHomeViewModel @Inject constructor(
         Log.d(TAG, "getRoomInfoById 방 정보: ${roomInfo.value}")
         return roomInfo
     }
+
     fun getSavedRoomId(): Int {
         return sharedPreferences.getInt("room_id", -1)
     }
@@ -235,16 +241,19 @@ class CozyHomeViewModel @Inject constructor(
             }
         }
     }
+
     fun saveRoomInfo(key: String, mateList: List<GetRoomInfoResponse.Result.MateDetail>) {
         val gson = Gson()
         val json = gson.toJson(mateList)
         sharedPreferences.edit().putString(key, json).apply() // mate_list라는 이름으로 저장
         Log.d(TAG, "spf 룸메이트 정보 : ${json}")
     }
+
     fun saveRoomName(name: String) {
         Log.d(TAG, "spf 방 이름 : $name")
         sharedPreferences.edit().putString("room_name", name).apply()
     }
+
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
@@ -297,48 +306,42 @@ class CozyHomeViewModel @Inject constructor(
         }
     }
 
-
-    // 룸로그
+    // 룸로그 조회 (/roomlog/{roomId})
     private var currentPage = 0
     private val pageSize = 10
     private var isLastPage = false
+    private val _roomLogs = MutableLiveData<List<RoomLogItem>>()
+    val roomLogs: LiveData<List<RoomLogItem>> get() = _roomLogs
     suspend fun loadRoomLogs(isNextPage: Boolean = false) {
         if (isLoading.value == true || isLastPage) return
         _isLoading.value = true
         val token = getToken()
         val roomId = getSavedRoomId()
-        if (roomId != 0) {
+        if (token != null && roomId != 0) {
             try {
-                val response = logRepository.getRoomLog(token!!, roomId!!, currentPage, pageSize)
+                val response = logRepository.getRoomLog(token, roomId, currentPage, pageSize)
                 if (response.isSuccessful) {
-                    if (response.body()!!.isSuccess) {
-                        val newItems = response.body()!!.result.result.map { roomLog ->
-                            mapRoomLogResponseToItem(roomLog)
-                        }
-                        // 기존 데이터에 추가 (중복 방지)
-                        val updatedList = if (isNextPage) {
-                            _achievements.value.orEmpty() + newItems
-                        } else {
-                            newItems // 초기 로드 시 새 데이터로 덮어쓰기
-                        }
-                        _achievements.value = updatedList
-
-                        // 마지막 페이지 체크
-                        isLastPage = newItems.size < pageSize
-                        if (!isLastPage && isNextPage) {
-                            currentPage++
-                        }
-                        Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
-                    } else {
-                        Log.d(TAG, "룸로그 에러 메시지: ${response}")
+                    val newItems = response.body()!!.result.result.map { roomLog ->
+                        mapRoomLogResponseToItem(roomLog)
                     }
+                    // 기존 데이터에 추가 (중복 방지)
+                    val updatedList = if (isNextPage) {
+                        _roomLogs.value.orEmpty() + newItems
+                    } else {
+                        newItems // 초기 로드 시 새 데이터로 덮어쓰기
+                    }
+                    _roomLogs.value = updatedList
+
+                    // 마지막 페이지 체크
+                    isLastPage = newItems.size < pageSize
+                    if (!isLastPage && isNextPage) {
+                        currentPage++
+                    }
+                    Log.d(TAG, "룸로그 조회 api 성공: ${response.body()!!.result}")
+
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    if (errorBody != null) {
-                        _errorResponse.value = parseErrorResponse(errorBody)
-                    } else {
-                        _errorResponse.value = ErrorResponse("UNKNOWN", false, "unknown error", "")
-                    }
+                    _errorResponse.value = parseErrorResponse(errorBody)
                     Log.d(TAG, "룸로그 조회 api 응답 실패: ${errorBody}")
                 }
             } catch (e: Exception) {
@@ -346,6 +349,14 @@ class CozyHomeViewModel @Inject constructor(
             }
         }
         _isLoading.value = false
+    }
+
+    fun mapRoomLogResponseToItem(roomLog: RoomLogResponse.RoomLogResult.RoomLogItem): RoomLogItem {
+        return RoomLogItem(
+            content = roomLog.content,
+            datetime = roomLog.createdAt,
+            RoomLogType.DEFAULT
+        )
     }
 
     private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
@@ -356,13 +367,5 @@ class CozyHomeViewModel @Inject constructor(
             Log.e(TAG, "Error parsing JSON: ${e.message}")
             null
         }
-    }
-
-    fun mapRoomLogResponseToItem(roomLog: RoomLogResponse.RoomLogResult.RoomLogItem): AchievementItem {
-        return AchievementItem(
-            content = roomLog.content,
-            datetime = roomLog.createdAt,
-            AchievementItemType.DEFAULT
-        )
     }
 }

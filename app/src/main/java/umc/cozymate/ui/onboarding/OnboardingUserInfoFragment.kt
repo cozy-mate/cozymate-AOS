@@ -60,13 +60,22 @@ class OnboardingUserInfoFragment : Fragment() {
     }
 
     fun setupNicknameTextWatcher() {
-        val nicknamePattern = "^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{1,7}$".toRegex() // 2-8자의 한글,영어,숫자
         binding.etNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
+                val invalidLength = input.length > 8 || input.length < 2
                 val containsSeparatedHangul = input.any { it in 'ㄱ'..'ㅎ' || it in 'ㅏ'..'ㅣ' }
+                val nicknamePattern = "^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{1,7}$".toRegex() // 2-8자의 한글,영어,숫자
                 when {
+                    invalidLength -> {
+                        binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
+                        binding.tvAlertNickname.visibility = View.VISIBLE
+                        binding.tvAlertNickname.text = "닉네임은 2자리 이상 8자리 이하로 입력해주세요"
+                        binding.clOnboardingNickname.isSelected = true
+                        binding.btnValidCheck.isEnabled = false
+                        binding.btnNext.isEnabled = false
+                    }
                     containsSeparatedHangul -> {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
@@ -79,7 +88,7 @@ class OnboardingUserInfoFragment : Fragment() {
                     !nicknamePattern.matches(input) -> {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
-                        binding.tvAlertNickname.text = "닉네임은 2~8자로, 한글 또는 영어로 시작해야 합니다!"
+                        binding.tvAlertNickname.text = "닉네임은 한글 또는 영어로 시작해야 합니다!"
                         binding.clOnboardingNickname.isSelected = true
                         binding.btnValidCheck.isEnabled = false
                         binding.btnNext.isEnabled = false

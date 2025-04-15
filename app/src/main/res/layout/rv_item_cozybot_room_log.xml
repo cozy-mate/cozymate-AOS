@@ -6,7 +6,7 @@
 
         <variable
             name="achievement"
-            type="umc.cozymate.ui.cozy_bot.AchievementItem" />
+            type="umc.cozymate.ui.cozy_bot.RoomLogItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

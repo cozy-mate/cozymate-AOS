@@ -9,52 +9,46 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
-import umc.cozymate.databinding.ItemCozyhomeAchievementBinding
+import umc.cozymate.databinding.RvItemCozybotRoomLogBinding
 
-class AchievementsAdapter(
+class RoomLogRVAdapter(
     private val context: Context,
-    private var achievements: List<AchievementItem>
-) : RecyclerView.Adapter<AchievementsAdapter.AchievementViewHolder>() {
+    private var roomLogItems: List<RoomLogItem>
+) : RecyclerView.Adapter<RoomLogRVAdapter.AchievementViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AchievementViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: ItemCozyhomeAchievementBinding = ItemCozyhomeAchievementBinding.inflate(
+        val binding: RvItemCozybotRoomLogBinding = RvItemCozybotRoomLogBinding.inflate(
             layoutInflater, parent, false
         )
         return AchievementViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AchievementViewHolder, position: Int) {
-        holder.bind(achievements[position])
+        holder.bind(roomLogItems[position])
     }
 
-    override fun getItemCount(): Int = achievements.size
+    override fun getItemCount(): Int = roomLogItems.size
 
-    fun setItems(newAchievements: List<AchievementItem>) {
-        /*achievements.clear()
-        achievements.addAll(newAchievements)
-        notifyDataSetChanged()*/
-
-        achievements = newAchievements
+    fun setItems(newAchievements: List<RoomLogItem>) {
+        roomLogItems = newAchievements
         notifyDataSetChanged()
     }
 
-    inner class AchievementViewHolder(private val binding: ItemCozyhomeAchievementBinding) :
+    inner class AchievementViewHolder(private val binding: RvItemCozybotRoomLogBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(achievement: AchievementItem) {
+        fun bind(achievement: RoomLogItem) {
             binding.achievement = achievement
             binding.executePendingBindings()
 
             binding.tvAchievementDatetime.text = achievement.datetime
-
             val originalText = achievement.content
             binding.tvAchievementContent.text = when (achievement.type) {
-                AchievementItemType.PRAISE -> "name님이 todo를 완료했어요! 얼른 칭찬해주세요!"
-                AchievementItemType.COMPLETE -> "month 최고의 코지메이트 신청이 완료되었어요! \nBest cozymate : name Worst cozymate : name"
-                AchievementItemType.FORGOT -> "name님이 todo을/를 까먹은 거 같아요 ㅠㅠ"
-                AchievementItemType.FIRST -> "피그말리온 의 역사적인 하루가 시작됐어요!"
-                AchievementItemType.DEFAULT -> applyColorToBracesText(originalText)
+                RoomLogType.PRAISE -> "name님이 todo를 완료했어요! 얼른 칭찬해주세요!"
+                RoomLogType.COMPLETE -> "month 최고의 코지메이트 신청이 완료되었어요! \nBest cozymate : name Worst cozymate : name"
+                RoomLogType.FORGOT -> "name님이 todo을/를 까먹은 거 같아요 ㅠㅠ"
+                RoomLogType.FIRST -> "피그말리온 의 역사적인 하루가 시작됐어요!"
+                RoomLogType.DEFAULT -> applyColorToBracesText(originalText)
             }
         }
     }
@@ -66,9 +60,8 @@ class AchievementsAdapter(
         val matchResult = pattern.find(text)
         val name = matchResult?.groups?.get(1)?.value ?: ""
 
-        val newText = text.replace(pattern, name)
-
         // 텍스트에 색상 적용
+        val newText = text.replace(pattern, name)
         val spannableString = SpannableString(newText)
         val colorSpanBlue = ForegroundColorSpan(ContextCompat.getColor(context, R.color.main_blue))
 

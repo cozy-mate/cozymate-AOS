@@ -34,11 +34,6 @@ class UpdateMyInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUpdateMyInfoBinding.inflate(inflater, container, false)
-        binding.tvUpdatePreference.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.fetchMemberInfo()
-            viewModel.fetchMyPreference()
-        }
         return binding.root
     }
 
@@ -52,7 +47,12 @@ class UpdateMyInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.tvUpdatePreference.paintFlags = Paint.UNDERLINE_TEXT_FLAG // 텍스트 밑줄
+        observeResponse()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchMemberInfo()
+            viewModel.fetchMyPreference()
+        }
         with(binding) {
             // 뒤로가기
             ivBack.setOnClickListener {
@@ -69,11 +69,11 @@ class UpdateMyInfoFragment : Fragment() {
             }
 
             // 학과 수정
-            llMajor.setOnClickListener {
-                if (universityFlag == true) {
-                    (requireActivity() as UpdateMyInfoActivity).loadUpdateMajorFragment()
-                }
-            }
+//            llMajor.setOnClickListener {
+//                if (universityFlag == true) {
+//                    (requireActivity() as UpdateMyInfoActivity).loadUpdateMajorFragment()
+//                }
+//            }
 
             // 생년월일 수정
             llBirth.setOnClickListener {
@@ -93,7 +93,6 @@ class UpdateMyInfoFragment : Fragment() {
                 }
             }
 
-            observeResponse()
         }
     }
 
@@ -107,18 +106,18 @@ class UpdateMyInfoFragment : Fragment() {
         with(binding) {
             viewModel.memberInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 if (response.result != null) {
+                    CharacterUtil.setImg(response.result.persona, ivPersona)
                     tvNickname.text = response.result.nickname
                     tvBirth.text = StringUtil.formatDate(response.result.birthday)
-                    if (response.result.majorName == "") {
-                        universityFlag = false
-                        tvMajor.text = "아직 학교인증이 되어있지 않아요"
-                        tvMajor.setTextColor(root.context.getColor(R.color.unuse_font))
-                    } else {
-                        universityFlag = true
-                        tvMajor.text = response.result.majorName
-                        tvMajor.setTextColor(root.context.getColor(R.color.highlight_font))
-                    }
-                    CharacterUtil.setImg(response.result.persona, ivPersona)
+//                    if (response.result.majorName == "") {
+//                        universityFlag = false
+//                        tvMajor.text = "아직 학교인증이 되어있지 않아요"
+//                        tvMajor.setTextColor(root.context.getColor(R.color.unuse_font))
+//                    } else {
+//                        universityFlag = true
+//                        tvMajor.text = response.result.majorName
+//                        tvMajor.setTextColor(root.context.getColor(R.color.highlight_font))
+//                    }
                 }
             })
             viewModel.myPreference.observe(viewLifecycleOwner, Observer { prefList ->

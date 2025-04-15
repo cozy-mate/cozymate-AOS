@@ -2,13 +2,17 @@ package umc.cozymate.util
 
 import android.content.SharedPreferences
 import android.content.Context
+import android.util.Log
+
 object PreferencesUtil {
     const val PREFS_NAME = "app_prefs"
 
     // 저장할 때 사용할 키들을 상수로 정의
+    const val KEY_USER_MEMBER_ID = "user_member_id"
     const val KEY_USER_NICKNAME = "user_nickname"
     const val KEY_USER_BIRTHDAY = "user_birthday"
     const val KEY_USER_UNIVERSITY_NAME = "user_university_name"
+    const val KEY_USER_UNIVERSITY_ID = "user_university_id"
     const val KEY_USER_MAJOR_NAME = "user_major_name"
     const val KEY_USER_PERSONA = "user_persona"
     const val KEY_USER_ADMISSION_YEAR = "user_admissionYear"
@@ -40,6 +44,7 @@ object PreferencesUtil {
     const val KEY_USER_SELF_INTRODUCTION = "user_selfIntroduction"
     const val KEY_IS_LIFESTYLE_EXIST = "is_lifestyle_exist"
     const val KEY_ROOM_ID = "room_id"
+    const val KEY_ROOM_NAME = "room_name"
 
     // SharedPreferences 인스턴스 반환
     private fun getPreferences(context: Context): SharedPreferences =
@@ -79,5 +84,6 @@ object PreferencesUtil {
     // 전체 데이터 초기화 함수
     fun clear(context: Context) {
         getPreferences(context).edit().clear().apply()
+        Log.d(context.toString(), "SharedPreferences 데이터가 삭제되었습니다.")
     }
 }

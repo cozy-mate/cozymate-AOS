@@ -96,7 +96,7 @@ class CozyHomeFragment : Fragment() {
         splashViewmodel.memberCheck()
         val nickname = viewModel.getNickname().toString()
         binding.btnLifestyle.text = "${nickname}님, 라이프스타일을 입력하고\n나와 꼭 맞는 룸메이트를 찾아볼까요?"
-        binding.tvUnivName.text = "인하대학교"
+        binding.tvUnivName.text = viewModel.getUnivName().toString()
         binding.tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
     }
 

@@ -5,6 +5,7 @@ import umc.cozymate.data.api.MemberService
 import umc.cozymate.data.model.entity.MemberDetail
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.SignInRequest
+import umc.cozymate.data.model.request.UpdateInfoRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
 import umc.cozymate.data.model.response.member.CheckNicknameResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
@@ -83,31 +84,12 @@ class MemberRepositoryImpl @Inject constructor(
         return api.verifyMail(accessToken, request)
     }
 
-    override suspend fun updatePersona(
+    override suspend fun updateInfo(
         accessToken: String,
-        persona: Int
+        request: UpdateInfoRequest
     ): Response<UpdateInfoCommonResponse> {
-        return api.updatePersona(accessToken, persona)
+        return api.updateUserInfo(accessToken, request)
     }
 
-    override suspend fun updateNickname(
-        accessToken: String,
-        nickname: String
-    ): Response<UpdateInfoCommonResponse> {
-        return api.updateNickname(accessToken, nickname)
-    }
 
-    override suspend fun updateMajorName(
-        accessToken: String,
-        majorName: String
-    ): Response<UpdateInfoCommonResponse> {
-        return api.updateMajorName(accessToken, majorName)
-    }
-
-    override suspend fun updateBirthday(
-        accessToken: String,
-        localDate: String
-    ): Response<UpdateInfoCommonResponse> {
-        return api.updateBirthday(accessToken, localDate)
-    }
 }

@@ -28,11 +28,14 @@ class LaunchActivity : AppCompatActivity() {
         binding = ActivityLaunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.navigationBarColor = Color.WHITE
+
+        setLottie()
+        attemptAutoLogin()
+    }
+
+    private fun setLottie() {
         binding.lottieSplash.setAnimation(R.raw.splash_gif)
         binding.lottieSplash.playAnimation()
-
-        // 저장한 토큰이 유효하다면 자동 로그인을 합니다.
-        attemptAutoLogin()
     }
 
     private fun attemptAutoLogin() {

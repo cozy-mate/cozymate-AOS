@@ -15,7 +15,7 @@ class RecommendedRoomVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            if (item.equality == 0){
+            if (item.equality == 0) {
                 tvMatchRate.text = "??%"
             } else {
                 tvMatchRate.text = "${item.equality}%"
@@ -61,13 +61,13 @@ class RecommendedRoomVPViewHolder(
                 Preference.entries.find { it.pref == item.preferenceMatchCountList[2].preferenceName }
             val pref4 =
                 Preference.entries.find { it.pref == item.preferenceMatchCountList[3].preferenceName }
-            tvCriteria1.text = pref1!!.displayName
-            tvCriteria2.text = pref2!!.displayName
-            tvCriteria3.text = pref3!!.displayName
-            tvCriteria4.text = pref4!!.displayName
-            if (isLifestyleExist == true) {
-                // 선호항목 1
-                if (pref1 != null) {
+            if (pref1 != null && pref2 != null && pref3 != null && pref4 != null) {
+                tvCriteria1.text = pref1.displayName
+                tvCriteria2.text = pref2.displayName
+                tvCriteria3.text = pref3.displayName
+                tvCriteria4.text = pref4.displayName
+                if (isLifestyleExist == true) {
+                    // 선호항목 1
                     when (item.preferenceMatchCountList[0].count) {
                         0 -> {
                             tvCriteriaContent1.text = "0명 일치"
@@ -85,9 +85,7 @@ class RecommendedRoomVPViewHolder(
                             ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
                         }
                     }
-                }
-                // 선호항목 2
-                if (pref2 != null) {
+                    // 선호항목 2
                     when (item.preferenceMatchCountList[1].count) {
                         0 -> {
                             tvCriteriaContent2.text = "0명 일치"
@@ -105,9 +103,7 @@ class RecommendedRoomVPViewHolder(
                             ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
                         }
                     }
-                }
-                // 선호항목 3
-                if (pref3 != null) {
+                    // 선호항목 3
                     tvCriteria3.text = pref3.displayName
                     when (item.preferenceMatchCountList[2].count) {
                         0 -> {
@@ -126,9 +122,7 @@ class RecommendedRoomVPViewHolder(
                             ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
                         }
                     }
-                }
-                // 선호항목 4
-                if (pref4 != null) {
+                    // 선호항목 4
                     when (item.preferenceMatchCountList[3].count) {
                         0 -> {
                             tvCriteriaContent4.text = "0명 일치"
@@ -146,17 +140,17 @@ class RecommendedRoomVPViewHolder(
                             ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
                         }
                     }
+                } else {
+                    // 사용자 라이프스타일 없을 때
+                    tvCriteriaContent1.text = "??"
+                    ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
+                    tvCriteriaContent2.text = "??"
+                    ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
+                    tvCriteriaContent3.text = "??"
+                    ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
+                    tvCriteriaContent4.text = "??"
+                    ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
                 }
-            } else {
-                // 사용자 라이프스타일 없을 때
-                tvCriteriaContent1.text = "??"
-                ivCriteriaIcon1.setImageResource(pref1!!.grayDrawable)
-                tvCriteriaContent2.text = "??"
-                ivCrieteriaIcon2.setImageResource(pref2!!.grayDrawable)
-                tvCriteriaContent3.text = "??"
-                ivCrieteriaIcon3.setImageResource(pref3!!.grayDrawable)
-                tvCriteriaContent4.text = "??"
-                ivCrieteriaIcon4.setImageResource(pref4!!.grayDrawable)
             }
         }
     }
