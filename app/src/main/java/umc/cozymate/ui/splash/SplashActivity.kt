@@ -126,8 +126,12 @@ class SplashActivity : AppCompatActivity() {
                     splashViewModel.memberInfoResponse.observe(this) { memberInfo ->
                         if (memberInfo != null) {
                             splashViewModel.saveUserInfo(memberInfo)
+                        }
+                    }
+                    splashViewModel.isMember.observe(this) { isMember ->
+                        if (isMember == true) {
                             goCozyHome()
-                        } else goUnivCert()
+                        } else if (isMember == false) goUnivCert()
                     }
                 } catch (e: Exception) {
                     goLoginFail()
