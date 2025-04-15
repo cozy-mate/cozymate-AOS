@@ -134,6 +134,7 @@ class SplashActivity : AppCompatActivity() {
                         } else if (isMember == false) goUnivCert()
                     }
                 } catch (e: Exception) {
+                    Log.d(TAG, "로그인 처리 중 오류 발생: $e")
                     goLoginFail()
                 }
             } else {
