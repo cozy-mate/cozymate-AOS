@@ -1,7 +1,9 @@
 package umc.cozymate.ui.cozy_home.room.recommended_room
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
@@ -15,141 +17,60 @@ class RecommendedRoomVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            if (item.equality == 0) {
-                tvMatchRate.text = "??%"
-            } else {
-                tvMatchRate.text = "${item.equality}%"
-            }
-            tvMatchRate.text = when {
-                false -> ""
-                item.numOfArrival == 1 -> "- %"
-                item.equality == 0 -> "?? %"
-                else -> "${item?.equality.toString()}%"
+            when {
+                item.numOfArrival == 1 -> {
+                    tvMatchRate.text = "- %"
+                }
+                item.equality == 0 -> {
+                    tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
+                    tvMatchRate.text = "?? %"
+                }
+                else -> {
+                    tvMatchRate.text = "${item.equality.toString()}%"
+                }
             }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
-            when (item.hashtags.size) {
-                0 -> {
-                    tvHashtag1.visibility = View.INVISIBLE
-                    tvHashtag2.visibility = View.INVISIBLE
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
 
-                1 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.visibility = View.INVISIBLE
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
-
-                2 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.text = "#${item.hashtags[1]}"
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
-
-                3 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.text = "#${item.hashtags[1]}"
-                    tvHashtag3.text = "#${item.hashtags[2]}"
+            val tvHashtags = arrayOf(tvHashtag1, tvHashtag2, tvHashtag3)
+            tvHashtags.forEachIndexed { idx, tv ->
+                if (idx < item.hashtags.size) {
+                    tv.text = "#${item.hashtags[idx]}"
+                    tv.visibility = View.VISIBLE
+                } else {
+                    tv.visibility = View.INVISIBLE
                 }
             }
 
-            val pref1 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[0].preferenceName }
-            val pref2 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[1].preferenceName }
-            val pref3 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[2].preferenceName }
-            val pref4 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[3].preferenceName }
-            if (pref1 != null && pref2 != null && pref3 != null && pref4 != null) {
-                tvCriteria1.text = pref1.displayName
-                tvCriteria2.text = pref2.displayName
-                tvCriteria3.text = pref3.displayName
-                tvCriteria4.text = pref4.displayName
-                if (isLifestyleExist == true) {
-                    // 선호항목 1
-                    when (item.preferenceMatchCountList[0].count) {
+            val prefs = item.preferenceMatchCountList.take(4).mapIndexed { idx, preferenceMatchCount ->
+                Preference.entries.find { it.pref == preferenceMatchCount.preferenceName }
+            }
+            val counts = item.preferenceMatchCountList.take(4).map { it.count }
+            val ivPrefIcons = arrayOf(ivCriteriaIcon1, ivCrieteriaIcon2, ivCrieteriaIcon3, ivCrieteriaIcon4)
+            val tvPrefNames = arrayOf(tvCriteria1, tvCriteria2, tvCriteria3, tvCriteria4)
+            val tvMatchCounts = arrayOf(tvCriteriaContent1, tvCriteriaContent2, tvCriteriaContent3, tvCriteriaContent4)
+            prefs.forEachIndexed { i, pref ->
+                if (pref == null) return@forEachIndexed
+                tvPrefNames[i].text = pref.displayName
+                if (isLifestyleExist) {
+                    when (counts[i]) {
                         0 -> {
-                            tvCriteriaContent1.text = "0명 일치"
-                            ivCriteriaIcon1.setImageResource(pref1.redDrawable)
+                            tvMatchCounts[i].text = "0명 일치"
+                            ivPrefIcons[i].setImageResource(pref.redDrawable)
                         }
 
                         item.numOfArrival -> {
-                            tvCriteriaContent1.text = "모두 일치"
-                            ivCriteriaIcon1.setImageResource(pref1.blueDrawable)
+                            tvMatchCounts[i].text = "모두 일치"
+                            ivPrefIcons[i].setImageResource(pref.blueDrawable)
                         }
 
                         else -> {
-                            tvCriteriaContent1.text =
-                                "${item.preferenceMatchCountList[0].count}명 일치"
-                            ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
-                        }
-                    }
-                    // 선호항목 2
-                    when (item.preferenceMatchCountList[1].count) {
-                        0 -> {
-                            tvCriteriaContent2.text = "0명 일치"
-                            ivCrieteriaIcon2.setImageResource(pref2.redDrawable)
-                        }
-
-                        item.numOfArrival -> {
-                            tvCriteriaContent2.text = "모두 일치"
-                            ivCrieteriaIcon2.setImageResource(pref2.blueDrawable)
-                        }
-
-                        else -> {
-                            tvCriteriaContent2.text =
-                                "${item.preferenceMatchCountList[1].count}명 일치"
-                            ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
-                        }
-                    }
-                    // 선호항목 3
-                    tvCriteria3.text = pref3.displayName
-                    when (item.preferenceMatchCountList[2].count) {
-                        0 -> {
-                            tvCriteriaContent3.text = "0명 일치"
-                            ivCrieteriaIcon3.setImageResource(pref3.redDrawable)
-                        }
-
-                        item.numOfArrival -> {
-                            tvCriteriaContent3.text = "모두 일치"
-                            ivCrieteriaIcon3.setImageResource(pref3.blueDrawable)
-                        }
-
-                        else -> {
-                            tvCriteriaContent3.text =
-                                "${item.preferenceMatchCountList[2].count}명 일치"
-                            ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
-                        }
-                    }
-                    // 선호항목 4
-                    when (item.preferenceMatchCountList[3].count) {
-                        0 -> {
-                            tvCriteriaContent4.text = "0명 일치"
-                            ivCrieteriaIcon4.setImageResource(pref4.redDrawable)
-                        }
-
-                        item.numOfArrival -> {
-                            tvCriteriaContent4.text = "모두 일치"
-                            ivCrieteriaIcon4.setImageResource(pref4.blueDrawable)
-                        }
-
-                        else -> {
-                            tvCriteriaContent4.text =
-                                "${item.preferenceMatchCountList[3].count}명 일치"
-                            ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
+                            tvMatchCounts[i].text = "${counts[i]}명 일치"
+                            ivPrefIcons[i].setImageResource(pref.grayDrawable)
                         }
                     }
                 } else {
-                    // 사용자 라이프스타일 없을 때
-                    tvCriteriaContent1.text = "??"
-                    ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
-                    tvCriteriaContent2.text = "??"
-                    ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
-                    tvCriteriaContent3.text = "??"
-                    ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
-                    tvCriteriaContent4.text = "??"
-                    ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
+                    tvMatchCounts[i].text = "??"
+                    ivPrefIcons[i].setImageResource(pref.grayDrawable)
                 }
             }
         }
