@@ -31,6 +31,9 @@ class RoommateDetailViewModel @Inject constructor(
     private val _otherUserDetailInfo = MutableLiveData<GetMemberDetailInfoResponse.Result>()
     val otherUserDetailInfo : LiveData<GetMemberDetailInfoResponse.Result> get() = _otherUserDetailInfo
 
+    private val _errorResponse = MutableLiveData<String>()
+    val errorResponse: LiveData<String> get() = _errorResponse
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun getToken(): String? {
@@ -71,6 +74,7 @@ class RoommateDetailViewModel @Inject constructor(
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
+                    _errorResponse.value = errorBody
                     Log.d(TAG, "멤버 조회 api 응답 실패 : ${errorBody}")
                 }
             } finally {

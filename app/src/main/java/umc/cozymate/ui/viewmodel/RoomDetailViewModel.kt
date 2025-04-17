@@ -121,11 +121,12 @@ class RoomDetailViewModel @Inject constructor(
                 }
                 Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
             } else {
+                _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
                 Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
             }
         } else {
             val errorBody = response.errorBody()?.string()
-
+            _errorResponse.value = errorBody ?: "Unknown error"
             Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
         }
     }
