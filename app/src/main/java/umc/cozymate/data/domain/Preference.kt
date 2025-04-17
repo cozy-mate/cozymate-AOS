@@ -83,7 +83,7 @@ enum class Preference(
         R.drawable.ic_sleeping_habit_gray
     ),
     COOLING_INTENSITY(
-        "CoolingIntensity",
+        "coolingIntensity",
         "에어컨",
         "",
         R.drawable.ic_air_conditioning_intensity_blue,
@@ -209,4 +209,3 @@ enum class Preference(
         }
     }
 }
-
