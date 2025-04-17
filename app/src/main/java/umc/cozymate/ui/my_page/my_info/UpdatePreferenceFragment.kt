@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.databinding.FragmentUpdatePreferenceBinding
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
-import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
 class UpdatePreferenceFragment : BottomSheetDialogFragment() {
@@ -99,7 +99,7 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
                 val preferences =
-                    PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                    PreferenceList(selectedChips.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>)
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.setPreferences(preferences)
                     viewModel.updateMyPreference()

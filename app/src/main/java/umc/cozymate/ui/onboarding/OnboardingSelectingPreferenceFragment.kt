@@ -17,10 +17,10 @@ import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.databinding.FragmentOnboardingSelectingPreferenceBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
-import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
 class OnboardingSelectingPreferenceFragment : Fragment() {
@@ -102,7 +102,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
                 val preferences =
-                    PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                    PreferenceList(selectedChips.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>)
                 viewModel.setPreferences(preferences)
                 setupBottomSheet()
             } else {

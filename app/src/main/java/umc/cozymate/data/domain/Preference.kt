@@ -201,6 +201,12 @@ enum class Preference(
         R.drawable.ic_mbti_blue,
         R.drawable.ic_mbti_red,
         R.drawable.ic_mbti_gray
-    )
+    );
+
+    companion object {
+        fun getPrefByDisplayName(name: String): String {
+            return entries.find { it.displayName == name }?.pref ?: ""
+        }
+    }
 }
 
