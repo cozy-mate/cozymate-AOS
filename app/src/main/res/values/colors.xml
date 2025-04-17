@@ -42,6 +42,8 @@
     <!--    색박스-->
     <color name="unuse_btn">#C4C4C4</color>
     <!--    비활성화 버튼-->
+    <color name="pressed_btn">#E5F0FF</color>
+    <!--    알림 선택 색상-->
 
     <color name="detail_gray">#F1F2F4</color>
     <!-- 타인 상세정보 리스트 중 구분선 -->
