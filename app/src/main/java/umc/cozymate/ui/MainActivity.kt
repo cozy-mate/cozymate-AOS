@@ -60,10 +60,19 @@ class MainActivity : AppCompatActivity() {
         setBottomNavViews()
     }
 
+    override fun onResume() {
+        super.onResume()
+        /*intent.getStringExtra("destination")?.let {
+            showCozyBotFragment(it)
+            intent.removeExtra("destination") // 중복 방지
+        }*/
+    }
+
     private fun initScreen() {
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         window.navigationBarColor = android.graphics.Color.WHITE
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
         binding.progressBar.visibility = View.VISIBLE
@@ -107,6 +116,9 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     // 기본 홈 화면 설정
                     binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, CozyHomeFragment())
+                        .commit()
                 }
             }
         }
@@ -139,6 +151,7 @@ class MainActivity : AppCompatActivity() {
             shouldShowRequestPermissionRationale(permission) -> {
                 // permission denied permanently
             }
+
             else -> {
                 requestNotificationPermission.launch(permission)
             }
@@ -241,6 +254,19 @@ class MainActivity : AppCompatActivity() {
 
                 else -> false
             }
+        }
+    }
+
+    private fun showCozyBotFragment(tag: String) {
+        val fragment = when (tag) {
+            "cozybot" -> CozyBotFragment()
+            else -> CozyHomeFragment()
+        }
+
+        fragment.let {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, it)
+                .commit()
         }
     }
 }
