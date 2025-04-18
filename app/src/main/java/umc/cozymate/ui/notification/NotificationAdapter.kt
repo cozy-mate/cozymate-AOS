@@ -1,4 +1,4 @@
-package umc.cozymate.ui.MessageDetail
+package umc.cozymate.ui.notification
 
 import android.view.LayoutInflater
 import android.view.View

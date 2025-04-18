@@ -8,7 +8,7 @@ import umc.cozymate.ui.viewmodel.NotificationViewModel
 import java.io.IOException
 
 //@AndroidEntryPoint
-//class NotificationPagingSource(val notificationViewModel: NotificationViewModel) : PagingSource<Int, NotificationViewModel>() {
+//class NotificationPagingSource(val notificationViewModel: NotificationViewModel) : PagingSource<Int, NotificationLogResponse>() {
 //    override val keyReuseSupported: Boolean = true
 //
 //    // 페이지 갱신해야할 때 수행되는 함수

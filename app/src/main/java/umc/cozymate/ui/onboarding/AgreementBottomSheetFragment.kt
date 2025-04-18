@@ -35,6 +35,11 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
         setupBottomSheet()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun setupBottomSheet() {
         val bottomSheet = binding.bottomSheetAgreement
         var checked1: Boolean = false

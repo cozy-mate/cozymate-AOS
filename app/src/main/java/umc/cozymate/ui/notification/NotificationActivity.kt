@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -16,10 +15,9 @@ import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.ActivityNotificationBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.MessageDetail.NotificationAdapter
+import umc.cozymate.ui.notification.NotificationAdapter
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
-import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.NotificationViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
@@ -73,7 +71,7 @@ class NotificationActivity : AppCompatActivity() {
             }
         }
 
-        roomDetailViewModel.errorResponse.observe(this) { error ->
+        roommateDetailViewModel.errorResponse.observe(this) { error ->
             SnackbarUtil.showCustomSnackbar(
                 context = this@NotificationActivity,
                 message = "존재하지 않는 사용자입니다.",
