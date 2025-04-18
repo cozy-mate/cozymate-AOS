@@ -72,7 +72,7 @@ class RecommendRoommateVPViewHolder(
 fun formatAnswer(option: String, answer: Any): String {
     return when (option) {
         "wakeUpTime", "sleepingTime", "turnOffTime" -> {
-            val time = (answer as String).toIntOrNull() ?: 0
+            val time = answer.toString().toIntOrNull() ?: 0
             val period = if (time < 12) "오전" else "오후"
             val formattedTime = if (time % 12 == 0) 12 else time % 12
             "$period ${formattedTime.toString().padStart(2, '0')}시"
@@ -92,7 +92,7 @@ fun formatAnswer(option: String, answer: Any): String {
 
         "airConditioningIntensity", "heatingIntensity" -> {
             val intensityItems = listOf("안 틀어요", "약하게 틀어요", "적당하게 틀어요", "강하게 틀어요")
-            intensityItems.getOrNull((answer as String).toIntOrNull() ?: 0) ?: "알 수 없음"
+            intensityItems.getOrNull(answer.toString().toIntOrNull() ?: 0) ?: "알 수 없음"
         }
 
         "cleanSensitivity", "noiseSensitivity" -> {
@@ -103,7 +103,7 @@ fun formatAnswer(option: String, answer: Any): String {
                 "예민해요",
                 "매우 예민해요"
             )
-            sensitivityItems.getOrNull((answer as String).toIntOrNull()?.minus(1) ?: 0) ?: "알 수 없음"
+            sensitivityItems.getOrNull(answer.toString().toIntOrNull()?.minus(1) ?: 0) ?: "알 수 없음"
         }
 
         else -> {

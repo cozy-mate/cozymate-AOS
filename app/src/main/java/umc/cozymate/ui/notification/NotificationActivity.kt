@@ -105,7 +105,7 @@ class NotificationActivity : AppCompatActivity() {
             binding.rvNotificationList.visibility = View.GONE
             binding.tvEmpty.visibility = View.VISIBLE
         } else {
-            adapter1 = NotificationAdapter(contents.reversed()) { targetId, category ->
+            adapter1 = NotificationAdapter(contents) { targetId, category ->
                 when (category) {
                     NotificationType.TYPE_NOTICE.value -> {
                         // TODO: 공지사항 화면으로 이동

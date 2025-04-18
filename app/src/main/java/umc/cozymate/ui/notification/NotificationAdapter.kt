@@ -40,7 +40,14 @@ class NotificationAdapter(
             binding.tvText.text = item.content
             binding.tvTime.text = item.createdAt
             binding.ivPressed.setOnClickListener {
-                it.isSelected = true
+                // 기존에 선택된 항목 해제
+                items.forEachIndexed { index, _ ->
+                    if (index != adapterPosition) {
+                        notifyItemChanged(index)
+                    }
+                }
+                // 현재 항목 선택
+                it.isSelected = !it.isSelected
                 onItemClickListener(item.targetId, item.category)
             }
 
