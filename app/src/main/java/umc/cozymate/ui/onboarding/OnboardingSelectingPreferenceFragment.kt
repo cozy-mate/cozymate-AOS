@@ -17,10 +17,11 @@ import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.databinding.FragmentOnboardingSelectingPreferenceBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
-import umc.cozymate.util.PreferenceNameToId
+import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
 class OnboardingSelectingPreferenceFragment : Fragment() {
@@ -48,7 +49,6 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnNext.isEnabled = false
-        binding.includeBs.bottomSheetAgreement.visibility = View.GONE
         setupSignUpObserver()
         setupChips()
         setupNextBtn()
@@ -102,7 +102,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
                 val preferences =
-                    PreferenceList(selectedChips.map { PreferenceNameToId(it.text.toString()) } as ArrayList<String>)
+                    PreferenceList(selectedChips.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>)
                 viewModel.setPreferences(preferences)
                 setupBottomSheet()
             } else {
@@ -111,71 +111,15 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         }
     }
 
-    fun setupBottomSheet() {
-        val bottomSheet = binding.includeBs.bottomSheetAgreement
-        var checked1: Boolean = false
-        var checked2: Boolean = false
-        var checkedAll: Boolean = false
-        val sheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        bottomSheet.visibility = View.VISIBLE
-        binding.dimBackground.visibility = View.VISIBLE
-        with(binding.includeBs) {
-            btnSeeAgreement1.setOnClickListener() {
-                val url = "https://google.com"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
+    private fun setupBottomSheet() {
+        val bottomSheet = AgreementBottomSheetFragment()
+        bottomSheet.setOnAgreementAllConfirmedListener(object :
+            AgreementBottomSheetFragment.AgreementConfirmedInterface {
+            override fun onClickDoneButton() {
+                viewModel.joinMember()
             }
-            btnSeeAgreement2.setOnClickListener() {
-                val url = "https://google.com"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
-            }
-            btnCheck1.setOnClickListener() {
-                checked1 = btnCheck1.isSelected
-                checked2 = btnCheck2.isSelected
-                btnCheck1.isSelected = !checked1
-                checked1 = btnCheck1.isSelected
-                updateCheckAllState(checked1, checked2)
-            }
-            btnCheck2.setOnClickListener() {
-                checked1 = btnCheck1.isSelected
-                checked2 = btnCheck2.isSelected
-                btnCheck2.isSelected = !checked2
-                checked2 = btnCheck2.isSelected
-                updateCheckAllState(checked1, checked2)
-            }
-            btnCheckAll.setOnClickListener() {
-                checkedAll = btnCheckAll.isSelected
-                btnCheckAll.isSelected = !checkedAll
-                if (checkedAll) {
-                    checked1 = false
-                    checked2 = false
-                    btnCheck1.isSelected = checked1
-                    btnCheck2.isSelected = checked2
-                    btnNext.isEnabled = false
-                    checkedAll = false
-                } else {
-                    checked1 = true
-                    checked2 = true
-                    btnCheck1.isSelected = checked1
-                    btnCheck2.isSelected = checked2
-                    btnNext.isEnabled = true
-                    checkedAll = true
-                }
-            }
-            btnNext.setOnClickListener() {
-                if (btnCheckAll.isSelected) {
-                    viewModel.joinMember()
-                }
-            }
-        }
-    }
-
-    fun updateCheckAllState(chk1: Boolean, chk2: Boolean) {
-        val isCheckedAll = chk1 && chk2
-        binding.includeBs.btnCheckAll.isSelected = isCheckedAll
-        binding.includeBs.btnNext.isEnabled = isCheckedAll
+        })
+        bottomSheet.show(childFragmentManager, "AgreementSheetFragment")
     }
 
     private fun setupSignUpObserver() {
@@ -191,7 +135,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         })
     }
 
-    fun goToSummaryFragment() {
+    private fun goToSummaryFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_onboarding, OnboardingSummaryFragment())
             .addToBackStack(null)

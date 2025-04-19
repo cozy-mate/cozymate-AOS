@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
+import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
@@ -26,7 +27,6 @@ import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
-import umc.cozymate.util.PreferenceNameToId
 
 @AndroidEntryPoint
 class RoommateRecommendFragment: Fragment() {
@@ -171,7 +171,7 @@ class RoommateRecommendFragment: Fragment() {
             }
             box.setOnCheckedChangeListener {box, isChecked ->
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
-                val filter = PreferenceNameToId(box.text.toString())
+                val filter = Preference.getPrefByDisplayName(box.text.toString())
                 box.setTextColor(ContextCompat.getColor(requireContext(), color))
 
                 if (!isChecked) selectedChips.remove(filter)

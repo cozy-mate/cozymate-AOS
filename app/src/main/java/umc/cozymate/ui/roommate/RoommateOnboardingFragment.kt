@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
-import umc.cozymate.data.model.entity.MemberDetailInfo
 import umc.cozymate.databinding.FragmentRoommateOnboardingBinding
-import umc.cozymate.ui.viewmodel.SplashViewModel
+import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 
 @AndroidEntryPoint
 class RoommateOnboardingFragment : Fragment() {
     private var _binding: FragmentRoommateOnboardingBinding? = null
-    private val splashViewModel: SplashViewModel by viewModels()
+    private val cozyhomeViewModel: CozyHomeViewModel by viewModels()
     private val binding get() = _binding!!
 
     private var myNickname: String = ""
@@ -39,12 +38,9 @@ class RoommateOnboardingFragment : Fragment() {
             startActivity(intent)
         }
 
-        splashViewModel.memberCheck()
-        splashViewModel.memberInfoResponse.observe(viewLifecycleOwner) { info: MemberDetailInfo? ->
-            myNickname = info!!.nickname
-            binding.tvName1.text = myNickname
-            binding.tvName2.text = myNickname
-        }
+        myNickname = cozyhomeViewModel.getNickname().toString()
+        binding.tvName1.text = myNickname
+        binding.tvName2.text = myNickname
 
         binding.btnGoCrew.setOnClickListener {
             val nextFragment = RoommateMakeCrewableFragment()  // 이동할 프래그먼트 생성
