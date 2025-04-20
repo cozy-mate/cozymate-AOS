@@ -9,7 +9,7 @@ import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 
 class RecommendedRoommateVPAdapter(
     private val items: List<RecommendedMemberInfo>,
-    private val isRecycleerView : Boolean = false,
+    private val isRecyclerView : Boolean = false,
     private val onItemClicked: (memberId: Int) -> Unit) :
     RecyclerView.Adapter<RecommendRoommateVPViewHolder>() {
 
@@ -17,7 +17,7 @@ class RecommendedRoommateVPAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
         val layoutParams  =  ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
-        if (isRecycleerView) { layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT }
+        if (isRecyclerView) { layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT }
         binding.root.layoutParams =layoutParams
         return RecommendRoommateVPViewHolder(binding)
     }
