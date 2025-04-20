@@ -125,18 +125,6 @@ class CozyHomeContentDefaultFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun goToRoommateDetail(memberId: Int) {
-        roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
-            if (otherUserDetail == null) return@observe
-            else {
-                val intent = Intent(requireActivity(), RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
-            }
-        }
-        roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-    }
-
     private fun setMoreRoommateBtn() {
         binding.btnMoreRoommate.setOnClickListener() {
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
