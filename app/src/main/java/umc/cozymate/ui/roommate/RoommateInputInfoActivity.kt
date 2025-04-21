@@ -170,7 +170,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         val userInfo = UserInfoRequest(
             admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
             numOfRoommate = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, "") ?: "",
-            dormName = PreferencesUtil.getString(this, "user_dormitoryName", "") ?: "",
+            dormName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
             dormJoiningStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
             wakeUpTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_WAKE_UP_TIME, -1),
             sleepingTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_SLEEPING_TIME, -1),

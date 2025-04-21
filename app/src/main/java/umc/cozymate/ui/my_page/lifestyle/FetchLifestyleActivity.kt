@@ -171,7 +171,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun observeDormitoryNames() {
         universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
             if (!dormitoryNames.isNullOrEmpty()) {
-                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormitoryName", ""))
+                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormName", ""))
             } else {
                 Log.e("FetchLifestyleActivity", "Dormitory names list is empty or null")
             }
@@ -1284,7 +1284,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         val editor = spf.edit()
         with(editor) {
             putString("user_admissionYear", selectedAdmissionYear.toString())
-            putString("user_dormitoryName", selectedDormitoryName)
+            putString("user_dormName", selectedDormitoryName)
             putString("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_dormJoiningStatus", selectedAcceptance)
             putInt("user_wakeUpTime", selectedWakeUpTime)
@@ -1336,7 +1336,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         val userInfo = UserInfoRequest(
             admissionYear = selectedAdmissionYear.toString(),
             numOfRoommate = selectedNumOfRoommate ?: "",
-            dormName = spf.getString("user_dormitoryName", "") ?: "", // 기존 값 유지
+            dormName = spf.getString("user_dormName", "") ?: "", // 기존 값 유지
             dormJoiningStatus = selectedAcceptance ?: "",
             wakeUpTime = selectedWakeUpTime,
             sleepingTime = selectedSleepingTime,

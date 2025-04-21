@@ -126,7 +126,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                         admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
                         numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
-                        dormitoryName = PreferencesUtil.getString(this, "user_dormitoryName", "") ?: "",
+                        dormitoryName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
                         acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
                         wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
                         sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
