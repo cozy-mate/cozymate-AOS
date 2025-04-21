@@ -80,57 +80,28 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             tvListSchool.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "")
             tvListSchoolNumber.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
             tvListMajor.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
-            tvListDormitoryNum.text = "${PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, 0)}인 1실"
-            tvListAcceptance.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_ACCEPTANCE, "")
-            tvListWakeUpAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_WAKE_UP_MERIDIAN, "")
+            tvListDormitoryNum.text = "${PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, "0")}인 1실"
+            tvListAcceptance.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "")
             tvListWakeUpTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_WAKE_UP_TIME, 0).toString()
-            tvListSleepAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_MERIDIAN, "")
             tvListSleepTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_TIME, 0).toString()
-            tvListLightOffAmpm.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_TURN_OFF_MERIDIAN, "")
             tvListLightOffTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_TURN_OFF_TIME, 0).toString()
-            tvListSmokeCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SMOKING, "")
-            tvListSleepHabbit.text = trimText(PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_HABIT, ""))
-            tvListAc.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_AIR_CONDITIONING_INTENSITY, 3)) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어요"
-            }
-            tvListAcHeater.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_HEATING_INTENSITY, 3)) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어"
-            }
+            tvListSmokeCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SMOKING_STATUS, "")
+            tvListSleepHabbit.text = trimText(PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_HABITS, ""))
+            tvListAc.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_COOLING_INTENSITY,  "").toString()
+            tvListAcHeater.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_HEATING_INTENSITY, "")
             tvListLivingPattern.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_LIFE_PATTERN, "")
             tvListFriendly.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_INTIMACY, "")
-            tvListShare.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CAN_SHARE, "")
-            tvListStudy.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_STUDYING, "")
-            tvListIntake.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_INTAKE, "")
-            tvListGameCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_IS_PLAY_GAME, "")
-            tvListCallCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_IS_PHONE_CALL, "")
-            tvListCleanCheck.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CLEAN_SENSITIVITY, 3)) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
-            tvListNoiseCheck.text = when (PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NOISE_SENSITIVITY, 3)) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
+            tvListShare.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SHARING_STATUS, "")
+            tvListStudy.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_STUDYING_STATUS, "")
+            tvListIntake.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_EATING_STATUS, "")
+            tvListGameCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_GAMING_STATUS, "")
+            tvListCallCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CALLING_STATUS, "")
+            tvListCleanCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CLEANNESS_SENSITIVITY, "")
+            tvListNoiseCheck.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NOISE_SENSITIVITY, "")
             tvListCleanFrequency.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "")
             tvListDrinkFrequency.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "")
             tvListPersonalityCheck.text = trimText(
-                PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_PERSONALITY, "")
+                PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_PERSONALITIES, "")
             )
             tvListMbti.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_MBTI, "")
             tvSelfIntroduction.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "")

@@ -24,34 +24,31 @@ class UserInfoSPFHelper(context: Context) {
             putString("birth", info.birth)
             putString("admissionYear", info.admissionYear)
             putString("major", info.major)
-            putInt("numOfRoommate", info.numOfRoommate)
-            putString("acceptance", info.acceptance)
+            putString("numOfRoommate", info.numOfRoommate)
+            putString("acceptance", info.dormJoiningStatus)
 
-            putString("wakeAmPm", info.wakeAmPm)
             putInt("wakeUpTime", info.wakeUpTime)
-            putString("sleepAmPm", info.sleepAmPm)
             putInt("sleepTime", info.sleepTime)
-            putString("lightOffAmPm", info.lightOffAmPm)
-            putInt("lightOffTime", info.lightOffTime)
+            putInt("lightOffTime", info.turnOffTime)
 
-            putString("smokingState", info.smokingState)
+            putString("smokingState", info.smokingStatus)
 //            putString("sleepingHabit", info.sleepingHabit)
-            putString("sleepingHabit", gson.toJson(info.sleepingHabit))
-            putString("airConditioningIntensity", info.airConditioningIntensity)
+            putString("sleepingHabit", gson.toJson(info.sleepingHabits))
+            putString("airConditioningIntensity", info.coolingIntensity)
             putString("heatingIntensity", info.heatingIntensity)
             putString("lifePattern", info.lifePattern)
             putString("intimacy", info.intimacy)
-            putString("canShare", info.canShare)
-            putString("isPlayGame", info.isPlayGame)
-            putString("isPhoneCall", info.isPhoneCall)
-            putString("studying", info.studying)
-            putString("intake", info.intake)
-            putString("cleanSensitivity", info.cleanSensitivity)
+            putString("canShare", info.sharingStatus)
+            putString("isPlayGame", info.gamingStatus)
+            putString("isPhoneCall", info.callingStatus)
+            putString("studying", info.studyingStatus)
+            putString("intake", info.eatingStatus)
+            putString("cleanSensitivity", info.cleannessSensitivity)
             putString("noiseSensitivity", info.noiseSensitivity)
             putString("cleaningFrequency", info.cleaningFrequency)
             putString("drinkingFrequency", info.drinkingFrequency)
 //            putString("personality", info.personality)
-            putString("personality", gson.toJson(info.personality))
+            putString("personality", gson.toJson(info.personalities))
             putString("mbti", info.mbti)
             putString("selfIntroduction", info.selfIntroduction)
 
@@ -70,39 +67,36 @@ class UserInfoSPFHelper(context: Context) {
         val birth = spf.getString("birth", "") ?: ""
         val admissionYear = spf.getString("admissionYear", "") ?: ""
         val major = spf.getString("major", "") ?: ""
-        val numOfRoommate = spf.getInt("numOfRoommate", 0) ?: 0
+        val numOfRoommate = spf.getString("numOfRoommate", "0") ?: ""
         val acceptance = spf.getString("acceptance", "") ?: ""
 
-        val wakeAmPm = spf.getString("wakeAmPm", "") ?: ""
         val wakeUpTime = spf.getInt("wakeUpTime", 0) ?: 0
-        val sleepAmPm = spf.getString("sleepAmPm", "") ?: ""
         val sleepTime = spf.getInt("sleepTime", 0)
-        val lightOffAmPm = spf.getString("lightOffAmPm", "") ?: ""
-        val lightOffTime = spf.getInt("lightOffTime", 0)
+        val turnOffTime = spf.getInt("turnOffTime", 0)
 
-        val smokingState = spf.getString("smokingState", "") ?: ""
+        val smokingStatus = spf.getString("smokingState", "") ?: ""
 
         val sleepingHabitJson = spf.getString("sleepingHabit", "[]") ?: "[]"
-        val sleepingHabit: List<String> = gson.fromJson(sleepingHabitJson, object : TypeToken<List<String>>() {}.type)
+        val sleepingHabits: List<String> = gson.fromJson(sleepingHabitJson, object : TypeToken<List<String>>() {}.type)
 
-        val airConditioningIntensity = spf.getString("airConditioningIntensity", "") ?: ""
+        val coolingIntensity = spf.getString("airConditioningIntensity", "") ?: ""
         val heatingIntensity = spf.getString("heatingIntensity", "") ?: ""
 
         val lifePattern = spf.getString("lifePattern", "") ?: ""
         val intimacy = spf.getString("intimacy", "") ?: ""
-        val canShare = spf.getString("canShare", "") ?: ""
-        val isPlayGame = spf.getString("isPlayGame", "") ?: ""
-        val isPhoneCall = spf.getString("isPhoneCall", "") ?: ""
-        val studying = spf.getString("studying", "") ?: ""
-        val intake = spf.getString("intake", "") ?: ""
-        val cleanSensitivity = spf.getString("cleanSensitivity", "") ?: ""
+        val sharingStatus = spf.getString("canShare", "") ?: ""
+        val gamingStatus = spf.getString("isPlayGame", "") ?: ""
+        val callingStatus = spf.getString("isPhoneCall", "") ?: ""
+        val studyingStatus= spf.getString("studying", "") ?: ""
+        val eatingStatus = spf.getString("intake", "") ?: ""
+        val cleannessSensitivity = spf.getString("cleanSensitivity", "") ?: ""
         val noiseSensitivity = spf.getString("noiseSensitivity", "") ?: ""
         val cleaningFrequency = spf.getString("cleaningFrequency", "") ?: ""
-        val drinkingFrequency = spf.getString("dringkingFrequency", "") ?: ""
+        val drinkingFrequency = spf.getString("drinkingFrequency", "") ?: ""
 
 //        val personality = spf.getString("personality", "") ?: ""
         val personalityJson = spf.getString("personality", "[]") ?: "[]"
-        val personality: List<String> = gson.fromJson(personalityJson, object : TypeToken<List<String>>() {}.type)
+        val personalities: List<String> = gson.fromJson(personalityJson, object : TypeToken<List<String>>() {}.type)
 
         val mbti = spf.getString("mbti", "") ?: ""
         val selfIntroduction = spf.getString("selfIntroduction", "") ?: ""
@@ -117,28 +111,25 @@ class UserInfoSPFHelper(context: Context) {
             major,
             numOfRoommate,
             acceptance,
-            wakeAmPm,
             wakeUpTime,
-            sleepAmPm,
             sleepTime,
-            lightOffAmPm,
-            lightOffTime,
-            smokingState,
-            sleepingHabit,
-            airConditioningIntensity,
+            turnOffTime,
+            smokingStatus,
+            sleepingHabits,
+            coolingIntensity,
             heatingIntensity,
             lifePattern,
             intimacy,
-            canShare,
-            isPlayGame,
-            isPhoneCall,
-            studying,
-            intake,
-            cleanSensitivity,
+            sharingStatus,
+            gamingStatus,
+            callingStatus,
+            studyingStatus,
+            eatingStatus,
+            cleannessSensitivity,
             noiseSensitivity,
             cleaningFrequency,
             drinkingFrequency,
-            personality,
+            personalities,
             mbti,
             selfIntroduction
         ).also {

@@ -33,7 +33,7 @@ class BasicInfoFragment : Fragment() {
     private val universityViewModel: UniversityViewModel by activityViewModels()
     private var onLivingOption: TextView? = null
     private var numPeopleOption: TextView? = null
-    private var numPeople: Int? = 2
+    private var numPeople: String? = "2"
     private var dormitoryNameOption: TextView? = null
 
     // 타이머를 위한 Handler와 Runnable 선언
@@ -50,8 +50,8 @@ class BasicInfoFragment : Fragment() {
         observeDormitoryNames()
         fetchUniversityData()
 
-        binding.etNumber.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
-        binding.etNumber.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
+        binding.etAdmissionYear.filters = arrayOf(InputFilter.LengthFilter(2))  // 최대 2자리 입력
+        binding.etAdmissionYear.inputType = InputType.TYPE_CLASS_NUMBER // 숫자만 입력 가능하게 설정
 
         initTextChangeListener()
         initLivingSelector()
@@ -89,21 +89,21 @@ class BasicInfoFragment : Fragment() {
 
     // Observe the dormitory names from the ViewModel
     private fun observeDormitoryNames() {
-        universityViewModel.dormitoryNames.observe(viewLifecycleOwner) { dormitoryNames ->
-            if (!dormitoryNames.isNullOrEmpty()) {
-                setupDormitoryOptions(dormitoryNames)
+        universityViewModel.dormitoryNames.observe(viewLifecycleOwner) { dormName ->
+            if (!dormName.isNullOrEmpty()) {
+                setupDormitoryOptions(dormName)
             } else {
                 Log.e("BasicInfoFragment", "Dormitory names list is empty or null")
             }
         }
     }
 
-    private fun setupDormitoryOptions(dormitoryNames: List<String>) {
-        binding.lyDormitoryName.removeAllViews() // 기존 선택지 제거
+    private fun setupDormitoryOptions(dormName: List<String>) {
+        binding.lyDormName.removeAllViews() // 기존 선택지 제거
 
-        dormitoryNames.forEach { dormitoryName ->
+        dormName.forEach { dormName ->
             val textView = TextView(requireContext()).apply {
-                text = dormitoryName
+                text = dormName
                 textSize = 12f
                 setPadding(48, 32, 48, 32)
                 height = dpToPx(40)
@@ -116,20 +116,20 @@ class BasicInfoFragment : Fragment() {
                     setMargins(0, 10, 16, 0)
                 }
                 setOnClickListener {
-                    updateDormitorySelection(this, dormitoryName)
+                    updateDormitorySelection(this, dormName)
                 }
             }
-            binding.lyDormitoryName.addView(textView)
+            binding.lyDormName.addView(textView)
         }
 
         // 확인 로그 추가
-        Log.d("setupDormitoryOptions", "Added dormitory options: $dormitoryNames")
+        Log.d("setupDormitoryOptions", "Added dormitory options: $dormName")
     }
     private fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
     }
 
-    private fun updateDormitorySelection(selectedView: TextView, dormitoryName: String) {
+    private fun updateDormitorySelection(selectedView: TextView, dormName: String) {
         dormitoryNameOption?.apply {
             setTextColor(resources.getColor(R.color.unuse_font, null))
             background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
@@ -141,19 +141,19 @@ class BasicInfoFragment : Fragment() {
             background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
         }
 
-        saveToSharedPreferences("user_dormitoryName", dormitoryName)
+        saveToSharedPreferences("user_dormName", dormName)
         resetDebounceTimer { showPeopleNumberLayout() }
     }
 
     private fun initTextChangeListener() {
-        binding.etNumber.addTextChangedListener(object : TextWatcher {
+        binding.etAdmissionYear.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val inputText = s.toString()
                 if (inputText.length == 2) {
                     saveToSharedPreferences("user_admissionYear", s.toString())
                     showDormitoryNameLayout()
                 } else {
-                    binding.etNumber.error = "2자리 숫자를 입력해주세요."
+                    binding.etAdmissionYear.error = "2자리 숫자를 입력해주세요."
                 }
             }
 
@@ -171,30 +171,29 @@ class BasicInfoFragment : Fragment() {
 
     private fun initLivingSelector() {
         val onLivingTexts = listOf(
-            binding.dormitoryPass to "합격",
-            binding.dormitoryWaiting to "대기중",
-            binding.dormitoryNumber to "예비번호를 받았어요!"
+            binding.dormJoiningStatusPass to "합격",
+            binding.dormJoiningStatusWaiting to "대기중",
+            binding.dormJoiningStatusNumber to "예비번호를 받았어요!"
         )
         for ((textView, value) in onLivingTexts) {
             textView.setOnClickListener {
 //                onLivingOptionSelected(it, value)
-                updateSelectedOption(it, "user_acceptance", value)
+                updateSelectedOption(it, "user_dormJoiningStatus", value)
             }
         }
     }
 
     private fun initNumPeoPleSelector() {
         val numPeopleTexts = listOf(
-            binding.num0 to 0,
-            binding.num2 to 2,
-            binding.num3 to 3,
-            binding.num4 to 4,
-            binding.num5 to 5,
-            binding.num6 to 6
+            binding.num0 to "0",
+            binding.num2 to "2",
+            binding.num3 to "3",
+            binding.num4 to "4",
+            binding.num5 to "5",
+            binding.num6 to "6"
         )
         for ((textView, value) in numPeopleTexts) {
             textView.setOnClickListener {
-//                numPeopleSelected(it, value)
                 updateSelectedOption(it, "user_numOfRoommate", value)
             }
         }
@@ -204,7 +203,7 @@ class BasicInfoFragment : Fragment() {
         val selectedTextView = view as TextView
 
         when (key) {
-            "user_acceptance" -> {
+            "user_dormJoiningStatus" -> {
                 onLivingOption?.apply {
                     setTextColor(resources.getColor(R.color.unuse_font, null))
                     background =
@@ -222,12 +221,12 @@ class BasicInfoFragment : Fragment() {
                         resources.getDrawable(R.drawable.custom_option_box_background_default, null)
                 }
                 numPeopleOption = selectedTextView
-                saveToSPFInt(key, value as Int)
+                saveToSharedPreferences(key, value as String)
                 resetDebounceTimer { showDormitoryLayout() }
                 updateNextButtonState()
             }
 
-            "user_dormitoryName" -> {
+            "user_dormName" -> {
                 dormitoryNameOption?.apply {
                     setTextColor(resources.getColor(R.color.unuse_font, null))
                     background =
@@ -252,16 +251,11 @@ class BasicInfoFragment : Fragment() {
         spf.edit().putString(key, value).apply()
     }
 
-    private fun saveToSPFInt(key: String, value: Int) {
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        spf.edit().putInt(key, value).apply()
-    }
-
     fun updateNextButtonState() {
         val isDormitorySelected = onLivingOption != null
         val isRoommateNumSelected = numPeopleOption != null
         val isDormitoryNameSelected = dormitoryNameOption != null
-        val isNumberFilled = binding.etNumber.text?.isNotEmpty() == true
+        val isNumberFilled = binding.etAdmissionYear.text?.isNotEmpty() == true
 
         val filledCount = listOf(
             isDormitorySelected,
@@ -280,9 +274,9 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun showDormitoryNameLayout() {
-        if (binding.etNumber.text?.isNotEmpty() == true) {
+        if (binding.etAdmissionYear.text?.isNotEmpty() == true) {
             Log.d("BasicInfoFragment", "showDormitoryNameLayout called, dormitory names: ${universityViewModel.dormitoryNames.value}")
-            binding.clDormitoryName.showWithSlideDownAnimation()
+            binding.clDormName.showWithSlideDownAnimation()
             scrollToTop()
         }
     }
@@ -294,7 +288,7 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun showDormitoryLayout() {
-        binding.clDormitory.showWithSlideDownAnimation()
+        binding.clDormName.showWithSlideDownAnimation()
         scrollToTop()
     }
 
@@ -309,7 +303,7 @@ class BasicInfoFragment : Fragment() {
     }
 
     private fun removeEditTextFocus() {
-        binding.etNumber.clearFocus()
+        binding.etAdmissionYear.clearFocus()
         hideKeyboard()
     }
 
