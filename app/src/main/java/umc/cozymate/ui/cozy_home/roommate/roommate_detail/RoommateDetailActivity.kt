@@ -146,7 +146,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                         noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_noiseSensitivity", "") ?: "",
                         cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
                         drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
-                        personality = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personality", emptySet())?.toList() ?: emptyList(),
+                        personality = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
                         mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
                         selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
                     ),
