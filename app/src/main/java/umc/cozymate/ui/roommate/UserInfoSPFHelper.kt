@@ -92,7 +92,7 @@ class UserInfoSPFHelper(context: Context) {
         val cleannessSensitivity = spf.getString("cleanSensitivity", "") ?: ""
         val noiseSensitivity = spf.getString("noiseSensitivity", "") ?: ""
         val cleaningFrequency = spf.getString("cleaningFrequency", "") ?: ""
-        val drinkingFrequency = spf.getString("dringkingFrequency", "") ?: ""
+        val drinkingFrequency = spf.getString("drinkingFrequency", "") ?: ""
 
 //        val personality = spf.getString("personality", "") ?: ""
         val personalityJson = spf.getString("personality", "[]") ?: "[]"
