@@ -2,7 +2,7 @@ package umc.cozymate.data.model.request
 
 data class UserInfoRequest(
     val admissionYear: String,
-    val numOfRoommate: Int,
+    val numOfRoommate: String,
     val dormName: String,
     val dormJoiningStatus: String,
     val wakeUpTime: Int,

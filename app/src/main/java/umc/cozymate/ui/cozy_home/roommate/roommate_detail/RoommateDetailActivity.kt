@@ -127,26 +127,23 @@ class RoommateDetailActivity : AppCompatActivity() {
                         admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
                         numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
                         dormitoryName = PreferencesUtil.getString(this, "user_dormitoryName", "") ?: "",
-                        acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ACCEPTANCE, "") ?: "",
-                        wakeUpMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_WAKE_UP_MERIDIAN, "") ?: "",
+                        acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
                         wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
-                        sleepingMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SLEEPING_MERIDIAN, "") ?: "",
                         sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
-                        turnOffMeridian = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_TURN_OFF_MERIDIAN, "") ?: "",
                         turnOffTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_turnOffTime", 0),
-                        smoking = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING, "") ?: "",
-                        sleepingHabit = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabit", emptySet())?.toList() ?: emptyList(),
-                        airConditioningIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_airConditioningIntensity", 3),
-                        heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_heatingIntensity", 3),
+                        smoking = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
+                        sleepingHabit = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
+                        airConditioningIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_coolingIntensity", "") ?: "",
+                        heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_heatingIntensity", "") ?: "",
                         lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
                         intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
-                        canShare = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CAN_SHARE, "") ?: "",
-                        isPlayGame = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PLAY_GAME, "") ?: "",
-                        isPhoneCall = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_IS_PHONE_CALL, "") ?: "",
-                        studying = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING, "") ?: "",
-                        intake = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTAKE, "") ?: "",
-                        cleanSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_cleanSensitivity", 3),
-                        noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_noiseSensitivity", 3),
+                        canShare = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SHARING_STATUS, "") ?: "",
+                        isPlayGame = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_GAMING_STATUS, "") ?: "",
+                        isPhoneCall = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CALLING_STATUS, "") ?: "",
+                        studying = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING_STATUS, "") ?: "",
+                        intake = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_EATING_STATUS, "") ?: "",
+                        cleanSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_cleanSensitivity", "") ?: "",
+                        noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_noiseSensitivity", "") ?: "",
                         cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
                         drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
                         personality = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personality", emptySet())?.toList() ?: emptyList(),
@@ -410,6 +407,22 @@ class RoommateDetailActivity : AppCompatActivity() {
         )
     }
 
+    private fun getMeridianFrom24Hour(hour: Int): String {
+        return when (hour) {
+            in 0..11 -> "오전"
+            in 12..23 -> "오후"
+            else -> ""
+        }
+    }
+
+    private fun convertTo12Hour(hour: Int): Int {
+        return when (hour) {
+            0 -> 12
+            in 1..12 -> hour
+            else -> hour - 12
+        }
+    }
+
     private fun selectListView(it: GetMemberDetailInfoResponse.Result) {
         // 리스트로 보기 선택 시 텍스트와 아이콘 활성화
         binding.tvListView.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
@@ -437,28 +450,16 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListMajor.text = it.memberDetail.majorName
             tvListDormitoryNum.text = "${it.memberStatDetail.numOfRoommate}인 1실"
             tvListAcceptance.text = it.memberStatDetail.acceptance
-            tvListWakeUpAmpm.text = it.memberStatDetail.wakeUpMeridian
-            tvListWakeUpTime.text = it.memberStatDetail.wakeUpTime.toString()
-            tvListSleepAmpm.text = it.memberStatDetail.sleepingMeridian
-            tvListSleepTime.text = it.memberStatDetail.sleepingTime.toString()
-            tvListLightOffAmpm.text = it.memberStatDetail.turnOffMeridian
-            tvListLightOffTime.text = it.memberStatDetail.turnOffTime.toString()
+            tvListWakeUpAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.wakeUpTime)
+            tvListWakeUpTime.text = convertTo12Hour(it.memberStatDetail.wakeUpTime).toString()
+            tvListSleepAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.sleepingTime)
+            tvListSleepTime.text = convertTo12Hour(it.memberStatDetail.sleepingTime).toString()
+            tvListLightOffAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.turnOffTime)
+            tvListLightOffTime.text = convertTo12Hour(it.memberStatDetail.turnOffTime).toString()
             tvListSmokeCheck.text = it.memberStatDetail.smoking
             tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
-            tvListAc.text = when (it.memberStatDetail.airConditioningIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어요"
-            }
-            tvListAcHeater.text = when (it.memberStatDetail.heatingIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어"
-            }
+            tvListAc.text = it.memberStatDetail.airConditioningIntensity
+            tvListAcHeater.text = it.memberStatDetail.heatingIntensity
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
             tvListShare.text = it.memberStatDetail.canShare
@@ -466,22 +467,8 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListIntake.text = it.memberStatDetail.intake
             tvListGameCheck.text = it.memberStatDetail.isPlayGame
             tvListCallCheck.text = it.memberStatDetail.isPhoneCall
-            tvListCleanCheck.text = when (it.memberStatDetail.cleanSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
-            tvListNoiseCheck.text = when (it.memberStatDetail.noiseSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
+            tvListCleanCheck.text = it.memberStatDetail.cleanSensitivity
+            tvListNoiseCheck.text = it.memberStatDetail.noiseSensitivity
             tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
             tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
             tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
@@ -556,20 +543,20 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserAcceptance.text = user.memberStatDetail.acceptance
             tvTableOtherAcceptance.text = other.memberStatDetail.acceptance
 
-            tvTableUserWakeUpAmpm.text = user.memberStatDetail.wakeUpMeridian
-            tvTableOtherWakeUpAmpm.text = other.memberStatDetail.wakeUpMeridian
+            tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.wakeUpTime)
+            tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.wakeUpTime)
 
             tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
             tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
 
-            tvTableUserSleepAmpm.text = user.memberStatDetail.sleepingMeridian
-            tvTableOtherSleepAmpm.text = other.memberStatDetail.sleepingMeridian
+            tvTableUserSleepAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.sleepingTime)
+            tvTableOtherSleepAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.sleepingTime)
 
             tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
             tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
 
-            tvTableUserLightOffAmpm.text = user.memberStatDetail.turnOffMeridian
-            tvTableOtherLightOffAmpm.text = other.memberStatDetail.turnOffMeridian
+            tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
+            tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
 
             tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
             tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
@@ -582,43 +569,11 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherSleepHabbit.text =
                 trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
 
-            tvTableUserAc.text = trimText(
-                when (user.memberStatDetail.airConditioningIntensity) {
-                    0 -> "안 틀어요"
-                    1 -> "약하게 틀어요"
-                    2 -> "적당하게 틀어요"
-                    3 -> "강하게 틀어요"
-                    else -> "적당하게 틀어요"
-                }
-            )
-            tvTableOtherAc.text = trimText(
-                when (other.memberStatDetail.airConditioningIntensity) {
-                    0 -> "안 틀어요"
-                    1 -> "약하게 틀어요"
-                    2 -> "적당하게 틀어요"
-                    3 -> "강하게 틀어요"
-                    else -> "적당하게 틀어요"
-                }
-            )
+            tvTableUserAc.text = user.memberStatDetail.airConditioningIntensity
+            tvTableOtherAc.text = other.memberStatDetail.airConditioningIntensity
 
-            tvTableUserHeater.text = trimText(
-                when (user.memberStatDetail.heatingIntensity) {
-                    0 -> "안 틀어요"
-                    1 -> "약하게 틀어요"
-                    2 -> "적당하게 틀어요"
-                    3 -> "강하게 틀어요"
-                    else -> "적당하게 틀어요"
-                }
-            )
-            tvTableOtherHeater.text = trimText(
-                when (other.memberStatDetail.heatingIntensity) {
-                    0 -> "안 틀어요"
-                    1 -> "약하게 틀어요"
-                    2 -> "적당하게 틀어요"
-                    3 -> "강하게 틀어요"
-                    else -> "적당하게 틀어요"
-                }
-            )
+            tvTableUserHeater.text = user.memberStatDetail.heatingIntensity
+            tvTableOtherHeater.text = other.memberStatDetail.heatingIntensity
 
             tvTableUserLivingPattern.text = trimText(user.memberStatDetail.lifePattern)
             tvTableOtherLivingPattern.text = trimText(other.memberStatDetail.lifePattern)
@@ -641,47 +596,11 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserCall.text = trimText(user.memberStatDetail.isPhoneCall)
             tvTableOtherCall.text = trimText(other.memberStatDetail.isPhoneCall)
 
-            tvTableUserClean.text = trimText(
-                when (user.memberStatDetail.cleanSensitivity) {
-                    1 -> "매우 예민하지 않아요"
-                    2 -> "예민하지 않아요"
-                    3 -> "보통이에요"
-                    4 -> "예민해요"
-                    5 -> "매우 예민해요"
-                    else -> "보통이에요"
-                }
-            )
-            tvTableOtherClean.text = trimText(
-                when (other.memberStatDetail.cleanSensitivity) {
-                    1 -> "매우 예민하지 않아요"
-                    2 -> "예민하지 않아요"
-                    3 -> "보통이에요"
-                    4 -> "예민해요"
-                    5 -> "매우 예민해요"
-                    else -> "보통이에요"
-                }
-            )
+            tvTableUserClean.text = user.memberStatDetail.cleanSensitivity
+            tvTableOtherClean.text = other.memberStatDetail.cleanSensitivity
 
-            tvTableUserNoise.text = trimText(
-                when (user.memberStatDetail.noiseSensitivity) {
-                    1 -> "매우 예민하지 않아요"
-                    2 -> "예민하지 않아요"
-                    3 -> "보통이에요"
-                    4 -> "예민해요"
-                    5 -> "매우 예민해요"
-                    else -> "보통이에요"
-                }
-            )
-            tvTableOtherNoise.text = trimText(
-                when (other.memberStatDetail.noiseSensitivity) {
-                    1 -> "매우 예민하지 않아요"
-                    2 -> "예민하지 않아요"
-                    3 -> "보통이에요"
-                    4 -> "예민해요"
-                    5 -> "매우 예민해요"
-                    else -> "보통이에요"
-                }
-            )
+            tvTableUserNoise.text = user.memberStatDetail.noiseSensitivity
+            tvTableOtherNoise.text = other.memberStatDetail.noiseSensitivity
 
             tvTableUserCleanFrequency.text = trimText(user.memberStatDetail.cleaningFrequency)
             tvTableOtherCleanFrequency.text = trimText(other.memberStatDetail.cleaningFrequency)
@@ -699,8 +618,6 @@ class RoommateDetailActivity : AppCompatActivity() {
 
             tvSelfIntroduction.text = other.memberStatDetail.selfIntroduction
         }
-
-
 
         if (tableBinding.tvTableUserWakeUpAmpm.text.toString() != tableBinding.tvTableOtherWakeUpAmpm.text.toString() ||
             tableBinding.tvTableUserWakeUpTime.text.toString() != tableBinding.tvTableOtherWakeUpTime.text.toString()
@@ -1032,28 +949,28 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableUserSchool.text = "인하대학교"
         tableBinding.tvTableUserMajor.text = trimText(userInfo.major)
         tableBinding.tvTableUserDormitoryNum.text = "${userInfo.numOfRoommate}인 1실"
-        tableBinding.tvTableUserAcceptance.text = trimText(userInfo.acceptance)
-        tableBinding.tvTableUserWakeUpAmpm.text = userInfo.wakeAmPm
-        tableBinding.tvTableUserWakeUpTime.text = " ${userInfo.wakeUpTime}시"
-        tableBinding.tvTableUserSleepAmpm.text = userInfo.sleepAmPm
-        tableBinding.tvTableUserSleepTime.text = " ${userInfo.sleepTime}시"
-        tableBinding.tvTableUserLightOffAmpm.text = userInfo.lightOffAmPm
-        tableBinding.tvTableUserLightOffTime.text = " ${userInfo.lightOffTime}시"
-        tableBinding.tvTableUserSmoke.text = userInfo.smokingState
-        tableBinding.tvTableUserSleepHabbit.text = userInfo.sleepingHabit.joinToString(", ")
-        tableBinding.tvTableUserAc.text = trimText(userInfo.airConditioningIntensity)
+        tableBinding.tvTableUserAcceptance.text = trimText(userInfo.dormJoiningStatus)
+        tableBinding.tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(userInfo.wakeUpTime)
+        tableBinding.tvTableUserWakeUpTime.text = " ${convertTo12Hour(userInfo.wakeUpTime)}시"
+        tableBinding.tvTableUserSleepAmpm.text = getMeridianFrom24Hour(userInfo.sleepTime)
+        tableBinding.tvTableUserSleepTime.text = " ${convertTo12Hour(userInfo.sleepTime)}시"
+        tableBinding.tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(userInfo.turnOffTime)
+        tableBinding.tvTableUserLightOffTime.text = " ${convertTo12Hour(userInfo.turnOffTime)}시"
+        tableBinding.tvTableUserSmoke.text = userInfo.smokingStatus
+        tableBinding.tvTableUserSleepHabbit.text = userInfo.sleepingHabits.joinToString(", ")
+        tableBinding.tvTableUserAc.text = trimText(userInfo.coolingIntensity)
         tableBinding.tvTableUserHeater.text = trimText(userInfo.heatingIntensity)
         tableBinding.tvTableUserLivingPattern.text = userInfo.lifePattern
         tableBinding.tvTableUserFriendly.text = trimText(userInfo.intimacy)
-        tableBinding.tvTableUserShare.text = trimText(userInfo.canShare)
-        tableBinding.tvTableUserStudy.text = trimText(userInfo.studying)
-        tableBinding.tvTableUserIntake.text = trimText(userInfo.intake)
-        tableBinding.tvTableUserGame.text = trimText(userInfo.isPlayGame)
-        tableBinding.tvTableUserCall.text = trimText(userInfo.isPhoneCall)
-        tableBinding.tvTableUserClean.text = trimText(userInfo.cleanSensitivity)
+        tableBinding.tvTableUserShare.text = trimText(userInfo.sharingStatus)
+        tableBinding.tvTableUserStudy.text = trimText(userInfo.studyingStatus)
+        tableBinding.tvTableUserIntake.text = trimText(userInfo.eatingStatus)
+        tableBinding.tvTableUserGame.text = trimText(userInfo.gamingStatus)
+        tableBinding.tvTableUserCall.text = trimText(userInfo.callingStatus)
+        tableBinding.tvTableUserClean.text = trimText(userInfo.cleannessSensitivity)
         tableBinding.tvTableUserNoise.text = trimText(userInfo.noiseSensitivity)
         tableBinding.tvTableUserCleanFrequency.text = trimText(userInfo.cleaningFrequency)
-        tableBinding.tvTableUserPersonality.text = userInfo.personality.joinToString(", ")
+        tableBinding.tvTableUserPersonality.text = userInfo.personalities.joinToString(", ")
         tableBinding.tvTableUserMbti.text = userInfo.mbti
 
 
@@ -1065,62 +982,28 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherSchool.text = "인하대학교"
         tableBinding.tvTableOtherMajor.text = trimText(detail?.major)
         tableBinding.tvTableOtherDormitoryNum.text = "${detail?.numOfRoommate}인 1실"
-        tableBinding.tvTableOtherAcceptance.text = trimText(detail?.acceptance)
-        tableBinding.tvTableOtherWakeUpAmpm.text = detail?.wakeUpMeridian
-        tableBinding.tvTableOtherWakeUpTime.text = " ${detail?.wakeUpTime}시"
-        tableBinding.tvTableOtherSleepAmpm.text = detail?.sleepingMeridian
-        tableBinding.tvTableOtherSleepTime.text = " ${detail?.sleepingTime}시"
-        tableBinding.tvTableOtherLightOffAmpm.text = detail?.turnOffMeridian
-        tableBinding.tvTableOtherLightOffTime.text = " ${detail?.turnOffTime}시"
-        tableBinding.tvTableOtherSmoke.text = detail?.smokingState
-        tableBinding.tvTableOtherSleepHabbit.text = trimText(detail?.sleepingHabit)
-        tableBinding.tvTableOtherAc.text = trimText(
-            when (detail?.airConditioningIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어요"
-            }
-        )
-        tableBinding.tvTableOtherHeater.text = trimText(
-            when (detail?.heatingIntensity) {
-                0 -> "안 틀어요"
-                1 -> "약하게 틀어요"
-                2 -> "적당하게 틀어요"
-                3 -> "세게 틀어요"
-                else -> "적당하게 틀어요"
-            }
-        )
+        tableBinding.tvTableOtherAcceptance.text = trimText(detail?.dormJoiningStatus)
+        tableBinding.tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(detail!!.wakeUpTime)
+        tableBinding.tvTableOtherWakeUpTime.text = " ${convertTo12Hour(detail!!.wakeUpTime)}시"
+        tableBinding.tvTableOtherSleepAmpm.text = getMeridianFrom24Hour(detail!!.sleepingTime)
+        tableBinding.tvTableOtherSleepTime.text = " ${convertTo12Hour(detail!!.sleepingTime)}시"
+        tableBinding.tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(detail!!.turnOffTime)
+        tableBinding.tvTableOtherLightOffTime.text = " ${convertTo12Hour(detail!!.turnOffTime)}시"
+        tableBinding.tvTableOtherSmoke.text = detail?.smokingStatus
+        tableBinding.tvTableOtherSleepHabbit.text = trimText(detail?.sleepingHabits)
+        tableBinding.tvTableOtherAc.text = detail?.coolingIntensity
+        tableBinding.tvTableOtherHeater.text = detail?.heatingIntensity
         tableBinding.tvTableOtherLivingPattern.text = detail?.lifePattern
         tableBinding.tvTableOtherFriendly.text = trimText(detail?.intimacy)
-        tableBinding.tvTableOtherShare.text = detail?.canShare
-        tableBinding.tvTableOtherStudy.text = trimText(detail?.studying)
-        tableBinding.tvTableOtherIntake.text = trimText(detail?.intake)
-        tableBinding.tvTableOtherGame.text = detail?.isPlayGame
-        tableBinding.tvTableOtherCall.text = detail?.isPhoneCall
-        tableBinding.tvTableOtherClean.text = trimText(
-            when (detail?.cleanSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
-        )
-        tableBinding.tvTableOtherNoise.text = trimText(
-            when (detail?.noiseSensitivity) {
-                1 -> "매우 예민하지 않아요"
-                2 -> "예민하지 않아요"
-                3 -> "보통이에요"
-                4 -> "예민해요"
-                5 -> "매우 예민해요"
-                else -> "보통이에요"
-            }
-        )
+        tableBinding.tvTableOtherShare.text = detail?.sharingStatus
+        tableBinding.tvTableOtherStudy.text = trimText(detail?.studyingStatus)
+        tableBinding.tvTableOtherIntake.text = trimText(detail?.eatingStatus)
+        tableBinding.tvTableOtherGame.text = detail?.gamingStatus
+        tableBinding.tvTableOtherCall.text = detail?.callingStatus
+        tableBinding.tvTableOtherClean.text = detail?.cleannessSensitivity
+        tableBinding.tvTableOtherNoise.text = trimText(detail?.noiseSensitivity)
         tableBinding.tvTableOtherCleanFrequency.text = trimText(detail?.cleaningFrequency)
-        tableBinding.tvTableOtherPersonality.text = trimText(detail?.personality)
+        tableBinding.tvTableOtherPersonality.text = trimText(detail?.personalities)
         tableBinding.tvTableOtherMbti.text = detail?.mbti
     }
 
