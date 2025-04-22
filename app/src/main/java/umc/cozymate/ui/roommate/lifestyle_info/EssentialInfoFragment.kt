@@ -21,74 +21,32 @@ class EssentialInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentEssentialInfoBinding
 
-    //    private lateinit var spfHelper: UserInfoSPFHelper
-//    private var userInfo = UserInfo()
     private lateinit var spf: SharedPreferences
 
     private var wakeAmpmOption: TextView? = null
-    private var wakeAmpm: String? = null
     private var wakeTimeOption: TextView? = null
-    private var wakeTime: Int? = null
-
     private var sleepAmpmOption: TextView? = null
-    private var sleepAmpm: String? = null
     private var sleepTimeOption: TextView? = null
-    private var sleepTime: Int? = null
-
     private var lightOffAmpmOption: TextView? = null
-    private var lightOffAmpm: String? = null
     private var lightOffTimeOption: TextView? = null
-    private var lightOffTime: Int? = null
 
     private var smokeOption: TextView? = null
-    private var smokeCheck: String? = null
-
-    //    private var selectedSleepHabits: List<String> = emptyList()
     private var selectedSleepHabits: MutableList<String> = mutableListOf()
-
     private var acOption: TextView? = null
-    private var acCheck: Int? = null
-
     private var heaterOption: TextView? = null
-    private var heaterCheck: Int? = null
-
     private var livingPatternOption: TextView? = null
-    private var livingPatternCheck: String? = null
-
     private var friendlyOption: TextView? = null
-    private var friendlyCheck: String? = null
-
     private var shareOption: TextView? = null
-    private var shareCheck: String? = null
-
     private var gameOption: TextView? = null
-    private var gameCheck: String? = null
-
     private var callOption: TextView? = null
-    private var callCheck: String? = null
-
     private var studyOption: TextView? = null
-    private var studyCheck: String? = null
-
     private var eatingOption: TextView? = null
-    private var eatingCheck: String? = null
-
     private var cleanOption: TextView? = null
-    private var cleanCheck: Int? = null
-
     private var noiseOption: TextView? = null
-    private var noiseCheck: Int? = null
-
     private var cleanFrequencyOption: TextView? = null
-    private var cleanFrequencyCheck: String? = null
-
     private var drinkingFrequencyOption: TextView? = null
-    private var drinkingFrequencyCheck: String? = null
-
     private var selectedPersonalitys: MutableList<String> = mutableListOf()
-
     private var mbtiOption: TextView? = null
-    private var mbtiCheck: String? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
@@ -202,14 +160,14 @@ class EssentialInfoFragment : Fragment() {
         initWakeTime()
         initSleepAmpm()
         initSleepTime()
-        initLightOffAmpm()
-        initLightOffTime()
+        initTurnOffAmpm()
+        initTurnOffTime()
         initSmoke()
         initSleepHabit()
         initAc()
         initHeater()
         initLiving()
-        initFriendly()
+        initIntimacy()
         initShare()
         initGame()
         initCall()
@@ -223,6 +181,14 @@ class EssentialInfoFragment : Fragment() {
         initMbti()
     }
 
+    private fun convertTo24Hour(ampm: String?, hour: Int): Int {
+        return when (ampm) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> hour // null 이거나 비정상 값일 경우 그대로
+        }
+    }
+
     private fun initWakeAmpm() {
         val wakeAmpmTexts = listOf(
             binding.tvWakeAm to "오전",
@@ -230,17 +196,9 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in wakeAmpmTexts) {
             textView.setOnClickListener {
-
-                wakeAmpmOption?.apply {
-                    setTextColor(resources.getColor(R.color.unuse_font, null))
-                }
-                wakeAmpm = value
-                wakeAmpmOption = textView.apply {
-                    setTextColor(resources.getColor(R.color.main_blue, null))
-                }
-                saveToSPF("user_wakeUpMeridian", value)
-                updateNextButtonState()
-                wakeAmpmOption = it as TextView
+                wakeAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
+                wakeAmpmOption = textView
+                wakeAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
                 resetDebounceTimer { showSleepLayout() }
             }
         }
@@ -254,10 +212,16 @@ class EssentialInfoFragment : Fragment() {
             binding.tvWakeup10 to 10, binding.tvWakeup11 to 11, binding.tvWakeup12 to 12
         )
 
-        for ((textView, value) in wakeUpTimeTexts) {
+        for ((textView, hour) in wakeUpTimeTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_wakeUpTime", value, wakeTimeOption)
-                wakeTimeOption = it as TextView
+//                updateSelectedIntOption(it, "user_wakeUpTime", value, wakeTimeOption)
+//                wakeTimeOption = it as TextView
+//                resetDebounceTimer { showSleepLayout() }
+                wakeTimeOption = textView
+                val ampm = wakeAmpmOption?.text?.toString()
+                val converted = convertTo24Hour(ampm, hour)
+                saveToSPFInt("user_wakeUpTime", converted)
+                updateNextButtonState()
                 resetDebounceTimer { showSleepLayout() }
             }
         }
@@ -266,7 +230,7 @@ class EssentialInfoFragment : Fragment() {
 
     private fun showSleepLayout() {
         if (wakeAmpmOption != null && wakeTimeOption != null) {
-            binding.clSleepTime.showWithSlideDownAnimation()
+            binding.clSleepingTime.showWithSlideDownAnimation()
         }
     }
 
@@ -277,16 +241,10 @@ class EssentialInfoFragment : Fragment() {
         )
         for ((textView, value) in sleepAmpmTexts) {
             textView.setOnClickListener {
-                sleepAmpmOption?.apply {
-                    setTextColor(resources.getColor(R.color.unuse_font, null))
-                }
-                sleepAmpm = value
-                wakeAmpmOption = textView.apply {
-                    setTextColor(resources.getColor(R.color.main_blue, null))
-                }
-                saveToSPF("user_sleepingMeridian", value)
-                sleepAmpmOption = it as TextView
-                resetDebounceTimer { showLightOffLayout() }
+                sleepAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
+                sleepAmpmOption = textView
+                sleepAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
+                resetDebounceTimer { showTurnOffLayout() }
             }
         }
     }
@@ -301,52 +259,52 @@ class EssentialInfoFragment : Fragment() {
 
         for ((textView, value) in sleepTimeTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_sleepingTime", value, sleepTimeOption)
-                sleepTimeOption = it as TextView
-                resetDebounceTimer { showLightOffLayout() }
+                sleepTimeOption = textView
+                val ampm = sleepAmpmOption?.text?.toString()
+                val converted = convertTo24Hour(ampm, value)
+                saveToSPFInt("user_sleepingTime", converted)
+                updateNextButtonState()
+                resetDebounceTimer { showTurnOffLayout() }
             }
         }
     }
 
-    private fun showLightOffLayout() {
+    private fun showTurnOffLayout() {
         if (sleepAmpmOption != null && sleepTimeOption != null) {
-            binding.clLightOff.showWithSlideDownAnimation()
+            binding.clTurnOffTime.showWithSlideDownAnimation()
         }
     }
 
-    private fun initLightOffAmpm() {
+    private fun initTurnOffAmpm() {
         val lightOffAmpmTexts = listOf(
-            binding.tvLightOffAm to "오전",
-            binding.tvLightOffPm to "오후"
+            binding.tvTurnOffAm to "오전",
+            binding.tvTurnOffPm to "오후"
         )
         for ((textView, value) in lightOffAmpmTexts) {
             textView.setOnClickListener {
-                lightOffAmpmOption?.apply {
-                    setTextColor(resources.getColor(R.color.unuse_font, null))
-                }
-                lightOffAmpm = value
-                lightOffAmpmOption = textView.apply {
-                    setTextColor(resources.getColor(R.color.main_blue))
-                }
-                saveToSPF("user_turnOffMeridian", value)
-                updateNextButtonState()
+                lightOffAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
+                lightOffAmpmOption = textView
+                lightOffAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
                 resetDebounceTimer { showSmokeLayout() }
             }
         }
     }
 
-    private fun initLightOffTime() {
+    private fun initTurnOffTime() {
         val lightOffTimeTexts = listOf(
-            binding.tvLightOff1 to 1, binding.tvLightOff2 to 2, binding.tvLightOff3 to 3,
-            binding.tvLightOff4 to 4, binding.tvLightOff5 to 5, binding.tvLightOff6 to 6,
-            binding.tvLightOff7 to 7, binding.tvLightOff8 to 8, binding.tvLightOff9 to 9,
-            binding.tvLightOff10 to 10, binding.tvLightOff11 to 11, binding.tvLightOff12 to 12
+            binding.tvTurnOff1 to 1, binding.tvTurnOff2 to 2, binding.tvTurnOff3 to 3,
+            binding.tvTurnOff4 to 4, binding.tvTurnOff5 to 5, binding.tvTurnOff6 to 6,
+            binding.tvTurnOff7 to 7, binding.tvTurnOff8 to 8, binding.tvTurnOff9 to 9,
+            binding.tvTurnOff10 to 10, binding.tvTurnOff11 to 11, binding.tvTurnOff12 to 12
         )
 
         for ((textView, value) in lightOffTimeTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_turnOffTime", value, lightOffTimeOption)
-                lightOffTimeOption = it as TextView
+                lightOffTimeOption = textView
+                val ampm = lightOffAmpmOption?.text?.toString()
+                val converted = convertTo24Hour(ampm, value)
+                saveToSPFInt("user_turnOffTime", converted)
+                updateNextButtonState()
                 resetDebounceTimer { showSmokeLayout() }
             }
         }
@@ -354,20 +312,20 @@ class EssentialInfoFragment : Fragment() {
 
     private fun showSmokeLayout() {
         if (lightOffAmpmOption != null && lightOffTimeOption != null) {
-            binding.clSmoke.showWithSlideDownAnimation()
+            binding.clSmokingStatus.showWithSlideDownAnimation()
         }
     }
 
     private fun initSmoke() {
         val smokeTexts = listOf(
-            binding.smokeNo to "비흡연자",
-            binding.smokePaper to "연초",
-            binding.smokeEletronic to "궐련형 전자담배",
-            binding.smokeWater to "액상형 전자담배"
+            binding.smokingStatusNo to "비흡연자",
+            binding.smokingStatusPaper to "연초",
+            binding.smokingStatusEletronic to "궐련형 전자담배",
+            binding.smokingStatusWater to "액상형 전자담배"
         )
         for ((textView, value) in smokeTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_smoking", value, smokeOption)
+                updateSelectedStringOption(it, "user_smokingStatus", value, smokeOption)
                 smokeOption = it as TextView
                 resetDebounceTimer { showSleepHabitLayout() }
             }
@@ -375,21 +333,21 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showSleepHabitLayout() {
-        binding.clSleepHabit.showWithSlideDownAnimation()
+        binding.clSleepingHabits.showWithSlideDownAnimation()
     }
 
     private fun initSleepHabit() {
         val sleepHabitTexts = listOf(
-            binding.sleepHabitNo to "잠버릇이 없어요",
-            binding.sleepHabitNoise to "코골이",
-            binding.sleepHabitTeeth to "이갈이",
-            binding.sleepHabitMoveSick to "몽유병",
-            binding.sleepHabitSpeak to "잠꼬대",
-            binding.sleepHabitMove to "뒤척임"
+            binding.sleepingHabitsNo to "잠버릇이 없어요",
+            binding.sleepingHabitsNoise to "코골이",
+            binding.sleepingHabitsTeeth to "이갈이",
+            binding.sleepingHabitsMoveSick to "몽유병",
+            binding.sleepingHabitsSpeak to "잠꼬대",
+            binding.sleepingHabitsMove to "뒤척임"
         )
         for ((textView, value) in sleepHabitTexts) {
             textView.setOnClickListener {
-                toggleMultiSelection(it, "user_sleepingHabit", value, selectedSleepHabits)
+                toggleMultiSelection(it, "user_sleepingHabits", value, selectedSleepHabits)
                 resetDebounceTimer { showAcLayout() }
             }
         }
@@ -401,14 +359,14 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initAc() {
         val acTexts = listOf(
-            binding.acStrong to 3,
-            binding.acEnough to 2,
-            binding.acWeak to 1,
-            binding.acNo to 0
+            binding.acStrong to "세게 틀어요",
+            binding.acEnough to "적당하게 틀어요",
+            binding.acWeak to "약하게 틀어요",
+            binding.acNo to "안 틀어요"
         )
         for ((textView, value) in acTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_airConditioningIntensity", value, acOption)
+                updateSelectedStringOption(it, "user_coolingIntensity", value, acOption)
                 acOption = it as TextView
                 resetDebounceTimer { showHeaterLayout() }
             }
@@ -421,14 +379,14 @@ class EssentialInfoFragment : Fragment() {
 
     private fun initHeater() {
         val heaterTexts = listOf(
-            binding.heaterStrong to 3,
-            binding.heaterEnough to 2,
-            binding.heaterWeak to 1,
-            binding.heaterNo to 0
+            binding.heaterStrong to "세게 틀어요",
+            binding.heaterEnough to "적당하게 틀어요",
+            binding.heaterWeak to "약하게 틀어요",
+            binding.heaterNo to "안 틀어요"
         )
         for ((textView, value) in heaterTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_heatingIntensity", value, heaterOption)
+                updateSelectedStringOption(it, "user_heatingIntensity", value, heaterOption)
                 heaterOption = it as TextView
                 resetDebounceTimer { showLivingPatternLayout() }
             }
@@ -436,13 +394,13 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showLivingPatternLayout() {
-        binding.clLiving.showWithSlideDownAnimation()
+        binding.clLifePattern.showWithSlideDownAnimation()
     }
 
     private fun initLiving() {
         val livingTexts = listOf(
-            binding.livingMorning to "아침형 인간",
-            binding.livingDawn to "새벽형 인간"
+            binding.lifePatternMorning to "아침형 인간",
+            binding.lifePatternDawn to "새벽형 인간"
         )
         for ((textView, value) in livingTexts) {
             textView.setOnClickListener {
@@ -454,14 +412,14 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showFriendlyLayout() {
-        binding.clFriendly.showWithSlideDownAnimation()
+        binding.clIntimacy.showWithSlideDownAnimation()
     }
 
-    private fun initFriendly() {
+    private fun initIntimacy() {
         val friendlyTexts = listOf(
-            binding.friendlyNo to "필요한 말만 했으면 좋겠어요",
-            binding.friendlyEnough to "어느정도 친하게 지내요",
-            binding.friendlyYes to "완전 친하게 지내요"
+            binding.intimacyNo to "필요한 말만 했으면 좋겠어요",
+            binding.intimacyEnough to "어느정도 친하게 지내요",
+            binding.intimacyYes to "완전 친하게 지내요"
         )
         for ((textView, value) in friendlyTexts) {
             textView.setOnClickListener {
@@ -473,19 +431,19 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showShareLayout() {
-        binding.clShare.showWithSlideDownAnimation()
+        binding.clSharingStatus.showWithSlideDownAnimation()
     }
 
     private fun initShare() {
         val shareTexts = listOf(
-            binding.shareNothing to "아무것도 공유하고 싶지 않아요",
-            binding.shareTissue to "휴지정도는 빌려줄 수 있어요",
-            binding.shareCloths to "옷정도는 빌려줄 수 있어요",
-            binding.shareEverything to "칫솔만 아니면 돼요"
+            binding.sharingStatusNothing to "아무것도 공유하고 싶지 않아요",
+            binding.sharingStatusTissue to "휴지정도는 빌려줄 수 있어요",
+            binding.sharingStatusCloths to "옷정도는 빌려줄 수 있어요",
+            binding.sharingStatusEverything to "칫솔만 아니면 돼요"
         )
         for ((textView, value) in shareTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_canShare", value, shareOption)
+                updateSelectedStringOption(it, "user_sharingStatus", value, shareOption)
                 shareOption = it as TextView
                 resetDebounceTimer { showGameLayout() }
             }
@@ -493,19 +451,19 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showGameLayout() {
-        binding.clGame.showWithSlideDownAnimation()
+        binding.clGamingStatus.showWithSlideDownAnimation()
     }
 
     private fun initGame() {
         val gameTexts = listOf(
-            binding.gameNo to "아예 하지 않아요",
-            binding.gameKeyboard to "키보드 채팅정도만 쳐요",
-            binding.gameVoice to "보이스 채팅도 해요"
+            binding.gamingStatusNo to "아예 하지 않아요",
+            binding.gamingStatusKeyboard to "키보드 채팅정도만 쳐요",
+            binding.gamingStatusVoice to "보이스 채팅도 해요"
 
         )
         for ((textView, value) in gameTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_isPlayGame", value, gameOption)
+                updateSelectedStringOption(it, "user_gamingStatus", value, gameOption)
                 gameOption = it as TextView
                 resetDebounceTimer { showCallLayout() }
             }
@@ -513,18 +471,18 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showCallLayout() {
-        binding.clCall.showWithSlideDownAnimation()
+        binding.clCallingStatus.showWithSlideDownAnimation()
     }
 
     private fun initCall() {
         val callTexts = listOf(
-            binding.callNo to "아예 하지 않아요",
-            binding.callHurry to "급한 전화만 해요",
-            binding.callFrequently to "자주 해요"
+            binding.callingStatusNo to "아예 하지 않아요",
+            binding.callingStatusHurry to "급한 전화만 해요",
+            binding.callingStatusFrequently to "자주 해요"
         )
         for ((textView, value) in callTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_isPhoneCall", value, callOption)
+                updateSelectedStringOption(it, "user_callingStatus", value, callOption)
                 callOption = it as TextView
                 resetDebounceTimer { showStudyLayout() }
             }
@@ -532,18 +490,18 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showStudyLayout() {
-        binding.clStudy.showWithSlideDownAnimation()
+        binding.clStudyingStatus.showWithSlideDownAnimation()
     }
 
     private fun initStudy() {
         val studyTexts = listOf(
-            binding.studyNo to "아예 하지 않아요",
-            binding.studyExam to "시험기간 때만 해요",
-            binding.studyEveryday to "매일 해요"
+            binding.studyingStatusNo to "아예 하지 않아요",
+            binding.studyingStatusExam to "시험기간 때만 해요",
+            binding.studyingStatusEveryday to "매일 해요"
         )
         for ((textView, value) in studyTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_studying", value, studyOption)
+                updateSelectedStringOption(it, "user_studyingStatus", value, studyOption)
                 studyOption = it as TextView
                 resetDebounceTimer { showEatingLayout() }
             }
@@ -551,19 +509,19 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showEatingLayout() {
-        binding.clEating.showWithSlideDownAnimation()
+        binding.clEatingStatus.showWithSlideDownAnimation()
     }
 
     private fun initEating() {
         val eatingTexts = listOf(
-            binding.eatingNo to "아예 안 먹어요",
-            binding.eatingDrink to "음료만 마셔요",
-            binding.eatingSnack to "간단한 간식정도만 먹어요",
-            binding.eatingDelivery to "배달음식도 먹어요"
+            binding.eatingStatusNo to "아예 안 먹어요",
+            binding.eatingStatusDrink to "음료만 마셔요",
+            binding.eatingStatusSnack to "간단한 간식정도만 먹어요",
+            binding.eatingStatusDelivery to "배달음식도 먹어요"
         )
         for ((textView, value) in eatingTexts) {
             textView.setOnClickListener {
-                updateSelectedStringOption(it, "user_intake", value, eatingOption)
+                updateSelectedStringOption(it, "user_eatingStatus", value, eatingOption)
                 eatingOption = it as TextView
                 resetDebounceTimer { showCleanLayout() }
             }
@@ -571,20 +529,20 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showCleanLayout() {
-        binding.clCleanCheck.showWithSlideDownAnimation()
+        binding.clCleannessSensitivityCheck.showWithSlideDownAnimation()
     }
 
     private fun initClean() {
         val cleanTexts = listOf(
-            binding.clean1 to 1,
-            binding.clean2 to 2,
-            binding.clean3 to 3,
-            binding.clean4 to 4,
-            binding.clean5 to 5,
+            binding.cleannessSensitivity1 to "매우 예민하지 않아요",
+            binding.cleannessSensitivity2 to "예민하지 않아요",
+            binding.cleannessSensitivity3 to "보통이에요",
+            binding.cleannessSensitivity4 to "예민해요",
+            binding.cleannessSensitivity5 to "매우 예민해요",
         )
         for ((textView, value) in cleanTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_cleanSensitivity", value, cleanOption)
+                updateSelectedStringOption(it, "user_cleannessSensitivity", value, cleanOption)
                 cleanOption = it as TextView
                 resetDebounceTimer { showNoiseLayout() }
             }
@@ -592,20 +550,20 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showNoiseLayout() {
-        binding.clNoise.showWithSlideDownAnimation()
+        binding.clNoiseSensitivity.showWithSlideDownAnimation()
     }
 
     private fun initNoise() {
         val noiseTexts = listOf(
-            binding.noise1 to 1,
-            binding.noise2 to 2,
-            binding.noise3 to 3,
-            binding.noise4 to 4,
-            binding.noise5 to 5
+            binding.noiseSensitivity1 to "매우 예민하지 않아요",
+            binding.noiseSensitivity2 to "예민하지 않아요",
+            binding.noiseSensitivity3 to "보통이에요",
+            binding.noiseSensitivity4 to "예민해요",
+            binding.noiseSensitivity5 to "매우 예민해요"
         )
         for ((textView, value) in noiseTexts) {
             textView.setOnClickListener {
-                updateSelectedIntOption(it, "user_noiseSensitivity", value, noiseOption)
+                updateSelectedStringOption(it, "user_noiseSensitivity", value, noiseOption)
                 noiseOption = it as TextView
                 resetDebounceTimer { showCleanFrequencyLayout() }
             }
@@ -613,16 +571,16 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showCleanFrequencyLayout() {
-        binding.clCleanFrequency.showWithSlideDownAnimation()
+        binding.clCleaningFrequency.showWithSlideDownAnimation()
     }
 
     private fun initCleanFrequency() {
         val cleanFrequencyTexts = listOf(
-            binding.cleanFrequencyMonth to "한 달에 한 번 해요",
-            binding.cleanFrequencyEvery2weeks to "2주에 한 번 해요",
-            binding.cleanFrequencyEveryWeek to "일주일에 한 번 해요",
-            binding.cleanFrequency2days to "이틀에 한 번 정도 해요",
-            binding.cleanFrequencyEveryday to "매일매일 해요"
+            binding.cleaningFrequencyMonth to "한 달에 한 번 해요",
+            binding.cleaningFrequencyEvery2weeks to "2주에 한 번 해요",
+            binding.cleaningFrequencyEveryWeek to "일주일에 한 번 해요",
+            binding.cleaningFrequency2days to "이틀에 한 번 정도 해요",
+            binding.cleaningFrequencyEveryday to "매일매일 해요"
         )
         for ((textView, value) in cleanFrequencyTexts) {
             textView.setOnClickListener {
@@ -639,16 +597,16 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showDrinkingFrequencyLayout() {
-        binding.clDrink.showWithSlideDownAnimation()
+        binding.clDrinkingFrequency.showWithSlideDownAnimation()
     }
 
     private fun initDrinkingFrequency() {
         val drinkingFrequencyTexts = listOf(
-            binding.drinkNo to "아예 안 마셔요",
-            binding.drinkMonth to "한 달에 한 두번 마셔요",
-            binding.drinkWeek to "일주일에 한 두번 마셔요",
-            binding.drink4Weeks to "일주일에 네 번 이상 마셔요",
-            binding.drinkEveryday to "거의 매일 마셔요"
+            binding.drinkingFrequencyNo to "아예 안 마셔요",
+            binding.drinkingFrequencyMonth to "한 달에 한 두번 마셔요",
+            binding.drinkingFrequencyWeek to "일주일에 한 두번 마셔요",
+            binding.drinkingFrequency4Weeks to "일주일에 네 번 이상 마셔요",
+            binding.drinkingFrequencyEveryday to "거의 매일 마셔요"
         )
         for ((textView, value) in drinkingFrequencyTexts) {
             textView.setOnClickListener {
@@ -665,27 +623,27 @@ class EssentialInfoFragment : Fragment() {
     }
 
     private fun showPersonalityLayout() {
-        binding.clPersonality.showWithSlideDownAnimation()
+        binding.clPersonalities.showWithSlideDownAnimation()
     }
 
     private fun initPersonality() {
         val personalityTexts = listOf(
-            binding.personalityQuite to "조용해요",
-            binding.personalityActivity to "활발해요",
-            binding.personalityTmt to "말이 많아요",
-            binding.personalityClean to "깔끔해요",
-            binding.personalityShame to "부끄러움이 많아요",
-            binding.personalityHome to "집이 좋아요",
-            binding.personalityGoOut to "바깥이 좋아요",
-            binding.personalityHurry to "급해요",
-            binding.personalityRelaxed to "느긋해요",
-            binding.personalityShy to "낯을 가려요",
-            binding.personalityLazy to "귀차니즘이 있어요",
-            binding.personalityDiligent to "부지런해요"
+            binding.personalitiesQuite to "조용해요",
+            binding.personalitiesActivity to "활발해요",
+            binding.personalitiesTmt to "말이 많아요",
+            binding.personalitiesClean to "깔끔해요",
+            binding.personalitiesShame to "부끄러움이 많아요",
+            binding.personalitiesHome to "집이 좋아요",
+            binding.personalitiesGoOut to "바깥이 좋아요",
+            binding.personalitiesHurry to "급해요",
+            binding.personalitiesRelaxed to "느긋해요",
+            binding.personalitiesShy to "낯을 가려요",
+            binding.personalitiesLazy to "귀차니즘이 있어요",
+            binding.personalitiesDiligent to "부지런해요"
         )
         for ((textView, value) in personalityTexts) {
             textView.setOnClickListener {
-                toggleMultiSelection(it, "user_personality", value, selectedPersonalitys)
+                toggleMultiSelection(it, "user_personalities", value, selectedPersonalitys)
                 resetDebounceTimer { showMbtiLayout() }
             }
         }

@@ -42,7 +42,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     // 임시 데이터 저장 변수
     private var selectedAdmissionYear: Int = -1
     private var selectedDormitoryName: String? = null
-    private var selectedNumOfRoommate: Int = -1
+    private var selectedNumOfRoommate: String? = null
     private var selectedAcceptance: String? = null
     private var selectedWakeUpMeridian: String? = null
     private var selectedWakeUpTime: Int = -1
@@ -52,8 +52,8 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private var selectedTurnOffTime: Int = 2
     private var selectedSmoking: String? = "비흡연자"
     private var selectedSleepingHabits: MutableList<String> = mutableListOf()
-    private var selectedAc: Int = 0
-    private var selectedHeater: Int = 0
+    private var selectedAc: String = ""
+    private var selectedHeater: String = ""
     private var selectedLifePattern: String? = null
     private var selectedIntimacy: String? = null
     private var selectedCanShare: String? = null
@@ -61,8 +61,8 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private var selectedIsPhoneCall: String? = null
     private var selectedStudying: String? = null
     private var selectedIntake: String? = null
-    private var selectedCleanSensitivity: Int = -1
-    private var selectedNoiseSensitivity: Int = -1
+    private var selectedCleanSensitivity: String = ""
+    private var selectedNoiseSensitivity: String = ""
     private var selectedCleaningFrequency: String? = null
     private var selectedDrinkingFrequency: String? = null
     private var selectedPersonality: MutableList<String> = mutableListOf()
@@ -96,31 +96,28 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
     private fun initData() {
         initAdmissionYear(spf.getString("user_admissionYear", "")!!.toInt())
-        initDormitoryName(spf.getString("user_dormitoryName", ""))
-        initNumOfRoommate(spf.getInt("user_numOfRoommate", -1))
-        initAcceptance(spf.getString("user_acceptance", ""))
-        initWakeUpMeridian(spf.getString("user_wakeUpMeridian", ""))
+        initDormitoryName(spf.getString("user_dormName", ""))
+        initNumOfRoommate(spf.getString("user_numOfRoommate", ""))
+        initAcceptance(spf.getString("user_dormJoiningStatus", ""))
         initWakeUpTime(spf.getInt("user_wakeUpTime", 0))
-        initSleepingMeridian(spf.getString("user_sleepingMeridian", ""))
         initSleepingTime(spf.getInt("user_sleepingTime", 0))
-        initTurnOffMeridian(spf.getString("user_turnOffMeridian", ""))
         initTurnOffTime(spf.getInt("user_turnOffTime", 1))
-        initSmoking(spf.getString("user_smoking", ""))
-        initSleepingHabits(getStringListFromPreferences("user_sleepingHabit"))
-        initAc(spf.getInt("user_airConditioningIntensity", 0))
-        initHeater(spf.getInt("user_heatingIntensity", 0))
+        initSmoking(spf.getString("user_smokingStatus", ""))
+        initSleepingHabits(getStringListFromPreferences("user_sleepingHabits"))
+        initAc(spf.getString("user_coolingIntensity", ""))
+        initHeater(spf.getString("user_heatingIntensity", ""))
         initLifePattern(spf.getString("user_lifePattern", ""))
         initIntimacy(spf.getString("user_intimacy", ""))
-        initCanShare(spf.getString("user_canShare", ""))
-        initIsPlayGame(spf.getString("user_isPlayGame", ""))
-        initIsPhoneCall(spf.getString("user_isPhoneCall", ""))
-        initIsStudying(spf.getString("user_studying", ""))
-        initIntake(spf.getString("user_intake", ""))
-        initCleanSensitivity(spf.getInt("user_cleanSensitivity", 0))
-        initNoiseSensitivity(spf.getInt("user_noiseSensitivity", 0))
+        initCanShare(spf.getString("user_sharingStatus", ""))
+        initIsPlayGame(spf.getString("user_gamingStatus", ""))
+        initIsPhoneCall(spf.getString("user_callingStatus", ""))
+        initIsStudying(spf.getString("user_studyingStatus", ""))
+        initIntake(spf.getString("user_eatingStatus", ""))
+        initCleanSensitivity(spf.getString("user_cleannessSensitivity", ""))
+        initNoiseSensitivity(spf.getString("user_noiseSensitivity", ""))
         initCleaningFrequency(spf.getString("user_cleaningFrequency", ""))
         initDrinkingFrequency(spf.getString("user_drinkingFrequency", ""))
-        initPersonality(getStringListFromPreferences("user_personality"))
+        initPersonality(getStringListFromPreferences("user_personalities"))
         initMbti(spf.getString("user_mbti", ""))
         initETCInfo(spf.getString("user_selfIntroduction", ""))
         fetchUniversityData()
@@ -148,7 +145,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
     private fun initDormitoryName(savedValue: String?) {
         lifecycleScope.launch {
-            val universityId = 1
+            val universityId = spf.getInt("user_university_id", 1)
             try {
                 universityViewModel.getDormitory(universityId)
                 universityViewModel.dormitoryNames.observe(this@FetchLifestyleActivity) { dormitoryNames ->
@@ -161,7 +158,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun fetchUniversityData() {
-        val universityId = 1 // 실제 ID로 대체
+        val universityId = spf.getInt("user_university_id", 1)
         lifecycleScope.launch {
             try {
                 universityViewModel.getDormitory(universityId)
@@ -174,7 +171,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun observeDormitoryNames() {
         universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
             if (!dormitoryNames.isNullOrEmpty()) {
-                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormitoryName", ""))
+                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormName", ""))
             } else {
                 Log.e("FetchLifestyleActivity", "Dormitory names list is empty or null")
             }
@@ -242,7 +239,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
 
-    private fun initNumOfRoommate(selectedValue: Int?) {
+    private fun initNumOfRoommate(selectedValue: String?) {
         val views = listOf(
             binding.num0, binding.num2, binding.num3,
             binding.num4, binding.num5, binding.num6
@@ -250,10 +247,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
         // 초기화
         views.forEach { view ->
-            if (getNumFromTextView(view) == selectedValue) {
+            if (view.text.toString() == selectedValue) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedNumOfRoommate = selectedValue ?: -1
+                selectedNumOfRoommate = selectedValue ?: ""
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
@@ -277,7 +274,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedNumOfRoommate = getNumFromTextView(view)
+        selectedNumOfRoommate = view.text.toString()
     }
 
     private fun getNumFromTextView(view: TextView): Int {
@@ -329,49 +326,6 @@ class FetchLifestyleActivity : AppCompatActivity() {
         selectedAcceptance = view.text.toString()
     }
 
-    private fun initWakeUpMeridian(selectedValue: String?) {
-        val views = listOf(binding.tvWakeAm, binding.tvWakePm)
-
-        val mappedValue = when (selectedValue) {
-            "오전" -> "AM"
-            "오후" -> "PM"
-            else -> null
-        }
-
-        // 초기화: 저장된 값과 일치하는 TextView의 상태를 설정
-        views.forEach { view ->
-            if (view.text.toString() == mappedValue) {
-                view.setTextColor(getColor(R.color.main_blue)) // 선택된 텍스트는 파란색
-                selectedWakeUpMeridian = selectedValue
-            } else {
-                view.setTextColor(getColor(R.color.unuse_font)) // 기본 텍스트 색상
-            }
-        }
-
-        // 클릭 이벤트 처리
-        views.forEach { view ->
-            view.setOnClickListener {
-                updateWakeUpMeridian(view, views)
-            }
-        }
-    }
-
-    private fun updateWakeUpMeridian(view: TextView, views: List<TextView>) {
-        // 모든 텍스트 색상 초기화
-        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
-
-        // 선택된 텍스트 색상 변경
-        view.setTextColor(getColor(R.color.main_blue))
-
-        // 선택된 값 저장
-//        selectedWakeUpMeridian = view.text.toString()
-        selectedWakeUpMeridian = when (view.text.toString()) {
-            "AM" -> "오전"
-            "PM" -> "오후"
-            else -> null
-        }
-    }
-
     private fun initWakeUpTime(savedValue: Int) {
         val views = listOf(
             binding.tvWakeup1, binding.tvWakeup2, binding.tvWakeup3, binding.tvWakeup4,
@@ -379,9 +333,21 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvWakeup9, binding.tvWakeup10, binding.tvWakeup11, binding.tvWakeup12
         )
 
-        // 초기화
+        val (meridian, hour) = if (savedValue in 0..23) {
+            if (savedValue == 0) "오전" to 12
+            else if (savedValue in 1..11) "오전" to savedValue
+            else if (savedValue == 12) "오후" to 12
+            else "오후" to (savedValue - 12)
+        } else {
+            null to -1
+        }
+
+        // AM/PM 초기화
+        initWakeUpMeridian(meridian)
+
+        // 시간 선택 초기화
         views.forEach { view ->
-            if (getWakeUpTimeFromTextView(view) == savedValue) {
+            if (getWakeUpTimeFromTextView(view) == hour) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedWakeUpTime = savedValue
@@ -391,7 +357,6 @@ class FetchLifestyleActivity : AppCompatActivity() {
             }
         }
 
-        // 클릭 이벤트
         views.forEach { view ->
             view.setOnClickListener {
                 updateWakeUpTime(view, views)
@@ -400,18 +365,57 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun updateWakeUpTime(view: TextView, views: List<TextView>) {
-        // 모든 TextView 초기화
         views.forEach {
             it.setBackgroundResource(R.drawable.custom_option_box_background_default)
             it.setTextColor(getColor(R.color.unuse_font))
         }
 
-        // 선택된 TextView 강조
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        // 선택된 값 저장
-        selectedWakeUpTime = getWakeUpTimeFromTextView(view)
+        val hour = getWakeUpTimeFromTextView(view)
+
+        selectedWakeUpTime = when (selectedWakeUpMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
+        }
+    }
+
+    private fun initWakeUpMeridian(selectedValue: String?) {
+        val views = listOf(binding.tvWakeAm, binding.tvWakePm)
+
+        val mappedValue = when (selectedValue) {
+            "오전" -> "AM"
+            "오후" -> "PM"
+            else -> null
+        }
+
+        views.forEach { view ->
+            if (view.text.toString() == mappedValue) {
+                view.setTextColor(getColor(R.color.main_blue))
+                selectedWakeUpMeridian = selectedValue
+            } else {
+                view.setTextColor(getColor(R.color.unuse_font))
+            }
+        }
+
+        views.forEach { view ->
+            view.setOnClickListener {
+                updateWakeUpMeridian(view, views)
+            }
+        }
+    }
+
+    private fun updateWakeUpMeridian(view: TextView, views: List<TextView>) {
+        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
+        view.setTextColor(getColor(R.color.main_blue))
+
+        selectedWakeUpMeridian = when (view.text.toString()) {
+            "AM" -> "오전"
+            "PM" -> "오후"
+            else -> null
+        }
     }
 
     private fun getWakeUpTimeFromTextView(view: TextView): Int {
@@ -501,18 +505,21 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun updateSleepingTime(view: TextView, views: List<TextView>) {
-        // 모든 TextView 초기화
         views.forEach {
             it.setBackgroundResource(R.drawable.custom_option_box_background_default)
             it.setTextColor(getColor(R.color.unuse_font))
         }
 
-        // 선택된 TextView 강조
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        // 선택된 값 저장
-        selectedSleepingTime = getSleepTimeFromTextView(view)
+        val hour = getSleepTimeFromTextView(view)
+
+        selectedSleepingTime = when (selectedSleepingMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
+        }
     }
 
     private fun getSleepTimeFromTextView(view: TextView): Int {
@@ -604,18 +611,21 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun updateTurnOffTime(view: TextView, views: List<TextView>) {
-        // 모든 TextView 초기화
         views.forEach {
             it.setBackgroundResource(R.drawable.custom_option_box_background_default)
             it.setTextColor(getColor(R.color.unuse_font))
         }
 
-        // 선택된 TextView 강조
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        // 선택된 값 저장
-        selectedTurnOffTime = getTurnOffTimeFromTextView(view)
+        val hour = getTurnOffTimeFromTextView(view)
+
+        selectedTurnOffTime = when (selectedTurnOffMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
+        }
     }
 
     private fun getTurnOffTimeFromTextView(view: TextView): Int {
@@ -707,17 +717,17 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
 
-    private fun initAc(selectedValue: Int?) {
+    private fun initAc(selectedValue: String?) {
         val views = listOf(
             binding.acNo, binding.acWeak, binding.acEnough, binding.acStrong
         )
 
         // 초기화
         views.forEach { view ->
-            if (getAcFromTextView(view) == selectedValue) {
+            if (view.text.toString() == selectedValue) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedAc = selectedValue ?: -1
+                selectedAc = selectedValue ?: ""
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
@@ -741,20 +751,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedAc = getAcFromTextView(view)
+        selectedAc = view.text.toString()
     }
 
-    private fun getAcFromTextView(view: TextView): Int {
-        return when (view.id) {
-            binding.acNo.id -> 0
-            binding.acWeak.id -> 1
-            binding.acEnough.id -> 2
-            binding.acStrong.id -> 3
-            else -> -1
-        }
-    }
-
-    private fun initHeater(selectedValue: Int?) {
+    private fun initHeater(selectedValue: String?) {
         val views = listOf(
             binding.heaterNo, binding.heaterWeak, binding.heaterEnough,
             binding.heaterStrong
@@ -762,10 +762,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
         // 초기화
         views.forEach { view ->
-            if (getHeaterFromTextView(view) == selectedValue) {
+            if (view.text.toString() == selectedValue) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedHeater = selectedValue ?: -1
+                selectedHeater = selectedValue ?: ""
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
@@ -789,17 +789,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedHeater = getHeaterFromTextView(view)
-    }
-
-    private fun getHeaterFromTextView(view: TextView): Int {
-        return when (view.id) {
-            binding.heaterNo.id -> 0
-            binding.heaterWeak.id -> 1
-            binding.heaterEnough.id -> 2
-            binding.heaterStrong.id -> 3
-            else -> -1
-        }
+        selectedHeater = view.text.toString()
     }
 
     private fun initLifePattern(selectedValue: String?) {
@@ -1022,7 +1012,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         selectedIntake = view.text.toString()
     }
 
-    private fun initCleanSensitivity(selectedValue: Int?) {
+    private fun initCleanSensitivity(selectedValue: String?) {
         val views = listOf(
             binding.clean1, binding.clean2, binding.clean3,
             binding.clean4, binding.clean5
@@ -1030,10 +1020,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
         // 초기화
         views.forEach { view ->
-            if (getCleanFromTextView(view) == selectedValue) {
+            if (view.text.toString() == selectedValue) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedCleanSensitivity = selectedValue ?: -1
+                selectedCleanSensitivity = selectedValue ?: ""
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
@@ -1057,21 +1047,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedCleanSensitivity = getCleanFromTextView(view)
+        selectedCleanSensitivity = view.text.toString()
     }
 
-    private fun getCleanFromTextView(view: TextView): Int {
-        return when (view.id) {
-            binding.clean1.id -> 1
-            binding.clean2.id -> 2
-            binding.clean3.id -> 3
-            binding.clean4.id -> 4
-            binding.clean5.id -> 5
-            else -> -1
-        }
-    }
-
-    private fun initNoiseSensitivity(selectedValue: Int?) {
+    private fun initNoiseSensitivity(selectedValue: String?) {
         val views = listOf(
             binding.noise1, binding.noise2, binding.noise3,
             binding.noise4, binding.noise5
@@ -1079,10 +1058,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
         // 초기화
         views.forEach { view ->
-            if (getNoiseFromTextView(view) == selectedValue) {
+            if (view.text.toString() == selectedValue) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedNoiseSensitivity = selectedValue ?: -1
+                selectedNoiseSensitivity = selectedValue ?: ""
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
@@ -1106,18 +1085,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedNoiseSensitivity = getNoiseFromTextView(view)
-    }
-
-    private fun getNoiseFromTextView(view: TextView): Int {
-        return when (view.id) {
-            binding.noise1.id -> 1
-            binding.noise2.id -> 2
-            binding.noise3.id -> 3
-            binding.noise4.id -> 4
-            binding.noise5.id -> 5
-            else -> -1
-        }
+        selectedNoiseSensitivity = view.text.toString()
     }
 
     private fun initCleaningFrequency(selectedValue: String?) {
@@ -1316,32 +1284,29 @@ class FetchLifestyleActivity : AppCompatActivity() {
         val editor = spf.edit()
         with(editor) {
             putString("user_admissionYear", selectedAdmissionYear.toString())
-            putString("user_dormitoryName", selectedDormitoryName)
-            putInt("user_numOfRoommate", selectedNumOfRoommate)
-            putString("user_acceptance", selectedAcceptance)
-            putString("user_wakeUpMeridian", selectedWakeUpMeridian)
+            putString("user_dormName", selectedDormitoryName)
+            putString("user_numOfRoommate", selectedNumOfRoommate)
+            putString("user_dormJoiningStatus", selectedAcceptance)
             putInt("user_wakeUpTime", selectedWakeUpTime)
-            putString("user_sleepingMeridian", selectedSleepingMeridian)
             putInt("user_sleepingTime", selectedSleepingTime)
-            putString("user_turnOffMeridian", selectedTurnOffMeridian)
             putInt("user_turnOffTime", selectedTurnOffTime)
-            putString("user_smoking", selectedSmoking)
+            putString("user_smokingStatus", selectedSmoking)
             Log.d("FetchLifestyleActivity", "$selectedSmoking")
-            putStringSet("user_sleepingHabit", selectedSleepingHabits.toSet())
-            putInt("user_airConditioningIntensity", selectedAc)
-            putInt("user_heatingIntensity", selectedHeater)
+            putStringSet("user_sleepingHabits", selectedSleepingHabits.toSet())
+            putString("user_coolingIntensity", selectedAc)
+            putString("user_heatingIntensity", selectedHeater)
             putString("user_lifePattern", selectedLifePattern)
             putString("user_intimacy", selectedIntimacy)
-            putString("user_canShare", selectedCanShare)
-            putString("user_isPlayGame", selectedIsPlayGame)
-            putString("user_isPhoneCall", selectedIsPhoneCall)
-            putString("user_studying", selectedStudying)
-            putString("user_intake", selectedIntake)
-            putInt("user_cleanSensitivity", selectedCleanSensitivity)
-            putInt("user_noiseSensitivity", selectedNoiseSensitivity)
+            putString("user_sharingStatus", selectedCanShare)
+            putString("user_gamingStatus", selectedIsPlayGame)
+            putString("user_callingStatus", selectedIsPhoneCall)
+            putString("user_studyingStatus", selectedStudying)
+            putString("user_eatingStatus", selectedIntake)
+            putString("user_cleannessSensitivity", selectedCleanSensitivity)
+            putString("user_noiseSensitivity", selectedNoiseSensitivity)
             putString("user_cleaningFrequency", selectedCleaningFrequency)
             putString("user_drinkingFrequency", selectedDrinkingFrequency)
-            putStringSet("user_personality", selectedPersonality.toSet())
+            putStringSet("user_personalities", selectedPersonality.toSet())
             putString("user_mbti", selectedMbti)
             putString("user_selfIntroduction", selectedETCInfo)
             apply()
@@ -1370,31 +1335,28 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun sendFetchUserDataToViewModel() {
         val userInfo = UserInfoRequest(
             admissionYear = selectedAdmissionYear.toString(),
-            numOfRoommate = selectedNumOfRoommate,
-            dormitoryName = spf.getString("user_dormitoryName", "") ?: "", // 기존 값 유지
-            acceptance = selectedAcceptance ?: "",
-            wakeUpMeridian = selectedWakeUpMeridian ?: "",
+            numOfRoommate = selectedNumOfRoommate ?: "",
+            dormName = spf.getString("user_dormName", "") ?: "", // 기존 값 유지
+            dormJoiningStatus = selectedAcceptance ?: "",
             wakeUpTime = selectedWakeUpTime,
-            sleepingMeridian = selectedSleepingMeridian ?: "",
             sleepingTime = selectedSleepingTime,
-            turnOffMeridian = selectedTurnOffMeridian ?: "",
             turnOffTime = selectedTurnOffTime,
-            smoking = selectedSmoking ?: "",
-            sleepingHabit = selectedSleepingHabits.toList(),
-            airConditioningIntensity = selectedAc,
+            smokingStatus = selectedSmoking ?: "",
+            sleepingHabits = selectedSleepingHabits.toList(),
+            coolingIntensity = selectedAc,
             heatingIntensity = selectedHeater,
             lifePattern = selectedLifePattern ?: "",
             intimacy = selectedIntimacy ?: "",
-            canShare = selectedCanShare ?: "",
-            isPlayGame = selectedIsPlayGame ?: "",
-            isPhoneCall = selectedIsPhoneCall ?: "",
-            studying = selectedStudying ?: "",
-            intake = selectedIntake ?: "",
-            cleanSensitivity = selectedCleanSensitivity,
+            sharingStatus = selectedCanShare ?: "",
+            gamingStatus = selectedIsPlayGame ?: "",
+            callingStatus = selectedIsPhoneCall ?: "",
+            studyingStatus = selectedStudying ?: "",
+            eatingStatus = selectedIntake ?: "",
+            cleannessSensitivity = selectedCleanSensitivity,
             noiseSensitivity = selectedNoiseSensitivity,
             cleaningFrequency = selectedCleaningFrequency ?: "",
             drinkingFrequency = selectedDrinkingFrequency ?: "",
-            personality = selectedPersonality.toList(),
+            personalities = selectedPersonality.toList(),
             mbti = selectedMbti ?: "",
             selfIntroduction = selectedETCInfo ?: ""
         )

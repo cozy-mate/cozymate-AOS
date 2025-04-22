@@ -19,7 +19,7 @@
             android:padding="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_dormitory"
+                android:id="@+id/cl_dorm_joining_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="55dp"
@@ -29,7 +29,7 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_dormitory"
+                    android:id="@+id/tv_dorm_joining_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="기숙사 합격 여부를 선택해주세요"
@@ -39,16 +39,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ly_dormitory"
+                    android:id="@+id/ly_dorm_joining_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dorm_joining_status">
 
                     <TextView
-                        android:id="@+id/dormitory_pass"
+                        android:id="@+id/dorm_joining_status_pass"
                         style="@style/OptionBox"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -57,7 +57,7 @@
                         android:text="합격" />
 
                     <TextView
-                        android:id="@+id/dormitory_waiting"
+                        android:id="@+id/dorm_joining_status_waiting"
                         style="@style/OptionBox"
                         android:layout_width="90dp"
                         android:layout_height="40dp"
@@ -66,7 +66,7 @@
                         android:text="결과 대기중" />
 
                     <TextView
-                        android:id="@+id/dormitory_number"
+                        android:id="@+id/dorm_joining_status_number"
                         style="@style/OptionBox"
                         android:layout_width="148dp"
                         android:layout_height="40dp"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_dormitory" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_dorm_joining_status" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,7 +88,7 @@
                 android:layout_marginBottom="55dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_dormitory"
+                app:layout_constraintTop_toBottomOf="@+id/cl_dorm_joining_status"
                 tools:visibility="visible">
 
                 <TextView
@@ -180,7 +180,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_dormitory_name"
+                android:id="@+id/cl_dorm_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="55dp"
@@ -190,7 +190,7 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_dormitory_name"
+                    android:id="@+id/tv_dorm_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="신청한 기숙사를 선택해주세요"
@@ -200,13 +200,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ly_dormitory_name"
+                    android:id="@+id/ly_dorm_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_dormitory_name">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dorm_name">
 
                 </LinearLayout>
 
@@ -214,11 +214,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ly_dormitory_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/ly_dorm_name" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_number"
+                android:id="@+id/tv_admissionYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -227,20 +227,20 @@
                 android:textColor="@color/highlight_font"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_dormitory_name" />
+                app:layout_constraintTop_toBottomOf="@id/cl_dorm_name" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tvil_number"
+                android:id="@+id/tvil_admissionYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:visibility="visible"
                 app:boxBackgroundMode="outline"
                 app:hintEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/tv_number">
+                app:layout_constraintTop_toBottomOf="@id/tv_admissionYear">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_number"
+                    android:id="@+id/et_admissionYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/custom_edittext"
@@ -257,7 +257,7 @@
                 android:layout_height="80dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvil_number" />
+                app:layout_constraintTop_toBottomOf="@+id/tvil_admissionYear" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
