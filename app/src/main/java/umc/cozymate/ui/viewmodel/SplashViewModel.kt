@@ -103,7 +103,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun saveToken() {
-        Log.d(TAG, "찐 토큰: ${_tokenInfo.value!!.accessToken}")
+        Log.d(TAG, "토큰이 저장되었습니다: ${_tokenInfo.value!!.accessToken}")
         sharedPreferences.edit()
             .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
         sharedPreferences.edit()

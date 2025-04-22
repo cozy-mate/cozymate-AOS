@@ -2,6 +2,7 @@ package umc.cozymate.ui.university_certification
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
+import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.StatusBarUtil
 
@@ -24,6 +26,7 @@ import umc.cozymate.util.StatusBarUtil
 class UniversitySearchFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private val viewModel: UniversityViewModel by activityViewModels()
+    private val splashViewModel: SplashViewModel by activityViewModels()
     private var _binding: FragmentUniversitySearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var univList: List<GetUniversityListResponse.Result.University>
@@ -73,6 +76,10 @@ class UniversitySearchFragment : Fragment() {
             } else {
                 binding.tvNone.visibility = View.VISIBLE
             }
+        }
+        viewModel.errorResponse.observe(viewLifecycleOwner) { res ->
+            Log.d(TAG, "토큰을 재발행합니다: ${res.message}")
+            splashViewModel.reissue()
         }
         binding.rvUniv.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUniv.adapter = adapter
