@@ -50,13 +50,11 @@ class MyFavoriteActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.refreshLayout.isRefreshing = true
         if (isRoommateSelected) {
             fetchRoommateList()
         } else {
             fetchRoomList()
         }
-        binding.refreshLayout.isRefreshing = false
     }
 
     private fun setupRVAdapters() {
