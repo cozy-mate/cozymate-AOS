@@ -167,7 +167,7 @@ class MakingPublicRoomFragment : Fragment() {
 
                     containsSeparatedHangul -> {
                         binding.tvAlertName.visibility = View.VISIBLE
-                        binding.tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안됩니다!"
+                        binding.tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안 돼요!"
                         binding.tilRoomName.isErrorEnabled = true
                     }
 
@@ -231,12 +231,22 @@ class MakingPublicRoomFragment : Fragment() {
         binding.etRoomHashtag.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 val hashtagText = binding.etRoomHashtag.text.toString().trim()
-                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                val invalidLength = hashtagText.length > 5
+                if (hashtagText.isNotEmpty() && hashtags.size < 3 && !invalidLength) {
                     hashtags.add(hashtagText)
                     addHashtag()
                     binding.etRoomHashtag.text?.clear()
-                } else if (hashtags.size >= 3) {
-                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
+                    binding.tvAlertHashtag.visibility = View.GONE
+                    binding.tilRoomHashtag.isErrorEnabled = false
+                } else if (invalidLength) {
+                    binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력가능해요!"
+                    binding.tilRoomHashtag.isErrorEnabled = true
+                }
+                else if (hashtags.size >= 3) {
+                    binding.tvAlertHashtag.visibility = View.GONE
+                    binding.tilRoomHashtag.isErrorEnabled = false
+                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있어요!", Toast.LENGTH_SHORT)
                         .show()
                 }
                 true
@@ -258,7 +268,7 @@ class MakingPublicRoomFragment : Fragment() {
                     val drawableWidth = it.bounds.width()
                     val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
                     if (event.x >= touchableAreaStart) {
-                        removeHashtag(tv) /// 왜 안 됨?
+                        removeHashtag(tv)
                         true
                     } else false
                 } ?: false
