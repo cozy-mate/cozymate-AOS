@@ -222,7 +222,7 @@ class BasicInfoFragment : Fragment() {
                 }
                 numPeopleOption = selectedTextView
                 saveToSharedPreferences(key, value as String)
-                resetDebounceTimer { showDormitoryLayout() }
+                resetDebounceTimer { showDormJoiningStatusLayout() }
                 updateNextButtonState()
             }
 
@@ -289,6 +289,11 @@ class BasicInfoFragment : Fragment() {
 
     private fun showDormitoryLayout() {
         binding.clDormName.showWithSlideDownAnimation()
+        scrollToTop()
+    }
+
+    private fun showDormJoiningStatusLayout() {
+        binding.clDormJoiningStatus.showWithSlideDownAnimation()
         scrollToTop()
     }
 
