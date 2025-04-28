@@ -152,6 +152,7 @@ class BasicInfoFragment : Fragment() {
                 if (inputText.length == 2) {
                     saveToSharedPreferences("user_admissionYear", s.toString())
                     showDormitoryNameLayout()
+                    updateNextButtonState()
                 } else {
                     binding.etAdmissionYear.error = "2자리 숫자를 입력해주세요."
                 }

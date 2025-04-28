@@ -1,11 +1,11 @@
 package umc.cozymate.ui.notification
 
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
-import dagger.hilt.android.AndroidEntryPoint
-import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
-import umc.cozymate.ui.viewmodel.NotificationViewModel
-import java.io.IOException
+//import androidx.paging.PagingSource
+//import androidx.paging.PagingState
+//import dagger.hilt.android.AndroidEntryPoint
+//import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
+//import umc.cozymate.ui.viewmodel.NotificationViewModel
+//import java.io.IOException
 
 //@AndroidEntryPoint
 //class NotificationPagingSource(val notificationViewModel: NotificationViewModel) : PagingSource<Int, NotificationLogResponse>() {
