@@ -29,12 +29,14 @@ class EndlessRoommateRVAdapter (
 
     override fun getItemCount(): Int = items.size
 
-    fun addMember(item : List<RecommendedMemberInfo>){
-        items.addAll(item)
-        notifyDataSetChanged()
+    fun addMember(newData : List<RecommendedMemberInfo>){
+        val startPosition = items.size
+        items.addAll(newData)
+        notifyItemRangeInserted(startPosition,newData.size)
     }
 
     fun clearMember(){
         items.clear()
+        notifyDataSetChanged()
     }
 }

@@ -23,6 +23,7 @@ class RoommateRecommendViewModel @Inject constructor(
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+    private var hasNext : Boolean = true
 
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
@@ -40,11 +41,9 @@ class RoommateRecommendViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
-                        //_roommateList.emit(response.body()!!.result.memberList)
                         _roommateList.value = response.body()!!.result.memberList
                     } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                 } else {
-                    //_roommateList.emit(emptyList())
                     _roommateList.value = emptyList()
                     Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                 }
@@ -57,6 +56,8 @@ class RoommateRecommendViewModel @Inject constructor(
     }
     fun fetchRoommateListByEquality(filter : List<String> = emptyList(), page : Int = 0) { // 라이프스타일 있을 때
         val token = getToken()
+        // 마지막 페이지 일 경우 요정 x
+        if (!hasNext && page != 0) return
         viewModelScope.launch {
             _isLoading.value = true
             try {
@@ -64,10 +65,9 @@ class RoommateRecommendViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
-                        //_roommateList.emit(response.body()!!.result.memberList)
                         _roommateList.value = response.body()!!.result.memberList
+                        hasNext = response.body()!!.result.hasNext
                     } else {
-                        //_roommateList.emit(emptyList())
                         _roommateList.value = emptyList()
                         Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                     }

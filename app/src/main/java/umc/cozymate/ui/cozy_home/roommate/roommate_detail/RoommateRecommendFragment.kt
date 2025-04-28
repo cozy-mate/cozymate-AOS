@@ -24,6 +24,7 @@ import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.FragmentRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
+import umc.cozymate.ui.message.MessageDetailActivity.Companion.ITEM_SIZE
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
@@ -85,8 +86,24 @@ class RoommateRecommendFragment: Fragment() {
                 val itemTotalCount = recyclerView.adapter!!.itemCount
 
                 // 스크롤이 끝에 도달했는지 확인
-                if ( lastVisibleItemPosition == itemTotalCount-1){
-                    viewModel.fetchRoommateListByEquality(selectedChips, ++page)
+//                if ( lastVisibleItemPosition == itemTotalCount-1){
+
+//                }
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                val isLoading = viewModel.isLoading.value // 로딩 중이 아닐 때만 요청
+                if (!isLoading!!) {
+                    val isAtBottom =
+                        (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                    val isValidPosition = firstVisibleItemPosition >= 0
+                    val hasEnoughItems = totalItemCount >= ITEM_SIZE
+
+                    if (isAtBottom && isValidPosition && hasEnoughItems) {
+                        viewModel.fetchRoommateListByEquality(selectedChips, ++page)
+                    }
                 }
             }
         })
@@ -100,9 +117,6 @@ class RoommateRecommendFragment: Fragment() {
 
     private fun setupObserver(){
         viewModel.roommateList.observe(viewLifecycleOwner, Observer { list ->
-//                binding.rvRoommateDetailInfo.visibility = View.VISIBLE
-//                binding.tvEmpty.visibility = View.GONE
-//                recommendAdapter.addMember(list)
             if (list.isNullOrEmpty()&& page == 0){
                 if (isLifestyleExist){
                     binding.rvRoommateDetailInfo.visibility = View.GONE
@@ -113,7 +127,6 @@ class RoommateRecommendFragment: Fragment() {
                 memberList = list
                 binding.rvRoommateDetailInfo.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
-                //updateUI()
                 recommendAdapter.addMember(list)
             }
         })
@@ -133,20 +146,12 @@ class RoommateRecommendFragment: Fragment() {
         }
     }
 
-    private fun updateUI(){
-        val recommendAdapter = RecommendedRoommateVPAdapter(memberList,true){ memberId ->
-            detailViewModel.getOtherUserDetailInfo(memberId)
-        //navigatorToRoommateDetail(memberId)
-        }
-        binding.rvRoommateDetailInfo.adapter = recommendAdapter
-        binding.rvRoommateDetailInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-    }
 
     private fun initGuide() {
         binding.tvUserName.text = nickname
         binding.btnGoLifestyle.setOnClickListener(){
             val intent = Intent(requireActivity(), RoommateOnboardingActivity::class.java)
+            intent.putExtra("nickname",nickname)
             startActivity(intent)
         }
     }
@@ -154,7 +159,7 @@ class RoommateRecommendFragment: Fragment() {
 
     private fun initChip(){
         val filterList  = listOf("출생년도","학번","학과","합격여부","기상시간","취침시간","소등시간","흡연여부","잠버릇","에어컨","히터", "생활패턴","친밀도",
-            "물건공유", "게임여부", "전화여부", "공부여부","섭취여부","청결예민도", "소음예민도","청소빈도", "음주빈도" ,"성격", "MBTI"  )
+            "물건공유", "게임여부", "전화여부", "공부여부","섭취여부","청결예민도", "소음예민도","청소빈도", "음주빈도" ,"성격", "MBTI" )
         for(t in filterList){
             var box = CheckBox(requireContext())
             box.apply {

@@ -1,14 +1,15 @@
 package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.databinding.ItemLifestyleGuideBinding
+import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 
 class LifeStyleGuideRVAdapter(
     private val nickname : String,
     private val isLifeStyleExist : Boolean,
-    private val onItemClicked: () -> Unit
 ) : RecyclerView.Adapter<LifeStyleGuideRVAdapter.viewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LifeStyleGuideRVAdapter.viewHolder {
@@ -31,7 +32,10 @@ class LifeStyleGuideRVAdapter(
         fun bind(){
             binding.tvUserName.text = nickname
             binding.btnGoLifestyle.setOnClickListener(){
-                onItemClicked()
+                val context = binding.root.context
+                val intent = Intent(context , RoommateOnboardingActivity::class.java)
+                intent.putExtra("nickname",nickname)
+                context.startActivity(intent)
             }
         }
 
