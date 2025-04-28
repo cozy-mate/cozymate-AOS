@@ -18,9 +18,11 @@ class RoommateDetailHeaderViewHolder(
     private val binding: RvItemRoomateDetailHeaderBinding,
     private val clickFilter: (List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    private var selectedChips = mutableListOf<String>()
+    private val  selectedChips = mutableListOf<String>()
     private var chips  = mutableListOf<CheckBox>()
+    private var isClear : Boolean = false
     fun bind(){
+
         Log.d("test" , "header 생성 ")
         // 검색창 이동
         binding.lyRoomMateSearch.setOnClickListener {
@@ -54,7 +56,7 @@ class RoommateDetailHeaderViewHolder(
                 val color = if(isChecked)  R.color.main_blue else R.color.unuse_font
                 val filter = Preference.getPrefByDisplayName(box.text.toString())
                 box.setTextColor(ContextCompat.getColor(itemView.context, color))
-                if (!isChecked) selectedChips.remove(filter)
+                if (!isChecked && !isClear) selectedChips.remove(filter)
                 else if(!selectedChips.contains(filter)) selectedChips.add(filter)
 
                 // 현재 선택된 필터 값(String) 만 전달
@@ -64,7 +66,11 @@ class RoommateDetailHeaderViewHolder(
             binding.chips.addView(chip)
         }
     }
-    
-    
+
+    fun clearChip(){
+        isClear = true
+         for (c in chips) c.isChecked = false
+        isClear = false
+    }
 
 }

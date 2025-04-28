@@ -31,7 +31,7 @@ class RoommateRecommandRVAdapter(
     }
 
     sealed class RecyclerItem {
-        object FirstTypeItem : RecyclerItem()
+        object FirstTypeItem: RecyclerItem()
         data class SecondTypeItem(val data: RecommendedMemberInfo)  : RecyclerItem()
         data class ThirdTypeItem(val name: String) : RecyclerItem()
         object EmptyTypeItem : RecyclerItem()

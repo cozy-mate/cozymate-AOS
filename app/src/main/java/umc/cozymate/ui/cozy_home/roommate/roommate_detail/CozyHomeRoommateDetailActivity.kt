@@ -36,7 +36,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private var isLoading = false
     private var isLastPage = false
     private var page = 0
-    private  var memberList = ArrayList<RecommendedMemberInfo>()
+    private var memberList = ArrayList<RecommendedMemberInfo>()
     private var filterList : List<String> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +58,27 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             this.onBackPressed()
         }
 
+        binding.refreshLayout.setOnRefreshListener {
+            clearPage()
+            if (isLifestyleExist) viewModel.fetchRoommateListByEquality(filterList, page++)
+            else viewModel.fetchRecommendedRoommateList()
+        }
+
         if (isLifestyleExist) viewModel.fetchRoommateListByEquality(emptyList(), page++)
         else viewModel.fetchRecommendedRoommateList()
 
 
 
+    }
+
+    private fun clearPage() {
+        page = 0
+        memberList.clear()
+        filterList = emptyList()
+        isLastPage = false
+        val viewHolder = binding.rvContent.findViewHolderForAdapterPosition(0) as? RoommateDetailHeaderViewHolder
+        if (viewHolder != null) viewHolder.clearChip()
+        //binding.refreshLayout.isRefreshing = false
     }
 
     private fun setRecyclerView() {
@@ -114,7 +130,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         })
         viewModel.isLoading.observe(this) { it ->
             isLoading = it
-            showProgressBar(isLoading)
+            showProgressBar()
         }
         detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
             if(otherUserDetail == null) return@observe
@@ -126,7 +142,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         }
         detailViewModel.isLoading.observe(this) { it ->
             isLoading = it
-            showProgressBar(isLoading)
+            showProgressBar()
         }
     }
 
@@ -155,8 +171,12 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
 
-    fun showProgressBar(show: Boolean) {
-        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
+    fun showProgressBar() {
+        if(!binding.refreshLayout.isRefreshing)
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (!isLoading && binding.refreshLayout.isRefreshing)
+            binding.refreshLayout.isRefreshing = false
+        //binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
 }
