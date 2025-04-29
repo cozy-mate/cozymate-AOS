@@ -23,8 +23,8 @@ android {
         applicationId = "umc.cozymate"
         minSdk = 26
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.8"
+        versionCode = 12
+        versionName = "1.12"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.recyclerview)
 
+    implementation("androidx.paging:paging-runtime:3.3.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

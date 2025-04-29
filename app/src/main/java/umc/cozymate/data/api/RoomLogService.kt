@@ -23,5 +23,7 @@ interface RoomLogService {
     @GET("/notificationLogs")
     suspend fun getNotificationLogs(
         @Header("Authorization") accessToken: String,
+        @Query("page") page: Int? = 0,
+        @Query("size") size: Int? = 10,
     ) : Response<NotificationLogResponse>
 }
