@@ -78,7 +78,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         isLastPage = false
         val viewHolder = binding.rvContent.findViewHolderForAdapterPosition(0) as? RoommateDetailHeaderViewHolder
         if (viewHolder != null) viewHolder.clearChip()
-        //binding.refreshLayout.isRefreshing = false
+
     }
 
     private fun setRecyclerView() {
@@ -122,7 +122,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             if (list == null) return@Observer
             memberList.addAll(list)
             submitRecyclerItems()
-            if (page != 0 && memberList.isEmpty()) isLastPage = true
+            if (page != 0 && list.isEmpty()) isLastPage = true
         })
         viewModel.isLoading.observe(this) { it ->
             isLoading = it
