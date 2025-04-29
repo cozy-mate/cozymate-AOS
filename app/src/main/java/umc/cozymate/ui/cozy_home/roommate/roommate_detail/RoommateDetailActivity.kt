@@ -126,27 +126,27 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                         admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
                         numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
-                        dormitoryName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
-                        acceptance = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
+                        dormName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
+                        dormJoiningStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
                         wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
                         sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
                         turnOffTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_turnOffTime", 0),
-                        smoking = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
-                        sleepingHabit = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
-                        airConditioningIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_coolingIntensity", "") ?: "",
+                        smokingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
+                        sleepingHabits = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
+                        coolingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_coolingIntensity", "") ?: "",
                         heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_heatingIntensity", "") ?: "",
                         lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
                         intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
-                        canShare = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SHARING_STATUS, "") ?: "",
-                        isPlayGame = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_GAMING_STATUS, "") ?: "",
-                        isPhoneCall = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CALLING_STATUS, "") ?: "",
-                        studying = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING_STATUS, "") ?: "",
-                        intake = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_EATING_STATUS, "") ?: "",
-                        cleanSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_cleanSensitivity", "") ?: "",
+                        sharingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SHARING_STATUS, "") ?: "",
+                        gamingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_GAMING_STATUS, "") ?: "",
+                        callingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CALLING_STATUS, "") ?: "",
+                        studyingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING_STATUS, "") ?: "",
+                        eatingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_EATING_STATUS, "") ?: "",
+                        cleannessSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_cleanSensitivity", "") ?: "",
                         noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_noiseSensitivity", "") ?: "",
                         cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
                         drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
-                        personality = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
+                        personalities = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
                         mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
                         selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
                     ),
@@ -449,29 +449,29 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListSchoolNumber.text = it.memberStatDetail.admissionYear
             tvListMajor.text = it.memberDetail.majorName
             tvListDormitoryNum.text = "${it.memberStatDetail.numOfRoommate}인 1실"
-            tvListAcceptance.text = it.memberStatDetail.acceptance
+            tvListAcceptance.text = it.memberStatDetail.dormJoiningStatus
             tvListWakeUpAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.wakeUpTime)
             tvListWakeUpTime.text = convertTo12Hour(it.memberStatDetail.wakeUpTime).toString()
             tvListSleepAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.sleepingTime)
             tvListSleepTime.text = convertTo12Hour(it.memberStatDetail.sleepingTime).toString()
             tvListLightOffAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.turnOffTime)
             tvListLightOffTime.text = convertTo12Hour(it.memberStatDetail.turnOffTime).toString()
-            tvListSmokeCheck.text = it.memberStatDetail.smoking
-            tvListSleepHabbit.text = it.memberStatDetail.sleepingHabit.joinToString(", ")
-            tvListAc.text = it.memberStatDetail.airConditioningIntensity
+            tvListSmokeCheck.text = it.memberStatDetail.smokingStatus
+            tvListSleepHabbit.text = it.memberStatDetail.sleepingHabits.joinToString(", ")
+            tvListAc.text = it.memberStatDetail.coolingIntensity
             tvListAcHeater.text = it.memberStatDetail.heatingIntensity
             tvListLivingPattern.text = it.memberStatDetail.lifePattern
             tvListFriendly.text = it.memberStatDetail.intimacy
-            tvListShare.text = it.memberStatDetail.canShare
-            tvListStudy.text = it.memberStatDetail.studying
-            tvListIntake.text = it.memberStatDetail.intake
-            tvListGameCheck.text = it.memberStatDetail.isPlayGame
-            tvListCallCheck.text = it.memberStatDetail.isPhoneCall
-            tvListCleanCheck.text = it.memberStatDetail.cleanSensitivity
+            tvListShare.text = it.memberStatDetail.sharingStatus
+            tvListStudy.text = it.memberStatDetail.studyingStatus
+            tvListIntake.text = it.memberStatDetail.eatingStatus
+            tvListGameCheck.text = it.memberStatDetail.gamingStatus
+            tvListCallCheck.text = it.memberStatDetail.callingStatus
+            tvListCleanCheck.text = it.memberStatDetail.cleannessSensitivity
             tvListNoiseCheck.text = it.memberStatDetail.noiseSensitivity
             tvListCleanFrequency.text = it.memberStatDetail.cleaningFrequency
             tvListDrinkFrequency.text = it.memberStatDetail.drinkingFrequency
-            tvListPersonalityCheck.text = it.memberStatDetail.personality.joinToString(", ")
+            tvListPersonalityCheck.text = it.memberStatDetail.personalities.joinToString(", ")
             tvListMbti.text = it.memberStatDetail.mbti
             tvSelfIntroduction.text = it.memberStatDetail.selfIntroduction
         }
@@ -540,8 +540,8 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserDormitoryNum.text = "${user.memberStatDetail.numOfRoommate}인1실"
             tvTableOtherDormitoryNum.text = "${other.memberStatDetail.numOfRoommate}인1실"
 
-            tvTableUserAcceptance.text = user.memberStatDetail.acceptance
-            tvTableOtherAcceptance.text = other.memberStatDetail.acceptance
+            tvTableUserAcceptance.text = user.memberStatDetail.dormJoiningStatus
+            tvTableOtherAcceptance.text = other.memberStatDetail.dormJoiningStatus
 
             tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.wakeUpTime)
             tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.wakeUpTime)
@@ -561,16 +561,16 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
             tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
 
-            tvTableUserSmoke.text = trimText(user.memberStatDetail.smoking)
-            tvTableOtherSmoke.text = trimText(other.memberStatDetail.smoking)
+            tvTableUserSmoke.text = trimText(user.memberStatDetail.smokingStatus)
+            tvTableOtherSmoke.text = trimText(other.memberStatDetail.smokingStatus)
 
             tvTableUserSleepHabbit.text =
-                trimText(user.memberStatDetail.sleepingHabit.joinToString(", "))
+                trimText(user.memberStatDetail.sleepingHabits.joinToString(", "))
             tvTableOtherSleepHabbit.text =
-                trimText(other.memberStatDetail.sleepingHabit.joinToString(", "))
+                trimText(other.memberStatDetail.sleepingHabits.joinToString(", "))
 
-            tvTableUserAc.text = user.memberStatDetail.airConditioningIntensity
-            tvTableOtherAc.text = other.memberStatDetail.airConditioningIntensity
+            tvTableUserAc.text = user.memberStatDetail.coolingIntensity
+            tvTableOtherAc.text = other.memberStatDetail.coolingIntensity
 
             tvTableUserHeater.text = user.memberStatDetail.heatingIntensity
             tvTableOtherHeater.text = other.memberStatDetail.heatingIntensity
@@ -581,23 +581,23 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserFriendly.text = trimText(user.memberStatDetail.intimacy)
             tvTableOtherFriendly.text = trimText(other.memberStatDetail.intimacy)
 
-            tvTableUserShare.text = trimText(user.memberStatDetail.canShare)
-            tvTableOtherShare.text = trimText(other.memberStatDetail.canShare)
+            tvTableUserShare.text = trimText(user.memberStatDetail.sharingStatus)
+            tvTableOtherShare.text = trimText(other.memberStatDetail.sharingStatus)
 
-            tvTableUserStudy.text = trimText(user.memberStatDetail.studying)
-            tvTableOtherStudy.text = trimText(other.memberStatDetail.studying)
+            tvTableUserStudy.text = trimText(user.memberStatDetail.studyingStatus)
+            tvTableOtherStudy.text = trimText(other.memberStatDetail.studyingStatus)
 
-            tvTableUserIntake.text = trimText(user.memberStatDetail.intake)
-            tvTableOtherIntake.text = trimText(other.memberStatDetail.intake)
+            tvTableUserIntake.text = trimText(user.memberStatDetail.eatingStatus)
+            tvTableOtherIntake.text = trimText(other.memberStatDetail.eatingStatus)
 
-            tvTableUserGame.text = trimText(user.memberStatDetail.isPlayGame)
-            tvTableOtherGame.text = trimText(other.memberStatDetail.isPlayGame)
+            tvTableUserGame.text = trimText(user.memberStatDetail.gamingStatus)
+            tvTableOtherGame.text = trimText(other.memberStatDetail.gamingStatus)
 
-            tvTableUserCall.text = trimText(user.memberStatDetail.isPhoneCall)
-            tvTableOtherCall.text = trimText(other.memberStatDetail.isPhoneCall)
+            tvTableUserCall.text = trimText(user.memberStatDetail.callingStatus)
+            tvTableOtherCall.text = trimText(other.memberStatDetail.callingStatus)
 
-            tvTableUserClean.text = user.memberStatDetail.cleanSensitivity
-            tvTableOtherClean.text = other.memberStatDetail.cleanSensitivity
+            tvTableUserClean.text = user.memberStatDetail.cleannessSensitivity
+            tvTableOtherClean.text = other.memberStatDetail.cleannessSensitivity
 
             tvTableUserNoise.text = user.memberStatDetail.noiseSensitivity
             tvTableOtherNoise.text = other.memberStatDetail.noiseSensitivity
@@ -609,9 +609,9 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherDrinkFrequency.text = trimText(other.memberStatDetail.drinkingFrequency)
 
             tvTableUserPersonality.text =
-                trimText(user.memberStatDetail.personality.joinToString(", "))
+                trimText(user.memberStatDetail.personalities.joinToString(", "))
             tvTableOtherPersonality.text =
-                trimText(other.memberStatDetail.personality.joinToString(", "))
+                trimText(other.memberStatDetail.personalities.joinToString(", "))
 
             tvTableUserMbti.text = user.memberStatDetail.mbti
             tvTableOtherMbti.text = other.memberStatDetail.mbti

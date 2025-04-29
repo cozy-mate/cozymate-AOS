@@ -152,6 +152,7 @@ class BasicInfoFragment : Fragment() {
                 if (inputText.length == 2) {
                     saveToSharedPreferences("user_admissionYear", s.toString())
                     showDormitoryNameLayout()
+                    updateNextButtonState()
                 } else {
                     binding.etAdmissionYear.error = "2자리 숫자를 입력해주세요."
                 }
@@ -222,7 +223,7 @@ class BasicInfoFragment : Fragment() {
                 }
                 numPeopleOption = selectedTextView
                 saveToSharedPreferences(key, value as String)
-                resetDebounceTimer { showDormitoryLayout() }
+                resetDebounceTimer { showDormJoiningStatusLayout() }
                 updateNextButtonState()
             }
 
@@ -289,6 +290,11 @@ class BasicInfoFragment : Fragment() {
 
     private fun showDormitoryLayout() {
         binding.clDormName.showWithSlideDownAnimation()
+        scrollToTop()
+    }
+
+    private fun showDormJoiningStatusLayout() {
+        binding.clDormJoiningStatus.showWithSlideDownAnimation()
         scrollToTop()
     }
 

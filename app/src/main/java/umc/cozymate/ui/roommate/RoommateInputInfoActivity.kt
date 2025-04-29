@@ -137,6 +137,11 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         }
     }
 
+
+    fun hideNextButton() {
+        btnNext.visibility = View.GONE
+    }
+
     private fun updateFragmentTitle(position: Int) {
         when (position) {
             0 -> tvTitle.text = "기본정보"
