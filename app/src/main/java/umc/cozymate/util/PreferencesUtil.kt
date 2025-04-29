@@ -56,6 +56,9 @@ object PreferencesUtil {
     fun getString(context: Context, key: String, default: String = ""): String? =
         getPreferences(context).getString(key, default)
 
+    fun getStringSet(context: Context, key: String, default: Set<String> = emptySet()): Set<String> =
+        getPreferences(context).getStringSet(key, default) ?: default
+
     // 정수 저장 함수
     fun putInt(context: Context, key: String, value: Int) {
         getPreferences(context).edit().putInt(key, value).apply()

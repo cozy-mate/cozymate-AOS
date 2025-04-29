@@ -214,10 +214,20 @@ class EssentialInfoFragment : Fragment() {
 
         for ((textView, hour) in wakeUpTimeTexts) {
             textView.setOnClickListener {
-//                updateSelectedIntOption(it, "user_wakeUpTime", value, wakeTimeOption)
-//                wakeTimeOption = it as TextView
-//                resetDebounceTimer { showSleepLayout() }
+                // 기존 선택 해제
+                wakeTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                }
+
+                // 새 선택 적용
                 wakeTimeOption = textView
+                wakeTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+                }
+
+                // 값 저장 및 다음 상태 업데이트
                 val ampm = wakeAmpmOption?.text?.toString()
                 val converted = convertTo24Hour(ampm, hour)
                 saveToSPFInt("user_wakeUpTime", converted)
@@ -257,11 +267,24 @@ class EssentialInfoFragment : Fragment() {
             binding.tvSleep10 to 10, binding.tvSleep11 to 11, binding.tvSleep12 to 12
         )
 
-        for ((textView, value) in sleepTimeTexts) {
+        for ((textView, hour) in sleepTimeTexts) {
             textView.setOnClickListener {
+                // 기존 선택 해제
+                sleepTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                }
+
+                // 새 선택 적용
                 sleepTimeOption = textView
+                sleepTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+                }
+
+                // 값 저장 및 상태 업데이트
                 val ampm = sleepAmpmOption?.text?.toString()
-                val converted = convertTo24Hour(ampm, value)
+                val converted = convertTo24Hour(ampm, hour)
                 saveToSPFInt("user_sleepingTime", converted)
                 updateNextButtonState()
                 resetDebounceTimer { showTurnOffLayout() }
@@ -288,6 +311,7 @@ class EssentialInfoFragment : Fragment() {
                 resetDebounceTimer { showSmokeLayout() }
             }
         }
+
     }
 
     private fun initTurnOffTime() {
@@ -298,11 +322,24 @@ class EssentialInfoFragment : Fragment() {
             binding.tvTurnOff10 to 10, binding.tvTurnOff11 to 11, binding.tvTurnOff12 to 12
         )
 
-        for ((textView, value) in lightOffTimeTexts) {
+        for ((textView, hour) in lightOffTimeTexts) {
             textView.setOnClickListener {
+                // 기존 선택 해제
+                lightOffTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.unuse_font, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_default, null)
+                }
+
+                // 새 선택 적용
                 lightOffTimeOption = textView
+                lightOffTimeOption?.apply {
+                    setTextColor(resources.getColor(R.color.main_blue, null))
+                    background = resources.getDrawable(R.drawable.custom_option_box_background_selected_6dp, null)
+                }
+
+                // 값 저장 및 상태 업데이트
                 val ampm = lightOffAmpmOption?.text?.toString()
-                val converted = convertTo24Hour(ampm, value)
+                val converted = convertTo24Hour(ampm, hour)
                 saveToSPFInt("user_turnOffTime", converted)
                 updateNextButtonState()
                 resetDebounceTimer { showSmokeLayout() }
@@ -707,6 +744,8 @@ class EssentialInfoFragment : Fragment() {
 
     fun updateNextButtonState() {
         // 각 항목이 입력되었는지 확인
+
+        (activity as? RoommateInputInfoActivity)?.hideNextButton()
         val isWakeSelected = wakeAmpmOption != null && wakeTimeOption != null
         val isSleepSelected = sleepAmpmOption != null && sleepTimeOption != null
         val isLightOffSelected = lightOffAmpmOption != null && lightOffTimeOption != null

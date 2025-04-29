@@ -1,6 +1,5 @@
 package umc.cozymate.ui.notification
 
-
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.ui.viewmodel.NotificationViewModel
