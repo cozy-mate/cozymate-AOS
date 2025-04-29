@@ -87,7 +87,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             if (isLifestyleExist){
                 page = 0
                 filterList = list
-                viewModel.fetchRoommateListByEquality(filterList,++page)
+                viewModel.fetchRoommateListByEquality(filterList,page++)
             }
             else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
             else submitRecyclerItems()
@@ -116,10 +116,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
     
     private fun setupObserver(){
         viewModel.roommateList.observe(this, Observer { list ->
@@ -168,6 +164,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
 
     private fun getPreference() {
         nickname = spf.getString("user_nickname", "").toString()
+        isLifestyleExist = spf.getBoolean("is_lifestyle_exist", false)
     }
 
 

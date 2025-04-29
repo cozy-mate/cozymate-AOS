@@ -34,6 +34,8 @@ class RoommateDetailHeaderViewHolder(
     }
 
     private fun initChip(){
+        if (chips.isNotEmpty()) return
+        binding.chips.removeAllViews()
         val filterList  = listOf("출생년도","학번","학과","합격여부","기상시간","취침시간","소등시간","흡연여부","잠버릇","에어컨","히터", "생활패턴","친밀도",
             "물건공유", "게임여부", "전화여부", "공부여부","섭취여부","청결예민도", "소음예민도","청소빈도", "음주빈도" ,"성격", "MBTI"  )
         for(t in filterList){
@@ -70,6 +72,7 @@ class RoommateDetailHeaderViewHolder(
     fun clearChip(){
         isClear = true
          for (c in chips) c.isChecked = false
+        selectedChips.clear()
         isClear = false
     }
 
