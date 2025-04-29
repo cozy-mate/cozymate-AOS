@@ -108,7 +108,8 @@
             android:exported="true" />
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".ui.cozy_home.room.join_room.JoinRoomActivity"
             android:exported="true" />
