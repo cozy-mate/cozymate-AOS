@@ -22,10 +22,10 @@ data class NotificationLogResponse(
         @SerialName("page")
         val page: Int,
         @SerialName("result")
-        val result: List<Result>
+        val result: List<LogItem>
     ) {
         @Serializable
-        data class Result(
+        data class LogItem(
             @SerialName("category")
             val category: String,
             @SerialName("content")

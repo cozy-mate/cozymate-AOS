@@ -4,14 +4,19 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.data.repository.repository.RoomLogRepository
+import umc.cozymate.ui.notification.NotificationPagingSource
 import javax.inject.Inject
 
 @HiltViewModel
-class NotificationViewModel  @Inject constructor(
+class NotificationViewModel @Inject constructor(
     private val repo: RoomLogRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
@@ -27,7 +32,7 @@ class NotificationViewModel  @Inject constructor(
     suspend fun fetchNotification() {
         val token = getToken()
         if (token != null) {
-            val response = repo.getNotificationLog(token)
+            val response = repo.getNotificationLog(token, 0, 0)
             if (response.isSuccessful) {
                 if (response.body()!!.isSuccess) {
                     _notificationResponse.value = response.body()
@@ -35,4 +40,10 @@ class NotificationViewModel  @Inject constructor(
             }
         }
     }
+
+    // 페이징 알림 (이게 맞나?)
+    val notifications = Pager(
+        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+        pagingSourceFactory = { NotificationPagingSource(repo, context) }
+    ).flow.cachedIn(viewModelScope)
 }

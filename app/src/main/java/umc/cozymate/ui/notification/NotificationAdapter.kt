@@ -8,7 +8,7 @@ import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.RvItemNotificationBinding
 
 class NotificationAdapter(
-    private var items: List<NotificationLogResponse.Result>,
+    private var items: List<NotificationLogResponse.Result.LogItem>,
     private val onItemClickListener: (Int, String) -> Unit  // 클릭 리스너
 ) : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
 
@@ -19,7 +19,7 @@ class NotificationAdapter(
         return NotificationViewHolder(binding)
     }
 
-    fun setItems(newItems: List<NotificationLogResponse.Result>) {
+    fun setItems(newItems: List<NotificationLogResponse.Result.LogItem>) {
         items = newItems
         notifyDataSetChanged()
     }

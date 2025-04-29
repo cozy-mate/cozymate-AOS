@@ -11,11 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.ActivityNotificationBinding
 import umc.cozymate.ui.MainActivity
-import umc.cozymate.ui.notification.NotificationAdapter
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.NotificationViewModel
@@ -32,7 +32,7 @@ class NotificationActivity : AppCompatActivity() {
     private val notificationViewModel: NotificationViewModel by viewModels()
     private val roomDetailViewModel: RoomDetailViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private var contents: List<NotificationLogResponse.Result> = emptyList()
+    private var contents: List<NotificationLogResponse.Result.LogItem> = emptyList()
     private var otherRoomId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class NotificationActivity : AppCompatActivity() {
         notificationViewModel.notificationResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
             if (response.isSuccess) {
-                contents = response.result.reversed() // 알림 리스트 역순 정렬
+                contents = response.result.result.reversed() // 알림 리스트 역순 정렬
                 updateContents()
             }
         })
@@ -142,7 +142,9 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun fetchData() {
         lifecycleScope.launch {
-            notificationViewModel.fetchNotification()
+            notificationViewModel.notifications.collectLatest { pagingData ->
+
+            }
         }
     }
 }
