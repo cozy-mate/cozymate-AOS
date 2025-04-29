@@ -240,10 +240,9 @@ class MakingPublicRoomFragment : Fragment() {
                     binding.tilRoomHashtag.isErrorEnabled = false
                 } else if (invalidLength) {
                     binding.tvAlertHashtag.visibility = View.VISIBLE
-                    binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력가능해요!"
+                    binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력 가능해요!"
                     binding.tilRoomHashtag.isErrorEnabled = true
-                }
-                else if (hashtags.size >= 3) {
+                } else if (hashtags.size >= 3) {
                     binding.tvAlertHashtag.visibility = View.GONE
                     binding.tilRoomHashtag.isErrorEnabled = false
                     Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있어요!", Toast.LENGTH_SHORT)
@@ -313,7 +312,7 @@ class MakingPublicRoomFragment : Fragment() {
     }
 
     // 페르소나/닉넴/인원수/해시태그 입력 필수
-    fun updateNextBtnState() {
+    private fun updateNextBtnState() {
         val isPersonaSelected = personaId != 0
         val isNicknameEntered = binding.etRoomName.text?.isNotEmpty() == true
         val isMateNumSelected = mateNum != 0
