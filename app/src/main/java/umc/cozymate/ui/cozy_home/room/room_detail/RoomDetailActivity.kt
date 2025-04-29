@@ -707,8 +707,8 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun translateMemberStatKey(key: String): String {
         return when (key) {
-            "airConditioningIntensity" -> "에어컨"
-            "isPhoneCall" -> "전화여부"
+            "coolingIntensity" -> "에어컨"
+            "callingStatus" -> "전화여부"
             "sleepingTime" -> "취침시간"
             "noiseSensitivity" -> "소음예민도"
             "wakeUpTime" -> "기상시간"
@@ -717,9 +717,9 @@ class RoomDetailActivity : AppCompatActivity() {
             "mbti" -> "MBTI"
             "heatingIntensity" -> "히터"
             "drinkingFrequency" -> "음주빈도"
-            "studying" -> "공부여부"
-            "canShare" -> "물건공유"
-            "sleepingHabit" -> "잠버릇"
+            "studyingStatus" -> "공부여부"
+            "sharingStatus" -> "물건공유"
+            "sleepingHabits" -> "잠버릇"
             "intimacy" -> "친밀도"
             "lifePattern" -> "생활패턴"
             "acceptance" -> "합격여부"
