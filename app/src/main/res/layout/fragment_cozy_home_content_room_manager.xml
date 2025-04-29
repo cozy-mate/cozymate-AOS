@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/background_my_room"
+            android:background="@drawable/background_my_room_component"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +60,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text=""
+                android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -73,6 +74,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text=""
+                android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintStart_toEndOf="@id/tv_hashtag1" />
@@ -86,6 +88,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text=""
+                android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 app:layout_constraintStart_toEndOf="@id/tv_hashtag2" />
