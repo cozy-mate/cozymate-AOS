@@ -534,8 +534,8 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
         val viewMap = mapOf(
-            "airConditioningIntensity" to binding.selectAc,
-            "isPhoneCall" to binding.selectCall,
+            "coolingIntensity" to binding.selectAc,
+            "callingStatus" to binding.selectCall,
             "sleepingTime" to binding.selectSleep,
             "noiseSensitivity" to binding.selectNoise,
             "wakeUpTime" to binding.selectWake,
@@ -544,20 +544,20 @@ class RoomDetailActivity : AppCompatActivity() {
             "mbti" to binding.selectMbti,
             "heatingIntensity" to binding.selectHeater,
             "drinkingFrequency" to binding.selectDrinkFrequency,
-            "studying" to binding.selectStudy,
-            "canShare" to binding.selectShare,
-            "sleepingHabit" to binding.selectSleepHabit,
+            "studyingStatus" to binding.selectStudy,
+            "sharingStatus" to binding.selectShare,
+            "sleepingHabits" to binding.selectSleepHabit,
             "intimacy" to binding.selectFriendly,
             "lifePattern" to binding.selectLivingPattern,
-            "acceptance" to binding.selectAcceptance,
-            "cleanSensitivity" to binding.selectClean,
-            "personality" to binding.selectPersonality,
+            "dormJoiningStatus" to binding.selectAcceptance,
+            "cleannessSensitivity" to binding.selectClean,
+            "personalities" to binding.selectPersonality,
             "birthYear" to binding.selectBirth,
             "cleaningFrequency" to binding.selectCleanFrequency,
-            "smoking" to binding.selectSmoke,
+            "smokingStatus" to binding.selectSmoke,
             "majorName" to binding.selectMajor,
-            "isPlayGame" to binding.selectGame,
-            "intake" to binding.selectIntake
+            "gamingStatus" to binding.selectGame,
+            "eatingStatus" to binding.selectIntake
         )
 
         val flexboxLayout = binding.chips1
@@ -722,15 +722,15 @@ class RoomDetailActivity : AppCompatActivity() {
             "sleepingHabits" -> "잠버릇"
             "intimacy" -> "친밀도"
             "lifePattern" -> "생활패턴"
-            "acceptance" -> "합격여부"
-            "cleanSensitivity" -> "청결예민도"
-            "personality" -> "성격"
+            "dormJoiningStatus" -> "합격여부"
+            "cleannessSensitivity" -> "청결예민도"
+            "personalities" -> "성격"
             "birthYear" -> "출생년도"
             "cleaningFrequency" -> "청소빈도"
-            "smoking" -> "흡연여부"
+            "smokingStatus" -> "흡연여부"
             "majorName" -> "학과"
-            "isPlayGame" -> "게임여부"
-            "intake" -> "섭취여부"
+            "gamingStatus" -> "게임여부"
+            "eatingStatus" -> "섭취여부"
             else -> "알 수 없음"
         }
     }
