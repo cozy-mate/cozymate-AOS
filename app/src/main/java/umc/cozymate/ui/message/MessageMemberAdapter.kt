@@ -23,7 +23,7 @@ class MessageMemberAdapter(
             CharacterUtil.setImg(item.persona, binding.ivMessageMemberCharacter )
             binding.tvMessageMemberName.text = item.nickname
             binding.tvMessageMemberText.text = item.lastContent
-            if(pos ==  chatRoomList .size-1) binding.ivLine.visibility = View.GONE
+            binding.ivLine.visibility =  if(pos == chatRoomList.size-1 && (pos+1)%10 != 0)  View.GONE else View.VISIBLE
             binding.layout.setOnClickListener {
                 itemClickListener.onItemClick(item)
             }
