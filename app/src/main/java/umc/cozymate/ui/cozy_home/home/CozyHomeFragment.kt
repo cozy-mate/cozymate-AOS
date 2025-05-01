@@ -74,6 +74,12 @@ class CozyHomeFragment : Fragment() {
         // 업데이트 체크
         checkForUpdate()
         binding.refreshLayout.isRefreshing = false
+
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val allEntries = prefs.all
+        for ((key, value) in allEntries) {
+            Log.d("SharedPreferences", "Key: $key, Value: $value")
+        }
     }
 
     override fun onResume() {
