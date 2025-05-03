@@ -65,7 +65,7 @@
             android:id="@+id/tv_split_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* 탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
+            android:text="&#42; 탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/basic_font"
             android:gravity="center_vertical"
