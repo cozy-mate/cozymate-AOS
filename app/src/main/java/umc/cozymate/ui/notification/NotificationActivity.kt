@@ -131,7 +131,9 @@ class NotificationActivity : AppCompatActivity() {
         }
 
         binding.rvNotificationList.apply {
-            adapter = adapter1
+            adapter = adapter1.withLoadStateFooter(
+                footer = NotificationLoadingStateAdapter()
+            )
             layoutManager = LinearLayoutManager(this@NotificationActivity)
         }
 
