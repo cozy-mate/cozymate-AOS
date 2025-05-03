@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +34,6 @@ class NotificationActivity : AppCompatActivity() {
     private val notificationViewModel: NotificationViewModel by viewModels()
     private val roomDetailViewModel: RoomDetailViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private var contents: List<NotificationLogResponse.Result.LogItem> = emptyList()
     private var otherRoomId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,8 +118,6 @@ class NotificationActivity : AppCompatActivity() {
             }
         }
 
-        binding.rvNotificationList.visibility = View.VISIBLE
-        binding.tvEmpty.visibility = View.GONE
         binding.rvNotificationList.apply {
             adapter = adapter1
             layoutManager = LinearLayoutManager(this@NotificationActivity)
@@ -128,6 +127,13 @@ class NotificationActivity : AppCompatActivity() {
             notificationViewModel.notifications.collectLatest { data ->
                 adapter1.submitData(data)
             }
+        }
+
+        adapter1.addLoadStateListener { loadStates ->
+            val isEmpty = loadStates.refresh is LoadState.NotLoading &&
+                    adapter1.itemCount == 0
+            binding.rvNotificationList.isVisible = !isEmpty
+            binding.ivEmptyList.isVisible = isEmpty
         }
     }
 }
