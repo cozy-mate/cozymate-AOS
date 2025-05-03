@@ -45,6 +45,6 @@ class NotificationViewModel @Inject constructor(
     // 페이징 알림 (이게 맞나?)
     val notifications = Pager(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { NotificationPagingSource(repo, context) }
+        pagingSourceFactory = { NotificationPagingSource(repo, getToken()!!) }
     ).flow.cachedIn(viewModelScope)
 }

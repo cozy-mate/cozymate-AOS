@@ -52,14 +52,6 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        notificationViewModel.notificationResponse.observe(this, Observer { response ->
-            if (response == null) return@Observer
-            if (response.isSuccess) {
-                contents = response.result.result.reversed() // 알림 리스트 역순 정렬
-                updateContents()
-            }
-        })
-
         roomDetailViewModel.roomName.observe(this) { it ->
             if (it == null) return@observe
             else {
@@ -99,50 +91,42 @@ class NotificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateContents() {
-        Log.d(TAG, "뷰 생성 : ${contents}")
-        if (contents.isNullOrEmpty()) {
-            binding.rvNotificationList.visibility = View.GONE
-            binding.tvEmpty.visibility = View.VISIBLE
-        } else {
-            adapter1 = NotificationAdapter(contents) { targetId, category ->
-                when (category) {
-                    NotificationType.TYPE_NOTICE.value -> {
-                        // TODO: 공지사항 화면으로 이동
+    private fun fetchData() {
+        adapter1 = NotificationAdapter { targetId, category ->
+            when (category) {
+                NotificationType.TYPE_NOTICE.value -> {
+                    // TODO: 공지사항 화면으로 이동
+                }
+                NotificationType.TYPE_ROOM.value -> {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("destination", "cozybot")
                     }
-                    NotificationType.TYPE_ROOM.value -> {
-                        val intent = Intent(this, MainActivity::class.java).apply {
-                            putExtra("destination", "cozybot")
-                        }
-                        startActivity(intent)
-                    }
+                    startActivity(intent)
+                }
 
-                    NotificationType.TYPE_REQUEST_JOIN.value -> {
-                        roommateDetailViewModel.getOtherUserDetailInfo(targetId)
-                    }
+                NotificationType.TYPE_REQUEST_JOIN.value -> {
+                    roommateDetailViewModel.getOtherUserDetailInfo(targetId)
+                }
 
-                    NotificationType.TYPE_REQUEST_INVITATION.value -> {
-                        lifecycleScope.launch {
-                            otherRoomId = targetId
-                            roomDetailViewModel.getOtherRoomInfo(targetId)
-                        }
+                NotificationType.TYPE_REQUEST_INVITATION.value -> {
+                    lifecycleScope.launch {
+                        otherRoomId = targetId
+                        roomDetailViewModel.getOtherRoomInfo(targetId)
                     }
                 }
             }
-            binding.rvNotificationList.visibility = View.VISIBLE
-            binding.tvEmpty.visibility = View.GONE
-
-            // RecyclerView에 어댑터 설정
-            binding.rvNotificationList.apply {
-                adapter = adapter1
-                layoutManager = LinearLayoutManager(context)
-            }
         }
-    }
 
-    private fun fetchData() {
+        binding.rvNotificationList.visibility = View.VISIBLE
+        binding.tvEmpty.visibility = View.GONE
+        binding.rvNotificationList.apply {
+            adapter = adapter1
+            layoutManager = LinearLayoutManager(this@NotificationActivity)
+        }
+
         lifecycleScope.launch {
-            notificationViewModel.notifications.collectLatest {
+            notificationViewModel.notifications.collectLatest { data ->
+                adapter1.submitData(data)
             }
         }
     }

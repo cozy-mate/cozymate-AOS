@@ -14,14 +14,10 @@ import javax.inject.Inject
 
 class NotificationPagingSource @Inject constructor(
     private val repository: RoomLogRepository,
-    @ApplicationContext private val context: Context
+    private val token: String
 ) : PagingSource<Int, NotificationLogResponse.Result.LogItem>() {
 
     private val TAG = this.javaClass.simpleName
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    fun getToken(): String? {
-        return sharedPreferences.getString("access_token", null)
-    }
 
     // 페이지 갱신해야할 때 수행되는 함수
     override fun getRefreshKey(state: PagingState<Int, NotificationLogResponse.Result.LogItem>): Int? {
@@ -33,9 +29,8 @@ class NotificationPagingSource @Inject constructor(
         return try {
             // 데이터를 받아오는 과정
             val nextPage: Int = params.key ?: 1
-            val token = getToken()
             val response = repository.getNotificationLog(
-                accessToken = token!!,
+                accessToken = token,
                 page = nextPage,
                 size = 10
             )
