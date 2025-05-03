@@ -295,7 +295,8 @@
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/color_font"
                         android:textColorHint="@color/unuse_font"
-                        android:textCursorDrawable="@android:color/transparent" />
+                        android:textCursorDrawable="@android:color/transparent"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -311,7 +312,7 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/cl_cozy_room_hashtag"
                 app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_hashtag"
-                tools:visibility= "visible" />
+                tools:visibility="visible" />
 
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"

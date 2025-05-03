@@ -3,6 +3,7 @@ package umc.cozymate.ui.onboarding
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -29,6 +30,7 @@ class OnboardingActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         window.navigationBarColor = Color.WHITE
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

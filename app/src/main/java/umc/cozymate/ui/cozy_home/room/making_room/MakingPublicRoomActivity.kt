@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,7 @@ class MakingPublicRoomActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         // 첫번째로 [방정보 입력 페이지] 로드
         if (savedInstanceState == null) {
