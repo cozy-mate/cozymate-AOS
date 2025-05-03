@@ -142,8 +142,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun fetchData() {
         lifecycleScope.launch {
-            notificationViewModel.notifications.collectLatest { pagingData ->
-
+            notificationViewModel.notifications.collectLatest {
             }
         }
     }
