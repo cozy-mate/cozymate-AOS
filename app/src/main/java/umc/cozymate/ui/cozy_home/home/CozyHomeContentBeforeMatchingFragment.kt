@@ -74,7 +74,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     private fun setRoomParticipantRequest() {
         binding.clRoomParticipantRequest.visibility = View.GONE
         setRequestList()
-        setMoreRequestBtn()
         fetchRequest()
     }
 
@@ -88,11 +87,12 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         binding.rvRequestList.adapter = adapter
         binding.rvRequestList.layoutManager = LinearLayoutManager(requireContext())
         roomRequestViewModel.requestedRoomResponse.observe(viewLifecycleOwner) { response ->
-            val roomList = response?.result ?: emptyList()
-            if (roomList.isNotEmpty()) {
+            if (response.result.isNotEmpty()) {
+                val roomList = response?.result
                 binding.clRoomParticipantRequest.visibility = View.VISIBLE
-                adapter.submitList(roomList)
-            } else {
+                adapter.submitList(roomList!!)
+                setMoreRequestBtn()
+            } else if (response == null || response.result.isEmpty()){
                 binding.clRoomParticipantRequest.visibility = View.GONE
             }
         }

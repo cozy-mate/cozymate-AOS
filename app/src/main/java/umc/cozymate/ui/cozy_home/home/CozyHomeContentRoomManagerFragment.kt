@@ -174,7 +174,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 binding.tvRequestNum.text = "${roomList.size}개의"
                 binding.clEmptyRequest.visibility = View.GONE
                 adapter.submitList(roomList)
-            } else {
+            } else if (response != null || response?.result?.isEmpty() == true) {
                 binding.tvRequestNum.text = "0개의"
                 binding.btnMoreRequest.visibility = View.GONE
                 binding.clEmptyRequest.visibility = View.VISIBLE
