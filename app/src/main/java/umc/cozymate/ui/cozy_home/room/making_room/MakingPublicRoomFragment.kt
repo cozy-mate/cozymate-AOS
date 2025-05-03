@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
@@ -228,25 +229,37 @@ class MakingPublicRoomFragment : Fragment() {
         setupHashtag(binding.hashtag1)
         setupHashtag(binding.hashtag2)
         setupHashtag(binding.hashtag3)
-        binding.etRoomHashtag.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
-                val hashtagText = binding.etRoomHashtag.text.toString().trim()
-                val invalidLength = hashtagText.length > 5
-                if (hashtagText.isNotEmpty() && hashtags.size < 3 && !invalidLength) {
-                    hashtags.add(hashtagText)
-                    addHashtag()
-                    binding.etRoomHashtag.text?.clear()
+        binding.etRoomHashtag.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val input = s.toString()
+                val invalidLength = input.length > 5
+                if (input.isNotEmpty() && !invalidLength) {
                     binding.tvAlertHashtag.visibility = View.GONE
                     binding.tilRoomHashtag.isErrorEnabled = false
                 } else if (invalidLength) {
                     binding.tvAlertHashtag.visibility = View.VISIBLE
                     binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력 가능해요!"
                     binding.tilRoomHashtag.isErrorEnabled = true
-                } else if (hashtags.size >= 3) {
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.etRoomHashtag.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                val hashtagText = binding.etRoomHashtag.text.toString().trim()
+                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                    hashtags.add(hashtagText)
+                    addHashtag()
+                    binding.etRoomHashtag.text?.clear()
                     binding.tvAlertHashtag.visibility = View.GONE
                     binding.tilRoomHashtag.isErrorEnabled = false
-                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있어요!", Toast.LENGTH_SHORT)
-                        .show()
+                } else if (hashtags.size >= 3) {
+                    binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.text = "최대 3개의 해시태그만 추가할 수 있어요!"
+                    binding.tilRoomHashtag.isErrorEnabled = true
                 }
                 true
             } else false
