@@ -13,6 +13,8 @@ class NotificationAdapter(
     private val onItemClick: (targetId: Int, category: String) -> Unit  // 클릭 리스너
 ) : PagingDataAdapter<NotificationLogResponse.Result.LogItem, NotificationAdapter.NotificationViewHolder>(DIFF_CALLBACK) {
 
+    private var selectedPosition: Int = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val binding = RvItemNotificationBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -36,14 +38,16 @@ class NotificationAdapter(
             binding.tvText.text = item.content
             binding.tvTime.text = item.createdAt
 
+            binding.ivPressed.isSelected = (pos == selectedPosition)
             binding.ivPressed.setOnClickListener {
-                // 클릭 시 선택 상태 토글
-                it.isSelected = !it.isSelected
+                val previousSelected = selectedPosition
+                selectedPosition = bindingAdapterPosition
+
+                notifyItemChanged(previousSelected)
+                notifyItemChanged(selectedPosition)
+
                 onItemClick(item.targetId, item.category)
             }
-
-            if (pos == 0) binding.ivPressed.isSelected = true
-            if (pos == itemCount - 1) binding.ivLine.visibility = View.GONE
         }
     }
 
