@@ -41,15 +41,20 @@ class NotificationActivity : AppCompatActivity() {
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
         setupObservers()
-        fetchData()
+        setonRefreshListener()
         binding.ivBack.setOnClickListener {
             finish()
         }
+        binding.refreshLayout.isRefreshing = true
+        fetchData()
+        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
+        binding.refreshLayout.isRefreshing = true
         fetchData()
+        binding.refreshLayout.isRefreshing = false
     }
 
     private fun setupObservers() {
@@ -89,6 +94,13 @@ class NotificationActivity : AppCompatActivity() {
                 iconType = SnackbarUtil.IconType.NO,
                 extraYOffset = 20
             )
+        }
+    }
+
+    private fun setonRefreshListener() {
+        binding.refreshLayout.setOnRefreshListener {
+            fetchData()
+            binding.refreshLayout.isRefreshing = false
         }
     }
 
