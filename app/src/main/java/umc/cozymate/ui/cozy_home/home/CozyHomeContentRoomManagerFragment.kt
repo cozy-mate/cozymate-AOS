@@ -16,6 +16,7 @@ import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.local.RoomInfoEntity
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
 import umc.cozymate.databinding.FragmentCozyHomeContentRoomManagerBinding
 import umc.cozymate.ui.cozy_home.request.ReceivedJoinRequestAdapter
@@ -42,7 +43,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     private val roommateRecommendViewModel: RoommateRecommendViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomRequestViewModel: RoomRequestViewModel by viewModels()
-    private var isLifestyleExist: Boolean = false
+    private var isLifestyleExist: Boolean = true
     private lateinit var roomInfoData: RoomInfoEntity
     val firebaseAnalytics = Firebase.analytics
 
@@ -179,7 +180,8 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 binding.clEmptyRequest.visibility = View.VISIBLE
                 binding.clEmptyRequest.isEnabled = true
                 binding.clEmptyRequest.setOnClickListener {
-                    val intent = Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
+                    val intent =
+                        Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -213,10 +215,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
-        if (isLifestyleExist) roommateRecommendViewModel.fetchRoommateListByEquality()
-        else roommateRecommendViewModel.fetchRecommendedRoommateList()
+        roommateRecommendViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
@@ -225,37 +224,25 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
             else goToRoommateDetail(otherUserDetail)
         }
         var adapter: RecommendedRoommateVPAdapter
-        cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
-            if (rmList.isNullOrEmpty()) {
-                binding.vpRoommate.visibility = View.GONE
-                binding.dotsIndicator1.visibility = View.GONE
-                binding.tvEmptyRoommate.visibility = View.VISIBLE
-            } else {
-                binding.vpRoommate.visibility = View.VISIBLE
-                binding.dotsIndicator1.visibility = View.VISIBLE
-                binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                }
-                binding.vpRoommate.adapter = adapter
-                binding.dotsIndicator1.attachTo(binding.vpRoommate)
-            }
-        }
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
-            if (rmList.isNullOrEmpty()) {
-                binding.vpRoommate.visibility = View.GONE
-                binding.dotsIndicator1.visibility = View.GONE
-                binding.tvEmptyRoommate.visibility = View.VISIBLE
-            } else {
-                binding.vpRoommate.visibility = View.VISIBLE
-                binding.dotsIndicator1.visibility = View.VISIBLE
-                binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                }
-                binding.vpRoommate.adapter = adapter
-                binding.dotsIndicator1.attachTo(binding.vpRoommate)
+            updateRoommateUI(rmList)
+        }
+    }
+
+    private fun updateRoommateUI(rmList: List<RecommendedMemberInfo>) {
+        if (rmList.isNullOrEmpty()) {
+            binding.vpRoommate.visibility = View.GONE
+            binding.dotsIndicator1.visibility = View.GONE
+            binding.tvEmptyRoommate.visibility = View.VISIBLE
+        } else {
+            val adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
+                roommateDetailViewModel.getOtherUserDetailInfo(memberId)
             }
+            binding.vpRoommate.adapter = adapter
+            binding.dotsIndicator1.attachTo(binding.vpRoommate)
+            binding.vpRoommate.visibility = View.VISIBLE
+            binding.dotsIndicator1.visibility = View.VISIBLE
+            binding.tvEmptyRoommate.visibility = View.GONE
         }
     }
 

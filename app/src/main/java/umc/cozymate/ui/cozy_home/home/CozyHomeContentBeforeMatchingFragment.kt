@@ -38,7 +38,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomRequestViewModel: RoomRequestViewModel by viewModels()
-    private var isLifestyleExist: Boolean = false
+    private var isLifestyleExist: Boolean = true
     val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
@@ -125,10 +125,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
-        if (isLifestyleExist) cozyHomeViewModel.fetchRoommateListByEquality()
-        else cozyHomeViewModel.fetchRandomRoommateList()
+        cozyHomeViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
@@ -137,22 +134,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
             else goToRoommateDetail(otherUserDetail)
         }
         var adapter: RecommendedRoommateVPAdapter
-        cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
-            if (rmList.isNullOrEmpty()) {
-                binding.vpRoommate.visibility = View.GONE
-                binding.dotsIndicator1.visibility = View.GONE
-                binding.tvEmptyRoommate.visibility = View.VISIBLE
-            } else {
-                binding.vpRoommate.visibility = View.VISIBLE
-                binding.dotsIndicator1.visibility = View.VISIBLE
-                binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                }
-                binding.vpRoommate.adapter = adapter
-                binding.dotsIndicator1.attachTo(binding.vpRoommate)
-            }
-        }
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
