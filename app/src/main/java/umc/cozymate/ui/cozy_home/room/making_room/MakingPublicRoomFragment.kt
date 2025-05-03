@@ -16,7 +16,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -24,10 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
@@ -84,7 +82,7 @@ class MakingPublicRoomFragment : Fragment() {
                 viewModel.saveRoomId(res.result.roomId)
                 viewModel.saveRoomPersona(res.result.profileImage)
                 viewModel.saveInviteCode(res.result.inviteCode)
-                goToCozyRoomDetail(res.result.roomId)
+                goToRoomDetail(res.result.roomId)
             }
         }
         viewModel.createPublicRoomError.observe(viewLifecycleOwner) { res ->
@@ -96,10 +94,9 @@ class MakingPublicRoomFragment : Fragment() {
         }
     }
 
-    private fun goToCozyRoomDetail(roomId: Int) {
-        val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
-        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
-        intent.putExtra("isMyRoom", true)
+    private fun goToRoomDetail(roomId: Int) {
+        val intent = Intent(requireContext(), OwnerRoomDetailInfoActivity::class.java)
+        intent.putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         startActivity(intent)
         requireActivity().finish()
     }
