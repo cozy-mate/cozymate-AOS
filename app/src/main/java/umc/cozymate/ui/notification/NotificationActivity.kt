@@ -3,19 +3,15 @@ package umc.cozymate.ui.notification
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.ActivityNotificationBinding
 import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
@@ -29,7 +25,7 @@ import umc.cozymate.util.StatusBarUtil
 @AndroidEntryPoint
 class NotificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNotificationBinding
-    private lateinit var adapter1: NotificationAdapter
+    private lateinit var notificationAdapter: NotificationAdapter
     private val TAG = this.javaClass.simpleName
     private val notificationViewModel: NotificationViewModel by viewModels()
     private val roomDetailViewModel: RoomDetailViewModel by viewModels()
@@ -45,16 +41,13 @@ class NotificationActivity : AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             finish()
         }
-        binding.refreshLayout.isRefreshing = true
         fetchData()
-        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
         binding.refreshLayout.isRefreshing = true
         fetchData()
-        binding.refreshLayout.isRefreshing = false
     }
 
     private fun setupObservers() {
@@ -105,7 +98,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun fetchData() {
-        adapter1 = NotificationAdapter { targetId, category ->
+        notificationAdapter = NotificationAdapter { targetId, category ->
             when (category) {
                 NotificationType.TYPE_NOTICE.value -> {
                     // TODO: 공지사항 화면으로 이동
@@ -131,7 +124,7 @@ class NotificationActivity : AppCompatActivity() {
         }
 
         binding.rvNotificationList.apply {
-            adapter = adapter1.withLoadStateFooter(
+            adapter = notificationAdapter.withLoadStateFooter(
                 footer = NotificationLoadingStateAdapter()
             )
             layoutManager = LinearLayoutManager(this@NotificationActivity)
@@ -139,15 +132,23 @@ class NotificationActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             notificationViewModel.notifications.collectLatest { data ->
-                adapter1.submitData(data)
+                notificationAdapter.submitData(data)
+                binding.refreshLayout.isRefreshing = false
             }
         }
 
-        adapter1.addLoadStateListener { loadStates ->
+        notificationAdapter.addLoadStateListener { loadStates ->
             val isEmpty = loadStates.refresh is LoadState.NotLoading &&
-                    adapter1.itemCount == 0
+                    notificationAdapter.itemCount == 0
             binding.rvNotificationList.isVisible = !isEmpty
             binding.ivEmptyList.isVisible = isEmpty
+
+            (loadStates.refresh as? LoadState.Error)?.let {
+                SnackbarUtil.showCustomSnackbar(
+                    this, it.error.localizedMessage ?: "알 수 없는 오류",
+                    SnackbarUtil.IconType.NO
+                )
+            }
         }
     }
 }

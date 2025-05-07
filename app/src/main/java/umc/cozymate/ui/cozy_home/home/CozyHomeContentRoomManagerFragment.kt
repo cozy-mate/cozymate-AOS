@@ -58,7 +58,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.shimmerLayout1.stopShimmer()
+        binding.shimmerLayout1.startShimmer()
         binding.shimmerLayout1.visibility = View.VISIBLE
         binding.clMyRoom.visibility = View.GONE
         binding.clRoomManagerRequest.visibility = View.GONE

@@ -247,7 +247,8 @@ class MakingPublicRoomFragment : Fragment() {
         binding.etRoomHashtag.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 val hashtagText = binding.etRoomHashtag.text.toString().trim()
-                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                val invalidLength = hashtagText.length > 5
+                if (hashtagText.isNotEmpty() && hashtags.size < 3 && !invalidLength) {
                     hashtags.add(hashtagText)
                     addHashtag()
                     binding.etRoomHashtag.text?.clear()

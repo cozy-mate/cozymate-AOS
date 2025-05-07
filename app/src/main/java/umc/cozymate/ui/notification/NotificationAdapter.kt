@@ -56,7 +56,7 @@ class NotificationAdapter(
             override fun areItemsTheSame(
                 oldItem: NotificationLogResponse.Result.LogItem,
                 newItem: NotificationLogResponse.Result.LogItem
-            ): Boolean = oldItem.targetId == newItem.targetId
+            ): Boolean = (oldItem.targetId == newItem.targetId && oldItem.category == newItem.category && oldItem.createdAt == newItem.createdAt)
 
             override fun areContentsTheSame(
                 oldItem: NotificationLogResponse.Result.LogItem,
