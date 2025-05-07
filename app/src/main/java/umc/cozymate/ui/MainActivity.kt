@@ -30,6 +30,7 @@ import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
@@ -210,7 +211,13 @@ class MainActivity : AppCompatActivity() {
                         param("바텀 네비게이션", "bottom_navigation")
                     }
                     if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@MainActivity,
+                            message = "방에 참여해야지 사용할 수 있어요!",
+                            anchorView = binding.bottomNavigationView,
+                            iconType = SnackbarUtil.IconType.NO,
+                            extraYOffset = -20
+                        )
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
                         binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
                         binding.bottomNavigationView.selectedItemId = selectedItem
@@ -230,7 +237,13 @@ class MainActivity : AppCompatActivity() {
                         param("바텀 네비게이션", "bottom_navigation")
                     }
                     if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@MainActivity,
+                            message = "방에 참여해야지 사용할 수 있어요!",
+                            iconType = SnackbarUtil.IconType.NO,
+                            anchorView = binding.bottomNavigationView,
+                            extraYOffset = -20
+                        )
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
                         binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
                         binding.bottomNavigationView.selectedItemId = selectedItem
