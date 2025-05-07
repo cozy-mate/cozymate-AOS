@@ -12,7 +12,7 @@ import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
 class SentRequestAdapter(
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<SentRequestAdapter.RequestViewHolder>() {
-    private var roomList: List<GetRequestedRoomListResponse.Result> = emptyList()
+    private var roomList: List<GetRequestedRoomListResponse.Result.RequestedRoom> = emptyList()
     class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val hashtag1: TextView = itemView.findViewById(R.id.tv_hashtag1)
         private val hashtag2: TextView = itemView.findViewById(R.id.tv_hashtag2)
@@ -22,7 +22,7 @@ class SentRequestAdapter(
         private val equality: TextView = itemView.findViewById(R.id.tv_equality)
         val divider: View = itemView.findViewById(R.id.view_divider)
 
-        fun bind(room: GetRequestedRoomListResponse.Result) {
+        fun bind(room: GetRequestedRoomListResponse.Result.RequestedRoom) {
             name.text = room.name
             arrivalNum.text = "${room.arrivalMateNum}명"
             equality.text = when {
@@ -85,7 +85,7 @@ class SentRequestAdapter(
         }
     }
 
-    fun submitList(list: List<GetRequestedRoomListResponse.Result>) {
+    fun submitList(list: List<GetRequestedRoomListResponse.Result.RequestedRoom>) {
         roomList = list
         notifyDataSetChanged()
     }
