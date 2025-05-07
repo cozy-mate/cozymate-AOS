@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
+    private var selectedItem: Int = R.id.fragment_home
     private lateinit var menu: Menu
     lateinit var roleAndRuleItem: MenuItem
     lateinit var cozybotItem: MenuItem
@@ -188,11 +189,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavViews() {
-        var selectedItem: Int = 0
-        selectedItem = R.id.fragment_home
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("home_nav_button_click") {
                         param("코지홈", "home_button")
                         param("바텀 네비게이션", "bottom_navigation")
@@ -204,6 +204,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_role_and_rule -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("role_and_rule_button_click") {
                         param("롤앤룰", "role_and_rule_button")
                         param("바텀 네비게이션", "bottom_navigation")
@@ -223,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_cozybot -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("cozybot_nav_button_click") {
                         param("코지봇", "cozybot_button")
                         param("바텀 네비게이션", "bottom_navigation")
@@ -242,6 +244,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_mypage -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("my_page_nav_button_click") {
                         param("마이페이지", "my_page_button")
                         param("바텀 네비게이션", "bottom_navigation")
