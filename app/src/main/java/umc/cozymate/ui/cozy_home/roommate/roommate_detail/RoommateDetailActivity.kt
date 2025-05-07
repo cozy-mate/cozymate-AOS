@@ -109,8 +109,11 @@ class RoommateDetailActivity : AppCompatActivity() {
         return try {
             val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
             val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
-            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty()) {
-                null
+            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
+            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
+            
+            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
+                return null
             } else {
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
@@ -120,8 +123,8 @@ class RoommateDetailActivity : AppCompatActivity() {
                         majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
                         memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
-                        universityId = 0,
-                        persona = 0
+                        universityId = 1,
+                        persona = 1
                     ),
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                         admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
