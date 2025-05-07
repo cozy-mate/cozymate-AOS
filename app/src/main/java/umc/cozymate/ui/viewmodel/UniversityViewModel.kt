@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.request.SendMailRequest
 import umc.cozymate.data.model.request.VerifyMailRequest
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.member.GetMailVerifyResponse
 import umc.cozymate.data.model.response.member.GetMyUniversityResponse
 import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
@@ -26,6 +28,10 @@ class UniversityViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
+
+    private val _errorResponse = MutableLiveData<ErrorResponse>()
+    val errorResponse: LiveData<ErrorResponse> get() = _errorResponse
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
@@ -63,6 +69,10 @@ class UniversityViewModel @Inject constructor(
                         Log.d(TAG, "대학 리스트 조회 성공: ${response.body()!!.result}")
                         _getUnivListResponse.value = response.body()
                     }
+                } else {
+                    Log.d(TAG, "대학 리스트 api 응답 실패: ${response}")
+                    val errorBody = response.errorBody()?.string()
+                    _errorResponse.value = parseErrorResponse(errorBody)
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "대학 리스트 조회 api 요청 실패: $e")
@@ -122,8 +132,11 @@ class UniversityViewModel @Inject constructor(
     // 메일 전송 (/members/mail)
     private val _sendVerifyCodeStatus = MutableLiveData<Boolean>()
     val sendVerifyCodeStatus: LiveData<Boolean> get() = _sendVerifyCodeStatus
+    private val _loading1 = MutableLiveData<Boolean>()
+    val loading1: LiveData<Boolean> get() = _loading1
     fun sendVerifyCode(email: String) {
         val token = getToken()
+        _loading1.value = true
         if (token != null && universityId.value != null) {
             viewModelScope.launch {
                 try {
@@ -140,6 +153,8 @@ class UniversityViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.d(TAG, "메일 보내기 api 요청 실패: $e")
                     _sendVerifyCodeStatus.value = false
+                } finally {
+                    _loading1.value = false
                 }
             }
         }
@@ -150,8 +165,11 @@ class UniversityViewModel @Inject constructor(
     val verifyCode: LiveData<String> get() = _verifyCode
     private val _verifyResponse = MutableLiveData<VerifyMailResponse>()
     val verifyResponse: LiveData<VerifyMailResponse> get() = _verifyResponse
+    private val _loading2 = MutableLiveData<Boolean>()
+    val loading2: LiveData<Boolean> get() = _loading2
     fun verifyCode(code: String) {
         val token = getToken()
+        _loading2.value = true
         Log.d(TAG, "verifyCode: $code, major: ${major.value}, univId: ${universityId.value}")
         if (token != null && code != "" && major.value != null && universityId.value != null) {
             viewModelScope.launch {
@@ -170,6 +188,8 @@ class UniversityViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.d(TAG, "메일 인증 api 요청 실패: $e")
                     _isVerified.value = false
+                } finally {
+                    _loading2.value = false
                 }
             }
         }
@@ -256,6 +276,16 @@ class UniversityViewModel @Inject constructor(
             val response = memberRepo.getUniversityInfo(token!!, id)
             _dormitoryNames.value = response.body()!!.result.dormitoryNames
             Log.d(TAG, "getDormitory 성공 : ${dormitoryNames}")
+        }
+    }
+
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
         }
     }
 }

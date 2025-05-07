@@ -66,8 +66,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.university_certification.UniversityCertificationActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
+            android:exported="true" />
         <activity
             android:name=".ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity"
             android:exported="false" />

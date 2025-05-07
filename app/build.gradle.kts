@@ -23,8 +23,8 @@ android {
         applicationId = "umc.cozymate"
         minSdk = 26
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.8"
+        versionCode = 13
+        versionName = "1.13"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.recyclerview)
 
+    implementation("androidx.paging:paging-runtime:3.2.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -170,6 +171,9 @@ dependencies {
     // google play core in-app updates
     implementation("com.google.android.play:app-update:2.1.0")
     implementation("com.google.android.play:app-update-ktx:2.1.0")
+
+    // shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
 kapt {
     correctErrorTypes = true

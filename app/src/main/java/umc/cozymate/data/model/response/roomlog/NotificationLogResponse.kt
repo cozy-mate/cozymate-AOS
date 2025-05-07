@@ -13,17 +13,27 @@ data class NotificationLogResponse(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: List<Result>
+    val result: Result
 ) {
     @Serializable
     data class Result(
-        @SerialName("category")
-        val category: String,
-        @SerialName("content")
-        val content: String,
-        @SerialName("createdAt")
-        val createdAt: String,
-        @SerialName("targetId")
-        val targetId: Int
-    )
+        @SerialName("hasNext")
+        val hasNext: Boolean,
+        @SerialName("page")
+        val page: Int,
+        @SerialName("result")
+        val result: List<LogItem>
+    ) {
+        @Serializable
+        data class LogItem(
+            @SerialName("category")
+            val category: String,
+            @SerialName("content")
+            val content: String,
+            @SerialName("createdAt")
+            val createdAt: String,
+            @SerialName("targetId")
+            val targetId: Int
+        )
+    }
 }

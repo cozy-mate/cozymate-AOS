@@ -81,6 +81,7 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
         window.navigationBarColor = Color.WHITE
+        binding.dimBackground.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         setObservers()
         setGIFViewpager()
@@ -161,14 +162,17 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.loading.observe(this) { isLoading ->
             try {
                 if (isLoading) {
+                    binding.dimBackground.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember == true) {
                             goCozyHome()
                             finish()
+                            binding.dimBackground.visibility = View.GONE
                             binding.progressBar.visibility = View.GONE
                         } else {
+                            binding.dimBackground.visibility = View.GONE
                             binding.progressBar.visibility = View.GONE
                         }
                     }

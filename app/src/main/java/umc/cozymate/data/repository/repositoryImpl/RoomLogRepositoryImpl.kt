@@ -20,7 +20,7 @@ class RoomLogRepositoryImpl @Inject constructor(
         return api.getRoomLog(accessToken, roomId, page, size)
     }
 
-    override suspend fun getNotificationLog(accessToken: String): Response<NotificationLogResponse> {
-        return api.getNotificationLogs(accessToken)
+    override suspend fun getNotificationLog(accessToken: String, page: Int?, size: Int?): Response<NotificationLogResponse> {
+        return api.getNotificationLogs(accessToken, page, size)
     }
 }

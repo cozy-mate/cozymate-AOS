@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fillViewport="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_content"
@@ -204,6 +204,20 @@
                 app:layout_constraintEnd_toEndOf="@id/cl_email_input"
                 app:layout_constraintTop_toTopOf="@id/cl_email_input" />
 
+            <ProgressBar
+                android:id="@+id/loading_btn1"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:elevation="1dp"
+                android:indeterminateTint="@color/main_blue"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_send_verify_code"
+                app:layout_constraintEnd_toEndOf="@id/btn_send_verify_code"
+                app:layout_constraintStart_toStartOf="@id/btn_send_verify_code"
+                app:layout_constraintTop_toTopOf="@id/btn_send_verify_code"
+                tools:visibility="visible" />
+
             <TextView
                 android:id="@+id/tv_alert_email"
                 android:layout_width="wrap_content"
@@ -269,6 +283,8 @@
                         android:background="@null"
                         android:hint="인증번호를 입력해주세요"
                         android:padding="0dp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/basic_font"
                         android:textColorHint="@color/unuse_font" />
@@ -292,6 +308,20 @@
                 app:layout_constraintEnd_toEndOf="@id/cl_verify"
                 app:layout_constraintTop_toTopOf="@id/cl_verify" />
 
+            <ProgressBar
+                android:id="@+id/loading_btn2"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:elevation="1dp"
+                android:indeterminateTint="@color/main_blue"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_verify"
+                app:layout_constraintEnd_toEndOf="@id/btn_verify"
+                app:layout_constraintStart_toStartOf="@id/btn_verify"
+                app:layout_constraintTop_toTopOf="@id/btn_verify"
+                tools:visibility="visible" />
+
             <TextView
                 android:id="@+id/tv_alert_code"
                 android:layout_width="wrap_content"
@@ -310,9 +340,11 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="220dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_verify" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

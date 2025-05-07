@@ -13,98 +13,144 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.ActivityMyFavoriteBinding
-import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.cozy_home.room.room_detail.VerticalSpaceItemDecoration
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
-import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
-import umc.cozymate.ui.pop_up.OneButtonPopup
-import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
+import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
 class MyFavoriteActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityMyFavoriteBinding
-    private val viewModel: FavoriteViewModel by viewModels()
-    private val detailViewModel : RoommateDetailViewModel by viewModels()
-    private lateinit var roomsAdapter: FavoriteRoomRVAdapter
-    private lateinit var membersAdapter: FavoriteRoommateRVAdapter
-    var isRoommateSelected: Boolean = true
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
+    private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
+    private val roomDetailViewModel: RoomDetailViewModel by viewModels()
+    private lateinit var roomAdapter: FavoriteRoomRVAdapter
+    private lateinit var roommateAdapter: FavoriteRoommateRVAdapter
+    private var isRoommateSelected: Boolean = true
+    private var otherRoomId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
-        binding.tvFavoriteRoommate.isSelected = true
-        setupRVAdapter()
+        binding.refreshLayout.isRefreshing = true
         setupObservers()
-        lifecycleScope.launch {
-            viewModel.getFavoriteRoommateList()
-        }
-        setClickListener()
-        observeOtherUserInfo()
+        setupRVAdapters()
+        setClickListeners()
+        setOnRefreshListener()
+        binding.tvFavoriteRoommate.isSelected = true
+        fetchRoommateList()
+        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
-        if (isRoommateSelected){
-            lifecycleScope.launch {
-                viewModel.getFavoriteRoommateList()
-            }
+        if (isRoommateSelected) {
+            fetchRoommateList()
         } else {
-            lifecycleScope.launch {
-                viewModel.getFavoriteRoomList()
-            }
+            fetchRoomList()
         }
     }
 
-    fun setupRVAdapter() {
-        // 찜한 룸메이트
-        membersAdapter = FavoriteRoommateRVAdapter(emptyList()) { memberId ->
-//            val intent = Intent(this, CozyHomeRoommateDetailActivity::class.java).apply {
-//                putExtra("member_id", memberId) // 멤버 아이디 전달
-//            }
-            try {
-                detailViewModel.getOtherUserDetailInfo(memberId)
-            //startActivity(intent)
-            } catch (e: Exception) {
-                showNoMemberPopup()
-            }
+    private fun setupRVAdapters() {
+        setRoommateList()
+        setRoomList()
+    }
+
+    private fun setRoommateList() {
+        roommateAdapter = FavoriteRoommateRVAdapter(emptyList()) { memberId ->
+            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
         }
-        binding.rvFavoriteRoommate.adapter = membersAdapter
+        binding.rvFavoriteRoommate.adapter = roommateAdapter
         binding.rvFavoriteRoommate.layoutManager = LinearLayoutManager(this)
         binding.rvFavoriteRoommate.addItemDecoration(
             VerticalSpaceItemDecoration(32)
         )
-        // 찜한 방
-        roomsAdapter = FavoriteRoomRVAdapter(emptyList()) { roomId ->
-            val intent = Intent(this, RoomDetailActivity::class.java).apply {
-                putExtra(RoomDetailActivity.ARG_ROOM_ID, roomId) // 방 아이디 전달
-            }
-            try {
-                startActivity(intent)
-            } catch (e: Exception) {
-                showNoRooomPopup()
+    }
+
+    private fun setRoomList() {
+        roomAdapter = FavoriteRoomRVAdapter(emptyList()) { roomId ->
+            lifecycleScope.launch {
+                otherRoomId = roomId
+                roomDetailViewModel.getOtherRoomInfo(roomId)
             }
         }
-        binding.rvFavoriteRoom.adapter = roomsAdapter
+        binding.rvFavoriteRoom.adapter = roomAdapter
         binding.rvFavoriteRoom.layoutManager = LinearLayoutManager(this)
         binding.rvFavoriteRoom.addItemDecoration(
             VerticalSpaceItemDecoration(32)
         )
     }
 
-    fun setupObservers() {
-        viewModel.getFavoritesMembersResponse.observe(this, Observer { response ->
+    private fun setupObservers() {
+        observeOtherUserInfo()
+        observeRoomDetailInfo()
+        observeFavoriteRoomList()
+        observeFavoriteMemberList()
+        favoriteViewModel.isLoading1.observe(this, Observer {
+            setProgressbar(it)
+        })
+        favoriteViewModel.isLoading2.observe(this, Observer {
+            setProgressbar(it)
+        })
+    }
+
+    private fun observeOtherUserInfo() {
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) { otherUserDetail ->
+            if (otherUserDetail == null) return@observe
+            else {
+                val intent = Intent(this@MyFavoriteActivity, RoommateDetailActivity::class.java)
+                intent.putExtra("other_user_detail", otherUserDetail)
+                startActivity(intent)
+            }
+        }
+        roommateDetailViewModel.isLoading.observe(this@MyFavoriteActivity) { isLoading ->
+            setProgressbar(isLoading)
+        }
+        roommateDetailViewModel.errorResponse.observe(this) { error ->
+            SnackbarUtil.showCustomSnackbar(
+                context = this@MyFavoriteActivity,
+                message = "존재하지 않는 사용자입니다.",
+                iconType = SnackbarUtil.IconType.NO,
+                extraYOffset = 20
+            )
+        }
+    }
+
+    private fun observeRoomDetailInfo() {
+        roomDetailViewModel.roomName.observe(this) { it ->
+            if (it == null) return@observe
+            else {
+                val intent = Intent(this@MyFavoriteActivity, RoomDetailActivity::class.java
+                ).apply {
+                    putExtra(RoomDetailActivity.ARG_ROOM_ID, otherRoomId)
+                }
+                startActivity(intent)
+            }
+        }
+        roomDetailViewModel.errorResponse.observe(this) { error ->
+            SnackbarUtil.showCustomSnackbar(
+                context = this@MyFavoriteActivity,
+                message = "존재하지 않는 방입니다.",
+                iconType = SnackbarUtil.IconType.NO,
+                extraYOffset = 20
+            )
+        }
+    }
+
+    private fun observeFavoriteMemberList() {
+        favoriteViewModel.getFavoritesMembersResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
             if (response.result.isNotEmpty()) {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.GONE
                 binding.rvFavoriteRoommate.visibility = View.VISIBLE
-                membersAdapter.submitList(response.result)
+                roommateAdapter.submitList(response.result)
             } else {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.VISIBLE
@@ -112,13 +158,16 @@ class MyFavoriteActivity : AppCompatActivity() {
                 binding.tvEmptyList.text = "아직 찜한 룸메이트가 없어요"
             }
         })
-        viewModel.getFavoritesRoomsResponse.observe(this, Observer { response ->
+    }
+
+    private fun observeFavoriteRoomList() {
+        favoriteViewModel.getFavoritesRoomsResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
             if (response.result.isNotEmpty()) {
                 binding.rvFavoriteRoom.visibility = View.VISIBLE
                 binding.tvEmptyList.visibility = View.GONE
                 binding.rvFavoriteRoommate.visibility = View.GONE
-                roomsAdapter.submitList(response.result)
+                roomAdapter.submitList(response.result)
             } else {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.VISIBLE
@@ -127,44 +176,9 @@ class MyFavoriteActivity : AppCompatActivity() {
 
             }
         })
-        // 로딩중
-        viewModel.isLoading1.observe(this, Observer {
-            setProgressbar(it)
-        })
-        viewModel.isLoading2.observe(this, Observer {
-            setProgressbar(it)
-        })
     }
 
-    fun setClickListener() {
-        with(binding) {
-            val toggleSelection: (selectedView: TextView, unselectedView: TextView) -> Unit = { selectedView, unselectedView ->
-                selectedView.isSelected = true
-                unselectedView.isSelected = false
-            }
-
-            tvFavoriteRoommate.setOnClickListener {
-                isRoommateSelected = true
-                toggleSelection(tvFavoriteRoommate, tvFavoriteRoom)
-                lifecycleScope.launch {
-                    viewModel.getFavoriteRoommateList()
-                }
-            }
-
-            tvFavoriteRoom.setOnClickListener {
-                isRoommateSelected = false
-                toggleSelection(tvFavoriteRoom, tvFavoriteRoommate)
-                lifecycleScope.launch {
-                    viewModel.getFavoriteRoomList()
-                }
-            }
-            ivBack.setOnClickListener {
-                finish()
-            }
-        }
-    }
-
-    fun setProgressbar(isLoading: Boolean) {
+    private fun setProgressbar(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
@@ -172,49 +186,51 @@ class MyFavoriteActivity : AppCompatActivity() {
         }
     }
 
-    fun showNoRooomPopup() {
-        val text = listOf("존재하지 않는 방이에요", "", "확인")
-        // 팝업 객체 생성
-        val dialog = OneButtonPopup(text, object : PopupClick {
-            override fun clickFunction() {
-                val intent = Intent(baseContext, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+    private fun setClickListeners() {
+        with(binding) {
+            val toggleSelection: (selectedView: TextView, unselectedView: TextView) -> Unit =
+                { selectedView, unselectedView ->
+                    selectedView.isSelected = true
+                    unselectedView.isSelected = false
+                }
+
+            tvFavoriteRoommate.setOnClickListener {
+                isRoommateSelected = true
+                toggleSelection(tvFavoriteRoommate, tvFavoriteRoom)
+                fetchRoommateList()
             }
-        }, false)
 
-        // 팝업 띄우기
-        dialog.show(supportFragmentManager, "NoRoomPopup")
-    }
-
-    fun showNoMemberPopup() {
-        val text = listOf("존재하지 않는 사용자에요", "", "확인")
-        // 팝업 객체 생성
-        val dialog = OneButtonPopup(text, object : PopupClick {
-            override fun clickFunction() {
-                val intent = Intent(baseContext, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+            tvFavoriteRoom.setOnClickListener {
+                isRoommateSelected = false
+                toggleSelection(tvFavoriteRoom, tvFavoriteRoommate)
+                fetchRoomList()
             }
-        }, false)
 
-        // 팝업 띄우기
-        dialog.show(supportFragmentManager, "NoMemberPopup")
-    }
-
-
-    private fun observeOtherUserInfo() {
-        detailViewModel.otherUserDetailInfo.observe(this) {otherUserDetail ->
-            if(otherUserDetail == null) return@observe
-            else{
-                val intent = Intent(this@MyFavoriteActivity, RoommateDetailActivity::class.java)
-                intent.putExtra("other_user_detail", otherUserDetail)
-                startActivity(intent)
+            ivBack.setOnClickListener {
+                finish()
             }
         }
+    }
 
-        detailViewModel.isLoading.observe(this@MyFavoriteActivity) { isLoading ->
-            setProgressbar(isLoading)
+    private fun setOnRefreshListener() {
+        binding.refreshLayout.setOnRefreshListener {
+            if (isRoommateSelected) {
+                fetchRoommateList()
+            } else {
+                fetchRoomList()
+            }
+        }
+    }
+
+    private fun fetchRoommateList() {
+        lifecycleScope.launch {
+            favoriteViewModel.getFavoriteRoommateList()
+        }
+    }
+
+    private fun fetchRoomList() {
+        lifecycleScope.launch {
+            favoriteViewModel.getFavoriteRoomList()
         }
     }
 }

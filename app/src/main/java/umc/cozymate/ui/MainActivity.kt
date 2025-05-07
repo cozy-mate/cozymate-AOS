@@ -30,6 +30,7 @@ import umc.cozymate.ui.role_rule.RoleAndRuleFragment
 import umc.cozymate.ui.university_certification.UniversityCertificationFragment
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateViewModel: RoommateViewModel by viewModels()
+    private var selectedItem: Int = R.id.fragment_home
     private lateinit var menu: Menu
     lateinit var roleAndRuleItem: MenuItem
     lateinit var cozybotItem: MenuItem
@@ -188,11 +190,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavViews() {
-        var selectedItem: Int = 0
-        selectedItem = R.id.fragment_home
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_home -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("home_nav_button_click") {
                         param("코지홈", "home_button")
                         param("바텀 네비게이션", "bottom_navigation")
@@ -204,12 +205,19 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_role_and_rule -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("role_and_rule_button_click") {
                         param("롤앤룰", "role_and_rule_button")
                         param("바텀 네비게이션", "bottom_navigation")
                     }
                     if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@MainActivity,
+                            message = "방에 참여해야지 사용할 수 있어요!",
+                            anchorView = binding.bottomNavigationView,
+                            iconType = SnackbarUtil.IconType.NO,
+                            extraYOffset = -20
+                        )
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
                         binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
                         binding.bottomNavigationView.selectedItemId = selectedItem
@@ -223,12 +231,19 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_cozybot -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("cozybot_nav_button_click") {
                         param("코지봇", "cozybot_button")
                         param("바텀 네비게이션", "bottom_navigation")
                     }
                     if (!isRoomExist) {
-                        Toast.makeText(this, "방에 참여해야지 사용할 수 있어요!", Toast.LENGTH_SHORT).show()
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@MainActivity,
+                            message = "방에 참여해야지 사용할 수 있어요!",
+                            iconType = SnackbarUtil.IconType.NO,
+                            anchorView = binding.bottomNavigationView,
+                            extraYOffset = -20
+                        )
                         binding.bottomNavigationView.menu.findItem(selectedItem).isChecked = true
                         binding.bottomNavigationView.menu.findItem(item.itemId).isChecked = false
                         binding.bottomNavigationView.selectedItemId = selectedItem
@@ -242,6 +257,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_mypage -> {
+                    if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("my_page_nav_button_click") {
                         param("마이페이지", "my_page_button")
                         param("바텀 네비게이션", "bottom_navigation")

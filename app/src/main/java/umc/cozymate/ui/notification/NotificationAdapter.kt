@@ -3,14 +3,17 @@ package umc.cozymate.ui.notification
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.data.model.response.roomlog.NotificationLogResponse
 import umc.cozymate.databinding.RvItemNotificationBinding
 
 class NotificationAdapter(
-    private var items: List<NotificationLogResponse.Result>,
-    private val onItemClickListener: (Int, String) -> Unit  // 클릭 리스너
-) : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
+    private val onItemClick: (targetId: Int, category: String) -> Unit  // 클릭 리스너
+) : PagingDataAdapter<NotificationLogResponse.Result.LogItem, NotificationAdapter.NotificationViewHolder>(DIFF_CALLBACK) {
+
+    private var selectedPosition: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val binding = RvItemNotificationBinding.inflate(
@@ -19,40 +22,47 @@ class NotificationAdapter(
         return NotificationViewHolder(binding)
     }
 
-    fun setItems(newItems: List<NotificationLogResponse.Result>) {
-        items = newItems
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.bind(position)
+        val item = getItem(position)
+        if (item != null) {
+            holder.bind(item, position)
+        }
     }
-
-    override fun getItemCount(): Int = items.size
 
     inner class NotificationViewHolder(
         private val binding: RvItemNotificationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(pos: Int) {
-            val item = items[pos]
+        fun bind(item: NotificationLogResponse.Result.LogItem, pos: Int) {
             binding.tvCategory.text = item.category
             binding.tvText.text = item.content
             binding.tvTime.text = item.createdAt
-            binding.ivPressed.setOnClickListener {
-                // 기존에 선택된 항목 해제
-                items.forEachIndexed { index, _ ->
-                    if (index != adapterPosition) {
-                        notifyItemChanged(index)
-                    }
-                }
-                // 현재 항목 선택
-                it.isSelected = !it.isSelected
-                onItemClickListener(item.targetId, item.category)
-            }
 
-            if (pos == 0) binding.ivPressed.isSelected = true
-            if (pos == items.size - 1) binding.ivLine.visibility = View.GONE
+            binding.ivPressed.isSelected = (pos == selectedPosition)
+            binding.ivPressed.setOnClickListener {
+                val previousSelected = selectedPosition
+                selectedPosition = bindingAdapterPosition
+
+                notifyItemChanged(previousSelected)
+                notifyItemChanged(selectedPosition)
+
+                onItemClick(item.targetId, item.category)
+            }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NotificationLogResponse.Result.LogItem>() {
+            override fun areItemsTheSame(
+                oldItem: NotificationLogResponse.Result.LogItem,
+                newItem: NotificationLogResponse.Result.LogItem
+            ): Boolean = (oldItem.targetId == newItem.targetId && oldItem.category == newItem.category && oldItem.createdAt == newItem.createdAt)
+
+            override fun areContentsTheSame(
+                oldItem: NotificationLogResponse.Result.LogItem,
+                newItem: NotificationLogResponse.Result.LogItem
+            ): Boolean = oldItem == newItem
+
         }
     }
 }

@@ -62,7 +62,7 @@ class BeforeMatchingRequestActivity : AppCompatActivity() {
         binding.rvRequestList.adapter = adapter
         binding.rvRequestList.layoutManager = LinearLayoutManager(baseContext)
         roomRequestViewModel.requestedRoomResponse.observe(this) { response ->
-            val roomList = response?.result ?: emptyList()
+            val roomList = response?.result?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 adapter.submitList(roomList)
             }

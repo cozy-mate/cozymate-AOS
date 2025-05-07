@@ -6,6 +6,106 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_base_color="@color/gray"
+        app:shimmer_direction="left_to_right"
+        app:shimmer_duration="1000"
+        app:shimmer_highlight_color="#F5F5F5"
+        app:shimmer_repeat_count="-1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/tv1"
+                android:layout_width="120dp"
+                android:layout_height="22dp"
+                android:background="@drawable/custom_rectangle_6"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/tv2"
+                android:layout_width="250dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/custom_rectangle_6"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv1" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_rectangle_12"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/vp"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/custom_rectangle_12"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv2" />
+
+            <View
+                android:id="@+id/tv3"
+                android:layout_width="120dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/custom_rectangle_6"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vp" />
+
+            <View
+                android:id="@+id/tv4"
+                android:layout_width="250dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/custom_rectangle_6"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv3" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_rectangle_12"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv3" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/custom_rectangle_12"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_my_room"
         android:layout_width="match_parent"
@@ -45,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/background_my_room"
+            android:background="@drawable/background_my_room_component"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +159,8 @@
                 android:background="@drawable/custom_rectangle_4_white"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:text=""
+                android:text="#담배사절"
+                tools:visibility="visible"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/color_font"
                 android:visibility="gone"
@@ -99,6 +200,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="26dp"
                 android:text=""
+                tools:text="피그말리온"
                 android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +212,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:text=""
+                tools:text="3명"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/main_blue"
                 app:layout_constraintStart_toStartOf="@id/tv_room_name"

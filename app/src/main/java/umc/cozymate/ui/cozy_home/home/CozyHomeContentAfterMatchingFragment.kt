@@ -37,7 +37,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateRecommendViewModel: RoommateRecommendViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private var isLifestyleExist: Boolean = false
+    private var isLifestyleExist: Boolean = true
     private lateinit var roomInfoData: RoomInfoEntity
     val firebaseAnalytics = Firebase.analytics
 
@@ -52,6 +52,13 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerLayout1.startShimmer()
+        binding.shimmerLayout1.visibility = View.VISIBLE
+        binding.clMyRoom.visibility = View.GONE
+        binding.clRecommendRoom.visibility = View.GONE
+        binding.clRecommendRoommate.visibility = View.GONE
+        binding.divider1.visibility = View.GONE
+        binding.divider3.visibility = View.GONE
         setNickname()
         setMyRoom()
         setRoommateRecommend()
@@ -79,6 +86,8 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private suspend fun fetchMyRoomData() {
         cozyHomeViewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
             if (roomInfo != null) {
+                binding.clMyRoom.visibility = View.VISIBLE
+                binding.divider1.visibility = View.VISIBLE
                 roomInfoData = roomInfo
                 setHashtagList(roomInfo.hashtagList)
                 setRoomName(roomInfo.name)
@@ -154,10 +163,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
-        if (isLifestyleExist) roommateRecommendViewModel.fetchRoommateListByEquality()
-        else cozyHomeViewModel.fetchRandomRoommateList()
+        roommateRecommendViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
@@ -166,23 +172,9 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
             else goToRoommateDetail(otherUserDetail)
         }
         var adapter: RecommendedRoommateVPAdapter
-        cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
-            if (rmList.isNullOrEmpty()) {
-                binding.vpRoommate.visibility = View.GONE
-                binding.dotsIndicator1.visibility = View.GONE
-                binding.tvEmptyRoommate.visibility = View.VISIBLE
-            } else {
-                binding.vpRoommate.visibility = View.VISIBLE
-                binding.dotsIndicator1.visibility = View.VISIBLE
-                binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                }
-                binding.vpRoommate.adapter = adapter
-                binding.dotsIndicator1.attachTo(binding.vpRoommate)
-            }
-        }
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
+            binding.clRecommendRoommate.visibility = View.VISIBLE
+            binding.divider3.visibility = View.VISIBLE
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
@@ -228,6 +220,9 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private fun setRoomList() {
         var adapter: RecommendedRoomVPAdapter
         cozyHomeViewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
+            binding.shimmerLayout1.stopShimmer()
+            binding.shimmerLayout1.visibility = View.GONE
+            binding.clRecommendRoom.visibility = View.VISIBLE
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
                 binding.dotsIndicator2.visibility = View.GONE

@@ -181,7 +181,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             sleepingTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_SLEEPING_TIME, -1),
             turnOffTime = PreferencesUtil.getInt(this, PreferencesUtil.KEY_USER_TURN_OFF_TIME, -1),
             smokingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
-            sleepingHabits = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SLEEPING_HABITS, "")?.split(",") ?: emptyList(),
+            sleepingHabits = PreferencesUtil.getStringSet(this, PreferencesUtil.KEY_USER_SLEEPING_HABITS, emptySet())?.toList() ?: emptyList(),
             coolingIntensity = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_COOLING_INTENSITY, "") ?: "",
             heatingIntensity = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_HEATING_INTENSITY, "") ?:"",
             lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
@@ -195,7 +195,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             noiseSensitivity = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NOISE_SENSITIVITY, "") ?: "",
             cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
             drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
-            personalities = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_PERSONALITIES, "")?.split(",") ?: emptyList(),
+            personalities = PreferencesUtil.getStringSet(this, PreferencesUtil.KEY_USER_PERSONALITIES, emptySet())?.toList() ?: emptyList(),
             mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
             selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
         )

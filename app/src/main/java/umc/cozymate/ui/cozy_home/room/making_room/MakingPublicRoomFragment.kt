@@ -16,7 +16,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -26,7 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.CharacterUtil
@@ -83,7 +82,7 @@ class MakingPublicRoomFragment : Fragment() {
                 viewModel.saveRoomId(res.result.roomId)
                 viewModel.saveRoomPersona(res.result.profileImage)
                 viewModel.saveInviteCode(res.result.inviteCode)
-                goToCozyRoomDetail(res.result.roomId)
+                goToRoomDetail(res.result.roomId)
             }
         }
         viewModel.createPublicRoomError.observe(viewLifecycleOwner) { res ->
@@ -95,10 +94,9 @@ class MakingPublicRoomFragment : Fragment() {
         }
     }
 
-    private fun goToCozyRoomDetail(roomId: Int) {
-        val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
-        intent.putExtra(CozyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
-        intent.putExtra("isMyRoom", true)
+    private fun goToRoomDetail(roomId: Int) {
+        val intent = Intent(requireContext(), OwnerRoomDetailInfoActivity::class.java)
+        intent.putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         startActivity(intent)
         requireActivity().finish()
     }
@@ -167,7 +165,7 @@ class MakingPublicRoomFragment : Fragment() {
 
                     containsSeparatedHangul -> {
                         binding.tvAlertName.visibility = View.VISIBLE
-                        binding.tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안됩니다!"
+                        binding.tvAlertName.text = "방이름은 분리된 한글(자음, 모음)이 포함되면 안 돼요!"
                         binding.tilRoomName.isErrorEnabled = true
                     }
 
@@ -228,16 +226,38 @@ class MakingPublicRoomFragment : Fragment() {
         setupHashtag(binding.hashtag1)
         setupHashtag(binding.hashtag2)
         setupHashtag(binding.hashtag3)
+        binding.etRoomHashtag.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val input = s.toString()
+                val invalidLength = input.length > 5
+                if (input.isNotEmpty() && !invalidLength) {
+                    binding.tvAlertHashtag.visibility = View.GONE
+                    binding.tilRoomHashtag.isErrorEnabled = false
+                } else if (invalidLength) {
+                    binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력 가능해요!"
+                    binding.tilRoomHashtag.isErrorEnabled = true
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
         binding.etRoomHashtag.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 val hashtagText = binding.etRoomHashtag.text.toString().trim()
-                if (hashtagText.isNotEmpty() && hashtags.size < 3) {
+                val invalidLength = hashtagText.length > 5
+                if (hashtagText.isNotEmpty() && hashtags.size < 3 && !invalidLength) {
                     hashtags.add(hashtagText)
                     addHashtag()
                     binding.etRoomHashtag.text?.clear()
+                    binding.tvAlertHashtag.visibility = View.GONE
+                    binding.tilRoomHashtag.isErrorEnabled = false
                 } else if (hashtags.size >= 3) {
-                    Toast.makeText(context, "최대 3개의 해시태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT)
-                        .show()
+                    binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.text = "최대 3개의 해시태그만 추가할 수 있어요!"
+                    binding.tilRoomHashtag.isErrorEnabled = true
                 }
                 true
             } else false
@@ -258,7 +278,7 @@ class MakingPublicRoomFragment : Fragment() {
                     val drawableWidth = it.bounds.width()
                     val touchableAreaStart = tv.width - tv.paddingEnd - drawableWidth
                     if (event.x >= touchableAreaStart) {
-                        removeHashtag(tv) /// 왜 안 됨?
+                        removeHashtag(tv)
                         true
                     } else false
                 } ?: false
@@ -303,7 +323,7 @@ class MakingPublicRoomFragment : Fragment() {
     }
 
     // 페르소나/닉넴/인원수/해시태그 입력 필수
-    fun updateNextBtnState() {
+    private fun updateNextBtnState() {
         val isPersonaSelected = personaId != 0
         val isNicknameEntered = binding.etRoomName.text?.isNotEmpty() == true
         val isMateNumSelected = mateNum != 0

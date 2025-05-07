@@ -57,60 +57,21 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@id/tv_text1"
         app:layout_constraintStart_toStartOf="parent">
         <TextView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/ic_gray_cozy"
-            android:text="!"
-            android:textAppearance="@style/TextAppearance.App.10sp.Regular"
-            android:textSize="8dp"
-            android:gravity="center"
-            android:layout_gravity="top"
-            android:textColor="@color/unuse"/>
-        <TextView
             android:id="@+id/tv_split_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
+            android:text="&#42; 탈퇴하시면 모든 정보가 사라지며, 모든 데이터는 복구가 불가능해요"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/basic_font"
             android:gravity="center_vertical"
             android:lineSpacingExtra="3dp"
             android:layout_gravity="top"
-            android:layout_marginLeft="8dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_info2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="2dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_info1"
-        app:layout_constraintStart_toStartOf="parent">
-        <TextView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/ic_gray_cozy"
-            android:text="!"
-            android:textAppearance="@style/TextAppearance.App.10sp.Regular"
-            android:textSize="8dp"
-            android:gravity="center"
-            android:textColor="@color/unuse"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="코지봇 데이터는 지워지지 않아요"
-            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-            android:textColor="@color/basic_font"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="8dp"/>
+            />
     </LinearLayout>
 
     <TextView
@@ -122,7 +83,7 @@
         android:textColor="@color/highlight_font"
         android:layout_marginTop="80dp"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_info2"
+        app:layout_constraintTop_toBottomOf="@id/layout_info1"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
         android:id="@+id/tv_text2"

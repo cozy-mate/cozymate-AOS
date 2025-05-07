@@ -1,6 +1,5 @@
 package umc.cozymate.ui.cozy_home.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,8 +26,6 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
-import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
-import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 @AndroidEntryPoint
 class CozyHomeContentBeforeMatchingFragment : Fragment() {
@@ -38,7 +35,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomRequestViewModel: RoomRequestViewModel by viewModels()
-    private var isLifestyleExist: Boolean = false
+    private var isLifestyleExist: Boolean = true
     val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
@@ -52,6 +49,13 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerLayout1.startShimmer()
+        binding.shimmerLayout1.visibility = View.VISIBLE
+        binding.clRecommendRoom.visibility = View.GONE
+        binding.divider2.visibility = View.GONE
+        binding.clRoomParticipantRequest.visibility = View.GONE
+        binding.divider3.visibility = View.GONE
+        binding.clRecommendRoommate.visibility = View.GONE
         setNickname()
         setRoomParticipantRequest()
         setRoommateRecommend()
@@ -74,7 +78,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     private fun setRoomParticipantRequest() {
         binding.clRoomParticipantRequest.visibility = View.GONE
         setRequestList()
-        setMoreRequestBtn()
         fetchRequest()
     }
 
@@ -88,19 +91,21 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         binding.rvRequestList.adapter = adapter
         binding.rvRequestList.layoutManager = LinearLayoutManager(requireContext())
         roomRequestViewModel.requestedRoomResponse.observe(viewLifecycleOwner) { response ->
-            val roomList = response?.result ?: emptyList()
-            if (roomList.isNotEmpty()) {
+            val roomList = response?.result?.result
+            if (!roomList.isNullOrEmpty()) {
                 binding.clRoomParticipantRequest.visibility = View.VISIBLE
-                adapter.submitList(roomList)
+                binding.divider2.visibility = View.VISIBLE
+                adapter.submitList(roomList!!)
+                setMoreRequestBtn()
             } else {
                 binding.clRoomParticipantRequest.visibility = View.GONE
+                binding.divider2.visibility = View.GONE
             }
         }
         roomRequestViewModel.isLoading1.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true || isLoading == null) {
+                binding.divider2.visibility = View.GONE
                 binding.clRoomParticipantRequest.visibility = View.GONE
-            } else {
-                binding.clRoomParticipantRequest.visibility = View.VISIBLE
             }
         }
     }
@@ -125,10 +130,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
-        if (isLifestyleExist) cozyHomeViewModel.fetchRoommateListByEquality()
-        else cozyHomeViewModel.fetchRandomRoommateList()
+        cozyHomeViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
@@ -137,28 +139,14 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
             else goToRoommateDetail(otherUserDetail)
         }
         var adapter: RecommendedRoommateVPAdapter
-        cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
-            if (rmList.isNullOrEmpty()) {
-                binding.vpRoommate.visibility = View.GONE
-                binding.dotsIndicator1.visibility = View.GONE
-                binding.tvEmptyRoommate.visibility = View.VISIBLE
-            } else {
-                binding.vpRoommate.visibility = View.VISIBLE
-                binding.dotsIndicator1.visibility = View.VISIBLE
-                binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                    roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-                }
-                binding.vpRoommate.adapter = adapter
-                binding.dotsIndicator1.attachTo(binding.vpRoommate)
-            }
-        }
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
+                binding.clRecommendRoommate.visibility = View.VISIBLE
+                binding.divider3.visibility = View.VISIBLE
                 binding.vpRoommate.visibility = View.VISIBLE
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
@@ -204,6 +192,9 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
                 binding.dotsIndicator2.visibility = View.GONE
                 binding.tvEmptyRoom.visibility = View.VISIBLE
             } else {
+                binding.shimmerLayout1.stopShimmer()
+                binding.shimmerLayout1.visibility = View.GONE
+                binding.clRecommendRoom.visibility = View.VISIBLE
                 binding.vpRoom.visibility = View.VISIBLE
                 binding.dotsIndicator2.visibility = View.VISIBLE
                 binding.tvEmptyRoom.visibility = View.GONE
