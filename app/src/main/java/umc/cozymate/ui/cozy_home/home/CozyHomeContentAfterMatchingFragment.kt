@@ -52,6 +52,13 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerLayout1.startShimmer()
+        binding.shimmerLayout1.visibility = View.VISIBLE
+        binding.clMyRoom.visibility = View.GONE
+        binding.clRecommendRoom.visibility = View.GONE
+        binding.clRecommendRoommate.visibility = View.GONE
+        binding.divider1.visibility = View.GONE
+        binding.divider3.visibility = View.GONE
         setNickname()
         setMyRoom()
         setRoommateRecommend()
@@ -79,6 +86,8 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private suspend fun fetchMyRoomData() {
         cozyHomeViewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
             if (roomInfo != null) {
+                binding.clMyRoom.visibility = View.VISIBLE
+                binding.divider1.visibility = View.VISIBLE
                 roomInfoData = roomInfo
                 setHashtagList(roomInfo.hashtagList)
                 setRoomName(roomInfo.name)
@@ -164,6 +173,8 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
+            binding.clRecommendRoommate.visibility = View.VISIBLE
+            binding.divider3.visibility = View.VISIBLE
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
@@ -209,6 +220,9 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private fun setRoomList() {
         var adapter: RecommendedRoomVPAdapter
         cozyHomeViewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
+            binding.shimmerLayout1.stopShimmer()
+            binding.shimmerLayout1.visibility = View.GONE
+            binding.clRecommendRoom.visibility = View.VISIBLE
             if (roomList.isNullOrEmpty()) {
                 binding.vpRoom.visibility = View.GONE
                 binding.dotsIndicator2.visibility = View.GONE

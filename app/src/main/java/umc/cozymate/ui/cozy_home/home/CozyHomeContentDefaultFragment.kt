@@ -48,6 +48,11 @@ class CozyHomeContentDefaultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerLayout1.startShimmer()
+        binding.shimmerLayout1.visibility = View.VISIBLE
+        binding.clRecommendRoom.visibility = View.GONE
+        binding.divider.visibility = View.GONE
+        binding.clRecommendRoommate.visibility = View.GONE
         setNickname()
         setRoommateRecommend()
         setRoomRecommend()
@@ -83,10 +88,14 @@ class CozyHomeContentDefaultFragment : Fragment() {
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
             if (rmList.isNullOrEmpty()) {
+                binding.clRecommendRoommate.visibility = View.VISIBLE
+                binding.divider.visibility = View.VISIBLE
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
+                binding.clRecommendRoommate.visibility = View.VISIBLE
+                binding.divider.visibility = View.VISIBLE
                 binding.vpRoommate.visibility = View.VISIBLE
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
@@ -128,10 +137,16 @@ class CozyHomeContentDefaultFragment : Fragment() {
         var adapter: RecommendedRoomVPAdapter
         cozyHomeViewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
+                binding.shimmerLayout1.stopShimmer()
+                binding.shimmerLayout1.visibility = View.GONE
+                binding.clRecommendRoom.visibility = View.VISIBLE
                 binding.vpRoom.visibility = View.GONE
                 binding.dotsIndicator2.visibility = View.GONE
                 binding.tvEmptyRoom.visibility = View.VISIBLE
             } else {
+                binding.shimmerLayout1.stopShimmer()
+                binding.shimmerLayout1.visibility = View.GONE
+                binding.clRecommendRoom.visibility = View.VISIBLE
                 binding.vpRoom.visibility = View.VISIBLE
                 binding.dotsIndicator2.visibility = View.VISIBLE
                 binding.tvEmptyRoom.visibility = View.GONE

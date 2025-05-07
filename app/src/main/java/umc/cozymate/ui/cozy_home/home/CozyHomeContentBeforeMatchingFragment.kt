@@ -51,8 +51,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.shimmerLayout1.startShimmer()
         binding.shimmerLayout1.visibility = View.VISIBLE
-        binding.clMyRoom.visibility = View.GONE
-        binding.divider1.visibility = View.GONE
         binding.clRecommendRoom.visibility = View.GONE
         binding.divider2.visibility = View.GONE
         binding.clRoomParticipantRequest.visibility = View.GONE
@@ -75,8 +73,6 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         binding.tvNickname2.text = "${nickname}님이"
         binding.tvNickname3.text = "${nickname}님과"
         binding.tvNickname4.text = "${nickname}님과"
-        binding.clMyRoom.visibility = View.VISIBLE
-        binding.divider1.visibility = View.VISIBLE
     }
 
     private fun setRoomParticipantRequest() {
@@ -108,7 +104,7 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         }
         roomRequestViewModel.isLoading1.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true || isLoading == null) {
-                binding.divider1.visibility = View.GONE
+                binding.divider2.visibility = View.GONE
                 binding.clRoomParticipantRequest.visibility = View.GONE
             }
         }

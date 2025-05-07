@@ -58,6 +58,15 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerLayout1.stopShimmer()
+        binding.shimmerLayout1.visibility = View.VISIBLE
+        binding.clMyRoom.visibility = View.GONE
+        binding.clRoomManagerRequest.visibility = View.GONE
+        binding.clRecommendRoom.visibility = View.GONE
+        binding.clRecommendRoommate.visibility = View.GONE
+        binding.divider1.visibility = View.GONE
+        binding.divider2.visibility = View.GONE
+        binding.divider3.visibility = View.GONE
         setNickname()
         setMyRoom()
         setRoomManagerRequest()
@@ -86,6 +95,8 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     private suspend fun fetchMyRoomData() {
         cozyHomeViewModel.getRoomInfoById().observe(viewLifecycleOwner, Observer { roomInfo ->
             if (roomInfo != null) {
+                binding.clMyRoom.visibility = View.VISIBLE
+                binding.divider1.visibility = View.VISIBLE
                 roomInfoData = roomInfo
                 setHashtagList(roomInfo.hashtagList)
                 setRoomName(roomInfo.name)
@@ -155,7 +166,6 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     }
 
     private fun setRoomManagerRequest() {
-        binding.clRoomManagerRequest.visibility = View.GONE
         setRequestList()
         setMoreRequestBtn()
         fetchRequest()
@@ -169,6 +179,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         binding.rvRequestList.layoutManager = LinearLayoutManager(requireContext())
         roomRequestViewModel.pendingMemberResponse.observe(viewLifecycleOwner) { response ->
             binding.clRoomManagerRequest.visibility = View.VISIBLE
+            binding.divider2.visibility = View.VISIBLE
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
                 binding.tvRequestNum.text = "${roomList.size}개의"
@@ -189,8 +200,6 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         roomRequestViewModel.isLoading2.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true || isLoading == null) {
                 binding.clRoomManagerRequest.visibility = View.GONE
-            } else {
-                binding.clRoomManagerRequest.visibility = View.VISIBLE
             }
         }
     }
@@ -225,6 +234,8 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
+            binding.clRecommendRoommate.visibility = View.VISIBLE
+            binding.divider3.visibility= View.VISIBLE
             updateRoommateUI(rmList)
         }
     }
@@ -275,10 +286,16 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         var adapter: RecommendedRoomVPAdapter
         cozyHomeViewModel.recommendedRoomList.observe(viewLifecycleOwner) { roomList ->
             if (roomList.isNullOrEmpty()) {
+                binding.shimmerLayout1.stopShimmer()
+                binding.shimmerLayout1.visibility = View.GONE
+                binding.clRecommendRoom.visibility = View.VISIBLE
                 binding.vpRoom.visibility = View.GONE
                 binding.dotsIndicator2.visibility = View.GONE
                 binding.tvEmptyRoom.visibility = View.VISIBLE
             } else {
+                binding.shimmerLayout1.stopShimmer()
+                binding.shimmerLayout1.visibility = View.GONE
+                binding.clRecommendRoom.visibility = View.VISIBLE
                 binding.vpRoom.visibility = View.VISIBLE
                 binding.dotsIndicator2.visibility = View.VISIBLE
                 binding.tvEmptyRoom.visibility = View.GONE
