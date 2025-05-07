@@ -198,6 +198,15 @@ class UniversityCertificationFragment : Fragment() {
                     .show()
             }
         }
+        viewModel.loading1.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.btnSendVerifyCode.text = ""
+                binding.loadingBtn1.visibility = View.VISIBLE
+            } else if (!isLoading) {
+                binding.btnSendVerifyCode.text = "인증번호 재전송"
+                binding.loadingBtn1.visibility = View.GONE
+            }
+        }
     }
 
     fun handleVerifyCode() {
@@ -238,6 +247,15 @@ class UniversityCertificationFragment : Fragment() {
                 val intent = Intent(requireContext(), OnboardingActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
+            }
+        }
+        viewModel.loading2.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.btnVerify.text = ""
+                binding.loadingBtn2.visibility = View.VISIBLE
+            } else {
+                binding.btnVerify.text = "인증번호 확인"
+                binding.loadingBtn2.visibility = View.GONE
             }
         }
     }

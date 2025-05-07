@@ -132,8 +132,11 @@ class UniversityViewModel @Inject constructor(
     // 메일 전송 (/members/mail)
     private val _sendVerifyCodeStatus = MutableLiveData<Boolean>()
     val sendVerifyCodeStatus: LiveData<Boolean> get() = _sendVerifyCodeStatus
+    private val _loading1 = MutableLiveData<Boolean>()
+    val loading1: LiveData<Boolean> get() = _loading1
     fun sendVerifyCode(email: String) {
         val token = getToken()
+        _loading1.value = true
         if (token != null && universityId.value != null) {
             viewModelScope.launch {
                 try {
@@ -150,6 +153,8 @@ class UniversityViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.d(TAG, "메일 보내기 api 요청 실패: $e")
                     _sendVerifyCodeStatus.value = false
+                } finally {
+                    _loading1.value = false
                 }
             }
         }
@@ -160,8 +165,11 @@ class UniversityViewModel @Inject constructor(
     val verifyCode: LiveData<String> get() = _verifyCode
     private val _verifyResponse = MutableLiveData<VerifyMailResponse>()
     val verifyResponse: LiveData<VerifyMailResponse> get() = _verifyResponse
+    private val _loading2 = MutableLiveData<Boolean>()
+    val loading2: LiveData<Boolean> get() = _loading2
     fun verifyCode(code: String) {
         val token = getToken()
+        _loading2.value = true
         Log.d(TAG, "verifyCode: $code, major: ${major.value}, univId: ${universityId.value}")
         if (token != null && code != "" && major.value != null && universityId.value != null) {
             viewModelScope.launch {
@@ -180,6 +188,8 @@ class UniversityViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.d(TAG, "메일 인증 api 요청 실패: $e")
                     _isVerified.value = false
+                } finally {
+                    _loading2.value = false
                 }
             }
         }
