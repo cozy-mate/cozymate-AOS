@@ -111,12 +111,12 @@ class SplashViewModel @Inject constructor(
     }
 
     // 토큰 재발행 (/auth/reissue)
-    private val _requestFail = MutableLiveData<Boolean>()
-    val requestFail: LiveData<Boolean> get() = _requestFail
+    private val _reissueSuccess = MutableLiveData<Boolean>()
+    val reissueSuccess: LiveData<Boolean> get() = _reissueSuccess
     fun reissue() {
         val refreshToken = getRefreshToken()
         _loading.value = true
-        _requestFail.value = false
+        _reissueSuccess.value = false
         _tokenInfo.value = TokenInfo("", "", "")
         if (refreshToken != null) {
             viewModelScope.launch {
@@ -127,15 +127,16 @@ class SplashViewModel @Inject constructor(
                         _tokenInfo.value!!.accessToken = response.body()!!.result.accessToken
                         _tokenInfo.value!!.message = response.body()!!.result.message
                         _tokenInfo.value!!.refreshToken = response.body()!!.result.refreshToken
+                        _reissueSuccess.value = true
                     } else {
                         Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
                         val errorBody = response.errorBody()?.string()
                         _errorResponse.value = parseErrorResponse(errorBody)
-                        _requestFail.value = true
+                        _reissueSuccess.value = true
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "토큰 재발행 api 요청 실패: ${e}")
-                    _requestFail.value = true
+                    _reissueSuccess.value = true
                 } finally {
                     _loading.value = false
                 }

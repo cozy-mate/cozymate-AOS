@@ -80,6 +80,13 @@ class UniversitySearchFragment : Fragment() {
         viewModel.errorResponse.observe(viewLifecycleOwner) { res ->
             Log.d(TAG, "토큰을 재발행합니다: ${res.message}")
             splashViewModel.reissue()
+            splashViewModel.reissueSuccess.observe(viewLifecycleOwner) { success ->
+                if (success) {
+                    lifecycleScope.launch {
+                        viewModel.getUniversityList()
+                    }
+                }
+            }
         }
         binding.rvUniv.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUniv.adapter = adapter
