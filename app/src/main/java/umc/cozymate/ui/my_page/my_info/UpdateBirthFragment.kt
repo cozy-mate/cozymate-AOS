@@ -63,6 +63,7 @@ class UpdateBirthFragment : Fragment() {
         viewModel.getMemberInfoSPF()
         viewModel.birthDate.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
+            binding.tvBirth.text = s
         }
     }
 

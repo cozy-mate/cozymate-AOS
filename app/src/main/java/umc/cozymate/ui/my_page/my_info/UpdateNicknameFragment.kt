@@ -62,11 +62,9 @@ class UpdateNicknameFragment : Fragment() {
 
     private fun getPreferences() {
         viewModel.getMemberInfoSPF()
-        viewModel.birthDate.observe(viewLifecycleOwner) { s ->
+        viewModel.nickname.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
-        }
-        viewModel.majorName.observe(viewLifecycleOwner) { s ->
-            Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
+            binding.etOnboardingNickname.setText(s.toString())
         }
     }
 

@@ -1,5 +1,6 @@
 package umc.cozymate.ui.my_page.my_info
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUpdateMajorBinding
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
+import umc.cozymate.util.PreferencesUtil.KEY_ROOM_NAME
+import umc.cozymate.util.PreferencesUtil.KEY_USER_MAJOR_NAME
 
 @AndroidEntryPoint
 class UpdateMajorFragment: Fragment() {
@@ -37,6 +40,7 @@ class UpdateMajorFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            getPreference()
             // 학과 스피너
             initSpinner()
             // 학과 조회(get-member-univ-info) 호출
@@ -56,6 +60,12 @@ class UpdateMajorFragment: Fragment() {
             // 학과 수정 결과 옵저빙
             setObserver()
         }
+    }
+
+    fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val majorName = spf.getString(KEY_USER_MAJOR_NAME, "").toString()
+        binding.tvMajor.text = majorName
     }
 
     fun initSpinner() {

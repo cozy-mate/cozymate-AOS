@@ -171,6 +171,9 @@ dependencies {
     // google play core in-app updates
     implementation("com.google.android.play:app-update:2.1.0")
     implementation("com.google.android.play:app-update-ktx:2.1.0")
+
+    // shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
 kapt {
     correctErrorTypes = true
