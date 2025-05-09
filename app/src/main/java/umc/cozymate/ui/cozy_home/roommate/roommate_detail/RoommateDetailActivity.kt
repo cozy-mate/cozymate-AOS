@@ -70,7 +70,14 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         // intent로 사용자 정보 전달
+//        otherUserDetail = intent.getParcelableExtra("other_user_detail")
+//        Log.d(TAG, "Received user detail: $otherUserDetail")
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
+        if (otherUserDetail == null) {
+            Log.e(TAG, "intent에서 other_user_detail이 null입니다.")
+            finish()
+            return
+        }
         Log.d(TAG, "Received user detail: $otherUserDetail")
 
         val spf = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE)
@@ -93,7 +100,19 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         selectListView(otherUserDetail!!)
-        setUpListeners(userDetail!!)
+//        setUpListeners(userDetail!!)
+        if (userDetail != null) {
+            setUpListeners(userDetail)
+        } else {
+            Log.e(TAG, "userDetail이 null입니다.")
+            SnackbarUtil.showCustomSnackbar(
+                context = this,
+                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
+                iconType = SnackbarUtil.IconType.NO,
+                anchorView = binding.root,
+                extraYOffset = 20
+            )
+        }
 
         observeMemberInfo()
         setupFavoriteButton()
