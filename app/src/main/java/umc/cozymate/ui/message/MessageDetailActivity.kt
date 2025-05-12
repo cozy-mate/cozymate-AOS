@@ -101,7 +101,7 @@ class MessageDetailActivity : AppCompatActivity() {
 
         reportViewModel.isSuccess.observe(this, Observer{
             if (it == null) return@Observer
-            if(it) Toast.makeText(this, "신고가 접수 됐어요!", Toast.LENGTH_SHORT).show()
+            if(it) Toast.makeText(this, "신고가 정상적으로 접수되었습니다", Toast.LENGTH_SHORT).show()
         })
     }
 
