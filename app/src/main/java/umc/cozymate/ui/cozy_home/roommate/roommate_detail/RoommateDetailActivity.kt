@@ -126,14 +126,19 @@ class RoommateDetailActivity : AppCompatActivity() {
 
     private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
         return try {
-            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
-            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
-            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
-            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
+//            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
+//            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
+//            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
+//            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
 
-            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
-                return null
-            }
+//            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
+//                return null
+//            }
+            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
+            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "") ?: "2000-01-01"
+            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
+            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
+
 
             val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val wakeUpTime = spf.getInt("user_wakeUpTime", -1)
