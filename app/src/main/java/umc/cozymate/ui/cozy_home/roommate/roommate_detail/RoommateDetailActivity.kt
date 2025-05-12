@@ -113,6 +113,10 @@ class RoommateDetailActivity : AppCompatActivity() {
                 extraYOffset = 20
             )
         }
+        binding.lyGoToLifestyle.setOnClickListener {
+            val intent = Intent(this, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
+        }
 
         observeMemberInfo()
         setupFavoriteButton()
