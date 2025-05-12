@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -97,6 +98,11 @@ class MessageDetailActivity : AppCompatActivity() {
             if (!isLoading && binding.refreshLayout.isRefreshing)
                 binding.refreshLayout.isRefreshing = false
         }
+
+        reportViewModel.isSuccess.observe(this, Observer{
+            if (it == null) return@Observer
+            if(it) Toast.makeText(this, "신고가 접수 됐어요!", Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun setRecyclerView(){

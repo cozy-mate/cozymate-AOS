@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -48,6 +49,10 @@ class WriteInquiryActivity: AppCompatActivity() {
                 val intent : Intent = Intent(this, InquiryActivity::class.java)
                 startActivity(intent)
                 finish()
+            }
+            else{
+                // 메시지 조정 필요
+                Toast.makeText(this, "이메일 형식을 확인해 주세요", Toast.LENGTH_SHORT).show()
             }
         })
     }
