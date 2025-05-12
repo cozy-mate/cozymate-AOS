@@ -605,8 +605,10 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserName.text = user.memberDetail.nickname
             tvTableOtherName.text = other.memberDetail.nickname
 
-            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
-            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
+//            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
+//            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
+            tvTableUserBirth.text = "${user.memberDetail.birthday.substring(0, 4)}년"
+            tvTableOtherBirth.text = "${other.memberDetail.birthday.substring(0, 4)}년"
 
             tvTableUserSchoolNum.text = "${user.memberStatDetail.admissionYear}학번"
             tvTableOtherSchoolNum.text = "${other.memberStatDetail.admissionYear}학번"
@@ -626,20 +628,28 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.wakeUpTime)
             tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.wakeUpTime)
 
-            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
-            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
+//            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
+//            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
+            tvTableUserWakeUpTime.text = " ${convertTo12Hour(user.memberStatDetail.wakeUpTime)}시"
+            tvTableOtherWakeUpTime.text = " ${convertTo12Hour(other.memberStatDetail.wakeUpTime)}시"
 
             tvTableUserSleepAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.sleepingTime)
             tvTableOtherSleepAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.sleepingTime)
 
-            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
-            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
+//            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
+//            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
+
+            tvTableUserSleepTime.text = " ${convertTo12Hour(user.memberStatDetail.sleepingTime)}시"
+            tvTableOtherSleepTime.text = " ${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
 
             tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
             tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
 
-            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
-            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
+//            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
+//            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
+
+            tvTableUserLightOffTime.text = " ${convertTo12Hour(user.memberStatDetail.turnOffTime)}시"
+            tvTableOtherLightOffTime.text = " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
 
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smokingStatus)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smokingStatus)
