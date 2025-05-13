@@ -14,7 +14,7 @@
         android:layout_marginTop="24dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"
         app:shimmer_auto_start="true"
         app:shimmer_base_color="@color/gray"
         app:shimmer_direction="left_to_right"
@@ -106,367 +106,376 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_my_room"
+    <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_nickname1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:includeFontPadding="false"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_title1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:includeFontPadding="false"
-            android:text="현재 참여하고 있는 방이에요"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toStartOf="@id/tv_nickname1"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname1" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_my_room_content"
-            android:layout_width="0dp"
+            android:id="@+id/cl_my_room"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_my_room_component"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title1">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_hashtag1"
+                android:id="@+id/tv_nickname1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text="#담배사절"
-                tools:visibility="visible"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_hashtag2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:includeFontPadding="false"
                 android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag1" />
-
-            <TextView
-                android:id="@+id/tv_hashtag3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/custom_rectangle_4_white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/color_font"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/tv_hashtag2" />
-
-            <TextView
-                android:id="@+id/tv_room_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="26dp"
-                android:text=""
-                tools:text="피그말리온"
-                android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
                 android:textColor="@color/highlight_font"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_arrival_num"
+                android:id="@+id/tv_title1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text=""
-                tools:text="3명"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/main_blue"
-                app:layout_constraintStart_toStartOf="@id/tv_room_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_room_name" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
+                android:text="현재 참여하고 있는 방이에요"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="@id/tv_nickname1"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="의 룸메이트가 있어요"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintStart_toEndOf="@id/tv_arrival_num"
-                app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
-
-            <TextView
-                android:id="@+id/tv_equality"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="%"
-                android:textAppearance="@style/TextAppearance.App.16sp.Medium"
-                android:textColor="@color/color_font"
-                app:layout_constraintBottom_toBottomOf="@id/tv_arrival_num"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_my_room_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_my_room_component"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title1">
+
+                <TextView
+                    android:id="@+id/tv_hashtag1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_rectangle_4_white"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="#담배사절"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/color_font"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_hashtag2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/custom_rectangle_4_white"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/color_font"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/tv_hashtag1" />
+
+                <TextView
+                    android:id="@+id/tv_hashtag3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/custom_rectangle_4_white"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/color_font"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/tv_hashtag2" />
+
+                <TextView
+                    android:id="@+id/tv_room_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="26dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
+                    android:textColor="@color/highlight_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="피그말리온" />
+
+                <TextView
+                    android:id="@+id/tv_arrival_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/main_blue"
+                    app:layout_constraintStart_toStartOf="@id/tv_room_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_room_name"
+                    tools:text="3명" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="의 룸메이트가 있어요"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintStart_toEndOf="@id/tv_arrival_num"
+                    app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
+
+                <TextView
+                    android:id="@+id/tv_equality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="%"
+                    android:textAppearance="@style/TextAppearance.App.16sp.Medium"
+                    android:textColor="@color/color_font"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_arrival_num"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_arrival_num" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="24dp"
-        android:background="#F7F9FA"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_my_room" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_recommend_roommate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1">
-
-        <TextView
-            android:id="@+id/tv_nickname2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
             android:layout_marginTop="24dp"
-            android:includeFontPadding="false"
-            android:text="델로님과"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
+            android:background="#F7F9FA"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/cl_my_room" />
 
-        <TextView
-            android:id="@+id/tv_ment1"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_recommend_roommate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:includeFontPadding="false"
-            android:text="꼭 맞는 룸메이트를 추천해드릴게요"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toStartOf="@id/tv_nickname2"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname2" />
-
-        <LinearLayout
-            android:id="@+id/btn_more_roommate"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider1">
 
             <TextView
+                android:id="@+id/tv_nickname2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="더보기"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/unuse_font" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_next" />
-        </LinearLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_roommate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/dots_indicator1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment1" />
-
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-            android:id="@+id/dots_indicator1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:dotsColor="@color/unuse"
-            app:dotsCornerRadius="28dp"
-            app:dotsSize="8dp"
-            app:dotsSpacing="4dp"
-            app:dotsWidthFactor="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vp_roommate"
-            app:progressMode="false"
-            app:selectedDotColor="@color/main_blue" />
-
-        <!-- 추천 룸메이트가 없을 때 -->
-        <TextView
-            android:id="@+id/tv_empty_roommate"
-            android:layout_width="match_parent"
-            android:layout_height="156dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/custom_rectangle_12_unuse"
-            android:gravity="center"
-            android:text="아직 등록된 사용자가 없어요"
-            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/unuse_font"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment1" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="24dp"
-        android:background="#F7F9FA"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_recommend_roommate" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_recommend_room"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider3">
-
-        <TextView
-            android:id="@+id/tv_nickname3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="닉네임님과"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_ment2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:text="꼭 맞는 방을 추천해드릴게요"
-            android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
-            android:textColor="@color/highlight_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname3" />
-
-        <!--더보기 버튼 -->
-        <LinearLayout
-            android:id="@+id/btn_more_room"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:includeFontPadding="false"
+                android:text="델로님과"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_ment1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="더보기"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/unuse_font" />
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
+                android:text="꼭 맞는 룸메이트를 추천해드릴게요"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="@id/tv_nickname2"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname2" />
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/btn_more_roommate"
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_next" />
-        </LinearLayout>
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_room"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="더보기"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/unuse_font" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_next" />
+            </LinearLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_roommate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/dots_indicator1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ment1" />
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:dotsColor="@color/unuse"
+                app:dotsCornerRadius="28dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vp_roommate"
+                app:progressMode="false"
+                app:selectedDotColor="@color/main_blue" />
+
+            <!-- 추천 룸메이트가 없을 때 -->
+            <TextView
+                android:id="@+id/tv_empty_roommate"
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/custom_rectangle_12_unuse"
+                android:gravity="center"
+                android:text="아직 등록된 사용자가 없어요"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ment1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="24dp"
+            android:background="#F7F9FA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_recommend_roommate" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_recommend_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/dots_indicator2"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment2" />
+            app:layout_constraintTop_toBottomOf="@id/divider3">
 
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-            android:id="@+id/dots_indicator2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:dotsColor="@color/unuse"
-            app:dotsCornerRadius="28dp"
-            app:dotsSize="8dp"
-            app:dotsSpacing="4dp"
-            app:dotsWidthFactor="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vp_room"
-            app:progressMode="false"
-            app:selectedDotColor="@color/main_blue" />
+            <TextView
+                android:id="@+id/tv_nickname3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="닉네임님과"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_empty_room"
-            android:layout_width="match_parent"
-            android:layout_height="156dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/custom_rectangle_12_unuse"
-            android:gravity="center"
-            android:text="아직 등록된 방이 없어요"
-            android:textAppearance="@style/TextAppearance.App.14sp.Medium"
-            android:textColor="@color/unuse_font"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ment2" />
+            <TextView
+                android:id="@+id/tv_ment2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="4dp"
+                android:text="꼭 맞는 방을 추천해드릴게요"
+                android:textAppearance="@style/TextAppearance.App.18sp.SemiBold"
+                android:textColor="@color/highlight_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname3" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--더보기 버튼 -->
+            <LinearLayout
+                android:id="@+id/btn_more_room"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="더보기"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/unuse_font" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_next" />
+            </LinearLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/dots_indicator2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ment2" />
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:dotsColor="@color/unuse"
+                app:dotsCornerRadius="28dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vp_room"
+                app:progressMode="false"
+                app:selectedDotColor="@color/main_blue" />
+
+            <TextView
+                android:id="@+id/tv_empty_room"
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/custom_rectangle_12_unuse"
+                android:gravity="center"
+                android:text="아직 등록된 방이 없어요"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/unuse_font"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ment2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initScreen() {
         this.setStatusBarTransparent()
-        StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
+        StatusBarUtil.updateStatusBarColor(this, R.color.transparent60)
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         window.navigationBarColor = android.graphics.Color.WHITE
