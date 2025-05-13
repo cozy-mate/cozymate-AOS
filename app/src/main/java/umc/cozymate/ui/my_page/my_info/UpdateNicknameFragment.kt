@@ -65,6 +65,7 @@ class UpdateNicknameFragment : Fragment() {
         viewModel.nickname.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
             binding.etOnboardingNickname.setText(s.toString())
+            debounceJob?.cancel()
         }
     }
 
@@ -79,6 +80,7 @@ class UpdateNicknameFragment : Fragment() {
             if (!isValid) {
                 binding.tvAlertNickname.visibility = View.VISIBLE
                 binding.tvAlertNickname.text = "다른 사람이 사용 중인 닉네임이에요!"
+                binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                 binding.tilOnboardingNickname.isErrorEnabled = true
                 binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
@@ -152,6 +154,7 @@ class UpdateNicknameFragment : Fragment() {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 2자리 이상 8자리 이하로 입력해주세요"
+                        binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tilOnboardingNickname.isErrorEnabled = true
                         binding.tilOnboardingNickname.boxStrokeColor =
                             resources.getColor(R.color.red)
@@ -162,6 +165,7 @@ class UpdateNicknameFragment : Fragment() {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 분리된 한글(모음, 자음)이 포함되면 안됩니다!"
+                        binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tilOnboardingNickname.isErrorEnabled = true
                         binding.tilOnboardingNickname.boxStrokeColor =
                             resources.getColor(R.color.red)

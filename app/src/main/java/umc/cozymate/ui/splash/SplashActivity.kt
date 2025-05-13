@@ -131,7 +131,9 @@ class SplashActivity : AppCompatActivity() {
                     }
                     splashViewModel.isMember.observe(this) { isMember ->
                         if (isMember == true) {
-                            goCozyHome()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                goCozyHome()
+                            }, 300)
                         } else if (isMember == false) goUnivCert()
                     }
                 } catch (e: Exception) {
