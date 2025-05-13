@@ -70,7 +70,14 @@ class RoommateDetailActivity : AppCompatActivity() {
         binding.main.setPadding(0, 0, 0, this.navigationHeight())
 
         // intent로 사용자 정보 전달
+//        otherUserDetail = intent.getParcelableExtra("other_user_detail")
+//        Log.d(TAG, "Received user detail: $otherUserDetail")
         otherUserDetail = intent.getParcelableExtra("other_user_detail")
+        if (otherUserDetail == null) {
+            Log.e(TAG, "intent에서 other_user_detail이 null입니다.")
+            finish()
+            return
+        }
         Log.d(TAG, "Received user detail: $otherUserDetail")
 
         val spf = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE)
@@ -93,7 +100,23 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         selectListView(otherUserDetail!!)
-        setUpListeners(userDetail!!)
+//        setUpListeners(userDetail!!)
+        if (userDetail != null) {
+            setUpListeners(userDetail)
+        } else {
+            Log.e(TAG, "userDetail이 null입니다.")
+            SnackbarUtil.showCustomSnackbar(
+                context = this,
+                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
+                iconType = SnackbarUtil.IconType.NO,
+                anchorView = binding.root,
+                extraYOffset = 20
+            )
+        }
+        binding.lyGoToLifestyle.setOnClickListener {
+            val intent = Intent(this, RoommateOnboardingActivity::class.java)
+            startActivity(intent)
+        }
 
         observeMemberInfo()
         setupFavoriteButton()
@@ -107,11 +130,53 @@ class RoommateDetailActivity : AppCompatActivity() {
 
     private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
         return try {
-            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
-            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
-            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty()) {
-                null
-            } else {
+//            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "")
+//            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
+//            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
+//            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
+
+//            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
+//                return null
+//            }
+            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
+            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "") ?: "2000-01-01"
+            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
+            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
+
+
+            val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val wakeUpTime = spf.getInt("user_wakeUpTime", -1)
+
+            val sampleDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
+                admissionYear = admissionYear.ifEmpty { "21" },
+                numOfRoommate = 2,
+                dormName = "기숙사A동",
+                dormJoiningStatus = "합격",
+                wakeUpTime = if(wakeUpTime == -1) 8 else wakeUpTime,
+                sleepingTime = 1,
+                turnOffTime = 13,
+                smokingStatus = "비흡연",
+                sleepingHabits = listOf("잠꼬대", "코골이"),
+                coolingIntensity = "약하게 틀어요",
+                heatingIntensity = "세게 틀어요",
+                lifePattern = "아침형 인간",
+                intimacy = "완전 친하게 지내요",
+                sharingStatus = "칫솔만 아니면 돼요",
+                gamingStatus = "키보드 채팅정도만 쳐요",
+                callingStatus = "급한 전화만 해요",
+                studyingStatus = "시험기간 때만 해요",
+                eatingStatus = "간단한 간식정도만 먹어요",
+                cleannessSensitivity = "예민해요",
+                noiseSensitivity = "예민해요",
+                cleaningFrequency = "일주일에 한 번 해요",
+                drinkingFrequency = "일주일에 한 두번 마셔요",
+                personalities = listOf("깔끔해요", "느긋해요"),
+                mbti = "ISTJ",
+                selfIntroduction = "안녕하세요! 샘플 데이터에요!."
+            )
+
+            return if (wakeUpTime == -1) {
+                binding.lyGoToLifestyle.visibility = View.VISIBLE
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
@@ -120,8 +185,27 @@ class RoommateDetailActivity : AppCompatActivity() {
                         majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
                         memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
-                        universityId = 0,
-                        persona = 0
+                        universityId = 1,
+                        persona = 1
+                    ),
+                    memberStatDetail = sampleDetail,
+                    equality = 0,
+                    roomId = 0,
+                    favoriteId = 0,
+                    hasRequestedRoomEntry = false
+                )
+            }
+            else {
+                GetMemberDetailInfoResponse.Result(
+                    memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
+                        nickname = nickname,
+                        birthday = birthday,
+                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
+                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
+                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
+                        universityId = 1,
+                        persona = 1
                     ),
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                         admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
@@ -525,8 +609,10 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserName.text = user.memberDetail.nickname
             tvTableOtherName.text = other.memberDetail.nickname
 
-            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
-            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
+//            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
+//            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
+            tvTableUserBirth.text = "${user.memberDetail.birthday.substring(0, 4)}년"
+            tvTableOtherBirth.text = "${other.memberDetail.birthday.substring(0, 4)}년"
 
             tvTableUserSchoolNum.text = "${user.memberStatDetail.admissionYear}학번"
             tvTableOtherSchoolNum.text = "${other.memberStatDetail.admissionYear}학번"
@@ -546,20 +632,28 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.wakeUpTime)
             tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.wakeUpTime)
 
-            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
-            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
+//            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
+//            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
+            tvTableUserWakeUpTime.text = " ${convertTo12Hour(user.memberStatDetail.wakeUpTime)}시"
+            tvTableOtherWakeUpTime.text = " ${convertTo12Hour(other.memberStatDetail.wakeUpTime)}시"
 
             tvTableUserSleepAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.sleepingTime)
             tvTableOtherSleepAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.sleepingTime)
 
-            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
-            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
+//            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
+//            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
+
+            tvTableUserSleepTime.text = " ${convertTo12Hour(user.memberStatDetail.sleepingTime)}시"
+            tvTableOtherSleepTime.text = " ${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
 
             tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
             tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
 
-            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
-            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
+//            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
+//            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
+
+            tvTableUserLightOffTime.text = " ${convertTo12Hour(user.memberStatDetail.turnOffTime)}시"
+            tvTableOtherLightOffTime.text = " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
 
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smokingStatus)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smokingStatus)

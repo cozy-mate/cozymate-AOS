@@ -154,6 +154,7 @@ class SplashViewModel @Inject constructor(
     private val _isMember = MutableLiveData<Boolean>(null)
     val isMember: LiveData<Boolean> get() = _isMember
     fun memberCheck() {
+
         val token = getToken()
         _loading.value = true
         if (token != null) {
@@ -164,6 +165,7 @@ class SplashViewModel @Inject constructor(
                         Log.d(TAG, "사용자 정보 조회 api 응답 성공: ${response.body()!!.result}")
                         _memberInfoResponse.value = response.body()!!.result
                         _isMember.value = true
+                        saveUserInfo(response.body()!!.result!!)
                     } else {
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
                         val errorBody = response.errorBody()?.string()
