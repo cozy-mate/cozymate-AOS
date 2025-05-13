@@ -28,7 +28,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: ActivityCozyHomeRoommateDetailBinding
     lateinit var spf : SharedPreferences
-    lateinit var adapter : RoommateRecommandRVAdapter
+    lateinit var adapter : RoommateRecommendRVAdapter
     private var nickname : String = ""
     private val viewModel: RoommateRecommendViewModel by viewModels()
     private val detailViewModel : RoommateDetailViewModel by viewModels()
@@ -82,7 +82,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommandRVAdapter{ list ->
+        adapter = RoommateRecommendRVAdapter{ list ->
             memberList.clear()
             if (isLifestyleExist){
                 page = 0
@@ -143,20 +143,20 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun submitRecyclerItems() {
-        val recyclerItems = mutableListOf<RoommateRecommandRVAdapter.RecyclerItem>()
-        recyclerItems.add(RoommateRecommandRVAdapter.RecyclerItem.FirstTypeItem)
+        val recyclerItems = mutableListOf<RoommateRecommendRVAdapter.RecyclerItem>()
+        recyclerItems.add(RoommateRecommendRVAdapter.RecyclerItem.FirstTypeItem)
 
         if ( isLifestyleExist && memberList.isEmpty()) {
             // 2번 데이터 없을 때 대체 텍스트를 추가
-            recyclerItems.add(RoommateRecommandRVAdapter.RecyclerItem.EmptyTypeItem)
+            recyclerItems.add(RoommateRecommendRVAdapter.RecyclerItem.EmptyTypeItem)
         } else {
             memberList.forEach { info ->
-                recyclerItems.add(RoommateRecommandRVAdapter.RecyclerItem.SecondTypeItem(info))
+                recyclerItems.add(RoommateRecommendRVAdapter.RecyclerItem.SecondTypeItem(info))
             }
         }
 
         if (!isLifestyleExist) {
-            recyclerItems.add(RoommateRecommandRVAdapter.RecyclerItem.ThirdTypeItem(nickname))
+            recyclerItems.add(RoommateRecommendRVAdapter.RecyclerItem.ThirdTypeItem(nickname))
         }
 
         adapter.submitList(recyclerItems)
