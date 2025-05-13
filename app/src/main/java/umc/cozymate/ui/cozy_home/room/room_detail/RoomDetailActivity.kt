@@ -103,6 +103,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
         binding.ivChat.setOnClickListener {
             val intent: Intent = Intent(this, WriteMessageActivity::class.java)
+            Log.d(TAG,"managerNickname ${managerNickname}")
             intent.putExtra("recipientId", managerMemberId)
             intent.putExtra("nickname",  managerNickname)
             startActivity(intent)
@@ -311,7 +312,7 @@ class RoomDetailActivity : AppCompatActivity() {
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
-
+            managerNickname = roomInfo.managerNickname
             updateOtherRoomFab(roomInfo.roomId)
             // 초기 찜 상태 설정
             isFavorite = roomInfo.favoriteId != 0
