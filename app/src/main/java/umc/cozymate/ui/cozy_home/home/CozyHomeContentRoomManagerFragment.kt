@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,6 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     private var _binding: FragmentCozyHomeContentRoomManagerBinding? = null
     private val binding get() = _binding!!
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
-    private val roommateRecommendViewModel: RoommateRecommendViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomRequestViewModel: RoomRequestViewModel by viewModels()
     private var isLifestyleExist: Boolean = true
@@ -235,7 +235,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        roommateRecommendViewModel.fetchRoommateListByEquality()
+        cozyHomeViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
@@ -250,6 +250,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
+                Log.d(TAG, "왜 안뜨지? : $rmList")
                 binding.clRecommendRoommate.visibility = View.VISIBLE
                 binding.divider3.visibility = View.VISIBLE
                 updateRoommateUI(rmList)

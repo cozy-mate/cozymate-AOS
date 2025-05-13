@@ -35,7 +35,6 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     private var _binding: FragmentCozyHomeContentAfterMatchingBinding? = null
     private val binding get() = _binding!!
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
-    private val roommateRecommendViewModel: RoommateRecommendViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var isLifestyleExist: Boolean = true
     private lateinit var roomInfoData: RoomInfoEntity
@@ -163,7 +162,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
     }
 
     private fun fetchRoommateList() {
-        roommateRecommendViewModel.fetchRoommateListByEquality()
+        cozyHomeViewModel.fetchRoommateListByEquality()
     }
 
     private fun setRoommateList() {
