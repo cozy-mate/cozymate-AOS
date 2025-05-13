@@ -101,7 +101,7 @@ class RoleAndRuleFragment : Fragment() {
     }
 
     private fun checkRefresh() {
-        binding.refreshLayout.isRefreshing = todoFlag && roleFlag && ruleFlag
+        binding.refreshLayout.isRefreshing = todoFlag || roleFlag || ruleFlag
     }
 
     private fun changeTab(){
