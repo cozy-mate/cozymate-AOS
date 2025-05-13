@@ -44,4 +44,16 @@ interface FavoritesService {
         @Header("Authorization") accessToken: String,
         @Path("favoriteId") favoriteId: Int
     ) : Response<SendFavoritesResponse>
+
+    @DELETE("/favorites/members/{memberFavoriteId}")
+    suspend fun  deleteFavoritesMember(
+        @Header("Authorization") accessToken: String,
+        @Path("memberFavoriteId") memberFavoriteId: Int
+    ) : Response<SendFavoritesResponse>
+
+    @DELETE("/favorites/rooms/{roomFavoriteId}")
+    suspend fun deleteFavoritesRoom(
+        @Header("Authorization") accessToken: String,
+        @Path("roomFavoriteId") roomFavoriteId: Int
+    ) : Response<SendFavoritesResponse>
 }
