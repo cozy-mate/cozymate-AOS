@@ -9,7 +9,7 @@
 
     <FrameLayout
         android:id="@+id/fragment_update_room_info"
-        android:name="umc.cozymate.ui.my_page.UpdatePrivateRoomFragment"
+        android:name="umc.cozymate.ui.my_page.UpdatePublicRoomFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"

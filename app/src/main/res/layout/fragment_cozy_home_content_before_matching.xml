@@ -74,7 +74,7 @@
         android:layout_marginTop="24dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"
         app:shimmer_auto_start="true"
         app:shimmer_base_color="@color/gray"
         app:shimmer_direction="left_to_right"
@@ -165,6 +165,14 @@
                 app:layout_constraintTop_toBottomOf="@id/tv4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintStart_toStartOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_room_participant_request"
@@ -465,5 +473,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_ment2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
