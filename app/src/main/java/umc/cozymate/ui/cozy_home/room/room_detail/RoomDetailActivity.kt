@@ -65,6 +65,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private var managerMemberId: Int? = 0
     private var activeDialog: AlertDialog? = null // 현재 활성화된 다이얼로그 추적
     private var isFavorite: Boolean = false // 찜 상태를 추적하는 변수 추가
+    private var managerNickname : String? = null
 
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -102,7 +103,9 @@ class RoomDetailActivity : AppCompatActivity() {
 
         binding.ivChat.setOnClickListener {
             val intent: Intent = Intent(this, WriteMessageActivity::class.java)
+            Log.d(TAG,"managerNickname ${managerNickname}")
             intent.putExtra("recipientId", managerMemberId)
+            intent.putExtra("nickname",  managerNickname)
             startActivity(intent)
         }
     }
@@ -148,6 +151,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
                     managerMemberId = roomInfo.managerMemberId
+                    managerNickname = roomInfo.managerNickname
                     exitButton(roomInfo.roomId)
                     // 리사이클러 뷰 연결
                     rvRoomMemberList.apply {
@@ -308,7 +312,7 @@ class RoomDetailActivity : AppCompatActivity() {
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
             updateDifference(roomInfo.difference)
             managerMemberId = roomInfo.managerMemberId
-
+            managerNickname = roomInfo.managerNickname
             updateOtherRoomFab(roomInfo.roomId)
             // 초기 찜 상태 설정
             isFavorite = roomInfo.favoriteId != 0

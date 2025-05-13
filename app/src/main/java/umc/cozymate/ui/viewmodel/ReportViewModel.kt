@@ -24,8 +24,8 @@ class ReportViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
 
-    private val _postResponse = MutableLiveData<Response<DefaultResponse>>()
-    val postResponse: LiveData<Response<DefaultResponse>> get() = _postResponse
+    private val _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess: LiveData<Boolean> get() = _isSuccess
 
 
     private val reportReason = arrayListOf("OBSCENITY","INSULT","COMMERCIAL","OTHER")
@@ -43,7 +43,7 @@ class ReportViewModel @Inject constructor(
                 val response = repository.postReport(token!!, request)
                 if(response.isSuccessful){
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
-                    _postResponse.postValue(response)
+                    _isSuccess.postValue(response.isSuccessful)
                 }
                 else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
             } catch (e: Exception) {

@@ -37,11 +37,11 @@ class WithDrawActivity : AppCompatActivity() {
         setTextContent()
         setColor()
         getPreference()
-        setUpObserber()
+        setUpObserver()
         setClickListener()
     }
 
-    private fun setUpObserber() {
+    private fun setUpObserver() {
         viewModel.withdrawResponse.observe(this, Observer { response->
             if (response == null) return@Observer
             if(response.isSuccessful){

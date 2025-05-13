@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.view.marginStart
-import androidx.core.view.setMargins
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +16,9 @@ import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendRoommateVPViewHolder
 import umc.cozymate.util.fromDpToPx
 
-class RoommateRecommandRVAdapter(
+class RoommateRecommendRVAdapter(
     private val clickFilter: (List<String>) -> Unit
-) : ListAdapter<RoommateRecommandRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoommateRecommandRVAdapterDiffCallback) {
+) : ListAdapter<RoommateRecommendRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoommateRecommendRVAdapterDiffCallback) {
 
     companion object {
         private const val VIEW_TYPE_FIRST = 0
@@ -95,17 +92,17 @@ class RoommateRecommandRVAdapter(
     }
 
 // diffCallback을 별도로 뺀다
-object RoommateRecommandRVAdapterDiffCallback : DiffUtil.ItemCallback<RoommateRecommandRVAdapter.RecyclerItem>() {
+object RoommateRecommendRVAdapterDiffCallback : DiffUtil.ItemCallback<RoommateRecommendRVAdapter.RecyclerItem>() {
     override fun areItemsTheSame(
-        oldItem: RoommateRecommandRVAdapter.RecyclerItem,
-        newItem: RoommateRecommandRVAdapter.RecyclerItem
+        oldItem: RoommateRecommendRVAdapter.RecyclerItem,
+        newItem: RoommateRecommendRVAdapter.RecyclerItem
     ): Boolean {
         return oldItem == newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: RoommateRecommandRVAdapter.RecyclerItem,
-        newItem: RoommateRecommandRVAdapter.RecyclerItem
+        oldItem: RoommateRecommendRVAdapter.RecyclerItem,
+        newItem: RoommateRecommendRVAdapter.RecyclerItem
     ): Boolean {
         return oldItem == newItem
     }
