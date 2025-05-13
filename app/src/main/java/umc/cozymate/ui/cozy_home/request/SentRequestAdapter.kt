@@ -8,19 +8,21 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R
 import umc.cozymate.data.model.response.room.GetRequestedRoomListResponse
+import umc.cozymate.databinding.RvItemMySentRequestBinding
 
 class SentRequestAdapter(
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<SentRequestAdapter.RequestViewHolder>() {
     private var roomList: List<GetRequestedRoomListResponse.Result.RequestedRoom> = emptyList()
-    class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val hashtag1: TextView = itemView.findViewById(R.id.tv_hashtag1)
-        private val hashtag2: TextView = itemView.findViewById(R.id.tv_hashtag2)
-        private val hashtag3: TextView = itemView.findViewById(R.id.tv_hashtag3)
-        private val name: TextView = itemView.findViewById(R.id.tv_name)
-        private val arrivalNum: TextView = itemView.findViewById(R.id.tv_arrival_num)
-        private val equality: TextView = itemView.findViewById(R.id.tv_equality)
-        val divider: View = itemView.findViewById(R.id.view_divider)
+
+    class RequestViewHolder(private val binding: RvItemMySentRequestBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val hashtag1: TextView = binding.tvHashtag1
+        private val hashtag2: TextView = binding.tvHashtag2
+        private val hashtag3: TextView = binding.tvHashtag3
+        private val name: TextView = binding.tvName
+        private val arrivalNum: TextView = binding.tvArrivalNum
+        private val equality: TextView = binding.tvEquality
 
         fun bind(room: GetRequestedRoomListResponse.Result.RequestedRoom) {
             name.text = room.name
@@ -43,18 +45,21 @@ class SentRequestAdapter(
                     hashtag1.visibility = View.VISIBLE
                     hashtag1.text = "비공개방이에요"
                 }
+
                 1 -> {
                     if (room.hashtagList[0] != "") {
                         hashtag1.visibility = View.VISIBLE
                         hashtag1.text = "#${room.hashtagList.get(0)}"
                     }
                 }
+
                 2 -> {
                     hashtag1.visibility = View.VISIBLE
                     hashtag1.text = "#${room.hashtagList.get(0)}"
                     hashtag2.visibility = View.VISIBLE
                     hashtag2.text = "#${room.hashtagList.get(1)}"
                 }
+
                 3 -> {
                     hashtag1.visibility = View.VISIBLE
                     hashtag1.text = "#${room.hashtagList.get(0)}"
@@ -68,8 +73,11 @@ class SentRequestAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
-       val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_my_sent_request, parent, false)
-        return RequestViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RvItemMySentRequestBinding = RvItemMySentRequestBinding.inflate(
+            layoutInflater, parent, false
+        )
+        return RequestViewHolder(binding)
     }
 
     override fun getItemCount(): Int = roomList.size
@@ -77,8 +85,6 @@ class SentRequestAdapter(
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         val room = roomList[position]
         holder.bind(room)
-        // 마지막 아이템은 구분선 가리기
-        holder.divider.visibility = if (position == roomList.size - 1) View.GONE else View.VISIBLE
         // 아이템 클릭 시 roomId를 콜백으로 전달
         holder.itemView.setOnClickListener {
             onItemClick(room.roomId)
