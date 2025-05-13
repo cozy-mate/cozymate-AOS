@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.data.model.entity.RoleData
@@ -24,17 +25,24 @@ import umc.cozymate.util.BottomSheetAction.EDIT
 import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
-class RoleAndRuleTabFragment: Fragment() {
+class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentRoleAndRuleTabBinding
     lateinit var spf : SharedPreferences
     private var rules : List<RuleData> = emptyList()
     private var roles : List<RoleData> = emptyList()
-    private val ruleViewModel : RuleViewModel by viewModels()
-    private val roleViewModel : RoleViewModel by viewModels()
+    private val ruleViewModel : RuleViewModel by lazy {
+        ViewModelProvider(requireParentFragment())[RuleViewModel::class.java]
+    }
+    private val roleViewModel : RoleViewModel by lazy {
+        ViewModelProvider(requireParentFragment())[RoleViewModel::class.java]
+    }
     private var roomId : Int = 0
     private var roomName : String = ""
-    
+
+    override fun refreshData() {
+        initData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -207,6 +215,8 @@ class RoleAndRuleTabFragment: Fragment() {
         })
         dialog.show(requireActivity().supportFragmentManager,"delete Todo")
     }
+
+
 
 }
 

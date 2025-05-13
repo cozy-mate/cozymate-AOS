@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -36,12 +37,10 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @AndroidEntryPoint
-class TodoTabFragment : Fragment() {
+class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentTodoTabBinding
     private var mytodo : List<TodoItem> = emptyList()
-    private val viewModel: TodoViewModel by viewModels()
-    private val roleViewModel : RoleViewModel by viewModels()
     private var memberList : Map<String, TodoData> =  emptyMap()
     private var roomId : Int = 0
     private var nickname : String = ""
@@ -51,6 +50,15 @@ class TodoTabFragment : Fragment() {
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
 
+    private val viewModel: TodoViewModel by lazy {
+        ViewModelProvider(requireParentFragment())[TodoViewModel::class.java]
+    }
+    private val roleViewModel : RoleViewModel by lazy {
+        ViewModelProvider(requireParentFragment())[RoleViewModel::class.java]
+    }
+    override fun refreshData() {
+        initData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,6 +76,9 @@ class TodoTabFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        initData()
+    }
+    private fun initData(){
         roleViewModel.getRole(roomId)
         viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
     }
