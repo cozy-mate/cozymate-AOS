@@ -109,7 +109,7 @@ class FavoriteViewModel @Inject constructor(
                     }
                 } else {
                     // 찜 해제 요청
-                    val response = repo.deleteFavoritesRoomMember(token, favoriteId)
+                    val response = repo.deleteFavoritesRoom(token, favoriteId)
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
                         Log.d(TAG, "방 찜 해제 성공: ${response.body()?.message}")
                         _roomFavoriteState.postValue(false)
@@ -150,7 +150,7 @@ class FavoriteViewModel @Inject constructor(
                     }
                 } else {
                     // 찜 해제 요청
-                    val response = repo.deleteFavoritesRoomMember(token, favoriteId)
+                    val response = repo.deleteFavoritesMember(token, favoriteId)
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
                         Log.d(TAG, "룸메이트 찜 해제 성공: ${response.body()?.message}")
                         _memberFavoriteState.postValue(false)
@@ -161,28 +161,6 @@ class FavoriteViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 onError("룸메 API 호출 중 예외 발생: $e")
-            }
-        }
-    }
-
-    fun deleteFavoriteRoomMember(id: Int, isRoom: Boolean) {
-        val token = getToken()!!
-        Log.d(TAG, "찜하기 취소 : ${id}")
-        viewModelScope.launch {
-            try {
-                val response = repo.deleteFavoritesRoomMember(token, id)
-                if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    Log.d(TAG, "찜하기 취소 성공 : ${response.body()?.result}")
-                    if (isRoom) {
-                        _roomFavoriteState.value = false
-                    } else {
-                        _memberFavoriteState.value = false
-                    }
-                } else {
-                    Log.e(TAG, "API 응답 실패: ${response.errorBody()?.string()}")
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "API 호출 중 예외 발생: $e")
             }
         }
     }
