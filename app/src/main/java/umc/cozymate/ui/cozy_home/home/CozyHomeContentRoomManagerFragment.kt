@@ -3,9 +3,13 @@ package umc.cozymate.ui.cozy_home.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +19,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import umc.cozymate.R
 import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -186,6 +191,12 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 binding.clEmptyRequest.visibility = View.GONE
                 adapter.submitList(roomList)
             } else if (response != null || response?.result?.isEmpty() == true) {
+                binding.tvRequestNum.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.color_font
+                    )
+                )
                 binding.tvRequestNum.text = "0개의"
                 binding.btnMoreRequest.visibility = View.GONE
                 binding.clEmptyRequest.visibility = View.VISIBLE
@@ -234,27 +245,27 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
-            binding.clRecommendRoommate.visibility = View.VISIBLE
-            binding.divider3.visibility= View.VISIBLE
-            updateRoommateUI(rmList)
+            if (rmList.isNullOrEmpty()) {
+                binding.vpRoommate.visibility = View.GONE
+                binding.dotsIndicator1.visibility = View.GONE
+                binding.tvEmptyRoommate.visibility = View.VISIBLE
+            } else {
+                binding.clRecommendRoommate.visibility = View.VISIBLE
+                binding.divider3.visibility = View.VISIBLE
+                updateRoommateUI(rmList)
+            }
         }
     }
 
     private fun updateRoommateUI(rmList: List<RecommendedMemberInfo>) {
-        if (rmList.isNullOrEmpty()) {
-            binding.vpRoommate.visibility = View.GONE
-            binding.dotsIndicator1.visibility = View.GONE
-            binding.tvEmptyRoommate.visibility = View.VISIBLE
-        } else {
-            val adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
-                roommateDetailViewModel.getOtherUserDetailInfo(memberId)
-            }
-            binding.vpRoommate.adapter = adapter
-            binding.dotsIndicator1.attachTo(binding.vpRoommate)
-            binding.vpRoommate.visibility = View.VISIBLE
-            binding.dotsIndicator1.visibility = View.VISIBLE
-            binding.tvEmptyRoommate.visibility = View.GONE
+        val adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
+            roommateDetailViewModel.getOtherUserDetailInfo(memberId)
         }
+        binding.vpRoommate.adapter = adapter
+        binding.dotsIndicator1.attachTo(binding.vpRoommate)
+        binding.vpRoommate.visibility = View.VISIBLE
+        binding.dotsIndicator1.visibility = View.VISIBLE
+        binding.tvEmptyRoommate.visibility = View.GONE
     }
 
     private fun goToRoommateDetail(otherUserDetail: GetMemberDetailInfoResponse.Result) {

@@ -119,7 +119,7 @@ class CozyHomeViewModel @Inject constructor(
                     )
                     if (response.isSuccessful) {
                         if (response.body()?.isSuccess == true) {
-                            Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
+                            Log.d(TAG, "일치율순 추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
                             _roommateListByEquality.value = response.body()!!.result.memberList
                         } else {
                             _roommateListByEquality.value = emptyList()
