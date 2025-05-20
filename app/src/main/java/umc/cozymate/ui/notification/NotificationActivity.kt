@@ -36,18 +36,21 @@ class NotificationActivity : AppCompatActivity() {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
+        binding.refreshLayout.isRefreshing = true
         setupObservers()
         setonRefreshListener()
         binding.ivBack.setOnClickListener {
             finish()
         }
         fetchData()
+        binding.refreshLayout.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
         binding.refreshLayout.isRefreshing = true
         fetchData()
+        binding.refreshLayout.isRefreshing = false
     }
 
     private fun setupObservers() {
@@ -133,7 +136,6 @@ class NotificationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             notificationViewModel.notifications.collectLatest { data ->
                 notificationAdapter.submitData(data)
-                binding.refreshLayout.isRefreshing = false
             }
         }
 
