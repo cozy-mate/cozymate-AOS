@@ -160,6 +160,9 @@ class UniversityCertificationFragment : Fragment() {
                             email = binding.etUniversityEmail.text.toString()
                         } else {
                             binding.tvAlertEmail.visibility = View.VISIBLE
+                            binding.tvAlertEmail.post {
+                                binding.scrollView.smoothScrollTo(0, binding.tvAlertEmail.bottom)
+                            }
                             binding.btnSendVerifyCode.isEnabled = false
                         }
                     }
@@ -247,6 +250,11 @@ class UniversityCertificationFragment : Fragment() {
                 val intent = Intent(requireContext(), OnboardingActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
+            } else {
+                binding.tvAlertCode.visibility = View.VISIBLE
+                binding.tvAlertCode.post {
+                    binding.scrollView.smoothScrollTo(0, binding.tvAlertCode.bottom)
+                }
             }
         }
         viewModel.loading2.observe(viewLifecycleOwner) { isLoading ->

@@ -237,6 +237,9 @@ class MakingPublicRoomFragment : Fragment() {
                     binding.tilRoomHashtag.isErrorEnabled = false
                 } else if (invalidLength) {
                     binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.post {
+                        binding.scrollView.smoothScrollTo(0, binding.tvAlertHashtag.bottom)
+                    }
                     binding.tvAlertHashtag.text = "해시태그는 최대 5글자 입력 가능해요!"
                     binding.tilRoomHashtag.isErrorEnabled = true
                 }
@@ -256,6 +259,9 @@ class MakingPublicRoomFragment : Fragment() {
                     binding.tilRoomHashtag.isErrorEnabled = false
                 } else if (hashtags.size >= 3) {
                     binding.tvAlertHashtag.visibility = View.VISIBLE
+                    binding.tvAlertHashtag.post {
+                        binding.scrollView.smoothScrollTo(0, binding.tvAlertHashtag.bottom)
+                    }
                     binding.tvAlertHashtag.text = "최대 3개의 해시태그만 추가할 수 있어요!"
                     binding.tilRoomHashtag.isErrorEnabled = true
                 }

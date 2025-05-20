@@ -6,8 +6,10 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -295,8 +297,7 @@
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/color_font"
                         android:textColorHint="@color/unuse_font"
-                        android:textCursorDrawable="@android:color/transparent"
-                        />
+                        android:textCursorDrawable="@android:color/transparent" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -361,7 +362,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="350dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_cozy_room_hashtag" />
