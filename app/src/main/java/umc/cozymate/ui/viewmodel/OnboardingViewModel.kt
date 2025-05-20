@@ -182,6 +182,13 @@ class OnboardingViewModel @Inject constructor(
             val editor = sharedPreferences.edit()
             editor.putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken)
             editor.putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken)
+            editor.putString("user_university_name", _memberInfo.value!!.universityName)
+            editor.putInt("user_university_id", _memberInfo.value!!.universityId)
+            editor.putString("user_nickname", _memberInfo.value!!.nickname)
+            editor.putInt("user_persona", _memberInfo.value!!.persona)
+            editor.putString("user_gender", _memberInfo.value!!.gender)
+            editor.putString("user_birthday", _memberInfo.value!!.birthday)
+            Log.d(TAG, "회원가입 후 사용자정보 토큰 저장: ${_tokenInfo.value!!.accessToken}")
             editor.commit()
         }
     }

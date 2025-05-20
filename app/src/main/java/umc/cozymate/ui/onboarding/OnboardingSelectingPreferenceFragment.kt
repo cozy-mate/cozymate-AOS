@@ -3,6 +3,8 @@ package umc.cozymate.ui.onboarding
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,9 +128,10 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         viewModel.signUpResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response != null) {
                 viewModel.saveToken() // 찐 토큰 발급
-                viewModel.saveUserInfo()
-                Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
-                goToSummaryFragment()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    Toast.makeText(requireContext(), "회원가입 성공", Toast.LENGTH_SHORT).show()
+                    goToSummaryFragment()
+                }, 300)
             } else {
                 Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
             }

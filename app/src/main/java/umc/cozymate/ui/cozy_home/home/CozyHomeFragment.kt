@@ -101,8 +101,9 @@ class CozyHomeFragment : Fragment() {
     private fun setName() {
         splashViewmodel.memberCheck()
         val nickname = viewModel.getNickname().toString()
+        val univName = viewModel.getUnivName().toString()
         binding.btnLifestyle.text = "${nickname}님, 라이프스타일을 입력하고\n나와 꼭 맞는 룸메이트를 찾아볼까요?"
-        binding.tvUnivName.text = viewModel.getUnivName().toString()
+        binding.tvUnivName.text = univName
         binding.tvUnivName.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
     }
 
@@ -129,6 +130,20 @@ class CozyHomeFragment : Fragment() {
         if (!isLifestyleExist) {
             binding.btnLifestyle.visibility = View.VISIBLE
             binding.btnLifestyle.isEnabled = true
+            binding.btnMakeRoom.isEnabled = false
+            binding.btnEnterRoom.isEnabled = false
+            binding.btnMakeRoom.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.unuse_font
+                )
+            )
+            binding.btnEnterRoom.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.unuse_font
+                )
+            )
             binding.btnLifestyle.setOnClickListener() {
                 val intent = Intent(requireContext(), RoommateOnboardingActivity::class.java)
                 startActivity(intent)
@@ -176,7 +191,7 @@ class CozyHomeFragment : Fragment() {
             }
         }
         roomId = spf.getInt("room_id", 0)
-        if (roomId == 0 || roomId == -1) {
+        if ((roomId == 0 || roomId == -1) && isLifestyleExist) {
             isRoomExist = false
             binding.btnMakeRoom.isEnabled = true
             binding.btnEnterRoom.isEnabled = true
