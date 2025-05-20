@@ -45,181 +45,177 @@
             android:background="#F6F6F6"
             app:layout_constraintTop_toBottomOf="@id/tv_room_name" />
 
-        <!-- 방 선택 기준1 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_criteria_1"
-            android:layout_width="64dp"
+        <LinearLayout
+            android:id="@+id/ll_preference"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
-            app:layout_constraintEnd_toStartOf="@id/cl_criteria_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/v_divider">
-
-            <ImageView
-                android:id="@+id/iv_criteria_icon_1"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_wake_up_time_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_criteria_1"
-                android:layout_width="wrap_content"
+            <!-- 방 선택 기준1 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_criteria_1"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="기상시간"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_1" />
+                android:layout_weight="1"
+                android:layout_marginStart="16dp">
 
-            <TextView
-                android:id="@+id/tv_criteria_content_1"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_criteria_icon_1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_wake_up_time_blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_criteria_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="기상시간"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_criteria_icon_1" />
+
+                <TextView
+                    android:id="@+id/tv_criteria_content_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모두 일치"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_criteria_1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 방 선택 기준2 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_criteria_2"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:text="모두 일치"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/basic_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_criteria_1" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_weight="1">
 
-        <!-- 방 선택 기준2 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_criteria_2"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
-            app:layout_constraintEnd_toStartOf="@id/cl_criteria_3"
-            app:layout_constraintStart_toEndOf="@id/cl_criteria_1"
-            app:layout_constraintTop_toTopOf="@id/cl_criteria_1">
+                <ImageView
+                    android:id="@+id/iv_crieteria_icon_2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_turn_off_time_blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_crieteria_icon_2"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_turn_off_time_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_criteria_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="취침시간"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_2" />
 
-            <TextView
-                android:id="@+id/tv_criteria_2"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_criteria_content_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2명 일치"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_criteria_2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 방 선택 기준3 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_criteria_3"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="취침시간"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_2" />
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/tv_criteria_content_2"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_crieteria_icon_3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_noise_sensitivity_red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_criteria_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="기상시간"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_3" />
+
+                <TextView
+                    android:id="@+id/tv_criteria_content_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1명 일치"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_criteria_3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 방 선택 기준4 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_criteria_4"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:text="2명 일치"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/basic_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_criteria_2" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1">
 
-        <!-- 방 선택 기준3 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_criteria_3"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
-            app:layout_constraintEnd_toStartOf="@id/cl_criteria_4"
-            app:layout_constraintStart_toEndOf="@id/cl_criteria_2"
-            app:layout_constraintTop_toTopOf="@id/cl_criteria_2">
+                <ImageView
+                    android:id="@+id/iv_crieteria_icon_4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_clean_sensitivity_blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_crieteria_icon_3"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_noise_sensitivity_red"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_criteria_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="청결예민도"
+                    android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+                    android:textColor="@color/unuse_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_4" />
 
-            <TextView
-                android:id="@+id/tv_criteria_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="기상시간"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_3" />
-
-            <TextView
-                android:id="@+id/tv_criteria_content_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1명 일치"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/basic_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_criteria_3" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- 방 선택 기준4 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_criteria_4"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/cl_criteria_1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cl_criteria_3"
-            app:layout_constraintTop_toTopOf="@id/cl_criteria_3">
-
-            <ImageView
-                android:id="@+id/iv_crieteria_icon_4"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_clean_sensitivity_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_criteria_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="청결예민도"
-                android:textAppearance="@style/TextAppearance.App.12sp.Medium"
-                android:textColor="@color/unuse_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_crieteria_icon_4" />
-
-            <TextView
-                android:id="@+id/tv_criteria_content_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2명 일치"
-                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-                android:textColor="@color/basic_font"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_criteria_4" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_criteria_content_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2명 일치"
+                    android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                    android:textColor="@color/basic_font"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_criteria_4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <!-- 해시태그 리스트 -->
         <TextView
@@ -235,8 +231,8 @@
             android:text="#히로아카"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/color_font"
-            app:layout_constraintTop_toBottomOf="@+id/cl_criteria_1"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_preference" />
 
         <TextView
             android:id="@+id/tv_hashtag_2"
@@ -284,6 +280,6 @@
             android:layout_width="0dp"
             android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hashtag_1"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_hashtag_1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
