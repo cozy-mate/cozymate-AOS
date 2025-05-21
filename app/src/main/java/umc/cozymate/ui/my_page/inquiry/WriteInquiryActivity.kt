@@ -50,10 +50,11 @@ class WriteInquiryActivity: AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-            else{
-                // 메시지 조정 필요
-                Toast.makeText(this, "이메일 형식을 확인해 주세요", Toast.LENGTH_SHORT).show()
-            }
+        })
+        viewModel.errorType.observe (this, Observer{
+            if(it == null) return@Observer
+            val message = if (it == 0) "이메일 형식이 올바르지 않아요" else "네트워크 연결 상태를 확인해주세요"
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
     }
 
