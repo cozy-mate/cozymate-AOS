@@ -10,9 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.RoleRequest
-import umc.cozymate.data.model.response.ruleandrole.CreateResponse
 import umc.cozymate.data.model.response.ruleandrole.RoleResponse
 import umc.cozymate.data.repository.repository.RoleRepository
 import javax.inject.Inject

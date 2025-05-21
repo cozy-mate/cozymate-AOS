@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.model.entity.TodoData
@@ -28,11 +26,11 @@ class TodoViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _myTodo = MutableStateFlow<List<TodoItem>>(emptyList())
-    val mytodo : StateFlow<List<TodoItem>> = _myTodo
+    private val _myTodo = MutableLiveData<List<TodoItem>>()
+    val mytodo : LiveData<List<TodoItem>> get() = _myTodo
 
-    private val _memberTodoList = MutableStateFlow<Map<String, TodoData>> (emptyMap())
-    val memberTodoList : StateFlow<Map<String, TodoData>> = _memberTodoList
+    private val _memberTodoList = MutableLiveData<Map<String, TodoData>> ()
+    val memberTodoList : LiveData<Map<String, TodoData>>  get() = _memberTodoList
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -56,7 +54,6 @@ class TodoViewModel @Inject constructor(
                     Log.d(TAG," getTodo 응답 성공: ${response.body()!!.result}")
                     _myTodo.value = response.body()!!.result.myTodoList.todoList
                     _memberTodoList.value = response.body()!!.result.mateTodoList
-                    Log.d(TAG, "todi ${_myTodo.value}")
                 }
                 else Log.d(TAG," getTodo 응답 실패: ${response.body()!!.result}")
 

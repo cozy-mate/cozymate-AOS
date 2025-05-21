@@ -16,6 +16,7 @@ import umc.cozymate.ui.message.MessageDetailActivity.Companion.ITEM_SIZE
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.RuleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -34,6 +35,11 @@ class RoleAndRuleFragment : Fragment() {
     private var todoFlag : Boolean = false
     private var roleFlag : Boolean = false
     private var ruleFlag : Boolean = false
+
+    companion object {
+         var selectedDate= LocalDate.now()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,7 +87,7 @@ class RoleAndRuleFragment : Fragment() {
 
     private fun initData(){
         roleViewModel.getRole(roomId)
-        todoViewModel.getTodo(roomId, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE))
+        todoViewModel.getTodo(roomId, selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         ruleViewModel.getRule(roomId)
     }
 
@@ -124,9 +130,6 @@ class RoleAndRuleFragment : Fragment() {
         binding.vpRoleAndRule.setCurrentItem(idx,false)
     }
 
-//    interface Refreshable {
-//        fun refreshData()
-//    }
 
 }
 

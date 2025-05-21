@@ -8,15 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
@@ -109,17 +104,8 @@ class RoleAndRuleTabFragment: Fragment() {
             updateRole()
         })
 
-        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
-            isLoading()
-        })
-        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
-            isLoading()
-        })
     }
 
-    private fun isLoading(){
-        binding.progressBar.visibility =  if (roleViewModel.isLoading.value == true || ruleViewModel.isLoading.value == true ) View.VISIBLE else View.GONE
-    }
 
     private fun initData(){
         if (view == null) return
