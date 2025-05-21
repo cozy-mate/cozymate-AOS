@@ -9,10 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
@@ -25,7 +29,7 @@ import umc.cozymate.util.BottomSheetAction.EDIT
 import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
-class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
+class RoleAndRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentRoleAndRuleTabBinding
     lateinit var spf : SharedPreferences
@@ -40,9 +44,6 @@ class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
     private var roomId : Int = 0
     private var roomName : String = ""
 
-    override fun refreshData() {
-        initData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,9 +65,10 @@ class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
         setupObservers() // 옵저버 설정
     }
 
+
     override fun onResume() {
         super.onResume()
-        initData()
+        //initData()
     }
 
     private fun setMinHight() {

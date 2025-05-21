@@ -10,13 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.TodoData
@@ -37,7 +41,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @AndroidEntryPoint
-class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
+class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentTodoTabBinding
     private var mytodo : List<TodoItem> = emptyList()
@@ -56,9 +60,7 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
     private val roleViewModel : RoleViewModel by lazy {
         ViewModelProvider(requireParentFragment())[RoleViewModel::class.java]
     }
-    override fun refreshData() {
-        initData()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +78,7 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
 
     override fun onResume() {
         super.onResume()
-        initData()
+        //initData()
     }
     private fun initData(){
         roleViewModel.getRole(roomId)

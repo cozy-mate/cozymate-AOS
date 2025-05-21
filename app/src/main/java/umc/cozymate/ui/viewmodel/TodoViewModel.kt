@@ -8,8 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import umc.cozymate.data.model.entity.TodoData
+import umc.cozymate.data.model.entity.TodoData.TodoItem
 import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.ruleandrole.TodoResponse
 import umc.cozymate.data.repository.repository.TodoRepository
@@ -24,8 +28,11 @@ class TodoViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _todoResponse = MutableLiveData<Response<TodoResponse>>()
-    val todoResponse: LiveData<Response<TodoResponse>> get() = _todoResponse
+    private val _myTodo = MutableStateFlow<List<TodoItem>>(emptyList())
+    val mytodo : StateFlow<List<TodoItem>> = _myTodo
+
+    private val _memberTodoList = MutableStateFlow<Map<String, TodoData>> (emptyMap())
+    val memberTodoList : StateFlow<Map<String, TodoData>> = _memberTodoList
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -47,7 +54,9 @@ class TodoViewModel @Inject constructor(
                 val response = repository.getTodo(token, roomId, timePoint)
                 if(response.isSuccessful){
                     Log.d(TAG," getTodo 응답 성공: ${response.body()!!.result}")
-                    _todoResponse.postValue(response)
+                    _myTodo.value = response.body()!!.result.myTodoList.todoList
+                    _memberTodoList.value = response.body()!!.result.mateTodoList
+                    Log.d(TAG, "todi ${_myTodo.value}")
                 }
                 else Log.d(TAG," getTodo 응답 실패: ${response.body()!!.result}")
 
