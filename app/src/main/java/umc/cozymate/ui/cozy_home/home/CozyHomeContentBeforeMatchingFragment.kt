@@ -140,13 +140,13 @@ class CozyHomeContentBeforeMatchingFragment : Fragment() {
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
+            binding.clRecommendRoommate.visibility = View.VISIBLE
+            binding.divider3.visibility = View.VISIBLE
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
-                binding.clRecommendRoommate.visibility = View.VISIBLE
-                binding.divider3.visibility = View.VISIBLE
                 binding.vpRoommate.visibility = View.VISIBLE
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE

@@ -6,8 +6,10 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -175,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
+                        android:paddingBottom="40dp"
                         android:background="@null"
                         android:hint="이메일을 입력해주세요"
                         android:imeOptions="actionDone"
@@ -227,7 +230,7 @@
                 android:text="이메일을 다시 확인해주세요!"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/red"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/cl_email_input"
                 app:layout_constraintTop_toBottomOf="@id/cl_email_input" />
@@ -280,6 +283,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
+                        android:paddingBottom="40dp"
                         android:background="@null"
                         android:hint="인증번호를 입력해주세요"
                         android:padding="0dp"
@@ -331,7 +335,7 @@
                 android:text="인증번호를 다시 확인해주세요!"
                 android:textAppearance="@style/TextAppearance.App.12sp.Medium"
                 android:textColor="@color/red"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/cl_verify"
                 app:layout_constraintTop_toBottomOf="@id/cl_verify" />
@@ -340,7 +344,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_verify" />

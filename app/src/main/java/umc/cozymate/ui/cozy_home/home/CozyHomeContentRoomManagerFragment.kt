@@ -245,14 +245,14 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.roommateListByEquality.observe(viewLifecycleOwner) { rmList ->
+            binding.clRecommendRoommate.visibility = View.VISIBLE
+            binding.divider3.visibility = View.VISIBLE
             if (rmList.isNullOrEmpty()) {
                 binding.vpRoommate.visibility = View.GONE
                 binding.dotsIndicator1.visibility = View.GONE
                 binding.tvEmptyRoommate.visibility = View.VISIBLE
             } else {
                 Log.d(TAG, "왜 안뜨지? : $rmList")
-                binding.clRecommendRoommate.visibility = View.VISIBLE
-                binding.divider3.visibility = View.VISIBLE
                 updateRoommateUI(rmList)
             }
         }
