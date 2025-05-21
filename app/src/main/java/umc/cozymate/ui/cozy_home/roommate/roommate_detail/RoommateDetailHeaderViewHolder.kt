@@ -16,7 +16,7 @@ import umc.cozymate.util.fromDpToPx
 
 class RoommateDetailHeaderViewHolder(
     private val binding: RvItemRoomateDetailHeaderBinding,
-    private val clickFilter: (List<String>) -> Unit
+    private val itemClick: RoommateRecommendRVAdapter.clickListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val  selectedChips = mutableListOf<String>()
     private var chips  = mutableListOf<CheckBox>()
@@ -62,7 +62,7 @@ class RoommateDetailHeaderViewHolder(
                 else if(!selectedChips.contains(filter)) selectedChips.add(filter)
 
                 // 현재 선택된 필터 값(String) 만 전달
-                clickFilter(selectedChips)
+                itemClick.clickFilter(selectedChips)
             }
             chips.add(chip)
             binding.chips.addView(chip)

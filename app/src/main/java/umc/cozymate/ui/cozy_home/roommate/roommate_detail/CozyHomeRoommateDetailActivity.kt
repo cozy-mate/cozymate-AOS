@@ -68,7 +68,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         else viewModel.fetchRecommendedRoommateList()
 
 
-
     }
 
     private fun clearPage() {
@@ -82,16 +81,23 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommendRVAdapter{ list ->
-            memberList.clear()
-            if (isLifestyleExist){
-                page = 0
-                filterList = list
-                viewModel.fetchRoommateListByEquality(filterList,page++)
+        adapter = RoommateRecommendRVAdapter(object : RoommateRecommendRVAdapter.clickListener{
+            override fun clickFilter(list: List<String>) {
+                memberList.clear()
+                if (isLifestyleExist){
+                    page = 0
+                    filterList = list
+                    viewModel.fetchRoommateListByEquality(filterList,page++)
+                }
+                else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
+                else submitRecyclerItems()
             }
-            else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
-            else submitRecyclerItems()
-        }
+
+            override fun moveDetailView(memberId : Int) {
+                detailViewModel.getOtherUserDetailInfo(memberId)
+            }
+
+        })
 
         binding.rvContent.adapter = adapter
         binding.rvContent.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
