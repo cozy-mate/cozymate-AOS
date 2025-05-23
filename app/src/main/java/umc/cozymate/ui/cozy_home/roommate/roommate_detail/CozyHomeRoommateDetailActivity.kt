@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -68,7 +69,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         else viewModel.fetchRecommendedRoommateList()
 
 
-
     }
 
     private fun clearPage() {
@@ -82,16 +82,24 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommendRVAdapter{ list ->
-            memberList.clear()
-            if (isLifestyleExist){
-                page = 0
-                filterList = list
-                viewModel.fetchRoommateListByEquality(filterList,page++)
+        adapter = RoommateRecommendRVAdapter(object : RoommateRecommendRVAdapter.clickListener{
+            override fun clickFilter(list: List<String>) {
+                memberList.clear()
+                if (isLifestyleExist){
+                    page = 0
+                    filterList = list
+                    viewModel.fetchRoommateListByEquality(filterList,page++)
+                }
+                else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
+                else submitRecyclerItems()
             }
-            else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
-            else submitRecyclerItems()
-        }
+
+            override fun moveDetailView(memberId : Int) {
+                if(memberId > 0) detailViewModel.getOtherUserDetailInfo(memberId)
+                else Log.d(TAG, "member Id error ${memberId}")
+            }
+
+        })
 
         binding.rvContent.adapter = adapter
         binding.rvContent.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)

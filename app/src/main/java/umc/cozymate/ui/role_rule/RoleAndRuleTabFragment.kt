@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +24,7 @@ import umc.cozymate.util.BottomSheetAction.EDIT
 import umc.cozymate.util.showEnumBottomSheet
 
 @AndroidEntryPoint
-class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
+class RoleAndRuleTabFragment: Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentRoleAndRuleTabBinding
     lateinit var spf : SharedPreferences
@@ -40,9 +39,6 @@ class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
     private var roomId : Int = 0
     private var roomName : String = ""
 
-    override fun refreshData() {
-        initData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,9 +60,10 @@ class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
         setupObservers() // 옵저버 설정
     }
 
+
     override fun onResume() {
         super.onResume()
-        initData()
+        //initData()
     }
 
     private fun setMinHight() {
@@ -107,17 +104,8 @@ class RoleAndRuleTabFragment: Fragment(), RoleAndRuleFragment.Refreshable {
             updateRole()
         })
 
-        roleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
-            isLoading()
-        })
-        ruleViewModel.isLoading.observe(viewLifecycleOwner, Observer { _ ->
-            isLoading()
-        })
     }
 
-    private fun isLoading(){
-        binding.progressBar.visibility =  if (roleViewModel.isLoading.value == true || ruleViewModel.isLoading.value == true ) View.VISIBLE else View.GONE
-    }
 
     private fun initData(){
         if (view == null) return
