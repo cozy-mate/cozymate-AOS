@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -94,7 +95,8 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             }
 
             override fun moveDetailView(memberId : Int) {
-                detailViewModel.getOtherUserDetailInfo(memberId)
+                if(memberId > 0) detailViewModel.getOtherUserDetailInfo(memberId)
+                else Log.d(TAG, "member Id error ${memberId}")
             }
 
         })

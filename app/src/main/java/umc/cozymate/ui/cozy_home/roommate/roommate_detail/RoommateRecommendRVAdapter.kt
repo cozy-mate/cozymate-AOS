@@ -79,11 +79,11 @@ class RoommateRecommendRVAdapter(
         when (val item = getItem(position)) {
             is RecyclerItem.FirstTypeItem -> (holder as RoommateDetailHeaderViewHolder).bind()
             is RecyclerItem.SecondTypeItem -> {
-                (holder as RecommendRoommateVPViewHolder).bind(item.data)
-                (holder as RecommendRoommateVPViewHolder).itemView.setOnClickListener {
+                val viewHolder = holder as RecommendRoommateVPViewHolder
+                viewHolder .bind(item.data)
+                viewHolder .itemView.setOnClickListener {
                     itemClick.moveDetailView(item.data.memberDetail.memberId)
                 }
-                Log.d("test" , "body 생성 ${item.data} ")
             }
             is RecyclerItem.ThirdTypeItem ->{
                 (holder as LifeStyleGuideViewHolder).bind(item.name) }

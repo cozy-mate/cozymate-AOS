@@ -38,7 +38,6 @@ class RoommateRecommendViewModel @Inject constructor(
             _isLoading.value = true
             try {
                 val response = repository.getRecommendedRoommateList(accessToken = token!!)
-                Log.d(TAG,"룸메 추천 ${response}")
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
@@ -64,7 +63,6 @@ class RoommateRecommendViewModel @Inject constructor(
             _isLoading.value = true
             try {
                 val response = repository.getRoommateListByEquality(accessToken = token!!, page=page, filter)
-                Log.d(TAG,"룸메 추천 ${response}")
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")
