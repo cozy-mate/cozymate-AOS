@@ -51,8 +51,8 @@ class OnboardingSummaryFragment : Fragment() {
 
         // GA 이벤트 로그 추가
         AnalyticsEventLogger.logEvent(
-            eventName = AnalyticsConstants.Event.ONBOARDING1_SESSION_TIME,
-            category = AnalyticsConstants.Category.ONBOARDING1,
+            eventName = AnalyticsConstants.Event.ONBOARDING5_SESSION_TIME,
+            category = AnalyticsConstants.Category.ONBOARDING5,
             action = AnalyticsConstants.Action.SESSION_TIME,
             label = null,
             duration = sessionDuration
@@ -94,6 +94,14 @@ class OnboardingSummaryFragment : Fragment() {
 
     private fun setNextBtn() {
         binding.btnNext.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_OKAY,
+                category = AnalyticsConstants.Category.ONBOARDING5,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.OKAY
+            )
+
             val intent = Intent(requireActivity(), MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)

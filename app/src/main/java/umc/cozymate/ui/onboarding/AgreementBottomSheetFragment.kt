@@ -108,6 +108,14 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
                     btnNext.isEnabled = true
                     checkedAll = true
                 }
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_AGREE_ALL,
+                    category = AnalyticsConstants.Category.ONBOARDING4,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.AGREE_ALL
+                )
             }
             btnNext.setOnClickListener() {
                 if (btnCheckAll.isSelected) {
