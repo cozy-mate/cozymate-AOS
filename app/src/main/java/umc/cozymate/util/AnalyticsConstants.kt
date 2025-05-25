@@ -41,6 +41,7 @@ class AnalyticsConstants {
     }
 
     object Label {
+        // 온보딩
         const val AGREE_1 = "agree_1"
         const val AGREE_2 = "agree_2"
         const val AGREE_ALL = "agree_all"
@@ -74,6 +75,22 @@ class AnalyticsConstants {
         const val STUDENT_ID = "student_id"
         const val STUDY = "study"
         const val UNIV = "univ"
+
+        // 코지홈
+        const val CHAT = "chat"
+        const val JOIN_ROOM = "join_room"
+        const val LIFE_STYLE = "life_style"
+        const val MAKE_ROOM = "make_room"
+        const val MATE_COMPONENT = "mate_component"
+        const val MATE_MORE = "mate_more"
+        const val MATE_SWIPE = "mate_swipe"
+        const val MY_ROOM = "my_room"
+        const val NOTICE = "notice"
+        const val REQUEST_COMPONENT = "request_component"
+        const val REQUEST_MORE = "request_more"
+        const val ROOM_COMPONENT = "room_component"
+        const val ROOM_MORE = "room_more"
+        const val ROOM_SWIPE = "room_swipe"
     }
 
     object Event {
@@ -122,6 +139,22 @@ class AnalyticsConstants {
         const val ONBOARDING4_SESSION_TIME = "onboarding4_session_time"
 
         const val ONBOARDING5_SESSION_TIME = "onboarding5_session_time"
+
+        const val BUTTON_CLICK_CHAT = "button_click_chat"
+        const val BUTTON_CLICK_NOTICE = "button_click_notice"
+        const val BUTTON_CLICK_LIFE_STYLE = "button_click_life_style"
+        const val BUTTON_CLICK_MAKE_ROOM = "button_click_make_room"
+        const val BUTTON_CLICK_JOIN_ROOM = "button_click_join_room"
+        const val BUTTON_CLICK_MATE_MORE = "button_click_mate_more"
+        const val BUTTON_CLICK_MATE_COMPONENT = "button_click_mate_component"
+        const val BUTTON_CLICK_ROOM_MORE = "button_click_room_more"
+        const val BUTTON_CLICK_ROOM_COMPONENT = "button_click_room_component"
+        const val BUTTON_CLICK_MY_ROOM = "button_click_my_room"
+        const val BUTTON_CLICK_REQUEST_COMPONENT = "button_click_request_component"
+        const val BUTTON_CLICK_REQUEST_MORE = "button_click_request_more"
+        const val GESTURE_ROOM_SWIPE = "gesture_room_swipe"
+        const val GESTURE_MATE_SWIPE = "gesture_mate_swipe"
+        const val HOME_SESSION_TIME = "home_session_time"
 
     }
 }

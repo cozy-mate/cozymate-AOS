@@ -34,6 +34,9 @@ import umc.cozymate.ui.notification.NotificationActivity
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsConstants.*
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
 import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 import umc.cozymate.util.StatusBarUtil
@@ -51,7 +54,7 @@ class CozyHomeFragment : Fragment() {
     private var isLifestyleExist: Boolean = false
     private var isRoomExist = false
     private var isRoomManager = false
-    val firebaseAnalytics = Firebase.analytics
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +87,7 @@ class CozyHomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        screenEnterTime = System.currentTimeMillis()
         checkForUpdate()
         binding.refreshLayout.isRefreshing = true
         setName()
@@ -91,6 +95,21 @@ class CozyHomeFragment : Fragment() {
         setNotificationBtn()
         initUserState()
         binding.refreshLayout.isRefreshing = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.HOME_SESSION_TIME,
+            category = AnalyticsConstants.Category.HOME_CONTENT,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     override fun onDestroyView() {
@@ -109,12 +128,28 @@ class CozyHomeFragment : Fragment() {
 
     private fun setMessageBtn() {
         binding.btnMessage.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = Event.BUTTON_CLICK_CHAT,
+                category = Category.HOME_HEADER,
+                action = Action.BUTTON_CLICK,
+                label = Label.CHAT,
+            )
+
             startActivity(Intent(activity, MessageMemberActivity::class.java))
         }
     }
 
     private fun setNotificationBtn() {
         binding.btnNotification.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = Event.BUTTON_CLICK_NOTICE,
+                category = Category.HOME_HEADER,
+                action = Action.BUTTON_CLICK,
+                label = Label.NOTICE,
+            )
+
             startActivity(Intent(activity, NotificationActivity::class.java))
         }
     }
@@ -145,10 +180,20 @@ class CozyHomeFragment : Fragment() {
                 )
             )
             binding.btnLifestyle.setOnClickListener() {
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = Event.BUTTON_CLICK_LIFESTYLE,
+                    category = Category.HOME_HEADER,
+                    action = Action.BUTTON_CLICK,
+                    label = Label.LIFE_STYLE,
+                )
+
                 val intent = Intent(requireContext(), RoommateOnboardingActivity::class.java)
                 startActivity(intent)
             }
-        } else binding.btnLifestyle.visibility = View.GONE
+        } else {
+            binding.btnLifestyle.visibility = View.GONE
+        }
         viewModel.roomInfoResponse.observe(viewLifecycleOwner) { roomInfo ->
             if (roomInfo != null) {
                 roomId = roomInfo.result.roomId
@@ -217,17 +262,25 @@ class CozyHomeFragment : Fragment() {
 
     private fun setRoomBtns() {
         binding.btnMakeRoom.setOnClickListener {
-            firebaseAnalytics.logEvent("make_room_button_click") {
-                param("방 만들기", "make_room_button")
-                param("코지홈", "cozy_home_screen")
-            }
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = Event.BUTTON_CLICK_MAKE_ROOM,
+                category = Category.HOME_HEADER,
+                action = Action.BUTTON_CLICK,
+                label = Label.MAKE_ROOM,
+            )
+
             startActivity(Intent(requireContext(), MakingPublicRoomActivity::class.java))
         }
         binding.btnEnterRoom.setOnClickListener {
-            firebaseAnalytics.logEvent("join_room_button_click") {
-                param("방 참여하기", "join_room_button")
-                param("코지홈", "cozy_home_screen")
-            }
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = Event.BUTTON_CLICK_JOIN_ROOM,
+                category = Category.HOME_HEADER,
+                action = Action.BUTTON_CLICK,
+                label = Label.JOIN_ROOM,
+            )
+
             startActivity(Intent(activity, JoinRoomActivity::class.java))
         }
     }
