@@ -6,6 +6,7 @@ class AnalyticsConstants {
         const val CATEGORY = "category"
         const val ACTION = "action"
         const val LABEL = "label"
+        const val DURATION = "duration"
     }
 
     object Category {
@@ -118,5 +119,9 @@ class AnalyticsConstants {
         const val BUTTON_CLICK_AGREE_ALL = "button_click_agree_all"
         const val BUTTON_CLICK_AGREE_1 = "button_click_agree_1"
         const val BUTTON_CLICK_AGREE_2 = "button_click_agree_2"
+        const val ONBOARDING4_SESSION_TIME = "onboarding4_session_time"
+
+        const val ONBOARDING5_SESSION_TIME = "onboarding5_session_time"
+
     }
 }

@@ -71,6 +71,7 @@ class UniversityCertificationFragment : Fragment() {
         val screenLeaveTime = System.currentTimeMillis()
         val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
 
+        // GA 이벤트 로그 추가
         AnalyticsEventLogger.logEvent(
             eventName = AnalyticsConstants.Event.ONBOARDING1_SESSION_TIME,
             category = AnalyticsConstants.Category.ONBOARDING1,
