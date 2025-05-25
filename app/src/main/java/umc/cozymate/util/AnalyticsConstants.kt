@@ -82,12 +82,13 @@ class AnalyticsConstants {
         const val INPUT_BOX_EMAIL_CODE = "input_box_email_code"
         const val BUTTON_CLICK_EMAIL = "button_click_email"
         const val BUTTON_CLICK_EMAIL_CODE = "button_click_email_code"
-        const val SESSION_TIME = "session_time"
+        const val ONBOARDING1_SESSION_TIME = "onboarding1_session_time"
 
         const val INPUT_BOX_NAME = "input_box_name"
         const val INPUT_BOX_GENDER = "input_box_gender"
         const val INPUT_BOX_BIRTH = "input_box_birth"
         const val BUTTON_CLICK_NAME = "button_click_name"
+        const val ONBOARDING2_SESSION_TIME = "onboarding2_session_time"
 
         const val BUTTON_CLICK_BIRTH = "button_click_birth"
         const val BUTTON_CLICK_STUDENT_ID = "button_click_student_id"

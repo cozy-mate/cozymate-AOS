@@ -13,12 +13,14 @@ object AnalyticsEventLogger {
         eventName: String,
         category: String? = null,
         action: String? = null,
-        label: String? = null
+        label: String? = null,
+        duration: Long? = null
     ) {
         val params = Bundle().apply {
             category?.let { putString(AnalyticsConstants.Keys.CATEGORY, it) }
             action?.let { putString(AnalyticsConstants.Keys.ACTION, it) }
             label?.let { putString(AnalyticsConstants.Keys.LABEL, it) }
+            duration?.let { putLong("duration", it) }
         }
 
         analytics.logEvent(eventName, params)

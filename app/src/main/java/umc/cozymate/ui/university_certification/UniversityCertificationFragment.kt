@@ -23,6 +23,8 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
 import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -37,9 +39,9 @@ class UniversityCertificationFragment : Fragment() {
     private var mailPattern: String = ""
     private var email: String = ""
     private var code: String = ""
-    var departments: List<String> = ArrayList()
     private var debounceJob: Job? = null
     private lateinit var countDownTimer: CountDownTimer
+    private var screenEnterTime: Long = 0
 
     companion object {
         const val ARG_UNIVERSITY_INFO = "university_info"
@@ -57,6 +59,25 @@ class UniversityCertificationFragment : Fragment() {
     ): View {
         _binding = FragmentUniversityCertificationBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.ONBOARDING1_SESSION_TIME,
+            category = AnalyticsConstants.Category.ONBOARDING1,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -158,6 +179,14 @@ class UniversityCertificationFragment : Fragment() {
                             binding.tvAlertEmail.visibility = View.GONE
                             binding.btnSendVerifyCode.isEnabled = true
                             email = binding.etUniversityEmail.text.toString()
+
+                            // GA 이벤트 로그 추가
+                            AnalyticsEventLogger.logEvent(
+                                eventName = AnalyticsConstants.Event.INPUT_BOX_EMAIL,
+                                category = AnalyticsConstants.Category.ONBOARDING1,
+                                action = AnalyticsConstants.Action.INPUT_BOX,
+                                label = AnalyticsConstants.Label.EMAIL
+                            )
                         } else {
                             binding.tvAlertEmail.visibility = View.VISIBLE
                             binding.tvAlertEmail.post {
@@ -177,6 +206,13 @@ class UniversityCertificationFragment : Fragment() {
         binding.btnSendVerifyCode.setOnClickListener {
             if (email.isNotEmpty()) {
                 viewModel.sendVerifyCode(email)
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_EMAIL,
+                    category = AnalyticsConstants.Category.ONBOARDING1,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.EMAIL
+                )
             }
         }
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
@@ -227,6 +263,13 @@ class UniversityCertificationFragment : Fragment() {
                     if (s.toString() != "") {
                         binding.btnVerify.isEnabled = true
                         code = binding.etCode.text.toString()
+                        // GA 이벤트 로그 추가
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.INPUT_BOX_EMAIL_CODE,
+                            category = AnalyticsConstants.Category.ONBOARDING1,
+                            action = AnalyticsConstants.Action.INPUT_BOX,
+                            label = AnalyticsConstants.Label.EMAIL_CODE
+                        )
                     }
                 }
             }
@@ -238,6 +281,13 @@ class UniversityCertificationFragment : Fragment() {
         binding.btnVerify.setOnClickListener {
             if (code.isNotEmpty()) {
                 viewModel.verifyCode(code)
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_EMAIL_CODE,
+                    category = AnalyticsConstants.Category.ONBOARDING1,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.EMAIL_CODE
+                )
             }
         }
         viewModel.verifyResponse.observe(viewLifecycleOwner) { res ->
