@@ -1,6 +1,5 @@
 package umc.cozymate.ui.cozy_home.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -27,8 +24,6 @@ import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
-import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
-import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 @AndroidEntryPoint
 class CozyHomeContentDefaultFragment : Fragment() {
@@ -38,7 +33,6 @@ class CozyHomeContentDefaultFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var isLifestyleExist: Boolean = false
-    val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
