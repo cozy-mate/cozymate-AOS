@@ -23,6 +23,9 @@ import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.PreferenceList
 import umc.cozymate.databinding.FragmentOnboardingSelectingPreferenceBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
+import umc.cozymate.util.AnalyticsChipMapper
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
@@ -32,6 +35,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     private val viewModel: OnboardingViewModel by activityViewModels()
     private lateinit var chips: List<TextView>
     private val selectedChips = mutableListOf<TextView>()
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +48,26 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
             false
         )
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.ONBOARDING4_SESSION_TIME,
+            category = AnalyticsConstants.Category.ONBOARDING4,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,12 +112,26 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
                 c.isSelected = !c.isSelected
                 if (c.isSelected) {
                     selectedChips.add(c)
-                } else selectedChips.remove(c)
+                } else {
+                    selectedChips.remove(c)
+                }
+
                 // 칩 4개 넘게 선택하면 비활성화
                 if (selectedChips.size > 4) {
                     Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
                     c.isSelected = !c.isSelected
                     binding.btnNext.isEnabled = false
+                    return@setOnClickListener
+                }
+
+                // GA 이벤트 로그 추가
+                AnalyticsChipMapper.chipEventMap[c.id]?.let { eventInfo ->
+                    AnalyticsEventLogger.logEvent(
+                        eventName = eventInfo.eventName,
+                        category = eventInfo.category,
+                        action = eventInfo.action,
+                        label = eventInfo.label
+                    )
                 }
                 viewModel.updateSelectedElementCount(c.isSelected)
             }

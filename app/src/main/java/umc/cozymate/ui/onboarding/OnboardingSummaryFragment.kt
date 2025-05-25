@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingSummaryBinding
 import umc.cozymate.ui.MainActivity
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
 import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
 import umc.cozymate.util.PreferencesUtil.PREFS_NAME
@@ -26,6 +28,7 @@ class OnboardingSummaryFragment : Fragment() {
     private val binding get() = _binding!!
     private var nickname: String = ""
     private var persona: Int = 0
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +37,26 @@ class OnboardingSummaryFragment : Fragment() {
     ): View {
         _binding = FragmentOnboardingSummaryBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.ONBOARDING1_SESSION_TIME,
+            category = AnalyticsConstants.Category.ONBOARDING1,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
