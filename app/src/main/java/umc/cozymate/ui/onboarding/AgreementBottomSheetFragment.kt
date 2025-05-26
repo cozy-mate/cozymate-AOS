@@ -1,17 +1,12 @@
 package umc.cozymate.ui.onboarding
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import umc.cozymate.databinding.BottomSheetAgreementBinding
-import umc.cozymate.ui.onboarding.DatePickerBottomSheetFragment.AlertPickerDialogInterface
-import umc.cozymate.util.AnalyticsChipMapper
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
 

@@ -57,10 +57,10 @@ class SelectionInfoFragment : Fragment() {
         binding.etSelectionInfo.setOnClickListener {
             // GA 이벤트 로그
             AnalyticsEventLogger.logEvent(
-                eventName = AnalyticsConstants.Event.INPUT_BOX_CHOICE,
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_CHOICE_TEXT_INPUT,
                 category = AnalyticsConstants.Category.LIFE_STYLE,
-                action = AnalyticsConstants.Action.INPUT_BOX,
-                label = AnalyticsConstants.Label.CHOICE
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.CHOICE_TEXT_INPUT
             )
         }
 
@@ -83,7 +83,7 @@ class SelectionInfoFragment : Fragment() {
             eventName = AnalyticsConstants.Event.SESSION_TIME_CHOICE,
             category = AnalyticsConstants.Category.LIFE_STYLE,
             action = AnalyticsConstants.Action.SESSION_TIME,
-            label = null,
+            label = AnalyticsConstants.Label.CHOICE,
             duration = sessionDuration
         )
     }

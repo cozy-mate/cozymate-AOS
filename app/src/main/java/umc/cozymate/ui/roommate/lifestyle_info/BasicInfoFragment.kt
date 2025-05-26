@@ -86,7 +86,7 @@ class BasicInfoFragment : Fragment() {
             eventName = AnalyticsConstants.Event.SESSION_TIME_GENERAL,
             category = AnalyticsConstants.Category.LIFE_STYLE,
             action = AnalyticsConstants.Action.SESSION_TIME,
-            label = null,
+            label = AnalyticsConstants.Label.GENERAL,
             duration = sessionDuration
         )
     }
