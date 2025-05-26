@@ -84,6 +84,8 @@ class UniversityCertificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
+        binding.clVerify.visibility = View.GONE
+        binding.btnVerify.visibility = View.GONE
         handleUniversitySelection()
         handleMajorSelection()
         handleEmailValidation()
@@ -220,6 +222,8 @@ class UniversityCertificationFragment : Fragment() {
             binding.btnSendVerifyCode.text = "인증번호 재전송"
             if (isSent) {
                 binding.tvAlertCode.visibility = View.GONE
+                binding.clVerify.visibility = View.VISIBLE
+                binding.btnVerify.visibility = View.VISIBLE
                 // 2분 타이머 (120,000ms)
                 binding.tvCounter.visibility = View.VISIBLE
                 countDownTimer = object : CountDownTimer(120000, 1000) {
