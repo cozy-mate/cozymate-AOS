@@ -9,13 +9,13 @@ import umc.cozymate.data.model.response.favorites.GetFavoritesRoomsResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
 class FavoriteRoomRVAdapter(
-    private var items: List<GetFavoritesRoomsResponse.Result>,
+    private var items: List<GetFavoritesRoomsResponse.Result.FavoriteRoomItem>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<FavoriteRoomRVAdapter.RoomViewHolder>() {
 
     class RoomViewHolder(private val binding: VpItemRoomRecommendBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: GetFavoritesRoomsResponse.Result) {
+        fun bind(item: GetFavoritesRoomsResponse.Result.FavoriteRoomItem) {
             with(binding) {
                 tvRoomName.text = item.name
                 if (item.equality == 0){
@@ -24,8 +24,8 @@ class FavoriteRoomRVAdapter(
                     tvMatchRate.text = "${item.equality}%"
                 }
                 tvMemberNumber.text = ""
-                when (item.hashtagList.size) {
-                    0 -> {
+                when (item.hashtagList?.size) {
+                     0 -> {
                         tvHashtag1.visibility = View.INVISIBLE
                         tvHashtag2.visibility = View.INVISIBLE
                         tvHashtag3.visibility = View.INVISIBLE
@@ -143,7 +143,7 @@ class FavoriteRoomRVAdapter(
         }
     }
 
-    fun submitList(list: List<GetFavoritesRoomsResponse.Result>) {
+    fun submitList(list: List<GetFavoritesRoomsResponse.Result.FavoriteRoomItem>) {
         items = list
         notifyDataSetChanged()
     }

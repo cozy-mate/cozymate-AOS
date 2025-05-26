@@ -11,33 +11,43 @@ data class GetFavoritesRoomsResponse(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: List<Result>
+    val result: Result
 ) {
     @Serializable
     data class Result(
-        @SerialName("currentMateNum")
-        val currentMateNum: Int,
-        @SerialName("equality")
-        val equality: Int,
-        @SerialName("favoriteId")
-        val favoriteId: Int,
-        @SerialName("hashtagList")
-        val hashtagList: List<String>,
-        @SerialName("maxMateNum")
-        val maxMateNum: Int,
-        @SerialName("name")
-        val name: String,
-        @SerialName("preferenceMatchCountList")
-        val preferenceMatchCountList: List<PreferenceMatchCount>,
-        @SerialName("roomId")
-        val roomId: Int
+        @SerialName("hasNext")
+        val hasNext: Boolean,
+        @SerialName("page")
+        val page: Int,
+        @SerialName("result")
+        val result: List<FavoriteRoomItem>
     ) {
         @Serializable
-        data class PreferenceMatchCount(
-            @SerialName("count")
-            val count: Int,
-            @SerialName("preferenceName")
-            val preferenceName: String
-        )
+        data class FavoriteRoomItem(
+            @SerialName("currentMateNum")
+            val currentMateNum: Int,
+            @SerialName("equality")
+            val equality: Int,
+            @SerialName("roomFavoriteId")
+            val favoriteId: Int,
+            @SerialName("hashtags")
+            val hashtagList: List<String>?,
+            @SerialName("maxMateNum")
+            val maxMateNum: Int,
+            @SerialName("name")
+            val name: String,
+            @SerialName("preferenceMatchCountList")
+            val preferenceMatchCountList: List<PreferenceMatchCount>,
+            @SerialName("roomId")
+            val roomId: Int
+        ) {
+            @Serializable
+            data class PreferenceMatchCount(
+                @SerialName("count")
+                val count: Int,
+                @SerialName("preferenceName")
+                val preferenceName: String
+            )
+        }
     }
 }

@@ -8,13 +8,13 @@ import umc.cozymate.data.model.response.favorites.GetFavoritesMembersResponse
 import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 
 class FavoriteRoommateRVAdapter(
-    private var items: List<GetFavoritesMembersResponse.Result>,
+    private var items: List<GetFavoritesMembersResponse.Result.FavoriteMateItem>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<FavoriteRoommateRVAdapter.RoommateViewHolder>() {
 
     class RoommateViewHolder(private val binding: VpItemRoommateRecommendBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: GetFavoritesMembersResponse.Result) {
+        fun bind(item: GetFavoritesMembersResponse.Result.FavoriteMateItem) {
             with(binding) {
                 val member = item.memberStatPreferenceDetail
                 tvNickname.text = member.memberDetail.nickname
@@ -158,7 +158,7 @@ class FavoriteRoommateRVAdapter(
         }
     }
 
-    fun submitList(list: List<GetFavoritesMembersResponse.Result>) {
+    fun submitList(list: List<GetFavoritesMembersResponse.Result.FavoriteMateItem>) {
         items = list
         notifyDataSetChanged()
     }

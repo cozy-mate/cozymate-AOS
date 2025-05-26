@@ -146,11 +146,11 @@ class MyFavoriteActivity : AppCompatActivity() {
     private fun observeFavoriteMemberList() {
         favoriteViewModel.getFavoritesMembersResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
-            if (response.result.isNotEmpty()) {
+            if (response.result.result.isNotEmpty()) {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.GONE
                 binding.rvFavoriteRoommate.visibility = View.VISIBLE
-                roommateAdapter.submitList(response.result)
+                roommateAdapter.submitList(response.result.result)
             } else {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.VISIBLE
@@ -163,11 +163,11 @@ class MyFavoriteActivity : AppCompatActivity() {
     private fun observeFavoriteRoomList() {
         favoriteViewModel.getFavoritesRoomsResponse.observe(this, Observer { response ->
             if (response == null) return@Observer
-            if (response.result.isNotEmpty()) {
+            if (response.result.result.isNotEmpty()) {
                 binding.rvFavoriteRoom.visibility = View.VISIBLE
                 binding.tvEmptyList.visibility = View.GONE
                 binding.rvFavoriteRoommate.visibility = View.GONE
-                roomAdapter.submitList(response.result)
+                roomAdapter.submitList(response.result.result)
             } else {
                 binding.rvFavoriteRoom.visibility = View.GONE
                 binding.tvEmptyList.visibility = View.VISIBLE
