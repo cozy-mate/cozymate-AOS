@@ -12,6 +12,9 @@ import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.databinding.RvItemRoomateDetailHeaderBinding
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
+import umc.cozymate.util.AnalyticsChipMapper
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.fromDpToPx
 
 class RoommateDetailHeaderViewHolder(
@@ -26,6 +29,15 @@ class RoommateDetailHeaderViewHolder(
         Log.d("test" , "header 생성 ")
         // 검색창 이동
         binding.lyRoomMateSearch.setOnClickListener {
+
+            // GA 이벤트 로그
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_MATE_SEARCH,
+                category = AnalyticsConstants.Category.CONTENT_MATE,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.MATE_SEARCH,
+            )
+
             val context = binding.root.context
             val intent = Intent(context, SearchRoommateActivity::class.java)
             context.startActivity(intent)
@@ -60,6 +72,16 @@ class RoommateDetailHeaderViewHolder(
                 box.setTextColor(ContextCompat.getColor(itemView.context, color))
                 if (!isChecked && !isClear) selectedChips.remove(filter)
                 else if(!selectedChips.contains(filter)) selectedChips.add(filter)
+
+                // GA 이벤트 로그 추가
+                AnalyticsChipMapper.chipTextMap[chip.text.toString()]?.let { eventInfo ->
+                    AnalyticsEventLogger.logEvent(
+                        eventName = eventInfo.eventName,
+                        category = AnalyticsConstants.Category.CONTENT_MATE,
+                        action = eventInfo.action,
+                        label = eventInfo.label ?: ""
+                    )
+                }
 
                 // 현재 선택된 필터 값(String) 만 전달
                 clickFilter(selectedChips)

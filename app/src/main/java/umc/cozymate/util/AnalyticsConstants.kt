@@ -38,6 +38,7 @@ class AnalyticsConstants {
         const val BUTTON_CLICK = "button_click"
         const val SESSION_TIME = "session_time"
         const val GESTURE = "gesture"
+        const val PAGE_VIEW = "page_view"
     }
 
     object Label {
@@ -100,6 +101,22 @@ class AnalyticsConstants {
         const val GENERAL = "general"
         const val ESSENTIAL = "essential"
         const val CHOICE = "choice"
+
+        // 룸메이트 추천
+        const val INVITE_ROOM = "invite_room"
+        const val INVITE_ROOM_CANCLE = "invite_room_cancle"
+        const val ACCEPT_REQUEST = "accept_request"
+        const val REFUSE_REQUEST = "refuse_request"
+        const val LIFE_STYLE_COMPONENT = "life_style_component"
+        const val MATE_CONTENT = "mate_content"
+        const val MATE_DETAIL = "mate_detail"
+        const val MATE_LIKE = "mate_like"
+        const val MATE_MESSAGE = "mate_message"
+        const val MATE_SEARCH = "mate_search"
+        const val SHOW_GRID = "show_grid"
+        const val SHOW_LIST = "show_list"
+
+        const val ROOM_OUT = "room_out"
     }
 
     object Event {
@@ -175,5 +192,23 @@ class AnalyticsConstants {
         const val SESSION_TIME_GENERAL = "session_time_general"
         const val SESSION_TIME_ESSENTIAL = "session_time_essential"
         const val SESSION_TIME_CHOICE = "session_time_choice"
+
+        // 룸메이트 추천
+        const val INPUT_BOX_MATE_SEARCH = "input_box_mate_search"
+        const val BUTTON_CLICK_LIFE_STYLE_COMPONENT = "button_click_life_style_component"
+        const val SESSION_TIME_MATE_CONTENT = "session_time_mate_content"
+
+        const val BUTTON_CLICK_SHOW_GRID = "button_click_show_grid"
+        const val BUTTON_CLICK_SHOW_LIST = "button_click_show_list"
+        const val BUTTON_CLICK_MATE_MESSAGE = "button_click_mate_message"
+        const val BUTTON_CLICK_MATE_LIKE = "button_click_mate_like"
+        const val BUTTON_CLICK_INVITE_ROOM = "button_click_invite_room"
+        const val BUTTON_CLICK_ACCEPT_REQUEST = "button_click_accept_request"
+        const val BUTTON_CLICK_REFUSE_REQUEST = "button_click_refuse_request"
+        const val SESSION_TIME_MATE_DETAIL = "session_time_mate_detail"
+        const val PAGE_VIEW_MATE_DETAIL = "page_view_mate_detail"
+
+        const val BUTTON_CLICK_INVITE_ROOM_CANCEL = "button_click_invite_room_cancel"
+        const val BUTTON_CLICK_ROOM_OUT = "button_click_room_out"
     }
 }

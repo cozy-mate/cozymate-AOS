@@ -35,6 +35,8 @@ import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.ReportViewModel
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
 import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.SnackbarUtil
@@ -57,7 +59,7 @@ class RoommateDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomDetailViewModel : RoomDetailViewModel by viewModels()
-    val firebaseAnalytics = Firebase.analytics
+    private var screenEnterTime: Long = 0
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +128,34 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.PAGE_VIEW_MATE_DETAIL,
+            category = AnalyticsConstants.Category.MATE_DETAIL,
+            action = AnalyticsConstants.Action.PAGE_VIEW,
+            label = AnalyticsConstants.Label.MATE_DETAIL,
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_MATE_DETAIL,
+            category = AnalyticsConstants.Category.MATE_DETAIL,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = AnalyticsConstants.Label.MATE_DETAIL,
+            duration = sessionDuration
+        )
     }
 
     private fun getUserDetailFromPreferences(): GetMemberDetailInfoResponse.Result? {
@@ -267,10 +297,15 @@ class RoommateDetailActivity : AppCompatActivity() {
     private fun setUpListeners(userDetail: GetMemberDetailInfoResponse.Result) {
         // 리스트 뷰 클릭 시
         binding.llListView.setOnClickListener {
-            firebaseAnalytics.logEvent("list_view_button_click") {
-                param("리스트로 보기", "list_view_button")
-                param("룸메이트 상세 화면", "roommate_detail_screen")
-            }
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SHOW_GRID,
+                category = AnalyticsConstants.Category.MATE_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SHOW_GRID
+            )
+
             Log.d(TAG, "리스트 뷰 클릭")
             otherUserDetail?.let { detail ->
                 selectListView(detail)
@@ -279,10 +314,14 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         // 테이블 뷰 클릭 시
         binding.llTableView.setOnClickListener {
-            firebaseAnalytics.logEvent("table_view_button_click") {
-                param("표로 보기", "table_view_button")
-                param("룸메이트 상세 화면", "roommate_detail_screen")
-            }
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SHOW_LIST,
+                category = AnalyticsConstants.Category.MATE_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SHOW_LIST
+            )
 
             Log.d(TAG, "테이블 뷰 클릭")
             selectTableView(otherUserDetail!!, userDetail!!)
@@ -297,6 +336,15 @@ class RoommateDetailActivity : AppCompatActivity() {
 //        updateFAB(userDetail)
 
         binding.btnChat.setOnClickListener {
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_MESSAGE,
+                category = AnalyticsConstants.Category.MATE_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.MATE_MESSAGE
+            )
+
             val memberId = otherUserDetail!!.memberDetail.memberId
             val memberName = otherUserDetail!!.memberDetail.nickname
             val intent: Intent = Intent(this, WriteMessageActivity::class.java)
@@ -326,6 +374,15 @@ class RoommateDetailActivity : AppCompatActivity() {
                 setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
                 isClickable = true
                 setOnClickListener {
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+                        category = AnalyticsConstants.Category.MATE_DETAIL,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.INVITE_ROOM
+                    )
+
                     SnackbarUtil.showCustomSnackbar(
                         context = this@RoommateDetailActivity,
                         message = "초대할 수 없습니다",
@@ -358,6 +415,14 @@ class RoommateDetailActivity : AppCompatActivity() {
                     binding.clAcceptBtn.visibility = View.VISIBLE
 
                     binding.fabAcceptAccept.setOnClickListener {
+                        // GA 이벤트 로그 추가
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ACCEPT_REQUEST,
+                            category = AnalyticsConstants.Category.MATE_DETAIL,
+                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+                            label = AnalyticsConstants.Label.ACCEPT_REQUEST
+                        )
+
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
                         SnackbarUtil.showCustomSnackbar(
                             context = this@RoommateDetailActivity,
@@ -370,6 +435,14 @@ class RoommateDetailActivity : AppCompatActivity() {
                     }
 
                     binding.fabAcceptRefuse.setOnClickListener {
+                        // GA 이벤트 로그 추가
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_REFUSE_REQUEST,
+                            category = AnalyticsConstants.Category.MATE_DETAIL,
+                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+                            label = AnalyticsConstants.Label.REFUSE_REQUEST
+                        )
+
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
                         SnackbarUtil.showCustomSnackbar(
                             context = this@RoommateDetailActivity,
@@ -397,6 +470,15 @@ class RoommateDetailActivity : AppCompatActivity() {
                             setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
                             isClickable = true
                             setOnClickListener {
+
+                                // GA 이벤트 로그 추가
+                                AnalyticsEventLogger.logEvent(
+                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCEL,
+                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                    label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE
+                                )
+
                                 roomDetailViewModel.cancelInvitation(otherMemberId)
                                 lifecycleScope.launch {
                                     delay(500)
@@ -419,6 +501,15 @@ class RoommateDetailActivity : AppCompatActivity() {
                             setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
                             isClickable = true
                             setOnClickListener {
+
+                                // GA 이벤트 로그 추가
+                                AnalyticsEventLogger.logEvent(
+                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                    label = AnalyticsConstants.Label.INVITE_ROOM
+                                )
+
                                 Log.d("updateFAB", "버튼 클릭됨")
                                 roomDetailViewModel.inviteMember(otherMemberId)
                                 lifecycleScope.launch {
@@ -453,6 +544,15 @@ class RoommateDetailActivity : AppCompatActivity() {
 
     private fun setupFavoriteButton() {
         binding.ivLike.setOnClickListener {
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_LIKE,
+                category = AnalyticsConstants.Category.MATE_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.MATE_LIKE
+            )
+
             lifecycleScope.launch {
                 favoriteViewModel.toggleRoommateFavorite(
                     memberId = memberId,

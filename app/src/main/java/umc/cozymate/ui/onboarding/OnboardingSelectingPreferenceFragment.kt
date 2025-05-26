@@ -128,7 +128,7 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
                 AnalyticsChipMapper.chipEventMap[c.id]?.let { eventInfo ->
                     AnalyticsEventLogger.logEvent(
                         eventName = eventInfo.eventName,
-                        category = eventInfo.category,
+                        category = AnalyticsConstants.Category.ONBOARDING4,
                         action = eventInfo.action,
                         label = eventInfo.label
                     )

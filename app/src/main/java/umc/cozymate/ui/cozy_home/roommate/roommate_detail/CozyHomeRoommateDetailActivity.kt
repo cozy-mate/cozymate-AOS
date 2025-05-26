@@ -22,6 +22,8 @@ import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
 import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 @AndroidEntryPoint
 class CozyHomeRoommateDetailActivity : AppCompatActivity() {
@@ -38,6 +40,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private var page = 0
     private var memberList = ArrayList<RecommendedMemberInfo>()
     private var filterList : List<String> = emptyList()
+    private var screenEnterTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +72,26 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_MATE_CONTENT,
+            category = AnalyticsConstants.Category.CONTENT_MATE,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = AnalyticsConstants.Label.MATE_CONTENT,
+            duration = sessionDuration
+        )
     }
 
     private fun clearPage() {

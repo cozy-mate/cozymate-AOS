@@ -5,7 +5,6 @@ import umc.cozymate.R
 data class ChipEventInfo(
     val eventName: String,
     val label: String,
-    val category: String = AnalyticsConstants.Category.ONBOARDING4,
     val action: String = AnalyticsConstants.Action.BUTTON_CLICK,
 )
 
@@ -36,5 +35,32 @@ object AnalyticsChipMapper {
         R.id.chip_noise_sensitivity to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_NOISE, AnalyticsConstants.Label.NOISE),
         R.id.chip_drinking_frequency to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_DRINKING_FREQ, AnalyticsConstants.Label.DRINKING_FREQ),
         R.id.chip_personality to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_PERSONALITY, AnalyticsConstants.Label.PERSONALITY)
+    )
+
+    val chipTextMap = mapOf(
+        "출생년도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_BIRTH, AnalyticsConstants.Label.BIRTH),
+        "학번" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_STUDENT_ID, AnalyticsConstants.Label.STUDENT_ID),
+        "학과" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_MAJOR, AnalyticsConstants.Label.MAJOR),
+        "합격여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_DORM_PASS,  AnalyticsConstants.Label.DORM_PASS),
+        "기상시간" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_MORNING, AnalyticsConstants.Label.MORNING),
+        "취침시간" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_NIGHT, AnalyticsConstants.Label.NIGHT),
+        "소등시간" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_LIGHT_OFF,  AnalyticsConstants.Label.LIGHT_OFF),
+        "흡연여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_SMOKE, AnalyticsConstants.Label.SMOKE),
+        "잠버릇" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_SLEEP_HABIT, AnalyticsConstants.Label.SLEEP_HABIT),
+        "에어컨" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_AIRCON, AnalyticsConstants.Label.AIRCON),
+        "히터" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_HEATER, AnalyticsConstants.Label.HEATER),
+        "생활패턴" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_LIFESTYLE, AnalyticsConstants.Label.LIFESTYLE),
+        "친밀도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_CLOSENESS, AnalyticsConstants.Label.CLOSENESS),
+        "물건공유" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_ITEM_SHARING, AnalyticsConstants.Label.ITEM_SHARING),
+        "게임여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_GAME, AnalyticsConstants.Label.GAME),
+        "전화여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_PHONE_CALL, AnalyticsConstants.Label.PHONE_CALL),
+        "공부여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_STUDY, AnalyticsConstants.Label.STUDY),
+        "섭취여부" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_EAT,  AnalyticsConstants.Label.EAT),
+        "청결예민도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_CLEAN_SENSITIVITY, AnalyticsConstants.Label.CLEAN_SENSITIVITY),
+        "소음예민도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_NOISE, AnalyticsConstants.Label.NOISE),
+        "청소빈도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_CLEAN_FREQ, AnalyticsConstants.Label.CLEAN_FREQ),
+        "음주빈도" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_DRINKING_FREQ, AnalyticsConstants.Label.DRINKING_FREQ),
+        "성격" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_PERSONALITY, AnalyticsConstants.Label.PERSONALITY),
+        "MBTI" to ChipEventInfo(AnalyticsConstants.Event.BUTTON_CLICK_MBTI,  AnalyticsConstants.Label.MBTI)
     )
 }
