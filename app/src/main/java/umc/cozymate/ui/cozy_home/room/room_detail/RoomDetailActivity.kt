@@ -40,6 +40,9 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.util.AnalyticsChipMapper
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
 import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.SnackbarUtil
@@ -58,7 +61,8 @@ class RoomDetailActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
     private val joinRoomViewModel: JoinRoomViewModel by viewModels()
-    val firebaseAnalytics = Firebase.analytics
+    private var screenEnterTime: Long = 0
+
 
     private var roomId: Int = 0
     private var favoriteId: Int = 0
@@ -102,12 +106,48 @@ class RoomDetailActivity : AppCompatActivity() {
         observeOtherUserInfo()
 
         binding.ivChat.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_MESSAGE,
+                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_MESSAGE,
+            )
+
             val intent: Intent = Intent(this, WriteMessageActivity::class.java)
             Log.d(TAG,"managerNickname ${managerNickname}")
             intent.putExtra("recipientId", managerMemberId)
             intent.putExtra("nickname",  managerNickname)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.PAGE_VIEW_ROOM_DETAIL,
+            category = AnalyticsConstants.Category.ROOM_DETAIL,
+            action = AnalyticsConstants.Action.PAGE_VIEW,
+            label = AnalyticsConstants.Label.ROOM_DETAIL,
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_ROOM_DETAIL,
+            category = AnalyticsConstants.Category.ROOM_DETAIL,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = AnalyticsConstants.Label.ROOM_DETAIL,
+            duration = sessionDuration
+        )
     }
 
     private fun getRoomId() {
@@ -160,6 +200,15 @@ class RoomDetailActivity : AppCompatActivity() {
                             roomInfo.mateDetailList,
                             roomInfo.managerNickname
                         ) { memberId ->
+
+                            // GA 이벤트 로그 추가
+                            AnalyticsEventLogger.logEvent(
+                                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_MATE_COMPONENT,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                label = AnalyticsConstants.Label.ROOM_MATE_COMPONENT,
+                            )
+
                             navigatorToRoommateDetail(memberId)
                         }
                     }
@@ -195,10 +244,14 @@ class RoomDetailActivity : AppCompatActivity() {
 
         with(binding) {
             ivExit.setOnClickListener {
-                firebaseAnalytics.logEvent("exit_button_click") {
-                    param("방 나가기", "exit_button")
-                    param("방 상세 화면", "room_detail_screen")
-                }
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_OUT,
+                    category = AnalyticsConstants.Category.ROOM_DETAIL,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.ROOM_OUT,
+                )
 
                 val text = listOf("방을 나가시겠습니까?", "", "취소", "확인")
                 val dialog = TwoButtonPopup(text, object : PopupClick {
@@ -250,6 +303,15 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun setupFavoriteButton() {
         binding.ivLike.setOnClickListener {
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_LIKE,
+                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_LIKE,
+            )
+
             lifecycleScope.launch {
                 favoriteViewModel.toggleRoomFavorite(
                     roomId = roomId,
@@ -325,6 +387,15 @@ class RoomDetailActivity : AppCompatActivity() {
                     roomInfo.mateDetailList,
                     roomInfo.managerNickname
                 ) { memberId ->
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_MATE_COMPONENT,
+                        category = AnalyticsConstants.Category.ROOM_DETAIL,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.ROOM_MATE_COMPONENT,
+                    )
+
                     navigatorToRoommateDetail(memberId)
                 }
             }
@@ -351,6 +422,14 @@ class RoomDetailActivity : AppCompatActivity() {
                 fabBnt.isEnabled = true
 
                 fabBnt.setOnClickListener {
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+                        category = AnalyticsConstants.Category.ROOM_DETAIL,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.INVITE_ROOM,
+                    )
+
                     SnackbarUtil.showCustomSnackbar(
                         context = this@RoomDetailActivity,
                         message = "이미 방에 참여 중 입니다.",
@@ -379,6 +458,14 @@ class RoomDetailActivity : AppCompatActivity() {
                         fabBnt.visibility = View.GONE
 
                         fabAcceptRefuse.setOnClickListener {
+                            // GA 이벤트 로그 추가
+                            AnalyticsEventLogger.logEvent(
+                                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                label = AnalyticsConstants.Label.ROOM_REJECT,
+                            )
+
                             // 초대 거절 처리
                             viewModel.acceptRoomEnter(roomId, accept = false)
                             clAcceptBtn.visibility = View.GONE
@@ -387,6 +474,14 @@ class RoomDetailActivity : AppCompatActivity() {
                         }
 
                         fabAcceptAccept.setOnClickListener {
+                            // GA 이벤트 로그 추가
+                            AnalyticsEventLogger.logEvent(
+                                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                label = AnalyticsConstants.Label.ROOM_ACCEPT,
+                            )
+
                             // 초대 수락 처리
                             lifecycleScope.launch {
                                 viewModel.acceptRoomEnter(roomId, accept = true)
@@ -413,6 +508,14 @@ class RoomDetailActivity : AppCompatActivity() {
                                 fabBnt.strokeWidth = 2 // 테두리 두께 설정
 
                                 fabBnt.setOnClickListener {
+                                    // GA 이벤트 로그 추가
+                                    AnalyticsEventLogger.logEvent(
+                                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+                                        category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                        label = AnalyticsConstants.Label.INVITE_ROOM,
+                                    )
+
                                     // 방 참여 요청 취소 처리
                                     viewModel.cancelJoinRequest(roomId)
                                     updateRoomInfo()
@@ -423,10 +526,13 @@ class RoomDetailActivity : AppCompatActivity() {
                                 fabBnt.setBackgroundTintList(getColorStateList(R.color.main_blue))
                                 fabBnt.setTextColor(getColor(R.color.white))
                                 fabBnt.setOnClickListener {
-                                    firebaseAnalytics.logEvent("join_room_button_click") {
-                                        param("방 참여요청", "join_room_button")
-                                        param("방 상세 화면", "room_detail_screen")
-                                    }
+                                    // GA 이벤트 로그 추가
+                                    AnalyticsEventLogger.logEvent(
+                                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
+                                        category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                        label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE,
+                                    )
 
                                     // 방 참여 요청 처리
                                     lifecycleScope.launch {
@@ -453,6 +559,14 @@ class RoomDetailActivity : AppCompatActivity() {
             )
             fabBnt.setTextColor(getColor(R.color.white))
             fabBnt.setOnClickListener {
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_LIFE_STYLE_COMPONENT,
+                    category = AnalyticsConstants.Category.ROOM_DETAIL,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.LIFE_STYLE_COMPONENT,
+                )
+
                 val intent = Intent(
                     this@RoomDetailActivity,
                     RoommateOnboardingActivity::class.java
@@ -592,6 +706,17 @@ class RoomDetailActivity : AppCompatActivity() {
                 view.setTextColor(getColor(R.color.main_blue))
                 if (isChipClickable) {
                     view.setOnClickListener {
+
+                        // GA 이벤트 로그 추가
+                        AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                            AnalyticsEventLogger.logEvent(
+                                eventName = eventInfo.eventName,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = eventInfo.action,
+                                label = eventInfo.label ?: ""
+                            )
+                        }
+
                         showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
                     }
                 }
@@ -606,6 +731,17 @@ class RoomDetailActivity : AppCompatActivity() {
                 view.setTextColor(getColor(R.color.red))
                 if (isChipClickable) {
                     view.setOnClickListener {
+
+                        // GA 이벤트 로그 추가
+                        AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                            AnalyticsEventLogger.logEvent(
+                                eventName = eventInfo.eventName,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = eventInfo.action,
+                                label = eventInfo.label ?: ""
+                            )
+                        }
+
                         showMemberStatDialog(roomId!!, key, getColor(R.color.red))
                     }
                 }
@@ -620,6 +756,17 @@ class RoomDetailActivity : AppCompatActivity() {
                 view.setTextColor(getColor(R.color.unuse_font))
                 if (isChipClickable) {
                     view.setOnClickListener {
+
+                        // GA 이벤트 로그 추가
+                        AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                            AnalyticsEventLogger.logEvent(
+                                eventName = eventInfo.eventName,
+                                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                                action = eventInfo.action,
+                                label = eventInfo.label ?: ""
+                            )
+                        }
+
                         showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
                     }
                 }

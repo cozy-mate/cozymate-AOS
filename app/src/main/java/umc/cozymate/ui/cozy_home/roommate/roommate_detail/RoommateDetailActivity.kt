@@ -417,10 +417,10 @@ class RoommateDetailActivity : AppCompatActivity() {
                     binding.fabAcceptAccept.setOnClickListener {
                         // GA 이벤트 로그 추가
                         AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ACCEPT_REQUEST,
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
                             category = AnalyticsConstants.Category.MATE_DETAIL,
                             action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.ACCEPT_REQUEST
+                            label = AnalyticsConstants.Label.ROOM_ACCEPT
                         )
 
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
@@ -437,10 +437,10 @@ class RoommateDetailActivity : AppCompatActivity() {
                     binding.fabAcceptRefuse.setOnClickListener {
                         // GA 이벤트 로그 추가
                         AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_REFUSE_REQUEST,
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
                             category = AnalyticsConstants.Category.MATE_DETAIL,
                             action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.REFUSE_REQUEST
+                            label = AnalyticsConstants.Label.ROOM_REJECT
                         )
 
                         roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
@@ -473,7 +473,7 @@ class RoommateDetailActivity : AppCompatActivity() {
 
                                 // GA 이벤트 로그 추가
                                 AnalyticsEventLogger.logEvent(
-                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCEL,
+                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
                                     category = AnalyticsConstants.Category.MATE_DETAIL,
                                     action = AnalyticsConstants.Action.BUTTON_CLICK,
                                     label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE

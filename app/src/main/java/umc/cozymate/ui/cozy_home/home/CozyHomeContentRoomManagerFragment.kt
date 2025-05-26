@@ -211,8 +211,16 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 binding.clEmptyRequest.visibility = View.VISIBLE
                 binding.clEmptyRequest.isEnabled = true
                 binding.clEmptyRequest.setOnClickListener {
-                    val intent =
-                        Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_REQUEST_ROOMMATE,
+                        category = AnalyticsConstants.Category.HOME_CONTENT,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.REQUEST_ROOMMATE,
+                    )
+
+                    val intent = Intent(requireActivity(), CozyHomeRoommateDetailActivity::class.java)
                     startActivity(intent)
                 }
             }
