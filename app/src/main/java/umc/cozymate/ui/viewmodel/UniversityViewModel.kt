@@ -20,6 +20,7 @@ import umc.cozymate.data.model.response.member.GetUniversityInfoResponse
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.data.model.response.member.VerifyMailResponse
 import umc.cozymate.data.repository.repository.MemberRepository
+import umc.cozymate.util.PreferencesUtil.KEY_USER_UNIVERSITY_NAME
 import javax.inject.Inject
 
 @HiltViewModel
@@ -181,6 +182,7 @@ class UniversityViewModel @Inject constructor(
                         Log.d(TAG, "메일 인증 성공")
                         _verifyResponse.value = response.body()
                         _isVerified.value = true
+                        sharedPreferences.edit().putString(KEY_USER_UNIVERSITY_NAME, universityName.value).commit()
                     } else {
                         Log.d(TAG, "메일 인증 실패")
                         _isVerified.value = false
