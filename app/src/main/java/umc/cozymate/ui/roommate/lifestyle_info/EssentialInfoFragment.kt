@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentEssentialInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 class EssentialInfoFragment : Fragment() {
 
@@ -51,6 +53,7 @@ class EssentialInfoFragment : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
     private val delayInMillis: Long = 500
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +69,26 @@ class EssentialInfoFragment : Fragment() {
         updateNextButtonState()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_ESSENTIAL,
+            category = AnalyticsConstants.Category.LIFE_STYLE,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     private fun saveToSPF(key: String, value: String) {

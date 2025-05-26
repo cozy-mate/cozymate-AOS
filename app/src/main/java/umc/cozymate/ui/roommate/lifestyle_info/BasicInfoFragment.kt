@@ -26,6 +26,8 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentBasicInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 class BasicInfoFragment : Fragment() {
 
@@ -35,6 +37,7 @@ class BasicInfoFragment : Fragment() {
     private var numPeopleOption: TextView? = null
     private var numPeople: String? = "2"
     private var dormitoryNameOption: TextView? = null
+    private var screenEnterTime: Long = 0
 
     // 타이머를 위한 Handler와 Runnable 선언
     private val handler = Handler(Looper.getMainLooper())
@@ -68,6 +71,25 @@ class BasicInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_GENERAL,
+            category = AnalyticsConstants.Category.LIFE_STYLE,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
+    }
 
     private fun fetchUniversityData() {
         val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

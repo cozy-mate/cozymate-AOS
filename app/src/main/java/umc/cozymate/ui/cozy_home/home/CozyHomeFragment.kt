@@ -182,7 +182,7 @@ class CozyHomeFragment : Fragment() {
             binding.btnLifestyle.setOnClickListener() {
                 // GA 이벤트 로그 추가
                 AnalyticsEventLogger.logEvent(
-                    eventName = Event.BUTTON_CLICK_LIFESTYLE,
+                    eventName = Event.BUTTON_CLICK_LIFE_STYLE,
                     category = Category.HOME_HEADER,
                     action = Action.BUTTON_CLICK,
                     label = Label.LIFE_STYLE,

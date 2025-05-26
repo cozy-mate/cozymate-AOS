@@ -91,9 +91,18 @@ class AnalyticsConstants {
         const val ROOM_COMPONENT = "room_component"
         const val ROOM_MORE = "room_more"
         const val ROOM_SWIPE = "room_swipe"
+
+        // 라이프스타일
+        const val NEXT_GENERAL = "next_general"
+        const val NEXT_ESSENTIAL = "next_essential"
+        const val NEXT_CHOICE = "next_choice"
+        const val GENERAL = "general"
+        const val ESSENTIAL = "essential"
+        const val CHOICE = "choice"
     }
 
     object Event {
+        // 온보딩
         const val INPUT_BOX_UNIV = "input_box_univ"
         const val INPUT_BOX_MAJOR = "input_box_major"
         const val INPUT_BOX_EMAIL = "input_box_email"
@@ -140,6 +149,7 @@ class AnalyticsConstants {
 
         const val ONBOARDING5_SESSION_TIME = "onboarding5_session_time"
 
+        // 코지홈
         const val BUTTON_CLICK_CHAT = "button_click_chat"
         const val BUTTON_CLICK_NOTICE = "button_click_notice"
         const val BUTTON_CLICK_LIFE_STYLE = "button_click_life_style"
@@ -156,5 +166,13 @@ class AnalyticsConstants {
         const val GESTURE_MATE_SWIPE = "gesture_mate_swipe"
         const val HOME_SESSION_TIME = "home_session_time"
 
+        // 라이프스타일
+        const val BUTTON_CLICK_NEXT_GENERAL = "button_click_next_general"
+        const val BUTTON_CLICK_NEXT_ESSENTIAL = "button_click_next_essential"
+        const val BUTTON_CLICK_NEXT_CHOICE = "button_click_next_choice"
+        const val INPUT_BOX_CHOICE = "input_box_choice"
+        const val SESSION_TIME_GENERAL = "session_time_general"
+        const val SESSION_TIME_ESSENTIAL = "session_time_essential"
+        const val SESSION_TIME_CHOICE = "session_time_choice"
     }
 }

@@ -1,11 +1,7 @@
 package umc.cozymate.ui.cozy_home.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.R
@@ -37,11 +31,8 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoomRequestViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
-import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
-import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
-import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 @AndroidEntryPoint
 class CozyHomeContentRoomManagerFragment : Fragment() {

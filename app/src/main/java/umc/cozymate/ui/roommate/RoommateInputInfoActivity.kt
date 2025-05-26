@@ -2,7 +2,6 @@ package umc.cozymate.ui.roommate
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -25,6 +24,8 @@ import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
 import umc.cozymate.ui.viewmodel.RoommateViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.PreferencesUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
@@ -69,6 +70,34 @@ class RoommateInputInfoActivity : AppCompatActivity() {
         btnNext.setOnClickListener {
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
                 viewPager.currentItem += 1
+
+                // GA 이벤트 로그 추가
+                when (viewPager.currentItem ) {
+                    0 -> {
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_NEXT_GENERAL,
+                            category = AnalyticsConstants.Category.LIFE_STYLE,
+                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+                            label = AnalyticsConstants.Label.NEXT_GENERAL,
+                        )
+                    }
+                    1 -> {
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_NEXT_ESSENTIAL,
+                            category = AnalyticsConstants.Category.LIFE_STYLE,
+                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+                            label = AnalyticsConstants.Label.NEXT_ESSENTIAL,
+                        )
+                    }
+                    2 -> {
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_NEXT_CHOICE,
+                            category = AnalyticsConstants.Category.LIFE_STYLE,
+                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+                            label = AnalyticsConstants.Label.NEXT_CHOICE,
+                        )
+                    }
+                }
             } else {
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
