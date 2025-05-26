@@ -69,7 +69,6 @@ class RoommateInputInfoActivity : AppCompatActivity() {
 
         btnNext.setOnClickListener {
             if (viewPager.currentItem < viewPager.adapter!!.itemCount - 1) {
-                viewPager.currentItem += 1
 
                 // GA 이벤트 로그 추가
                 when (viewPager.currentItem ) {
@@ -98,6 +97,8 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                         )
                     }
                 }
+
+                viewPager.currentItem += 1
             } else {
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")

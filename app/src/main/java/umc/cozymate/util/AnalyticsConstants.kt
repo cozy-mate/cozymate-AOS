@@ -1,6 +1,6 @@
 package umc.cozymate.util
 
-class AnalyticsConstants {
+object AnalyticsConstants {
 
     object Keys {
         const val CATEGORY = "category"
