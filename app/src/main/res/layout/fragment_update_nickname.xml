@@ -21,53 +21,60 @@
         android:layout_height="80dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="24dp"
+        android:background="@drawable/custom_rectangle_12_state"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back">
 
-        <TextView
-            android:id="@+id/tv_label_nickname"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/ll_nickname"
+            android:layout_width="191dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="닉네임"
-            android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
-            android:textColor="@color/color_font"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_onboarding_nickname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeErrorColor="@color/red"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="1dp"
-            app:counterMaxLength="9"
-            app:errorTextColor="@color/red"
-            app:hintEnabled="false"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_onboarding_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/tv_label_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임"
+                android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+                android:textColor="@color/color_font" />
+
+            <EditText
+                android:id="@+id/et_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@null"
                 android:hint="닉네임을 입력해주세요"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:paddingTop="43dp"
-                android:paddingEnd="20dp"
-                android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
-                android:textColor="@color/color_font"
+                android:padding="0dp"
+                android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+                android:textColor="@color/basic_font"
                 android:textColorHint="@color/unuse_font"
-                android:textCursorDrawable="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_valid_check"
+            android:layout_width="76dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_rectangle_univ_state"
+            android:elevation="0dp"
+            android:enabled="false"
+            android:outlineProvider="none"
+            android:text="중복 확인"
+            android:textAppearance="@style/TextAppearance.App.12sp.SemiBold"
+            android:textColor="@color/btn_text_univ_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

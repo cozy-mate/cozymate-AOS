@@ -35,7 +35,6 @@ import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.util.AnalyticsConstants
-import umc.cozymate.util.AnalyticsConstants.*
 import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
 import umc.cozymate.util.PreferencesUtil.PREFS_NAME
@@ -130,10 +129,10 @@ class CozyHomeFragment : Fragment() {
         binding.btnMessage.setOnClickListener {
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
-                eventName = Event.BUTTON_CLICK_CHAT,
-                category = Category.HOME_HEADER,
-                action = Action.BUTTON_CLICK,
-                label = Label.CHAT,
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_CHAT,
+                category = AnalyticsConstants.Category.HOME_HEADER,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.CHAT,
             )
 
             startActivity(Intent(activity, MessageMemberActivity::class.java))
@@ -144,10 +143,10 @@ class CozyHomeFragment : Fragment() {
         binding.btnNotification.setOnClickListener {
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
-                eventName = Event.BUTTON_CLICK_NOTICE,
-                category = Category.HOME_HEADER,
-                action = Action.BUTTON_CLICK,
-                label = Label.NOTICE,
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_NOTICE,
+                category = AnalyticsConstants.Category.HOME_HEADER,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.NOTICE,
             )
 
             startActivity(Intent(activity, NotificationActivity::class.java))
@@ -182,10 +181,10 @@ class CozyHomeFragment : Fragment() {
             binding.btnLifestyle.setOnClickListener() {
                 // GA 이벤트 로그 추가
                 AnalyticsEventLogger.logEvent(
-                    eventName = Event.BUTTON_CLICK_LIFE_STYLE,
-                    category = Category.HOME_HEADER,
-                    action = Action.BUTTON_CLICK,
-                    label = Label.LIFE_STYLE,
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_LIFE_STYLE,
+                    category = AnalyticsConstants.Category.HOME_HEADER,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.LIFE_STYLE,
                 )
 
                 val intent = Intent(requireContext(), RoommateOnboardingActivity::class.java)
@@ -264,10 +263,10 @@ class CozyHomeFragment : Fragment() {
         binding.btnMakeRoom.setOnClickListener {
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
-                eventName = Event.BUTTON_CLICK_MAKE_ROOM,
-                category = Category.HOME_HEADER,
-                action = Action.BUTTON_CLICK,
-                label = Label.MAKE_ROOM,
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_MAKE_ROOM,
+                category = AnalyticsConstants.Category.HOME_HEADER,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.MAKE_ROOM,
             )
 
             startActivity(Intent(requireContext(), MakingPublicRoomActivity::class.java))
@@ -275,10 +274,10 @@ class CozyHomeFragment : Fragment() {
         binding.btnEnterRoom.setOnClickListener {
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
-                eventName = Event.BUTTON_CLICK_JOIN_ROOM,
-                category = Category.HOME_HEADER,
-                action = Action.BUTTON_CLICK,
-                label = Label.JOIN_ROOM,
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_JOIN_ROOM,
+                category = AnalyticsConstants.Category.HOME_HEADER,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.JOIN_ROOM,
             )
 
             startActivity(Intent(activity, JoinRoomActivity::class.java))
