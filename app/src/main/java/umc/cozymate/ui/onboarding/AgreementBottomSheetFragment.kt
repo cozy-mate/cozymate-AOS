@@ -1,16 +1,14 @@
 package umc.cozymate.ui.onboarding
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import umc.cozymate.databinding.BottomSheetAgreementBinding
-import umc.cozymate.ui.onboarding.DatePickerBottomSheetFragment.AlertPickerDialogInterface
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
     interface AgreementConfirmedInterface {
@@ -48,14 +46,30 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheet.visibility = View.VISIBLE
         with(binding) {
             btnSeeAgreement1.setOnClickListener() {
-                val url = "https://google.com"
+                val url = "https://www.notion.so/b0703c5c8ed244089cd4cb042e561884?pvs=4"
                 val intent = Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
                 startActivity(intent)
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_AGREE_1,
+                    category = AnalyticsConstants.Category.ONBOARDING4,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.AGREE_1
+                )
             }
             btnSeeAgreement2.setOnClickListener() {
-                val url = "https://google.com"
+                val url = "https://www.notion.so/b0703c5c8ed244089cd4cb042e561884?pvs=4"
                 val intent = Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
                 startActivity(intent)
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_AGREE_2,
+                    category = AnalyticsConstants.Category.ONBOARDING4,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.AGREE_2
+                )
             }
             btnCheck1.setOnClickListener() {
                 checked1 = btnCheck1.isSelected
@@ -89,6 +103,14 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
                     btnNext.isEnabled = true
                     checkedAll = true
                 }
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_AGREE_ALL,
+                    category = AnalyticsConstants.Category.ONBOARDING4,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.AGREE_ALL
+                )
             }
             btnNext.setOnClickListener() {
                 if (btnCheckAll.isSelected) {

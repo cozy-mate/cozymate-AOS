@@ -1,6 +1,5 @@
 package umc.cozymate.ui.cozy_home.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.analytics
+import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.stat.GetMemberDetailInfoResponse
@@ -24,8 +22,8 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetail
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 import umc.cozymate.ui.viewmodel.CozyHomeViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
-import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
-import umc.cozymate.util.PreferencesUtil.PREFS_NAME
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 @AndroidEntryPoint
 class CozyHomeContentDefaultFragment : Fragment() {
@@ -35,7 +33,6 @@ class CozyHomeContentDefaultFragment : Fragment() {
     private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private var isLifestyleExist: Boolean = false
-    val firebaseAnalytics = Firebase.analytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +80,9 @@ class CozyHomeContentDefaultFragment : Fragment() {
     private fun setRoommateList() {
         roommateDetailViewModel.otherUserDetailInfo.observe(viewLifecycleOwner) { otherUserDetail ->
             if (otherUserDetail == null) return@observe
-            else goToRoommateDetail(otherUserDetail)
+            else {
+                goToRoommateDetail(otherUserDetail)
+            }
         }
         var adapter: RecommendedRoommateVPAdapter
         cozyHomeViewModel.randomRoommateList.observe(viewLifecycleOwner) { rmList ->
@@ -100,10 +99,32 @@ class CozyHomeContentDefaultFragment : Fragment() {
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
                 adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_COMPONENT,
+                        category = AnalyticsConstants.Category.HOME_CONTENT,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.MATE_COMPONENT,
+                    )
+
                     roommateDetailViewModel.getOtherUserDetailInfo(memberId)
                 }
                 binding.vpRoommate.adapter = adapter
                 binding.dotsIndicator1.attachTo(binding.vpRoommate)
+
+                // 스와이프 GA 이벤트 로그 추가
+                binding.vpRoommate.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.GESTURE_MATE_SWIPE,
+                            category = AnalyticsConstants.Category.HOME_CONTENT,
+                            action = AnalyticsConstants.Action.GESTURE,
+                            label = AnalyticsConstants.Label.MATE_SWIPE
+                        )
+                    }
+                })
             }
         }
     }
@@ -116,6 +137,14 @@ class CozyHomeContentDefaultFragment : Fragment() {
 
     private fun setMoreRoommateBtn() {
         binding.btnMoreRoommate.setOnClickListener() {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_MORE,
+                category = AnalyticsConstants.Category.HOME_CONTENT,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.MATE_MORE,
+            )
+
             val intent = Intent(requireContext(), CozyHomeRoommateDetailActivity::class.java)
             startActivity(intent)
         }
@@ -151,10 +180,32 @@ class CozyHomeContentDefaultFragment : Fragment() {
                 binding.dotsIndicator2.visibility = View.VISIBLE
                 binding.tvEmptyRoom.visibility = View.GONE
                 adapter = RecommendedRoomVPAdapter(roomList, isLifestyleExist) { roomId ->
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_COMPONENT,
+                        category = AnalyticsConstants.Category.HOME_CONTENT,
+                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+                        label = AnalyticsConstants.Label.ROOM_COMPONENT,
+                    )
+
                     goToRoomDetail(roomId)
                 }
                 binding.vpRoom.adapter = adapter
                 binding.dotsIndicator2.attachTo(binding.vpRoom)
+
+                // 스와이프 GA 이벤트 로그 추가
+                binding.vpRoom.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+
+                        AnalyticsEventLogger.logEvent(
+                            eventName = AnalyticsConstants.Event.GESTURE_ROOM_SWIPE,
+                            category = AnalyticsConstants.Category.HOME_CONTENT,
+                            action = AnalyticsConstants.Action.GESTURE,
+                            label = AnalyticsConstants.Label.ROOM_SWIPE
+                        )
+                    }
+                })
             }
         }
     }
@@ -168,6 +219,14 @@ class CozyHomeContentDefaultFragment : Fragment() {
 
     private fun setMoreRoomBtn() {
         binding.btnMoreRoom.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_MORE,
+                category = AnalyticsConstants.Category.HOME_CONTENT,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_MORE,
+            )
+
             val intent = Intent(requireContext(), CozyRoomDetailInfoActivity::class.java)
             startActivity(intent)
         }

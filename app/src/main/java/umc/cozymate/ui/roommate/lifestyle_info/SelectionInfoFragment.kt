@@ -12,12 +12,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import umc.cozymate.databinding.FragmentSelectionInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 class SelectionInfoFragment : Fragment() {
     private lateinit var binding: FragmentSelectionInfoBinding
     private lateinit var spf : SharedPreferences
 
     private val maxCharCount = 200
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +30,6 @@ class SelectionInfoFragment : Fragment() {
 
         binding = FragmentSelectionInfoBinding.inflate(layoutInflater)
         spf = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
 
         binding.etSelectionInfo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
@@ -51,9 +53,41 @@ class SelectionInfoFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
 
         })
+
+        binding.etSelectionInfo.setOnClickListener {
+            // GA 이벤트 로그
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_CHOICE_TEXT_INPUT,
+                category = AnalyticsConstants.Category.LIFE_STYLE,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.CHOICE_TEXT_INPUT
+            )
+        }
+
         (activity as? RoommateInputInfoActivity)?.showNextButton()
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_CHOICE,
+            category = AnalyticsConstants.Category.LIFE_STYLE,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = AnalyticsConstants.Label.CHOICE,
+            duration = sessionDuration
+        )
+    }
+
     private fun saveToSPF(key: String, value: String) {
         spf.edit().putString(key, value).apply()
     }

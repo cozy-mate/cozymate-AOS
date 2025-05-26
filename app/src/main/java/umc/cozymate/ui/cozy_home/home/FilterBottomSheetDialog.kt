@@ -9,6 +9,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import umc.cozymate.R
 import umc.cozymate.data.domain.SortType
 import umc.cozymate.databinding.BottomSheetSearchFilterBinding
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 
 class FilterBottomSheetDialog(
     private val onSortSelected: (String) -> Unit,
@@ -29,16 +31,40 @@ class FilterBottomSheetDialog(
 
         // 클릭 시 내부 상태만 바꾸고 UI 업데이트
         binding.layoutAverage.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SORTING_RATE,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SORTING_RATE,
+            )
+
             selectedOption = SortType.AVERAGE_RATE.value
             updateUI(selectedOption)
         }
 
         binding.layoutLatest.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SORTING_NEW,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SORTING_NEW,
+            )
+
             selectedOption = SortType.LATEST.value
             updateUI(selectedOption)
         }
 
         binding.layoutClosing.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SORTING_DEADLINE,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SORTING_DEADLINE,
+            )
+
             selectedOption = SortType.CLOSING_SOON.value
             updateUI(selectedOption)
         }

@@ -16,7 +16,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import umc.cozymate.databinding.FragmentMajorSearchBinding
+import umc.cozymate.ui.university_certification.adapter.MajorAdapter
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -28,7 +31,7 @@ class MajorSearchFragment : Fragment() {
     private lateinit var majorList: List<String>
     private var mailPattern: String = ""
     private lateinit var adapter: MajorAdapter
-    private var debounceJob: Job? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +58,14 @@ class MajorSearchFragment : Fragment() {
 
     fun observeMajorList() {
         adapter = MajorAdapter { majorName ->
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_MAJOR,
+                category = AnalyticsConstants.Category.ONBOARDING1,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.MAJOR
+            )
+
             setFragmentResult(
                 UniversityCertificationFragment.ARG_MAJOR_INFO,
                 bundleOf(

@@ -1,0 +1,240 @@
+package umc.cozymate.util
+
+object AnalyticsConstants {
+
+    object Keys {
+        const val CATEGORY = "category"
+        const val ACTION = "action"
+        const val LABEL = "label"
+        const val DURATION = "duration"
+    }
+
+    object Category {
+        // 온보딩
+        const val ONBOARDING1 = "onboarding1"
+        const val ONBOARDING2 = "onboarding2"
+        const val ONBOARDING3 = "onboarding3"
+        const val ONBOARDING4 = "onboarding4"
+        const val ONBOARDING5 = "onboarding5"
+
+        // 코지홈
+        const val HOME_HEADER = "home_header"
+        const val HOME_CONTENT = "home_content"
+
+        // 라이프스타일
+        const val LIFE_STYLE = "life_style"
+
+        // 룸메이트 추천
+        const val CONTENT_MATE = "content_mate"
+        const val MATE_DETAIL = "mate_detail"
+
+        // 방 추천
+        const val CONTENT_ROOM = "content_room"
+        const val ROOM_DETAIL = "room_detail"
+    }
+
+    object Action {
+        const val INPUT_BOX = "input_box"
+        const val BUTTON_CLICK = "button_click"
+        const val SESSION_TIME = "session_time"
+        const val GESTURE = "gesture"
+        const val PAGE_VIEW = "page_view"
+    }
+
+    object Label {
+        // 온보딩
+        const val AGREE_1 = "agree_1"
+        const val AGREE_2 = "agree_2"
+        const val AGREE_ALL = "agree_all"
+        const val AIRCON = "aircon"
+        const val BIRTH = "birth"
+        const val CLEAN_FREQ = "clean_freq"
+        const val CLEAN_SENSITIVITY = "clean_sensitivity"
+        const val CLOSENESS = "closeness"
+        const val DORM_PASS = "dorm_pass"
+        const val DRINKING_FREQ = "drinking_freq"
+        const val EAT = "eat"
+        const val EMAIL = "email"
+        const val EMAIL_CODE = "email_code"
+        const val GAME = "game"
+        const val GENDER = "gender"
+        const val HEATER = "heater"
+        const val ITEM_SHARING = "item_sharing"
+        const val LIFESTYLE = "lifestyle"
+        const val LIGHT_OFF = "light_off"
+        const val MAJOR = "major"
+        const val MBTI = "mbti"
+        const val MORNING = "morning"
+        const val NAME = "name"
+        const val NIGHT = "night"
+        const val NOISE = "noise"
+        const val OKAY = "okay"
+        const val PERSONALITY = "personality"
+        const val PHONE_CALL = "phone_call"
+        const val SLEEP_HABIT = "sleep_habit"
+        const val SMOKE = "smoke"
+        const val STUDENT_ID = "student_id"
+        const val STUDY = "study"
+        const val UNIV = "univ"
+
+        // 코지홈
+        const val CHAT = "chat"
+        const val JOIN_ROOM = "join_room"
+        const val LIFE_STYLE = "life_style"
+        const val MAKE_ROOM = "make_room"
+        const val MATE_COMPONENT = "mate_component"
+        const val MATE_MORE = "mate_more"
+        const val MATE_SWIPE = "mate_swipe"
+        const val MY_ROOM = "my_room"
+        const val NOTICE = "notice"
+        const val REQUEST_COMPONENT = "request_component"
+        const val REQUEST_MORE = "request_more"
+        const val REQUEST_ROOMMATE = "request_roommate"
+        const val ROOM_COMPONENT = "room_component"
+        const val ROOM_MORE = "room_more"
+        const val ROOM_SWIPE = "room_swipe"
+
+        // 라이프스타일
+        const val NEXT_GENERAL = "next_general"
+        const val NEXT_ESSENTIAL = "next_essential"
+        const val NEXT_CHOICE = "next_choice"
+        const val CHOICE_TEXT_INPUT = "choice_text_input"
+        const val GENERAL = "general"
+        const val ESSENTIAL = "essential"
+        const val CHOICE = "choice"
+
+        // 룸메이트 추천
+        const val INVITE_ROOM = "invite_room"
+        const val INVITE_ROOM_CANCLE = "invite_room_cancle"
+        const val ROOM_ACCEPT = "room_accept"
+        const val ROOM_REJECT = "room_reject"
+        const val LIFE_STYLE_COMPONENT = "life_style_component"
+        const val MATE_CONTENT = "mate_content"
+        const val MATE_DETAIL = "mate_detail"
+        const val MATE_LIKE = "mate_like"
+        const val MATE_MESSAGE = "mate_message"
+        const val MATE_SEARCH = "mate_search"
+        const val SHOW_GRID = "show_grid"
+        const val SHOW_LIST = "show_list"
+
+        // 방 추천
+        const val ROOM_CONTENT = "room_content"
+        const val ROOM_DETAIL = "room_detail"
+        const val ROOM_LIKE = "room_like"
+        const val ROOM_MATE_COMPONENT = "room_mate_component"
+        const val ROOM_MESSAGE = "room_message"
+        const val ROOM_SEARCH = "room_search"
+        const val ROOM_OUT = "room_out"
+        const val SORTING = "sorting"
+        const val SORTING_DEADLINE = "sorting_deadline"
+        const val SORTING_NEW = "sorting_new"
+        const val SORTING_RATE = "sorting_rate"
+    }
+
+    object Event {
+        // 온보딩
+        const val INPUT_BOX_UNIV = "input_box_univ"
+        const val INPUT_BOX_MAJOR = "input_box_major"
+        const val INPUT_BOX_EMAIL = "input_box_email"
+        const val INPUT_BOX_EMAIL_CODE = "input_box_email_code"
+        const val BUTTON_CLICK_EMAIL = "button_click_email"
+        const val BUTTON_CLICK_EMAIL_CODE = "button_click_email_code"
+        const val ONBOARDING1_SESSION_TIME = "onboarding1_session_time"
+
+        const val INPUT_BOX_NAME = "input_box_name"
+        const val INPUT_BOX_GENDER = "input_box_gender"
+        const val INPUT_BOX_BIRTH = "input_box_birth"
+        const val BUTTON_CLICK_NAME = "button_click_name"
+        const val ONBOARDING2_SESSION_TIME = "onboarding2_session_time"
+
+        const val BUTTON_CLICK_BIRTH = "button_click_birth"
+        const val BUTTON_CLICK_STUDENT_ID = "button_click_student_id"
+        const val BUTTON_CLICK_MAJOR = "button_click_major"
+        const val BUTTON_CLICK_DORM_PASS = "button_click_dorm_pass"
+        const val BUTTON_CLICK_MORNING = "button_click_morning"
+        const val BUTTON_CLICK_NIGHT = "button_click_night"
+        const val BUTTON_CLICK_LIGHT_OFF = "button_click_light_off"
+        const val BUTTON_CLICK_SMOKE = "button_click_smoke"
+        const val BUTTON_CLICK_SLEEP_HABIT = "button_click_sleep_habit"
+        const val BUTTON_CLICK_AIRCON = "button_click_aircon"
+        const val BUTTON_CLICK_HEATER = "button_click_heater"
+        const val BUTTON_CLICK_LIFESTYLE = "button_click_lifestyle"
+        const val BUTTON_CLICK_CLOSENESS = "button_click_closeness"
+        const val BUTTON_CLICK_ITEM_SHARING = "button_click_item_sharing"
+        const val BUTTON_CLICK_GAME = "button_click_game"
+        const val BUTTON_CLICK_PHONE_CALL = "button_click_phone_call"
+        const val BUTTON_CLICK_STUDY = "button_click_study"
+        const val BUTTON_CLICK_EAT = "button_click_eat"
+        const val BUTTON_CLICK_CLEAN_SENSITIVITY = "button_click_clean_sensitivity"
+        const val BUTTON_CLICK_NOISE = "button_click_noise"
+        const val BUTTON_CLICK_CLEAN_FREQ = "button_click_clean_freq"
+        const val BUTTON_CLICK_DRINKING_FREQ = "button_click_drinking_freq"
+        const val BUTTON_CLICK_PERSONALITY = "button_click_personality"
+        const val BUTTON_CLICK_MBTI = "button_click_mbti"
+        const val BUTTON_CLICK_OKAY = "button_click_okay"
+        const val BUTTON_CLICK_AGREE_ALL = "button_click_agree_all"
+        const val BUTTON_CLICK_AGREE_1 = "button_click_agree_1"
+        const val BUTTON_CLICK_AGREE_2 = "button_click_agree_2"
+        const val ONBOARDING4_SESSION_TIME = "onboarding4_session_time"
+
+        const val ONBOARDING5_SESSION_TIME = "onboarding5_session_time"
+
+        // 코지홈
+        const val BUTTON_CLICK_CHAT = "button_click_chat"
+        const val BUTTON_CLICK_NOTICE = "button_click_notice"
+        const val BUTTON_CLICK_LIFE_STYLE = "button_click_life_style"
+        const val BUTTON_CLICK_MAKE_ROOM = "button_click_make_room"
+        const val BUTTON_CLICK_JOIN_ROOM = "button_click_join_room"
+        const val BUTTON_CLICK_MATE_MORE = "button_click_mate_more"
+        const val BUTTON_CLICK_MATE_COMPONENT = "button_click_mate_component"
+        const val BUTTON_CLICK_ROOM_MORE = "button_click_room_more"
+        const val BUTTON_CLICK_ROOM_COMPONENT = "button_click_room_component"
+        const val BUTTON_CLICK_MY_ROOM = "button_click_my_room"
+        const val BUTTON_CLICK_REQUEST_COMPONENT = "button_click_request_component"
+        const val BUTTON_CLICK_REQUEST_MORE = "button_click_request_more"
+        const val BUTTON_CLICK_REQUEST_ROOMMATE = "button_click_request_roommate"
+        const val GESTURE_ROOM_SWIPE = "gesture_room_swipe"
+        const val GESTURE_MATE_SWIPE = "gesture_mate_swipe"
+        const val HOME_SESSION_TIME = "home_session_time"
+
+        // 라이프스타일
+        const val BUTTON_CLICK_NEXT_GENERAL = "button_click_next_general"
+        const val BUTTON_CLICK_NEXT_ESSENTIAL = "button_click_next_essential"
+        const val BUTTON_CLICK_NEXT_CHOICE = "button_click_next_choice"
+        const val BUTTON_CLICK_CHOICE_TEXT_INPUT = "button_click_choice_text_input"
+        const val SESSION_TIME_GENERAL = "session_time_general"
+        const val SESSION_TIME_ESSENTIAL = "session_time_essential"
+        const val SESSION_TIME_CHOICE = "session_time_choice"
+
+        // 룸메이트 추천
+        const val INPUT_BOX_MATE_SEARCH = "input_box_mate_search"
+        const val BUTTON_CLICK_LIFE_STYLE_COMPONENT = "button_click_life_style_component"
+        const val SESSION_TIME_MATE_CONTENT = "session_time_mate_content"
+
+        const val BUTTON_CLICK_SHOW_GRID = "button_click_show_grid"
+        const val BUTTON_CLICK_SHOW_LIST = "button_click_show_list"
+        const val BUTTON_CLICK_MATE_MESSAGE = "button_click_mate_message"
+        const val BUTTON_CLICK_MATE_LIKE = "button_click_mate_like"
+        const val BUTTON_CLICK_INVITE_ROOM = "button_click_invite_room"
+        const val BUTTON_CLICK_ROOM_ACCEPT = "button_click_room_accept"
+        const val BUTTON_CLICK_ROOM_REJECT = "button_click_room_reject"
+        const val SESSION_TIME_MATE_DETAIL = "session_time_mate_detail"
+        const val PAGE_VIEW_MATE_DETAIL = "page_view_mate_detail"
+
+        // 방 추천
+        const val INPUT_BOX_ROOM_SEARCH = "input_box_room_search"
+        const val SESSION_TIME_ROOM_CONTENT = "session_time_room_content"
+        const val BUTTON_CLICK_SORTING = "button_click_sorting"
+        const val BUTTON_CLICK_SORTING_RATE = "button_click_sorting_rate"
+        const val BUTTON_CLICK_SORTING_NEW = "button_click_sorting_new"
+        const val BUTTON_CLICK_SORTING_DEADLINE = "button_click_sorting_deadline"
+
+        const val BUTTON_CLICK_ROOM_MESSAGE = "button_click_room_message"
+        const val BUTTON_CLICK_ROOM_LIKE = "button_click_room_like"
+        const val BUTTON_CLICK_INVITE_ROOM_CANCLE = "button_click_invite_room_cancle"
+        const val BUTTON_CLICK_ROOM_OUT = "button_click_room_out"
+        const val BUTTON_CLICK_ROOM_MATE_COMPONENT = "button_click_room_mate_component"
+        const val SESSION_TIME_ROOM_DETAIL = "session_time_room_detail"
+        const val PAGE_VIEW_ROOM_DETAIL = "page_view_room_detail"
+    }
+}

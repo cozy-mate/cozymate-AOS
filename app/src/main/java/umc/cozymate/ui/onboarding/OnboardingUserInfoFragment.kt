@@ -23,6 +23,8 @@ import umc.cozymate.R
 import umc.cozymate.databinding.FragmentOnboardingUserInfoBinding
 import umc.cozymate.ui.viewmodel.OnboardingViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StringUtil
 
 @AndroidEntryPoint
@@ -36,6 +38,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private var isSelectedFemale = false
     private var birthDate = ""
     private var debounceJob: Job? = null
+    private var screenEnterTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +47,26 @@ class OnboardingUserInfoFragment : Fragment() {
     ): View {
         _binding = FragmentOnboardingUserInfoBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.ONBOARDING2_SESSION_TIME,
+            category = AnalyticsConstants.Category.ONBOARDING2,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = null,
+            duration = sessionDuration
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,6 +126,14 @@ class OnboardingUserInfoFragment : Fragment() {
                             binding.clOnboardingNickname.isSelected = false
                             binding.btnValidCheck.isEnabled = true
                             viewModel.setNickname(input)
+
+                            // GA 이벤트 로그 추가
+                            AnalyticsEventLogger.logEvent(
+                                eventName = AnalyticsConstants.Event.INPUT_BOX_NAME,
+                                category = AnalyticsConstants.Category.ONBOARDING2,
+                                action = AnalyticsConstants.Action.INPUT_BOX,
+                                label = AnalyticsConstants.Label.NAME
+                            )
                         }
                     }
                 }
@@ -130,7 +161,17 @@ class OnboardingUserInfoFragment : Fragment() {
             }
         })
         binding.btnValidCheck.setOnClickListener() {
-            if (binding.btnValidCheck.isEnabled) viewModel.nicknameCheck()
+            if (binding.btnValidCheck.isEnabled) {
+                viewModel.nicknameCheck()
+
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_NAME,
+                    category = AnalyticsConstants.Category.ONBOARDING2,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.NAME
+                )
+            }
         }
     }
 
@@ -144,6 +185,14 @@ class OnboardingUserInfoFragment : Fragment() {
             setTextColor(binding.tvMale, R.color.color_font)
             setTextColor(binding.tvFemale, R.color.color_font)
             updateNextBtnState()
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_GENDER,
+                category = AnalyticsConstants.Category.ONBOARDING2,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.GENDER
+            )
         }
         binding.radioFemale.setOnClickListener {
             isSelectedMale = false
@@ -154,6 +203,14 @@ class OnboardingUserInfoFragment : Fragment() {
             setTextColor(binding.tvMale, R.color.color_font)
             setTextColor(binding.tvFemale, R.color.color_font)
             updateNextBtnState()
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_GENDER,
+                category = AnalyticsConstants.Category.ONBOARDING2,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.GENDER
+            )
         }
     }
 
@@ -173,6 +230,14 @@ class OnboardingUserInfoFragment : Fragment() {
                     binding.tvBirth.text = StringUtil.formatDate(date)
                     setTextColor(binding.tvBirth, R.color.color_font)
                     updateNextBtnState()
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsEventLogger.logEvent(
+                        eventName = AnalyticsConstants.Event.INPUT_BOX_BIRTH,
+                        category = AnalyticsConstants.Category.ONBOARDING2,
+                        action = AnalyticsConstants.Action.INPUT_BOX,
+                        label = AnalyticsConstants.Label.BIRTH
+                    )
                 }
             })
             fragment.show(childFragmentManager, "DatePickerBottomSheetFragment")

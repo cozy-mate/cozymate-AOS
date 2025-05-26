@@ -14,12 +14,14 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import umc.cozymate.data.model.response.member.GetUniversityListResponse
 import umc.cozymate.databinding.FragmentUniversitySearchBinding
+import umc.cozymate.ui.university_certification.adapter.UniversityAdapter
 import umc.cozymate.ui.viewmodel.SplashViewModel
 import umc.cozymate.ui.viewmodel.UniversityViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StatusBarUtil
 
 @AndroidEntryPoint
@@ -31,7 +33,7 @@ class UniversitySearchFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var univList: List<GetUniversityListResponse.Result.University>
     private lateinit var adapter: UniversityAdapter
-    private var debounceJob: Job? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,6 +61,16 @@ class UniversitySearchFragment : Fragment() {
     fun observeUniversityList() {
         adapter = UniversityAdapter { univId, univName ->
             viewModel.setUniversityId(univId)
+
+
+            // GA 이벤트 로그 추가 (대학교 선택 이벤트)
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_UNIV,
+                category = AnalyticsConstants.Category.ONBOARDING1,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.UNIV
+            )
+
             setFragmentResult(
                 UniversityCertificationFragment.ARG_UNIVERSITY_INFO,
                 bundleOf(

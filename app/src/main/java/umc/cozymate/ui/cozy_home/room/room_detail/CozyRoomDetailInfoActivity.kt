@@ -20,6 +20,8 @@ import umc.cozymate.ui.cozy_home.home.FilterBottomSheetDialog
 import umc.cozymate.ui.cozy_home.room.search_room.SearchRoomActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -30,6 +32,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private val viewModel: RoomDetailViewModel by viewModels() // ViewModel 사용
     private var prefList: List<String> = emptyList()
     private lateinit var roomRecommendListRVA: RoomRecommendListRVA
+    private var screenEnterTime: Long = 0
 
     companion object {
         const val ARG_ROOM_ID = "room_id"
@@ -52,6 +55,14 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         }
         // 방검색으로 이동
         binding.lyRoomSearch.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.INPUT_BOX_ROOM_SEARCH,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.INPUT_BOX,
+                label = AnalyticsConstants.Label.ROOM_SEARCH,
+            )
+
             val intent = Intent(this, SearchRoomActivity::class.java)
             startActivity(intent)
         }
@@ -59,6 +70,14 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         binding.tvUserName.text = viewModel.getNickname().toString()
 
         binding.layoutSearchFilter.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_SORTING,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.SORTING,
+            )
+
             val sortBottomSheet = FilterBottomSheetDialog(
                 onSortSelected = { selectedSortType ->
                     // 한국어로 변환 후 텍스트 업데이트
@@ -84,6 +103,26 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         fetchData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        screenEnterTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val screenLeaveTime = System.currentTimeMillis()
+        val sessionDuration = screenLeaveTime - screenEnterTime // 밀리초 단위
+
+        // GA 이벤트 로그 추가
+        AnalyticsEventLogger.logEvent(
+            eventName = AnalyticsConstants.Event.SESSION_TIME_ROOM_CONTENT,
+            category = AnalyticsConstants.Category.CONTENT_ROOM,
+            action = AnalyticsConstants.Action.SESSION_TIME,
+            label = AnalyticsConstants.Label.ROOM_CONTENT,
+            duration = sessionDuration
+        )
+    }
+
     private fun getSortTypeInKorean(sortType: String): String {
         return when (sortType) {
             SortType.LATEST.value -> "최신순"
@@ -95,6 +134,15 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         // 어댑터 초기화
         roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_COMPONENT,
+                category = AnalyticsConstants.Category.CONTENT_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_COMPONENT,
+            )
+
             val intent = Intent(this, RoomDetailActivity::class.java).apply {
                 putExtra("room_id", selectedRoom.roomId)
                 Log.d("RoomDetailActivity", "리사이클러 뷰 클릭 ${selectedRoom.roomId}")

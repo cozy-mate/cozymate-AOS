@@ -82,8 +82,9 @@ class UpdateCharacterFragment : Fragment(), CharacterItemClickListener {
 
     private fun getPreferences() {
         viewModel.getMemberInfoSPF()
-        viewModel.birthDate.observe(viewLifecycleOwner) { s ->
+        viewModel.persona.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
+            selectedCharacterId = s
         }
     }
 
