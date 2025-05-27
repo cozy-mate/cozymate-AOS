@@ -95,7 +95,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        initAdmissionYear(spf.getString("user_admissionYear", "")!!.toInt())
+        initAdmissionYear(spf.getInt("user_admissionYear", -1))
         initDormitoryName(spf.getString("user_dormName", ""))
         initNumOfRoommate(spf.getString("user_numOfRoommate", ""))
         initAcceptance(spf.getString("user_dormJoiningStatus", ""))
@@ -1283,7 +1283,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun saveAllSelections() {
         val editor = spf.edit()
         with(editor) {
-            putString("user_admissionYear", selectedAdmissionYear.toString())
+            putInt("user_admissionYear", selectedAdmissionYear)
             putString("user_dormName", selectedDormitoryName)
             putString("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_dormJoiningStatus", selectedAcceptance)

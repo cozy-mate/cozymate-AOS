@@ -176,6 +176,10 @@ class RoommateDetailActivity : AppCompatActivity() {
 
             val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val wakeUpTime = spf.getInt("user_wakeUpTime", -1)
+            val sleepingTime = spf.getInt("user_sleepingTime", -1)
+            val turnOffTime = spf.getInt("user_turnOffTime", -1)
+
+            val hasCompleteLifestyleData = wakeUpTime != -1 && sleepingTime != -1 && turnOffTime != -1
 
             val sampleDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                 admissionYear = admissionYear.ifEmpty { "21" },
@@ -205,7 +209,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                 selfIntroduction = "안녕하세요! 샘플 데이터에요!."
             )
 
-            return if (wakeUpTime == -1) {
+            return if (!hasCompleteLifestyleData) {
                 binding.lyGoToLifestyle.visibility = View.VISIBLE
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
@@ -226,6 +230,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                 )
             }
             else {
+                binding.lyGoToLifestyle.visibility = View.GONE
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
@@ -706,8 +711,8 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         with(tableBinding) {
-            tvTableUserName.text = user.memberDetail.nickname
-            tvTableOtherName.text = other.memberDetail.nickname
+            tvTableUserName.text = trimText(user.memberDetail.nickname)
+            tvTableOtherName.text = trimText(other.memberDetail.nickname)
 
 //            tvTableUserBirth.text = user.memberDetail.birthday.substring(0, 4)
 //            tvTableOtherBirth.text = other.memberDetail.birthday.substring(0, 4)
@@ -726,16 +731,16 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserDormitoryNum.text = "${user.memberStatDetail.numOfRoommate}인1실"
             tvTableOtherDormitoryNum.text = "${other.memberStatDetail.numOfRoommate}인1실"
 
-            tvTableUserAcceptance.text = user.memberStatDetail.dormJoiningStatus
-            tvTableOtherAcceptance.text = other.memberStatDetail.dormJoiningStatus
+            tvTableUserAcceptance.text = trimText(user.memberStatDetail.dormJoiningStatus)
+            tvTableOtherAcceptance.text = trimText(other.memberStatDetail.dormJoiningStatus)
 
             tvTableUserWakeUpAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.wakeUpTime)
             tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.wakeUpTime)
 
 //            tvTableUserWakeUpTime.text = " ${user.memberStatDetail.wakeUpTime}시"
 //            tvTableOtherWakeUpTime.text = " ${other.memberStatDetail.wakeUpTime}시"
-            tvTableUserWakeUpTime.text = " ${convertTo12Hour(user.memberStatDetail.wakeUpTime)}시"
-            tvTableOtherWakeUpTime.text = " ${convertTo12Hour(other.memberStatDetail.wakeUpTime)}시"
+            tvTableUserWakeUpTime.text = "${convertTo12Hour(user.memberStatDetail.wakeUpTime)}시"
+            tvTableOtherWakeUpTime.text = "${convertTo12Hour(other.memberStatDetail.wakeUpTime)}시"
 
             tvTableUserSleepAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.sleepingTime)
             tvTableOtherSleepAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.sleepingTime)
@@ -743,8 +748,8 @@ class RoommateDetailActivity : AppCompatActivity() {
 //            tvTableUserSleepTime.text = " ${user.memberStatDetail.sleepingTime}시"
 //            tvTableOtherSleepTime.text = " ${other.memberStatDetail.sleepingTime}시"
 
-            tvTableUserSleepTime.text = " ${convertTo12Hour(user.memberStatDetail.sleepingTime)}시"
-            tvTableOtherSleepTime.text = " ${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
+            tvTableUserSleepTime.text = "${convertTo12Hour(user.memberStatDetail.sleepingTime)}시"
+            tvTableOtherSleepTime.text = "${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
 
             tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
             tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
@@ -763,11 +768,11 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherSleepHabbit.text =
                 trimText(other.memberStatDetail.sleepingHabits.joinToString(", "))
 
-            tvTableUserAc.text = user.memberStatDetail.coolingIntensity
-            tvTableOtherAc.text = other.memberStatDetail.coolingIntensity
+            tvTableUserAc.text = trimText(user.memberStatDetail.coolingIntensity)
+            tvTableOtherAc.text = trimText(other.memberStatDetail.coolingIntensity)
 
-            tvTableUserHeater.text = user.memberStatDetail.heatingIntensity
-            tvTableOtherHeater.text = other.memberStatDetail.heatingIntensity
+            tvTableUserHeater.text = trimText(user.memberStatDetail.heatingIntensity)
+            tvTableOtherHeater.text = trimText(other.memberStatDetail.heatingIntensity)
 
             tvTableUserLivingPattern.text = trimText(user.memberStatDetail.lifePattern)
             tvTableOtherLivingPattern.text = trimText(other.memberStatDetail.lifePattern)
@@ -790,11 +795,11 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserCall.text = trimText(user.memberStatDetail.callingStatus)
             tvTableOtherCall.text = trimText(other.memberStatDetail.callingStatus)
 
-            tvTableUserClean.text = user.memberStatDetail.cleannessSensitivity
-            tvTableOtherClean.text = other.memberStatDetail.cleannessSensitivity
+            tvTableUserClean.text = trimText(user.memberStatDetail.cleannessSensitivity)
+            tvTableOtherClean.text = trimText(other.memberStatDetail.cleannessSensitivity)
 
-            tvTableUserNoise.text = user.memberStatDetail.noiseSensitivity
-            tvTableOtherNoise.text = other.memberStatDetail.noiseSensitivity
+            tvTableUserNoise.text = trimText(user.memberStatDetail.noiseSensitivity)
+            tvTableOtherNoise.text = trimText(other.memberStatDetail.noiseSensitivity)
 
             tvTableUserCleanFrequency.text = trimText(user.memberStatDetail.cleaningFrequency)
             tvTableOtherCleanFrequency.text = trimText(other.memberStatDetail.cleaningFrequency)
