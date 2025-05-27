@@ -1283,7 +1283,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun saveAllSelections() {
         val editor = spf.edit()
         with(editor) {
-            putString("user_admissionYear", selectedAdmissionYear.toString())
+            putInt("user_admissionYear", selectedAdmissionYear)
             putString("user_dormName", selectedDormitoryName)
             putString("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_dormJoiningStatus", selectedAcceptance)
