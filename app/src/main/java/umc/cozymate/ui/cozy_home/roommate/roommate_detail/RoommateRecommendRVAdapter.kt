@@ -17,7 +17,7 @@ import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendRoommate
 import umc.cozymate.util.fromDpToPx
 
 class RoommateRecommendRVAdapter(
-    private val clickFilter: (List<String>) -> Unit
+    private val itemClick : clickListener
 ) : ListAdapter<RoommateRecommendRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoommateRecommendRVAdapterDiffCallback) {
 
     companion object {
@@ -50,7 +50,7 @@ class RoommateRecommendRVAdapter(
             VIEW_TYPE_FIRST -> {
                 val binding = RvItemRoomateDetailHeaderBinding.inflate(inflater, parent, false)
                 binding.root.layoutParams =layoutParams
-                return RoommateDetailHeaderViewHolder(binding, clickFilter)
+                return RoommateDetailHeaderViewHolder(binding, itemClick)
             }
             VIEW_TYPE_SECOND -> {
                 val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
@@ -59,6 +59,7 @@ class RoommateRecommendRVAdapter(
                     setMargins(20f.fromDpToPx() ,0, 20f.fromDpToPx(), 0)
                 }
                 binding.root.layoutParams = params
+
                 return RecommendRoommateVPViewHolder(binding)
             }
             VIEW_TYPE_THIRD -> {
@@ -77,11 +78,15 @@ class RoommateRecommendRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is RecyclerItem.FirstTypeItem -> (holder as RoommateDetailHeaderViewHolder).bind()
-            is RecyclerItem.SecondTypeItem -> {(holder as RecommendRoommateVPViewHolder).bind(item.data)
-                    Log.d("test" , "body 생성 ${item.data} ")}
+            is RecyclerItem.SecondTypeItem -> {
+                val viewHolder = holder as RecommendRoommateVPViewHolder
+                viewHolder .bind(item.data)
+                viewHolder .itemView.setOnClickListener {
+                    itemClick.moveDetailView(item.data.memberDetail.memberId)
+                }
+            }
             is RecyclerItem.ThirdTypeItem ->{
-                (holder as LifeStyleGuideViewHolder).bind(item.name)
-                Log.d("test" , "footer 생성 ")}
+                (holder as LifeStyleGuideViewHolder).bind(item.name) }
             is RecyclerItem.EmptyTypeItem -> (holder as EmptyHolder).bind()
         }
     }
@@ -90,7 +95,6 @@ class RoommateRecommendRVAdapter(
 
         }
     }
-
 // diffCallback을 별도로 뺀다
 object RoommateRecommendRVAdapterDiffCallback : DiffUtil.ItemCallback<RoommateRecommendRVAdapter.RecyclerItem>() {
     override fun areItemsTheSame(
@@ -107,4 +111,8 @@ object RoommateRecommendRVAdapterDiffCallback : DiffUtil.ItemCallback<RoommateRe
         return oldItem == newItem
     }
 }
+    interface clickListener{
+        fun clickFilter(list: List<String>)
+        fun moveDetailView(memberId : Int)
+    }
 }

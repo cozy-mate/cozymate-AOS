@@ -2,6 +2,7 @@ package umc.cozymate.ui.viewmodel
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,9 @@ class InquiryViewModel @Inject constructor(
     private val repository: InquiryRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
+    private val EMAILERROR = 0
+    private val NETWORKERROR = 1
+
     private val TAG = this.javaClass.simpleName
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
@@ -29,6 +33,9 @@ class InquiryViewModel @Inject constructor(
 
     private val _getInquiryResponse = MutableLiveData<Response<InquiryResponse>>()
     val getInquiryResponse : LiveData<Response<InquiryResponse>> get() = _getInquiryResponse
+
+    private val _errorType = MutableLiveData<Int>()
+    val errorType : LiveData<Int> get() = _errorType
 
     private val _createInquiryResponse = MutableLiveData<Response<DefaultResponse>>()
     val createInquiryResponse : LiveData<Response<DefaultResponse>> get() = _createInquiryResponse
@@ -53,9 +60,12 @@ class InquiryViewModel @Inject constructor(
                     Log.d(TAG,"postInquiry 응답성공 : ${response.body()} ")
                     _createInquiryResponse.postValue(response)
                 }
-                else
+                else{
+                    _errorType.value = EMAILERROR
                     Log.d(TAG,"postInquiry 응답실패 : ${response.body()} ")
+                }
             }catch (e: Exception){
+                _errorType.value = NETWORKERROR
                 Log.d(TAG, "postInquiry api 요청 실패: ${e}")
             }
         }

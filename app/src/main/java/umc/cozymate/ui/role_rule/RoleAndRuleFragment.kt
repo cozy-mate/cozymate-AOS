@@ -16,6 +16,7 @@ import umc.cozymate.ui.message.MessageDetailActivity.Companion.ITEM_SIZE
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.RuleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -34,6 +35,11 @@ class RoleAndRuleFragment : Fragment() {
     private var todoFlag : Boolean = false
     private var roleFlag : Boolean = false
     private var ruleFlag : Boolean = false
+
+    companion object {
+         var selectedDate= LocalDate.now()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +61,7 @@ class RoleAndRuleFragment : Fragment() {
             val pos = binding.vpRoleAndRule.currentItem
 //            val fragment = roleAndRuleVPAdapter.getFragment(pos)
 //            (fragment as? Refreshable)?.refreshData()
-            roleViewModel.getRole(roomId)
-            if(pos == 0) todoViewModel.getTodo(roomId, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE))
-            else ruleViewModel.getRule(roomId)
+            initData()
         }
 
         binding.ivAddTodo.setOnClickListener {
@@ -73,11 +77,18 @@ class RoleAndRuleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        initData()
         changeTab()
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initData(){
+        roleViewModel.getRole(roomId)
+        todoViewModel.getTodo(roomId, selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+        ruleViewModel.getRule(roomId)
     }
 
     private fun getPreference() {
@@ -101,7 +112,11 @@ class RoleAndRuleFragment : Fragment() {
     }
 
     private fun checkRefresh() {
-        binding.refreshLayout.isRefreshing = todoFlag || roleFlag || ruleFlag
+        val isLoading = todoFlag || roleFlag || ruleFlag // 셋중 하나라도 로딩중인가?
+        if(!binding.refreshLayout.isRefreshing)
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (!isLoading && binding.refreshLayout.isRefreshing)
+            binding.refreshLayout.isRefreshing = false
     }
 
     private fun changeTab(){
@@ -115,9 +130,6 @@ class RoleAndRuleFragment : Fragment() {
         binding.vpRoleAndRule.setCurrentItem(idx,false)
     }
 
-    interface Refreshable {
-        fun refreshData()
-    }
 
 }
 

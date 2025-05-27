@@ -1,6 +1,7 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import umc.cozymate.R

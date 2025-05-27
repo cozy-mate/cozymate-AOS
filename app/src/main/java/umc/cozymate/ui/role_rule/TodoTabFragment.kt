@@ -10,8 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -26,6 +29,7 @@ import umc.cozymate.databinding.FragmentTodoTabBinding
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
+import umc.cozymate.ui.role_rule.RoleAndRuleFragment.Companion.selectedDate
 import umc.cozymate.ui.viewmodel.RoleViewModel
 import umc.cozymate.ui.viewmodel.TodoViewModel
 import umc.cozymate.util.BottomSheetAction.DELETE
@@ -37,7 +41,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @AndroidEntryPoint
-class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
+class TodoTabFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentTodoTabBinding
     private var mytodo : List<TodoItem> = emptyList()
@@ -46,7 +50,7 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
     private var nickname : String = ""
     private var mateId :Int = 0
     lateinit var calendarView: MaterialCalendarView
-    private var selectedDate= LocalDate.now()
+   // private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
 
@@ -56,9 +60,7 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
     private val roleViewModel : RoleViewModel by lazy {
         ViewModelProvider(requireParentFragment())[RoleViewModel::class.java]
     }
-    override fun refreshData() {
-        initData()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,11 +78,6 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
 
     override fun onResume() {
         super.onResume()
-        initData()
-    }
-    private fun initData(){
-        roleViewModel.getRole(roomId)
-        viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
     }
 
 
@@ -131,17 +128,17 @@ class TodoTabFragment : Fragment() , RoleAndRuleFragment.Refreshable{
                 }
             }
         })
-        viewModel.todoResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                mytodo = response.body()!!.result.myTodoList.todoList
-                memberList = response.body()!!.result.mateTodoList
-            }
+        viewModel.mytodo.observe(viewLifecycleOwner, Observer { list ->
+            if (list == null) return@Observer
+            mytodo = list
             updateUI()
         })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        viewModel.memberTodoList.observe(viewLifecycleOwner, Observer { list ->
+            if (list == null) return@Observer
+            memberList= list
+            updateUI()
         })
+
     }
 
     private fun updateUI() {
