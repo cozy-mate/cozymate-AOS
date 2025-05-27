@@ -23,8 +23,6 @@ import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUpdateNicknameBinding
 import umc.cozymate.ui.viewmodel.UpdateInfoViewModel
-import umc.cozymate.util.PreferencesUtil.KEY_USER_NICKNAME
-import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 
 @AndroidEntryPoint
 class UpdateNicknameFragment : Fragment() {
@@ -47,9 +45,7 @@ class UpdateNicknameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getPreferences()
-        setObservers()
-        setTilFocusColor()
-        setNicknameTextWatcher()
+        setupNickname()
         binding.ivBack.setOnClickListener {
             requireActivity().finish()
         }
@@ -64,37 +60,40 @@ class UpdateNicknameFragment : Fragment() {
         viewModel.getMemberInfoSPF()
         viewModel.nickname.observe(viewLifecycleOwner) { s ->
             Log.d(TAG, "사용자 정보 spf에서 불러옴: $s")
-            binding.etOnboardingNickname.setText(s.toString())
+            binding.etNickname.setText(s.toString())
             debounceJob?.cancel()
         }
     }
 
-    private fun setObservers() {
-        setValidNicknameObserver()
+    private fun setupNickname() {
+        setNicknameTextWatcher()
+        setValidNicknameBtn()
         setUpdateNicknameObserver()
     }
 
 
-    private fun setValidNicknameObserver() {
+    private fun setValidNicknameBtn() {
         viewModel.isNicknameValid.observe(viewLifecycleOwner) { isValid ->
             if (!isValid) {
                 binding.tvAlertNickname.visibility = View.VISIBLE
                 binding.tvAlertNickname.text = "다른 사람이 사용 중인 닉네임이에요!"
                 binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
-                binding.tilOnboardingNickname.isErrorEnabled = true
-                binding.tilOnboardingNickname.boxStrokeColor = resources.getColor(R.color.red)
+                binding.clOnboardingNickname.isSelected = true
                 binding.btnNext.isEnabled = false
             } else {
                 binding.tvAlertNickname.visibility = View.VISIBLE
                 binding.tvAlertNickname.text = "사용가능한 닉네임이에요!"
                 binding.tvAlertNickname.setTextColor(resources.getColor(R.color.main_blue))
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
-                binding.tilOnboardingNickname.isErrorEnabled = false
-                binding.tilOnboardingNickname.boxStrokeColor =
-                    resources.getColor(R.color.sub_color1)
-                nickname = binding.etOnboardingNickname.text.toString()
+                binding.clOnboardingNickname.isSelected = false
                 binding.btnNext.isEnabled = true
+            }
+        }
+
+        binding.btnValidCheck.setOnClickListener() {
+            if (binding.btnValidCheck.isEnabled) {
+                viewModel.nicknameCheck()
             }
         }
     }
@@ -110,39 +109,8 @@ class UpdateNicknameFragment : Fragment() {
         }
     }
 
-    private fun setTilFocusColor() {
-        val states = arrayOf(
-            intArrayOf(android.R.attr.state_focused), // 포커스된 상태
-            intArrayOf() // 포커스되지 않은 상태
-        )
-        val colors = intArrayOf(
-            ContextCompat.getColor(requireContext(), R.color.sub_color1), // 포커스된 상태
-            ContextCompat.getColor(requireContext(), R.color.unuse) // 포커스되지 않은 상태
-        )
-        val colorStateList = ColorStateList(states, colors)
-        binding.tilOnboardingNickname.setBoxStrokeColorStateList(colorStateList)
-        binding.etOnboardingNickname.onFocusChangeListener =
-            View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    binding.tvLabelNickname.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.main_blue
-                        )
-                    )
-                } else {
-                    binding.tvLabelNickname.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.color_font
-                        )
-                    )
-                }
-            }
-    }
-
     private fun setNicknameTextWatcher() {
-        binding.etOnboardingNickname.addTextChangedListener(object : TextWatcher {
+        binding.etNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s.toString()
@@ -154,10 +122,8 @@ class UpdateNicknameFragment : Fragment() {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 2자리 이상 8자리 이하로 입력해주세요"
-                        binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
-                        binding.tilOnboardingNickname.isErrorEnabled = true
-                        binding.tilOnboardingNickname.boxStrokeColor =
-                            resources.getColor(R.color.red)
+                        binding.clOnboardingNickname.isSelected = true
+                        binding.btnValidCheck.isEnabled = false
                         binding.btnNext.isEnabled = false
                     }
 
@@ -165,10 +131,8 @@ class UpdateNicknameFragment : Fragment() {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 분리된 한글(모음, 자음)이 포함되면 안됩니다!"
-                        binding.tvAlertNickname.setTextColor(resources.getColor(R.color.red))
-                        binding.tilOnboardingNickname.isErrorEnabled = true
-                        binding.tilOnboardingNickname.boxStrokeColor =
-                            resources.getColor(R.color.red)
+                        binding.clOnboardingNickname.isSelected = true
+                        binding.btnValidCheck.isEnabled = false
                         binding.btnNext.isEnabled = false
                     }
 
@@ -176,24 +140,21 @@ class UpdateNicknameFragment : Fragment() {
                         binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                         binding.tvAlertNickname.visibility = View.VISIBLE
                         binding.tvAlertNickname.text = "닉네임은 한글 또는 영어로 시작해야 합니다!"
-                        binding.tilOnboardingNickname.isErrorEnabled = true
-                        binding.tilOnboardingNickname.boxStrokeColor =
-                            resources.getColor(R.color.red)
+                        binding.clOnboardingNickname.isSelected = true
+                        binding.btnValidCheck.isEnabled = false
                         binding.btnNext.isEnabled = false
                     }
 
                     else -> {
-                        binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
-                        binding.tvAlertNickname.visibility = View.GONE
-                        binding.tilOnboardingNickname.isErrorEnabled = false
-                        binding.tilOnboardingNickname.boxStrokeColor =
-                            resources.getColor(R.color.sub_color1)
-
                         debounceJob?.cancel()
                         debounceJob = viewModel.viewModelScope.launch {
                             delay(500L) // 500ms 대기
+                            binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
+                            binding.tvAlertNickname.visibility = View.GONE
+                            binding.clOnboardingNickname.isSelected = false
+                            binding.btnValidCheck.isEnabled = true
+                            binding.btnValidCheck.isClickable = true
                             viewModel.setNickname(input)
-                            viewModel.nicknameCheck() // API 호출
                         }
                     }
                 }
