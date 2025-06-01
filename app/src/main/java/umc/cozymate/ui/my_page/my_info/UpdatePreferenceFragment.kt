@@ -1,7 +1,9 @@
 package umc.cozymate.ui.my_page.my_info
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentUpdatePreferenceBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UpdateInfoViewModel by viewModels()
+    private var savedPrefs: List<String> = emptyList()
 
     companion object {
         const val TAG = "UpdatePreferenceBottomSheet"
@@ -39,12 +42,25 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getPreference()
         setupTextViews()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         parentFragmentManager.setFragmentResult(Companion.TAG, Bundle())
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        savedPrefs = listOfNotNull(
+            spf.getString("user_preference1", null),
+            spf.getString("user_preference2", null),
+            spf.getString("user_preference3", null),
+            spf.getString("user_preference4", null)
+        )
+        Log.d(TAG, "저장된 선호항목: ${savedPrefs}")
+        binding.btnNext.isEnabled = true
     }
 
     private fun setupTextViews() {
@@ -75,26 +91,31 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
             binding.chipPersonality
         )
         val selectedChips = mutableListOf<TextView>()
-        binding.btnNext.isEnabled = false
-        // 칩을 4개 선택하도록 하는 조건
         textViews.forEach { textView ->
+            val prefName = Preference.getPrefByDisplayName(textView.text.toString())
+            // 원래 저장된 선호항목 적용
+            if (savedPrefs.contains(prefName)) {
+                textView.isSelected = true
+                selectedChips.add(textView)
+            }
+
+            // 칩을 4개 선택하도록
             textView.setOnClickListener {
                 textView.isSelected = !textView.isSelected
                 if (textView.isSelected) {
+                    if (selectedChips.size >= 4) {
+                        textView.isSelected = false
+                        Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
                     selectedChips.add(textView)
                 } else {
                     selectedChips.remove(textView)
                 }
-                if (selectedChips.size > 4) {
-                    Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
-                    binding.btnNext.isEnabled = false
-                }
-                viewModel.updateSelectedElementCount(textView.isSelected)
+                updateBtnNext(selectedChips)
             }
         }
-        viewModel.isButtonEnabled.observe(viewLifecycleOwner) { it ->
-            binding.btnNext.isEnabled = it
-        }
+
         // 선호항목 업데이트
         binding.btnNext.setOnClickListener {
             if (selectedChips.size == 4) {
@@ -112,5 +133,10 @@ class UpdatePreferenceFragment : BottomSheetDialogFragment() {
         viewModel.updatePreferenceResponse.observe(viewLifecycleOwner) { res ->
             dismiss()
         }
+    }
+
+    private fun updateBtnNext(selectedChips: MutableList<TextView>) {
+        val is4Selected = selectedChips.size == 4
+        binding.btnNext.isEnabled = is4Selected
     }
 }

@@ -221,7 +221,17 @@ class UpdateInfoViewModel @Inject constructor(
     }
 
     val isButtonEnabled: LiveData<Boolean> = _selectedElementCount.map {
-        it >= 4 // 선택된 TextView가 4개 이상일 때만 활성화
+        it == 4 // 선택된 TextView가 4일 때만 활성화
+    }
+
+    // 선호 항목 저장
+    fun savePreference(prefList: List<String>) {
+        sharedPreferences.edit().apply() {
+            putString("user_preference1", prefList[0])
+            putString("user_preference2", prefList[1])
+            putString("user_preference3", prefList[2])
+            putString("user_preference4", prefList[3])
+        }.commit()
     }
 
     // 학과 수정
