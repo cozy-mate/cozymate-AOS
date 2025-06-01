@@ -12,6 +12,8 @@ import umc.cozymate.databinding.ActivitySelectingRoomCharacterBinding
 import umc.cozymate.ui.onboarding.adapter.CharacterItem
 import umc.cozymate.ui.onboarding.adapter.CharacterItemClickListener
 import umc.cozymate.ui.onboarding.adapter.CharactersAdapter
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.GridSpacingItemDecoration
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.fromDpToPx
@@ -78,6 +80,15 @@ class SelectingRoomPersonaActivity : AppCompatActivity(), CharacterItemClickList
 
     private fun setNextBtn() {
         binding.btnNext.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_OKAY,
+                category = AnalyticsConstants.Category.MAKE_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.OKAY
+            )
+
+
             val intent = Intent()
             selectedPersonaId?.let {
                 intent.putExtra("selectedCharacterId", it)

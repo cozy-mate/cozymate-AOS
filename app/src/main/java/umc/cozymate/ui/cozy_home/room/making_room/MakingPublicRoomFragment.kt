@@ -28,6 +28,8 @@ import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
 import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
 
 @AndroidEntryPoint
@@ -109,6 +111,14 @@ class MakingPublicRoomFragment : Fragment() {
 
     private fun setRoomPersona() {
         binding.ivPersona.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ENABLE,
+                category = AnalyticsConstants.Category.MAKE_ROOM,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ENABLE
+            )
+
             val intent = Intent(context, SelectingRoomPersonaActivity::class.java)
             personaResultLauncher.launch(intent)
         }
