@@ -34,7 +34,6 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
     private lateinit var binding: FragmentOnboardingSelectingPreferenceBinding
     private val viewModel: OnboardingViewModel by activityViewModels()
     private lateinit var chips: List<TextView>
-    private val selectedChips = mutableListOf<TextView>()
     private var screenEnterTime: Long = 0
 
     override fun onCreateView(
@@ -109,40 +108,39 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         )
         chips.forEach { c ->
             c.setOnClickListener {
-                c.isSelected = !c.isSelected
-                if (c.isSelected) {
-                    selectedChips.add(c)
-                } else {
-                    selectedChips.remove(c)
-                }
+                val willSelect = !c.isSelected
+                val currentSelected = chips.count { it.isSelected }
 
                 // 칩 4개 넘게 선택하면 비활성화
-                if (selectedChips.size > 4) {
+                if (willSelect && currentSelected >= 4) {
                     Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
-                    c.isSelected = !c.isSelected
-                    binding.btnNext.isEnabled = false
                     return@setOnClickListener
                 }
+                c.isSelected = willSelect
 
                 // GA 이벤트 로그 추가
-                AnalyticsChipMapper.chipEventMap[c.id]?.let { eventInfo ->
-                    AnalyticsEventLogger.logEvent(
-                        eventName = eventInfo.eventName,
-                        category = AnalyticsConstants.Category.ONBOARDING4,
-                        action = eventInfo.action,
-                        label = eventInfo.label
-                    )
+                if (willSelect) {
+                    AnalyticsChipMapper.chipEventMap[c.id]?.let { eventInfo ->
+                        AnalyticsEventLogger.logEvent(
+                            eventName = eventInfo.eventName,
+                            category = AnalyticsConstants.Category.ONBOARDING4,
+                            action = eventInfo.action,
+                            label = eventInfo.label
+                        )
+                    }
                 }
-                viewModel.updateSelectedElementCount(c.isSelected)
+                viewModel.updateSelectedElementCount(willSelect)
             }
         }
     }
 
     fun setupNextBtn() {
         binding.btnNext.setOnClickListener {
-            if (selectedChips.size == 4) {
-                val preferences =
-                    PreferenceList(selectedChips.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>)
+            val selected = chips.filter { it.isSelected }
+            if (selected.size == 4) {
+                val preferences = PreferenceList(
+                    selected.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>
+                )
                 viewModel.setPreferences(preferences)
                 setupBottomSheet()
             } else {

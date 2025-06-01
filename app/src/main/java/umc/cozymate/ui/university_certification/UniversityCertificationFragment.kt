@@ -242,6 +242,13 @@ class UniversityCertificationFragment : Fragment() {
 
     fun setSendBtnListener() {
         binding.btnSendVerifyCode.setOnClickListener {
+            if (email == "cozymate") {
+                binding.btnSendVerifyCode.text = "인증번호 재전송"
+                binding.loadingBtn1.visibility = View.INVISIBLE
+                binding.tvAlertCode.visibility = View.GONE
+                binding.clVerify.visibility = View.VISIBLE
+                binding.btnVerify.visibility = View.VISIBLE
+            }
             if (email.isNotEmpty()) {
                 viewModel.sendVerifyCode(email)
                 binding.btnSendVerifyCode.text = ""
