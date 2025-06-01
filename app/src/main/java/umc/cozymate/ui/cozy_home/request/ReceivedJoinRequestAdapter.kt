@@ -15,12 +15,9 @@ class ReceivedJoinRequestAdapter(
 ) : RecyclerView.Adapter<ReceivedJoinRequestAdapter.RequestViewHolder>() {
     private var memberList: List<GetPendingMemberListResponse.Result> = emptyList()
     class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val name: TextView = itemView.findViewById(R.id.tv_name)
-        private val persona: ImageView = itemView.findViewById(R.id.iv_char)
+        private val name: TextView = itemView.findViewById(R.id.tv_nickname)
         private val equality: TextView = itemView.findViewById(R.id.tv_equality)
-        val divider: View = itemView.findViewById(R.id.view_divider)
         fun bind(member: GetPendingMemberListResponse.Result) {
-            CharacterUtil.setImg(member.persona, persona)
             name.text = member.nickname
             equality.text = "${member.mateEquality}%"
         }
@@ -36,8 +33,6 @@ class ReceivedJoinRequestAdapter(
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         val member = memberList[position]
         holder.bind(member)
-        // 마지막 아이템은 구분선 가리기
-        holder.divider.visibility = if (position == memberList.size - 1) View.GONE else View.VISIBLE
         // 아이템 클릭 시 memberId를 콜백으로 전달
         holder.itemView.setOnClickListener {
             onItemClick(member.memberId)

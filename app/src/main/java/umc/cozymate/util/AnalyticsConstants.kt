@@ -31,6 +31,9 @@ object AnalyticsConstants {
         // 방 추천
         const val CONTENT_ROOM = "content_room"
         const val ROOM_DETAIL = "room_detail"
+
+        // 방 만들기
+        const val MAKE_ROOM = "make_room"
     }
 
     object Action {
@@ -116,6 +119,30 @@ object AnalyticsConstants {
         const val MATE_SEARCH = "mate_search"
         const val SHOW_GRID = "show_grid"
         const val SHOW_LIST = "show_list"
+        const val CHIP_AIRCON = "chip_aircon"
+        const val CHIP_BIRTH = "chip_birth"
+        const val CHIP_CLEAN_FREQ = "chip_clean_freq"
+        const val CHIP_CLEAN_SENSITIVITY = "chip_clean_sensitivity"
+        const val CHIP_CLOSENESS = "chip_closeness"
+        const val CHIP_DRINKING_FREQ = "chip_drinking_freq"
+        const val CHIP_EAT = "chip_eat"
+        const val CHIP_GAME = "chip_game"
+        const val CHIP_HEATER = "chip_heater"
+        const val CHIP_ITEM_SHARING = "chip_item_sharing"
+        const val CHIP_LIFESTYLE = "chip_lifestyle"
+        const val CHIP_LIGHT_OFF = "chip_light_off"
+        const val CHIP_MAJOR = "chip_major"
+        const val CHIP_MBTI = "chip_mbti"
+        const val CHIP_MORNING = "chip_morning"
+        const val CHIP_NIGHT = "chip_night"
+        const val CHIP_NOISE = "chip_noise"
+        const val CHIP_PASS = "chip_pass"
+        const val CHIP_PERSONALITY = "chip_personality"
+        const val CHIP_PHONE_CALL = "chip_phone_call"
+        const val CHIP_SLEEP_HABIT = "chip_sleep_habit"
+        const val CHIP_SMOKE = "chip_smoke"
+        const val CHIP_STUDENT_ID = "chip_student_id"
+        const val CHIP_STUDY = "chip_study"
 
         // 방 추천
         const val ROOM_CONTENT = "room_content"
@@ -129,6 +156,9 @@ object AnalyticsConstants {
         const val SORTING_DEADLINE = "sorting_deadline"
         const val SORTING_NEW = "sorting_new"
         const val SORTING_RATE = "sorting_rate"
+
+        // 방 만들기
+        const val ENABLE = "enable"
     }
 
     object Event {
@@ -221,6 +251,31 @@ object AnalyticsConstants {
         const val SESSION_TIME_MATE_DETAIL = "session_time_mate_detail"
         const val PAGE_VIEW_MATE_DETAIL = "page_view_mate_detail"
 
+        const val BUTTON_CLICK_CHIP_BIRTH = "button_click_chip_birth"
+        const val BUTTON_CLICK_CHIP_STUDENT_ID = "button_click_chip_student_id"
+        const val BUTTON_CLICK_CHIP_MAJOR = "button_click_chip_major"
+        const val BUTTON_CLICK_CHIP_PASS = "button_click_chip_pass"
+        const val BUTTON_CLICK_CHIP_MORNING = "button_click_chip_morning"
+        const val BUTTON_CLICK_CHIP_NIGHT = "button_click_chip_night"
+        const val BUTTON_CLICK_CHIP_LIGHT_OFF = "button_click_chip_light_off"
+        const val BUTTON_CLICK_CHIP_SMOKE = "button_click_chip_smoke"
+        const val BUTTON_CLICK_CHIP_SLEEP_HABIT = "button_click_chip_sleep_habit"
+        const val BUTTON_CLICK_CHIP_AIRCON = "button_click_chip_aircon"
+        const val BUTTON_CLICK_CHIP_HEATER = "button_click_chip_heater"
+        const val BUTTON_CLICK_CHIP_LIFESTYLE = "button_click_chip_lifestyle"
+        const val BUTTON_CLICK_CHIP_CLOSENESS = "button_click_chip_closeness"
+        const val BUTTON_CLICK_CHIP_ITEM_SHARING = "button_click_chip_item_sharing"
+        const val BUTTON_CLICK_CHIP_GAME = "button_click_chip_game"
+        const val BUTTON_CLICK_CHIP_PHONE_CALL = "button_click_chip_phone_call"
+        const val BUTTON_CLICK_CHIP_STUDY = "button_click_chip_study"
+        const val BUTTON_CLICK_CHIP_EAT = "button_click_chip_eat"
+        const val BUTTON_CLICK_CHIP_CLEAN_SENSITIVITY = "button_click_chip_clean_sensitivity"
+        const val BUTTON_CLICK_CHIP_NOISE = "button_click_chip_noise"
+        const val BUTTON_CLICK_CHIP_CLEAN_FREQ = "button_click_chip_clean_freq"
+        const val BUTTON_CLICK_CHIP_DRINKING_FREQ = "button_click_chip_drinking_freq"
+        const val BUTTON_CLICK_CHIP_PERSONALITY = "button_click_chip_personality"
+        const val BUTTON_CLICK_CHIP_MBTI = "button_click_chip_mbti"
+
         // 방 추천
         const val INPUT_BOX_ROOM_SEARCH = "input_box_room_search"
         const val SESSION_TIME_ROOM_CONTENT = "session_time_room_content"
@@ -236,5 +291,8 @@ object AnalyticsConstants {
         const val BUTTON_CLICK_ROOM_MATE_COMPONENT = "button_click_room_mate_component"
         const val SESSION_TIME_ROOM_DETAIL = "session_time_room_detail"
         const val PAGE_VIEW_ROOM_DETAIL = "page_view_room_detail"
+
+        // 방 만들기
+        const val BUTTON_CLICK_ENABLE = "button_click_enable"
     }
 }

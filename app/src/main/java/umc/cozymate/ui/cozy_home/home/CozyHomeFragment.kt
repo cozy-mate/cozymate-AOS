@@ -161,6 +161,7 @@ class CozyHomeFragment : Fragment() {
     private fun observeUserState() {
         val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
+        Log.d(TAG, "isLifestyleExist: $isLifestyleExist")
         if (!isLifestyleExist) {
             binding.btnLifestyle.visibility = View.VISIBLE
             binding.btnLifestyle.isEnabled = true

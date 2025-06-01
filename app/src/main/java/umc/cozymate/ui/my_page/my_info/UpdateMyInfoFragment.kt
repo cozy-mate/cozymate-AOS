@@ -122,6 +122,7 @@ class UpdateMyInfoFragment : Fragment() {
             })
             viewModel.myPreference.observe(viewLifecycleOwner, Observer { prefList ->
                 if (prefList != null) {
+                    viewModel.savePreference(prefList)
                     val pref1 = Preference.entries.find { it.pref == prefList[0] }
                     val pref2 = Preference.entries.find { it.pref == prefList[1] }
                     val pref3 = Preference.entries.find { it.pref == prefList[2] }
