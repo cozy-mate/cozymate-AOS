@@ -67,11 +67,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_name_guide">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="6dp"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/icon_search_png" />
 
             <TextView
                 android:layout_width="wrap_content"
