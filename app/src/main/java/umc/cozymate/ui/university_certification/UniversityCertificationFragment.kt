@@ -157,6 +157,7 @@ class UniversityCertificationFragment : Fragment() {
 
     fun handleEmailValidation() {
         checkIsValidEmail()
+        setSendStatusObserver()
         setSendBtnListener()
     }
 
@@ -205,21 +206,16 @@ class UniversityCertificationFragment : Fragment() {
         }
     }
 
-    fun setSendBtnListener() {
-        binding.btnSendVerifyCode.setOnClickListener {
-            if (email.isNotEmpty()) {
-                viewModel.sendVerifyCode(email)
-                // GA 이벤트 로그 추가
-                AnalyticsEventLogger.logEvent(
-                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_EMAIL,
-                    category = AnalyticsConstants.Category.ONBOARDING1,
-                    action = AnalyticsConstants.Action.BUTTON_CLICK,
-                    label = AnalyticsConstants.Label.EMAIL
-                )
+    fun setSendStatusObserver() {
+        viewModel.loading1.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.btnSendVerifyCode.text = ""
+                binding.loadingBtn1.visibility = View.VISIBLE
             }
         }
         viewModel.sendVerifyCodeStatus.observe(viewLifecycleOwner) { isSent ->
             binding.btnSendVerifyCode.text = "인증번호 재전송"
+            binding.loadingBtn1.visibility = View.INVISIBLE
             if (isSent) {
                 binding.tvAlertCode.visibility = View.GONE
                 binding.clVerify.visibility = View.VISIBLE
@@ -242,13 +238,22 @@ class UniversityCertificationFragment : Fragment() {
                     .show()
             }
         }
-        viewModel.loading1.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
+    }
+
+    fun setSendBtnListener() {
+        binding.btnSendVerifyCode.setOnClickListener {
+            if (email.isNotEmpty()) {
+                viewModel.sendVerifyCode(email)
                 binding.btnSendVerifyCode.text = ""
+                binding.loadingBtn1.bringToFront()
                 binding.loadingBtn1.visibility = View.VISIBLE
-            } else if (!isLoading) {
-                binding.btnSendVerifyCode.text = "인증번호 재전송"
-                binding.loadingBtn1.visibility = View.GONE
+                // GA 이벤트 로그 추가
+                AnalyticsEventLogger.logEvent(
+                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_EMAIL,
+                    category = AnalyticsConstants.Category.ONBOARDING1,
+                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                    label = AnalyticsConstants.Label.EMAIL
+                )
             }
         }
     }
