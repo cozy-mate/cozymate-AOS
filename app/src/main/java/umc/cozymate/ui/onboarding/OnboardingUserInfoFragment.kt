@@ -33,7 +33,7 @@ class OnboardingUserInfoFragment : Fragment() {
     private var _binding: FragmentOnboardingUserInfoBinding? = null
     private val binding get() = _binding!!
     private val viewModel: OnboardingViewModel by activityViewModels()
-    private val univViewModel: UniversityViewModel by activityViewModels()
+    private var isNicknameValid = false
     private var isSelectedMale = true
     private var isSelectedFemale = false
     private var birthDate = ""
@@ -151,12 +151,15 @@ class OnboardingUserInfoFragment : Fragment() {
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.red))
                 binding.clOnboardingNickname.isSelected = true
                 binding.btnNext.isEnabled = false
+                isNicknameValid = false
             } else {
                 binding.tvAlertNickname.visibility = View.VISIBLE
                 binding.tvAlertNickname.text = "사용가능한 닉네임이에요!"
                 binding.tvAlertNickname.setTextColor(resources.getColor(R.color.main_blue))
                 binding.tvLabelNickname.setTextColor(resources.getColor(R.color.main_blue))
                 binding.clOnboardingNickname.isSelected = false
+
+                isNicknameValid = true
                 updateNextBtnState()
             }
         })
@@ -265,7 +268,7 @@ class OnboardingUserInfoFragment : Fragment() {
         val isNicknameEntered = binding.etNickname.text?.isNotEmpty() == true
         val isGenderChecked = isSelectedMale || isSelectedFemale
         val isBirthSelected = (binding.tvBirth.text?.isNotEmpty() == true) && (binding.tvBirth.text.toString() != "생일을 선택해주세요")
-        val isEnabled = isNicknameEntered && isGenderChecked && isBirthSelected
+        val isEnabled = isNicknameEntered && isNicknameValid && isGenderChecked && isBirthSelected
         binding.btnNext.isEnabled = isEnabled
     }
 
