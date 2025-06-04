@@ -56,6 +56,7 @@
                     tools:listitem="@layout/rv_item_notification" />
 
                 <LinearLayout
+                    android:id="@+id/ll_empty_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -67,7 +68,6 @@
                     tools:visibility="visible">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_empty_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/iv_empty_notification"
