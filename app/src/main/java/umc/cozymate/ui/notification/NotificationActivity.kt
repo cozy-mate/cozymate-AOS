@@ -143,7 +143,7 @@ class NotificationActivity : AppCompatActivity() {
             val isEmpty = loadStates.refresh is LoadState.NotLoading &&
                     notificationAdapter.itemCount == 0
             binding.rvNotificationList.isVisible = !isEmpty
-            binding.ivEmptyList.isVisible = isEmpty
+            binding.llEmptyList.isVisible = isEmpty
 
             (loadStates.refresh as? LoadState.Error)?.let {
                 SnackbarUtil.showCustomSnackbar(
