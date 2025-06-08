@@ -10,6 +10,7 @@ import umc.cozymate.databinding.VpItemRoommateRecommendBinding
 class RecommendedRoommateVPAdapter(
     private val items: List<RecommendedMemberInfo>,
     private val isRecyclerView : Boolean = false,
+    private val isLifestyleExist: Boolean,
     private val onItemClicked: (memberId: Int) -> Unit) :
     RecyclerView.Adapter<RecommendRoommateVPViewHolder>() {
 
@@ -19,7 +20,7 @@ class RecommendedRoommateVPAdapter(
         val layoutParams  =  ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
         if (isRecyclerView) { layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT }
         binding.root.layoutParams =layoutParams
-        return RecommendRoommateVPViewHolder(binding)
+        return RecommendRoommateVPViewHolder(binding, isLifestyleExist)
     }
     override fun onBindViewHolder(holder: RecommendRoommateVPViewHolder, position: Int) {
         val item = items[position]

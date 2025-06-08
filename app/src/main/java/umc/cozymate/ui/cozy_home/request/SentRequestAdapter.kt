@@ -29,8 +29,7 @@ class SentRequestAdapter(
             arrivalNum.text = "${room.arrivalMateNum}명"
             equality.text = when {
                 false -> ""
-                room.arrivalMateNum == 1 -> "- %"
-                room.equality == 0 -> "?? %"
+                // room.equality == 0 -> "?? %"
                 else -> "${room?.equality.toString()}%"
             }
             equality.setTextColor(ContextCompat.getColor(equality.context, R.color.color_font))

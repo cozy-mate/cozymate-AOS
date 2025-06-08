@@ -186,7 +186,7 @@ class CozyHomeContentAfterMatchingFragment : Fragment() {
                 binding.vpRoommate.visibility = View.VISIBLE
                 binding.dotsIndicator1.visibility = View.VISIBLE
                 binding.tvEmptyRoommate.visibility = View.GONE
-                adapter = RecommendedRoommateVPAdapter(rmList) { memberId ->
+                adapter = RecommendedRoommateVPAdapter(rmList, true, isLifestyleExist) { memberId ->
                     // GA 이벤트 로그 추가
                     AnalyticsEventLogger.logEvent(
                         eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_COMPONENT,

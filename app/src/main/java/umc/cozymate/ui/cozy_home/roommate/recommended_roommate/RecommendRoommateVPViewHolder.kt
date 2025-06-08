@@ -12,19 +12,15 @@ import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
 
 class RecommendRoommateVPViewHolder(
     private val binding: VpItemRoommateRecommendBinding,
+    private val isLifestyleExist: Boolean
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: RecommendedMemberInfo) {
         with(binding) {
             tvNickname.text = item.memberDetail.nickname
-            if (item.equality == 0) {
-                tvMatchRate.setTextColor(
-                    ContextCompat.getColor(
-                        tvMatchRate.context,
-                        R.color.color_font
-                    )
-                )
+            if (!isLifestyleExist) {
+                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
                 tvMatchRate.text = "??%"
             } else {
                 tvMatchRate.text = "${item.equality}%"
@@ -55,7 +51,6 @@ class RecommendRoommateVPViewHolder(
                     }
                 }
                 tvPrefContents[i].text = formatAnswer(pref.pref, contents[i])
-
             }
         }
         binding.root.setOnClickListener {
