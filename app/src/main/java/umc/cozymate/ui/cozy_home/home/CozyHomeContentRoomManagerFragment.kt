@@ -275,7 +275,7 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
     }
 
     private fun updateRoommateUI(rmList: List<RecommendedMemberInfo>) {
-        val adapter = RecommendedRoommateVPAdapter(rmList, true, isLifestyleExist) { memberId ->
+        val adapter = RecommendedRoommateVPAdapter(rmList, false, isLifestyleExist) { memberId ->
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
                 eventName = AnalyticsConstants.Event.BUTTON_CLICK_MATE_COMPONENT,
