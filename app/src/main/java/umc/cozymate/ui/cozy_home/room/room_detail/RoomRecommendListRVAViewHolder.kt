@@ -1,143 +1,83 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
 class RoomRecommendListRVAViewHolder(
     private val binding: VpItemRoomRecommendBinding,
-    private val myPrefList: List<String>
-
-) : RecyclerView.ViewHolder(binding.root) {
+    private val isLifestyleExist: Boolean
+) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            if (item.equality == 0){
-                tvMatchRate.text = "??%"
+            if (!isLifestyleExist) {
+                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
+                tvMatchRate.text = "?? %"
             } else {
-                tvMatchRate.text = "${item.equality}%"
+                tvMatchRate.text = "${item.equality.toString()}%"
             }
-            tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}"
+            tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
 
-            when (item.hashtags.size) {
-                0 -> {
-                    tvHashtag1.visibility = View.INVISIBLE
-                    tvHashtag2.visibility = View.INVISIBLE
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
-
-                1 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.visibility = View.INVISIBLE
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
-
-                2 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.text = "#${item.hashtags[1]}"
-                    tvHashtag3.visibility = View.INVISIBLE
-                }
-
-                3 -> {
-                    tvHashtag1.text = "#${item.hashtags[0]}"
-                    tvHashtag2.text = "#${item.hashtags[1]}"
-                    tvHashtag3.text = "#${item.hashtags[2]}"
-                }
-            }
-            // 선호항목 1
-            val pref1 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[0].preferenceName }
-            if (pref1 != null) {
-                tvCriteria1.text = pref1.displayName
-                when (item.preferenceMatchCountList[0].count) {
-                    0 -> {
-                        tvCriteriaContent1.text = "0명 일치"
-                        ivCriteriaIcon1.setImageResource(pref1.redDrawable)
-                    }
-
-                    item.numOfArrival -> {
-                        tvCriteriaContent1.text = "모두 일치"
-                        ivCriteriaIcon1.setImageResource(pref1.blueDrawable)
-                    }
-
-                    else -> {
-                        tvCriteriaContent1.text = "${item.preferenceMatchCountList[0].count}명 일치"
-                        ivCriteriaIcon1.setImageResource(pref1.grayDrawable)
-                    }
+            val tvHashtags = arrayOf(tvHashtag1, tvHashtag2, tvHashtag3)
+            tvHashtags.forEachIndexed { idx, tv ->
+                if (idx < item.hashtags.size) {
+                    tv.text = "#${item.hashtags[idx]}"
+                    tv.visibility = View.VISIBLE
+                } else {
+                    tv.visibility = View.INVISIBLE
                 }
             }
 
-            // 선호항목 2
-            val pref2 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[1].preferenceName }
-            if (pref2 != null) {
-                tvCriteria2.text = pref2.displayName
-                when (item.preferenceMatchCountList[1].count) {
-                    0 -> {
-                        tvCriteriaContent2.text = "0명 일치"
-                        ivCrieteriaIcon2.setImageResource(pref2.redDrawable)
-                    }
-
-                    item.numOfArrival -> {
-                        tvCriteriaContent2.text = "모두 일치"
-                        ivCrieteriaIcon2.setImageResource(pref2.blueDrawable)
-                    }
-
-                    else -> {
-                        tvCriteriaContent2.text = "${item.preferenceMatchCountList[1].count}명 일치"
-                        ivCrieteriaIcon2.setImageResource(pref2.grayDrawable)
-                    }
+            val prefs =
+                item.preferenceMatchCountList.take(4).mapIndexed { idx, preferenceMatchCount ->
+                    Preference.entries.find { it.pref == preferenceMatchCount.preferenceName }
                 }
-            }
+            val counts = item.preferenceMatchCountList.take(4).map { it.count }
+            val ivPrefIcons =
+                arrayOf(ivCriteriaIcon1, ivCrieteriaIcon2, ivCrieteriaIcon3, ivCrieteriaIcon4)
+            val tvPrefNames = arrayOf(tvCriteria1, tvCriteria2, tvCriteria3, tvCriteria4)
+            val tvMatchCounts = arrayOf(
+                tvCriteriaContent1,
+                tvCriteriaContent2,
+                tvCriteriaContent3,
+                tvCriteriaContent4
+            )
+            prefs.forEachIndexed { i, pref ->
+                if (pref == null) return@forEachIndexed
+                tvPrefNames[i].text = pref.displayName
+                if (isLifestyleExist) {
+                    when (counts[i]) {
+                        0 -> {
+                            tvMatchCounts[i].text = "0명 일치"
+                            ivPrefIcons[i].setImageResource(pref.redDrawable)
+                        }
 
-            // 선호항목 3
-            val pref3 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[2].preferenceName }
-            if (pref3 != null) {
-                tvCriteria3.text = pref3.displayName
-                when (item.preferenceMatchCountList[2].count) {
-                    0 -> {
-                        tvCriteriaContent3.text = "0명 일치"
-                        ivCrieteriaIcon3.setImageResource(pref3.redDrawable)
-                    }
+                        item.numOfArrival -> {
+                            tvMatchCounts[i].text = "모두 일치"
+                            ivPrefIcons[i].setImageResource(pref.blueDrawable)
+                        }
 
-                    item.numOfArrival -> {
-                        tvCriteriaContent3.text = "모두 일치"
-                        ivCrieteriaIcon3.setImageResource(pref3.blueDrawable)
+                        else -> {
+                            tvMatchCounts[i].text = "${counts[i]}명 일치"
+                            if (counts[i] > item.numOfArrival / 2) {
+                                // 과반수 이상 일치할 때 일반색
+                                ivPrefIcons[i].setImageResource(pref.grayDrawable)
+                            } else {
+                                // 과반수 미만일 일치할 때 빨간색
+                                ivPrefIcons[i].setImageResource(pref.redDrawable)
+                            }
+                        }
                     }
-
-                    else -> {
-                        tvCriteriaContent3.text =
-                            "${item.preferenceMatchCountList[2].count}명 일치"
-                        ivCrieteriaIcon3.setImageResource(pref3.grayDrawable)
-                    }
-                }
-            }
-
-            // 선호항목 4
-            val pref4 =
-                Preference.entries.find { it.pref == item.preferenceMatchCountList[3].preferenceName }
-            if (pref4 != null) {
-                tvCriteria4.text = pref4.displayName
-                when (item.preferenceMatchCountList[3].count) {
-                    0 -> {
-                        tvCriteriaContent4.text = "0명 일치"
-                        ivCrieteriaIcon4.setImageResource(pref4.redDrawable)
-                    }
-
-                    item.numOfArrival -> {
-                        tvCriteriaContent4.text = "모두 일치"
-                        ivCrieteriaIcon4.setImageResource(pref4.blueDrawable)
-                    }
-
-                    else -> {
-                        tvCriteriaContent4.text =
-                            "${item.preferenceMatchCountList[3].count}명 일치"
-                        ivCrieteriaIcon4.setImageResource(pref4.grayDrawable)
-                    }
+                } else {
+                    tvMatchCounts[i].text = "??"
+                    ivPrefIcons[i].setImageResource(pref.grayDrawable)
                 }
             }
         }

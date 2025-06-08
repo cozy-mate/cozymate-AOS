@@ -8,7 +8,7 @@ import umc.cozymate.databinding.VpItemRoomRecommendBinding
 
 class RoomRecommendListRVA(
     private var items: List<GetRecommendedRoomListResponse.Result.Result>,
-    private val prefs: List<String>,
+    private val isLifestyleExist: Boolean,
     private val onItemClicked: (GetRecommendedRoomListResponse.Result.Result) -> Unit
 ) : RecyclerView.Adapter<RoomRecommendListRVAViewHolder>() {
     fun updateData(newItems: List<GetRecommendedRoomListResponse.Result.Result>) {
@@ -26,7 +26,7 @@ class RoomRecommendListRVA(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        return RoomRecommendListRVAViewHolder(binding, prefs)
+        return RoomRecommendListRVAViewHolder(binding, isLifestyleExist)
     }
 
     override fun onBindViewHolder(holder: RoomRecommendListRVAViewHolder, position: Int) {

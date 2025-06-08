@@ -1,5 +1,6 @@
 package umc.cozymate.ui.cozy_home.room.room_detail
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -22,6 +23,8 @@ import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
+import umc.cozymate.util.PreferencesUtil.KEY_IS_LIFESTYLE_EXIST
+import umc.cozymate.util.PreferencesUtil.PREFS_NAME
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.setStatusBarTransparent
 
@@ -30,8 +33,8 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels() // ViewModel 사용
-    private var prefList: List<String> = emptyList()
     private lateinit var roomRecommendListRVA: RoomRecommendListRVA
+    private var isLifestyleExist: Boolean = true
     private var screenEnterTime: Long = 0
 
     companion object {
@@ -50,6 +53,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         this.setStatusBarTransparent()
         StatusBarUtil.updateStatusBarColor(this@CozyRoomDetailInfoActivity, Color.WHITE)
 
+        getPreference()
         binding.ivBack.setOnClickListener {
             finish()
         }
@@ -123,6 +127,11 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
         )
     }
 
+    private fun getPreference() {
+        val spf = this.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, true)
+    }
+
     private fun getSortTypeInKorean(sortType: String): String {
         return when (sortType) {
             SortType.LATEST.value -> "최신순"
@@ -133,7 +142,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     }
     private fun setupRecyclerView() {
         // 어댑터 초기화
-        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), prefList) { selectedRoom ->
+        roomRecommendListRVA = RoomRecommendListRVA(emptyList(), isLifestyleExist) { selectedRoom ->
 
             // GA 이벤트 로그 추가
             AnalyticsEventLogger.logEvent(
