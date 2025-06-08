@@ -105,7 +105,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommendRVAdapter(object : RoommateRecommendRVAdapter.clickListener{
+        adapter = RoommateRecommendRVAdapter(isLifestyleExist, object : RoommateRecommendRVAdapter.clickListener{
             override fun clickFilter(list: List<String>) {
                 memberList.clear()
                 if (isLifestyleExist){
