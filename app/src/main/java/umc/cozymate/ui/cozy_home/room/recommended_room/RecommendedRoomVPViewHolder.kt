@@ -17,24 +17,11 @@ class RecommendedRoomVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            when {
-                item.numOfArrival == 1 -> {
-                    tvMatchRate.text = "- %"
-                }
-
-                item.equality == 0 -> {
-                    tvMatchRate.setTextColor(
-                        ContextCompat.getColor(
-                            tvMatchRate.context,
-                            R.color.color_font
-                        )
-                    )
-                    tvMatchRate.text = "?? %"
-                }
-
-                else -> {
-                    tvMatchRate.text = "${item.equality.toString()}%"
-                }
+            if (!isLifestyleExist) {
+                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
+                tvMatchRate.text = "?? %"
+            } else {
+                tvMatchRate.text = "${item.equality.toString()}%"
             }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
 
