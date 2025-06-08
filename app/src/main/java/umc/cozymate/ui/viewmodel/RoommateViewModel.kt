@@ -67,10 +67,16 @@ class RoommateViewModel @Inject constructor(
                 editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, true)
                 editor.commit()
             }.onError {
+                val editor = sharedPreferences.edit()
+                editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, false).commit()
                 Log.d("RoommateViewModel", "sendUserInfo Error: ${it}")
             }.onException {
+                val editor = sharedPreferences.edit()
+                editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, false).commit()
                 Log.d("RoommateViewModel", "sendUserInfo Exception: $it")
             }.onFail {
+                val editor = sharedPreferences.edit()
+                editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, false).commit()
                 Log.d("RoommateViewModel", "sendUserInfo onFail $it")
             }
         }
@@ -311,10 +317,14 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
                             saveUserLifestyleInfo()
                         }
                     } else {
+                        val editor = sharedPreferences.edit()
+                        editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, false).commit()
                         val errorBody = response.errorBody()?.string()
                         Log.d(TAG, "사용자 라이프스타일 조회 api 응답 실패: ${response}")
                     }
                 } catch (e: Exception) {
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, false).commit()
                     Log.d(TAG, "사용자 라이프스타일 api 요청 실패 : $e")
                 }
             }

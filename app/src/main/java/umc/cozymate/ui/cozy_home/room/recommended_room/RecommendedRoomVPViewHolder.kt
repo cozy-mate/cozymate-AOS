@@ -17,17 +17,11 @@ class RecommendedRoomVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            when {
-                item.numOfArrival == 1 -> {
-                    tvMatchRate.text = "- %"
-                }
-                item.equality == 0 -> {
-                    tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
-                    tvMatchRate.text = "?? %"
-                }
-                else -> {
-                    tvMatchRate.text = "${item.equality.toString()}%"
-                }
+            if (!isLifestyleExist) {
+                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
+                tvMatchRate.text = "?? %"
+            } else {
+                tvMatchRate.text = "${item.equality.toString()}%"
             }
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
 
@@ -41,13 +35,20 @@ class RecommendedRoomVPViewHolder(
                 }
             }
 
-            val prefs = item.preferenceMatchCountList.take(4).mapIndexed { idx, preferenceMatchCount ->
-                Preference.entries.find { it.pref == preferenceMatchCount.preferenceName }
-            }
+            val prefs =
+                item.preferenceMatchCountList.take(4).mapIndexed { idx, preferenceMatchCount ->
+                    Preference.entries.find { it.pref == preferenceMatchCount.preferenceName }
+                }
             val counts = item.preferenceMatchCountList.take(4).map { it.count }
-            val ivPrefIcons = arrayOf(ivCriteriaIcon1, ivCrieteriaIcon2, ivCrieteriaIcon3, ivCrieteriaIcon4)
+            val ivPrefIcons =
+                arrayOf(ivCriteriaIcon1, ivCrieteriaIcon2, ivCrieteriaIcon3, ivCrieteriaIcon4)
             val tvPrefNames = arrayOf(tvCriteria1, tvCriteria2, tvCriteria3, tvCriteria4)
-            val tvMatchCounts = arrayOf(tvCriteriaContent1, tvCriteriaContent2, tvCriteriaContent3, tvCriteriaContent4)
+            val tvMatchCounts = arrayOf(
+                tvCriteriaContent1,
+                tvCriteriaContent2,
+                tvCriteriaContent3,
+                tvCriteriaContent4
+            )
             prefs.forEachIndexed { i, pref ->
                 if (pref == null) return@forEachIndexed
                 tvPrefNames[i].text = pref.displayName
@@ -65,7 +66,13 @@ class RecommendedRoomVPViewHolder(
 
                         else -> {
                             tvMatchCounts[i].text = "${counts[i]}명 일치"
-                            ivPrefIcons[i].setImageResource(pref.grayDrawable)
+                            if (counts[i] > item.numOfArrival / 2) {
+                                // 과반수 이상 일치할 때 일반색
+                                ivPrefIcons[i].setImageResource(pref.grayDrawable)
+                            } else {
+                                // 과반수 미만일 일치할 때 빨간색
+                                ivPrefIcons[i].setImageResource(pref.redDrawable)
+                            }
                         }
                     }
                 } else {

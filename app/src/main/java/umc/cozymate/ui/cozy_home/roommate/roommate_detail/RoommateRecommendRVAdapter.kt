@@ -17,6 +17,7 @@ import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendRoommate
 import umc.cozymate.util.fromDpToPx
 
 class RoommateRecommendRVAdapter(
+    private val isLifestyleExist: Boolean,
     private val itemClick : clickListener
 ) : ListAdapter<RoommateRecommendRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoommateRecommendRVAdapterDiffCallback) {
 
@@ -60,7 +61,7 @@ class RoommateRecommendRVAdapter(
                 }
                 binding.root.layoutParams = params
 
-                return RecommendRoommateVPViewHolder(binding)
+                return RecommendRoommateVPViewHolder(binding, isLifestyleExist)
             }
             VIEW_TYPE_THIRD -> {
                 val binding = ItemLifestyleGuideBinding.inflate(inflater, parent, false)

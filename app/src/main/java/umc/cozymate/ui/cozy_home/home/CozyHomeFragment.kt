@@ -68,6 +68,7 @@ class CozyHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         StatusBarUtil.updateStatusBarColor(requireActivity(), Color.WHITE)
         binding.refreshLayout.isRefreshing = true
+        getPreference()
         setName()
         setMessageBtn()
         setNotificationBtn()
@@ -76,12 +77,6 @@ class CozyHomeFragment : Fragment() {
         // 업데이트 체크
         checkForUpdate()
         binding.refreshLayout.isRefreshing = false
-
-        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val allEntries = prefs.all
-        for ((key, value) in allEntries) {
-            Log.d("SharedPreferences", "Key: $key, Value: $value")
-        }
     }
 
     override fun onResume() {
@@ -114,6 +109,17 @@ class CozyHomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun getPreference() {
+        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
+        roomId = spf.getInt("room_id", 0)
+
+        val allEntries = spf.all
+        for ((key, value) in allEntries) {
+            Log.d("SharedPreferences", "Key: $key, Value: $value")
+        }
     }
 
     private fun setName() {
@@ -159,8 +165,6 @@ class CozyHomeFragment : Fragment() {
     }
 
     private fun observeUserState() {
-        val spf = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
         Log.d(TAG, "isLifestyleExist: $isLifestyleExist")
         if (!isLifestyleExist) {
             binding.btnLifestyle.visibility = View.VISIBLE
@@ -235,7 +239,6 @@ class CozyHomeFragment : Fragment() {
                 )
             }
         }
-        roomId = spf.getInt("room_id", 0)
         if ((roomId == 0 || roomId == -1) && isLifestyleExist) {
             isRoomExist = false
             binding.btnMakeRoom.isEnabled = true
