@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background_round_corner_20"
+    android:backgroundTint="@color/white"
     android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,22 +18,22 @@
             android:id="@+id/tv_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="평균일치율순"
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/unuse_font"
-            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/indicator_average"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <View
                 android:id="@+id/outer_average"
@@ -45,7 +47,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_bg_circle_inner"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,22 +63,22 @@
             android:id="@+id/tv_latest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="최신순"
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/unuse_font"
-            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/indicator_latest"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <View
                 android:id="@+id/outer_latest"
@@ -90,7 +92,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_bg_circle_inner"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -105,22 +107,22 @@
             android:id="@+id/tv_closing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="마감순"
             android:textAppearance="@style/TextAppearance.App.16sp.Medium"
             android:textColor="@color/unuse_font"
-            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/indicator_closing"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <View
                 android:id="@+id/outer_closing"
@@ -134,7 +136,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_bg_circle_inner"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,20 +145,20 @@
         android:layout_width="0dp"
         android:layout_height="54dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/custom_roommate_onboarding"
         android:text="확인"
-        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.App.16sp.SemiBold"
-        app:layout_constraintTop_toBottomOf="@+id/layout_closing"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_closing" />
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_check_filter"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_check_filter" />
 </androidx.constraintlayout.widget.ConstraintLayout>
