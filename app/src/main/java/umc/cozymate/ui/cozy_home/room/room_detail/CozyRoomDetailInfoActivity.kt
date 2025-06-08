@@ -34,7 +34,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCozyRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels() // ViewModel 사용
     private lateinit var roomRecommendListRVA: RoomRecommendListRVA
-    private var isLifestyleExist: Boolean = true
+    private var isLifestyleExist: Boolean = false
     private var screenEnterTime: Long = 0
 
     companion object {
@@ -129,7 +129,7 @@ class CozyRoomDetailInfoActivity : AppCompatActivity() {
 
     private fun getPreference() {
         val spf = this.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, true)
+        isLifestyleExist = spf.getBoolean(KEY_IS_LIFESTYLE_EXIST, false)
     }
 
     private fun getSortTypeInKorean(sortType: String): String {
