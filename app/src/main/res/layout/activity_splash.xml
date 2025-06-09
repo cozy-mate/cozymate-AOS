@@ -87,7 +87,7 @@
             android:background="@drawable/ic_login_kakao"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_test" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_apple_login"
