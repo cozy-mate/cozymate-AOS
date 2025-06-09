@@ -46,7 +46,7 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheet.visibility = View.VISIBLE
         with(binding) {
             btnSeeAgreement1.setOnClickListener() {
-                val url = "https://www.notion.so/b0703c5c8ed244089cd4cb042e561884?pvs=4"
+                val url = "https://midi-effect-fab.notion.site/209b3552fe64800794eac92b71ee2b8e?source=copy_link"
                 val intent = Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
                 startActivity(intent)
 
@@ -59,7 +59,7 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
                 )
             }
             btnSeeAgreement2.setOnClickListener() {
-                val url = "https://www.notion.so/b0703c5c8ed244089cd4cb042e561884?pvs=4"
+                val url = "https://midi-effect-fab.notion.site/209b3552fe6480358259fbfdcf828f78?source=copy_link"
                 val intent = Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
                 startActivity(intent)
 
