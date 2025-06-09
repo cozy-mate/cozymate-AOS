@@ -77,6 +77,9 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
         setupSignUpObserver()
         setupChips()
         setupNextBtn()
+        binding.ivBack.setOnClickListener() {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     fun setupChips() {
