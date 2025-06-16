@@ -91,7 +91,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             return
         }
 
-        val userDetail = getUserDetailFromPreferences()
+//        val userDetail = getUserDetailFromPreferences()
 
         memberId = otherUserDetail?.memberDetail?.memberId!!
         favoriteId = otherUserDetail?.favoriteId ?: 0
@@ -103,18 +103,32 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         selectListView(otherUserDetail!!)
 //        setUpListeners(userDetail!!)
-        if (userDetail != null) {
-            setUpListeners(userDetail)
-        } else {
-            Log.e(TAG, "userDetail이 null입니다.")
-            SnackbarUtil.showCustomSnackbar(
-                context = this,
-                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
-                iconType = SnackbarUtil.IconType.NO,
-                anchorView = binding.root,
-                extraYOffset = 20
-            )
+//        if (userDetail != null) {
+//            setUpListeners(userDetail)
+//        } else {
+//            Log.e(TAG, "userDetail이 null입니다.")
+//            SnackbarUtil.showCustomSnackbar(
+//                context = this,
+//                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
+//                iconType = SnackbarUtil.IconType.NO,
+//                anchorView = binding.root,
+//                extraYOffset = 20
+//            )
+//        }
+
+        val sharedPreferences = getSharedPreferences("umc.cozymate", Context.MODE_PRIVATE)
+
+        for ((key, value) in sharedPreferences.all) {
+            val type = try {
+                value?.javaClass?.simpleName ?: "null"
+            } catch (e: Exception) {
+                "error: ${e.message}"
+            }
+            Log.d("SPF_TYPE_CHECK", "key: $key, value: $value, type: $type")
         }
+
+        val userDetail = getUserDetailFromPreferences() ?: createFallbackUserDetail()
+        setUpListeners(userDetail)
         binding.lyGoToLifestyle.setOnClickListener {
             val intent = Intent(this, RoommateOnboardingActivity::class.java)
             startActivity(intent)
@@ -1214,5 +1228,49 @@ class RoommateDetailActivity : AppCompatActivity() {
         })
         dialog.show(this.supportFragmentManager!!, "reportPopup")
     }
-
+    private fun createFallbackUserDetail(): GetMemberDetailInfoResponse.Result {
+        return GetMemberDetailInfoResponse.Result(
+            memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
+                nickname = "기본값",
+                birthday = "2000-01-01",
+                universityName = "미입력",
+                majorName = "미입력",
+                gender = "미입력",
+                memberId = -1,
+                universityId = -1,
+                persona = 0
+            ),
+            memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
+                admissionYear = "00",
+                numOfRoommate = 0,
+                dormName = "없음",
+                dormJoiningStatus = "없음",
+                wakeUpTime = 8,
+                sleepingTime = 0,
+                turnOffTime = 0,
+                smokingStatus = "없음",
+                sleepingHabits = emptyList(),
+                coolingIntensity = "없음",
+                heatingIntensity = "없음",
+                lifePattern = "없음",
+                intimacy = "없음",
+                sharingStatus = "없음",
+                gamingStatus = "없음",
+                callingStatus = "없음",
+                studyingStatus = "없음",
+                eatingStatus = "없음",
+                cleannessSensitivity = "없음",
+                noiseSensitivity = "없음",
+                cleaningFrequency = "없음",
+                drinkingFrequency = "없음",
+                personalities = emptyList(),
+                mbti = "없음",
+                selfIntroduction = "정보 없음"
+            ),
+            equality = 0,
+            roomId = -1,
+            favoriteId = -1,
+            hasRequestedRoomEntry = false
+        )
+    }
 }
