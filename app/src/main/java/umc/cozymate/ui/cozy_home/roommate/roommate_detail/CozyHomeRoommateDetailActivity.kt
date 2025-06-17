@@ -105,13 +105,18 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommendRVAdapter(isLifestyleExist, object : RoommateRecommendRVAdapter.clickListener{
+        val isEmpty  = filterList.isEmpty() && page<2
+        adapter = RoommateRecommendRVAdapter(isLifestyleExist,
+            isEmpty,
+            object : RoommateRecommendRVAdapter.clickListener{
             override fun clickFilter(list: List<String>) {
                 memberList.clear()
                 if (isLifestyleExist){
                     page = 0
                     filterList = list
+                    Log.d(TAG,"clickFilter ${filterList}")
                     viewModel.fetchRoommateListByEquality(filterList,page++)
+
                 }
                 else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
                 else submitRecyclerItems()
@@ -141,6 +146,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
                 val totalItemCount = adapter.itemCount
 
                 if (lastVisibleItemPosition == totalItemCount - 1 && !isLoading && !isLastPage) {
+                    Log.d(TAG,"scrollListener ${filterList}")
                     viewModel.fetchRoommateListByEquality(filterList,++page)
                 }
             }
@@ -204,7 +210,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         if (!isLoading && binding.refreshLayout.isRefreshing)
             binding.refreshLayout.isRefreshing = false
-        //binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
 }
