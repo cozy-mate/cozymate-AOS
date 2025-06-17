@@ -132,6 +132,7 @@ class TodoTabFragment : Fragment() {
             if (list == null) return@Observer
             mytodo = list
             updateUI()
+            updateInfo()
         })
         viewModel.memberTodoList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
