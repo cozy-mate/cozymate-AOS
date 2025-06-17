@@ -67,16 +67,10 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:visibility="visible">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/iv_empty_notification"
-                        />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp"
                         android:text="아직 도착한 알림이 없어요!"
                         android:textAppearance="@style/TextAppearance.App.14sp.Medium"
                         android:textColor="@color/unuse_font" />
