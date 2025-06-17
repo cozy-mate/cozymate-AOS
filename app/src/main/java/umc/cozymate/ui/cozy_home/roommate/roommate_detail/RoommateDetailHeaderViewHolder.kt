@@ -25,8 +25,6 @@ class RoommateDetailHeaderViewHolder(
     private var chips  = mutableListOf<CheckBox>()
     private var isClear : Boolean = false
     fun bind(){
-
-        Log.d("test" , "header 생성 ")
         // 검색창 이동
         binding.lyRoomMateSearch.setOnClickListener {
 
@@ -53,7 +51,7 @@ class RoommateDetailHeaderViewHolder(
         for(t in filterList){
             var chip = CheckBox(itemView.context)
             chip.apply {
-                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,33f.fromDpToPx()) // 여기 wrap으로 줄이기
+                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT) // 여기 wrap으로 줄이기
                 layoutParams.setMargins(4f.fromDpToPx(), 0, 4f.fromDpToPx(),12f.fromDpToPx())
                 setPadding(14f.fromDpToPx(),8f.fromDpToPx(),14f.fromDpToPx(),8f.fromDpToPx())
                 setTextAppearance(R.style.TextAppearance_App_14sp_Medium)
@@ -84,7 +82,7 @@ class RoommateDetailHeaderViewHolder(
                 }
 
                 // 현재 선택된 필터 값(String) 만 전달
-                itemClick.clickFilter(selectedChips)
+                if(!isClear)itemClick.clickFilter(selectedChips)
             }
             chips.add(chip)
             binding.chips.addView(chip)
