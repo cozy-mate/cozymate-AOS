@@ -22,7 +22,7 @@ class UniversityAdapter(
     fun filter(query: String) {
         _query = query
         filteredList = if (query.isEmpty()) {
-            emptyList()
+            originalList
         } else {
             originalList.filter { it.name.toString().contains(query, ignoreCase = true) }
         }
@@ -41,6 +41,7 @@ class UniversityAdapter(
 
     fun setItems(newItems: List<GetUniversityListResponse.Result.University>) {
         originalList = newItems
+        filteredList = newItems
         notifyDataSetChanged()
     }
 
@@ -72,6 +73,8 @@ class UniversityAdapter(
                     start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 binding.tvUnivName.text = spannable
+            } else {
+                binding.tvUnivName.text = name
             }
         }
     }
