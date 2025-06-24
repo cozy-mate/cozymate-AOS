@@ -21,7 +21,7 @@ class MajorAdapter(
     fun filter(query: String) {
         _query = query
         filteredList = if (query.isEmpty()) {
-            emptyList()
+            originalList
         } else {
             originalList.filter { it.toString().contains(query, ignoreCase = true) }
         }
@@ -40,6 +40,7 @@ class MajorAdapter(
 
     fun setItems(newItems: List<String>) {
         originalList = newItems
+        filteredList = newItems
         notifyDataSetChanged()
     }
 
@@ -70,6 +71,8 @@ class MajorAdapter(
                     start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 binding.tvUnivName.text = spannable
+            } else {
+                binding.tvUnivName.text = name
             }
         }
     }
