@@ -23,6 +23,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.showAlignBottom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,6 +85,7 @@ class CozyBotFragment : Fragment() {
                 intent.putExtra(UpdateRoomInfoActivity.ROOM_STATE, roomType)
                 startActivity(intent)
             }
+            setCoachMark()
         }
     }
 
@@ -158,6 +164,15 @@ class CozyBotFragment : Fragment() {
 
     private fun setRoomInfoObserver() {
         viewModel.roomInfoResponse.observe(viewLifecycleOwner, Observer { res ->
+            // 초대코드
+            val invitecode = res.result.inviteCode
+            if (invitecode == "" || invitecode == null) {
+                binding.btnCopyInviteCode.visibility = View.GONE
+            } else {
+                binding.btnCopyInviteCode.visibility = View.VISIBLE
+                binding.btnCopyInviteCode.text = invitecode
+            }
+            // 룸메 리스트
             val mateList = res.result.mateDetailList
             if (mateList.isNullOrEmpty()) {
                 binding.rvMembers.visibility = View.GONE
@@ -184,15 +199,6 @@ class CozyBotFragment : Fragment() {
                         }
                     }
                 })
-            }
-        })
-        // 초대코드
-        viewModel.inviteCode.observe(viewLifecycleOwner, Observer { res ->
-            if (res == "" || res == null) {
-                binding.btnCopyInviteCode.visibility = View.GONE
-            } else {
-                binding.btnCopyInviteCode.visibility = View.VISIBLE
-                binding.btnCopyInviteCode.text = res
             }
         })
         // 방 타입
@@ -257,5 +263,25 @@ class CozyBotFragment : Fragment() {
             }
             viewModel.loadRoomLogs(isNextPage = true)
         }
+    }
+
+    private fun setCoachMark() {
+        val balloon = Balloon.Builder(requireContext())
+            .setWidthRatio(1.0f)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setText("초대코드로 룸메이트를 초대해보세요!")
+            .setTextColorResource(R.color.white)
+            .setTextSize(12f)
+            .setIconDrawableResource(R.drawable.ic_xmark)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowSize(10)
+            .setArrowPosition(0.5f)
+            .setPadding(8)
+            .setCornerRadius(20f)
+            .setBackgroundColorResource(R.color.highlight_font)
+            .setBalloonAnimation(BalloonAnimation.ELASTIC)
+            .setLifecycleOwner(viewLifecycleOwner)
+            .build()
+        binding.btnCopyInviteCode.showAlignBottom(balloon)
     }
 }

@@ -205,6 +205,7 @@ class CozyHomeViewModel @Inject constructor(
                         saveRoomInfo("mate_list", response.body()?.result?.mateDetailList!!)
                         saveRoomName(response.body()?.result?.name!!)
                         saveRoomPersona(response.body()?.result!!.persona)
+                        saveRoomInviteCode(response.body()?.result!!.inviteCode)
                         val roomInfoEntity = RoomInfoEntity(
                             roomId = response.body()?.result!!.roomId,
                             name = response.body()?.result!!.name,
@@ -257,6 +258,11 @@ class CozyHomeViewModel @Inject constructor(
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
+    }
+
+    fun saveRoomInviteCode(code: String) {
+        Log.d(TAG, "spf 방 초대코드 : $code")
+        sharedPreferences.edit().putString("room_invite_code", code).apply()
     }
 
     fun getRoomName(): String? {

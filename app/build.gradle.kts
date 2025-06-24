@@ -23,8 +23,8 @@ android {
         applicationId = "umc.cozymate"
         minSdk = 26
         targetSdk = 34
-        versionCode = 18
-        versionName = "1.18"
+        versionCode = 19
+        versionName = "1.19"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -174,6 +174,9 @@ dependencies {
 
     // shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // 코치마크
+    implementation("com.github.skydoves:balloon:1.6.0")
 }
 kapt {
     correctErrorTypes = true
