@@ -50,7 +50,6 @@ class TodoTabFragment : Fragment() {
     private var nickname : String = ""
     private var mateId :Int = 0
     lateinit var calendarView: MaterialCalendarView
-   // private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
 
