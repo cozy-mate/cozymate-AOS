@@ -86,7 +86,7 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
     }
 
     private fun setRuleInput() {
-        val maxLength = 50 // 최대 글자수 설정
+        val maxLength = 20 // 최대 글자수 설정
         binding.etInputRule.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputRule.setText(rule.content)
         binding.etInputRule.addTextChangedListener(object : TextWatcher {
