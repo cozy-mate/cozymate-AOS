@@ -32,7 +32,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private var rules : List<RuleData> = emptyList()
     private var roles : List<RoleData> = emptyList()
     private var nickname : String =""
-    
+
     private val ruleViewModel : RuleViewModel by lazy {
         ViewModelProvider(requireParentFragment())[RuleViewModel::class.java]
     }
