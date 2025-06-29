@@ -16,8 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.domain.Preference
 import umc.cozymate.data.model.entity.PreferenceList
@@ -144,23 +146,14 @@ class OnboardingSelectingPreferenceFragment : Fragment() {
                 val preferences = PreferenceList(
                     selected.map { Preference.getPrefByDisplayName(it.text.toString()) } as ArrayList<String>
                 )
-                viewModel.setPreferences(preferences)
-                setupBottomSheet()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.setPreferences(preferences)
+                    viewModel.joinMember()
+                }
             } else {
                 Toast.makeText(context, "선호항목을 4개 선택해주세요", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun setupBottomSheet() {
-        val bottomSheet = AgreementBottomSheetFragment()
-        bottomSheet.setOnAgreementAllConfirmedListener(object :
-            AgreementBottomSheetFragment.AgreementConfirmedInterface {
-            override fun onClickDoneButton() {
-                viewModel.joinMember()
-            }
-        })
-        bottomSheet.show(childFragmentManager, "AgreementSheetFragment")
     }
 
     private fun setupSignUpObserver() {
