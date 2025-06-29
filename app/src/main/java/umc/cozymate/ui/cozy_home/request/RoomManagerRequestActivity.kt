@@ -57,10 +57,12 @@ class RoomManagerRequestActivity : AppCompatActivity() {
         roomRequestViewModel.pendingMemberResponse.observe(this) { response ->
             val roomList = response?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.tvEmptyRequest.visibility = View.GONE
                 binding.tvRequestNum.text = "${roomList.size}개의"
                 adapter.submitList(roomList)
             } else {
                 binding.tvRequestNum.text = "0개의"
+                binding.tvEmptyRequest.visibility = View.VISIBLE
             }
         }
         roomRequestViewModel.isLoading2.observe(this) { isLoading ->
