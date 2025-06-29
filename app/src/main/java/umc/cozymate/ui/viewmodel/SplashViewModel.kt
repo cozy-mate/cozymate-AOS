@@ -154,7 +154,6 @@ class SplashViewModel @Inject constructor(
     private val _isMember = MutableLiveData<Boolean>(null)
     val isMember: LiveData<Boolean> get() = _isMember
     fun memberCheck() {
-
         val token = getToken()
         _loading.value = true
         if (token != null) {
