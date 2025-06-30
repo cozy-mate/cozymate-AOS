@@ -102,19 +102,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         selectListView(otherUserDetail!!)
-//        setUpListeners(userDetail!!)
-//        if (userDetail != null) {
-//            setUpListeners(userDetail)
-//        } else {
-//            Log.e(TAG, "userDetail이 null입니다.")
-//            SnackbarUtil.showCustomSnackbar(
-//                context = this,
-//                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
-//                iconType = SnackbarUtil.IconType.NO,
-//                anchorView = binding.root,
-//                extraYOffset = 20
-//            )
-//        }
 
         val sharedPreferences = getSharedPreferences("umc.cozymate", Context.MODE_PRIVATE)
 
@@ -384,169 +371,342 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val otherRoomId = otherUserDetail?.roomId ?: -1 // 상대방의 방 ID
         val otherMemberId = otherUserDetail?.memberDetail?.memberId ?: -1 // 상대방의 ID
+        val otherNickname = otherUserDetail?.memberDetail?.nickname ?: "상대방"
 
-        // 1. 내 방이 없거나 상대방이 이미 방이 있는 경우
-        if (savedRoomId <= 0 || otherRoomId > 0) {
-            binding.fabRequestRoommate.apply {
-                text = "내 방으로 초대하기"
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
-                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
-                isClickable = true
-                setOnClickListener {
-
-                    // GA 이벤트 로그 추가
-                    AnalyticsEventLogger.logEvent(
-                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
-                        category = AnalyticsConstants.Category.MATE_DETAIL,
-                        action = AnalyticsConstants.Action.BUTTON_CLICK,
-                        label = AnalyticsConstants.Label.INVITE_ROOM
-                    )
-
-                    SnackbarUtil.showCustomSnackbar(
-                        context = this@RoommateDetailActivity,
-                        message = "초대할 수 없습니다",
-                        iconType = SnackbarUtil.IconType.NO,
-                        anchorView = binding.fabRequestRoommate,
-                        extraYOffset = 20
-                    )
-                }
-            }
+//        // 1. 내 방이 없거나 상대방이 이미 방이 있는 경우
+//        if (savedRoomId <= 0 || otherRoomId > 0) {
+//            binding.fabRequestRoommate.apply {
+//                text = "내 방으로 초대하기"
+//                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
+//                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+//                isClickable = true
+//                setOnClickListener {
+//
+//                    // GA 이벤트 로그 추가
+//                    AnalyticsEventLogger.logEvent(
+//                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+//                        category = AnalyticsConstants.Category.MATE_DETAIL,
+//                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                        label = AnalyticsConstants.Label.INVITE_ROOM
+//                    )
+//
+//                    SnackbarUtil.showCustomSnackbar(
+//                        context = this@RoommateDetailActivity,
+//                        message = "초대할 수 없습니다",
+//                        iconType = SnackbarUtil.IconType.NO,
+//                        anchorView = binding.fabRequestRoommate,
+//                        extraYOffset = 20
+//                    )
+//                }
+//            }
+//            return
+//        }
+//
+//        // 2. 현재 사용자가 방장인지 확인
+//        lifecycleScope.launch {
+//            roomDetailViewModel.getOtherRoomInfo(savedRoomId)
+//        }
+//        roomDetailViewModel.managerMemberId.observe(this) { managerId ->
+//            if (managerId != userMemberId) {
+//                // 사용자가 방장이 아닌 경우 버튼 숨김
+//                binding.fabRequestRoommate.visibility = View.GONE
+//                return@observe
+//            }
+//
+//            // 3. 상대방이 방에 입장 요청한 상태인지 확인
+//            roomDetailViewModel.getPendingMember(otherMemberId)
+//            roomDetailViewModel.isPendingMember.observe(this) { isPending ->
+//                if (isPending) {
+//                    // 상대방이 방에 입장 요청한 경우
+//                    binding.fabRequestRoommate.visibility = View.GONE
+//                    binding.clAcceptBtn.visibility = View.VISIBLE
+//
+//                    binding.fabAcceptAccept.setOnClickListener {
+//                        // GA 이벤트 로그 추가
+//                        AnalyticsEventLogger.logEvent(
+//                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
+//                            category = AnalyticsConstants.Category.MATE_DETAIL,
+//                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                            label = AnalyticsConstants.Label.ROOM_ACCEPT
+//                        )
+//
+//                        roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
+//                        SnackbarUtil.showCustomSnackbar(
+//                            context = this@RoommateDetailActivity,
+//                            message = "입장 요청을 수락했습니다.",
+//                            iconType = SnackbarUtil.IconType.YES,
+//                            anchorView = binding.fabAcceptAccept,
+//                            extraYOffset = 20
+//                        )
+//                        updateRoommateInfo()
+//                    }
+//
+//                    binding.fabAcceptRefuse.setOnClickListener {
+//                        // GA 이벤트 로그 추가
+//                        AnalyticsEventLogger.logEvent(
+//                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
+//                            category = AnalyticsConstants.Category.MATE_DETAIL,
+//                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                            label = AnalyticsConstants.Label.ROOM_REJECT
+//                        )
+//
+//                        roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
+//                        SnackbarUtil.showCustomSnackbar(
+//                            context = this@RoommateDetailActivity,
+//                            message = "입장 요청을 거절했습니다.",
+//                            iconType = SnackbarUtil.IconType.YES,
+//                            anchorView = binding.fabAcceptRefuse,
+//                            extraYOffset = 20
+//                        )
+//                        updateRoommateInfo()
+//                    }
+//                    return@observe
+//                }
+//
+//                // 4. 상대방이 이미 초대된 상태인지 확인
+//                roomDetailViewModel.getInvitedStatus(otherMemberId)
+//                roomDetailViewModel.isInvitedStatus.observe(this@RoommateDetailActivity) { isInvited ->
+//                    binding.clAcceptBtn.visibility = View.GONE
+//                    binding.fabRequestRoommate.visibility = View.VISIBLE
+//
+//                    if (isInvited) {
+//                        // 이미 초대된 경우
+//                        binding.fabRequestRoommate.apply {
+//                            text = "초대 취소하기"
+//                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.color_box))
+//                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+//                            isClickable = true
+//                            setOnClickListener {
+//
+//                                // GA 이벤트 로그 추가
+//                                AnalyticsEventLogger.logEvent(
+//                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
+//                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+//                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                                    label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE
+//                                )
+//
+//                                roomDetailViewModel.cancelInvitation(otherMemberId)
+//                                lifecycleScope.launch {
+//                                    delay(500)
+//                                }
+//                                SnackbarUtil.showCustomSnackbar(
+//                                    context = this@RoommateDetailActivity,
+//                                    message = "초대를 취소했습니다.",
+//                                    iconType = SnackbarUtil.IconType.YES,
+//                                    anchorView = binding.fabRequestRoommate,
+//                                    extraYOffset = 20
+//                                )
+//                                updateRoommateInfo()
+//                            }
+//                        }
+//                    } else {
+//                        // 초대 가능 상태
+//                        binding.fabRequestRoommate.apply {
+//                            text = "내 방으로 초대하기"
+//                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+//                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+//                            isClickable = true
+//                            setOnClickListener {
+//
+//                                // GA 이벤트 로그 추가
+//                                AnalyticsEventLogger.logEvent(
+//                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+//                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+//                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                                    label = AnalyticsConstants.Label.INVITE_ROOM
+//                                )
+//
+//                                Log.d("updateFAB", "버튼 클릭됨")
+//                                roomDetailViewModel.inviteMember(otherMemberId)
+//                                lifecycleScope.launch {
+//                                    delay(500)
+//                                }
+//                                SnackbarUtil.showCustomSnackbar(
+//                                    context = this@RoommateDetailActivity,
+//                                    message = "초대 요청을 보냈습니다.",
+//                                    iconType = SnackbarUtil.IconType.YES,
+//                                    anchorView = binding.fabRequestRoommate,
+//                                    extraYOffset = 20
+//                                )
+//                                updateRoommateInfo()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        if (userMemberId == otherMemberId) {
+            binding.fabRequestRoommate.visibility = View.GONE
+            binding.clAcceptBtn.visibility = View.GONE
             return
         }
 
-        // 2. 현재 사용자가 방장인지 확인
-        lifecycleScope.launch {
-            roomDetailViewModel.getOtherRoomInfo(savedRoomId)
-        }
-        roomDetailViewModel.managerMemberId.observe(this) { managerId ->
-            if (managerId != userMemberId) {
-                // 사용자가 방장이 아닌 경우 버튼 숨김
-                binding.fabRequestRoommate.visibility = View.GONE
-                return@observe
+        // 2. 방이 있음 → 방장 확인
+        if (savedRoomId > 0) {
+            lifecycleScope.launch {
+                roomDetailViewModel.getOtherRoomInfo(savedRoomId)
             }
 
-            // 3. 상대방이 방에 입장 요청한 상태인지 확인
-            roomDetailViewModel.getPendingMember(otherMemberId)
-            roomDetailViewModel.isPendingMember.observe(this) { isPending ->
-                if (isPending) {
-                    // 상대방이 방에 입장 요청한 경우
+            roomDetailViewModel.managerMemberId.observe(this) { managerId ->
+                // 2-1. 비방장 → 버튼 숨김
+                if (managerId != userMemberId) {
                     binding.fabRequestRoommate.visibility = View.GONE
-                    binding.clAcceptBtn.visibility = View.VISIBLE
-
-                    binding.fabAcceptAccept.setOnClickListener {
-                        // GA 이벤트 로그 추가
-                        AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
-                            category = AnalyticsConstants.Category.MATE_DETAIL,
-                            action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.ROOM_ACCEPT
-                        )
-
-                        roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
-                        SnackbarUtil.showCustomSnackbar(
-                            context = this@RoommateDetailActivity,
-                            message = "입장 요청을 수락했습니다.",
-                            iconType = SnackbarUtil.IconType.YES,
-                            anchorView = binding.fabAcceptAccept,
-                            extraYOffset = 20
-                        )
-                        updateRoommateInfo()
-                    }
-
-                    binding.fabAcceptRefuse.setOnClickListener {
-                        // GA 이벤트 로그 추가
-                        AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
-                            category = AnalyticsConstants.Category.MATE_DETAIL,
-                            action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.ROOM_REJECT
-                        )
-
-                        roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
-                        SnackbarUtil.showCustomSnackbar(
-                            context = this@RoommateDetailActivity,
-                            message = "입장 요청을 거절했습니다.",
-                            iconType = SnackbarUtil.IconType.YES,
-                            anchorView = binding.fabAcceptRefuse,
-                            extraYOffset = 20
-                        )
-                        updateRoommateInfo()
-                    }
+                    binding.clAcceptBtn.visibility = View.GONE
                     return@observe
                 }
 
-                // 4. 상대방이 이미 초대된 상태인지 확인
-                roomDetailViewModel.getInvitedStatus(otherMemberId)
-                roomDetailViewModel.isInvitedStatus.observe(this@RoommateDetailActivity) { isInvited ->
-                    binding.clAcceptBtn.visibility = View.GONE
-                    binding.fabRequestRoommate.visibility = View.VISIBLE
+                // 2-2. 내 방에 요청한 사용자 → 수락/거절
+                roomDetailViewModel.getPendingMember(otherMemberId)
+                roomDetailViewModel.isPendingMember.observe(this) { isPending ->
+                    if (isPending) {
+                        binding.fabRequestRoommate.visibility = View.GONE
+                        binding.clAcceptBtn.visibility = View.VISIBLE
 
-                    if (isInvited) {
-                        // 이미 초대된 경우
-                        binding.fabRequestRoommate.apply {
-                            text = "초대 취소하기"
-                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.color_box))
-                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                            isClickable = true
-                            setOnClickListener {
-
-                                // GA 이벤트 로그 추가
-                                AnalyticsEventLogger.logEvent(
-                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
-                                    category = AnalyticsConstants.Category.MATE_DETAIL,
-                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
-                                    label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE
-                                )
-
-                                roomDetailViewModel.cancelInvitation(otherMemberId)
-                                lifecycleScope.launch {
-                                    delay(500)
-                                }
-                                SnackbarUtil.showCustomSnackbar(
-                                    context = this@RoommateDetailActivity,
-                                    message = "초대를 취소했습니다.",
-                                    iconType = SnackbarUtil.IconType.YES,
-                                    anchorView = binding.fabRequestRoommate,
-                                    extraYOffset = 20
-                                )
-                                updateRoommateInfo()
-                            }
+                        binding.fabAcceptAccept.setOnClickListener {
+                            roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
+                            SnackbarUtil.showCustomSnackbar(
+                                this,
+                                "${otherNickname}님의 방 참여 요청을 수락했어요",
+                                SnackbarUtil.IconType.YES,
+                                binding.fabAcceptAccept
+                            )
+                            updateRoommateInfo()
                         }
-                    } else {
-                        // 초대 가능 상태
-                        binding.fabRequestRoommate.apply {
-                            text = "내 방으로 초대하기"
-                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
-                            isClickable = true
-                            setOnClickListener {
 
-                                // GA 이벤트 로그 추가
-                                AnalyticsEventLogger.logEvent(
-                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
-                                    category = AnalyticsConstants.Category.MATE_DETAIL,
-                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
-                                    label = AnalyticsConstants.Label.INVITE_ROOM
-                                )
+                        binding.fabAcceptRefuse.setOnClickListener {
+                            roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
+                            SnackbarUtil.showCustomSnackbar(
+                                this,
+                                "${otherNickname}님의 방 참여 요청을 거절했어요",
+                                SnackbarUtil.IconType.YES,
+                                binding.fabAcceptRefuse
+                            )
+                            updateRoommateInfo()
+                        }
+                        return@observe
+                    }
 
-                                Log.d("updateFAB", "버튼 클릭됨")
-                                roomDetailViewModel.inviteMember(otherMemberId)
-                                lifecycleScope.launch {
-                                    delay(500)
-                                }
+                    // 2-3. 초대 여부 확인
+                    roomDetailViewModel.getInvitedStatus(otherMemberId)
+                    roomDetailViewModel.isInvitedStatus.observe(this) { isInvited ->
+                        binding.clAcceptBtn.visibility = View.GONE
+                        binding.fabRequestRoommate.visibility = View.VISIBLE
+
+                        // 내 방 소속 유저 → 버튼 숨김
+                        if (otherRoomId == savedRoomId) {
+                            binding.fabRequestRoommate.visibility = View.GONE
+                            return@observe
+                        }
+
+                        // 이미 다른 방 소속 유저 → 비활성 상태 + 메시지
+                        if (otherRoomId > 0 && otherRoomId != savedRoomId) {
+                            showGrayButton("내 방으로 초대하기") {
                                 SnackbarUtil.showCustomSnackbar(
-                                    context = this@RoommateDetailActivity,
-                                    message = "초대 요청을 보냈습니다.",
-                                    iconType = SnackbarUtil.IconType.YES,
-                                    anchorView = binding.fabRequestRoommate,
-                                    extraYOffset = 20
+                                    this,
+                                    "이미 다른 방에 참여하고 있어서 초대할 수 없어요",
+                                    SnackbarUtil.IconType.NO,
+                                    binding.fabRequestRoommate
                                 )
-                                updateRoommateInfo()
+                            }
+                            return@observe
+                        }
+
+                        // 이미 초대한 상태
+                        if (isInvited) {
+                            binding.fabRequestRoommate.apply {
+                                text = "초대 취소하기"
+                                setBackgroundColor(ContextCompat.getColor(context, R.color.color_box))
+                                setTextColor(ContextCompat.getColor(context, R.color.main_blue))
+                                setOnClickListener {
+                                    roomDetailViewModel.cancelInvitation(otherMemberId)
+                                    SnackbarUtil.showCustomSnackbar(
+                                        context,
+                                        "방 초대 요청을 취소했어요",
+                                        SnackbarUtil.IconType.NO,
+                                        binding.fabRequestRoommate
+                                    )
+                                    updateRoommateInfo()
+                                }
+                            }
+                        } else {
+                            // 초대 가능 상태 → 방 인원 확인
+                            lifecycleScope.launch {
+                                roomDetailViewModel.getOtherRoomInfo(savedRoomId)
+                            }
+                            roomDetailViewModel.isRoomFull.observe(this) { isFull ->
+                                if (isFull) {
+                                    showGrayButton("내 방으로 초대하기") {
+                                        SnackbarUtil.showCustomSnackbar(
+                                            this,
+                                            "방 인원이 꽉 차서 초대할 수 없어요",
+                                            SnackbarUtil.IconType.NO,
+                                            binding.fabRequestRoommate
+                                        )
+                                    }
+                                } else {
+                                    binding.fabRequestRoommate.apply {
+                                        text = "내 방으로 초대하기"
+                                        setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                                        setTextColor(ContextCompat.getColor(context, R.color.white))
+                                        setOnClickListener {
+                                            roomDetailViewModel.inviteMember(otherMemberId)
+                                            SnackbarUtil.showCustomSnackbar(
+                                                context,
+                                                "${otherNickname}님에게 방 초대 요청을 보냈어요",
+                                                SnackbarUtil.IconType.YES,
+                                                binding.fabRequestRoommate
+                                            )
+                                            updateRoommateInfo()
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+        } else {
+            // 3. 방이 없는 사용자
+            binding.clAcceptBtn.visibility = View.GONE
+            binding.fabRequestRoommate.visibility = View.VISIBLE
+
+            if (otherRoomId > 0) {
+                // 상대가 방 있음
+                binding.fabRequestRoommate.apply {
+                    text = "내 방으로 초대하기"
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(context, R.color.white))
+                    setOnClickListener {
+                        SnackbarUtil.showCustomSnackbar(
+                            context,
+                            "이미 다른 방에 참여하고 있어서 초대할 수 없어요",
+                            SnackbarUtil.IconType.NO,
+                            this
+                        )
+                    }
+                }
+            } else {
+                // 서로 방 없음 → 모달 호출
+                binding.fabRequestRoommate.apply {
+                    text = "내 방으로 초대하기"
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(context, R.color.white))
+                    setOnClickListener {
+                        val inviteModal = RoomInviteModal()
+                        inviteModal.show(supportFragmentManager, "invite_modal")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showGrayButton(text: String, onClick: () -> Unit) {
+        binding.fabRequestRoommate.apply {
+            this.text = text
+            setBackgroundColor(ContextCompat.getColor(context, R.color.gray))
+            setTextColor(ContextCompat.getColor(context, R.color.white))
+            setOnClickListener { onClick() }
         }
     }
 
@@ -1274,3 +1434,4 @@ class RoommateDetailActivity : AppCompatActivity() {
         )
     }
 }
+
