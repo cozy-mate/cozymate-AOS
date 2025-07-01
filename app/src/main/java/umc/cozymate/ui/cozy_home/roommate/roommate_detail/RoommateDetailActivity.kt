@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
@@ -25,9 +26,11 @@ import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.ReportPopup
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
@@ -54,11 +57,11 @@ class RoommateDetailActivity : AppCompatActivity() {
     private var favoriteId: Int = 0
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
     private val makingRoomViewModel: MakingRoomViewModel by viewModels()
-    private val reportViewModel : ReportViewModel by viewModels()
+    private val reportViewModel: ReportViewModel by viewModels()
     private var isFavorite: Boolean = false // 찜 상태
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private val roomDetailViewModel : RoomDetailViewModel by viewModels()
+    private val roomDetailViewModel: RoomDetailViewModel by viewModels()
     private var screenEnterTime: Long = 0
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
@@ -102,19 +105,6 @@ class RoommateDetailActivity : AppCompatActivity() {
         }
 
         selectListView(otherUserDetail!!)
-//        setUpListeners(userDetail!!)
-//        if (userDetail != null) {
-//            setUpListeners(userDetail)
-//        } else {
-//            Log.e(TAG, "userDetail이 null입니다.")
-//            SnackbarUtil.showCustomSnackbar(
-//                context = this,
-//                message = "사용자 정보가 부족하여 일부 기능이 제한됩니다.",
-//                iconType = SnackbarUtil.IconType.NO,
-//                anchorView = binding.root,
-//                extraYOffset = 20
-//            )
-//        }
 
         val sharedPreferences = getSharedPreferences("umc.cozymate", Context.MODE_PRIVATE)
 
@@ -182,10 +172,14 @@ class RoommateDetailActivity : AppCompatActivity() {
 //            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
 //                return null
 //            }
-            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
-            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "") ?: "2000-01-01"
-            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
-            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
+            val nickname =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
+            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
+                ?: "2000-01-01"
+            val majorName =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
+            val admissionYear =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
 
 
             val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -193,14 +187,15 @@ class RoommateDetailActivity : AppCompatActivity() {
             val sleepingTime = spf.getInt("user_sleepingTime", -1)
             val turnOffTime = spf.getInt("user_turnOffTime", -1)
 
-            val hasCompleteLifestyleData = wakeUpTime != -1 && sleepingTime != -1 && turnOffTime != -1
+            val hasCompleteLifestyleData =
+                wakeUpTime != -1 && sleepingTime != -1 && turnOffTime != -1
 
             val sampleDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                 admissionYear = admissionYear.ifEmpty { "21" },
                 numOfRoommate = 2,
                 dormName = "기숙사A동",
                 dormJoiningStatus = "합격",
-                wakeUpTime = if(wakeUpTime == -1) 8 else wakeUpTime,
+                wakeUpTime = if (wakeUpTime == -1) 8 else wakeUpTime,
                 sleepingTime = 1,
                 turnOffTime = 13,
                 smokingStatus = "비흡연",
@@ -229,10 +224,21 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
                         birthday = birthday,
-                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
-                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        universityName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_UNIVERSITY_NAME,
+                            ""
+                        ) ?: "",
+                        majorName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_MAJOR_NAME,
+                            ""
+                        ) ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
-                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
+                        memberId = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_member_id", 0),
                         universityId = 1,
                         persona = 1
                     ),
@@ -242,46 +248,139 @@ class RoommateDetailActivity : AppCompatActivity() {
                     favoriteId = 0,
                     hasRequestedRoomEntry = false
                 )
-            }
-            else {
+            } else {
                 binding.lyGoToLifestyle.visibility = View.GONE
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
                         birthday = birthday,
-                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
-                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        universityName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_UNIVERSITY_NAME,
+                            ""
+                        ) ?: "",
+                        majorName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_MAJOR_NAME,
+                            ""
+                        ) ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
-                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
+                        memberId = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_member_id", 0),
                         universityId = 1,
                         persona = 1
                     ),
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
-                        admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
-                        numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
+                        admissionYear = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_ADMISSION_YEAR,
+                            ""
+                        ) ?: "",
+                        numOfRoommate = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_numOfRoommate", 0),
                         dormName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
-                        dormJoiningStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
-                        wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
-                        sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
-                        turnOffTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_turnOffTime", 0),
-                        smokingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
-                        sleepingHabits = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
-                        coolingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_coolingIntensity", "") ?: "",
-                        heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_heatingIntensity", "") ?: "",
-                        lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
-                        intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
-                        sharingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SHARING_STATUS, "") ?: "",
-                        gamingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_GAMING_STATUS, "") ?: "",
-                        callingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CALLING_STATUS, "") ?: "",
-                        studyingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING_STATUS, "") ?: "",
-                        eatingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_EATING_STATUS, "") ?: "",
-                        cleannessSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_cleanSensitivity", "") ?: "",
-                        noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_noiseSensitivity", "") ?: "",
-                        cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
-                        drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
-                        personalities = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
-                        mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
-                        selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
+                        dormJoiningStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_DORM_JOINING_STATUS,
+                            ""
+                        ) ?: "",
+                        wakeUpTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_wakeUpTime", 0),
+                        sleepingTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_sleepingTime", 0),
+                        turnOffTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_turnOffTime", 0),
+                        smokingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SMOKING_STATUS,
+                            ""
+                        ) ?: "",
+                        sleepingHabits = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
+                        coolingIntensity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_coolingIntensity", "") ?: "",
+                        heatingIntensity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_heatingIntensity", "") ?: "",
+                        lifePattern = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_LIFE_PATTERN,
+                            ""
+                        ) ?: "",
+                        intimacy = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_INTIMACY,
+                            ""
+                        ) ?: "",
+                        sharingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SHARING_STATUS,
+                            ""
+                        ) ?: "",
+                        gamingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_GAMING_STATUS,
+                            ""
+                        ) ?: "",
+                        callingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_CALLING_STATUS,
+                            ""
+                        ) ?: "",
+                        studyingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_STUDYING_STATUS,
+                            ""
+                        ) ?: "",
+                        eatingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_EATING_STATUS,
+                            ""
+                        ) ?: "",
+                        cleannessSensitivity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_cleanSensitivity", "") ?: "",
+                        noiseSensitivity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_noiseSensitivity", "") ?: "",
+                        cleaningFrequency = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_CLEANING_FREQUENCY,
+                            ""
+                        ) ?: "",
+                        drinkingFrequency = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_DRINKING_FREQUENCY,
+                            ""
+                        ) ?: "",
+                        personalities = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
+                        mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "")
+                            ?: "",
+                        selfIntroduction = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SELF_INTRODUCTION,
+                            ""
+                        ) ?: ""
                     ),
                     equality = 0,
                     roomId = 0,
@@ -384,176 +483,391 @@ class RoommateDetailActivity : AppCompatActivity() {
 
         val otherRoomId = otherUserDetail?.roomId ?: -1 // 상대방의 방 ID
         val otherMemberId = otherUserDetail?.memberDetail?.memberId ?: -1 // 상대방의 ID
+        val otherNickname = otherUserDetail?.memberDetail?.nickname ?: "상대방"
 
-        // 1. 내 방이 없거나 상대방이 이미 방이 있는 경우
-        if (savedRoomId <= 0 || otherRoomId > 0) {
-            binding.fabRequestRoommate.apply {
-                text = "내 방으로 초대하기"
-                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
-                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
-                isClickable = true
-                setOnClickListener {
-
-                    // GA 이벤트 로그 추가
-                    AnalyticsEventLogger.logEvent(
-                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
-                        category = AnalyticsConstants.Category.MATE_DETAIL,
-                        action = AnalyticsConstants.Action.BUTTON_CLICK,
-                        label = AnalyticsConstants.Label.INVITE_ROOM
-                    )
-
-                    SnackbarUtil.showCustomSnackbar(
-                        context = this@RoommateDetailActivity,
-                        message = "초대할 수 없습니다",
-                        iconType = SnackbarUtil.IconType.NO,
-                        anchorView = binding.fabRequestRoommate,
-                        extraYOffset = 20
-                    )
-                }
-            }
+//        // 1. 내 방이 없거나 상대방이 이미 방이 있는 경우
+//        if (savedRoomId <= 0 || otherRoomId > 0) {
+//            binding.fabRequestRoommate.apply {
+//                text = "내 방으로 초대하기"
+//                setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.gray))
+//                setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+//                isClickable = true
+//                setOnClickListener {
+//
+//                    // GA 이벤트 로그 추가
+//                    AnalyticsEventLogger.logEvent(
+//                        eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+//                        category = AnalyticsConstants.Category.MATE_DETAIL,
+//                        action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                        label = AnalyticsConstants.Label.INVITE_ROOM
+//                    )
+//
+//                    SnackbarUtil.showCustomSnackbar(
+//                        context = this@RoommateDetailActivity,
+//                        message = "초대할 수 없습니다",
+//                        iconType = SnackbarUtil.IconType.NO,
+//                        anchorView = binding.fabRequestRoommate,
+//                        extraYOffset = 20
+//                    )
+//                }
+//            }
+//            return
+//        }
+//
+//        // 2. 현재 사용자가 방장인지 확인
+//        lifecycleScope.launch {
+//            roomDetailViewModel.getOtherRoomInfo(savedRoomId)
+//        }
+//        roomDetailViewModel.managerMemberId.observe(this) { managerId ->
+//            if (managerId != userMemberId) {
+//                // 사용자가 방장이 아닌 경우 버튼 숨김
+//                binding.fabRequestRoommate.visibility = View.GONE
+//                return@observe
+//            }
+//
+//            // 3. 상대방이 방에 입장 요청한 상태인지 확인
+//            roomDetailViewModel.getPendingMember(otherMemberId)
+//            roomDetailViewModel.isPendingMember.observe(this) { isPending ->
+//                if (isPending) {
+//                    // 상대방이 방에 입장 요청한 경우
+//                    binding.fabRequestRoommate.visibility = View.GONE
+//                    binding.clAcceptBtn.visibility = View.VISIBLE
+//
+//                    binding.fabAcceptAccept.setOnClickListener {
+//                        // GA 이벤트 로그 추가
+//                        AnalyticsEventLogger.logEvent(
+//                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
+//                            category = AnalyticsConstants.Category.MATE_DETAIL,
+//                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                            label = AnalyticsConstants.Label.ROOM_ACCEPT
+//                        )
+//
+//                        roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
+//                        SnackbarUtil.showCustomSnackbar(
+//                            context = this@RoommateDetailActivity,
+//                            message = "입장 요청을 수락했습니다.",
+//                            iconType = SnackbarUtil.IconType.YES,
+//                            anchorView = binding.fabAcceptAccept,
+//                            extraYOffset = 20
+//                        )
+//                        updateRoommateInfo()
+//                    }
+//
+//                    binding.fabAcceptRefuse.setOnClickListener {
+//                        // GA 이벤트 로그 추가
+//                        AnalyticsEventLogger.logEvent(
+//                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
+//                            category = AnalyticsConstants.Category.MATE_DETAIL,
+//                            action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                            label = AnalyticsConstants.Label.ROOM_REJECT
+//                        )
+//
+//                        roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
+//                        SnackbarUtil.showCustomSnackbar(
+//                            context = this@RoommateDetailActivity,
+//                            message = "입장 요청을 거절했습니다.",
+//                            iconType = SnackbarUtil.IconType.YES,
+//                            anchorView = binding.fabAcceptRefuse,
+//                            extraYOffset = 20
+//                        )
+//                        updateRoommateInfo()
+//                    }
+//                    return@observe
+//                }
+//
+//                // 4. 상대방이 이미 초대된 상태인지 확인
+//                roomDetailViewModel.getInvitedStatus(otherMemberId)
+//                roomDetailViewModel.isInvitedStatus.observe(this@RoommateDetailActivity) { isInvited ->
+//                    binding.clAcceptBtn.visibility = View.GONE
+//                    binding.fabRequestRoommate.visibility = View.VISIBLE
+//
+//                    if (isInvited) {
+//                        // 이미 초대된 경우
+//                        binding.fabRequestRoommate.apply {
+//                            text = "초대 취소하기"
+//                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.color_box))
+//                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+//                            isClickable = true
+//                            setOnClickListener {
+//
+//                                // GA 이벤트 로그 추가
+//                                AnalyticsEventLogger.logEvent(
+//                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
+//                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+//                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                                    label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE
+//                                )
+//
+//                                roomDetailViewModel.cancelInvitation(otherMemberId)
+//                                lifecycleScope.launch {
+//                                    delay(500)
+//                                }
+//                                SnackbarUtil.showCustomSnackbar(
+//                                    context = this@RoommateDetailActivity,
+//                                    message = "초대를 취소했습니다.",
+//                                    iconType = SnackbarUtil.IconType.YES,
+//                                    anchorView = binding.fabRequestRoommate,
+//                                    extraYOffset = 20
+//                                )
+//                                updateRoommateInfo()
+//                            }
+//                        }
+//                    } else {
+//                        // 초대 가능 상태
+//                        binding.fabRequestRoommate.apply {
+//                            text = "내 방으로 초대하기"
+//                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
+//                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
+//                            isClickable = true
+//                            setOnClickListener {
+//
+//                                // GA 이벤트 로그 추가
+//                                AnalyticsEventLogger.logEvent(
+//                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
+//                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+//                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+//                                    label = AnalyticsConstants.Label.INVITE_ROOM
+//                                )
+//
+//                                Log.d("updateFAB", "버튼 클릭됨")
+//                                roomDetailViewModel.inviteMember(otherMemberId)
+//                                lifecycleScope.launch {
+//                                    delay(500)
+//                                }
+//                                SnackbarUtil.showCustomSnackbar(
+//                                    context = this@RoommateDetailActivity,
+//                                    message = "초대 요청을 보냈습니다.",
+//                                    iconType = SnackbarUtil.IconType.YES,
+//                                    anchorView = binding.fabRequestRoommate,
+//                                    extraYOffset = 20
+//                                )
+//                                updateRoommateInfo()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        if (userMemberId == otherMemberId) {
+            binding.fabRequestRoommate.visibility = View.GONE
+            binding.clAcceptBtn.visibility = View.GONE
             return
         }
 
-        // 2. 현재 사용자가 방장인지 확인
-        lifecycleScope.launch {
-            roomDetailViewModel.getOtherRoomInfo(savedRoomId)
-        }
-        roomDetailViewModel.managerMemberId.observe(this) { managerId ->
-            if (managerId != userMemberId) {
-                // 사용자가 방장이 아닌 경우 버튼 숨김
-                binding.fabRequestRoommate.visibility = View.GONE
-                return@observe
+        // 2. 방이 있음 → 방장 확인
+        if (savedRoomId > 0) {
+            lifecycleScope.launch {
+                roomDetailViewModel.getOtherRoomInfo(savedRoomId)
             }
 
-            // 3. 상대방이 방에 입장 요청한 상태인지 확인
-            roomDetailViewModel.getPendingMember(otherMemberId)
-            roomDetailViewModel.isPendingMember.observe(this) { isPending ->
-                if (isPending) {
-                    // 상대방이 방에 입장 요청한 경우
+            roomDetailViewModel.managerMemberId.observe(this) { managerId ->
+                // 2-1. 비방장 → 버튼 숨김
+                if (managerId != userMemberId) {
                     binding.fabRequestRoommate.visibility = View.GONE
-                    binding.clAcceptBtn.visibility = View.VISIBLE
-
-                    binding.fabAcceptAccept.setOnClickListener {
-                        // GA 이벤트 로그 추가
-                        AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_ACCEPT,
-                            category = AnalyticsConstants.Category.MATE_DETAIL,
-                            action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.ROOM_ACCEPT
-                        )
-
-                        roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
-                        SnackbarUtil.showCustomSnackbar(
-                            context = this@RoommateDetailActivity,
-                            message = "입장 요청을 수락했습니다.",
-                            iconType = SnackbarUtil.IconType.YES,
-                            anchorView = binding.fabAcceptAccept,
-                            extraYOffset = 20
-                        )
-                        updateRoommateInfo()
-                    }
-
-                    binding.fabAcceptRefuse.setOnClickListener {
-                        // GA 이벤트 로그 추가
-                        AnalyticsEventLogger.logEvent(
-                            eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_REJECT,
-                            category = AnalyticsConstants.Category.MATE_DETAIL,
-                            action = AnalyticsConstants.Action.BUTTON_CLICK,
-                            label = AnalyticsConstants.Label.ROOM_REJECT
-                        )
-
-                        roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
-                        SnackbarUtil.showCustomSnackbar(
-                            context = this@RoommateDetailActivity,
-                            message = "입장 요청을 거절했습니다.",
-                            iconType = SnackbarUtil.IconType.YES,
-                            anchorView = binding.fabAcceptRefuse,
-                            extraYOffset = 20
-                        )
-                        updateRoommateInfo()
-                    }
+                    binding.clAcceptBtn.visibility = View.GONE
                     return@observe
                 }
 
-                // 4. 상대방이 이미 초대된 상태인지 확인
-                roomDetailViewModel.getInvitedStatus(otherMemberId)
-                roomDetailViewModel.isInvitedStatus.observe(this@RoommateDetailActivity) { isInvited ->
-                    binding.clAcceptBtn.visibility = View.GONE
-                    binding.fabRequestRoommate.visibility = View.VISIBLE
+                // 2-2. 내 방에 요청한 사용자 → 수락/거절
+                roomDetailViewModel.getPendingMember(otherMemberId)
+                roomDetailViewModel.isPendingMember.observe(this) { isPending ->
+                    if (isPending) {
+                        binding.fabRequestRoommate.visibility = View.GONE
+                        binding.clAcceptBtn.visibility = View.VISIBLE
 
-                    if (isInvited) {
-                        // 이미 초대된 경우
-                        binding.fabRequestRoommate.apply {
-                            text = "초대 취소하기"
-                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.color_box))
-                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                            isClickable = true
-                            setOnClickListener {
+                        binding.fabAcceptAccept.setOnClickListener {
+                            roomDetailViewModel.acceptMemberRequest(otherMemberId, true)
+                            SnackbarUtil.showCustomSnackbar(
+                                this,
+                                "${otherNickname}님의 방 참여 요청을 수락했어요",
+                                SnackbarUtil.IconType.YES,
+                                binding.fabAcceptAccept
+                            )
+                            updateRoommateInfo()
+                        }
 
+                        binding.fabAcceptRefuse.setOnClickListener {
+                            roomDetailViewModel.acceptMemberRequest(otherMemberId, false)
+                            SnackbarUtil.showCustomSnackbar(
+                                this,
+                                "${otherNickname}님의 방 참여 요청을 거절했어요",
+                                SnackbarUtil.IconType.YES,
+                                binding.fabAcceptRefuse
+                            )
+                            updateRoommateInfo()
+                        }
+                        return@observe
+                    }
+
+                    // 2-3. 초대 여부 확인
+                    roomDetailViewModel.getInvitedStatus(otherMemberId)
+                    roomDetailViewModel.isInvitedStatus.observe(this) { isInvited ->
+                        binding.clAcceptBtn.visibility = View.GONE
+                        binding.fabRequestRoommate.visibility = View.VISIBLE
+
+                        // 내 방 소속 유저 → 버튼 숨김
+                        if (otherRoomId == savedRoomId) {
+                            binding.fabRequestRoommate.visibility = View.GONE
+                            return@observe
+                        }
+
+                        // 이미 다른 방 소속 유저 → 비활성 상태 + 메시지
+                        if (otherRoomId > 0 && otherRoomId != savedRoomId) {
+                            showGrayButton("내 방으로 초대하기") {
+                                SnackbarUtil.showCustomSnackbar(
+                                    this,
+                                    "이미 다른 방에 참여하고 있어서 초대할 수 없어요",
+                                    SnackbarUtil.IconType.NO,
+                                    binding.fabRequestRoommate
+                                )
+                            }
+                            return@observe
+                        }
+
+                        // 이미 초대한 상태
+                        if (isInvited) {
+                            binding.fabRequestRoommate.apply {
+                                text = "초대 취소하기"
+                                setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.color_box
+                                    )
+                                )
+                                setTextColor(ContextCompat.getColor(context, R.color.main_blue))
+                                setOnClickListener {
+                                    roomDetailViewModel.cancelInvitation(otherMemberId)
+                                    SnackbarUtil.showCustomSnackbar(
+                                        context,
+                                        "방 초대 요청을 취소했어요",
+                                        SnackbarUtil.IconType.NO,
+                                        binding.fabRequestRoommate
+                                    )
+                                    updateRoommateInfo()
+                                }
+                            }
+                        } else {
+                            // 초대 가능 상태 → 방 인원 확인
+                            lifecycleScope.launch {
+                                roomDetailViewModel.getOtherRoomInfo(savedRoomId)
+                            }
+                            roomDetailViewModel.isRoomFull.observe(this) { isFull ->
+                                if (isFull) {
+                                    showGrayButton("내 방으로 초대하기") {
+                                        SnackbarUtil.showCustomSnackbar(
+                                            this,
+                                            "방 인원이 꽉 차서 초대할 수 없어요",
+                                            SnackbarUtil.IconType.NO,
+                                            binding.fabRequestRoommate
+                                        )
+                                    }
+                                } else {
+                                    binding.fabRequestRoommate.apply {
+                                        text = "내 방으로 초대하기"
+                                        setBackgroundColor(
+                                            ContextCompat.getColor(
+                                                context,
+                                                R.color.main_blue
+                                            )
+                                        )
+                                        setTextColor(ContextCompat.getColor(context, R.color.white))
+                                        setOnClickListener {
+                                            roomDetailViewModel.inviteMember(otherMemberId)
+                                            SnackbarUtil.showCustomSnackbar(
+                                                context,
+                                                "${otherNickname}님에게 방 초대 요청을 보냈어요",
+                                                SnackbarUtil.IconType.YES,
+                                                binding.fabRequestRoommate
+                                            )
+                                            updateRoommateInfo()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            // 3. 방이 없는 사용자
+            binding.clAcceptBtn.visibility = View.GONE
+            binding.fabRequestRoommate.visibility = View.VISIBLE
+
+            if (otherRoomId > 0) {
+                // 상대가 방 있음
+                binding.fabRequestRoommate.apply {
+                    text = "내 방으로 초대하기"
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(context, R.color.white))
+                    setOnClickListener {
+                        SnackbarUtil.showCustomSnackbar(
+                            context,
+                            "이미 다른 방에 참여하고 있어서 초대할 수 없어요",
+                            SnackbarUtil.IconType.NO,
+                            this
+                        )
+                    }
+                }
+            } else {
+                // 서로 방 없음 → 모달 호출
+                binding.fabRequestRoommate.apply {
+                    text = "내 방으로 초대하기"
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                    setTextColor(ContextCompat.getColor(context, R.color.white))
+                    setOnClickListener {
+                        val popupText = listOf(
+                            "${otherNickname}님을\n내 방에 초대하시겠어요?",
+                            "방을 생성하면 ${otherNickname}님에게 초대 요청이 전송돼요.",
+                            "취소",
+                            "초대하기"
+                        )
+
+                        val invitePopup = TwoButtonPopup(popupText, object : PopupClick {
+                            override fun rightClickFunction() {
                                 // GA 이벤트 로그 추가
                                 AnalyticsEventLogger.logEvent(
-                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM_CANCLE,
-                                    category = AnalyticsConstants.Category.MATE_DETAIL,
+                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_MAKE_ROOM,
+                                    category = AnalyticsConstants.Category.HOME_HEADER,
                                     action = AnalyticsConstants.Action.BUTTON_CLICK,
-                                    label = AnalyticsConstants.Label.INVITE_ROOM_CANCLE
+                                    label = AnalyticsConstants.Label.MAKE_ROOM,
                                 )
+                                val intent = Intent(this@RoommateDetailActivity, MakingPublicRoomActivity::class.java)
+                                startActivity(intent)
 
-                                roomDetailViewModel.cancelInvitation(otherMemberId)
-                                lifecycleScope.launch {
-                                    delay(500)
-                                }
                                 SnackbarUtil.showCustomSnackbar(
-                                    context = this@RoommateDetailActivity,
-                                    message = "초대를 취소했습니다.",
-                                    iconType = SnackbarUtil.IconType.YES,
-                                    anchorView = binding.fabRequestRoommate,
-                                    extraYOffset = 20
+                                    context,
+                                    "${otherNickname}님에게 방 초대 요청을 보냈어요",
+                                    SnackbarUtil.IconType.YES,
+                                    binding.fabRequestRoommate
                                 )
                                 updateRoommateInfo()
                             }
-                        }
-                    } else {
-                        // 초대 가능 상태
-                        binding.fabRequestRoommate.apply {
-                            text = "내 방으로 초대하기"
-                            setBackgroundColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.main_blue))
-                            setTextColor(ContextCompat.getColor(this@RoommateDetailActivity, R.color.white))
-                            isClickable = true
-                            setOnClickListener {
 
-                                // GA 이벤트 로그 추가
-                                AnalyticsEventLogger.logEvent(
-                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_INVITE_ROOM,
-                                    category = AnalyticsConstants.Category.MATE_DETAIL,
-                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
-                                    label = AnalyticsConstants.Label.INVITE_ROOM
-                                )
-
-                                Log.d("updateFAB", "버튼 클릭됨")
-                                roomDetailViewModel.inviteMember(otherMemberId)
-                                lifecycleScope.launch {
-                                    delay(500)
-                                }
-                                SnackbarUtil.showCustomSnackbar(
-                                    context = this@RoommateDetailActivity,
-                                    message = "초대 요청을 보냈습니다.",
-                                    iconType = SnackbarUtil.IconType.YES,
-                                    anchorView = binding.fabRequestRoommate,
-                                    extraYOffset = 20
-                                )
-                                updateRoommateInfo()
+                            override fun leftClickFunction() {
+                                // 취소 눌렀을 경우 아무 동작 없음 (생략 가능)
                             }
-                        }
+                        }, isCancelable = false)
+
+                        invitePopup.show(supportFragmentManager, "MakeRoomPopup")
                     }
                 }
             }
         }
     }
 
+    private fun showGrayButton(text: String, onClick: () -> Unit) {
+        binding.fabRequestRoommate.apply {
+            this.text = text
+            setBackgroundColor(ContextCompat.getColor(context, R.color.gray))
+            setTextColor(ContextCompat.getColor(context, R.color.white))
+            setOnClickListener { onClick() }
+        }
+    }
+
     private fun observeMemberInfo() {
-        roommateDetailViewModel.otherUserDetailInfo.observe(this) {memberInfo ->
-            if(otherUserDetail == null) return@observe
-            else{
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) { memberInfo ->
+            if (otherUserDetail == null) return@observe
+            else {
                 memberId = memberInfo.memberDetail.memberId
                 favoriteId = memberInfo.favoriteId
                 updateFavoriteButton()
@@ -643,7 +957,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         val listBinding = ItemRoommateDetailListBinding.bind(listView)
 
         listBinding.tvReportTitle.setOnClickListener {
-                reportPopup()
+            reportPopup()
         }
         with(listBinding) {
             tvListName.text = it.memberDetail.nickname
@@ -766,13 +1080,15 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherSleepTime.text = "${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
 
             tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
-            tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
+            tvTableOtherLightOffAmpm.text =
+                getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
 
 //            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
 //            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
 
             tvTableUserLightOffTime.text = " ${convertTo12Hour(user.memberStatDetail.turnOffTime)}시"
-            tvTableOtherLightOffTime.text = " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
+            tvTableOtherLightOffTime.text =
+                " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
 
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smokingStatus)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smokingStatus)
@@ -1220,14 +1536,15 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherMbti.text = detail?.mbti
     }
 
-    private fun reportPopup(){
+    private fun reportPopup() {
         val dialog = ReportPopup(object : PopupClick {
-            override fun reportFunction(reason: Int, content : String) {
+            override fun reportFunction(reason: Int, content: String) {
                 reportViewModel.postReport(memberId, 0, reason, content)
             }
         })
         dialog.show(this.supportFragmentManager!!, "reportPopup")
     }
+
     private fun createFallbackUserDetail(): GetMemberDetailInfoResponse.Result {
         return GetMemberDetailInfoResponse.Result(
             memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
@@ -1274,3 +1591,4 @@ class RoommateDetailActivity : AppCompatActivity() {
         )
     }
 }
+
