@@ -1102,10 +1102,10 @@
                         <TextView
                             android:id="@+id/ac_strong"
                             style="@style/OptionBox"
-                            android:layout_width="96dp"
+                            android:layout_width="106dp"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
-                            android:text="세게 틀어요" />
+                            android:text="강하게 틀어요" />
                     </LinearLayout>
 
                     <View
@@ -1179,10 +1179,10 @@
                         <TextView
                             android:id="@+id/heater_strong"
                             style="@style/OptionBox"
-                            android:layout_width="96dp"
+                            android:layout_width="106dp"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
-                            android:text="세게 틀어요" />
+                            android:text="강하게 틀어요" />
                     </LinearLayout>
 
                     <View
@@ -1984,7 +1984,7 @@
                             style="@style/OptionBox"
                             android:layout_width="150dp"
                             android:layout_height="40dp"
-                            android:text="일주일에 네 번 이상 마셔요" />
+                            android:text="일주일에 네 번이상 마셔요" />
                     </LinearLayout>
 
                     <LinearLayout
