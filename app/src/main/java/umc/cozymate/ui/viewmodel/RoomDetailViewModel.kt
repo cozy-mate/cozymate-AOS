@@ -91,6 +91,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _errorResponse = MutableLiveData<String>()
     val errorResponse: LiveData<String> get() = _errorResponse
 
+    private val _isRoomFull = MutableLiveData<Boolean>()
+    val isRoomFull: LiveData<Boolean> get() = _isRoomFull
+
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun getToken(): String? {
@@ -102,32 +105,34 @@ class RoomDetailViewModel @Inject constructor(
     }
 
     suspend fun getOtherRoomInfo(roomId: Int) {
-        Log.d(TAG, "조회하는 방 아이디 : ${roomId}")
+        Log.d(TAG, "조회하는 방 아이디 : $roomId")
 
         val token = getToken()
         val response = repository.getRoomInfo(token!!, roomId)
-        if (response.isSuccessful) {
-            if (response.body()?.isSuccess == true) {
-                _roomName.value = response.body()?.result?.name
-                _mateList.value = response.body()?.result?.mateDetailList
-                _managerMemberId.postValue(response.body()?.result?.managerMemberId)
 
-                val body = response.body()
-                if (body != null) {
-                    _otherRoomDetailInfo.emit(body.result)
-                    Log.d(TAG, "${body.result}")
-                } else {
-                    Log.d(TAG, "Resonse body : NULL")
-                }
-                Log.d(TAG, "방정보 조회 성공: ${response.body()!!.result}")
+        if (response.isSuccessful && response.body()?.isSuccess == true) {
+            val result = response.body()?.result
+            _roomName.value = result?.name
+            _mateList.value = result?.mateDetailList
+            _managerMemberId.postValue(result?.managerMemberId)
+
+            // 방 인원 가득 찼는지 판단
+            val isFull = (result?.arrivalMateNum ?: 0) >= (result?.maxMateNum ?: Int.MAX_VALUE)
+            _isRoomFull.postValue(isFull)
+
+            // 결과 emit
+            if (result != null) {
+                _otherRoomDetailInfo.emit(result)
+                Log.d(TAG, "방정보 emit: $result")
             } else {
-                _errorResponse.value = response.errorBody()?.string() ?: "Unknown error"
-                Log.d(TAG, "방정보 조회 에러 메시지: ${response}")
+                Log.d(TAG, "방정보: NULL")
             }
+
+            Log.d(TAG, "방정보 조회 성공: $result")
         } else {
             val errorBody = response.errorBody()?.string()
             _errorResponse.value = errorBody ?: "Unknown error"
-            Log.d(TAG, "방정보 조회 api 응답 실패: ${errorBody}")
+            Log.d(TAG, "방정보 조회 실패: $errorBody")
         }
     }
 
