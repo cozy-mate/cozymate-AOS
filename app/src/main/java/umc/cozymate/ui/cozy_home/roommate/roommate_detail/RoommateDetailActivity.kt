@@ -201,7 +201,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                 smokingStatus = "비흡연",
                 sleepingHabits = listOf("잠꼬대", "코골이"),
                 coolingIntensity = "약하게 틀어요",
-                heatingIntensity = "세게 틀어요",
+                heatingIntensity = "강하게 틀어요",
                 lifePattern = "아침형 인간",
                 intimacy = "완전 친하게 지내요",
                 sharingStatus = "칫솔만 아니면 돼요",
