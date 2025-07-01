@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
@@ -25,9 +26,11 @@ import umc.cozymate.data.model.response.roommate.Info
 import umc.cozymate.databinding.ActivityRoommateDetailBinding
 import umc.cozymate.databinding.ItemRoommateDetailListBinding
 import umc.cozymate.databinding.ItemRoommateDetailTableBinding
+import umc.cozymate.ui.cozy_home.room.making_room.MakingPublicRoomActivity
 import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.ReportPopup
+import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.roommate.RoommateOnboardingActivity
 import umc.cozymate.ui.roommate.data_class.UserInfo
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
@@ -54,11 +57,11 @@ class RoommateDetailActivity : AppCompatActivity() {
     private var favoriteId: Int = 0
     private var otherUserDetail: GetMemberDetailInfoResponse.Result? = null
     private val makingRoomViewModel: MakingRoomViewModel by viewModels()
-    private val reportViewModel : ReportViewModel by viewModels()
+    private val reportViewModel: ReportViewModel by viewModels()
     private var isFavorite: Boolean = false // 찜 상태
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private val roomDetailViewModel : RoomDetailViewModel by viewModels()
+    private val roomDetailViewModel: RoomDetailViewModel by viewModels()
     private var screenEnterTime: Long = 0
 
     private var isRoommateRequested: Boolean = false  // 버튼 상태를 관리할 변수
@@ -169,10 +172,14 @@ class RoommateDetailActivity : AppCompatActivity() {
 //            if (nickname.isNullOrEmpty() || birthday.isNullOrEmpty() || majorName.isNullOrEmpty() || admissionYear.isNullOrEmpty()) {
 //                return null
 //            }
-            val nickname = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
-            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "") ?: "2000-01-01"
-            val majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
-            val admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
+            val nickname =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_NICKNAME, "") ?: "샘플닉네임"
+            val birthday = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_BIRTHDAY, "")
+                ?: "2000-01-01"
+            val majorName =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "컴퓨터공학과"
+            val admissionYear =
+                PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "21"
 
 
             val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -180,14 +187,15 @@ class RoommateDetailActivity : AppCompatActivity() {
             val sleepingTime = spf.getInt("user_sleepingTime", -1)
             val turnOffTime = spf.getInt("user_turnOffTime", -1)
 
-            val hasCompleteLifestyleData = wakeUpTime != -1 && sleepingTime != -1 && turnOffTime != -1
+            val hasCompleteLifestyleData =
+                wakeUpTime != -1 && sleepingTime != -1 && turnOffTime != -1
 
             val sampleDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                 admissionYear = admissionYear.ifEmpty { "21" },
                 numOfRoommate = 2,
                 dormName = "기숙사A동",
                 dormJoiningStatus = "합격",
-                wakeUpTime = if(wakeUpTime == -1) 8 else wakeUpTime,
+                wakeUpTime = if (wakeUpTime == -1) 8 else wakeUpTime,
                 sleepingTime = 1,
                 turnOffTime = 13,
                 smokingStatus = "비흡연",
@@ -216,10 +224,21 @@ class RoommateDetailActivity : AppCompatActivity() {
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
                         birthday = birthday,
-                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
-                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        universityName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_UNIVERSITY_NAME,
+                            ""
+                        ) ?: "",
+                        majorName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_MAJOR_NAME,
+                            ""
+                        ) ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
-                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
+                        memberId = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_member_id", 0),
                         universityId = 1,
                         persona = 1
                     ),
@@ -229,46 +248,139 @@ class RoommateDetailActivity : AppCompatActivity() {
                     favoriteId = 0,
                     hasRequestedRoomEntry = false
                 )
-            }
-            else {
+            } else {
                 binding.lyGoToLifestyle.visibility = View.GONE
                 GetMemberDetailInfoResponse.Result(
                     memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
                         nickname = nickname,
                         birthday = birthday,
-                        universityName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "") ?: "",
-                        majorName = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MAJOR_NAME, "") ?: "",
+                        universityName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_UNIVERSITY_NAME,
+                            ""
+                        ) ?: "",
+                        majorName = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_MAJOR_NAME,
+                            ""
+                        ) ?: "",
                         gender = PreferencesUtil.getString(this, "user_gender", "") ?: "",
-                        memberId = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_member_id", 0),
+                        memberId = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_member_id", 0),
                         universityId = 1,
                         persona = 1
                     ),
                     memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
-                        admissionYear = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "") ?: "",
-                        numOfRoommate = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_numOfRoommate", 0),
+                        admissionYear = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_ADMISSION_YEAR,
+                            ""
+                        ) ?: "",
+                        numOfRoommate = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_numOfRoommate", 0),
                         dormName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
-                        dormJoiningStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "") ?: "",
-                        wakeUpTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_wakeUpTime", 0),
-                        sleepingTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_sleepingTime", 0),
-                        turnOffTime = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getInt("user_turnOffTime", 0),
-                        smokingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SMOKING_STATUS, "") ?: "",
-                        sleepingHabits = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
-                        coolingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_coolingIntensity", "") ?: "",
-                        heatingIntensity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_heatingIntensity", "") ?: "",
-                        lifePattern = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_LIFE_PATTERN, "") ?: "",
-                        intimacy = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_INTIMACY, "") ?: "",
-                        sharingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SHARING_STATUS, "") ?: "",
-                        gamingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_GAMING_STATUS, "") ?: "",
-                        callingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CALLING_STATUS, "") ?: "",
-                        studyingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_STUDYING_STATUS, "") ?: "",
-                        eatingStatus = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_EATING_STATUS, "") ?: "",
-                        cleannessSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_cleanSensitivity", "") ?: "",
-                        noiseSensitivity = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getString("user_noiseSensitivity", "") ?: "",
-                        cleaningFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_CLEANING_FREQUENCY, "") ?: "",
-                        drinkingFrequency = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_DRINKING_FREQUENCY, "") ?: "",
-                        personalities = getSharedPreferences(PreferencesUtil.PREFS_NAME, Context.MODE_PRIVATE).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
-                        mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
-                        selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
+                        dormJoiningStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_DORM_JOINING_STATUS,
+                            ""
+                        ) ?: "",
+                        wakeUpTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_wakeUpTime", 0),
+                        sleepingTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_sleepingTime", 0),
+                        turnOffTime = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getInt("user_turnOffTime", 0),
+                        smokingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SMOKING_STATUS,
+                            ""
+                        ) ?: "",
+                        sleepingHabits = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getStringSet("user_sleepingHabits", emptySet())?.toList() ?: emptyList(),
+                        coolingIntensity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_coolingIntensity", "") ?: "",
+                        heatingIntensity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_heatingIntensity", "") ?: "",
+                        lifePattern = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_LIFE_PATTERN,
+                            ""
+                        ) ?: "",
+                        intimacy = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_INTIMACY,
+                            ""
+                        ) ?: "",
+                        sharingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SHARING_STATUS,
+                            ""
+                        ) ?: "",
+                        gamingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_GAMING_STATUS,
+                            ""
+                        ) ?: "",
+                        callingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_CALLING_STATUS,
+                            ""
+                        ) ?: "",
+                        studyingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_STUDYING_STATUS,
+                            ""
+                        ) ?: "",
+                        eatingStatus = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_EATING_STATUS,
+                            ""
+                        ) ?: "",
+                        cleannessSensitivity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_cleanSensitivity", "") ?: "",
+                        noiseSensitivity = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getString("user_noiseSensitivity", "") ?: "",
+                        cleaningFrequency = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_CLEANING_FREQUENCY,
+                            ""
+                        ) ?: "",
+                        drinkingFrequency = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_DRINKING_FREQUENCY,
+                            ""
+                        ) ?: "",
+                        personalities = getSharedPreferences(
+                            PreferencesUtil.PREFS_NAME,
+                            Context.MODE_PRIVATE
+                        ).getStringSet("user_personalities", emptySet())?.toList() ?: emptyList(),
+                        mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "")
+                            ?: "",
+                        selfIntroduction = PreferencesUtil.getString(
+                            this,
+                            PreferencesUtil.KEY_USER_SELF_INTRODUCTION,
+                            ""
+                        ) ?: ""
                     ),
                     equality = 0,
                     roomId = 0,
@@ -616,7 +728,12 @@ class RoommateDetailActivity : AppCompatActivity() {
                         if (isInvited) {
                             binding.fabRequestRoommate.apply {
                                 text = "초대 취소하기"
-                                setBackgroundColor(ContextCompat.getColor(context, R.color.color_box))
+                                setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.color_box
+                                    )
+                                )
                                 setTextColor(ContextCompat.getColor(context, R.color.main_blue))
                                 setOnClickListener {
                                     roomDetailViewModel.cancelInvitation(otherMemberId)
@@ -647,7 +764,12 @@ class RoommateDetailActivity : AppCompatActivity() {
                                 } else {
                                     binding.fabRequestRoommate.apply {
                                         text = "내 방으로 초대하기"
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
+                                        setBackgroundColor(
+                                            ContextCompat.getColor(
+                                                context,
+                                                R.color.main_blue
+                                            )
+                                        )
                                         setTextColor(ContextCompat.getColor(context, R.color.white))
                                         setOnClickListener {
                                             roomDetailViewModel.inviteMember(otherMemberId)
@@ -693,8 +815,40 @@ class RoommateDetailActivity : AppCompatActivity() {
                     setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue))
                     setTextColor(ContextCompat.getColor(context, R.color.white))
                     setOnClickListener {
-                        val inviteModal = RoomInviteModal()
-                        inviteModal.show(supportFragmentManager, "invite_modal")
+                        val popupText = listOf(
+                            "${otherNickname}님을\n내 방에 초대하시겠어요?",
+                            "방을 생성하면 ${otherNickname}님에게 초대 요청이 전송돼요.",
+                            "취소",
+                            "초대하기"
+                        )
+
+                        val invitePopup = TwoButtonPopup(popupText, object : PopupClick {
+                            override fun rightClickFunction() {
+                                // GA 이벤트 로그 추가
+                                AnalyticsEventLogger.logEvent(
+                                    eventName = AnalyticsConstants.Event.BUTTON_CLICK_MAKE_ROOM,
+                                    category = AnalyticsConstants.Category.HOME_HEADER,
+                                    action = AnalyticsConstants.Action.BUTTON_CLICK,
+                                    label = AnalyticsConstants.Label.MAKE_ROOM,
+                                )
+                                val intent = Intent(this@RoommateDetailActivity, MakingPublicRoomActivity::class.java)
+                                startActivity(intent)
+
+                                SnackbarUtil.showCustomSnackbar(
+                                    context,
+                                    "${otherNickname}님에게 방 초대 요청을 보냈어요",
+                                    SnackbarUtil.IconType.YES,
+                                    binding.fabRequestRoommate
+                                )
+                                updateRoommateInfo()
+                            }
+
+                            override fun leftClickFunction() {
+                                // 취소 눌렀을 경우 아무 동작 없음 (생략 가능)
+                            }
+                        }, isCancelable = false)
+
+                        invitePopup.show(supportFragmentManager, "MakeRoomPopup")
                     }
                 }
             }
@@ -711,9 +865,9 @@ class RoommateDetailActivity : AppCompatActivity() {
     }
 
     private fun observeMemberInfo() {
-        roommateDetailViewModel.otherUserDetailInfo.observe(this) {memberInfo ->
-            if(otherUserDetail == null) return@observe
-            else{
+        roommateDetailViewModel.otherUserDetailInfo.observe(this) { memberInfo ->
+            if (otherUserDetail == null) return@observe
+            else {
                 memberId = memberInfo.memberDetail.memberId
                 favoriteId = memberInfo.favoriteId
                 updateFavoriteButton()
@@ -803,7 +957,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         val listBinding = ItemRoommateDetailListBinding.bind(listView)
 
         listBinding.tvReportTitle.setOnClickListener {
-                reportPopup()
+            reportPopup()
         }
         with(listBinding) {
             tvListName.text = it.memberDetail.nickname
@@ -926,13 +1080,15 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableOtherSleepTime.text = "${convertTo12Hour(other.memberStatDetail.sleepingTime)}시"
 
             tvTableUserLightOffAmpm.text = getMeridianFrom24Hour(user.memberStatDetail.turnOffTime)
-            tvTableOtherLightOffAmpm.text = getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
+            tvTableOtherLightOffAmpm.text =
+                getMeridianFrom24Hour(other.memberStatDetail.turnOffTime)
 
 //            tvTableUserLightOffTime.text = " ${user.memberStatDetail.turnOffTime}시"
 //            tvTableOtherLightOffTime.text = " ${other.memberStatDetail.turnOffTime}시"
 
             tvTableUserLightOffTime.text = " ${convertTo12Hour(user.memberStatDetail.turnOffTime)}시"
-            tvTableOtherLightOffTime.text = " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
+            tvTableOtherLightOffTime.text =
+                " ${convertTo12Hour(other.memberStatDetail.turnOffTime)}시"
 
             tvTableUserSmoke.text = trimText(user.memberStatDetail.smokingStatus)
             tvTableOtherSmoke.text = trimText(other.memberStatDetail.smokingStatus)
@@ -1380,14 +1536,15 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherMbti.text = detail?.mbti
     }
 
-    private fun reportPopup(){
+    private fun reportPopup() {
         val dialog = ReportPopup(object : PopupClick {
-            override fun reportFunction(reason: Int, content : String) {
+            override fun reportFunction(reason: Int, content: String) {
                 reportViewModel.postReport(memberId, 0, reason, content)
             }
         })
         dialog.show(this.supportFragmentManager!!, "reportPopup")
     }
+
     private fun createFallbackUserDetail(): GetMemberDetailInfoResponse.Result {
         return GetMemberDetailInfoResponse.Result(
             memberDetail = GetMemberDetailInfoResponse.Result.MemberDetail(
