@@ -1,12 +1,18 @@
 package umc.cozymate.ui.role_rule
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.databinding.RvItemRoleBinding
 
-class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
+class RoleRVAdapter(
+    private val roles: List<RoleData>,
+    private val nickname: String
+    ) : RecyclerView.Adapter<RoleRVAdapter.ViewHolder>()  {
     private lateinit var myListener: ItemClick
     inner class ViewHolder(val binding: RvItemRoleBinding):  RecyclerView.ViewHolder(binding.root){
         fun bind(role : RoleData){
@@ -16,7 +22,7 @@ class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<R
             if(role.allDays || role.repeatDayList.size >= 7){
                 binding.tvWeekday.text  = "매일"
             }
-            else if(role.repeatDayList.isNullOrEmpty()){
+            else if(role.repeatDayList.isEmpty()){
                 binding.tvWeekday.text  = "미정"
             }
             else{
@@ -35,6 +41,11 @@ class RoleRVAdapter( private val roles: List<RoleData>) : RecyclerView.Adapter<R
                 count ++
             }
             binding.tvMembers.text = string.toString()
+
+
+            // 내가 포함된 롤이 아니면 수정 불가
+            for (mate in role.mateList)
+                if (mate.nickname == nickname) binding.ivMore.visibility = View.VISIBLE
 
             binding.ivMore.setOnClickListener {
                 myListener.editClickFunction(role)

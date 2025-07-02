@@ -50,7 +50,6 @@ class TodoTabFragment : Fragment() {
     private var nickname : String = ""
     private var mateId :Int = 0
     lateinit var calendarView: MaterialCalendarView
-   // private var selectedDate= LocalDate.now()
     private var roleList : List<RoleData> = emptyList()
     private var roleTodo : Map<String,MutableList<TodoItem>> = mapOf("월" to mutableListOf(), "화" to  mutableListOf(), "수" to  mutableListOf(), "목" to  mutableListOf(), "금" to  mutableListOf(), "토" to  mutableListOf(), "일" to  mutableListOf(),)
 
@@ -72,7 +71,8 @@ class TodoTabFragment : Fragment() {
         setMinHeight()
         getPreference()
         updateInfo()
-        updateUI()
+        updateMyTodo()
+        updateMateTodo()
         return binding.root
     }
 
@@ -118,35 +118,35 @@ class TodoTabFragment : Fragment() {
         }
     }
     private fun setupObservers() {
-        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                val list =  response.body()!!.result
-                if(roleList != list){
-                    roleList = list
-                    setRoleTodo()
-                }
-            }
-        })
+//        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+//            if (response == null) return@Observer
+//            if (response.isSuccessful) {
+//                val list =  response.body()!!.result
+//                if(roleList != list){
+//                    roleList = list
+//                    setRoleTodo()
+//                }
+//            }
+//        })
         viewModel.mytodo.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
             mytodo = list
-            updateUI()
+            updateMyTodo()
             updateInfo()
         })
         viewModel.memberTodoList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
             memberList= list
-            updateUI()
+            updateMateTodo()
         })
 
     }
 
-    private fun updateUI() {
+    private fun updateMyTodo(){
         // 선택된 날짜가 미래일경우만 롤 투두 추가
         if (selectedDate.isAfter(LocalDate.now())) {
             val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
-            mytodo += roleTodo[day]!!
+            //mytodo += roleTodo[day]!!
         }
 
         // 내 투두
@@ -157,7 +157,7 @@ class TodoTabFragment : Fragment() {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
 
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodo, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodo, isEditable = true, isCheckable =true )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
@@ -181,7 +181,9 @@ class TodoTabFragment : Fragment() {
                 }
             } )
         }
+    }
 
+    private fun updateMateTodo(){
         // 룸메 할일(중첩 리사이클러뷰)
         if (memberList.isEmpty()) {
             binding.layoutEmptyMember.visibility = View.VISIBLE
@@ -199,7 +201,6 @@ class TodoTabFragment : Fragment() {
             binding.rvMemberTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMemberTodo.adapter = memberTodoListRVAdapter
         }
-
     }
 
     private fun updateInfo() {
@@ -230,6 +231,8 @@ class TodoTabFragment : Fragment() {
             viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         }
     }
+
+    // 롤 투두 임의 삽입
     private fun setRoleTodo(){
         val myInfo = MateInfo(mateId, nickname)
         // roleTodo 초기화
@@ -240,6 +243,8 @@ class TodoTabFragment : Fragment() {
                 initRoleTodo(role)
         }
     }
+
+    // 롤 투두 임의 삽입
     private fun initRoleTodo(role: RoleData) {
         val todo = TodoItem( content = role.content, todoType = "role", mateIdList = emptyList())
         for (day in role.repeatDayList)
@@ -259,9 +264,9 @@ class TodoTabFragment : Fragment() {
     private fun showDeletePopup(todoId : Int ){
         val text = listOf("해당 투두를 삭제 하시겠어요? ","삭제시 복구가 불가능해요","취소","삭제")
         val dialog = TwoButtonPopup(text,object : PopupClick {
-                    override fun rightClickFunction() {
+            override fun rightClickFunction() {
                         viewModel.deleteTodo(roomId,todoId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
-                    }
+            }
         })
         dialog.show(requireActivity().supportFragmentManager,"delete Todo")
     }

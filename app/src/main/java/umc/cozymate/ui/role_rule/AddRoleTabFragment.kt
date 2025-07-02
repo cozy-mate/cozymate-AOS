@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.BufferOverflow
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
@@ -29,12 +30,15 @@ import umc.cozymate.data.model.request.RoleRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddRoleTabBinding
 import umc.cozymate.ui.viewmodel.RoleViewModel
+import umc.cozymate.util.TextObserver
 
 @AndroidEntryPoint
 class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRoleTabBinding
     lateinit var spf : SharedPreferences
+    lateinit var textObserver: TextObserver
+
     private var repeatDayList =mutableListOf<String>()
     private var selectedMates = mutableListOf<MateInfo>()
     private val weekdayBox = mutableListOf<Daybox>()
@@ -42,7 +46,7 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private var roomId : Int = 0
     private var role : RoleData = RoleData()
     private val viewModel: RoleViewModel by viewModels()
-
+    private var titleFlag : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +55,8 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     ): View? {
         binding = FragmentAddRoleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        textObserver = TextObserver(requireContext(), 20, binding.tvTextLengthInfo, binding.etInputRole)
+
         getPreference()
         initWeekdays()
         initdata()
@@ -136,21 +142,22 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private fun checkInput() {
         val memberFlag = mateBox.any{it.box.isChecked}
         val weekdayFlag = weekdayBox.any{it.box.isChecked} || binding.cbEmptyWeekday.isChecked
-        val titleFlag = !binding.etInputRole.text.isNullOrEmpty()
-        binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag)
+        binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag )
     }
 
     // 텍스트 입력 설정
     private fun setTextinput() {
-        val maxLength = 20 // 최대 글자수 설정
-        binding.etInputRole.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputRole.setText(role.content)
         binding.etInputRole.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                titleFlag = !(binding.etInputRole.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                titleFlag = !(binding.etInputRole.text.isNullOrEmpty() || textObserver.updateView())
+                checkInput()
+            }
         })
     }
 
