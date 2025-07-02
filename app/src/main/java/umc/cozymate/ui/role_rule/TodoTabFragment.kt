@@ -118,16 +118,16 @@ class TodoTabFragment : Fragment() {
         }
     }
     private fun setupObservers() {
-        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) return@Observer
-            if (response.isSuccessful) {
-                val list =  response.body()!!.result
-                if(roleList != list){
-                    roleList = list
-                    setRoleTodo()
-                }
-            }
-        })
+//        roleViewModel.getResponse.observe(viewLifecycleOwner, Observer { response ->
+//            if (response == null) return@Observer
+//            if (response.isSuccessful) {
+//                val list =  response.body()!!.result
+//                if(roleList != list){
+//                    roleList = list
+//                    setRoleTodo()
+//                }
+//            }
+//        })
         viewModel.mytodo.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
             mytodo = list
@@ -146,7 +146,7 @@ class TodoTabFragment : Fragment() {
         // 선택된 날짜가 미래일경우만 롤 투두 추가
         if (selectedDate.isAfter(LocalDate.now())) {
             val day = selectedDate.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREA)
-            mytodo += roleTodo[day]!!
+            //mytodo += roleTodo[day]!!
         }
 
         // 내 투두
@@ -157,7 +157,7 @@ class TodoTabFragment : Fragment() {
             binding.tvEmptyTodo.visibility = View.GONE
             binding.rvMyTodo.visibility = View.VISIBLE
 
-            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodo, isEditable = true, isCheckable =(!selectedDate.isAfter(LocalDate.now())) )
+            val myTodoRVAdapter = TodoRVAdapter( todoItems = mytodo, isEditable = true, isCheckable =true )
             binding.rvMyTodo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvMyTodo.adapter = myTodoRVAdapter
 
@@ -231,6 +231,8 @@ class TodoTabFragment : Fragment() {
             viewModel.getTodo(roomId,selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         }
     }
+
+    // 롤 투두 임의 삽입
     private fun setRoleTodo(){
         val myInfo = MateInfo(mateId, nickname)
         // roleTodo 초기화
@@ -241,6 +243,8 @@ class TodoTabFragment : Fragment() {
                 initRoleTodo(role)
         }
     }
+
+    // 롤 투두 임의 삽입
     private fun initRoleTodo(role: RoleData) {
         val todo = TodoItem( content = role.content, todoType = "role", mateIdList = emptyList())
         for (day in role.repeatDayList)
