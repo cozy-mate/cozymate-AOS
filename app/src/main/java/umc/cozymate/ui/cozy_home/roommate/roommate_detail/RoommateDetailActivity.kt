@@ -131,6 +131,11 @@ class RoommateDetailActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
+        reportViewModel.isSuccess.observe(this){ isSuccess ->
+            if (isSuccess == null) return@observe
+            if(isSuccess) Toast.makeText(this, "신고가 정상적으로 접수되었습니다", Toast.LENGTH_SHORT).show()
+        }
+
 
     }
 
@@ -1542,7 +1547,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                 reportViewModel.postReport(memberId, 0, reason, content)
             }
         })
-        dialog.show(this.supportFragmentManager!!, "reportPopup")
+        dialog.show(this.supportFragmentManager, "reportPopup")
     }
 
     private fun createFallbackUserDetail(): GetMemberDetailInfoResponse.Result {
