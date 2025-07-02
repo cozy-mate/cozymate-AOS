@@ -96,7 +96,6 @@
             android:gravity="end"
             android:textAppearance="@style/TextAppearance.App.12sp.Medium"
             android:textColor="@color/unuse_font"
-            app:layout_constraintTop_toBottomOf="@id/et_input_reasons"
             android:visibility="gone"/>
 
     </LinearLayout>

@@ -141,35 +141,4 @@ class WriteMessageActivity : AppCompatActivity() {
         }
     }
 
-    private fun test(editText : EditText ){
-        val parentViewGroup = editText.parent as? ViewGroup
-        val text : String = ""
-        val view = TextView(this)
-        val layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
-        view.layoutParams =  layoutParams
-        view.text = text
-        view.setTextColor(ContextCompat.getColor(this,R.color.warning))
-        view.setTextAppearance(R.style.TextAppearance_App_12sp_Medium)
-
-        when(parentViewGroup){
-            is ConstraintLayout ->{
-                parentViewGroup.addView(view)
-                ConstraintSet().apply {
-                    clone(parentViewGroup)
-                    connect(
-                        view.id, ConstraintSet.TOP, editText.id, ConstraintSet.BOTTOM,
-                        convertDpToPx(baseContext, 4)
-                    )
-                    applyTo(parentViewGroup)
-                }
-            }
-            else -> {}
-
-        }
-
-    }
-    private fun convertDpToPx(context: Context, dp: Int): Int {
-        val density = context.resources.displayMetrics.density
-        return (dp * density).toInt()
-    }
 }
