@@ -51,6 +51,7 @@ class MessageMemberActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+        clearPage()
         viewModel.getChatRooms( page++, ITEM_SIZE)
     }
 
