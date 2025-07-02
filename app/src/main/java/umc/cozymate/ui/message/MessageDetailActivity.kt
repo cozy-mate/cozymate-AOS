@@ -85,8 +85,8 @@ class MessageDetailActivity : AppCompatActivity() {
             }
             else{
                 Log.d(TAG,"page $page")
-                messageDetailAdapter.addData(it)
                 if (it.size < ITEM_SIZE ) isLastPage = true
+                messageDetailAdapter.addData(it,isLastPage)
                 binding.rvMessageDetail.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
 
