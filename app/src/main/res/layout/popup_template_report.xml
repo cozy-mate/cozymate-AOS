@@ -88,6 +88,17 @@
             android:padding="16dp"
             android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/tv_text_length_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+            android:textColor="@color/unuse_font"
+            app:layout_constraintTop_toBottomOf="@id/et_input_reasons"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
 
@@ -96,8 +107,7 @@
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_rectangle_8"
-        android:backgroundTint="@color/main_blue"
+        android:background="@drawable/ic_button"
         android:text="신고"
         android:textAppearance="@style/TextAppearance.App.14sp.SemiBold"
         android:textColor="@color/white"

@@ -18,16 +18,21 @@ import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.data.model.request.RuleRequest
 import umc.cozymate.databinding.FragmentAddRuleTabBinding
 import umc.cozymate.ui.viewmodel.RuleViewModel
+import umc.cozymate.util.TextObserver
 
 @AndroidEntryPoint
 class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var binding: FragmentAddRuleTabBinding
     lateinit var spf : SharedPreferences
+    lateinit var titleObserver: TextObserver
+    lateinit var memoObserver: TextObserver
+
     private var roomId : Int = 0
     private var rule : RuleData = RuleData()
     private val viewModel : RuleViewModel by viewModels()
-
+    private var memoFlag : Boolean = true
+    private var titleFlag : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +41,9 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
     ): View? {
         binding = FragmentAddRuleTabBinding.inflate(inflater, container, false)
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        titleObserver = TextObserver(requireContext(), 20, binding.tvRuleLengthInfo, binding.etInputRule)
+        memoObserver = TextObserver(requireContext(), 50, binding.tvMemoLengthInfo, binding.etInputMemo)
+
         getPreference()
         initdata()
         setRuleInput()
@@ -71,33 +79,41 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
     }
 
     private fun setMemo() {
-        val maxLength = 50 // 최대 글자수 설정
-        binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
+//        val maxLength = 50 // 최대 글자수 설정
+//        binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputMemo.setText(rule.memo)
-        binding.tvMemoLength.text = "${rule.memo?.length}/50"
+
         binding.etInputMemo.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                memoFlag = !memoObserver.updateView()
+                checkInput()
+            }
             override fun afterTextChanged(s: Editable?) {
-                val l = binding.etInputMemo.length()
-                binding.tvMemoLength.text = "${l}/50"
+                memoFlag = !memoObserver.updateView()
+                checkInput()
             }
         })
     }
 
     private fun setRuleInput() {
-        val maxLength = 20 // 최대 글자수 설정
-        binding.etInputRule.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
+
         binding.etInputRule.setText(rule.content)
         binding.etInputRule.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.btnInputButton.isEnabled = !s.isNullOrEmpty()
+                titleFlag = !(s.isNullOrEmpty() || titleObserver.updateView())
+                checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                binding.btnInputButton.isEnabled = !s.isNullOrEmpty()
+                titleFlag = !(s.isNullOrEmpty() || titleObserver.updateView())
+                checkInput()
             }
         })
+    }
+    // 입력 버튼 활성화
+    private fun checkInput() {
+        binding.btnInputButton.isEnabled = (memoFlag && titleFlag )
     }
 
     private fun initClickListener(){

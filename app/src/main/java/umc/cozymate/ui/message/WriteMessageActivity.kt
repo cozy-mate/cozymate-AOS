@@ -11,32 +11,44 @@ import android.text.TextWatcher
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.core.view.GestureDetectorCompat
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.R
 import umc.cozymate.data.model.request.ChatRequest
 import umc.cozymate.databinding.ActivityWriteMessageBinding
 import umc.cozymate.ui.viewmodel.MessageViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.TextObserver
 
 @AndroidEntryPoint
 class WriteMessageActivity : AppCompatActivity() {
     lateinit var binding : ActivityWriteMessageBinding
+    lateinit var mDetector: GestureDetectorCompat
+    lateinit var textObserver: TextObserver
+
     private val TAG = this.javaClass.simpleName
     private val viewModel: MessageViewModel by viewModels()
     private var recipientId : Int = 0
     private var nickname : String = ""
     private var prev : View? = null
-    private lateinit var mDetector: GestureDetectorCompat
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteMessageBinding.inflate(layoutInflater)
+        textObserver = TextObserver(this, 200, binding.tvTextLengthInfo, binding.etInputMessage)
+
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
         checkInput()
@@ -97,9 +109,8 @@ class WriteMessageActivity : AppCompatActivity() {
             return super.onSingleTapUp(e)
         }
     }
-    private fun checkInput() {
-        val inputFlag = !binding.etInputMessage.text.isNullOrEmpty()
-        binding.btnInputButton.isEnabled = inputFlag
+    private fun checkInput(overflow: Boolean = false) {
+        binding.btnInputButton.isEnabled = !(binding.etInputMessage.text.isNullOrEmpty() || overflow)
     }
 
     private fun setTextinput() {
@@ -108,10 +119,12 @@ class WriteMessageActivity : AppCompatActivity() {
                 // 변경 전 텍스트에 대한 처리
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                checkInput()
+                val overflow = textObserver.updateView()
+                checkInput(overflow)
             }
             override fun afterTextChanged(s: Editable?) {
-                checkInput()
+                val overflow = textObserver.updateView()
+                checkInput(overflow)
             }
         })
     }
@@ -128,4 +141,35 @@ class WriteMessageActivity : AppCompatActivity() {
         }
     }
 
+    private fun test(editText : EditText ){
+        val parentViewGroup = editText.parent as? ViewGroup
+        val text : String = ""
+        val view = TextView(this)
+        val layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.layoutParams =  layoutParams
+        view.text = text
+        view.setTextColor(ContextCompat.getColor(this,R.color.warning))
+        view.setTextAppearance(R.style.TextAppearance_App_12sp_Medium)
+
+        when(parentViewGroup){
+            is ConstraintLayout ->{
+                parentViewGroup.addView(view)
+                ConstraintSet().apply {
+                    clone(parentViewGroup)
+                    connect(
+                        view.id, ConstraintSet.TOP, editText.id, ConstraintSet.BOTTOM,
+                        convertDpToPx(baseContext, 4)
+                    )
+                    applyTo(parentViewGroup)
+                }
+            }
+            else -> {}
+
+        }
+
+    }
+    private fun convertDpToPx(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density).toInt()
+    }
 }
