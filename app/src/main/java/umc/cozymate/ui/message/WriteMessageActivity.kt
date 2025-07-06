@@ -77,30 +77,31 @@ class WriteMessageActivity : AppCompatActivity() {
 
     // 밖 터치시 키보드 숨기기
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if(ev!!.action ==  MotionEvent.ACTION_UP)
+        if(ev?.action == MotionEvent.ACTION_UP)
             prev = currentFocus
         val result = super.dispatchTouchEvent(ev)
-        mDetector.onTouchEvent(ev)
+        ev?.let { mDetector.onTouchEvent(it) }
         return result
     }
 
     private inner class SingleTapListener : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
-            // ACTION_UP 이벤트에서 포커스를 가진 뷰가 EditText일 때 터치 영역을 확인하여 키보드를 토글
-            if (e.action == MotionEvent.ACTION_UP && prev is EditText) {
+            if (prev is EditText) {
                 val prevFocus = prev ?: return false
-                // 포커를 가진 EditText의 터치 영역 계산
-                val hitRect = Rect()
-                prevFocus.getGlobalVisibleRect(hitRect)
+                val location = IntArray(2)
+                prevFocus.getLocationOnScreen(location)
+                val hitRect = Rect(
+                    location[0],
+                    location[1],
+                    location[0] + prevFocus.width,
+                    location[1] + prevFocus.height
+                )
 
-                // 터치 이벤트가 EditText의 터치 영역에 속하지 않을 때 키보드를 숨길지 결정
-                if (!hitRect.contains(e.x.toInt(), e.y.toInt())) {
+                if (!hitRect.contains(e.rawX.toInt(), e.rawY.toInt())) {
                     if (currentFocus is EditText && currentFocus != prevFocus) {
-                        // 터치한 영역의 뷰가 다른 EditText일 때는 키보드를 가리지 않는다.
                         return false
                     } else {
                         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        // 터치한 영역이 EditText의 터치 영역 밖이면서 다른 EditText가 아닐 때 키보드 hide
                         imm.hideSoftInputFromWindow(prevFocus.windowToken, 0)
                         prevFocus.clearFocus()
                     }
@@ -109,6 +110,7 @@ class WriteMessageActivity : AppCompatActivity() {
             return super.onSingleTapUp(e)
         }
     }
+
     private fun checkInput(overflow: Boolean = false) {
         binding.btnInputButton.isEnabled = !(binding.etInputMessage.text.isNullOrEmpty() || overflow)
     }

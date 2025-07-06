@@ -170,7 +170,7 @@ class MessageDetailActivity : AppCompatActivity() {
     private fun reportPopup(){
         val dialog = ReportPopup(object : PopupClick {
             override fun reportFunction(reason: Int, content : String) {
-                reportViewModel.postReport(memberId!!, 1, reason, content)
+                reportViewModel.postReport(memberId, 1, reason, content)
             }
         })
         dialog.show(this.supportFragmentManager, "reportPopup")

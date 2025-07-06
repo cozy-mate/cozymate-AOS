@@ -31,8 +31,8 @@ class MessageViewModel @Inject constructor(
     private val _chatContents = MutableLiveData<List<ChatContentData>>()
     val chatContents : LiveData<List<ChatContentData>> get() = _chatContents
 
-    private val _memberId = MutableLiveData<Int>()
-    val memberId : LiveData<Int> get() = _memberId
+    private val _memberId = MutableLiveData<Int?>()
+    val memberId : LiveData<Int?> get() = _memberId
 
     private val _chatRooms = MutableLiveData<List<ChatRoomData>>()
     val chatRooms : LiveData<List<ChatRoomData>> get() = _chatRooms
@@ -52,9 +52,10 @@ class MessageViewModel @Inject constructor(
                 _isLoading.value = true
                 val response = repository.getChatContents(token!!, chatRoomId, page, size)
                 if(response.isSuccessful){
-                    val chatRoomInfo = response.body()!!.result.result
-                    _chatContents.postValue(chatRoomInfo.content)
-                    _memberId.postValue(chatRoomInfo.memberId)
+                    response.body()?.result?.result?.let { chatRoomInfo ->
+                        _chatContents.postValue(chatRoomInfo.content)
+                        _memberId.postValue(chatRoomInfo.memberId)
+                        }
                     Log.d(TAG, "getChatContents api 응답 성공: ${response.body()!!.result.result}")
                 }
                 else Log.d(TAG, "getChatContents api 응답 실패: ${response.body()!!.result}")
