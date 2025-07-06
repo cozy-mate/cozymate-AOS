@@ -25,6 +25,8 @@ data class GetUniversityInfoResponse(
         val id: Int,
         @SerialName("mailPattern")
         val mailPattern: String,
+        @SerialName("mailPatterns")
+        val mailPatterns: List<String>,
         @SerialName("name")
         val name: String
     )
