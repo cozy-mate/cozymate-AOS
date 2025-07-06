@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.request.ReportRequest
+import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.repository.repository.ReportRepository
 import javax.inject.Inject
 
@@ -45,10 +47,24 @@ class ReportViewModel @Inject constructor(
                     Log.d(TAG, "응답 성공: ${response.body()!!.result}")
                     _isSuccess.postValue(response.isSuccessful)
                 }
-                else Log.d(TAG, "응답 실패: ${response.body()!!.result}")
+                else {
+                    val errorBody = parseErrorResponse(response.errorBody()?.string())
+                    // 중복 신고 한정 예외처리
+                    Log.d(TAG, "응답 실패: ${errorBody}")
+                    if ( errorBody?.code == "REPORT401" ) _isSuccess.postValue(true)
+                }
             } catch (e: Exception) {
                 Log.d(TAG,"api 요청 실패:  ${e}")
             }
+        }
+    }
+    private fun parseErrorResponse(errorBody: String?): ErrorResponse? {
+        return try {
+            val gson = Gson()
+            gson.fromJson(errorBody, ErrorResponse::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing JSON: ${e.message}")
+            null
         }
     }
 }

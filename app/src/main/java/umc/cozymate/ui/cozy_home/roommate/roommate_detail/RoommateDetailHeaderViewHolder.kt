@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 import android.content.Intent
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -20,10 +21,12 @@ import umc.cozymate.util.fromDpToPx
 class RoommateDetailHeaderViewHolder(
     private val binding: RvItemRoomateDetailHeaderBinding,
     private val itemClick: RoommateRecommendRVAdapter.clickListener,
+    private val isLifestyleExist: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
     private val  selectedChips = mutableListOf<String>()
     private var chips  = mutableListOf<CheckBox>()
     private var isClear : Boolean = false
+
     fun bind(){
         // 검색창 이동
         binding.lyRoomMateSearch.setOnClickListener {
@@ -41,6 +44,11 @@ class RoommateDetailHeaderViewHolder(
             context.startActivity(intent)
         }
         initChip()
+        binding.layoutCheckbox.visibility = if(isLifestyleExist) View.VISIBLE else View.GONE
+        binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
+            // false 가 방이 없는것으로 추정?
+            itemClick.clickCheckBox(isChecked)
+        }
     }
 
     private fun initChip(){
@@ -94,6 +102,10 @@ class RoommateDetailHeaderViewHolder(
          for (c in chips) c.isChecked = false
         selectedChips.clear()
         isClear = false
+    }
+
+    fun setCheckbox(hasRoom: Boolean){
+        binding.cbCheck.isChecked = hasRoom
     }
 
 }

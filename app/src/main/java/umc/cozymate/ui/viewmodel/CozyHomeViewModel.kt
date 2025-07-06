@@ -174,7 +174,8 @@ class CozyHomeViewModel @Inject constructor(
                     val response = memberStatRepository.getRoommateListByEquality(
                         accessToken = token,
                         page = page,
-                        filter
+                        filter,
+                        hasRoom = false
                     )
                     if (response.isSuccessful) {
                         if (response.body()?.isSuccess == true) {

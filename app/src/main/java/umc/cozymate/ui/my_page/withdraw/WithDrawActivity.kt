@@ -5,11 +5,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.widget.CompoundButtonCompat
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,14 +30,19 @@ class WithDrawActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityWithdrawBinding
     private lateinit var spf : SharedPreferences
+    private lateinit var mDetector: GestureDetectorCompat
     private var reason : String = ""
     private var memberId : Int = 0
     private var nickname: String = ""
     private val viewModel : SplashViewModel by viewModels()
+    private var prev : View? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWithdrawBinding.inflate(layoutInflater)
         spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        mDetector = GestureDetectorCompat(this, SingleTapListener())
+
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE) // 상단바 색상 수정
         setTextContent()
@@ -101,5 +112,42 @@ class WithDrawActivity : AppCompatActivity() {
 
         // 화면 크기와 텍스트 길이를 비교하여 텍스트 설정
         binding.tvSplitText.text = if (textWidth+padding > screenWidth) splitText else originalText
+    }
+
+    // 밖 터치시 키보드 숨기기
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if(ev?.action == MotionEvent.ACTION_UP)
+            prev = currentFocus
+        val result = super.dispatchTouchEvent(ev)
+        ev?.let { mDetector.onTouchEvent(it) }
+        return result
+    }
+
+
+    private inner class SingleTapListener : GestureDetector.SimpleOnGestureListener() {
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+                if (prev is EditText) {
+                    val prevFocus = prev ?: return false
+                    val location = IntArray(2)
+                    prevFocus.getLocationOnScreen(location)
+                    val hitRect = Rect(
+                        location[0],
+                        location[1],
+                        location[0] + prevFocus.width,
+                        location[1] + prevFocus.height
+                    )
+
+                    if (!hitRect.contains(e.rawX.toInt(), e.rawY.toInt())) {
+                        if (currentFocus is EditText && currentFocus != prevFocus) {
+                            return false
+                        } else {
+                            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(prevFocus.windowToken, 0)
+                            prevFocus.clearFocus()
+                        }
+                        }
+                    }
+                    return super.onSingleTapUp(e)
+        }
     }
 }

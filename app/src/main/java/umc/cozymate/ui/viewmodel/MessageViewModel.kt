@@ -10,12 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.data.model.entity.ChatRoomData
 import umc.cozymate.data.model.request.ChatRequest
-import umc.cozymate.data.model.response.chat.ChatContentsResponse
-import umc.cozymate.data.model.response.chat.ChatRoomResponse
 import umc.cozymate.data.model.response.chat.WriteChatResponse
 import umc.cozymate.data.repository.repository.ChatRepository
 import javax.inject.Inject
@@ -33,6 +30,9 @@ class MessageViewModel @Inject constructor(
 
     private val _chatContents = MutableLiveData<List<ChatContentData>>()
     val chatContents : LiveData<List<ChatContentData>> get() = _chatContents
+
+    private val _memberId = MutableLiveData<Int?>()
+    val memberId : LiveData<Int?> get() = _memberId
 
     private val _chatRooms = MutableLiveData<List<ChatRoomData>>()
     val chatRooms : LiveData<List<ChatRoomData>> get() = _chatRooms
@@ -52,8 +52,10 @@ class MessageViewModel @Inject constructor(
                 _isLoading.value = true
                 val response = repository.getChatContents(token!!, chatRoomId, page, size)
                 if(response.isSuccessful){
-                    val content = response.body()!!.result.result.content
-                    _chatContents.postValue(content)
+                    response.body()?.result?.result?.let { chatRoomInfo ->
+                        _chatContents.postValue(chatRoomInfo.content)
+                        _memberId.postValue(chatRoomInfo.memberId)
+                        }
                     Log.d(TAG, "getChatContents api 응답 성공: ${response.body()!!.result.result}")
                 }
                 else Log.d(TAG, "getChatContents api 응답 실패: ${response.body()!!.result}")
@@ -107,7 +109,7 @@ class MessageViewModel @Inject constructor(
                 val response = repository.getChatRooms(token!!, page, size)
                 if(response.isSuccessful){
                     val content = response.body()!!.result.result
-                    _chatRooms.postValue( content)
+                    _chatRooms.postValue(content)
                     Log.d(TAG, "getChatRooms api 응답 성공: ${response.body()!!.result.result}")
                 }
                 else Log.d(TAG, "getChatRooms api 응답 실패: ${response.body()!!.result}")
