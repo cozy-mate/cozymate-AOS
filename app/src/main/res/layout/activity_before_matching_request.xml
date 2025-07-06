@@ -21,9 +21,9 @@
         android:id="@+id/btn_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:contentDescription="@string/back"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
+        android:contentDescription="@string/back"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,5 +65,18 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:itemCount="3"
         tools:listitem="@layout/rv_item_my_sent_request" />
+
+    <TextView
+        android:id="@+id/tv_empty_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="아직 참여요청을 보낸 방이 없어요.\n욫기내서 참여요청을 보내보세요!"
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,8 +23,8 @@ android {
         applicationId = "umc.cozymate"
         minSdk = 26
         targetSdk = 34
-        versionCode = 20
-        versionName = "1.20"
+        versionCode = 22
+        versionName = "1.22"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -72,6 +72,7 @@ class MyPageFragment : Fragment() {
         getPreference()
         setPersona()
         updateTextStyle()
+        splashViewModel.memberCheck()
         inquiryViewModel.checkInquryExistance()
     }
 
@@ -95,6 +96,13 @@ class MyPageFragment : Fragment() {
         }
         persona = spf.getInt(KEY_USER_PERSONA, 0)
         nickname = spf.getString(KEY_USER_NICKNAME, "").toString()
+        splashViewModel.memberInfoResponse.observe(viewLifecycleOwner) { response ->
+            if (response != null) {
+                if (response.nickname != "") {
+                    nickname = response.nickname
+                }
+            }
+        }
     }
 
     private fun setPersona() {

@@ -80,7 +80,8 @@ class RoommateMyDetailActivity : AppCompatActivity() {
             tvListSchool.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_UNIVERSITY_NAME, "")
             tvListSchoolNumber.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_ADMISSION_YEAR, "")
             tvListMajor.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_MAJOR_NAME, "")
-            tvListDormitoryNum.text = "${PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, "0")}인 1실"
+            val roommateNum = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_NUM_OF_ROOMMATE, "0")
+            tvListDormitoryNum.text = if (roommateNum == "0") {"미정"} else {"${roommateNum}인 1실"}
             tvListAcceptance.text = PreferencesUtil.getString(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_DORM_JOINING_STATUS, "")
             tvListWakeUpTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_WAKE_UP_TIME, 0).toString()
             tvListSleepTime.text = PreferencesUtil.getInt(this@RoommateMyDetailActivity, PreferencesUtil.KEY_USER_SLEEPING_TIME, 0).toString()

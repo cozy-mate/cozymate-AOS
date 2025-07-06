@@ -2,6 +2,7 @@ package umc.cozymate.ui.roommate
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -14,15 +15,20 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.databinding.ActivityRoommateInputInfoBinding
+import umc.cozymate.ui.MainActivity
 import umc.cozymate.ui.roommate.adapter.RoommateInputInfoVPA
 import umc.cozymate.ui.roommate.lifestyle_info.BasicInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.EssentialInfoFragment
 import umc.cozymate.ui.roommate.lifestyle_info.SelectionInfoFragment
+import umc.cozymate.ui.university_certification.UniversityCertificationActivity
 import umc.cozymate.ui.viewmodel.RoommateViewModel
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
@@ -103,7 +109,7 @@ class RoommateInputInfoActivity : AppCompatActivity() {
                 sendUserDataToViewModel()
                 Log.d("RoommateInputInfoActivity", "sendUserInfo")
 
-                this.finish()
+                // this.finish()
             }
         }
 
@@ -229,7 +235,16 @@ class RoommateInputInfoActivity : AppCompatActivity() {
             mbti = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_MBTI, "") ?: "",
             selfIntroduction = PreferencesUtil.getString(this, PreferencesUtil.KEY_USER_SELF_INTRODUCTION, "") ?: ""
         )
+
         viewModel.sendUserInfo(userInfo)
-        finish()
+        lifecycleScope.launch {
+            delay(3000) // 3초 대기
+            binding.btnNext.text = ""
+            binding.progressBar.visibility = View.VISIBLE
+            val intent = Intent(this@RoommateInputInfoActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
     }
 }

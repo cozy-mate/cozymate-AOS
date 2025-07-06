@@ -38,17 +38,13 @@ import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
 
-// TODO: 방 수정, 방 나가기, 방 전환은 나중에(공개방/비공개방)
 @AndroidEntryPoint
 class OwnerRoomDetailInfoActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityOwnerRoomDetailInfoBinding
     private val viewModel: RoomDetailViewModel by viewModels()
-    private val cozyHomeViewModel: CozyHomeViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
-    private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
-    private val joinRoomViewModel: JoinRoomViewModel by viewModels()
     private var roomId: Int? = 0
     private var managerMemberId: Int? = 0
     private var roomType: String = ""
@@ -100,7 +96,7 @@ class OwnerRoomDetailInfoActivity : AppCompatActivity() {
                     updateProfileImage(roomInfo.persona)
                     updateRoomStatus(roomInfo.roomType)
                     updateRoomManager(roomInfo.isRoomManager)
-                    tvRoomCode.text = "이 자리에 방 초대 코드가 들어가야 함!!"
+                    tvRoomCode.text = roomInfo.inviteCode
                     tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
                     tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
