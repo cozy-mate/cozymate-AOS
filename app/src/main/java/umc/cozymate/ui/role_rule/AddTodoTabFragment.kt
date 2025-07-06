@@ -27,6 +27,7 @@ import umc.cozymate.data.model.request.TodoRequest
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse.Result.MateDetail
 import umc.cozymate.databinding.FragmentAddTodoTabBinding
 import umc.cozymate.ui.viewmodel.TodoViewModel
+import umc.cozymate.util.TextObserver
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -36,6 +37,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     lateinit var binding: FragmentAddTodoTabBinding
     lateinit var calendarView: MaterialCalendarView
     lateinit var spf : SharedPreferences
+    lateinit var textObserver: TextObserver
+
     private val TAG = this.javaClass.simpleName
     private var selectedDate: String? = ""
     private var selectedMateIds = mutableListOf<Int>()
@@ -44,7 +47,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     private var roomId : Int = 0
     private var todoId : Int = 0
     private var today = CalendarDay.today()
-
+    private var titleFlag : Boolean = false
 
     private val viewModel: TodoViewModel by viewModels()
 
@@ -56,6 +59,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         binding = FragmentAddTodoTabBinding.inflate(inflater, container, false)
         calendarView = binding.calendarView
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        textObserver = TextObserver(requireContext(), 20, binding.tvTextLengthInfo, binding.etInputTodo)
         getPreference()
         initdata()
         setTodoinput()
@@ -154,10 +158,8 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
 
     private fun checkInput() {
         val memberFlag = mateBox.any{it.box.isChecked }
-        val todoFlag = !binding.etInputTodo.text.isNullOrEmpty()
         val dateFlag = !selectedDate.isNullOrEmpty()
-        Log.d(TAG,"flag test : member ${memberFlag} / todo ${todoFlag} / date ${dateFlag}")
-        binding.btnInputButton.isEnabled = ( todoFlag && memberFlag && dateFlag)
+        binding.btnInputButton.isEnabled = ( titleFlag && memberFlag && dateFlag)
     }
 
     private fun checkAll() {
@@ -200,15 +202,15 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     }
 
     private fun setTodoinput() {
-        val maxLength = 20 // 최대 글자수 설정
-        binding.etInputTodo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
         binding.etInputTodo.setText(content)
         binding.etInputTodo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged( s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                titleFlag = !(binding.etInputTodo.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
+                titleFlag = !(binding.etInputTodo.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
         })

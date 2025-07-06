@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.cozymate.data.model.entity.MateInfo
 import umc.cozymate.data.model.entity.RoleData
 import umc.cozymate.data.model.entity.RuleData
 import umc.cozymate.databinding.FragmentRoleAndRuleTabBinding
@@ -30,6 +31,8 @@ class RoleAndRuleTabFragment: Fragment() {
     lateinit var spf : SharedPreferences
     private var rules : List<RuleData> = emptyList()
     private var roles : List<RoleData> = emptyList()
+    private var nickname : String =""
+
     private val ruleViewModel : RuleViewModel by lazy {
         ViewModelProvider(requireParentFragment())[RuleViewModel::class.java]
     }
@@ -75,6 +78,7 @@ class RoleAndRuleTabFragment: Fragment() {
     private fun getPreference() {
         roomId = spf.getInt("room_id", 0)
         roomName = spf.getString("room_name", "no_room_found").toString()
+        nickname = spf.getString("user_nickname", "No user found").toString()
     }
 
     private fun setupObservers() {
@@ -104,15 +108,6 @@ class RoleAndRuleTabFragment: Fragment() {
             updateRole()
         })
 
-    }
-
-
-    private fun initData(){
-        if (view == null) return
-
-        // 데이터를 요청하여 갱신
-        ruleViewModel.getRule(roomId)
-        roleViewModel.getRole(roomId)
     }
 
 
@@ -166,7 +161,8 @@ class RoleAndRuleTabFragment: Fragment() {
         else{
             binding.tvEmptyRole.visibility = View.GONE
             binding.rvRoleList.visibility = View.VISIBLE
-            val roleRVAdapter = RoleRVAdapter(roles)
+
+            val roleRVAdapter = RoleRVAdapter(roles, nickname)
             binding.rvRoleList.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.rvRoleList.adapter = roleRVAdapter
             roleRVAdapter.setItemClickListener(object : ItemClick{
