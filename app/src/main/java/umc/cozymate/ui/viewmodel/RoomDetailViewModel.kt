@@ -48,6 +48,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _roomName = MutableLiveData<String>()
     val roomName: LiveData<String> get() = _roomName
 
+    private val _inviteCode = MutableLiveData<String>()
+    val inviteCode: LiveData<String> get() = _inviteCode
+
     private val _mateList = MutableLiveData<List<GetRoomInfoResponse.Result.MateDetail>>()
     val mateList: LiveData<List<GetRoomInfoResponse.Result.MateDetail>> get() = _mateList
 
@@ -115,6 +118,7 @@ class RoomDetailViewModel @Inject constructor(
             _roomName.value = result?.name
             _mateList.value = result?.mateDetailList
             _managerMemberId.postValue(result?.managerMemberId)
+            _inviteCode.value = result?.inviteCode
 
             // 방 인원 가득 찼는지 판단
             val isFull = (result?.arrivalMateNum ?: 0) >= (result?.maxMateNum ?: Int.MAX_VALUE)
