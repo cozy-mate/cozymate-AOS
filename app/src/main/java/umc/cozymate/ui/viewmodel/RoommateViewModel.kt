@@ -337,7 +337,7 @@ fun getFilteredUserInfo(accessToken: String, page: Int) {
         editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, true)
         editor.putString("user_admissionYear", _memberLifestyleInfo.value!!.memberStatDetail.admissionYear)
         editor.putString("user_dormName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
-        editor.putInt("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)
+        editor.putString("user_numOfRoommate", _memberLifestyleInfo.value!!.memberStatDetail.numOfRoommate)
         editor.putString("user_dormName", _memberLifestyleInfo.value!!.memberStatDetail.dormitoryName)
         editor.putString("user_dormJoiningStatus", _memberLifestyleInfo.value!!.memberStatDetail.dormJoiningStatus)
         editor.putInt("user_wakeUpTime", _memberLifestyleInfo.value!!.memberStatDetail.wakeUpTime)

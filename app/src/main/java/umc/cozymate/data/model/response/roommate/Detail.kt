@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 data class Detail(
     val birthYear: Int,
     val universityId: Int,
-    val admissionYear: Int,
+    val admissionYear: String,
     val major: String,
-    val numOfRoommate: Int,
+    val numOfRoommate: String,
     val dormJoiningStatus: String,
     val wakeUpTime: Int,
     val sleepingTime: Int,

@@ -40,7 +40,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private val viewModel: RoommateViewModel by viewModels()
 
     // 임시 데이터 저장 변수
-    private var selectedAdmissionYear: Int = -1
+    private var selectedAdmissionYear: String? = null
     private var selectedDormitoryName: String? = null
     private var selectedNumOfRoommate: String? = null
     private var selectedAcceptance: String? = null
@@ -95,7 +95,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        initAdmissionYear(spf.getInt("user_admissionYear", -1))
+        initAdmissionYear(spf.getString("user_admissionYear", "") ?: "")
         initDormitoryName(spf.getString("user_dormName", ""))
         initNumOfRoommate(spf.getString("user_numOfRoommate", ""))
         initAcceptance(spf.getString("user_dormJoiningStatus", ""))
@@ -123,9 +123,9 @@ class FetchLifestyleActivity : AppCompatActivity() {
         fetchUniversityData()
     }
 
-    private fun initAdmissionYear(savedValue: Int) {
-        if (savedValue != -1) {
-            binding.etNumber.setText(savedValue.toString())
+    private fun initAdmissionYear(savedValue: String) {
+        if (savedValue.isNullOrEmpty()) {
+            binding.etNumber.setText(savedValue)
             selectedAdmissionYear = savedValue
         }
 
@@ -136,8 +136,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val inputText = s.toString()
-                selectedAdmissionYear = if (inputText.isNotEmpty()) inputText.toInt() else -1
+                selectedAdmissionYear = s?.toString()
             }
         })
     }
@@ -1283,7 +1282,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun saveAllSelections() {
         val editor = spf.edit()
         with(editor) {
-            putInt("user_admissionYear", selectedAdmissionYear)
+            putString("user_admissionYear", selectedAdmissionYear)
             putString("user_dormName", selectedDormitoryName)
             putString("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_dormJoiningStatus", selectedAcceptance)

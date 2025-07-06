@@ -23,7 +23,7 @@ data class GetUserInfoResponse(
 
         data class MemberStatDetail(
             val admissionYear: String,
-            val numOfRoommate: Int,
+            val numOfRoommate: String,
             val dormitoryName: String,
             val dormJoiningStatus: String,
             val wakeUpTime: Int,
