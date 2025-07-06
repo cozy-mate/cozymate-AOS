@@ -10,9 +10,9 @@ import umc.cozymate.data.model.entity.ChatContentData
 import umc.cozymate.databinding.RvItemMessageBinding
 
 class MessageDetailAdapter(
-
 ) : RecyclerView.Adapter<MessageDetailAdapter.MessageDetailViewHolder>() {
     private var messageList = mutableListOf<ChatContentData>()
+    private var pageFlag : Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageDetailViewHolder {
         val binding = RvItemMessageBinding.inflate(
@@ -21,19 +21,25 @@ class MessageDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageDetailViewHolder, position: Int) {
-        holder.bind(position)
+        if(pageFlag && position == messageList.size ) holder.emptyBind()
+        else holder.bind(position)
     }
 
     override fun getItemCount(): Int =  messageList.size
 
-    fun addData(newData: List<ChatContentData>) {
+    fun addData(newData: List<ChatContentData>, isLast : Boolean) {
         val startPosition = messageList.size
         messageList.addAll(newData)
+        if (isLast) {
+            pageFlag = isLast
+            messageList.add(ChatContentData())
+        }
         notifyItemRangeInserted(startPosition, newData.size)
     }
 
     fun deleteList(){
         messageList.clear()
+        pageFlag = false
         notifyDataSetChanged()
     }
 
@@ -43,8 +49,7 @@ class MessageDetailAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pos : Int) {
-            Log.d("test", "pos : $pos / size ${messageList.size}")
-            val item =  messageList[pos]
+            val  item= messageList[pos]
             val nickname = item.nickname
             binding.tvMessageName.text = nickname
             binding.tvMessageText.text = item.content
@@ -57,6 +62,12 @@ class MessageDetailAdapter(
             }
             binding.ivLine.visibility =  if(pos ==  messageList.size-1 && (pos+1)%10 != 0)  View.GONE else View.VISIBLE
 
+        }
+        fun emptyBind(){
+            binding.tvMessageName.visibility = View.GONE
+            binding.tvMessageText.visibility = View.GONE
+            binding.tvMessageTime.visibility = View.GONE
+            binding.ivLine.visibility = View.GONE
         }
 
     }

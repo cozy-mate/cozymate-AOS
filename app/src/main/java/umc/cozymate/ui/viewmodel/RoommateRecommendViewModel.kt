@@ -55,14 +55,14 @@ class RoommateRecommendViewModel @Inject constructor(
             }
         }
     }
-    fun fetchRoommateListByEquality(filter : List<String> = emptyList(), page : Int = 0) { // 라이프스타일 있을 때
+    fun fetchRoommateListByEquality(filter : List<String> = emptyList(), page : Int = 0, hasRoom : Boolean) { // 라이프스타일 있을 때
         val token = getToken()
         // 마지막 페이지 일 경우 요정 x
         if (!hasNext && page != 0) return
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = repository.getRoommateListByEquality(accessToken = token!!, page=page, filter)
+                val response = repository.getRoommateListByEquality(accessToken = token!!, page=page, filter, hasRoom)
                 if (response.isSuccessful) {
                     if (response.body()?.isSuccess == true) {
                         Log.d(TAG, "추천 룸메이트 리스트 조회 성공: ${response.body()!!.result}")

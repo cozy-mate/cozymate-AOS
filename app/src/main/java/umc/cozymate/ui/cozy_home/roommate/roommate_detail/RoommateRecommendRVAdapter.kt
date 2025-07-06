@@ -19,7 +19,7 @@ import umc.cozymate.util.fromDpToPx
 class RoommateRecommendRVAdapter(
     private val isLifestyleExist: Boolean,
     private val isEmpty: Boolean,
-    private val itemClick : clickListener
+    private val itemClick : clickListener,
 ) : ListAdapter<RoommateRecommendRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoommateRecommendRVAdapterDiffCallback) {
 
     companion object {
@@ -52,7 +52,7 @@ class RoommateRecommendRVAdapter(
             VIEW_TYPE_FIRST -> {
                 val binding = RvItemRoomateDetailHeaderBinding.inflate(inflater, parent, false)
                 binding.root.layoutParams =layoutParams
-                return RoommateDetailHeaderViewHolder(binding, itemClick)
+                return RoommateDetailHeaderViewHolder(binding, itemClick,  isLifestyleExist)
             }
             VIEW_TYPE_SECOND -> {
                 val binding = VpItemRoommateRecommendBinding.inflate(inflater, parent, false)
@@ -117,5 +117,6 @@ object RoommateRecommendRVAdapterDiffCallback : DiffUtil.ItemCallback<RoommateRe
     interface clickListener{
         fun clickFilter(list: List<String>)
         fun moveDetailView(memberId : Int)
+        fun clickCheckBox(isChecked: Boolean)
     }
 }
