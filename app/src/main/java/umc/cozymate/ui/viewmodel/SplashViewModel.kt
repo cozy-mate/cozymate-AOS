@@ -79,7 +79,7 @@ class SplashViewModel @Inject constructor(
                     } else {
                         val errorBody = response.errorBody()?.string()
                         _errorResponse.value = parseErrorResponse(errorBody)
-                        reissue()
+                        if (errorResponse.value?.code == "401") reissue()
                         Log.d(TAG, "로그인 api 응답 실패: ${errorBody}")
                     }
                     _signInResponse.value = response
@@ -169,6 +169,7 @@ class SplashViewModel @Inject constructor(
                         Log.d(TAG, "사용자 정보 조회 api 응답 실패: ${response}")
                         val errorBody = response.errorBody()?.string()
                         if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
+                        if (errorResponse.value?.code == "401") reissue()
                         _isMember.value = false
                     }
                 } catch (e: Exception) {
