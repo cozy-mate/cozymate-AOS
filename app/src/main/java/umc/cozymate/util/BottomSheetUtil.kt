@@ -41,6 +41,9 @@ fun Context.showEnumBottomSheet(
             onAction(actions[1])
             dialog.dismiss()
         }
+    }else{
+        binding.tvBottom.visibility = View.GONE
+        binding.line.visibility = View.GONE
     }
 
     dialog.setContentView(binding.root)
