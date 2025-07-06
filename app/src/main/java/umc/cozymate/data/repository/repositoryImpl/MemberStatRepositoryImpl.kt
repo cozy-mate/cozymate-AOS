@@ -29,9 +29,10 @@ class MemberStatRepositoryImpl @Inject constructor(
     override suspend fun getRoommateListByEquality(
         accessToken: String,
         page: Int,
-        filterList: List<String>
+        filterList: List<String>,
+        hasRoom : Boolean
     ): Response<GetRoommateListByEqualityResponse> {
-        return api.getRoommateListByEquality(accessToken, page, filterList)
+        return api.getRoommateListByEquality(accessToken, page, filterList, hasRoom)
     }
 
     override suspend fun getMemberDetailInfo(
