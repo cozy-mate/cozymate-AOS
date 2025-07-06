@@ -95,9 +95,13 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        initAdmissionYear(spf.getInt("user_admissionYear", -1))
+        val yearStr = spf.getString("user_admissionYear", null)
+        val yearInt = yearStr?.toIntOrNull() ?: -1
+        initAdmissionYear(yearInt)
         initDormitoryName(spf.getString("user_dormName", ""))
-        initNumOfRoommate(spf.getString("user_numOfRoommate", ""))
+        val roommateStr = spf.getInt("user_numOfRoommate", 0)
+        val roommateInt = roommateStr?.toString() ?: null
+        initNumOfRoommate(roommateInt)
         initAcceptance(spf.getString("user_dormJoiningStatus", ""))
         initWakeUpTime(spf.getInt("user_wakeUpTime", 0))
         initSleepingTime(spf.getInt("user_sleepingTime", 0))
