@@ -1056,8 +1056,8 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserMajor.text = trimText(user.memberDetail.majorName)
             tvTableOtherMajor.text = trimText(other.memberDetail.majorName)
 
-            tvTableUserDormitoryNum.text = "${user.memberStatDetail.numOfRoommate}인1실"
-            tvTableOtherDormitoryNum.text = "${other.memberStatDetail.numOfRoommate}인1실"
+            tvTableUserDormitoryNum.text = if(user.memberStatDetail.numOfRoommate == 0) {"미정"} else {"${user.memberStatDetail.numOfRoommate}인1실"}
+            tvTableOtherDormitoryNum.text = if(other.memberStatDetail.numOfRoommate == 0) {"미정"} else {"${other.memberStatDetail.numOfRoommate}인1실"}
 
             tvTableUserAcceptance.text = trimText(user.memberStatDetail.dormJoiningStatus)
             tvTableOtherAcceptance.text = trimText(other.memberStatDetail.dormJoiningStatus)

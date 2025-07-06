@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import umc.cozymate.data.DefaultResponse
 import umc.cozymate.data.domain.OtherUserInfo
+import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.data.model.request.FcmInfoRequest
 import umc.cozymate.data.model.request.UserInfoRequest
 import umc.cozymate.data.model.response.roommate.Detail
@@ -58,11 +60,14 @@ class RoommateViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
+    private val _sendUserInfoResponse = MutableLiveData<DefaultResponse>()
+    val sendUserInfoResponse: LiveData<DefaultResponse> get() = _sendUserInfoResponse
     fun sendUserInfo(request: UserInfoRequest) {
         val accessToken = getToken()!!
         viewModelScope.launch(Dispatchers.IO) {
             repository.sendUserInfo(accessToken, request).onSuccess {
                 Log.d("RoommateViewModel", "sendUserInfo: ${it.result}")
+                _sendUserInfoResponse.value = it
                 val editor = sharedPreferences.edit()
                 editor.putBoolean(KEY_IS_LIFESTYLE_EXIST, true)
                 editor.commit()
