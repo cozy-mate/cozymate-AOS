@@ -17,12 +17,7 @@ class RecommendedRoomVPViewHolder(
     fun bind(item: GetRecommendedRoomListResponse.Result.Result) {
         with(binding) {
             tvRoomName.text = item.name
-            if (!isLifestyleExist) {
-                tvMatchRate.setTextColor(ContextCompat.getColor(tvMatchRate.context, R.color.color_font))
-                tvMatchRate.text = "?? %"
-            } else {
-                tvMatchRate.text = "${item.equality.toString()}%"
-            }
+            tvMatchRate.text = "${item.equality.toString()}%"
             tvMemberNumber.text = "${item.numOfArrival} / ${item.maxMateNum}명"
 
             val tvHashtags = arrayOf(tvHashtag1, tvHashtag2, tvHashtag3)
