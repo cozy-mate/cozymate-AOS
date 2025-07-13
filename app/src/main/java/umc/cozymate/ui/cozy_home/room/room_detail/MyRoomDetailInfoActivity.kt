@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,11 +28,16 @@ import umc.cozymate.ui.MainActivity
 import umc.cozymate.util.CustomDividerItemDecoration
 import umc.cozymate.ui.viewmodel.RoomDetailViewModel
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.RoommateDetailActivity
+import umc.cozymate.ui.message.WriteMessageActivity
 import umc.cozymate.ui.pop_up.PopupClick
 import umc.cozymate.ui.pop_up.TwoButtonPopup
+import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.AnalyticsConstants
+import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
+import umc.cozymate.util.SnackbarUtil
 import umc.cozymate.util.StatusBarUtil
 import umc.cozymate.util.navigationHeight
 import umc.cozymate.util.setStatusBarTransparent
@@ -43,10 +49,13 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
     private val viewModel: RoomDetailViewModel by viewModels()
     private val roommateDetailViewModel: RoommateDetailViewModel by viewModels()
     private val roomViewModel: MakingRoomViewModel by viewModels()
-    private var roomId: Int? = 0
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
+    private var roomId: Int = 0
+    private var favoriteId: Int = 0
     private var managerMemberId: Int? = 0
     private var roomType: String = ""
     private var activeDialog: AlertDialog? = null  // 현재 활성화된 다이얼로그 추적
+    private var managerNickname : String? = null
 
     // 방 id는  Intent를 통해 불러옵니다
     companion object {
@@ -70,11 +79,77 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
             this.finish()
         }
         updateUserRoomInfo()
+
+        setupFavoriteButton()
         // 방 나가기
         setQuitRoom(roomId!!)
 
         // 룸메 상세정보창과 연결
         observeOtherUserInfo()
+
+        binding.ivChat.setOnClickListener {
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_MESSAGE,
+                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_MESSAGE,
+            )
+
+            val intent: Intent = Intent(this, WriteMessageActivity::class.java)
+            Log.d(TAG,"managerNickname ${managerNickname}")
+            intent.putExtra("recipientId", managerMemberId)
+            intent.putExtra("nickname",  managerNickname)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.ivLike.setOnClickListener {
+
+            // GA 이벤트 로그 추가
+            AnalyticsEventLogger.logEvent(
+                eventName = AnalyticsConstants.Event.BUTTON_CLICK_ROOM_LIKE,
+                category = AnalyticsConstants.Category.ROOM_DETAIL,
+                action = AnalyticsConstants.Action.BUTTON_CLICK,
+                label = AnalyticsConstants.Label.ROOM_LIKE,
+            )
+
+            lifecycleScope.launch {
+                favoriteViewModel.toggleRoomFavorite(
+                    roomId = roomId,
+                    favoriteId = favoriteId,
+                    onUpdate = {
+                        lifecycleScope.launch {
+                            viewModel.getOtherRoomInfo(roomId) // 방 정보 업데이트
+                            viewModel.otherRoomDetailInfo.collectLatest { updatedRoomInfo ->
+                                favoriteId = updatedRoomInfo.favoriteId // 갱신된 favoriteId 적용
+                                updateFavoriteButton()
+                            }
+                        }
+                    },
+                    onError = { errorMessage ->
+                        SnackbarUtil.showCustomSnackbar(
+                            context = this@MyRoomDetailInfoActivity,
+                            message = "문제가 발생했어요.",
+                            iconType = SnackbarUtil.IconType.NO,
+                        )
+                    }
+                )
+            }
+        }
+    }
+
+    private fun updateFavoriteButton() {
+        binding.ivLike.setImageResource(
+            if (favoriteId == 0) R.drawable.ic_heart else R.drawable.ic_heartfull
+        )
+        binding.ivLike.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (favoriteId == 0) R.color.unuse_font else R.color.red
+            )
+        )
     }
 
     private fun observeOtherUserInfo() {
@@ -101,6 +176,9 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
                     tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
                     tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
                     tvDormitoryName.text = roomInfo.dormitoryName
+                    managerNickname = roomInfo.managerNickname
+                    favoriteId = roomInfo.favoriteId
+                    updateFavoriteButton() // 방 찜 상태 UI 업데이트
 
                     tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
                     updateDifference(roomInfo.difference)
@@ -208,13 +286,15 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
         updateHashtags(roomInfo.hashtagList)
         with(binding) {
             tvRoomName.text = roomInfo.name
-            tvRoomCode.text = "방 평균 일치율 ${roomInfo.equality}%"
+            //tvRoomCode.text = "방 평균 일치율 ${roomInfo.equality}%"
             tvRoomInfoCurrentNum.text = roomInfo.arrivalMateNum.toString()
             tvRoomInfoTotalNum.text = " / ${roomInfo.maxMateNum}"
             tvDormitoryName.text = roomInfo.dormitoryName
             tvDormitoryRoomNum.text = "${roomInfo.maxMateNum}인실"
-            updateDifference(roomInfo.difference)
+            tvRoomCode.text = roomInfo.inviteCode
             managerMemberId = roomInfo.managerMemberId
+            managerNickname = roomInfo.managerNickname
+            updateDifference(roomInfo.difference)
 
             // 리사이클러 뷰 연결
             rvRoomMemberList.apply {
