@@ -34,6 +34,7 @@ import umc.cozymate.ui.pop_up.TwoButtonPopup
 import umc.cozymate.ui.viewmodel.FavoriteViewModel
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
+import umc.cozymate.util.AnalyticsChipMapper
 import umc.cozymate.util.AnalyticsConstants
 import umc.cozymate.util.AnalyticsEventLogger
 import umc.cozymate.util.CharacterUtil
@@ -349,8 +350,8 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
 
     private fun updateDifference(difference: GetRoomInfoResponse.Result.Difference) {
         val viewMap = mapOf(
-            "airConditioningIntensity" to binding.selectAc,
-            "isPhoneCall" to binding.selectCall,
+            "coolingIntensity" to binding.selectAc,
+            "callingStatus" to binding.selectCall,
             "sleepingTime" to binding.selectSleep,
             "noiseSensitivity" to binding.selectNoise,
             "wakeUpTime" to binding.selectWake,
@@ -359,23 +360,26 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
             "mbti" to binding.selectMbti,
             "heatingIntensity" to binding.selectHeater,
             "drinkingFrequency" to binding.selectDrinkFrequency,
-            "studying" to binding.selectStudy,
-            "canShare" to binding.selectShare,
-            "sleepingHabit" to binding.selectSleepHabit,
+            "studyingStatus" to binding.selectStudy,
+            "sharingStatus" to binding.selectShare,
+            "sleepingHabits" to binding.selectSleepHabit,
             "intimacy" to binding.selectFriendly,
             "lifePattern" to binding.selectLivingPattern,
-            "acceptance" to binding.selectAcceptance,
-            "cleanSensitivity" to binding.selectClean,
-            "personality" to binding.selectPersonality,
+            "dormJoiningStatus" to binding.selectAcceptance,
+            "cleannessSensitivity" to binding.selectClean,
+            "personalities" to binding.selectPersonality,
             "birthYear" to binding.selectBirth,
             "cleaningFrequency" to binding.selectCleanFrequency,
-            "smoking" to binding.selectSmoke,
+            "smokingStatus" to binding.selectSmoke,
             "majorName" to binding.selectMajor,
-            "isPlayGame" to binding.selectGame,
-            "intake" to binding.selectIntake
+            "gamingStatus" to binding.selectGame,
+            "eatingStatus" to binding.selectIntake
         )
 
         val flexboxLayout = binding.chips1
+        val spf = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val savedRoomId = spf.getInt("room_id", -2)
+        val isAlone = (difference.blue.size + difference.red.size + difference.white.size == 1)
 
         // 모든 칩 초기화
         viewMap.values.forEach { view ->
@@ -395,6 +399,16 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
                 view.setBackgroundResource(R.drawable.custom_select_chip_blue)
                 view.setTextColor(getColor(R.color.main_blue))
                 view.setOnClickListener {
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                        AnalyticsEventLogger.logEvent(
+                            eventName = eventInfo.eventName,
+                            category = AnalyticsConstants.Category.ROOM_DETAIL,
+                            action = eventInfo.action,
+                            label = eventInfo.label ?: ""
+                        )
+                    }
                     showMemberStatDialog(roomId!!, key, getColor(R.color.main_blue))
                 }
                 blueViews.add(view)
@@ -407,6 +421,17 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
                 view.setBackgroundResource(R.drawable.custom_select_chip_red)
                 view.setTextColor(getColor(R.color.red))
                 view.setOnClickListener {
+
+                    // GA 이벤트 로그 추가
+                    AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                        AnalyticsEventLogger.logEvent(
+                            eventName = eventInfo.eventName,
+                            category = AnalyticsConstants.Category.ROOM_DETAIL,
+                            action = eventInfo.action,
+                            label = eventInfo.label ?: ""
+                        )
+                    }
+
                     showMemberStatDialog(roomId!!, key, getColor(R.color.red))
                 }
                 redViews.add(view)
@@ -419,6 +444,15 @@ class MyRoomDetailInfoActivity : AppCompatActivity() {
                 view.setBackgroundResource(R.drawable.custom_select_chip_default)
                 view.setTextColor(getColor(R.color.unuse_font))
                 view.setOnClickListener {
+                    // GA 이벤트 로그 추가
+                    AnalyticsChipMapper.chipTextMap[view.text.toString()]?.let { eventInfo ->
+                        AnalyticsEventLogger.logEvent(
+                            eventName = eventInfo.eventName,
+                            category = AnalyticsConstants.Category.ROOM_DETAIL,
+                            action = eventInfo.action,
+                            label = eventInfo.label ?: ""
+                        )
+                    }
                     showMemberStatDialog(roomId!!, key, getColor(R.color.unuse_font))
                 }
                 whiteViews.add(view)
