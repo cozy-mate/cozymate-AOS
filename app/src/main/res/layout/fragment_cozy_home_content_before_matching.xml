@@ -347,7 +347,7 @@
             android:layout_width="match_parent"
             android:layout_height="156dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/custom_rectangle_12_unuse"
             android:gravity="center"
             android:text="아직 함께할 룸메이트가 없네요. \n곧 당신과 잘 맞는 룸메이트가 찾아올 거예요."
