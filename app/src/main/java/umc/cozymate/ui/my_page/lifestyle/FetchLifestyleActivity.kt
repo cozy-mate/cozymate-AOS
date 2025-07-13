@@ -408,7 +408,12 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun getWakeUpViewByTime(time: Int): TextView? {
-        val hour = if (time == 0) 12 else if (time in 13..23) time - 12 else time
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
         return when (hour) {
             1 -> binding.tvWakeup1
             2 -> binding.tvWakeup2
@@ -426,7 +431,12 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
     private fun getSleepingViewByTime(time: Int): TextView? {
-        val hour = if (time == 0) 12 else if (time in 13..23) time - 12 else time
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
         return when (hour) {
             1 -> binding.tvSleep1
             2 -> binding.tvSleep2
@@ -445,7 +455,12 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun getTurnOffViewByTime(time: Int): TextView? {
-        val hour = if (time == 0) 12 else if (time in 13..23) time - 12 else time
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
         return when (hour) {
             1 -> binding.tvLightOff1
             2 -> binding.tvLightOff2
@@ -503,7 +518,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedWakeUpMeridian = when (view.text.toString()) {
+        selectedTurnOffMeridian = when (view.text.toString()) {
             "AM" -> "오전"
             "PM" -> "오후"
             else -> null
@@ -605,9 +620,20 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvSleep9, binding.tvSleep10, binding.tvSleep11, binding.tvSleep12
         )
 
+        val (meridian, hour) = if (savedValue in 0..23) {
+            if (savedValue == 0) "오전" to 12
+            else if (savedValue in 1..11) "오전" to savedValue
+            else if (savedValue == 12) "오후" to 12
+            else "오후" to (savedValue - 12)
+        } else {
+            null to -1
+        }
+
+        initSleepingMeridian(meridian)
+
         // 초기화
         views.forEach { view ->
-            if (getSleepTimeFromTextView(view) == savedValue) {
+            if (getSleepTimeFromTextView(view) == hour) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedSleepingTime = savedValue
@@ -696,9 +722,20 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvLightOff9, binding.tvLightOff10, binding.tvLightOff11, binding.tvLightOff12
         )
 
+        val (meridian, hour) = if (savedValue in 0..23) {
+            if (savedValue == 0) "오전" to 12
+            else if (savedValue in 1..11) "오전" to savedValue
+            else if (savedValue == 12) "오후" to 12
+            else "오후" to (savedValue - 12)
+        } else {
+            null to -1
+        }
+
+        initTurnOffMeridian(meridian)
+
         // 초기화
         views.forEach { view ->
-            if (getTurnOffTimeFromTextView(view) == savedValue) {
+            if (getTurnOffTimeFromTextView(view) == hour) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedTurnOffTime = savedValue
