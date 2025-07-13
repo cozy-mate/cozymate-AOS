@@ -124,10 +124,8 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun initAdmissionYear(savedValue: String) {
-        if (savedValue.isNullOrEmpty()) {
-            binding.etNumber.setText(savedValue)
-            selectedAdmissionYear = savedValue
-        }
+        binding.etNumber.setText(savedValue)
+        selectedAdmissionYear = savedValue
 
         val inputFilter = InputFilter.LengthFilter(2)
         binding.etNumber.filters = arrayOf(inputFilter)
@@ -244,19 +242,26 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.num4, binding.num5, binding.num6
         )
 
-        // 초기화
+        val valueMap = mapOf(
+            "0" to "미정",
+            "2" to "2명",
+            "3" to "3명",
+            "4" to "4명",
+            "5" to "5명",
+            "6" to "6명"
+        )
+
         views.forEach { view ->
-            if (view.text.toString() == selectedValue) {
+            if (view.text.toString() == valueMap[selectedValue]) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedNumOfRoommate = selectedValue ?: ""
+                selectedNumOfRoommate = selectedValue // 저장값 그대로 유지
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
             }
         }
 
-        // 클릭 이벤트
         views.forEach { view ->
             view.setOnClickListener {
                 updateNumOfRoommate(view, views)
@@ -273,7 +278,15 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedNumOfRoommate = view.text.toString()
+        selectedNumOfRoommate = when (view.text.toString()) {
+            "미정" -> "0"
+            "2명" -> "2"
+            "3명" -> "3"
+            "4명" -> "4"
+            "5명" -> "5"
+            "6명" -> "6"
+            else -> "0"
+        }
     }
 
     private fun getNumFromTextView(view: TextView): Int {
