@@ -61,13 +61,14 @@ class RecommendedRoomVPViewHolder(
 
                         else -> {
                             tvMatchCounts[i].text = "${counts[i]}명 일치"
-                            if (counts[i] > item.numOfArrival / 2) {
+                            ivPrefIcons[i].setImageResource(pref.grayDrawable)
+                            /*if (counts[i] > item.numOfArrival / 2) {
                                 // 과반수 이상 일치할 때 일반색
                                 ivPrefIcons[i].setImageResource(pref.grayDrawable)
                             } else {
                                 // 과반수 미만일 일치할 때 빨간색
                                 ivPrefIcons[i].setImageResource(pref.redDrawable)
-                            }
+                            }*/
                         }
                     }
                 } else {
