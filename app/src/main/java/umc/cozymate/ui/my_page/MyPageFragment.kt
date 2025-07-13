@@ -17,7 +17,7 @@ import umc.cozymate.ui.my_page.favorite.MyFavoriteActivity
 import umc.cozymate.ui.my_page.inquiry.InquiryActivity
 import umc.cozymate.ui.my_page.inquiry.WriteInquiryActivity
 import umc.cozymate.ui.my_page.lifestyle.FetchLifestyleActivity
-import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.MyRoomDetailInfoActivity
 import umc.cozymate.ui.my_page.my_info.UpdateMyInfoActivity
 import umc.cozymate.ui.my_page.withdraw.WithDrawActivity
 import umc.cozymate.ui.pop_up.PopupClick
@@ -137,8 +137,8 @@ class MyPageFragment : Fragment() {
 
         binding.layoutCozyroom.setOnClickListener {
             if (roomFlag) {
-                val intent = Intent(requireContext(), OwnerRoomDetailInfoActivity::class.java)
-                intent.putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+                val intent = Intent(requireContext(), MyRoomDetailInfoActivity::class.java)
+                intent.putExtra(MyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
                 startActivity(intent)
             }
         }

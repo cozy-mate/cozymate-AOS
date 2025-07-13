@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.databinding.ActivityMakingPublicRoomBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 
 @AndroidEntryPoint

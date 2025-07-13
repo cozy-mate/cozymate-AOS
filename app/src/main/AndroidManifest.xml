@@ -59,7 +59,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity"
+            android:name=".ui.cozy_home.room.room_detail.MyRoomDetailInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity"

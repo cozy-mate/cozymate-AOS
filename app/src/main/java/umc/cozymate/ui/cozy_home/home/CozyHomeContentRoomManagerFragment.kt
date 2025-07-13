@@ -24,7 +24,7 @@ import umc.cozymate.ui.cozy_home.request.ReceivedJoinRequestAdapter
 import umc.cozymate.ui.cozy_home.request.RoomManagerRequestActivity
 import umc.cozymate.ui.cozy_home.room.recommended_room.RecommendedRoomVPAdapter
 import umc.cozymate.ui.cozy_home.room.room_detail.CozyRoomDetailInfoActivity
-import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.MyRoomDetailInfoActivity
 import umc.cozymate.ui.cozy_home.room_detail.RoomDetailActivity
 import umc.cozymate.ui.cozy_home.roommate.recommended_roommate.RecommendedRoommateVPAdapter
 import umc.cozymate.ui.cozy_home.roommate.roommate_detail.CozyHomeRoommateDetailActivity
@@ -165,8 +165,8 @@ class CozyHomeContentRoomManagerFragment : Fragment() {
                 label = AnalyticsConstants.Label.MY_ROOM,
             )
 
-            val intent = Intent(requireActivity(), OwnerRoomDetailInfoActivity::class.java).apply {
-                putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+            val intent = Intent(requireActivity(), MyRoomDetailInfoActivity::class.java).apply {
+                putExtra(MyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
             }
             startActivity(intent)
         }

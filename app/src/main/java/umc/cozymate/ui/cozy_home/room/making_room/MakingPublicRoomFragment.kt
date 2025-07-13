@@ -25,7 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentMakingPublicRoomBinding
-import umc.cozymate.ui.cozy_home.room.room_detail.OwnerRoomDetailInfoActivity
+import umc.cozymate.ui.cozy_home.room.room_detail.MyRoomDetailInfoActivity
 import umc.cozymate.ui.pop_up.ServerErrorPopUp
 import umc.cozymate.ui.viewmodel.MakingRoomViewModel
 import umc.cozymate.util.AnalyticsConstants
@@ -97,8 +97,8 @@ class MakingPublicRoomFragment : Fragment() {
     }
 
     private fun goToRoomDetail(roomId: Int) {
-        val intent = Intent(requireContext(), OwnerRoomDetailInfoActivity::class.java)
-        intent.putExtra(OwnerRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
+        val intent = Intent(requireContext(), MyRoomDetailInfoActivity::class.java)
+        intent.putExtra(MyRoomDetailInfoActivity.ARG_ROOM_ID, roomId)
         startActivity(intent)
         requireActivity().finish()
     }
