@@ -141,15 +141,14 @@ class FetchLifestyleActivity : AppCompatActivity() {
 
 
     private fun initDormitoryName(savedValue: String?) {
-        lifecycleScope.launch {
-            val universityId = spf.getInt("user_university_id", 1)
-            try {
-                universityViewModel.getDormitory(universityId)
-                universityViewModel.dormitoryNames.observe(this@FetchLifestyleActivity) { dormitoryNames ->
-                    setupDormitoryOptions(dormitoryNames, savedValue)
-                }
-            } catch (e: Exception) {
-                Log.e("FetchLifestyleActivity", "Failed to fetch dormitory names: $e")
+        selectedDormitoryName = savedValue
+        val universityId = spf.getInt("user_university_id", 1)
+
+        universityViewModel.getDormitory(universityId)  // fetch만 먼저 수행
+
+        universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
+            if (!dormitoryNames.isNullOrEmpty()) {
+                setupDormitoryOptions(dormitoryNames, selectedDormitoryName)
             }
         }
     }
@@ -168,7 +167,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun observeDormitoryNames() {
         universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
             if (!dormitoryNames.isNullOrEmpty()) {
-                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormName", ""))
+                setupDormitoryOptions(dormitoryNames, selectedDormitoryName)
             } else {
                 Log.e("FetchLifestyleActivity", "Dormitory names list is empty or null")
             }
@@ -309,7 +308,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         )
 
         views.forEach { view ->
-            if (view.text.toString() == selectedValue) {
+            if (view.text.trim().toString() == selectedValue?.trim()) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedAcceptance = selectedValue
