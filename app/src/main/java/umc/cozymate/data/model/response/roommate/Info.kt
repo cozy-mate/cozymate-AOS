@@ -10,6 +10,6 @@ data class Info(
     val memberNickName: String,
     val memberAge: Int,
     val memberPersona: Int,
-    val numOfRoommate: Int,
+    val numOfRoommate: String,
     val equality: Int,
 ): Parcelable

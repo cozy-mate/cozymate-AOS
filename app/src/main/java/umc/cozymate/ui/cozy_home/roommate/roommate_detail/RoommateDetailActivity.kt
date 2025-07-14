@@ -197,7 +197,7 @@ class RoommateDetailActivity : AppCompatActivity() {
 
             val sampleDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                 admissionYear = admissionYear.ifEmpty { "21" },
-                numOfRoommate = 2,
+                numOfRoommate = "2",
                 dormName = "기숙사A동",
                 dormJoiningStatus = "합격",
                 wakeUpTime = if (wakeUpTime == -1) 8 else wakeUpTime,
@@ -286,7 +286,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                         numOfRoommate = getSharedPreferences(
                             PreferencesUtil.PREFS_NAME,
                             Context.MODE_PRIVATE
-                        ).getInt("user_numOfRoommate", 0),
+                        ).getString("user_numOfRoommate", "") ?: "",
                         dormName = PreferencesUtil.getString(this, "user_dormName", "") ?: "",
                         dormJoiningStatus = PreferencesUtil.getString(
                             this,
@@ -360,7 +360,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                         cleannessSensitivity = getSharedPreferences(
                             PreferencesUtil.PREFS_NAME,
                             Context.MODE_PRIVATE
-                        ).getString("user_cleanSensitivity", "") ?: "",
+                        ).getString("user_cleannessSensitivity", "") ?: "",
                         noiseSensitivity = getSharedPreferences(
                             PreferencesUtil.PREFS_NAME,
                             Context.MODE_PRIVATE
@@ -1564,7 +1564,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             ),
             memberStatDetail = GetMemberDetailInfoResponse.Result.MemberStatDetail(
                 admissionYear = "00",
-                numOfRoommate = 0,
+                numOfRoommate = "0",
                 dormName = "없음",
                 dormJoiningStatus = "없음",
                 wakeUpTime = 8,

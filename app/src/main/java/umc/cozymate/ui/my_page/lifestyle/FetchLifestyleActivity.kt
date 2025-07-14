@@ -40,7 +40,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private val viewModel: RoommateViewModel by viewModels()
 
     // 임시 데이터 저장 변수
-    private var selectedAdmissionYear: Int = -1
+    private var selectedAdmissionYear: String? = null
     private var selectedDormitoryName: String? = null
     private var selectedNumOfRoommate: String? = null
     private var selectedAcceptance: String? = null
@@ -95,9 +95,10 @@ class FetchLifestyleActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        val yearStr = spf.getString("user_admissionYear", null)
-        val yearInt = yearStr?.toIntOrNull() ?: -1
-        initAdmissionYear(yearInt)
+        initAdmissionYear(spf.getString("user_admissionYear", "") ?: "")
+//         val yearStr = spf.getString("user_admissionYear", null)
+//         val yearInt = yearStr?.toIntOrNull() ?: -1
+//         initAdmissionYear(yearInt)
         initDormitoryName(spf.getString("user_dormName", ""))
         val roommateStr = spf.getInt("user_numOfRoommate", 0)
         val roommateInt = roommateStr?.toString() ?: null
@@ -127,11 +128,9 @@ class FetchLifestyleActivity : AppCompatActivity() {
         fetchUniversityData()
     }
 
-    private fun initAdmissionYear(savedValue: Int) {
-        if (savedValue != -1) {
-            binding.etNumber.setText(savedValue.toString())
-            selectedAdmissionYear = savedValue
-        }
+    private fun initAdmissionYear(savedValue: String) {
+        binding.etNumber.setText(savedValue)
+        selectedAdmissionYear = savedValue
 
         val inputFilter = InputFilter.LengthFilter(2)
         binding.etNumber.filters = arrayOf(inputFilter)
@@ -140,23 +139,21 @@ class FetchLifestyleActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val inputText = s.toString()
-                selectedAdmissionYear = if (inputText.isNotEmpty()) inputText.toInt() else -1
+                selectedAdmissionYear = s?.toString()
             }
         })
     }
 
 
     private fun initDormitoryName(savedValue: String?) {
-        lifecycleScope.launch {
-            val universityId = spf.getInt("user_university_id", 1)
-            try {
-                universityViewModel.getDormitory(universityId)
-                universityViewModel.dormitoryNames.observe(this@FetchLifestyleActivity) { dormitoryNames ->
-                    setupDormitoryOptions(dormitoryNames, savedValue)
-                }
-            } catch (e: Exception) {
-                Log.e("FetchLifestyleActivity", "Failed to fetch dormitory names: $e")
+        selectedDormitoryName = savedValue
+        val universityId = spf.getInt("user_university_id", 1)
+
+        universityViewModel.getDormitory(universityId)  // fetch만 먼저 수행
+
+        universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
+            if (!dormitoryNames.isNullOrEmpty()) {
+                setupDormitoryOptions(dormitoryNames, selectedDormitoryName)
             }
         }
     }
@@ -175,7 +172,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun observeDormitoryNames() {
         universityViewModel.dormitoryNames.observe(this) { dormitoryNames ->
             if (!dormitoryNames.isNullOrEmpty()) {
-                setupDormitoryOptions(dormitoryNames, spf.getString("user_dormName", ""))
+                setupDormitoryOptions(dormitoryNames, selectedDormitoryName)
             } else {
                 Log.e("FetchLifestyleActivity", "Dormitory names list is empty or null")
             }
@@ -249,19 +246,26 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.num4, binding.num5, binding.num6
         )
 
-        // 초기화
+        val valueMap = mapOf(
+            "0" to "미정",
+            "2" to "2명",
+            "3" to "3명",
+            "4" to "4명",
+            "5" to "5명",
+            "6" to "6명"
+        )
+
         views.forEach { view ->
-            if (view.text.toString() == selectedValue) {
+            if (view.text.toString() == valueMap[selectedValue]) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
-                selectedNumOfRoommate = selectedValue ?: ""
+                selectedNumOfRoommate = selectedValue // 저장값 그대로 유지
             } else {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_default)
                 view.setTextColor(getColor(R.color.unuse_font))
             }
         }
 
-        // 클릭 이벤트
         views.forEach { view ->
             view.setOnClickListener {
                 updateNumOfRoommate(view, views)
@@ -278,7 +282,15 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
         view.setTextColor(getColor(R.color.main_blue))
 
-        selectedNumOfRoommate = view.text.toString()
+        selectedNumOfRoommate = when (view.text.toString()) {
+            "미정" -> "0"
+            "2명" -> "2"
+            "3명" -> "3"
+            "4명" -> "4"
+            "5명" -> "5"
+            "6명" -> "6"
+            else -> "0"
+        }
     }
 
     private fun getNumFromTextView(view: TextView): Int {
@@ -301,7 +313,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
         )
 
         views.forEach { view ->
-            if (view.text.toString() == selectedValue) {
+            if (view.text.trim().toString() == selectedValue?.trim()) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedAcceptance = selectedValue
@@ -378,8 +390,9 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setTextColor(getColor(R.color.main_blue))
 
         val hour = getWakeUpTimeFromTextView(view)
+        val meridian = selectedWakeUpMeridian
 
-        selectedWakeUpTime = when (selectedWakeUpMeridian) {
+        selectedWakeUpTime = when (meridian) {
             "오전" -> if (hour == 12) 0 else hour
             "오후" -> if (hour == 12) 12 else hour + 12
             else -> -1
@@ -411,6 +424,77 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
 
+    private fun getWakeUpViewByTime(time: Int): TextView? {
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
+        return when (hour) {
+            1 -> binding.tvWakeup1
+            2 -> binding.tvWakeup2
+            3 -> binding.tvWakeup3
+            4 -> binding.tvWakeup4
+            5 -> binding.tvWakeup5
+            6 -> binding.tvWakeup6
+            7 -> binding.tvWakeup7
+            8 -> binding.tvWakeup8
+            9 -> binding.tvWakeup9
+            10 -> binding.tvWakeup10
+            11 -> binding.tvWakeup11
+            12 -> binding.tvWakeup12
+            else -> null
+        }
+    }
+    private fun getSleepingViewByTime(time: Int): TextView? {
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
+        return when (hour) {
+            1 -> binding.tvSleep1
+            2 -> binding.tvSleep2
+            3 -> binding.tvSleep3
+            4 -> binding.tvSleep4
+            5 -> binding.tvSleep5
+            6 -> binding.tvSleep6
+            7 -> binding.tvSleep7
+            8 -> binding.tvSleep8
+            9 -> binding.tvSleep9
+            10 -> binding.tvSleep10
+            11 -> binding.tvSleep11
+            12 -> binding.tvSleep12
+            else -> null
+        }
+    }
+
+    private fun getTurnOffViewByTime(time: Int): TextView? {
+        val hour = when {
+            time == 0 -> 12
+            time in 1..12 -> time
+            time in 13..23 -> time - 12
+            else -> return null
+        }
+        return when (hour) {
+            1 -> binding.tvLightOff1
+            2 -> binding.tvLightOff2
+            3 -> binding.tvLightOff3
+            4 -> binding.tvLightOff4
+            5 -> binding.tvLightOff5
+            6 -> binding.tvLightOff6
+            7 -> binding.tvLightOff7
+            8 -> binding.tvLightOff8
+            9 -> binding.tvLightOff9
+            10 -> binding.tvLightOff10
+            11 -> binding.tvLightOff11
+            12 -> binding.tvLightOff12
+            else -> null
+        }
+    }
+
     private fun updateWakeUpMeridian(view: TextView, views: List<TextView>) {
         views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
         view.setTextColor(getColor(R.color.main_blue))
@@ -419,6 +503,49 @@ class FetchLifestyleActivity : AppCompatActivity() {
             "AM" -> "오전"
             "PM" -> "오후"
             else -> null
+        }
+
+        val hour = getWakeUpTimeFromTextView(getWakeUpViewByTime(selectedWakeUpTime) ?: return)
+        selectedWakeUpTime = when(selectedWakeUpMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
+        }
+    }
+
+    private fun updateSleepingMeridian(view: TextView, views: List<TextView>) {
+        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
+        view.setTextColor(getColor(R.color.main_blue))
+
+        selectedSleepingMeridian = when (view.text.toString()) {
+            "AM" -> "오전"
+            "PM" -> "오후"
+            else -> null
+        }
+
+        val hour = getSleepingTimeFromTextView(getSleepingViewByTime(selectedSleepingTime) ?: return)
+        selectedSleepingTime = when(selectedSleepingMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
+        }
+    }
+
+    private fun updateTurnOffMeridian(view: TextView, views: List<TextView>) {
+        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
+        view.setTextColor(getColor(R.color.main_blue))
+
+        selectedTurnOffMeridian = when (view.text.toString()) {
+            "AM" -> "오전"
+            "PM" -> "오후"
+            else -> null
+        }
+
+        val hour = getTurnOffTimeFromTextView(getTurnOffViewByTime(selectedTurnOffTime) ?: return)
+        selectedTurnOffTime = when(selectedTurnOffMeridian) {
+            "오전" -> if (hour == 12) 0 else hour
+            "오후" -> if (hour == 12) 12 else hour + 12
+            else -> -1
         }
     }
 
@@ -436,6 +563,42 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvWakeup10.id -> 10
             binding.tvWakeup11.id -> 11
             binding.tvWakeup12.id -> 12
+            else -> -1
+        }
+    }
+
+    private fun getSleepingTimeFromTextView(view: TextView): Int {
+        return when (view.id) {
+            binding.tvSleep1.id -> 1
+            binding.tvSleep2.id -> 2
+            binding.tvSleep3.id -> 3
+            binding.tvSleep4.id -> 4
+            binding.tvSleep5.id -> 5
+            binding.tvSleep6.id -> 6
+            binding.tvSleep7.id -> 7
+            binding.tvSleep8.id -> 8
+            binding.tvSleep9.id -> 9
+            binding.tvSleep10.id -> 10
+            binding.tvSleep11.id -> 11
+            binding.tvSleep12.id -> 12
+            else -> -1
+        }
+    }
+
+    private fun getTurnOffTimeFromTextView(view: TextView): Int {
+        return when (view.id) {
+            binding.tvLightOff1.id -> 1
+            binding.tvLightOff2.id -> 2
+            binding.tvLightOff3.id -> 3
+            binding.tvLightOff4.id -> 4
+            binding.tvLightOff5.id -> 5
+            binding.tvLightOff6.id -> 6
+            binding.tvLightOff7.id -> 7
+            binding.tvLightOff8.id -> 8
+            binding.tvLightOff9.id -> 9
+            binding.tvLightOff10.id -> 10
+            binding.tvLightOff11.id -> 11
+            binding.tvLightOff12.id -> 12
             else -> -1
         }
     }
@@ -467,20 +630,6 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateSleepingMeridian(view: TextView, views: List<TextView>) {
-        // 모든 텍스트 색상 초기화
-        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
-
-        // 선택된 텍스트 색상 변경
-        view.setTextColor(getColor(R.color.main_blue))
-
-        selectedSleepingMeridian = when (view.text.toString()) {
-            "AM" -> "오전"
-            "PM" -> "오후"
-            else -> null
-        }
-    }
-
     private fun initSleepingTime(savedValue: Int) {
         val views = listOf(
             binding.tvSleep1, binding.tvSleep2, binding.tvSleep3, binding.tvSleep4,
@@ -488,9 +637,20 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvSleep9, binding.tvSleep10, binding.tvSleep11, binding.tvSleep12
         )
 
+        val (meridian, hour) = if (savedValue in 0..23) {
+            if (savedValue == 0) "오전" to 12
+            else if (savedValue in 1..11) "오전" to savedValue
+            else if (savedValue == 12) "오후" to 12
+            else "오후" to (savedValue - 12)
+        } else {
+            null to -1
+        }
+
+        initSleepingMeridian(meridian)
+
         // 초기화
         views.forEach { view ->
-            if (getSleepTimeFromTextView(view) == savedValue) {
+            if (getSleepTimeFromTextView(view) == hour) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedSleepingTime = savedValue
@@ -518,8 +678,9 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setTextColor(getColor(R.color.main_blue))
 
         val hour = getSleepTimeFromTextView(view)
+        val meridian = selectedSleepingMeridian
 
-        selectedSleepingTime = when (selectedSleepingMeridian) {
+        selectedSleepingTime = when (meridian) {
             "오전" -> if (hour == 12) 0 else hour
             "오후" -> if (hour == 12) 12 else hour + 12
             else -> -1
@@ -571,22 +732,6 @@ class FetchLifestyleActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateTurnOffMeridian(view: TextView, views: List<TextView>) {
-        // 모든 텍스트 색상 초기화
-        views.forEach { it.setTextColor(getColor(R.color.unuse_font)) }
-
-        // 선택된 텍스트 색상 변경
-        view.setTextColor(getColor(R.color.main_blue))
-
-        // 선택된 값 저장
-//        selectedWakeUpMeridian = view.text.toString()
-        selectedTurnOffMeridian = when (view.text.toString()) {
-            "AM" -> "오전"
-            "PM" -> "오후"
-            else -> null
-        }
-    }
-
     private fun initTurnOffTime(savedValue: Int) {
         val views = listOf(
             binding.tvLightOff1, binding.tvLightOff2, binding.tvLightOff3, binding.tvLightOff4,
@@ -594,9 +739,20 @@ class FetchLifestyleActivity : AppCompatActivity() {
             binding.tvLightOff9, binding.tvLightOff10, binding.tvLightOff11, binding.tvLightOff12
         )
 
+        val (meridian, hour) = if (savedValue in 0..23) {
+            if (savedValue == 0) "오전" to 12
+            else if (savedValue in 1..11) "오전" to savedValue
+            else if (savedValue == 12) "오후" to 12
+            else "오후" to (savedValue - 12)
+        } else {
+            null to -1
+        }
+
+        initTurnOffMeridian(meridian)
+
         // 초기화
         views.forEach { view ->
-            if (getTurnOffTimeFromTextView(view) == savedValue) {
+            if (getTurnOffTimeFromTextView(view) == hour) {
                 view.setBackgroundResource(R.drawable.custom_option_box_background_selected_6dp)
                 view.setTextColor(getColor(R.color.main_blue))
                 selectedTurnOffTime = savedValue
@@ -624,28 +780,11 @@ class FetchLifestyleActivity : AppCompatActivity() {
         view.setTextColor(getColor(R.color.main_blue))
 
         val hour = getTurnOffTimeFromTextView(view)
+        val meridian = selectedTurnOffMeridian
 
-        selectedTurnOffTime = when (selectedTurnOffMeridian) {
+        selectedTurnOffTime = when (meridian) {
             "오전" -> if (hour == 12) 0 else hour
             "오후" -> if (hour == 12) 12 else hour + 12
-            else -> -1
-        }
-    }
-
-    private fun getTurnOffTimeFromTextView(view: TextView): Int {
-        return when (view.id) {
-            binding.tvLightOff1.id -> 1
-            binding.tvLightOff2.id -> 2
-            binding.tvLightOff3.id -> 3
-            binding.tvLightOff4.id -> 4
-            binding.tvLightOff5.id -> 5
-            binding.tvLightOff6.id -> 6
-            binding.tvLightOff7.id -> 7
-            binding.tvLightOff8.id -> 8
-            binding.tvLightOff9.id -> 9
-            binding.tvLightOff10.id -> 10
-            binding.tvLightOff11.id -> 11
-            binding.tvLightOff12.id -> 12
             else -> -1
         }
     }
@@ -1287,7 +1426,7 @@ class FetchLifestyleActivity : AppCompatActivity() {
     private fun saveAllSelections() {
         val editor = spf.edit()
         with(editor) {
-            putInt("user_admissionYear", selectedAdmissionYear)
+            putString("user_admissionYear", selectedAdmissionYear)
             putString("user_dormName", selectedDormitoryName)
             putString("user_numOfRoommate", selectedNumOfRoommate)
             putString("user_dormJoiningStatus", selectedAcceptance)

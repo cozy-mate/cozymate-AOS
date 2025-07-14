@@ -13,6 +13,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import org.checkerframework.checker.units.qual.s
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentEssentialInfoBinding
 import umc.cozymate.ui.roommate.RoommateInputInfoActivity
@@ -31,6 +32,13 @@ class EssentialInfoFragment : Fragment() {
     private var sleepTimeOption: TextView? = null
     private var lightOffAmpmOption: TextView? = null
     private var lightOffTimeOption: TextView? = null
+
+    private var wakeAmpm: String? = null
+    private var wakeHour: Int? = null
+    private var sleepAmpm: String? = null
+    private var sleepHour: Int? = null
+    private var lightOffAmpm: String? = null
+    private var lightOffHour: Int? = null
 
     private var smokeOption: TextView? = null
     private var selectedSleepHabits: MutableList<String> = mutableListOf()
@@ -212,6 +220,13 @@ class EssentialInfoFragment : Fragment() {
         }
     }
 
+    private fun trySaveWakeTime(){
+        if (wakeAmpm != null && wakeHour != null) {
+            val converted = convertTo24Hour(wakeAmpm, wakeHour!!)
+            saveToSPFInt("user_wakeUpTime", converted)
+            updateNextButtonState()
+        }
+    }
     private fun initWakeAmpm() {
         val wakeAmpmTexts = listOf(
             binding.tvWakeAm to "오전",
@@ -222,6 +237,9 @@ class EssentialInfoFragment : Fragment() {
                 wakeAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
                 wakeAmpmOption = textView
                 wakeAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
+
+                wakeAmpm = value
+                trySaveWakeTime()
                 resetDebounceTimer { showSleepLayout() }
             }
         }
@@ -251,9 +269,8 @@ class EssentialInfoFragment : Fragment() {
                 }
 
                 // 값 저장 및 다음 상태 업데이트
-                val ampm = wakeAmpmOption?.text?.toString()
-                val converted = convertTo24Hour(ampm, hour)
-                saveToSPFInt("user_wakeUpTime", converted)
+                wakeHour = hour
+                trySaveWakeTime()
                 updateNextButtonState()
                 resetDebounceTimer { showSleepLayout() }
             }
@@ -267,6 +284,14 @@ class EssentialInfoFragment : Fragment() {
         }
     }
 
+    private fun trySaveSleepTime() {
+        if (sleepAmpm != null && sleepHour != null) {
+            val converted = convertTo24Hour(sleepAmpm, sleepHour!!)
+            saveToSPFInt("user_sleepingTime", converted)
+            updateNextButtonState()
+        }
+    }
+
     private fun initSleepAmpm() {
         val sleepAmpmTexts = listOf(
             binding.tvSleepAm to "오전",
@@ -277,6 +302,9 @@ class EssentialInfoFragment : Fragment() {
                 sleepAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
                 sleepAmpmOption = textView
                 sleepAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
+
+                sleepAmpm = value
+                trySaveSleepTime()
                 resetDebounceTimer { showTurnOffLayout() }
             }
         }
@@ -306,9 +334,11 @@ class EssentialInfoFragment : Fragment() {
                 }
 
                 // 값 저장 및 상태 업데이트
-                val ampm = sleepAmpmOption?.text?.toString()
-                val converted = convertTo24Hour(ampm, hour)
-                saveToSPFInt("user_sleepingTime", converted)
+//                val ampm = sleepAmpmOption?.text?.toString()
+//                val converted = convertTo24Hour(ampm, hour)
+//                saveToSPFInt("user_sleepingTime", converted)
+                sleepHour = hour
+                trySaveSleepTime()
                 updateNextButtonState()
                 resetDebounceTimer { showTurnOffLayout() }
             }
@@ -318,6 +348,14 @@ class EssentialInfoFragment : Fragment() {
     private fun showTurnOffLayout() {
         if (sleepAmpmOption != null && sleepTimeOption != null) {
             binding.clTurnOffTime.showWithSlideDownAnimation()
+        }
+    }
+
+    private fun trySaveLightOffTime() {
+        if (lightOffAmpm != null && lightOffHour != null) {
+            val converted = convertTo24Hour(lightOffAmpm, lightOffHour!!)
+            saveToSPFInt("user_turnOffTime", converted)
+            updateNextButtonState()
         }
     }
 
@@ -331,6 +369,9 @@ class EssentialInfoFragment : Fragment() {
                 lightOffAmpmOption?.setTextColor(resources.getColor(R.color.unuse_font, null))
                 lightOffAmpmOption = textView
                 lightOffAmpmOption?.setTextColor(resources.getColor(R.color.main_blue, null))
+
+                lightOffAmpm = value
+                trySaveLightOffTime()
                 resetDebounceTimer { showSmokeLayout() }
             }
         }
@@ -361,9 +402,11 @@ class EssentialInfoFragment : Fragment() {
                 }
 
                 // 값 저장 및 상태 업데이트
-                val ampm = lightOffAmpmOption?.text?.toString()
-                val converted = convertTo24Hour(ampm, hour)
-                saveToSPFInt("user_turnOffTime", converted)
+//                val ampm = lightOffAmpmOption?.text?.toString()
+//                val converted = convertTo24Hour(ampm, hour)
+//                saveToSPFInt("user_turnOffTime", converted)
+                lightOffHour = hour
+                trySaveLightOffTime()
                 updateNextButtonState()
                 resetDebounceTimer { showSmokeLayout() }
             }
