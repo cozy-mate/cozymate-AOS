@@ -1,5 +1,4 @@
 package umc.cozymate.ui.my_page.inquiry
-
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -13,20 +12,23 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.databinding.ActivityWriteInquiryBinding
 import umc.cozymate.ui.viewmodel.InquiryViewModel
 import umc.cozymate.util.StatusBarUtil
+import umc.cozymate.util.TextObserver
 
 @AndroidEntryPoint
 class WriteInquiryActivity: AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
-    private lateinit var binding : ActivityWriteInquiryBinding
+    lateinit var binding : ActivityWriteInquiryBinding
+    lateinit var textObserver: TextObserver
     private val viewModel : InquiryViewModel by viewModels()
     private var content : String = ""
     private var email : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteInquiryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
-
+        textObserver = TextObserver(this, 200, binding.tvTextLengthInfo, binding.etInputContent)
     }
 
     override fun onStart() {
@@ -61,12 +63,15 @@ class WriteInquiryActivity: AppCompatActivity() {
 
     private fun setTextListener(){
         binding.etInputContent.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                checkInput()
+                val overflow = textObserver.updateView()
+                checkInput(overflow)
             }
             override fun afterTextChanged(p0: Editable?) {
-                checkInput()
+                val overflow = textObserver.updateView()
+                checkInput(overflow)
             }
         })
         binding.etInputEmail.addTextChangedListener(object : TextWatcher {
@@ -78,8 +83,8 @@ class WriteInquiryActivity: AppCompatActivity() {
         })
     }
 
-    private fun checkInput() {
-        binding.btnInputButton.isEnabled = !(binding.etInputContent.text.isNullOrEmpty() ||binding.etInputEmail.text.isNullOrEmpty())
+    private fun checkInput(overflow: Boolean = false) {
+        binding.btnInputButton.isEnabled = !(binding.etInputContent.text.isNullOrEmpty() ||binding.etInputEmail.text.isNullOrEmpty() || overflow)
     }
 
 

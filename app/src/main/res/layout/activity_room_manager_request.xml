@@ -66,4 +66,17 @@
         tools:listitem="@layout/rv_item_my_received_request"
         tools:itemCount="3"/>
 
+    <TextView
+        android:id="@+id/tv_empty_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="아직 도착한 방 참여 요청이 없어요.\n곧 당신과 잘 맞는 룸메이트가 찾아올 거예요."
+        android:textAppearance="@style/TextAppearance.App.14sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

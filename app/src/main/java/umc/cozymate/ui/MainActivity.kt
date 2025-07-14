@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     private var selectedItem: Int = R.id.fragment_home
     private lateinit var menu: Menu
     lateinit var roleAndRuleItem: MenuItem
-    lateinit var cozybotItem: MenuItem
     lateinit var cozyhomeItem: MenuItem
     lateinit var mypageItem: MenuItem
     var isRoomExist = false
@@ -68,6 +67,8 @@ class MainActivity : AppCompatActivity() {
             showCozyBotFragment(it)
             intent.removeExtra("destination") // 중복 방지
         }*/
+        fetchData()
+        setBottomNavViews()
     }
 
     private fun initScreen() {
@@ -184,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavMenuItems() {
         menu = binding.bottomNavigationView.menu
         roleAndRuleItem = menu.findItem(R.id.fragment_role_and_rule)
-        cozybotItem = menu.findItem(R.id.fragment_cozybot)
+        //cozybotItem = menu.findItem(R.id.fragment_cozybot)
         cozyhomeItem = menu.findItem(R.id.fragment_home)
         mypageItem = menu.findItem(R.id.fragment_mypage)
     }
@@ -230,7 +231,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                R.id.fragment_cozybot -> {
+                /*R.id.fragment_cozybot -> {
                     if (selectedItem == item.itemId) return@setOnItemSelectedListener true
                     firebaseAnalytics.logEvent("cozybot_nav_button_click") {
                         param("코지봇", "cozybot_button")
@@ -254,7 +255,7 @@ class MainActivity : AppCompatActivity() {
                             .replace(R.id.main_container, CozyBotFragment()).commit()
                         true
                     }
-                }
+                }*/
 
                 R.id.fragment_mypage -> {
                     if (selectedItem == item.itemId) return@setOnItemSelectedListener true

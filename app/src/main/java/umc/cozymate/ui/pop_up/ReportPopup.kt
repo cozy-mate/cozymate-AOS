@@ -6,6 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -16,6 +18,7 @@ import androidx.fragment.app.viewModels
 import umc.cozymate.R
 import umc.cozymate.databinding.PopupTemplateReportBinding
 import umc.cozymate.ui.viewmodel.ReportViewModel
+import umc.cozymate.util.TextObserver
 
 class ReportPopup(
     private val clickFunc : PopupClick
@@ -24,13 +27,15 @@ class ReportPopup(
     private var reportReason : Int = 0
     private var content : String = ""
     private var isChecking = false
+    lateinit var textObserver: TextObserver
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = PopupTemplateReportBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
         val dialog = builder.create()
-
+        textObserver = TextObserver(requireContext(), 200, binding.tvTextLengthInfo, binding.etInputReasons)
         setOnClickListener()
+        setTextListener()
         setRadioButton()
         resetStyle()
         setCancelable(true)
@@ -78,6 +83,7 @@ class ReportPopup(
             }
             binding.radioGroup2.clearCheck()
             binding.etInputReasons.visibility = View.GONE
+            binding.tvTextLengthInfo.visibility = View.GONE
             isChecking = false
         }
         binding.radioGroup2.setOnCheckedChangeListener{group, checkedId->
@@ -94,11 +100,32 @@ class ReportPopup(
                     updateStyle(binding.radioReportOther , selectedColor)
                 }
             }
-            if ( reportReason == 3) binding.etInputReasons.visibility = View.VISIBLE
-            else binding.etInputReasons.visibility = View.GONE
+            if ( reportReason == 3){
+                binding.etInputReasons.visibility = View.VISIBLE
+                binding.tvTextLengthInfo.visibility = View.VISIBLE
+            }
+            else {
+                binding.etInputReasons.visibility = View.GONE
+                binding.tvTextLengthInfo.visibility = View.GONE
+            }
             binding.radioGroup.clearCheck()
             isChecking = false
         }
+    }
+
+    private fun setTextListener(){
+        binding.etInputReasons.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.btnOk.isEnabled = !textObserver.updateView()
+
+            }
+            override fun afterTextChanged(p0: Editable?) {
+                binding.btnOk.isEnabled = !textObserver.updateView()
+
+            }
+        })
     }
 
     private fun resetStyle(){

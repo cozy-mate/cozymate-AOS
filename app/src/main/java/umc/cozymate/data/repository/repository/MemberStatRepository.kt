@@ -12,7 +12,7 @@ interface MemberStatRepository {
 
     suspend fun getRecommendedRoommateList(accessToken: String): Response<GetRecommendedRoommateResponse>
 
-    suspend fun getRoommateListByEquality(accessToken: String, page: Int, filterList: List<String>): Response<GetRoommateListByEqualityResponse>
+    suspend fun getRoommateListByEquality(accessToken: String, page: Int, filterList: List<String>, hasRoom : Boolean): Response<GetRoommateListByEqualityResponse>
 
     suspend fun getMemberDetailInfo(accessToken: String, memberId: Int): Response<GetMemberDetailInfoResponse>
 }

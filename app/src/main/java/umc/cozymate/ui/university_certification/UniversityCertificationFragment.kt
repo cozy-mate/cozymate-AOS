@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import umc.cozymate.R
 import umc.cozymate.databinding.FragmentUniversityCertificationBinding
+import umc.cozymate.ui.onboarding.AgreementBottomSheetFragment
 import umc.cozymate.ui.onboarding.OnboardingActivity
 import umc.cozymate.ui.viewmodel.UniversityViewModel
 import umc.cozymate.util.AnalyticsConstants
@@ -104,6 +105,7 @@ class UniversityCertificationFragment : Fragment() {
         }
     }
 
+    // 대학교 선택
     fun handleUniversitySelection() {
         binding.clUniversity.setOnClickListener {
             navigateToFragment(UniversitySearchFragment())
@@ -131,6 +133,7 @@ class UniversityCertificationFragment : Fragment() {
             .commit()
     }
 
+    // 학과 선택
     fun handleMajorSelection() {
         val fragment = MajorSearchFragment().apply {
             arguments = Bundle().apply {
@@ -155,6 +158,7 @@ class UniversityCertificationFragment : Fragment() {
         }
     }
 
+    // 이메일 인증번호 전송
     fun handleEmailValidation() {
         checkIsValidEmail()
         setSendStatusObserver()
@@ -250,10 +254,8 @@ class UniversityCertificationFragment : Fragment() {
                 binding.btnVerify.visibility = View.VISIBLE
             }
             if (email.isNotEmpty()) {
-                viewModel.sendVerifyCode(email)
+                setupBottomSheet()
                 binding.btnSendVerifyCode.text = ""
-                binding.loadingBtn1.bringToFront()
-                binding.loadingBtn1.visibility = View.VISIBLE
                 // GA 이벤트 로그 추가
                 AnalyticsEventLogger.logEvent(
                     eventName = AnalyticsConstants.Event.BUTTON_CLICK_EMAIL,
@@ -263,6 +265,21 @@ class UniversityCertificationFragment : Fragment() {
                 )
             }
         }
+    }
+
+    // 약관 바텀시트
+    private fun setupBottomSheet() {
+        val bottomSheet = AgreementBottomSheetFragment()
+        bottomSheet.setOnAgreementAllConfirmedListener(object :
+            AgreementBottomSheetFragment.AgreementConfirmedInterface {
+            override fun onClickDoneButton() {
+                viewModel.sendVerifyCode(email)
+                binding.loadingBtn1.bringToFront()
+                binding.loadingBtn1.visibility = View.VISIBLE
+                bottomSheet.dismiss() // 닫기
+            }
+        })
+        bottomSheet.show(childFragmentManager, "AgreementSheetFragment")
     }
 
     fun handleVerifyCode() {

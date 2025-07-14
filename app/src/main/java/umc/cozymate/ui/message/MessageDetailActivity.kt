@@ -33,7 +33,7 @@ class MessageDetailActivity : AppCompatActivity() {
     private val viewModel : MessageViewModel by viewModels()
     private val reportViewModel : ReportViewModel by viewModels()
     private var chatRoomId : Int = 0
-    private var memberId : Int = 0
+    private var memberId : Int = -1
     private var nickname :String = ""
     private var page : Int = 0
     private var isLastPage: Boolean  = false
@@ -48,7 +48,6 @@ class MessageDetailActivity : AppCompatActivity() {
         binding = ActivityMessageDetailBinding.inflate(layoutInflater)
         StatusBarUtil.updateStatusBarColor(this, Color.WHITE)
         setContentView(binding.root)
-        memberId = intent.getIntExtra("userId",0)
         nickname = intent.getStringExtra("nickname").toString()
         chatRoomId = intent.getIntExtra("chatRoomId",0)
         setupObservers()
@@ -75,9 +74,9 @@ class MessageDetailActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.chatContents.observe(this, Observer{
-            if (it == null) return@Observer
-            if(it.isEmpty() && page <=1 ){
+        viewModel.chatContents.observe(this, Observer{ data ->
+            if (data == null) return@Observer
+            if(data.isEmpty() && page <=1 ){
                 val text = "[$nickname]님과\n아직 주고 받은 쪽지가 없어요!"
                 binding.tvEmpty.text = text
                 binding.rvMessageDetail.visibility = View.GONE
@@ -85,13 +84,20 @@ class MessageDetailActivity : AppCompatActivity() {
             }
             else{
                 Log.d(TAG,"page $page")
-                messageDetailAdapter.addData(it)
-                if (it.size < ITEM_SIZE ) isLastPage = true
+                if (data.size < ITEM_SIZE ) isLastPage = true
+                messageDetailAdapter.addData(data,isLastPage)
                 binding.rvMessageDetail.visibility = View.VISIBLE
                 binding.tvEmpty.visibility = View.GONE
 
             }
         })
+        viewModel.memberId.observe(this){id->
+            Log.d(TAG,"memberID : ${id}")
+            if(id == null){
+                binding.btnWriteMessage.visibility = View.GONE
+            }
+            else memberId = id
+        }
         viewModel.isLoading.observe(this) { isLoading ->
             if(!binding.refreshLayout.isRefreshing)
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -142,7 +148,8 @@ class MessageDetailActivity : AppCompatActivity() {
         }
 
         binding.ivMore.setOnClickListener {
-            this.showEnumBottomSheet( "", listOf(DELETE,REPORT)) { action->
+            val buttons = if (memberId <0) listOf(DELETE)else listOf(DELETE,REPORT)
+            this.showEnumBottomSheet( "", buttons) { action->
                 when (action) {
                     DELETE  -> deletePopup()
                     REPORT ->  reportPopup()

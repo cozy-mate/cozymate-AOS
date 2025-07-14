@@ -33,7 +33,8 @@ interface MemberStatService {
     suspend fun getRoommateListByEquality(
         @Header("Authorization") accessToken: String,
         @Query("page") page: Int,
-        @Query("filterList") filterList: List<String>
+        @Query("filterList") filterList: List<String>,
+        @Query("hasRoom") hasRoom : Boolean
     ) : Response<GetRoommateListByEqualityResponse>
 
     // 필터링 사용자 목록 받아 오기 (상세 정보가 있을 때)

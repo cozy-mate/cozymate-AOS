@@ -59,7 +59,10 @@ class BeforeMatchingRequestActivity : AppCompatActivity() {
         roomRequestViewModel.requestedRoomResponse.observe(this) { response ->
             val roomList = response?.result?.result ?: emptyList()
             if (roomList.isNotEmpty()) {
+                binding.tvEmptyRequest.visibility = View.GONE
                 adapter.submitList(roomList)
+            } else {
+                binding.tvEmptyRequest.visibility = View.VISIBLE
             }
         }
         roomRequestViewModel.isLoading1.observe(this) { isLoading ->

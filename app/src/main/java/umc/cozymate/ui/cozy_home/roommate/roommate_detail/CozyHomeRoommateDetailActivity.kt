@@ -11,16 +11,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.cozymate.R
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
 import umc.cozymate.databinding.ActivityCozyHomeRoommateDetailBinding
-import umc.cozymate.ui.cozy_home.roommate.search_roommate.SearchRoommateActivity
 import umc.cozymate.ui.viewmodel.RoommateDetailViewModel
 import umc.cozymate.ui.viewmodel.RoommateRecommendViewModel
 import umc.cozymate.util.AnalyticsConstants
@@ -42,6 +39,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     private var memberList = ArrayList<RecommendedMemberInfo>()
     private var filterList : List<String> = emptyList()
     private var screenEnterTime: Long = 0
+    private var hasRoom : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,11 +62,11 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
 
         binding.refreshLayout.setOnRefreshListener {
             clearPage()
-            if (isLifestyleExist) viewModel.fetchRoommateListByEquality(filterList, page++)
+            if (isLifestyleExist) viewModel.fetchRoommateListByEquality(filterList, page++, hasRoom)
             else viewModel.fetchRecommendedRoommateList()
         }
 
-        if (isLifestyleExist) viewModel.fetchRoommateListByEquality(emptyList(), page++)
+        if (isLifestyleExist) viewModel.fetchRoommateListByEquality(emptyList(), page++, hasRoom)
         else viewModel.fetchRecommendedRoommateList()
 
 
@@ -77,6 +75,7 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         screenEnterTime = System.currentTimeMillis()
+        getPreference() // 라스 입력유무 업데이트
     }
 
     override fun onPause() {
@@ -99,30 +98,44 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
         memberList.clear()
         filterList = emptyList()
         isLastPage = false
+        hasRoom = false
         val viewHolder = binding.rvContent.findViewHolderForAdapterPosition(0) as? RoommateDetailHeaderViewHolder
-        if (viewHolder != null) viewHolder.clearChip()
-
+        viewHolder?.clearChip()
+        viewHolder?.setCheckbox(hasRoom)
     }
 
     private fun setRecyclerView() {
-        adapter = RoommateRecommendRVAdapter(isLifestyleExist, object : RoommateRecommendRVAdapter.clickListener{
-            override fun clickFilter(list: List<String>) {
-                memberList.clear()
-                if (isLifestyleExist){
-                    page = 0
-                    filterList = list
-                    viewModel.fetchRoommateListByEquality(filterList,page++)
+        val isEmpty  = filterList.isEmpty() && page<2
+        adapter = RoommateRecommendRVAdapter(isLifestyleExist,
+            isEmpty,
+            object : RoommateRecommendRVAdapter.clickListener{
+                override fun clickFilter(list: List<String>) {
+                    memberList.clear()
+                    if (isLifestyleExist){
+                        page = 0
+                        filterList = list
+                        Log.d(TAG,"clickFilter ${filterList}")
+                        viewModel.fetchRoommateListByEquality(filterList,page++, hasRoom)
+
+                    }
+                    else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
+                    else submitRecyclerItems()
                 }
-                else if (list.isEmpty()) viewModel.fetchRecommendedRoommateList()
-                else submitRecyclerItems()
-            }
 
-            override fun moveDetailView(memberId : Int) {
-                if(memberId > 0) detailViewModel.getOtherUserDetailInfo(memberId)
-                else Log.d(TAG, "member Id error ${memberId}")
-            }
+                override fun moveDetailView(memberId : Int) {
+                    if(memberId > 0) detailViewModel.getOtherUserDetailInfo(memberId)
+                    else Log.d(TAG, "member Id error ${memberId}")
+                }
 
-        })
+                override fun clickCheckBox(isChecked: Boolean) {
+                    memberList.clear()
+                    hasRoom = isChecked
+                    Log.d(TAG,"hasRoom ${hasRoom}")
+                    page = 0
+                    viewModel.fetchRoommateListByEquality(filterList,page++, hasRoom)
+                }
+
+            })
 
         binding.rvContent.adapter = adapter
         binding.rvContent.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
@@ -141,7 +154,8 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
                 val totalItemCount = adapter.itemCount
 
                 if (lastVisibleItemPosition == totalItemCount - 1 && !isLoading && !isLastPage) {
-                    viewModel.fetchRoommateListByEquality(filterList,++page)
+                    Log.d(TAG,"scrollListener ${filterList}")
+                    viewModel.fetchRoommateListByEquality(filterList,++page, hasRoom)
                 }
             }
         })
@@ -204,7 +218,6 @@ class CozyHomeRoommateDetailActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         if (!isLoading && binding.refreshLayout.isRefreshing)
             binding.refreshLayout.isRefreshing = false
-        //binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
 }

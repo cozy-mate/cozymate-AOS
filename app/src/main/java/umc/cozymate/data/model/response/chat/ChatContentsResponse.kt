@@ -22,7 +22,7 @@ data class ChatContentsResponse(
     @Serializable
     data class ChatRoomInfo(
         @SerializedName("memberId")
-        val memberId : Int,
+        val memberId : Int?,
         @SerializedName("content")
         var content : List<ChatContentData>
     )

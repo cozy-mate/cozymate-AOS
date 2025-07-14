@@ -33,7 +33,7 @@
         tools:ignore="RtlSymmetry" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et_inputMessage"
+        android:id="@+id/et_input_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="388dp"
@@ -48,9 +48,19 @@
         app:layout_constraintTop_toBottomOf="@id/tv_nickname"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/tv_text_length_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.App.12sp.Medium"
+        android:textColor="@color/unuse_font"
+        app:layout_constraintTop_toBottomOf="@id/et_input_message" />
+
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_InputButton"
+        android:id="@+id/btn_input_button"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:background="@drawable/ic_button"

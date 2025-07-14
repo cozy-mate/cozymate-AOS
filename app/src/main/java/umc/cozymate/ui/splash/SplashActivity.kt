@@ -198,7 +198,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun setBtns() {
         setKaKaoBtn()
-        setTestBtn()
+        // setTestBtn()
     }
 
     private fun setKaKaoBtn() {
@@ -217,9 +217,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setTestBtn() {
-        binding.btnTest.setOnClickListener {
-            testSignIn()
-        }
+//        binding.btnTest.setOnClickListener {
+//            testSignIn()
+//        }
     }
 
     private fun testSignIn() {

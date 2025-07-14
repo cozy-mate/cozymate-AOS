@@ -3,6 +3,7 @@ package umc.cozymate.ui.cozy_home.roommate.roommate_detail
 import android.content.Intent
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -20,13 +21,13 @@ import umc.cozymate.util.fromDpToPx
 class RoommateDetailHeaderViewHolder(
     private val binding: RvItemRoomateDetailHeaderBinding,
     private val itemClick: RoommateRecommendRVAdapter.clickListener,
+    private val isLifestyleExist: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
     private val  selectedChips = mutableListOf<String>()
     private var chips  = mutableListOf<CheckBox>()
     private var isClear : Boolean = false
-    fun bind(){
 
-        Log.d("test" , "header 생성 ")
+    fun bind(){
         // 검색창 이동
         binding.lyRoomMateSearch.setOnClickListener {
 
@@ -43,6 +44,11 @@ class RoommateDetailHeaderViewHolder(
             context.startActivity(intent)
         }
         initChip()
+        binding.layoutCheckbox.visibility = if(isLifestyleExist) View.VISIBLE else View.GONE
+        binding.cbCheck.setOnCheckedChangeListener { _, isChecked ->
+            // false 가 방이 없는것으로 추정?
+            itemClick.clickCheckBox(isChecked)
+        }
     }
 
     private fun initChip(){
@@ -53,7 +59,7 @@ class RoommateDetailHeaderViewHolder(
         for(t in filterList){
             var chip = CheckBox(itemView.context)
             chip.apply {
-                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,33f.fromDpToPx()) // 여기 wrap으로 줄이기
+                val layoutParams  = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT) // 여기 wrap으로 줄이기
                 layoutParams.setMargins(4f.fromDpToPx(), 0, 4f.fromDpToPx(),12f.fromDpToPx())
                 setPadding(14f.fromDpToPx(),8f.fromDpToPx(),14f.fromDpToPx(),8f.fromDpToPx())
                 setTextAppearance(R.style.TextAppearance_App_14sp_Medium)
@@ -84,7 +90,7 @@ class RoommateDetailHeaderViewHolder(
                 }
 
                 // 현재 선택된 필터 값(String) 만 전달
-                itemClick.clickFilter(selectedChips)
+                if(!isClear)itemClick.clickFilter(selectedChips)
             }
             chips.add(chip)
             binding.chips.addView(chip)
@@ -96,6 +102,10 @@ class RoommateDetailHeaderViewHolder(
          for (c in chips) c.isChecked = false
         selectedChips.clear()
         isClear = false
+    }
+
+    fun setCheckbox(hasRoom: Boolean){
+        binding.cbCheck.isChecked = hasRoom
     }
 
 }

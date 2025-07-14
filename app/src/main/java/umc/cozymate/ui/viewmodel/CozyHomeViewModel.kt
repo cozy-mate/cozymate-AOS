@@ -16,10 +16,12 @@ import umc.cozymate.data.domain.SortType
 import umc.cozymate.data.local.RoomInfoDao
 import umc.cozymate.data.local.RoomInfoEntity
 import umc.cozymate.data.model.entity.RecommendedMemberInfo
+import umc.cozymate.data.model.entity.TokenInfo
 import umc.cozymate.data.model.response.ErrorResponse
 import umc.cozymate.data.model.response.room.GetRecommendedRoomListResponse
 import umc.cozymate.data.model.response.room.GetRoomInfoResponse
 import umc.cozymate.data.model.response.roomlog.RoomLogResponse
+import umc.cozymate.data.repository.repository.MemberRepository
 import umc.cozymate.data.repository.repository.MemberStatRepository
 import umc.cozymate.data.repository.repository.RoomLogRepository
 import umc.cozymate.data.repository.repository.RoomRepository
@@ -34,6 +36,7 @@ class CozyHomeViewModel @Inject constructor(
     private val repository: RoomRepository,
     private val logRepository: RoomLogRepository,
     private val memberStatRepository: MemberStatRepository,
+    private val memberRepository: MemberRepository,
     private val roomInfoDao: RoomInfoDao,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
@@ -69,6 +72,59 @@ class CozyHomeViewModel @Inject constructor(
         return sharedPreferences.getString(KEY_USER_UNIVERSITY_NAME, "")
     }
 
+    // 토큰 재발행 (/auth/reissue)
+    private val _reissueSuccess = MutableLiveData<Boolean>()
+    val reissueSuccess: LiveData<Boolean> get() = _reissueSuccess
+    fun reissue() {
+        val refreshToken = getRefreshToken()
+        _reissueSuccess.value = false
+        _tokenInfo.value = TokenInfo("", "", "")
+        if (refreshToken != null) {
+            viewModelScope.launch {
+                try {
+                    val response = memberRepository.reissue(refreshToken)
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "토큰 재발행 성공: ${response.body()!!.result}")
+                        _tokenInfo.value!!.accessToken = response.body()!!.result.accessToken
+                        _tokenInfo.value!!.message = response.body()!!.result.message
+                        _tokenInfo.value!!.refreshToken = response.body()!!.result.refreshToken
+                        _reissueSuccess.value = true
+                    } else {
+                        Log.d(TAG, "토큰 재발행 api 응답 실패: ${response}")
+                        val errorBody = response.errorBody()?.string()
+                        _errorResponse.value = parseErrorResponse(errorBody)
+                        _reissueSuccess.value = true
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "토큰 재발행 api 요청 실패: ${e}")
+                    _reissueSuccess.value = true
+                }
+            }
+        }
+    }
+
+    fun getRefreshToken(): String? {
+        return sharedPreferences.getString("refresh_token", null)
+    }
+
+    private val _tokenInfo = MutableLiveData<TokenInfo>()
+    val tokenInfo: LiveData<TokenInfo> get() = _tokenInfo
+    fun setTokenInfo(tokenInfo: TokenInfo) {
+        _tokenInfo.value = TokenInfo(
+            accessToken = tokenInfo.accessToken,
+            message = tokenInfo.message,
+            refreshToken = tokenInfo.refreshToken
+        )
+    }
+
+    fun saveToken() {
+        Log.d(TAG, "토큰이 저장되었습니다: ${_tokenInfo.value!!.accessToken}")
+        sharedPreferences.edit()
+            .putString("access_token", "Bearer " + _tokenInfo.value!!.accessToken).commit()
+        sharedPreferences.edit()
+            .putString("refresh_token", "Bearer " + _tokenInfo.value!!.refreshToken).commit()
+    }
+
     // 랜덤 룸메이트 5명 추천 (/members/stat/random)
     // 사용자 라이프스타일이 아직 존재하지 않을 때 호출합니다.
     private val _randomRoommateList = MutableLiveData<List<RecommendedMemberInfo>>()
@@ -89,6 +145,9 @@ class CozyHomeViewModel @Inject constructor(
                         } else Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                     } else {
                         _randomRoommateList.value = emptyList()
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
+                        if (errorResponse.value?.code == "401") reissue()
                         Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                     }
                 } catch (e: Exception) {
@@ -115,7 +174,8 @@ class CozyHomeViewModel @Inject constructor(
                     val response = memberStatRepository.getRoommateListByEquality(
                         accessToken = token,
                         page = page,
-                        filter
+                        filter,
+                        hasRoom = false
                     )
                     if (response.isSuccessful) {
                         if (response.body()?.isSuccess == true) {
@@ -123,6 +183,9 @@ class CozyHomeViewModel @Inject constructor(
                             _roommateListByEquality.value = response.body()!!.result.memberList
                         } else {
                             _roommateListByEquality.value = emptyList()
+                            val errorBody = response.errorBody()?.string()
+                            if (errorBody != null) _errorResponse.value = parseErrorResponse(errorBody)
+                            if (errorResponse.value?.code == "401") reissue()
                             Log.d(TAG, "추천 룸메이트 리스트 조회 에러 메시지: ${response}")
                         }
                     }
@@ -205,6 +268,7 @@ class CozyHomeViewModel @Inject constructor(
                         saveRoomInfo("mate_list", response.body()?.result?.mateDetailList!!)
                         saveRoomName(response.body()?.result?.name!!)
                         saveRoomPersona(response.body()?.result!!.persona)
+                        saveRoomInviteCode(response.body()?.result!!.inviteCode)
                         val roomInfoEntity = RoomInfoEntity(
                             roomId = response.body()?.result!!.roomId,
                             name = response.body()?.result!!.name,
@@ -257,6 +321,11 @@ class CozyHomeViewModel @Inject constructor(
     fun saveRoomPersona(id: Int) {
         Log.d(TAG, "spf 방 페르소나 : $id")
         sharedPreferences.edit().putInt("room_persona", id).apply()
+    }
+
+    fun saveRoomInviteCode(code: String) {
+        Log.d(TAG, "spf 방 초대코드 : $code")
+        sharedPreferences.edit().putString("room_invite_code", code).apply()
     }
 
     fun getRoomName(): String? {

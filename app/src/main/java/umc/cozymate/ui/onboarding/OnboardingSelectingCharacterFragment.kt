@@ -69,6 +69,9 @@ class OnboardingSelectingCharacterFragment : Fragment(), CharacterItemClickListe
         super.onViewCreated(view, savedInstanceState)
         setupCharacterList()
         setupNextBtn()
+        binding.ivBack.setOnClickListener() {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun saveUserPreference(persona: Int) {
