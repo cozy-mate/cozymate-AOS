@@ -970,7 +970,7 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvListSchool.text = it.memberDetail.universityName
             tvListSchoolNumber.text = it.memberStatDetail.admissionYear
             tvListMajor.text = it.memberDetail.majorName
-            tvListDormitoryNum.text = if (it.memberStatDetail.numOfRoommate == 0) { "미정" } else { "${it.memberStatDetail.numOfRoommate}인 1실" }
+            tvListDormitoryNum.text = if (it.memberStatDetail.numOfRoommate == "0") { "미정" } else { "${it.memberStatDetail.numOfRoommate}인 1실" }
             tvListAcceptance.text = it.memberStatDetail.dormJoiningStatus
             tvListWakeUpAmpm.text = getMeridianFrom24Hour(it.memberStatDetail.wakeUpTime)
             tvListWakeUpTime.text = convertTo12Hour(it.memberStatDetail.wakeUpTime).toString()
@@ -1061,8 +1061,8 @@ class RoommateDetailActivity : AppCompatActivity() {
             tvTableUserMajor.text = trimText(user.memberDetail.majorName)
             tvTableOtherMajor.text = trimText(other.memberDetail.majorName)
 
-            tvTableUserDormitoryNum.text = if(user.memberStatDetail.numOfRoommate == 0) {"미정"} else {"${user.memberStatDetail.numOfRoommate}인1실"}
-            tvTableOtherDormitoryNum.text = if(other.memberStatDetail.numOfRoommate == 0) {"미정"} else {"${other.memberStatDetail.numOfRoommate}인1실"}
+            tvTableUserDormitoryNum.text = if(user.memberStatDetail.numOfRoommate == "0") {"미정"} else {"${user.memberStatDetail.numOfRoommate}인1실"}
+            tvTableOtherDormitoryNum.text = if(other.memberStatDetail.numOfRoommate == "0") {"미정"} else {"${other.memberStatDetail.numOfRoommate}인1실"}
 
             tvTableUserAcceptance.text = trimText(user.memberStatDetail.dormJoiningStatus)
             tvTableOtherAcceptance.text = trimText(other.memberStatDetail.dormJoiningStatus)
@@ -1515,7 +1515,7 @@ class RoommateDetailActivity : AppCompatActivity() {
         tableBinding.tvTableOtherSchoolNum.text = "${detail?.admissionYear}학번"
         tableBinding.tvTableOtherSchool.text = "인하대학교"
         tableBinding.tvTableOtherMajor.text = trimText(detail?.major)
-        tableBinding.tvTableOtherDormitoryNum.text = if (detail?.numOfRoommate == 0) { "미정" } else {"${detail?.numOfRoommate}인 1실"}
+        tableBinding.tvTableOtherDormitoryNum.text = if (detail?.numOfRoommate == "0") { "미정" } else {"${detail?.numOfRoommate}인 1실"}
         tableBinding.tvTableOtherAcceptance.text = trimText(detail?.dormJoiningStatus)
         tableBinding.tvTableOtherWakeUpAmpm.text = getMeridianFrom24Hour(detail!!.wakeUpTime)
         tableBinding.tvTableOtherWakeUpTime.text = " ${convertTo12Hour(detail!!.wakeUpTime)}시"
