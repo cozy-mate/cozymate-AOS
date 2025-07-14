@@ -355,7 +355,7 @@ class RoommateDetailActivity : AppCompatActivity() {
                         cleannessSensitivity = getSharedPreferences(
                             PreferencesUtil.PREFS_NAME,
                             Context.MODE_PRIVATE
-                        ).getString("user_cleanSensitivity", "") ?: "",
+                        ).getString("user_cleannessSensitivity", "") ?: "",
                         noiseSensitivity = getSharedPreferences(
                             PreferencesUtil.PREFS_NAME,
                             Context.MODE_PRIVATE
