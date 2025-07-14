@@ -52,7 +52,7 @@ class AddTodoActivity():AppCompatActivity() {
     }
 
     fun showProgressBar(show: Boolean) {
-        binding?.let {
+        binding.let {
             it.progressBar.visibility = if (show) View.VISIBLE else View.GONE
         }
         if(!show) finish()

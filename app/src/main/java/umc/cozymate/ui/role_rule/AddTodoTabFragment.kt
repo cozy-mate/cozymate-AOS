@@ -60,12 +60,14 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         calendarView = binding.calendarView
         spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         textObserver = TextObserver(requireContext(), 20, binding.tvTextLengthInfo, binding.etInputTodo)
+
+
         getPreference()
-        initdata()
         setTodoinput()
         setupCalendar()
         initClickListener()
-        checkInput()
+
+        initData()
         setUpObserver()
         return binding.root
     }
@@ -84,17 +86,20 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
         })
     }
 
-    private fun initdata(){
+    private fun initData(){
         if(isEditable && arguments != null){
             val todo = arguments?.getParcelable<TodoData.TodoItem>("todo")!!
             content = todo.content
             todoId = todo.todoId
+
+            binding.etInputTodo.setText(content)
             selectedDate = arguments?.getString("todo_date")
             selectedMateIds = todo.mateIdList as MutableList<Int>
             for(mate in mateBox )
                 if(todo.mateIdList.contains(mate.mateId))mate.box.isChecked = true
-        }
 
+        }
+        checkInput()
     }
 
     private fun getPreference() {
@@ -159,6 +164,7 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     private fun checkInput() {
         val memberFlag = mateBox.any{it.box.isChecked }
         val dateFlag = !selectedDate.isNullOrEmpty()
+        titleFlag = !(textObserver.updateView() || binding.etInputTodo.text.isNullOrEmpty() )
         binding.btnInputButton.isEnabled = ( titleFlag && memberFlag && dateFlag)
     }
 
@@ -202,15 +208,12 @@ class AddTodoTabFragment( private val isEditable : Boolean ): Fragment(){
     }
 
     private fun setTodoinput() {
-        binding.etInputTodo.setText(content)
         binding.etInputTodo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged( s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                titleFlag = !(binding.etInputTodo.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                titleFlag = !(binding.etInputTodo.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
         })

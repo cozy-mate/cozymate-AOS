@@ -45,10 +45,11 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
         memoObserver = TextObserver(requireContext(), 50, binding.tvMemoLengthInfo, binding.etInputMemo)
 
         getPreference()
-        initdata()
         setRuleInput()
         setMemo()
         initClickListener()
+
+        initData()
         setUpObserver()
         return binding.root
     }
@@ -71,48 +72,46 @@ class AddRuleTabFragment(private val isEditable : Boolean): Fragment() {
         })
     }
 
-    private fun initdata(){
+    private fun initData(){
         if(isEditable&& arguments != null){
             rule = arguments?.getParcelable<RuleData>("rule")!!
-            binding.btnInputButton.isEnabled = rule.content.isNotBlank()
+            binding.etInputMemo.setText(rule.memo)
+            binding.etInputRule.setText(rule.content)
         }
+        checkInput()
     }
 
     private fun setMemo() {
 //        val maxLength = 50 // 최대 글자수 설정
 //        binding.etInputMemo.filters = arrayOf(InputFilter.LengthFilter(maxLength)) // 글자수 제한 적용
-        binding.etInputMemo.setText(rule.memo)
+
 
         binding.etInputMemo.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                memoFlag = !memoObserver.updateView()
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                memoFlag = !memoObserver.updateView()
                 checkInput()
             }
         })
     }
 
     private fun setRuleInput() {
-
-        binding.etInputRule.setText(rule.content)
         binding.etInputRule.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                titleFlag = !(s.isNullOrEmpty() || titleObserver.updateView())
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                titleFlag = !(s.isNullOrEmpty() || titleObserver.updateView())
                 checkInput()
             }
         })
     }
     // 입력 버튼 활성화
     private fun checkInput() {
+        memoFlag = !memoObserver.updateView()
+        titleFlag = !(titleObserver.updateView() || binding.etInputRule.text.isNullOrEmpty())
         binding.btnInputButton.isEnabled = (memoFlag && titleFlag )
     }
 
