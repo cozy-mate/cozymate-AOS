@@ -59,10 +59,11 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
 
         getPreference()
         initWeekdays()
-        initdata()
         setTextinput()
         initClickListener()
-        checkInput()
+
+        initData()
+
         setUpObserver()
         return binding.root
     }
@@ -102,9 +103,11 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
         })
     }
 
-    private fun initdata(){
+    private fun initData(){
         if(isEditable && arguments != null){
             role = arguments?.getParcelable<RoleData>("role")!!
+
+            binding.etInputRole.setText(role.content)
             selectedMates = role.mateList as MutableList<MateInfo>
             repeatDayList = role.repeatDayList as MutableList<String>
             for(mate in mateBox )
@@ -112,7 +115,9 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
             for(day in weekdayBox)
                 if(repeatDayList.contains(day.weekDay)) day.box.isChecked = true
             if(repeatDayList.isEmpty())binding.cbEmptyWeekday.isChecked = true
+
         }
+        checkInput()
     }
 
     private fun initMember(list : List<MateDetail>){
@@ -142,20 +147,18 @@ class AddRoleTabFragment(private val isEditable : Boolean): Fragment() {
     private fun checkInput() {
         val memberFlag = mateBox.any{it.box.isChecked}
         val weekdayFlag = weekdayBox.any{it.box.isChecked} || binding.cbEmptyWeekday.isChecked
+        titleFlag = !( textObserver.updateView() || binding.etInputRole.text.isNullOrEmpty())
         binding.btnInputButton.isEnabled = (memberFlag && weekdayFlag && titleFlag )
     }
 
     // 텍스트 입력 설정
     private fun setTextinput() {
-        binding.etInputRole.setText(role.content)
         binding.etInputRole.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                titleFlag = !(binding.etInputRole.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
             override fun afterTextChanged(s: Editable?) {
-                titleFlag = !(binding.etInputRole.text.isNullOrEmpty() || textObserver.updateView())
                 checkInput()
             }
         })
